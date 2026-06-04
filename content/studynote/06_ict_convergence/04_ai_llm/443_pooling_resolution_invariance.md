@@ -26,12 +26,12 @@ tags = ["studynote-ict-convergence"]
 아래 도식은 이 개념이 등장한 배경과 기대 효과를 세 칸으로 압축한 그림이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Why Needed           │ Core Idea            │ Expected Gain │
-├──────────────────────────────────────────────────────────────┤
-│ 문제와 제약           │ 구조/규칙/역할        │ 성능·신뢰·운영 │
-│ 배경을 정리           │ 무엇을 바꾸는가        │ 무엇이 좋아지는가 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Why Needed           | Core Idea            | Expected Gain |
++--------------------------------------------------------------+
+| 문제와 제약           | 구조/규칙/역할        | 성능·신뢰·운영 |
+| 배경을 정리           | 무엇을 바꾸는가        | 무엇이 좋아지는가 |
++--------------------------------------------------------------+
 ```
 
 이 그림에서 기억할 점은 이 개념이 단순 기능이 아니라 배경 문제를 운영 가능한 구조로 번역하는 중간 계층이라는 사실이다. 그래서 공부할 때도 정의만 외우기보다, 무엇이 부족했고 이 개념이 그 부족함을 어디서 보완하는지 먼저 잡는 편이 효과적이다.
@@ -54,11 +54,11 @@ tags = ["studynote-ict-convergence"]
 아래 구조도는 이 개념이 실제 시스템 안에서 어떻게 흘러가는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Input        │ Operate            │ Governance       │ Outcome │
-├──────────────────────────────────────────────────────────────┤
-│ 데이터·요청   │ 핵심 처리/규칙       │ 정책·검증·조정    │ 서비스 가치 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Input        | Operate            | Governance       | Outcome |
++--------------------------------------------------------------+
+| 데이터·요청   | 핵심 처리/규칙       | 정책·검증·조정    | 서비스 가치 |
++--------------------------------------------------------------+
 ```
 
 핵심은 어느 한 단계만 좋아서는 전체 품질이 좋아지지 않는다는 점이다. 입력 조건이 흔들리면 뒤 단계가 좋아도 결과는 불안정하고, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 지점이 없으면 일시적으로 빠르게 보여도 운영 안정성이 무너진다. 따라서 이 개념은 개별 기능이 아니라 흐름 전체를 맞추는 설계 문제로 이해해야 한다.
@@ -130,12 +130,12 @@ tags = ["studynote-ict-convergence"]
 
 ```text
 [CNN 스트라이드 패딩 필터]
-    │
-    ▼
+    |
+    v
 [풀링 해상도 불변 차원]
-    │
-    ├──▶ [ResNet 잔차 연결 기울기 전달]
-    └──▶ [멀티모달 / 온디바이스·에이전트]
+    |
+    +---> [ResNet 잔차 연결 기울기 전달]
+    +---> [멀티모달 / 온디바이스·에이전트]
 ```
 
 이 흐름도는 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) [스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 필터에서 출발해 현재 개념을 거쳐 [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) 잔차 연결 기울기 전달와 [멀티모달](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) 방향으로 확장되는 학습 흐름을 보여 준다. 즉, 현재 개념은 독립된 섬이 아니라 앞 개념의 문제를 받아 다음 단계의 설계 선택으로 넘겨 주는 연결 고리다.
@@ -151,7 +151,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 443 / 552
 
-← **이전**: [442. CNN 스트라이드 패딩 필터 (CNN Stride Padding Filter)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/442_cnn_stride_padding_filter/)
-**다음**: [444. ResNet 잔차 연결 기울기 전달 (Resnet Residual Connection Gradient)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/444_resnet_residual_connection_gradient/) →
+<- **이전**: [442. CNN 스트라이드 패딩 필터 (CNN Stride Padding Filter)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/442_cnn_stride_padding_filter/)
+**다음**: [444. ResNet 잔차 연결 기울기 전달 (Resnet Residual Connection Gradient)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/444_resnet_residual_connection_gradient/) ->
 
 ---

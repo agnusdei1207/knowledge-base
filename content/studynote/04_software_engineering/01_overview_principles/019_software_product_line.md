@@ -27,18 +27,18 @@ tags = ["software_engineering"]
 
 이 도식은 전통적인 개별 프로젝트 개발 방식과 [SPL](/knowledge-base/studynote/04_software_engineering/03_design_architecture/187_spl_software_product_line_variability/) 기반의 자산 재사용 구조를 대조하여 보여준다.
 ```text
-┌────────────── 전통적 단일 개발 vs SPL (Software Product Line) ──────────────┐
-│                                                                             │
-│ [단일 개발 방식 (Silo)]                 [SPL 조립 생산 방식]                │
-│ Product A : [ UI_a + DB_a + Logic_a ]                                       │
-│                                           [ Core Assets (공통 자산) ]       │
-│ Product B : [ UI_b + DB_b + Logic_b ]       ├── UI Core, DB Core, Security  │
-│  (코드 중복, 버그 전파 안 됨)               │                               │
-│                                           [ Variability (가변 자산) ]       │
-│ Product C : [ UI_c + DB_c + Logic_c ]       ├── 5G 모듈, 프리미엄 UI, AI    │
-│                                             │                               │
-│ * 문제: N개의 제품 = N배의 비용/유지보수    └──▶ 조립 ─▶ Product A, B, C 완성│
-└─────────────────────────────────────────────────────────────────────────────┘
++-------------- 전통적 단일 개발 vs SPL (Software Product Line) --------------+
+|                                                                             |
+| [단일 개발 방식 (Silo)]                 [SPL 조립 생산 방식]                |
+| Product A : [ UI_a + DB_a + Logic_a ]                                       |
+|                                           [ Core Assets (공통 자산) ]       |
+| Product B : [ UI_b + DB_b + Logic_b ]       +-- UI Core, DB Core, Security  |
+|  (코드 중복, 버그 전파 안 됨)               |                               |
+|                                           [ Variability (가변 자산) ]       |
+| Product C : [ UI_c + DB_c + Logic_c ]       +-- 5G 모듈, 프리미엄 UI, AI    |
+|                                             |                               |
+| * 문제: N개의 제품 = N배의 비용/유지보수    +---> 조립 --> Product A, B, C 완성|
++-----------------------------------------------------------------------------+
 ```
 이 그림의 핵심은 SPL이 단순히 코드를 재사용하는 수준을 넘어 아키텍처와 제품군 전체를 설계 단계부터 통합 관리한다는 점이다. 전통적 방식에서는 제품이 늘어날수록 개발자의 야근이 선형적으로 비례하지만, [SPL](/knowledge-base/studynote/04_software_engineering/03_design_architecture/187_spl_software_product_line_variability/) 체계에서는 코어 자산이 한 번 안정화되면 새로운 제품(Product C, D)을 출시하는 데 드는 한계 비용이 0에 가깝게 수렴한다.
 
@@ -57,36 +57,36 @@ tags = ["software_engineering"]
 
 아래의 다이어그램은 이 두 가지 생명주기가 상호작용하는 프레임워크를 보여준다.
 ```text
-┌───────────────── SPL Two-Life Cycle 모델 프레임워크 ─────────────────┐
-│                                                                    │
-│ [ 도메인 공학 (Domain Engineering) ] - 재사용 자산 생산            │
-│  (도메인 요구분석) ─▶ (도메인 설계/아키텍처) ─▶ (공통 자산 구현) │
-│          │                   │                      │              │
-│          │ (공통/가변 요소)  │ (레퍼런스 아키텍처)  │ (Core Asset) │
-│          ▼                   ▼                      ▼              │
-│ ════════════════ [ 핵심 자산 저장소 (Core Asset Base) ] ═════════│
-│          │                   │                      │              │
-│          ▼                   ▼                      ▼              │
-│ [ 애플리케이션 공학 (Application Engineering) ] - 실제 제품 생산   │
-│  (제품 요구분석) ──▶ (제품 아키텍처 설계) ──▶ (제품 조립/생성)   │
-└────────────────────────────────────────────────────────────────────┘
++----------------- SPL Two-Life Cycle 모델 프레임워크 -----------------+
+|                                                                    |
+| [ 도메인 공학 (Domain Engineering) ] - 재사용 자산 생산            |
+|  (도메인 요구분석) --> (도메인 설계/아키텍처) --> (공통 자산 구현) |
+|          |                   |                      |              |
+|          | (공통/가변 요소)  | (레퍼런스 아키텍처)  | (Core Asset) |
+|          v                   v                      v              |
+| ---------------- [ 핵심 자산 저장소 (Core Asset Base) ] ---------|
+|          |                   |                      |              |
+|          v                   v                      v              |
+| [ 애플리케이션 공학 (Application Engineering) ] - 실제 제품 생산   |
+|  (제품 요구분석) ---> (제품 아키텍처 설계) ---> (제품 조립/생성)   |
++--------------------------------------------------------------------+
 ```
 이 구조도의 핵심은 중앙의 '핵심 자산 저장소'가 양쪽 라이프사이클의 인터페이스 역할을 한다는 점이다. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 공학은 특정 제품에 종속되지 않은 범용적인 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)를 이 저장소에 채워 넣고, 애플리케이션 공학은 이 저장소에서 쇼핑하듯 자산을 꺼내어 제품을 조립한다.
 
 [SPL](/knowledge-base/studynote/04_software_engineering/03_design_architecture/187_spl_software_product_line_variability/) 설계에서 가장 기술적으로 난해한 부분은 차이점을 관리하는 <strong>가변성(Variability) <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a> 및 모델링</strong>이다. 이를 위해 주로 '[피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 모델([Feature Model](/knowledge-base/studynote/04_software_engineering/03_design_architecture/188_feature_model_variability_tree/))'을 사용한다.
 ```text
-┌──────────────── Feature Model (가변성 트리 구조) 예시 ────────────────┐
-│                                                                       │
-│                        [ 스마트폰 시스템 ] (Root)                     │
-│                                │                                      │
-│        ┌───────────────┬───────┴───────┬───────────────┐              │
-│        │               │               │               │              │
-│  ● [통신 모듈]   ○ [카메라]     ⊕ [생체 인식]   ▽ [디스플레이]      │
-│  (Mandatory)     (Optional)     (Alternative)      (Or)               │
-│                    │               │               │                  │
-│                ┌───┴───┐       ┌───┴───┐       ┌───┴───┐              │
-│              광각     망원     지문    홍채      LCD   OLED           │
-└───────────────────────────────────────────────────────────────────────┘
++---------------- Feature Model (가변성 트리 구조) 예시 ----------------+
+|                                                                       |
+|                        [ 스마트폰 시스템 ] (Root)                     |
+|                                |                                      |
+|        +---------------+-------+-------+---------------+              |
+|        |               |               |               |              |
+|  ● [통신 모듈]   ○ [카메라]     ⊕ [생체 인식]   ▽ [디스플레이]      |
+|  (Mandatory)     (Optional)     (Alternative)      (Or)               |
+|                    |               |               |                  |
+|                +---+---+       +---+---+       +---+---+              |
+|              광각     망원     지문    홍채      LCD   OLED           |
++-----------------------------------------------------------------------+
 ```
 이 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 모델 다이어그램은 가변성의 4가지 결합 규칙을 보여준다.
 1. **Mandatory (●, 필수)**: 모든 제품에 반드시 포함 (예: 통신 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))
@@ -112,21 +112,21 @@ SPL을 흔히 CBD([컴포넌트](/knowledge-base/studynote/04_software_engineeri
 
 다음은 제품이 늘어남에 따라 전통적 개발과 [SPL](/knowledge-base/studynote/04_software_engineering/03_design_architecture/187_spl_software_product_line_variability/) 개발의 누적 투자 비용([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/))을 보여주는 의사결정 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모형이다.
 ```text
-┌──────────────── 전통적 개발 vs SPL의 누적 비용 곡선 (ROI) ────────────────┐
-│ 비용($)                                                                   │
-│   ▲                                                                       │
-│   │                                       / (전통적 개발: 선형 증가)      │
-│   │                                      /                                │
-│   │                                     /                                 │
-│   │                                    /                                  │
-│   │      (SPL: 초기 비용 높음)        /                                   │
-│   │       _____________------------- / -------------- (SPL: 한계비용 제로)│
-│   │      /                          / (Break-even Point)                  │
-│   │     /                          /                                      │
-│   │    /                          /                                       │
-│   │   /                          /                                        │
-│   └──┴──────────────────────────┴────────────────────────▶ 제품 수 (N)  │
-└───────────────────────────────────────────────────────────────────────────┘
++---------------- 전통적 개발 vs SPL의 누적 비용 곡선 (ROI) ----------------+
+| 비용($)                                                                   |
+|   ^                                                                       |
+|   |                                       / (전통적 개발: 선형 증가)      |
+|   |                                      /                                |
+|   |                                     /                                 |
+|   |                                    /                                  |
+|   |      (SPL: 초기 비용 높음)        /                                   |
+|   |       _____________------------- / -------------- (SPL: 한계비용 제로)|
+|   |      /                          / (Break-even Point)                  |
+|   |     /                          /                                      |
+|   |    /                          /                                       |
+|   |   /                          /                                        |
+|   +--+--------------------------+-------------------------> 제품 수 (N)  |
++---------------------------------------------------------------------------+
 ```
 이 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 핵심은 **손익 분기점(Break-even Point)** 이다. SPL은 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 공학(레퍼런스 아키텍처 설계, 가변성 분석)에 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 막대한 시간과 자원을 쏟아부어야 하므로 제품 1~2개를 만들 때는 오히려 손해다. 그러나 제품군이 3~4개를 넘어가면 기존 자산을 재사용하므로 추가 개발 비용이 급감한다. 경영진은 이 J-Curve 구조를 이해하지 못하고 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용과 지연을 질타하다가 SPL을 포기하는 안티패턴에 빠지기 쉽다.
 
@@ -145,22 +145,22 @@ SPL을 흔히 CBD([컴포넌트](/knowledge-base/studynote/04_software_engineeri
 
 다음은 개발 파이프라인에서 가변성(Variability)을 바인딩하는 시점에 따른 실무 의사결정 트리이다.
 ```text
-┌───────────────── 가변성 바인딩 시점 (Binding Time) 의사결정 트리 ─────────────┐
-│                                                                               │
-│ [피처(옵션)를 언제 결정/적용할 것인가?]                                       │
-│        │                                                                      │
-│        ▼                                                                      │
-│ < 컴파일 단계에서 확정되는 하드웨어/OS 종속 피처인가? > ──(Yes)──▶ [Compile-Time]│
-│        │                                        (#ifdef, Preprocessor 조건부 빌드)│
-│      (No)                                                                     │
-│        ▼                                                                      │
-│ < 배포 시점에 고객사별로 설정 파일로 구분되는가? > ────(Yes)──▶ [Load-Time]    │
-│        │                                        (XML/JSON Config, DI Injection) │
-│      (No)                                                                     │
-│        ▼                                                                      │
-│ < 사용자 설정이나 A/B 테스트에 의해 실시간 변경되는가? > ─(Yes)─▶ [Run-Time]     │
-│                                                 (Feature Toggle, 전략 패턴 적용)│
-└───────────────────────────────────────────────────────────────────────────────┘
++----------------- 가변성 바인딩 시점 (Binding Time) 의사결정 트리 -------------+
+|                                                                               |
+| [피처(옵션)를 언제 결정/적용할 것인가?]                                       |
+|        |                                                                      |
+|        v                                                                      |
+| < 컴파일 단계에서 확정되는 하드웨어/OS 종속 피처인가? > --(Yes)---> [Compile-Time]|
+|        |                                        (#ifdef, Preprocessor 조건부 빌드)|
+|      (No)                                                                     |
+|        v                                                                      |
+| < 배포 시점에 고객사별로 설정 파일로 구분되는가? > ----(Yes)---> [Load-Time]    |
+|        |                                        (XML/JSON Config, DI Injection) |
+|      (No)                                                                     |
+|        v                                                                      |
+| < 사용자 설정이나 A/B 테스트에 의해 실시간 변경되는가? > -(Yes)--> [Run-Time]     |
+|                                                 (Feature Toggle, 전략 패턴 적용)|
++-------------------------------------------------------------------------------+
 ```
 이 의사결정 트리의 핵심은 가변성을 '런타임'으로 미룰수록 시스템의 유연성은 극대화되지만 코드의 복잡도와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 오버헤드가 급증한다는 트레이드오프다. 임베디드나 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 극한으로 중요한 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서는 컴파일 타임 바인딩을 선호하고, 클라우드 기반의 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)(Software [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 애플리케이션에서는 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 토글(Feature Toggle)을 이용한 런타임 바인딩을 주력으로 사용한다.
 
@@ -194,17 +194,17 @@ SPL을 내재화한 조직은 품질(Quality)과 속도(Speed)라는 소프트�
 
 ```text
 [도메인 분석 — 제품군의 공통성·가변성 식별]
-    │
-    ▼
+    |
+    v
 [도메인 공학 (Domain Engineering) — 코어 자산·피처 모델 구축]
-    │
-    ▼
+    |
+    v
 [애플리케이션 공학 (Application Engineering) — 자산 조립·테일러링]
-    │
-    ▼
+    |
+    v
 [SPL (소프트웨어 제품 라인) 제품 출시 — 재사용 극대화]
-    │
-    ▼
+    |
+    v
 [MDE·MBSE — 모델 기반 자동 생성으로 SPL 고도화]
 ```
 소프트웨어 제품 라인([SPL](/knowledge-base/studynote/04_software_engineering/03_design_architecture/187_spl_software_product_line_variability/))은 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 공학으로 재사용 자산을 구축하고, 애플리케이션 공학으로 개별 제품을 조립해 개발 비용을 획기적으로 절감한다.
@@ -220,7 +220,7 @@ SPL을 내재화한 조직은 품질(Quality)과 속도(Speed)라는 소프트�
 
 **진행 상황**: 19 / 973
 
-← **이전**: [18. PSP (Personal Software Process) / TSP (Team Software Process)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/018_psp_tsp/)
-**다음**: [20. 형상 관리 (SCM, Software Configuration Management)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) →
+<- **이전**: [18. PSP (Personal Software Process) / TSP (Team Software Process)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/018_psp_tsp/)
+**다음**: [20. 형상 관리 (SCM, Software Configuration Management)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ->
 
 ---

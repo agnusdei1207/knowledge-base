@@ -25,7 +25,7 @@ tags = ["studynote-bigdata"]
 
 - <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 탐색 비용</strong>: 분석가가 "어떤 테이블에 고객 구매 이력이 있나?"를 파악하는 데 수일 소요
 - **의미 혼란**: 같은 이름의 컬럼이 시스템마다 다른 의미로 사용
-- **컴플라이언스 실패**: 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 PII인지 파악 불가 → [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 위반 위험
+- **컴플라이언스 실패**: 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 PII인지 파악 불가 -> [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 위반 위험
 - <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 계보 부재</strong>: ML 모델이 어떤 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 훈련되었는지 추적 불가
 
 **📢 섹션 요약 비유**: [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)는 <strong>도서관의 카드 목록</strong>이다. 책([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 아무리 많아도 카드 목록([메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)) 없이는 원하는 책을 찾을 수 없고, 책의 내용·저자·출판연도를 알 수 없다.
@@ -37,37 +37,37 @@ tags = ["studynote-bigdata"]
 ### [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 3계층 아키텍처
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│                  메타데이터 3계층 구조                        │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  1. 비즈니스 메타데이터 (Business Metadata)                   │
-│  ┌────────────────────────────────────────────────────────┐  │
-│  │ • 비즈니스 용어 정의 (예: "활성 고객" = 최근 30일 로그인)│  │
-│  │ • 데이터 소유자 정보 (Owner: CMO)                       │  │
-│  │ • 사용 정책 (누가 어떤 목적으로 사용 가능)              │  │
-│  │ • 데이터 분류 (기밀/내부/공개)                          │  │
-│  │ • PII 플래그 (이 컬럼은 개인식별정보)                  │  │
-│  └────────────────────────────────────────────────────────┘  │
-│                                                              │
-│  2. 기술 메타데이터 (Technical Metadata)                      │
-│  ┌────────────────────────────────────────────────────────┐  │
-│  │ • 스키마: 테이블명, 컬럼명, 데이터 타입                 │  │
-│  │ • 파티셔닝: 파티션 키, 파티션 수                        │  │
-│  │ • 인덱스: 인덱스 컬럼, 인덱스 유형                      │  │
-│  │ • 외래키: 참조 관계, 조인 경로                          │  │
-│  │ • 파일 포맷: Parquet/ORC/CSV, 압축 코덱                 │  │
-│  └────────────────────────────────────────────────────────┘  │
-│                                                              │
-│  3. 운영 메타데이터 (Operational Metadata)                    │
-│  ┌────────────────────────────────────────────────────────┐  │
-│  │ • 마지막 업데이트 타임스탬프                            │  │
-│  │ • ETL 잡 실행 이력 (성공/실패, 소요 시간)               │  │
-│  │ • 레코드 수 히스토리 (볼륨 추이)                        │  │
-│  │ • 데이터 품질 점수 이력                                 │  │
-│  │ • 데이터 계보 잡 정보 (어느 ETL이 생성했는지)           │  │
-│  └────────────────────────────────────────────────────────┘  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  메타데이터 3계층 구조                        |
++--------------------------------------------------------------+
+|                                                              |
+|  1. 비즈니스 메타데이터 (Business Metadata)                   |
+|  +--------------------------------------------------------+  |
+|  | • 비즈니스 용어 정의 (예: "활성 고객" = 최근 30일 로그인)|  |
+|  | • 데이터 소유자 정보 (Owner: CMO)                       |  |
+|  | • 사용 정책 (누가 어떤 목적으로 사용 가능)              |  |
+|  | • 데이터 분류 (기밀/내부/공개)                          |  |
+|  | • PII 플래그 (이 컬럼은 개인식별정보)                  |  |
+|  +--------------------------------------------------------+  |
+|                                                              |
+|  2. 기술 메타데이터 (Technical Metadata)                      |
+|  +--------------------------------------------------------+  |
+|  | • 스키마: 테이블명, 컬럼명, 데이터 타입                 |  |
+|  | • 파티셔닝: 파티션 키, 파티션 수                        |  |
+|  | • 인덱스: 인덱스 컬럼, 인덱스 유형                      |  |
+|  | • 외래키: 참조 관계, 조인 경로                          |  |
+|  | • 파일 포맷: Parquet/ORC/CSV, 압축 코덱                 |  |
+|  +--------------------------------------------------------+  |
+|                                                              |
+|  3. 운영 메타데이터 (Operational Metadata)                    |
+|  +--------------------------------------------------------+  |
+|  | • 마지막 업데이트 타임스탬프                            |  |
+|  | • ETL 잡 실행 이력 (성공/실패, 소요 시간)               |  |
+|  | • 레코드 수 히스토리 (볼륨 추이)                        |  |
+|  | • 데이터 품질 점수 이력                                 |  |
+|  | • 데이터 계보 잡 정보 (어느 ETL이 생성했는지)           |  |
+|  +--------------------------------------------------------+  |
++--------------------------------------------------------------+
 ```
 
 ### [메타데이터 카탈로그](/knowledge-base/studynote/05_database/06_dw_olap_trends/342_metadata_catalog/) 도구 비교
@@ -115,16 +115,16 @@ tags = ["studynote-bigdata"]
 ### [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 수집 방식
 
 ```
-소스 시스템 → 메타데이터 카탈로그
+소스 시스템 -> 메타데이터 카탈로그
 
 방식 1: 푸시(Push) 기반
   데이터 파이프라인이 실행 시 메타데이터를 카탈로그 API로 전송
-  예: OpenLineage → DataHub
+  예: OpenLineage -> DataHub
   장점: 실시간성 높음, 이벤트 기반
 
 방식 2: 풀(Pull) 기반 크롤링
   카탈로그가 소스 시스템에 주기적으로 접속해 스키마·통계 수집
-  예: DataHub Ingestion Framework → BigQuery, Snowflake 크롤링
+  예: DataHub Ingestion Framework -> BigQuery, Snowflake 크롤링
   장점: 소스 시스템 변경 없음
 
 방식 3: 하이브리드
@@ -145,10 +145,10 @@ DataHub(LinkedIn [오픈소스](/knowledge-base/studynote/12_it_management/05_se
 
 | 항목 | 효과 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/">탐색 시간</a></strong> | 수일 → 수분 단축 ([카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 검색) |
-| <strong>PII <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 파악</strong> | 수동 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 수주 → 자동 탐지 수시간 |
-| **신규 분석가 온보딩** | 2주 → 3일 단축 |
-| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 계보 파악</strong> | 불가 → 클릭 한 번에 상·하류 추적 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/">탐색 시간</a></strong> | 수일 -> 수분 단축 ([카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 검색) |
+| <strong>PII <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 파악</strong> | 수동 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 수주 -> 자동 탐지 수시간 |
+| **신규 분석가 온보딩** | 2주 -> 3일 단축 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 계보 파악</strong> | 불가 -> 클릭 한 번에 상·하류 추적 |
 
 ### 결론
 
@@ -174,17 +174,17 @@ DataHub(LinkedIn [오픈소스](/knowledge-base/studynote/12_it_management/05_se
 
 ```text
 [메타데이터 (Metadata) — 데이터의 의미·구조·출처·품질을 설명하는 데이터]
-    │
-    ▼
+    |
+    v
 [메타데이터 관리 (Metadata Management) — 기술·비즈니스·운영 메타데이터 중앙 관리]
-    │
-    ▼
+    |
+    v
 [데이터 카탈로그 (Data Catalog) — 비즈니스 용어 사전 + 데이터 계보 + 검색 기능]
-    │
-    ▼
+    |
+    v
 [데이터 계보 (Data Lineage) — 데이터의 출처·변환·흐름 추적으로 신뢰성 확보]
-    │
-    ▼
+    |
+    v
 [능동형 메타데이터 (Active Metadata) — AI 기반 자동 태깅·추천·품질 모니터링]
 ```
 
@@ -202,7 +202,7 @@ DataHub(LinkedIn [오픈소스](/knowledge-base/studynote/12_it_management/05_se
 
 **진행 상황**: 203 / 262
 
-← **이전**: [196. 데이터 품질 관리 도구 (Data Quality Tools) — Great Expectations/Deequ/Soda Core](/knowledge-base/studynote/16_bigdata/10_governance/202_data_quality_tools/)
-**다음**: [198. 마스터 데이터 관리 (MDM, Master Data Management) — 황금 레코드 생성](/knowledge-base/studynote/16_bigdata/10_governance/204_mdm/) →
+<- **이전**: [196. 데이터 품질 관리 도구 (Data Quality Tools) — Great Expectations/Deequ/Soda Core](/knowledge-base/studynote/16_bigdata/10_governance/202_data_quality_tools/)
+**다음**: [198. 마스터 데이터 관리 (MDM, Master Data Management) — 황금 레코드 생성](/knowledge-base/studynote/16_bigdata/10_governance/204_mdm/) ->
 
 ---

@@ -32,7 +32,7 @@ tags = ["studynote-data-engineering"]
 이 포맷들은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 분리하고, [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)/커밋 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)로 일관성을 유지한다. 그래서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 단위 저장소를 테이블처럼 다룰 수 있다.
 
 ```text
-Data Files + Metadata Log → Table Snapshot → Query Engine
+Data Files + Metadata Log -> Table Snapshot -> Query Engine
 ```
 
 | 포맷 | 특징 | 강점 |
@@ -109,14 +109,14 @@ Data Files + Metadata Log → Table Snapshot → Query Engine
 
 ```text
 파일 기반 레이크
-    │
-    ▼
+    |
+    v
 메타데이터/커밋 로그
-    │
-    ▼
+    |
+    v
 오픈 테이블 포맷
-    │
-    ▼
+    |
+    v
 레이크하우스 / ACID / 타임 트래블
 ```
 
@@ -134,7 +134,7 @@ Data Files + Metadata Log → Table Snapshot → Query Engine
 
 **진행 상황**: 54 / 258
 
-← **이전**: [53. DataOps CI/CD 데이터 파이프라인 (DataOps CI/CD Data Pipeline)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/053_dataops_ci_cd_data_pipeline/)
-**다음**: [55. 컴퓨트와 스토리지 분리 (Separation of Compute and Storage / Cloud DW)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/055_separation_of_compute_and_storage_cloud_dw/) →
+<- **이전**: [53. DataOps CI/CD 데이터 파이프라인 (DataOps CI/CD Data Pipeline)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/053_dataops_ci_cd_data_pipeline/)
+**다음**: [55. 컴퓨트와 스토리지 분리 (Separation of Compute and Storage / Cloud DW)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/055_separation_of_compute_and_storage_cloud_dw/) ->
 
 ---

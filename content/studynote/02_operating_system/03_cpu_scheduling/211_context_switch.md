@@ -28,18 +28,18 @@ tags = ["studynote-operating-system"]
   [프로세스 교체 시 문맥 교환의 타임라인 및 오버헤드 발생 구간]
 
   프로세스 P0       [ 운영체제 커널 (OS) ]            프로세스 P1
-  ── 실행 중 ──┐
-             │ (인터럽트 또는 시스템 콜 발생)
-             ▼
-            ┌────────────────────────────────────────────────┐
-            │ 1. P0의 상태(PC, 레지스터)를 PCB0에 덤프(Save) │
- 순수 오버헤드 │ 2. 스케줄러 알고리즘 구동 (다음 타자 P1 선정)   │ (이 구간 동안
- (1~수십 μs) │ 3. 가상 메모리 매핑 교체 (MMU/TLB Flush)     │  사용자 코드는
-            │ 4. P1의 상태를 PCB1에서 CPU로 복원(Restore)   │  단 1줄도 안 돎)
-            └────────────────────────────────────────────────┘
-                                                             │
-                                                           ▼
-                                                       ── 실행 재개 ──
+  -- 실행 중 --+
+             | (인터럽트 또는 시스템 콜 발생)
+             v
+            +------------------------------------------------+
+            | 1. P0의 상태(PC, 레지스터)를 PCB0에 덤프(Save) |
+ 순수 오버헤드 | 2. 스케줄러 알고리즘 구동 (다음 타자 P1 선정)   | (이 구간 동안
+ (1~수십 μs) | 3. 가상 메모리 매핑 교체 (MMU/TLB Flush)     |  사용자 코드는
+            | 4. P1의 상태를 PCB1에서 CPU로 복원(Restore)   |  단 1줄도 안 돎)
+            +------------------------------------------------+
+                                                             |
+                                                           v
+                                                       -- 실행 재개 --
 ```
 **[다이어그램 해설]** 이 그림은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 교과서에서 가장 유명한 "X자 교차 다이어그램"이다. 사용자가 느끼는 컴퓨터의 "렉"은 대부분 저 네모 박스([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개입 시간)가 비정상적으로 길어지거나 빈번하게 발생할 때 나타난다. 문맥 교환은 필요악(Necessary Evil)이며, 시스템 튜닝의 목적은 이 박스의 면적(시간)을 최소화하거나 발생 횟수를 줄이는 데 있다.
 
@@ -92,11 +92,11 @@ tags = ["studynote-operating-system"]
 ```text
   [ 프로세스 문맥 교환 이후 발생하는 '보이지 않는 지연(Invisible Latency)' ]
 
-  [ P1 완료 ] ─(문맥 교환 1μs)─▶ [ P2 시작 ]
-                                  │ (여기서부터 진짜 지옥 시작)
-                                  │ 1. P2가 명령어 호출 ─▶ TLB Miss 발생 (수십 ns 지연)
-                                  │ 2. 메모리에서 데이터 로드 ─▶ L1/L2 Cache Miss 발생 (수백 ns 지연)
-                                  │ 3. P2가 정상 속도 궤도에 오를 때까지(Warm-up) 수천 ns 추가 증발
+  [ P1 완료 ] -(문맥 교환 1μs)--> [ P2 시작 ]
+                                  | (여기서부터 진짜 지옥 시작)
+                                  | 1. P2가 명령어 호출 --> TLB Miss 발생 (수십 ns 지연)
+                                  | 2. 메모리에서 데이터 로드 --> L1/L2 Cache Miss 발생 (수백 ns 지연)
+                                  | 3. P2가 정상 속도 궤도에 오를 때까지(Warm-up) 수천 ns 추가 증발
 ```
 
 - **📢 섹션 요약 비유**: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 교환이 같은 집 안에서 '형과 동생이 의자만 바꿔 앉는 것(주소 공간 공유)'이라면, 프로세스 교환은 '아예 짐을 빼서 다른 동네의 새집으로 이사를 가는 것([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 플러시)'입니다. 새집에서 물건(캐시) 어딨는지 찾느라 며칠을 허비하는 시간이 진짜 무서운 이사 비용입니다.
@@ -112,23 +112,23 @@ tags = ["studynote-operating-system"]
    - **실무 효과**: 문맥 교환 시 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 "이제부터 [ASID](/knowledge-base/studynote/02_operating_system/06_memory_management/360_asid/) 2번 쓴다!"라고 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 숫자 하나만 띡 바꾼다. 예전 P1([ASID](/knowledge-base/studynote/02_operating_system/06_memory_management/360_asid/) 1)이 쓰던 캐시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 삭제되지 않고 TLB에 안전하게 보존된다. 나중에 P1이 다시 돌아왔을 때 플러시 없이 기존 TLB를 그대로 쓸 수 있어 프로세스 문맥 교환 속도가 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 급으로 비약적으로 빨라지는 하드웨어의 기적이 일어났다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────────┐
-  │     부하(Load) 급증 시 아키텍트의 문맥 교환 병목 진단 트리           │
-  ├──────────────────────────────────────────────────────────────────────┤
-  │                                                                      │
-  │   [ 리눅스 쉘(Shell)에 `vmstat 1` 또는 `top` 입력 ]                  │
-  │                │                                                     │
-  │                ▼ 'cs (Context Switch)' 수치와 'sy (System)' 수치 확인│
-  │      [ cs가 초당 10만 이상 찍히고, sy(커널)가 us(유저)보다 높다 ]    │
-  │       ├─▶ 진단: 전형적인 문맥 교환 스래싱(Thrashing) 상태.           │
-  │       │         (스레드가 너무 많거나 락(Lock) 경합이 극심함)        │
-  │       ├─▶ 처방: 스레드 풀(Thread Pool) 크기를 CPU 코어 수의          │
-  │                 2~3배 이내로 대폭 축소하여 쟁탈전을 소멸시킴.        │
-  │       │                                                              │
-  │      [ cs는 낮은데, us(유저타임)가 99%를 치고 있다 ]                 │
-  │       ├─▶ 진단: 건강한 100% 부하 (순수 애플리케이션 연산 한계).      │
-  │       └─▶ 처방: 로직 최적화, 캐시 레이어(Redis) 도입, 스케일 아웃    │
-  └──────────────────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------------------+
+  |     부하(Load) 급증 시 아키텍트의 문맥 교환 병목 진단 트리           |
+  +----------------------------------------------------------------------+
+  |                                                                      |
+  |   [ 리눅스 쉘(Shell)에 `vmstat 1` 또는 `top` 입력 ]                  |
+  |                |                                                     |
+  |                v 'cs (Context Switch)' 수치와 'sy (System)' 수치 확인|
+  |      [ cs가 초당 10만 이상 찍히고, sy(커널)가 us(유저)보다 높다 ]    |
+  |       +--> 진단: 전형적인 문맥 교환 스래싱(Thrashing) 상태.           |
+  |       |         (스레드가 너무 많거나 락(Lock) 경합이 극심함)        |
+  |       +--> 처방: 스레드 풀(Thread Pool) 크기를 CPU 코어 수의          |
+  |                 2~3배 이내로 대폭 축소하여 쟁탈전을 소멸시킴.        |
+  |       |                                                              |
+  |      [ cs는 낮은데, us(유저타임)가 99%를 치고 있다 ]                 |
+  |       +--> 진단: 건강한 100% 부하 (순수 애플리케이션 연산 한계).      |
+  |       +--> 처방: 로직 최적화, 캐시 레이어(Redis) 도입, 스케일 아웃    |
+  +----------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 초보 개발자는 서버가 느려지면 무조건 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 더 찍어낸다(MaxThread 상향). 하지만 이것은 불난 집에 기름을 붓는 격이다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 많아지면 문맥 교환 오버헤드(`cs`)가 기하급수적으로 폭증하여 CPU가 사용자 코드를 단 한 줄도 처리하지 못하고 자리 바꾸는 일만 반복하다 죽는다. 베테랑 아키텍트는 오히려 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 줄여서 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 스위칭을 억제함으로써 전체 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)(TPS)을 방어한다.
 
@@ -162,12 +162,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [리눅스 O(1) 스케줄러]
-    │
-    ▼
+    |
+    v
 [문맥 교환 (Context Switch)]
-    │
-    ├──▶ [대상 지연 시간 (Target Latency) / 최소 입자 (Minimum Granularity)]
-    └──▶ [윈도우 스케줄링]
+    |
+    +---> [대상 지연 시간 (Target Latency) / 최소 입자 (Minimum Granularity)]
+    +---> [윈도우 스케줄링]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -184,7 +184,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 211 / 800
 
-← **이전**: [210. 휴리스틱 (Heuristics) 기반 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)
-**다음**: [212. 동기화 (Synchronization) 메커니즘](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) →
+<- **이전**: [210. 휴리스틱 (Heuristics) 기반 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)
+**다음**: [212. 동기화 (Synchronization) 메커니즘](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) ->
 
 ---

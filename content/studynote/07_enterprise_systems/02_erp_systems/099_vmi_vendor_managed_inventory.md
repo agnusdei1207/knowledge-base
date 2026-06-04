@@ -31,17 +31,17 @@ VMI의 핵심은 <strong>투명한 <a href="/knowledge-base/studynote/05_databas
 3. **자율 배송 및 보충**: 소매점의 발주서(PO) 없이, 공급자가 자체적인 생산 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)과 물류 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 최적화하여 소매점 진열대나 창고에 제품을 직접 납품한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  VMI (공급자 주도 재고 관리) 흐름도            │
-├──────────────────────────────────────────────────────────────┤
-│ [ 소매점 (월마트) ]                          [ 공급자 (P&G) ]    │
-│                                                              │
-│ 1. 바코드 스캔 (POS) ─── 실시간 판매 데이터 ──▶ 2. 데이터 분석/예측 │
-│   (발주 업무 없음!)                              (ERP/SCM 연동) │
-│                                                              │
-│ 4. 진열대에 꽉 찬 제품 ◀── 최적 수량 자율 배송 ── 3. 생산 및 출하 지시│
-│   (결품 방지, 창고 축소)                           (안전 재고 최소화) │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  VMI (공급자 주도 재고 관리) 흐름도            |
++--------------------------------------------------------------+
+| [ 소매점 (월마트) ]                          [ 공급자 (P&G) ]    |
+|                                                              |
+| 1. 바코드 스캔 (POS) --- 실시간 판매 데이터 ---> 2. 데이터 분석/예측 |
+|   (발주 업무 없음!)                              (ERP/SCM 연동) |
+|                                                              |
+| 4. 진열대에 꽉 찬 제품 <--- 최적 수량 자율 배송 -- 3. 생산 및 출하 지시|
+|   (결품 방지, 창고 축소)                           (안전 재고 최소화) |
++--------------------------------------------------------------+
 ```
 
 이 구조에서 소매점은 판매에만 집중하고, 공급자는 생산부터 유통 진열까지 전체 물류 리드타임([Lead Time](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/))을 스스로 통제하게 된다.
@@ -97,18 +97,18 @@ VMI 도입의 기대효과는 양방향(Win-Win)으로 나타난다. 소매점�
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-전통적 재고 관리 (RMI) ─▶ 정보 단절 및 채찍 효과 발생
-    │
-    ▼
+전통적 재고 관리 (RMI) --> 정보 단절 및 채찍 효과 발생
+    |
+    v
 POS 데이터 및 EDI 인프라 확산 (데이터 교환 기반 마련)
-    │
-    ▼
+    |
+    v
 VMI (Vendor Managed Inventory) 도입 (제조사가 재고 보충 주도)
-    │
-    ▼
+    |
+    v
 CMI (Co-Managed Inventory) (양사 공동 재고 관리로 발전)
-    │
-    ▼
+    |
+    v
 CPFR (협업적 기획, 예측, 보충) (가치사슬 전체의 전략적 통합)
 ```
 
@@ -124,7 +124,7 @@ CPFR (협업적 기획, 예측, 보충) (가치사슬 전체의 전략적 통합
 
 **진행 상황**: 99 / 482
 
-← **이전**: [98. TMS (Transportation Management System) - 운송 관리 시스템](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/098_tms_transportation_management_system/)
-**다음**: [100. 크로스 도킹 (Cross-Docking) - 물류센터 도착 상품을 창고 보관 없이 즉시 배송 차량으로 분류 환적 (창고 비용](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/100_cross_docking_logistics/) →
+<- **이전**: [98. TMS (Transportation Management System) - 운송 관리 시스템](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/098_tms_transportation_management_system/)
+**다음**: [100. 크로스 도킹 (Cross-Docking) - 물류센터 도착 상품을 창고 보관 없이 즉시 배송 차량으로 분류 환적 (창고 비용](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/100_cross_docking_logistics/) ->
 
 ---

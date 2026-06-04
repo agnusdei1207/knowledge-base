@@ -28,18 +28,18 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 플린 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)의 핵심을 2×2 축으로 압축한 것이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│        플린의 분류법: 명령어 흐름 × 데이터 흐름 매트릭스     │
-├───────────────────────┬──────────────────┬───────────────────┤
-│                       │ 단일 데이터      │ 다중 데이터       │
-│                       │ Single Data      │ Multiple Data     │
-├───────────────────────┼──────────────────┼───────────────────┤
-│ 단일 명령어           │ SISD             │ SIMD              │
-│ Single Instruction    │ 한 명령 + 한 데이터 │ 한 명령 + 여러 데이터 │
-├───────────────────────┼──────────────────┼───────────────────┤
-│ 다중 명령어           │ MISD             │ MIMD              │
-│ Multiple Instruction  │ 여러 명령 + 한 데이터 │ 여러 명령 + 여러 데이터 │
-└───────────────────────┴──────────────────┴───────────────────┘
++--------------------------------------------------------------+
+|        플린의 분류법: 명령어 흐름 × 데이터 흐름 매트릭스     |
++-----------------------+------------------+-------------------+
+|                       | 단일 데이터      | 다중 데이터       |
+|                       | Single Data      | Multiple Data     |
++-----------------------+------------------+-------------------+
+| 단일 명령어           | SISD             | SIMD              |
+| Single Instruction    | 한 명령 + 한 데이터 | 한 명령 + 여러 데이터 |
++-----------------------+------------------+-------------------+
+| 다중 명령어           | MISD             | MIMD              |
+| Multiple Instruction  | 여러 명령 + 한 데이터 | 여러 명령 + 여러 데이터 |
++-----------------------+------------------+-------------------+
 ```
 
 중요한 점은 이 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 순위를 매기는 표가 아니라는 것이다. 같은 문제를 어느 방식으로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화하느냐에 따라 적합한 구조가 달라지므로, 플린의 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)법은 "어떤 구조가 더 우월한가"보다 "어떤 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성에 맞는가"를 판단하는 출발점이 된다.
@@ -62,20 +62,20 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 왜 SIMD와 MIMD가 실제로 다르게 느껴지는지 보여준다. 둘 다 연산기는 여러 개일 수 있지만, 명령을 배포하는 방식이 다르다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│              제어 공유 여부에 따른 실행 방식 차이            │
-├──────────────────────────────┬───────────────────────────────┤
-│ SIMD                         │ MIMD                          │
-│ 하나의 제어가 동일 명령 전파 │ 각 처리기가 독립 제어 보유    │
-├──────────────────────────────┼───────────────────────────────┤
-│        [Control]             │ [P1] [P2] [P3] [P4]          │
-│            │                 │  │    │    │    │            │
-│     ┌──────┼──────┐          │ I1   I2   I3   I4            │
-│     ▼      ▼      ▼          │ D1   D2   D3   D4            │
-│   [처리기1][처리기2][처리기3]        │ 독립 명령·독립 데이터 처리   │
-│    D1     D2     D3          │                               │
-│ 같은 명령을 각 데이터에 적용 │ 작업별 분기와 비동기 실행 가능│
-└──────────────────────────────┴───────────────────────────────┘
++--------------------------------------------------------------+
+|              제어 공유 여부에 따른 실행 방식 차이            |
++------------------------------+-------------------------------+
+| SIMD                         | MIMD                          |
+| 하나의 제어가 동일 명령 전파 | 각 처리기가 독립 제어 보유    |
++------------------------------+-------------------------------+
+|        [Control]             | [P1] [P2] [P3] [P4]          |
+|            |                 |  |    |    |    |            |
+|     +------+------+          | I1   I2   I3   I4            |
+|     v      v      v          | D1   D2   D3   D4            |
+|   [처리기1][처리기2][처리기3]        | 독립 명령·독립 데이터 처리   |
+|    D1     D2     D3          |                               |
+| 같은 명령을 각 데이터에 적용 | 작업별 분기와 비동기 실행 가능|
++------------------------------+-------------------------------+
 ```
 
 이 구조 차이는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 특성으로 바로 이어진다. 예를 들어 행렬 덧셈처럼 `A[i] + B[i]`를 대량 반복하는 문제는 SIMD가 매우 강하다. 반면 웹 서버처럼 요청마다 조건문, 입출력, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 접근이 달라지는 문제는 제어 흐름이 제각각이므로 MIMD가 유리하다. MISD는 교과서에서는 중요하지만 범용 컴퓨터에서는 드물며, 동일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 방식으로 교차 검증하는 안전 시스템에서 주로 의미를 가진다.
@@ -86,7 +86,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-플린의 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)법을 제대로 이해하려면 네 가지를 독립 항목으로 외우기보다, <strong><a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/369_sisd/">SISD</a>→<a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/">SIMD</a>→<a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/372_mimd/">MIMD</a></strong>로 확장되는 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성의 방향을 봐야 한다. SISD는 제어와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 모두 하나라서 가장 단순하지만, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 확장은 주로 파이프라이닝 (Pipelining)이나 슈퍼스칼라 ([Superscalar](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/236_superscalar/)) 같은 내부 최적화에 의존한다. SIMD는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 하나로 유지한 채 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 갈래로 넓혀 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 올리고, MIMD는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 흐름 자체를 분리해 범용성을 확보한다.
+플린의 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)법을 제대로 이해하려면 네 가지를 독립 항목으로 외우기보다, <strong><a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/369_sisd/">SISD</a>-><a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/">SIMD</a>-><a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/372_mimd/">MIMD</a></strong>로 확장되는 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성의 방향을 봐야 한다. SISD는 제어와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 모두 하나라서 가장 단순하지만, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 확장은 주로 파이프라이닝 (Pipelining)이나 슈퍼스칼라 ([Superscalar](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/236_superscalar/)) 같은 내부 최적화에 의존한다. SIMD는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 하나로 유지한 채 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 갈래로 넓혀 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 올리고, MIMD는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 흐름 자체를 분리해 범용성을 확보한다.
 
 | 비교 축 | [SISD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/369_sisd/) | [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) | [MIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/372_mimd/) |
 | :--- | :--- | :--- | :--- |
@@ -155,21 +155,21 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 SISD (Single Instruction Single Data)
-    │  순차 실행의 기본 모델
-    ▼
+    |  순차 실행의 기본 모델
+    v
 파이프라이닝 (Pipelining) · 슈퍼스칼라 (Superscalar)
-    │  단일 흐름 내부의 성능 확장
-    ▼
+    |  단일 흐름 내부의 성능 확장
+    v
 SIMD (Single Instruction Multiple Data)
-    │  데이터 병렬성 확대
-    ▼
+    |  데이터 병렬성 확대
+    v
 MIMD (Multiple Instruction Multiple Data)
-    │  독립 제어 흐름 확장
-    ▼
+    |  독립 제어 흐름 확장
+    v
 멀티코어 · 클러스터 · 이종 가속기 하이브리드
 ```
 
-이 흐름은 "순차 처리 최적화 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 → 작업 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 → 혼합형 시스템"으로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 아키텍처가 확장되는 방향을 보여준다.
+이 흐름은 "순차 처리 최적화 -> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 -> 작업 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 -> 혼합형 시스템"으로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 아키텍처가 확장되는 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -183,7 +183,7 @@ MIMD (Multiple Instruction Multiple Data)
 
 **진행 상황**: 369 / 803
 
-← **이전**: [367. NoC (Network on Chip)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/367_noc/)
-**다음**: [369. SISD (단일 명령어 단일 데이터)](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/369_sisd/) →
+<- **이전**: [367. NoC (Network on Chip)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/367_noc/)
+**다음**: [369. SISD (단일 명령어 단일 데이터)](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/369_sisd/) ->
 
 ---

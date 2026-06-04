@@ -38,22 +38,22 @@ tags = ["studynote-security"]
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> 엔진 (<a href="/knowledge-base/studynote/09_security/02_crypto/106_gmac/">GMAC</a> 파트)</strong> | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 암호문들을 $GF(2^{128})$ 이라는 갈루아 체(Galois Field) 교실로 가져와, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)용 서브키(H)와 누적 곱셈/덧셈 수행 | [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) 대신 가벼운 <strong>수학적 곱셈</strong>으로 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 태그(Tag) 128비트를 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)으로 추출 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           GCM (Galois/Counter Mode)의 쌍발 엔진 메커니즘          │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│ [ 1. CTR 암호화: 병렬로 쏜다 ]                                   │
-│  평문 블록 1 ──(XOR)──▶ [ 암호문 1 ] ─────────┐                   │
-│         (난수)                          │                   │
-│  평문 블록 2 ──(XOR)──▶ [ 암호문 2 ] ─────────┤                   │
-│         (난수)                          │                   │
-│                                         ▼                   │
-│ [ 2. GMAC 인증: 눈덩이처럼 굴린다 ]                               │
-│  (AAD 평문) ──▶ (갈루아 곱셈 ✖) ──▶ (결과 누적)                    │
-│   암호문 1 ──▶ (갈루아 곱셈 ✖) ──▶ (결과 누적)                     │
-│   암호문 2 ──▶ (갈루아 곱셈 ✖) ──▶ (결과 누적) ──▶ [ 인증 태그 ]    │
-│                                                              │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           GCM (Galois/Counter Mode)의 쌍발 엔진 메커니즘          |
++--------------------------------------------------------------+
+|                                                              |
+| [ 1. CTR 암호화: 병렬로 쏜다 ]                                   |
+|  평문 블록 1 --(XOR)---> [ 암호문 1 ] ---------+                   |
+|         (난수)                          |                   |
+|  평문 블록 2 --(XOR)---> [ 암호문 2 ] ---------+                   |
+|         (난수)                          |                   |
+|                                         v                   |
+| [ 2. GMAC 인증: 눈덩이처럼 굴린다 ]                               |
+|  (AAD 평문) ---> (갈루아 곱셈 ✖) ---> (결과 누적)                    |
+|   암호문 1 ---> (갈루아 곱셈 ✖) ---> (결과 누적)                     |
+|   암호문 2 ---> (갈루아 곱셈 ✖) ---> (결과 누적) ---> [ 인증 태그 ]    |
+|                                                              |
++--------------------------------------------------------------+
 ```
 
 다이어그램의 하단 [GMAC](/knowledge-base/studynote/09_security/02_crypto/106_gmac/) 파트가 혁신적인 이유는, 무거운 암호학적 해시를 버리고 CPU가 하드웨어 차원(예: 인텔 PCLMULQDQ [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))에서 0.001초 만에 끝낼 수 있는 '유한체 곱셈'을 채택했기 때문이다. 최종적으로 수신자는 <strong><code>[ 암호문 + 인증 태그 ]</code></strong> 를 받아, 태그를 먼저 검증하여 단 1비트라도 깨졌다면 아예 암호문을 열어보지 않고 통신을 차단(Drop)해버린다.
@@ -122,17 +122,17 @@ IP 패킷의 헤더나 목적지 주소는 라우터가 읽어야 하므로 평�
 
 ```text
 블록 암호 기본 모드 (ECB, CBC)의 한계와 성능 저하
-    │
-    ▼
+    |
+    v
 카운터 도입 및 병렬 처리 혁신 (CTR 모드의 등장)
-    │
-    ▼
+    |
+    v
 비트 플리핑(Bit-Flipping) 공격 등 연성 취약점 발견
-    │
-    ▼
+    |
+    v
 암호화 + 해시 함수를 이중으로 돌리는 과부하 발생 (MAC-then-Encrypt 등)
-    │
-    ▼
+    |
+    v
 수학적 곱셈(GMAC)과 CTR을 일체화시킨 GCM (AEAD 표준 완성)
 ```
 
@@ -150,7 +150,7 @@ IP 패킷의 헤더나 목적지 주소는 라우터가 읽어야 하므로 평�
 
 **진행 상황**: 91 / 1108
 
-← **이전**: [090. CTR (Counter) — 난수 대신 카운터, 병렬 처리 가능](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/)
-**다음**: [092. AEAD (Authenticated Encryption with Associated Data) — 암호화+인증 동시](/knowledge-base/studynote/09_security/02_crypto/092_aead/) →
+<- **이전**: [090. CTR (Counter) — 난수 대신 카운터, 병렬 처리 가능](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/)
+**다음**: [092. AEAD (Authenticated Encryption with Associated Data) — 암호화+인증 동시](/knowledge-base/studynote/09_security/02_crypto/092_aead/) ->
 
 ---

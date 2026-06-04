@@ -32,26 +32,26 @@ tags = ["studynote-network"]
   [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가 없는 순수 비대칭키 환경에서 발생하는 [중간자 공격](/knowledge-base/studynote/03_network/14_network_security_threats/706_mitm_man_in_the_middle_hsts/) (MITM)의 구조적 한계를 진단하면 다음과 같다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │       인증서(PKI) 부재 시 중간자 공격 (MITM) 취약성 구조       │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │    [Alice]               [해커 (Mallory)]               [Bob]  │
-  │  (송신하고자 함)          (중간에서 패킷 가로채기)           (수신자) │
-  │                                                             │
-  │  1. "내 공개키(K_Bob)야" ──────────────────────────▶(가로챔) │
-  │                       ◀─── "내 공개키(K_Mal)야" ──── (위조)   │
-  │                                                             │
-  │  2. Alice는 K_Mal이 Bob의 것인 줄 알고 데이터를 암호화함.           │
-  │     [ Data를 K_Mal로 암호화 ] ───▶                            │
-  │                                                             │
-  │  3. 해커는 자신의 개인키로 복호화하여 내용 탈취 후,                  │
-  │     다시 Bob의 공개키로 암호화하여 전달.                            │
-  │                       (복호화 후 탈취)                       │
-  │                       [ Data를 K_Bob으로 재암호화 ] ───▶      │
-  │                                                             │
-  │  결과: Alice와 Bob은 정상 통신 중이라고 착각하지만 데이터는 탈취됨. │
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |       인증서(PKI) 부재 시 중간자 공격 (MITM) 취약성 구조       |
+  +-------------------------------------------------------------+
+  |                                                             |
+  |    [Alice]               [해커 (Mallory)]               [Bob]  |
+  |  (송신하고자 함)          (중간에서 패킷 가로채기)           (수신자) |
+  |                                                             |
+  |  1. "내 공개키(K_Bob)야" --------------------------->(가로챔) |
+  |                       <---- "내 공개키(K_Mal)야" ---- (위조)   |
+  |                                                             |
+  |  2. Alice는 K_Mal이 Bob의 것인 줄 알고 데이터를 암호화함.           |
+  |     [ Data를 K_Mal로 암호화 ] ---->                            |
+  |                                                             |
+  |  3. 해커는 자신의 개인키로 복호화하여 내용 탈취 후,                  |
+  |     다시 Bob의 공개키로 암호화하여 전달.                            |
+  |                       (복호화 후 탈취)                       |
+  |                       [ Data를 K_Bob으로 재암호화 ] ---->      |
+  |                                                             |
+  |  결과: Alice와 Bob은 정상 통신 중이라고 착각하지만 데이터는 탈취됨. |
+  +-------------------------------------------------------------+
 ```
 
   **[다이어그램 해설]** 이 흐름도는 PKI가 없는 환경에서 공개키 교환이 얼마나 취약한지를 명확히 보여준다. Bob이 자신의 공개키 `K_Bob`을 보낼 때, 중간자 Mallory가 이를 가로채고 자신의 공개키 `K_Mal`을 Alice에게 보낸다. Alice는 받은 키가 Bob의 것이라 믿고 암호화하지만, 실제로는 Mallory만이 복호화할 수 있다. 이는 공개키 자체에는 "소유자의 신원 정보"가 논리적으로 결합되어 있지 않기 때문이다. PKI는 이 취약점을 해결하기 위해 공개키에 CA의 [전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/)을 덧붙인 '[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서'를 도입함으로써, 중간자가 임의의 공개키로 위조하는 것을 원천적으로 차단한다.
@@ -75,44 +75,44 @@ tags = ["studynote-network"]
 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) 시스템의 핵심은 사용자가 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 발급받는 과정과, 다른 사용자가 그 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 과정이 논리적으로 완벽하게 분리되면서도 암호학적으로 결합된다는 점이다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────┐
-  │               PKI 전체 동작 아키텍처 (발급 및 검증)                  │
-  ├──────────────────────────────────────────────────────────────────┤
-  │                                                                  │
-  │     [1. 발급 파이프라인 (Issuance)]                                 │
-  │                                                                  │
-  │  Subscriber                    RA                   CA         │
-  │  (가입자)                    (등록기관)            (인증기관)        │
-  │   │                             │                    │         │
-  │   ├── 1. 신원 정보 + 공개키 제출──▶│                    │         │
-  │   │                             ├── 2. 신원 검증 ───▶│         │
-  │   │                             │                    │         │
-  │   │                             │   ┌────────────────────────┐ │
-  │   │                             │   │ 3. 인증서 생성 및 CA서명  │ │
-  │   │                             │   │ Hash(Info+PubKey)      │ │
-  │   │                             │   │ CA_PrivateKey로 암호화   │ │
-  │   │                             │   └────────────────────────┘ │
-  │   │                             │                    │         │
-  │   │◀────────── 4. 인증서(Certificate) 발급 ───────────────┤         │
-  │                                                                  │
-  │──────────────────────────────────────────────────────────────────│
-  │                                                                  │
-  │     [2. 검증 파이프라인 (Verification)]                             │
-  │                                                                  │
-  │  Subscriber (서버)                               Relying Party  │
-  │   │                                                (클라이언트)  │
-  │   ├── 1. "내 인증서를 확인해라" ──────────────────────▶│         │
-  │   │                                                  │         │
-  │   │                        ┌─────────────────────────────────┐ │
-  │   │                        │ 2. 인증서 유효성 검증               │ │
-  │   │                        │ - 만료일 확인                    │ │
-  │   │                        │ - CA의 공개키로 서명 복호화(검증)   │ │
-  │   │                        │ - 해시값 일치 확인                │ │
-  │   │                        │ - CRL/OCSP 상태 조회 (폐기 여부)   │ │
-  │   │                        └─────────────────────────────────┘ │
-  │   │                                                  │         │
-  │   │◀─────── 3. 검증 성공 시 Session Key 교환 진행 ───────┤         │
-  └──────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------+
+  |               PKI 전체 동작 아키텍처 (발급 및 검증)                  |
+  +------------------------------------------------------------------+
+  |                                                                  |
+  |     [1. 발급 파이프라인 (Issuance)]                                 |
+  |                                                                  |
+  |  Subscriber                    RA                   CA         |
+  |  (가입자)                    (등록기관)            (인증기관)        |
+  |   |                             |                    |         |
+  |   +-- 1. 신원 정보 + 공개키 제출--->|                    |         |
+  |   |                             +-- 2. 신원 검증 ---->|         |
+  |   |                             |                    |         |
+  |   |                             |   +------------------------+ |
+  |   |                             |   | 3. 인증서 생성 및 CA서명  | |
+  |   |                             |   | Hash(Info+PubKey)      | |
+  |   |                             |   | CA_PrivateKey로 암호화   | |
+  |   |                             |   +------------------------+ |
+  |   |                             |                    |         |
+  |   |<----------- 4. 인증서(Certificate) 발급 ---------------+         |
+  |                                                                  |
+  |------------------------------------------------------------------|
+  |                                                                  |
+  |     [2. 검증 파이프라인 (Verification)]                             |
+  |                                                                  |
+  |  Subscriber (서버)                               Relying Party  |
+  |   |                                                (클라이언트)  |
+  |   +-- 1. "내 인증서를 확인해라" ----------------------->|         |
+  |   |                                                  |         |
+  |   |                        +---------------------------------+ |
+  |   |                        | 2. 인증서 유효성 검증               | |
+  |   |                        | - 만료일 확인                    | |
+  |   |                        | - CA의 공개키로 서명 복호화(검증)   | |
+  |   |                        | - 해시값 일치 확인                | |
+  |   |                        | - CRL/OCSP 상태 조회 (폐기 여부)   | |
+  |   |                        +---------------------------------+ |
+  |   |                                                  |         |
+  |   |<-------- 3. 검증 성공 시 Session Key 교환 진행 -------+         |
+  +------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 위 다이어그램은 PKI의 양대 축인 발급과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 과정을 보여준다. 발급 과정에서 가입자는 자신의 공개키를 신원 정보와 함께 RA에 제출하고, CA는 이 정보의 해시값을 자신의 '개인키'로 암호화하여 [전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/)한다. 이 서명된 결과물이 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서다. [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 과정에서 클라이언트(브라우저)는 미리 내장된(Trusted) CA의 공개키를 사용하여 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서의 서명을 복호화하고 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다. 여기서 병목 지점은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가 폐지되었는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 단계([CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/)/[OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/))이며, 이 조회 과정에서의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 통신 속도([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))에 큰 영향을 미친다. 실무에서는 이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 줄이기 위해 [OCSP Stapling](/knowledge-base/studynote/03_network/13_network_security_basics/680_ocsp_stapling_tls_handshake_performance/) 등의 최적화 기법을 도입한다.
@@ -122,30 +122,30 @@ tags = ["studynote-network"]
 실제 인터넷 환경에서는 Root CA가 모든 최종 사용자 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 직접 발급하지 않는다. 보안상 Root CA는 오프라인에 보관하고, Intermediate [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)(중간 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)기관)를 통해 계층적으로 위임하는 신뢰 체인(Chain of Trust)을 형성한다.
 
 ```text
-  ┌────────────────────────────────────────────────────────────────┐
-  │              인증서 체인 (Chain of Trust) 계층 구조               │
-  ├────────────────────────────────────────────────────────────────┤
-  │                                                                │
-  │  [ Root CA ] (최상위 인증기관)                                    │
-  │    - 자체 서명 (Self-Signed) 인증서                              │
-  │    - 브라우저/OS에 기본적으로 탑재됨 (Trust Store)                  │
-  │    - 자신의 개인키로 Intermediate CA 1의 인증서에 서명               │
-  │         │                                                      │
-  │         ▼                                                      │
-  │  [ Intermediate CA 1 ] (중간 인증기관)                          │
-  │    - Root CA의 서명이 포함됨                                     │
-  │    - 자신의 개인키로 Intermediate CA 2의 인증서에 서명               │
-  │         │                                                      │
-  │         ▼                                                      │
-  │  [ Intermediate CA 2 ] (중간 인증기관)                          │
-  │    - Intermediate CA 1의 서명이 포함됨                           │
-  │    - 자신의 개인키로 End-Entity의 인증서에 서명                     │
-  │         │                                                      │
-  │         ▼                                                      │
-  │  [ End-Entity / Leaf Certificate ] (최종 사용자 인증서)         │
-  │    - ex) www.example.com 의 웹 서버 인증서                       │
-  │    - 가장 하위 레벨이며, 다른 인증서에 서명할 권한 없음                │
-  └────────────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------------+
+  |              인증서 체인 (Chain of Trust) 계층 구조               |
+  +----------------------------------------------------------------+
+  |                                                                |
+  |  [ Root CA ] (최상위 인증기관)                                    |
+  |    - 자체 서명 (Self-Signed) 인증서                              |
+  |    - 브라우저/OS에 기본적으로 탑재됨 (Trust Store)                  |
+  |    - 자신의 개인키로 Intermediate CA 1의 인증서에 서명               |
+  |         |                                                      |
+  |         v                                                      |
+  |  [ Intermediate CA 1 ] (중간 인증기관)                          |
+  |    - Root CA의 서명이 포함됨                                     |
+  |    - 자신의 개인키로 Intermediate CA 2의 인증서에 서명               |
+  |         |                                                      |
+  |         v                                                      |
+  |  [ Intermediate CA 2 ] (중간 인증기관)                          |
+  |    - Intermediate CA 1의 서명이 포함됨                           |
+  |    - 자신의 개인키로 End-Entity의 인증서에 서명                     |
+  |         |                                                      |
+  |         v                                                      |
+  |  [ End-Entity / Leaf Certificate ] (최종 사용자 인증서)         |
+  |    - ex) www.example.com 의 웹 서버 인증서                       |
+  |    - 가장 하위 레벨이며, 다른 인증서에 서명할 권한 없음                |
+  +----------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 계층 구조도의 핵심은 서명의 화살표 방향이다. 상위 CA의 개인키로 하위 CA의 공개키를 서명해 내려가는 구조를 띠며, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 때는 반대로 하위부터 상위로 올라가며 서명을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다. 최종적으로 클라이언트가 이미 신뢰하고 있는 운영체제나 브라우저 내부의 'Root [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서'에 도달하면 신뢰 체인이 완성된다. 중간 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 구조를 채택하는 이유는 Root CA의 개인키 유출 시 전 세계 인터넷 신뢰 인프라가 붕괴되는 것을 막기 위함이다. 만약 중간 CA가 털리더라도, Root CA는 해당 중간 CA의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서만 폐지(Revoke)하면 되기 때문에 피해를 격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))할 수 있다.
@@ -186,30 +186,30 @@ tags = ["studynote-network"]
 의사결정 플로우를 시각화하면, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 노출 범위에 따라 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 종류와 관리 방식을 어떻게 선택해야 하는지 직관적으로 정리된다.
 
 ```text
-  ┌────────────────────────────────────────────────────────────────────┐
-  │              서비스 목적에 따른 PKI 및 인증서 도입 의사결정               │
-  ├────────────────────────────────────────────────────────────────────┤
-  │                                                                    │
-  │   [신규 서비스의 인증서 발급 필요 식별]                                  │
-  │                  │                                                 │
-  │                  ▼                                                 │
-  │      서비스가 외부(대국민/고객)로 노출되는가?                              │
-  │          ├─ 예 ─────▶ [Public CA(DigiCert, GlobalSign 등) 사용]    │
-  │          │                     │                                   │
-  │          │                     └─▶ [도메인 소유권 검증 (DV/OV/EV) 선택]│
-  │          │                                                         │
-  │          └─ 아니오 (사내 전용, B2B 폐쇄망)                           │
-  │                  │                                                 │
-  │                  ▼                                                 │
-  │      클라이언트 단말 통제가 가능한가? (사내 PC 등)                        │
-  │          ├─ 예 ─────▶ [사내 Private CA 구축 및 Root 인증서 배포]      │
-  │          │                     │                                   │
-  │          │                     └─▶ [AD/MDM을 통한 일괄 신뢰 구성]      │
-  │          │                                                         │
-  │          └─ 아니오 ──▶ [비용이 들더라도 Public CA 인증서 사용]           │
-  │                                                                    │
-  │   최종 판단: 클라이언트 환경 통제력에 따라 비용과 관리 오버헤드를 타협          │
-  └────────────────────────────────────────────────────────────────────┘
+  +--------------------------------------------------------------------+
+  |              서비스 목적에 따른 PKI 및 인증서 도입 의사결정               |
+  +--------------------------------------------------------------------+
+  |                                                                    |
+  |   [신규 서비스의 인증서 발급 필요 식별]                                  |
+  |                  |                                                 |
+  |                  v                                                 |
+  |      서비스가 외부(대국민/고객)로 노출되는가?                              |
+  |          +- 예 ------> [Public CA(DigiCert, GlobalSign 등) 사용]    |
+  |          |                     |                                   |
+  |          |                     +--> [도메인 소유권 검증 (DV/OV/EV) 선택]|
+  |          |                                                         |
+  |          +- 아니오 (사내 전용, B2B 폐쇄망)                           |
+  |                  |                                                 |
+  |                  v                                                 |
+  |      클라이언트 단말 통제가 가능한가? (사내 PC 등)                        |
+  |          +- 예 ------> [사내 Private CA 구축 및 Root 인증서 배포]      |
+  |          |                     |                                   |
+  |          |                     +--> [AD/MDM을 통한 일괄 신뢰 구성]      |
+  |          |                                                         |
+  |          +- 아니오 ---> [비용이 들더라도 Public CA 인증서 사용]           |
+  |                                                                    |
+  |   최종 판단: 클라이언트 환경 통제력에 따라 비용과 관리 오버헤드를 타협          |
+  +--------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 흐름도의 핵심은 "누가 이 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는가"에 대한 클라이언트 통제력이다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 퍼블릭 인터넷에 노출된다면 무조건 비용을 지불하고 Public CA의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 받아야 한다. 반면 사내 시스템의 경우 매번 Public [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 구매하는 것은 낭비이므로 Private CA를 구축한다. 단, Private CA의 서명은 브라우저가 기본적으로 불신하므로, 회사 관리자가 AD([Active Directory](/knowledge-base/studynote/09_security/11_iam_access_control/548_active_directory/)) 정책을 통해 모든 임직원 PC에 사내 Root CA를 강제 심어야 한다. 클라이언트 제어권이 없다면 사내망이라 할지라도 Public CA를 선택하는 것이 장애와 문의(CS)를 줄이는 실무적 판단이다.
@@ -236,7 +236,7 @@ tags = ["studynote-network"]
 
 ### 미래 전망
 - <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/">양자 내성 암호</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/">PQC</a>) 전환</strong>: [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)의 쇼어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(Shor's [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))에 의해 기존 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 기반 PKI가 붕괴될 위험이 현실화되고 있다. NIST 표준 기반의 격자 기반(Lattice-based) 암호 등 [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/)를 지원하는 차세대 하이브리드 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) 인프라로의 마이그레이션이 향후 10년 내 최대 화두가 될 것이다.
-- **기간 단축 및 자동화**: 구글 등 주요 브라우저 벤더 주도로 퍼블릭 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서의 최대 유효기간이 점진적으로 축소(1년 → 90일)되고 있다. 이에 따라 수동 관리는 불가능해지며, ACME [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 기반의 100% 자동화 갱신 파이프라인이 산업 표준으로 강제될 것이다.
+- **기간 단축 및 자동화**: 구글 등 주요 브라우저 벤더 주도로 퍼블릭 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서의 최대 유효기간이 점진적으로 축소(1년 -> 90일)되고 있다. 이에 따라 수동 관리는 불가능해지며, ACME [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 기반의 100% 자동화 갱신 파이프라인이 산업 표준으로 강제될 것이다.
 
 ### 참고 표준
 - **RFC 5280**: X.509 v3 인터넷 공개키 인프라스트럭처 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 및 [CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/) 프로파일
@@ -246,19 +246,19 @@ tags = ["studynote-network"]
 PKI는 단순한 기술적 암호화 도구가 아니라, 네트워크 공간에서 '서로 얼굴을 보지 않고도 거래할 수 있게 만드는' 사회적 신뢰의 디지털 구현체이다. [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/) 시대로 진입하며 기반 암호 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 교체되겠지만, 중앙화된 신뢰 기관을 통해 신원을 보증하고 위임하는 PKI의 근본적인 아키텍처는 향후에도 정보보안의 가장 중요한 척추로 남을 것이다.
 
 ```text
-  ┌────────────────────────────────────────────────────────────────┐
-  │             PKI 아키텍처의 패러다임 진화 (2010 ~ 2030+)              │
-  ├────────────────────────────────────────────────────────────────┤
-  │                                                                │
-  │  [과거: 수동/장기]        [현재: 자동화/단기]         [미래: 양자 내성]    │
-  │                                                                │
-  │  인증서 유효기간 3~5년  → 유효기간 1년 (점차 90일) → 수 초~분 단위 단기 인증 │
-  │  수동 발급/설치        → ACME (Cert-Manager)   → Zero-Touch Provision│
-  │  RSA-2048 중심       → ECC(타원곡선) 보편화     → PQC (양자 내성 암호)  │
-  │  단일 Root CA 맹신    → Certificate Transparency→ DID / 분산 신뢰 혼합 │
-  │                                                                │
-  │  핵심 동인: "관리 편의성"에서 "손상 시 피해 최소화(Agility)"로 진화 중     │
-  └────────────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------------+
+  |             PKI 아키텍처의 패러다임 진화 (2010 ~ 2030+)              |
+  +----------------------------------------------------------------+
+  |                                                                |
+  |  [과거: 수동/장기]        [현재: 자동화/단기]         [미래: 양자 내성]    |
+  |                                                                |
+  |  인증서 유효기간 3~5년  -> 유효기간 1년 (점차 90일) -> 수 초~분 단위 단기 인증 |
+  |  수동 발급/설치        -> ACME (Cert-Manager)   -> Zero-Touch Provision|
+  |  RSA-2048 중심       -> ECC(타원곡선) 보편화     -> PQC (양자 내성 암호)  |
+  |  단일 Root CA 맹신    -> Certificate Transparency-> DID / 분산 신뢰 혼합 |
+  |                                                                |
+  |  핵심 동인: "관리 편의성"에서 "손상 시 피해 최소화(Agility)"로 진화 중     |
+  +----------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) 체계의 진화 로드맵은 보안 관점에서의 민첩성([Crypto Agility](/knowledge-base/studynote/09_security/03_network_security/153_crypto_agility/)) 확보를 향하고 있다. 과거에는 3년짜리 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 발급받아 한 번 세팅하고 잊어버리는 방식이었으나, 현재는 키 유출 시 피해 기간을 줄이기 위해 유효기간이 극단적으로 짧아지는 추세다. 수명이 짧아지면 수동 관리가 불가능하므로 ACME 같은 자동화가 필수적으로 동반된다. 더 나아가 미래에는 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)의 위협에 대비해 알고 지름 자체가 교체되는 거대한 전환기를 맞이하고 있으며, 브라우저가 CA의 발급 내역을 투명하게 감시하는 [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/)([Certificate Transparency](/knowledge-base/studynote/09_security/04_endpoint_security/165_ct_certificate_transparency/)) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기술이 결합되어 중앙 권력의 오남용을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 견제하는 방향으로 진화 중이다.
@@ -280,12 +280,12 @@ PKI는 단순한 기술적 암호화 도구가 아니라, 네트워크 공간에
 
 ```text
 [선행 개념: VPN]
-    │
-    ▼
+    |
+    v
 [현재 개념: PKI 공개키 인프라]
-    │
-    ├──▶ [확장 A: X.509 인증서]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+    |
+    +---> [확장 A: X.509 인증서]
+    +---> [확장 B: 컨텍스트 기반 용어 해석]
 ```
 
 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) 공개키 인프라는 VPN에서 출발해 현재 메커니즘을 정교화하고, 이후 X.509 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -302,7 +302,7 @@ PKI는 단순한 기술적 암호화 도구가 아니라, 네트워크 공간에
 
 **진행 상황**: 1105 / 1120
 
-← **이전**: [983. VPN (가상 사설망)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/)
-**다음**: [985. X.509 인증서](/knowledge-base/studynote/03_network/19_frequent_topics_terms/985_x509_certificate/) →
+<- **이전**: [983. VPN (가상 사설망)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/)
+**다음**: [985. X.509 인증서](/knowledge-base/studynote/03_network/19_frequent_topics_terms/985_x509_certificate/) ->
 
 ---

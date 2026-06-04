@@ -35,29 +35,29 @@ tags = ["studynote-operating-system"]
   - 1950년대 아폴로 우주 계획과 ICBM 미사일 유도 컴퓨터에서 "우주에서 부품이 타버려도 로켓이 날아가게 만들라"는 군사적 요구로 탄생했으며, 현재는 인터넷 뱅킹과 클라우드 아키텍처의 필수 생존 헌법이 되었다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │                 SPOF(단일 장애점)의 재앙 vs Fault Tolerance 아키텍처  │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │  [ 1. 결함 허용 미적용 (SPOF 존재) ] - 파멸의 징조                  │
-  │   User ──▶ [ L4 로드밸런서 (1대) ] ──▶ [ Web Server 1, 2 ]   │
-  │   - 방어력: Web 1번이 죽으면 L4가 Web 2번으로 보내서 생존 가능.           │
-  │   - 치명타: 💥 L4 로드밸런서 전원이 나감!                           │
-  │   ▶ 결과: 뒷단 Web이 1,000대 멀쩡히 살아있어도 입구가 막혀 시스템 100% 마비!│
-  │                                                             │
-  │  [ 2. 듀얼 구성 (Active-Standby) 결함 허용 구조 ]                 │
-  │                     ┌── 심장박동 감시 (Heartbeat) ──┐             │
-  │                     ▼                            ▼             │
-  │   User ──▶ [ Active L4 로드밸런서 ]       [ Standby L4 (대기) ] │
-  │                      │                            │            │
-  │                    (정상)                        (휴식)          │
-  │                                                             │
-  │   [ 💥 Active L4 고장 발생 (Failover 시퀀스) ]                  │
-  │   1. Standby L4: "어? 0.5초 동안 Active 놈의 심장박동이 끊겼네? 죽었군!"│
-  │   2. Standby L4가 즉시 Active의 IP(VIP) 주소를 자기가 탈취(Takeover)함!│
-  │   3. User는 에러 창 하나 보기도 전에 Standby L4가 연결을 받아 뒷단으로 쏴줌.│
-  │   ▶ 결과: L4가 물리적으로 불타 없어졌는데 시스템 중단(Downtime)은 0.1초! 🚀│
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |                 SPOF(단일 장애점)의 재앙 vs Fault Tolerance 아키텍처  |
+  +-------------------------------------------------------------+
+  |                                                             |
+  |  [ 1. 결함 허용 미적용 (SPOF 존재) ] - 파멸의 징조                  |
+  |   User ---> [ L4 로드밸런서 (1대) ] ---> [ Web Server 1, 2 ]   |
+  |   - 방어력: Web 1번이 죽으면 L4가 Web 2번으로 보내서 생존 가능.           |
+  |   - 치명타: 💥 L4 로드밸런서 전원이 나감!                           |
+  |   -> 결과: 뒷단 Web이 1,000대 멀쩡히 살아있어도 입구가 막혀 시스템 100% 마비!|
+  |                                                             |
+  |  [ 2. 듀얼 구성 (Active-Standby) 결함 허용 구조 ]                 |
+  |                     +-- 심장박동 감시 (Heartbeat) --+             |
+  |                     v                            v             |
+  |   User ---> [ Active L4 로드밸런서 ]       [ Standby L4 (대기) ] |
+  |                      |                            |            |
+  |                    (정상)                        (휴식)          |
+  |                                                             |
+  |   [ 💥 Active L4 고장 발생 (Failover 시퀀스) ]                  |
+  |   1. Standby L4: "어? 0.5초 동안 Active 놈의 심장박동이 끊겼네? 죽었군!"|
+  |   2. Standby L4가 즉시 Active의 IP(VIP) 주소를 자기가 탈취(Takeover)함!|
+  |   3. User는 에러 창 하나 보기도 전에 Standby L4가 연결을 받아 뒷단으로 쏴줌.|
+  |   -> 결과: L4가 물리적으로 불타 없어졌는데 시스템 중단(Downtime)은 0.1초! 🚀|
+  +-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 인프라 아키텍트의 설계 도면에서 단 하나의 선([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))이라도 발견되면 그 설계는 쓰레기통으로 직행한다. [결함 허용](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/)의 가장 기초적이고 완벽한 모델이 이 듀얼 구성(HA, High [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))이다. 두 대의 장비가 물리적으로 연결된 채 서로의 핑(Ping, 심장 박동)을 1초 단위로 체크한다. Active가 응답하지 않는 순간, Standby는 자신이 직접 메인 투수로 등판하여 죽은 놈의 가상 IP(VIP)와 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소까지 훔쳐 와 클라이언트가 장비 교체 사실조차 눈치채지 못하게 하는 '페일오버([Failover](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/))' 마술을 부린다. 이것이 1년 365일 중 단 5분의 다운타임만 허용하는 99.999% [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)의 물리적 실체다.
@@ -97,28 +97,28 @@ Fault Tolerance는 부품이 죽지 않게 기도하는 메타가 아니다. 무
 [결함 허용](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/) 아키텍처의 가장 치명적인 부작용은 "어설프게 감지했을 때 터지는 두 개의 뇌" 현상이다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 Split-Brain (두 개의 뇌) 참사와 펜싱(Fencing) 방어선      │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ 🚨 재앙 발생: 핑(Heartbeat) 랜선만 단선됨 ]                         │
-  │   ┌─── Active DB ──┐ (통신 단절 ⚡) ┌─── Standby DB ──┐              │
-  │   │  나 멀쩡히 살아있음!│   ◀...❌...▶   │  어? 핑 안 오네? 저놈 죽었군! │              │
-  │   │  (VIP: 10.0.0.1) │              │  내가 Active다! (Takeover)│              │
-  │   └──────┬─────────┘              └────────┬────────┘              │
-  │          │                                 │ (VIP: 10.0.0.1)     │
-  │          ▼                                 ▼                       │
-  │     [ 공용 스토리지 영역 (하나의 찰흙 덩어리를 두 명이 동시에 조각냄!) ]         │
-  │                                                                   │
-  │   ▶ 결과: 진짜로 죽은 게 아니라 통신만 끊겼을 뿐인데, 두 DB가 서로 자기가 왕이라며│
-  │           스토리지에 동시에 데이터를 쓰기 시작. 데이터베이스 1초 만에 걸레짝 파괴! │
-  │                                                                   │
-  │   [ 🛡️ 펜싱 (Fencing / STONITH) 해결책 ]                             │
-  │   - Standby DB의 분노: "저놈이 진짜 죽었는지 통신만 끊겼는지 모르겠다."       │
-  │   - STONITH 발동: "일단 내가 권력 잡기 전에, 전원 차단기에 원격 접속해서       │
-  │                   저놈(Active) 컴퓨터 전원 코드를 진짜로 확 뽑아버려라!!"    │
-  │   ▶ 결과: 구형 Active가 물리적으로 100% 셧다운된 걸 확인한 후에만 권력 승계!   │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 Split-Brain (두 개의 뇌) 참사와 펜싱(Fencing) 방어선      |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ 🚨 재앙 발생: 핑(Heartbeat) 랜선만 단선됨 ]                         |
+  |   +--- Active DB --+ (통신 단절 ⚡) +--- Standby DB --+              |
+  |   |  나 멀쩡히 살아있음!|   <-...❌...->   |  어? 핑 안 오네? 저놈 죽었군! |              |
+  |   |  (VIP: 10.0.0.1) |              |  내가 Active다! (Takeover)|              |
+  |   +------+---------+              +--------+--------+              |
+  |          |                                 | (VIP: 10.0.0.1)     |
+  |          v                                 v                       |
+  |     [ 공용 스토리지 영역 (하나의 찰흙 덩어리를 두 명이 동시에 조각냄!) ]         |
+  |                                                                   |
+  |   -> 결과: 진짜로 죽은 게 아니라 통신만 끊겼을 뿐인데, 두 DB가 서로 자기가 왕이라며|
+  |           스토리지에 동시에 데이터를 쓰기 시작. 데이터베이스 1초 만에 걸레짝 파괴! |
+  |                                                                   |
+  |   [ 🛡️ 펜싱 (Fencing / STONITH) 해결책 ]                             |
+  |   - Standby DB의 분노: "저놈이 진짜 죽었는지 통신만 끊겼는지 모르겠다."       |
+  |   - STONITH 발동: "일단 내가 권력 잡기 전에, 전원 차단기에 원격 접속해서       |
+  |                   저놈(Active) 컴퓨터 전원 코드를 진짜로 확 뽑아버려라!!"    |
+  |   -> 결과: 구형 Active가 물리적으로 100% 셧다운된 걸 확인한 후에만 권력 승계!   |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "Shoot The Other Node In The Head (상대방 노드의 머리에 총을 쏴라, STONITH)". 이것이 HA(High [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) 아키텍처의 가장 잔혹하고도 위대한 원칙이다. 두 대의 장비가 돌아가다 심장박동(Ping)이 끊기면, 대기 장비는 상대방이 죽었는지 아니면 랜선만 살짝 빠졌는지 알 도리가 없다. 이 모호한 상태에서 대기 장비가 성급하게 마스터 자리를 꿰차고 디스크에 글을 쓰면 두 개의 마스터가 하나의 스토리지를 찢어버리는 [스플릿 브레인](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/) 참사가 난다. 그래서 대기 노드는 자신이 깨어나기 직전에 반드시 특수 하드웨어([IPMI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/709_ipmi/) 관리 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))를 타고 들어가 기존 마스터 서버의 전원 릴레이를 쇼트시켜 완전한 물리적 죽음(Fencing)을 강제한 뒤에야 왕좌에 앉는다.
@@ -144,26 +144,26 @@ Fault Tolerance는 부품이 죽지 않게 기도하는 메타가 아니다. 무
    - <strong>아키텍트 판단 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/">서킷 브레이커</a>, <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/">Circuit Breaker</a> 도입)</strong>: 소프트웨어 레벨의 [결함 허용](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/) 방패를 들어야 한다. 아키텍트는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 통신 사이에 '[서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)(두꺼비집)' 패턴을 박아넣는다. 추천 서버가 3번 연속 타임아웃을 내면, 두꺼비집 스위치가 확 내려간다(Open). 이후 프론트 서버가 추천 서버를 찌르면 대기하지 않고 <strong>0.001초 만에 "안돼 돌아가(에러)"</strong>를 뱉어낸다. 프론트는 렉이 풀리고 대신 사용자에게 '기본 추천 목록([Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/))'을 뿌려준다. 한 서버가 죽었지만 시스템 전체는 생존하는 우아한 [결함 허용](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/)(Graceful Degradation)의 극치다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 인프라 생존력(Resilience) 강화를 위한 아키텍트 결정 트리     │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ 어떤 수준의 고가용성(High Availability, HA) 방패를 적용할 것인가? ]        │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      서버 한 대가 죽었을 때 1초의 끊김(Downtime)도 절대 용납할 수 없는가?       │
-  │          ├─ 예 ─────▶ 🚨 [ Active-Active 로드밸런싱 및 Multi-Master DB ]│
-  │          │             (구현 난이도 지옥, 충돌 해결 로직 필수. 구글 수준의 자본 필요)│
-  │          └─ 아니오 (장애 시 몇 초~1분 정도의 렉과 새로고침은 용인 가능)          │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      스토리지 데이터(디스크)가 실시간으로 동기화되어 보존되어야 하는가?           │
-  │          ├─ 예 ─────▶ 🟢 [ Active-Standby 듀얼링 + 원격 블록 복제(DRBD) ]│
-  │          │             (가장 현실적인 엔터프라이즈의 무적 백본 아키텍처)        │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ [ K8s Auto-healing (Stateless 컨테이너) ]    │
-  │                        (죽으면 버리고 새 컨테이너를 10초 만에 공장 스폰시킴)     │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 인프라 생존력(Resilience) 강화를 위한 아키텍트 결정 트리     |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ 어떤 수준의 고가용성(High Availability, HA) 방패를 적용할 것인가? ]        |
+  |                |                                                  |
+  |                v                                                  |
+  |      서버 한 대가 죽었을 때 1초의 끊김(Downtime)도 절대 용납할 수 없는가?       |
+  |          +- 예 ------> 🚨 [ Active-Active 로드밸런싱 및 Multi-Master DB ]|
+  |          |             (구현 난이도 지옥, 충돌 해결 로직 필수. 구글 수준의 자본 필요)|
+  |          +- 아니오 (장애 시 몇 초~1분 정도의 렉과 새로고침은 용인 가능)          |
+  |                |                                                  |
+  |                v                                                  |
+  |      스토리지 데이터(디스크)가 실시간으로 동기화되어 보존되어야 하는가?           |
+  |          +- 예 ------> 🟢 [ Active-Standby 듀얼링 + 원격 블록 복제(DRBD) ]|
+  |          |             (가장 현실적인 엔터프라이즈의 무적 백본 아키텍처)        |
+  |          |                                                        |
+  |          +- 아니오 ---> [ K8s Auto-healing (Stateless 컨테이너) ]    |
+  |                        (죽으면 버리고 새 컨테이너를 10초 만에 공장 스폰시킴)     |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "죽지 않는 시스템을 만들겠다"는 초보 아키텍트의 오만이다. 시니어 아키텍트의 설계 철학은 "언제든 죽어도 좋으니, 사용자 몰래 티 안 나게 부활하라"는 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)(Resilience)이다. 과거에는 고장 난 서버를 안 버리려고 HA 솔루션(Pacemaker, Corosync)으로 묶어서 살려내는 복잡한 짓을 했지만, 상태를 저장하지 않는([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) 현대의 웹 서버들은 K8s의 오토 힐링에 기대어 "죽으면 1초 만에 부수고 새 컨테이너를 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하는" 극단적이고 폭력적인 소모품 철학으로 [결함 허용](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/)을 달성하고 있다. 오직 상태를 가지는 DB(Stateful)만이 이 듀얼 구성의 무거운 십자가를 짊어진다.
@@ -211,12 +211,12 @@ Fault Tolerance는 부품이 죽지 않게 기도하는 메타가 아니다. 무
 
 ```text
 [람포트 타임스탬프 인과 관계 정렬]
-    │
-    ▼
+    |
+    v
 [시스템 아키텍처 결함 허용 (Fault Tolerance) 듀얼 구성]
-    │
-    ├──▶ [확장 개념 A]
-    └──▶ [확장 개념 B]
+    |
+    +---> [확장 개념 A]
+    +---> [확장 개념 B]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -233,7 +233,7 @@ Fault Tolerance는 부품이 죽지 않게 기도하는 메타가 아니다. 무
 
 **진행 상황**: 800 / 800
 
-← **이전**: [799. 람포트 타임스탬프 인과 관계 정렬 (Lamport Timestamp Happens Before Causality)](/knowledge-base/studynote/02_operating_system/11_exam_summary/799_lamport_timestamp_happens_before_causality/)
+<- **이전**: [799. 람포트 타임스탬프 인과 관계 정렬 (Lamport Timestamp Happens Before Causality)](/knowledge-base/studynote/02_operating_system/11_exam_summary/799_lamport_timestamp_happens_before_causality/)
 
 ✅ **마지막 글입니다.**
 

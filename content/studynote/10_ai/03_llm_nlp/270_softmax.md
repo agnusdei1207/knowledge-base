@@ -25,7 +25,7 @@ tags = ["studynote-ai"]
 소프트맥스 수식:
 
          e^(zᵢ)
-yᵢ = ─────────────    (i = 1, 2, ..., K)
+yᵢ = -------------    (i = 1, 2, ..., K)
        K
       Σ e^(zⱼ)
       j=1
@@ -40,18 +40,18 @@ yᵢ = ─────────────    (i = 1, 2, ..., K)
 
 단순 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) (Linear [Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)):
 ```
-yᵢ = zᵢ / Σzⱼ  ← 음수 처리 불가, 기울기 균일
+yᵢ = zᵢ / Σzⱼ  <- 음수 처리 불가, 기울기 균일
 ```
 
 소프트맥스 (지수 함수 활용):
 ```
-yᵢ = e^(zᵢ) / Σe^(zⱼ)  ← 음수 처리 가능, 큰 값 강조, 미분 용이
+yᵢ = e^(zᵢ) / Σe^(zⱼ)  <- 음수 처리 가능, 큰 값 강조, 미분 용이
 ```
 
 지수 함수 e^z를 사용함으로써:
 1. 음수 로짓(Logit, z)도 양수로 변환
-2. 큰 값과 작은 값의 차이를 증폭 → 승자 독식(Winner-takes-more) 효과
-3. 연속 미분 가능 → [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 적용 가능
+2. 큰 값과 작은 값의 차이를 증폭 -> 승자 독식(Winner-takes-more) 효과
+3. 연속 미분 가능 -> [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 적용 가능
 
 - **📢 섹션 요약 비유**: 소프트맥스는 시험 점수를 "반에서 몇 등인지 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)"로 변환하는 것 — 100점은 80점보다 훨씬 높은 1등 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 가지고, 모든 학생의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 합은 항상 100%가 된다.
 
@@ -62,23 +62,23 @@ yᵢ = e^(zᵢ) / Σe^(zⱼ)  ← 음수 처리 가능, 큰 값 강조, 미분 �
 ### 다중 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 출력층에서 Softmax 동작
 
 ```
-┌───────────────────────────────────────────────────────────────────┐
-│               Softmax 다중 클래스 분류 흐름                        │
-│                                                                   │
-│   은닉층 출력    로짓 (Logit, z)    소프트맥스 출력     예측 클래스 │
-│                                                                   │
-│              z₁ = 2.0  ──► e^2.0 = 7.39                          │
-│                                      ÷ 합계          ──► 개 : 70% │
-│   [FC Layer] z₂ = 1.0  ──► e^1.0 = 2.72 = 10.52  ──► 고양이: 26%│
-│                                                    ──► 새  :  4%  │
-│              z₃ = 0.1  ──► e^0.1 = 1.11                          │
-│                              합: 11.22                             │
-│                                                                   │
-│  확인: 7.39/11.22 = 0.659 ≈ 66%                                   │
-│        2.72/11.22 = 0.242 ≈ 24%                                   │
-│        1.11/11.22 = 0.099 ≈ 10%                                   │
-│        합계 = 100% ✓                                               │
-└───────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------+
+|               Softmax 다중 클래스 분류 흐름                        |
+|                                                                   |
+|   은닉층 출력    로짓 (Logit, z)    소프트맥스 출력     예측 클래스 |
+|                                                                   |
+|              z₁ = 2.0  --► e^2.0 = 7.39                          |
+|                                      ÷ 합계          --► 개 : 70% |
+|   [FC Layer] z₂ = 1.0  --► e^1.0 = 2.72 = 10.52  --► 고양이: 26%|
+|                                                    --► 새  :  4%  |
+|              z₃ = 0.1  --► e^0.1 = 1.11                          |
+|                              합: 11.22                             |
+|                                                                   |
+|  확인: 7.39/11.22 = 0.659 ≈ 66%                                   |
+|        2.72/11.22 = 0.242 ≈ 24%                                   |
+|        1.11/11.22 = 0.099 ≈ 10%                                   |
+|        합계 = 100% ✓                                               |
++-------------------------------------------------------------------+
 ```
 
 ### 수치 안정성: [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 방지
@@ -86,7 +86,7 @@ yᵢ = e^(zᵢ) / Σe^(zⱼ)  ← 음수 처리 가능, 큰 값 강조, 미분 �
 e^z 계산 시 z가 크면 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)([Overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)) 발생:
 
 ```
-z = [1000, 1001, 999] → e^1000 = 수치 폭발!
+z = [1000, 1001, 999] -> e^1000 = 수치 폭발!
 
 해결: 최대값 빼기 (Numerically Stable Softmax)
 c = max(z)
@@ -100,22 +100,22 @@ yᵢ = e^(zᵢ-c) / Σe^(zⱼ-c)
 ```
 소프트맥스 with 온도:  yᵢ = e^(zᵢ/T) / Σe^(zⱼ/T)
 
-T → 0 (낮은 온도): 분포가 날카로워짐 → argmax에 집중 (결정적)
+T -> 0 (낮은 온도): 분포가 날카로워짐 -> argmax에 집중 (결정적)
 T = 1 (기본값):    표준 소프트맥스
-T → ∞ (높은 온도): 분포가 균등해짐 → 랜덤 샘플링 (불확실)
+T -> ∞ (높은 온도): 분포가 균등해짐 -> 랜덤 샘플링 (불확실)
 ```
 
 ```
-┌───────────────────────────────────────────────────┐
-│        온도에 따른 소프트맥스 출력 변화             │
-│                                                   │
-│  로짓: z = [2.0, 1.0, 0.1]                        │
-│                                                   │
-│  T=0.5 (날카로움):  [0.92, 0.08, 0.00]  ← 확신 강 │
-│  T=1.0 (기본):      [0.66, 0.24, 0.10]  ← 기본    │
-│  T=2.0 (부드러움):  [0.46, 0.34, 0.20]  ← 불확실  │
-│  T=10  (균등화):    [0.36, 0.33, 0.31]  ← 거의 균등│
-└───────────────────────────────────────────────────┘
++---------------------------------------------------+
+|        온도에 따른 소프트맥스 출력 변화             |
+|                                                   |
+|  로짓: z = [2.0, 1.0, 0.1]                        |
+|                                                   |
+|  T=0.5 (날카로움):  [0.92, 0.08, 0.00]  <- 확신 강 |
+|  T=1.0 (기본):      [0.66, 0.24, 0.10]  <- 기본    |
+|  T=2.0 (부드러움):  [0.46, 0.34, 0.20]  <- 불확실  |
+|  T=10  (균등화):    [0.36, 0.33, 0.31]  <- 거의 균등|
++---------------------------------------------------+
 ```
 
 ### 소프트맥스 기울기 (야코비안 행렬)
@@ -162,7 +162,7 @@ T → ∞ (높은 온도): 분포가 균등해짐 → 랜덤 샘플링 (불확�
 
 ```
 K=2 소프트맥스:
-y₁ = e^z₁ / (e^z₁ + e^z₂) = 1 / (1 + e^(z₂-z₁)) = σ(z₁ - z₂) ← Sigmoid
+y₁ = e^z₁ / (e^z₁ + e^z₂) = 1 / (1 + e^(z₂-z₁)) = σ(z₁ - z₂) <- Sigmoid
 ```
 
 따라서 소프트맥스는 [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)([Logistic Regression](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/))의 다중 클래스 일반화다.
@@ -175,22 +175,22 @@ y₁ = e^z₁ / (e^z₁ + e^z₂) = 1 / (1 + e^(z₂-z₁)) = σ(z₁ - z₂) �
 
 ### 기술사 시험 핵심 논점
 
-1. **왜 Softmax인가**: 다중 클래스에서 "모든 클래스에 대한 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)의 합=1" 보장 필요 → 상호 배타적 클래스 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)에 필수
+1. **왜 Softmax인가**: 다중 클래스에서 "모든 클래스에 대한 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)의 합=1" 보장 필요 -> 상호 배타적 클래스 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)에 필수
 2. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/">크로스 엔트로피</a>와 결합 이유</strong>: Softmax + CE 기울기 = yᵢ - tᵢ (단순, 수치 안정)
 3. **온도 매개변수 활용**: [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)([Knowledge Distillation](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/))에서 교사 모델의 "소프트 레이블"을 높은 온도로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
-4. **과신뢰(Overconfidence) 문제**: Softmax 출력이 항상 합=1이라 틀려도 높은 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) → 교정([Calibration](/knowledge-base/studynote/10_ai/03_llm_nlp/230_digital_twin_simulation_calibration/)) 기법 필요
+4. **과신뢰(Overconfidence) 문제**: Softmax 출력이 항상 합=1이라 틀려도 높은 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) -> 교정([Calibration](/knowledge-base/studynote/10_ai/03_llm_nlp/230_digital_twin_simulation_calibration/)) 기법 필요
 
 ### 실무 활용 예시
 
 ```
 이미지 분류 (1,000개 클래스, ImageNet):
-로짓 z [1000차원] → Softmax → 확률 분포 → argmax → 예측 클래스
+로짓 z [1000차원] -> Softmax -> 확률 분포 -> argmax -> 예측 클래스
 
 자연어 처리 (다음 단어 예측):
-로짓 [어휘 크기=50,000] → Softmax(T) → 확률 분포 → 샘플링 → 다음 토큰
+로짓 [어휘 크기=50,000] -> Softmax(T) -> 확률 분포 -> 샘플링 -> 다음 토큰
 
 지식 증류 (Knowledge Distillation):
-교사 로짓 → Softmax(T=4) → 소프트 레이블 → 학생 모델 학습
+교사 로짓 -> Softmax(T=4) -> 소프트 레이블 -> 학생 모델 학습
 ```
 
 - **📢 섹션 요약 비유**: 소프트맥스는 포털 사이트의 "검색 결과 순위" — 검색어와의 관련성(로짓) 점수를 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 변환해 각 결과가 "정답일 가능성"을 퍼센트로 보여주는 것과 같다.
@@ -242,7 +242,7 @@ y₁ = e^z₁ / (e^z₁ + e^z₂) = 1 / (1 + e^(z₂-z₁)) = σ(z₁ - z₂) �
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [소프트맥스 (Softmax)] → [최적화·운영 자동화]
+[데이터 전처리] -> [소프트맥스 (Softmax)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -257,7 +257,7 @@ y₁ = e^z₁ / (e^z₁ + e^z₂) = 1 / (1 + e^(z₂-z₁)) = σ(z₁ - z₂) �
 
 **진행 상황**: 270 / 420
 
-← **이전**: [269. ReLU (Rectified Linear Unit)](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/)
-**다음**: [271. 순전파 (Forward Propagation)](/knowledge-base/studynote/10_ai/03_llm_nlp/271_forward_propagation/) →
+<- **이전**: [269. ReLU (Rectified Linear Unit)](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/)
+**다음**: [271. 순전파 (Forward Propagation)](/knowledge-base/studynote/10_ai/03_llm_nlp/271_forward_propagation/) ->
 
 ---

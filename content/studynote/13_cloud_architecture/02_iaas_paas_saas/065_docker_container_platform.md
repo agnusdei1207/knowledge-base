@@ -31,13 +31,13 @@ Docker는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cl
 
 ```text
 CLI
-  ↓
+  v
 Docker Engine
-  ↓
+  v
 containerd
-  ↓
+  v
 runc
-  ↓
+  v
 Linux Kernel
 ```
 
@@ -111,11 +111,11 @@ Docker를 활용하면 개발과 운영의 차이를 줄이고, 배포 표준을
 
 ```text
 Docker
-  ↓
+  v
 Image / Registry
-  ↓
+  v
 containerd / runc
-  ↓
+  v
 Container Platform
 ```
 
@@ -125,11 +125,11 @@ Container Platform
 
 ```text
 컨테이너 기술
-  ↓
+  v
 Docker
-  ↓
+  v
 OCI
-  ↓
+  v
 Container Platform
 ```
 
@@ -147,7 +147,7 @@ Container Platform
 
 **진행 상황**: 64 / 371
 
-← **이전**: [64. cgroups (Control Groups) - 컨테이너가 사용할 수 있는 CPU, 메모리 자원의 상한선을 제한(Limit)하고](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/064_cgroups_control_groups_resource_limit/)
-**다음**: [66. 도커 데몬 (Docker Daemon, dockerd) - 컨테이너 라이프사이클 관리 프로세스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/066_docker_daemon_dockerd/) →
+<- **이전**: [64. cgroups (Control Groups) - 컨테이너가 사용할 수 있는 CPU, 메모리 자원의 상한선을 제한(Limit)하고](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/064_cgroups_control_groups_resource_limit/)
+**다음**: [66. 도커 데몬 (Docker Daemon, dockerd) - 컨테이너 라이프사이클 관리 프로세스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/066_docker_daemon_dockerd/) ->
 
 ---

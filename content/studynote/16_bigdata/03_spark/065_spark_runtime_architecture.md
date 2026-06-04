@@ -79,17 +79,17 @@ tags = ["studynote-bigdata"]
 
 ```text
 [MapReduce — 디스크 기반 배치, 반복 연산 시 I/O 오버헤드 극심]
-    │
-    ▼
+    |
+    v
 [Apache Spark — 인메모리 RDD, Driver-Executor 분산 런타임 아키텍처]
-    │
-    ▼
+    |
+    v
 [DAG 스케줄러 (DAG Scheduler) — 스테이지·태스크 분리, 파이프라인 최적화]
-    │
-    ▼
+    |
+    v
 [클러스터 매니저 (YARN / Kubernetes) — 리소스 할당·컨테이너 수명 관리]
-    │
-    ▼
+    |
+    v
 [Spark Structured Streaming — 마이크로 배치로 배치·스트리밍 통합 처리]
 ```
 
@@ -107,7 +107,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 65 / 262
 
-← **이전**: [스파크 배포 모드 (Spark Deployment Modes)](/knowledge-base/studynote/16_bigdata/03_spark/064_spark_deployment_modes/)
-**다음**: [Spark Shuffle 최적화 (Shuffle Optimization)](/knowledge-base/studynote/16_bigdata/03_spark/066_spark_shuffle_optimization/) →
+<- **이전**: [스파크 배포 모드 (Spark Deployment Modes)](/knowledge-base/studynote/16_bigdata/03_spark/064_spark_deployment_modes/)
+**다음**: [Spark Shuffle 최적화 (Shuffle Optimization)](/knowledge-base/studynote/16_bigdata/03_spark/066_spark_shuffle_optimization/) ->
 
 ---

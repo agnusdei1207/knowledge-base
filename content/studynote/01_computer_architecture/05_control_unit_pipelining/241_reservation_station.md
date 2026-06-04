@@ -41,27 +41,27 @@ RS 엔트리는 [명령어](/knowledge-base/studynote/01_computer_architecture/0
 | Busy | 엔트리 사용 여부 | 새 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수용 가능 여부 결정 |
 | Dest/Tag | 결과를 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하는 태그 | 뒤 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)와 [재주문 버퍼](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/240_reorder_buffer/) ([Reorder Buffer](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/240_reorder_buffer/), ROB) 연결 |
 
-아래 그림은 RS가 <strong>발행 → 대기 → 웨이크업 → 선택 → 실행</strong>으로 이어지는 흐름을 보여준다.
+아래 그림은 RS가 <strong>발행 -> 대기 -> 웨이크업 -> 선택 -> 실행</strong>으로 이어지는 흐름을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│                 Reservation Station의 피연산자 대기 흐름                │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Decode/Rename                                                           │
-│    │                                                                     │
-│    ├─ Inst A ───────────────▶ [RS0] Qj=Load3  Vk=8    Busy=1             │
-│    └─ Inst B ───────────────▶ [RS1] Vj=5      Vk=2    Busy=1             │
-│                                                                          │
-│ CDB Broadcast                                                            │
-│    └─ "Tag=Load3, Value=12" ───────────────────────────────┐              │
-│                                                            ▼              │
-│                                             [RS0] Vj=12, Qj=empty         │
-│                                                                          │
-│ Ready Check                                                               │
-│    ├─ [RS0] Vj,Vk 준비 완료 ─┐                                            │
-│    └─ [RS1] Vj,Vk 준비 완료 ─┼─▶ Select Logic ─▶ Execute Unit            │
-│                              └─▶ 오래 기다린 엔트리/우선순위 기준 선택     │
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+|                 Reservation Station의 피연산자 대기 흐름                |
++--------------------------------------------------------------------------+
+| Decode/Rename                                                           |
+|    |                                                                     |
+|    +- Inst A ----------------> [RS0] Qj=Load3  Vk=8    Busy=1             |
+|    +- Inst B ----------------> [RS1] Vj=5      Vk=2    Busy=1             |
+|                                                                          |
+| CDB Broadcast                                                            |
+|    +- "Tag=Load3, Value=12" -------------------------------+              |
+|                                                            v              |
+|                                             [RS0] Vj=12, Qj=empty         |
+|                                                                          |
+| Ready Check                                                               |
+|    +- [RS0] Vj,Vk 준비 완료 -+                                            |
+|    +- [RS1] Vj,Vk 준비 완료 -+--> Select Logic --> Execute Unit            |
+|                              +--> 오래 기다린 엔트리/우선순위 기준 선택     |
++--------------------------------------------------------------------------+
 ```
 
 이 구조의 핵심 연산은 두 가지다. 첫째, **웨이크업 (Wakeup)** 단계에서 CDB를 감시하던 엔트리가 자기 태그와 일치하는 결과를 받으면 Q 필드를 비우고 V 필드에 실제 값을 채운다. 둘째, <strong>선택 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/">Select</a>)</strong> 단계에서 준비 완료된 엔트리들 중 실행 유닛에 보낼 대상을 고른다. 따라서 RS [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 단순 저장량보다 "얼마나 빠르게 깨우고, 그중 누굴 먼저 내보내는가"에 달려 있다.
@@ -142,27 +142,27 @@ RS의 가장 큰 효과는 실행 유닛을 가능한 한 쉬지 않게 만든�
 
 ```text
 순차 파이프라인
-    │
-    ▼
+    |
+    v
 데이터 해저드 (Data Hazard) 인식
-    │
-    ▼
+    |
+    v
 레지스터 리네이밍 (Register Renaming)
-    │
-    ▼
+    |
+    v
 예약역 (Reservation Station)
-    │
-    ├─▶ 토마술로 알고리즘 (Tomasulo's Algorithm)
-    │
-    ├─▶ 공통 데이터 버스 (Common Data Bus, CDB)
-    │
-    └─▶ 재주문 버퍼 (Reorder Buffer, ROB) 결합
-            │
-            ▼
+    |
+    +--> 토마술로 알고리즘 (Tomasulo's Algorithm)
+    |
+    +--> 공통 데이터 버스 (Common Data Bus, CDB)
+    |
+    +--> 재주문 버퍼 (Reorder Buffer, ROB) 결합
+            |
+            v
       대규모 비순차 실행 코어
 ```
 
-이 흐름은 "해저드 회피 → 의존성 완화 → 실행 직전 대기·선택 → 순서 복원 결합"으로 현대 파이프라인이 진화한 방향을 보여준다.
+이 흐름은 "해저드 회피 -> 의존성 완화 -> 실행 직전 대기·선택 -> 순서 복원 결합"으로 현대 파이프라인이 진화한 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -176,7 +176,7 @@ RS의 가장 큰 효과는 실행 유닛을 가능한 한 쉬지 않게 만든�
 
 **진행 상황**: 241 / 803
 
-← **이전**: [240. 재주문 버퍼 (ROB, Reorder Buffer)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/240_reorder_buffer/)
-**다음**: [242. 토마술로 알고리즘 (Tomasulo's Algorithm)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/242_tomasulo_algorithm/) →
+<- **이전**: [240. 재주문 버퍼 (ROB, Reorder Buffer)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/240_reorder_buffer/)
+**다음**: [242. 토마술로 알고리즘 (Tomasulo's Algorithm)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/242_tomasulo_algorithm/) ->
 
 ---

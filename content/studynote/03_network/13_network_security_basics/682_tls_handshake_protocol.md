@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [SSL/TLS 통신 모델 개요]
-    │
-    ▼
+    |
+    v
 [TLS Handshake 프로토콜]
-    │
-    └──▶ [Cipher Suite 모델 표기방식 예시…]
+    |
+    +---> [Cipher Suite 모델 표기방식 예시…]
 ```
 
 - **📢 섹션 요약 비유**: [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) Handshake 프로토콜은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -60,11 +60,11 @@ tags = ["studynote-network"]
 
 ```text
 [SSL/TLS 통신 모델 개요]
-    │
-    ▼
+    |
+    v
 [TLS Handshake 프로토콜]
-    │
-    └──▶ [Cipher Suite 모델 표기방식 예시…]
+    |
+    +---> [Cipher Suite 모델 표기방식 예시…]
 ```
 
 - **📢 섹션 요약 비유**: [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) Handshake 프로토콜의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -127,12 +127,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: SSL/TLS 통신 모델 개요]
-    │
-    ▼
+    |
+    v
 [현재 개념: TLS Handshake 프로토콜]
-    │
-    ├──▶ [확장 A: Cipher Suite 모델 표기방식 예시…]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
+    |
+    +---> [확장 A: Cipher Suite 모델 표기방식 예시…]
+    +---> [확장 B: 자동화된 신뢰 체계]
 ```
 
 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) Handshake 프로토콜는 SSL/[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 통신 모델 개요에서 출발해 현재 메커니즘을 정교화하고, 이후 Cipher Suite 모델 표기방식 예시…와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -149,7 +149,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 803 / 1120
 
-← **이전**: [681. SSL/TLS (Secure Socket Layer / Transport Layer Security) 통신 모델 개요](/knowledge-base/studynote/03_network/13_network_security_basics/681_ssl_tls_secure_socket_layer/)
-**다음**: [683. Cipher Suite 모델 표기방식 예시 (TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) 이해 방식](/knowledge-base/studynote/03_network/13_network_security_basics/683_cipher_suite_notation/) →
+<- **이전**: [681. SSL/TLS (Secure Socket Layer / Transport Layer Security) 통신 모델 개요](/knowledge-base/studynote/03_network/13_network_security_basics/681_ssl_tls_secure_socket_layer/)
+**다음**: [683. Cipher Suite 모델 표기방식 예시 (TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) 이해 방식](/knowledge-base/studynote/03_network/13_network_security_basics/683_cipher_suite_notation/) ->
 
 ---

@@ -42,22 +42,22 @@ tags = ["studynote-software-engineering"]
 아래 그림은 초안에서 베이스라인이 설정되고, 통제된 변경을 거쳐 다음 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)으로 이어지는 과정을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                baseline lifecycle: approved reference state                │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Draft artifacts                                                            │
-│   │                                                                        │
-│   ▼                                                                        │
-│ Review / verify / sign-off                                                 │
-│   │                                                                        │
-│   ▼                                                                        │
-│ Baseline v1.0  ──▶ development / test / release use this as reference      │
-│   │                                                                        │
-│   └── change request ──▶ impact analysis ──▶ approval / reject             │
-│                                         │                                  │
-│                                         ▼                                  │
-│                                   Baseline v1.1                            │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                baseline lifecycle: approved reference state                |
++----------------------------------------------------------------------------+
+| Draft artifacts                                                            |
+|   |                                                                        |
+|   v                                                                        |
+| Review / verify / sign-off                                                 |
+|   |                                                                        |
+|   v                                                                        |
+| Baseline v1.0  ---> development / test / release use this as reference      |
+|   |                                                                        |
+|   +-- change request ---> impact analysis ---> approval / reject             |
+|                                         |                                  |
+|                                         v                                  |
+|                                   Baseline v1.1                            |
++----------------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 베이스라인이 “절대 변경 금지”가 아니라 “통제되지 않은 직접 수정 금지”라는 점이다. 즉 승인된 베이스라인을 원본 삼아 개발·테스트·[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)를 수행하고, 변경이 필요하면 변경 요청과 영향도 분석을 거쳐 새로운 베이스라인으로 진화시킨다. 따라서 좋은 베이스라인 관리에는 [형상 식별](/knowledge-base/studynote/04_software_engineering/01_overview_principles/021_configuration_identification/), 승인 기록, [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 이력, 추적성 자료가 함께 있어야 한다.
@@ -129,17 +129,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 요구사항·설계 초안
-    │
-    ▼
+    |
+    v
 검토 · 승인 · 형상 식별
-    │
-    ▼
+    |
+    v
 베이스라인 (Baseline) 확정
-    │
-    ├── 개발 · 테스트 · 배포의 기준선
-    ├── 변경 요청 · 영향도 분석 · 승인
-    │
-    ▼
+    |
+    +-- 개발 · 테스트 · 배포의 기준선
+    +-- 변경 요청 · 영향도 분석 · 승인
+    |
+    v
 새로운 베이스라인과 추적성 유지
 ```
 
@@ -157,7 +157,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 159 / 973
 
-← **이전**: [158. 요구사항 관리 (Management) - 변경 통제, 버전 관리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/158_requirements_management_change_control/)
-**다음**: [160. 형상 통제 위원회 (CCB) 요구사항 변경 심사](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) →
+<- **이전**: [158. 요구사항 관리 (Management) - 변경 통제, 버전 관리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/158_requirements_management_change_control/)
+**다음**: [160. 형상 통제 위원회 (CCB) 요구사항 변경 심사](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) ->
 
 ---

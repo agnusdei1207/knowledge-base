@@ -12,7 +12,7 @@ tags = ["studynote-ai"]
 > **핵심 인사이트**
 > 1. t-SNE(t-distributed Stochastic Neighbor [Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))는 고차원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 국소적 구조(Local Structure)를 2~3차원으로 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)하는 비선형 [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/) 기법으로 — 유사한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인트를 가깝게, 상이한 포인트를 멀리 배치하여 클러스터 구조를 직관적으로 드러낸다.
 > 2. t-SNE의 핵심은 고차원 공간의 가우시안 분포 유사도와 저차원 공간의 t-분포(자유도 1, 코시 분포) 유사도 사이의 KL Divergence를 최소화하는 것으로 — t-분포의 두꺼운 꼬리(Heavy Tail)가 "군집 붕괴 문제(Crowding Problem)"를 해결하는 핵심이다.
-> 3. t-SNE는 [탐색적 데이터 분석](/knowledge-base/studynote/14_data_engineering/02_math_mining/062_eda_exploratory_data_analysis/)([EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/))과 모델 디버깅에는 강력하지만 — 퍼플렉시티(Perplexity) 하이퍼파라미터에 민감하고 전역 구조 보존이 약하며 계산량이 O(n²)이라 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 직접 적용이 어려워, UMAP이 실용적 대안으로 부상하고 있다.
+> 3. t-SNE는 [탐색적 데이터 분석](/knowledge-base/studynote/14_data_engineering/02_math_mining/062_eda_exploratory_data_analysis/)([EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/))과 모델 디버깅에는 강력하지만 — 퍼플렉시티(Perplexity) 하이퍼파라미터에 민감하고 전역 구조 보존이 약하며 계산량이 O(n^)이라 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 직접 적용이 어려워, UMAP이 실용적 대안으로 부상하고 있다.
 
 ---
 
@@ -23,7 +23,7 @@ t-SNE (t-distributed Stochastic Neighbor Embedding):
   van der Maaten & Hinton, 2008년 제안
 
 목적:
-  고차원 데이터 (100~수만 차원) → 2~3차원 시각화
+  고차원 데이터 (100~수만 차원) -> 2~3차원 시각화
   클러스터 구조 탐색
 
 SNE (Stochastic Neighbor Embedding):
@@ -36,8 +36,8 @@ SNE (Stochastic Neighbor Embedding):
 
 t-SNE 개선:
   저차원 공간에 t-분포 (자유도=1) 사용
-  → 두꺼운 꼬리로 멀리 떨어진 점들을 더 멀리 배치
-  → Crowding Problem 해결
+  -> 두꺼운 꼬리로 멀리 떨어진 점들을 더 멀리 배치
+  -> Crowding Problem 해결
 
 직관적 이해:
   1. 각 점을 중심으로 "이웃 확률 분포" 계산
@@ -50,7 +50,7 @@ t-SNE 개선:
      Gradient Descent로 저차원 좌표 최적화
 ```
 
-> 📢 **섹션 요약 비유**: t-SNE는 3D 지도 → 2D 지도 변환 — 나라(고차원 점)들을 비슷한 것끼리 가깝게, 다른 것끼리 멀게 배치. t-분포는 섬나라(멀리 떨어진 그룹)를 바다 건너 확실히 분리.
+> 📢 **섹션 요약 비유**: t-SNE는 3D 지도 -> 2D 지도 변환 — 나라(고차원 점)들을 비슷한 것끼리 가깝게, 다른 것끼리 멀게 배치. t-분포는 섬나라(멀리 떨어진 그룹)를 바다 건너 확실히 분리.
 
 ---
 
@@ -63,22 +63,22 @@ t-SNE 알고리즘 상세:
   입력: N개의 고차원 점 x1, ..., xN
 
   조건부 확률 (가우시안):
-  P(j|i) = exp(-||xi-xj||² / 2σi²) / Σk≠i exp(-||xi-xk||² / 2σi²)
+  P(j|i) = exp(-||xi-xj||^ / 2σi^) / Σk≠i exp(-||xi-xk||^ / 2σi^)
 
   σi: 퍼플렉시티(Perplexity)에 의해 결정
-  P(ij) = (P(j|i) + P(i|j)) / 2N  ← 대칭화
+  P(ij) = (P(j|i) + P(i|j)) / 2N  <- 대칭화
 
 2단계: 저차원 유사도 계산
   저차원 좌표: y1, ..., yN (초기화: 랜덤 or PCA)
 
   t-분포 기반:
-  Q(ij) = (1 + ||yi-yj||²)^(-1) / Σk≠l (1 + ||yk-yl||²)^(-1)
+  Q(ij) = (1 + ||yi-yj||^)^(-1) / Σk≠l (1 + ||yk-yl||^)^(-1)
 
 3단계: KL Divergence 최소화
   C = KL(P || Q) = Σij P(ij) log(P(ij)/Q(ij))
 
   Gradient:
-  dC/dyi = 4 Σj (P(ij) - Q(ij)) (yi-yj) (1+||yi-yj||²)^(-1)
+  dC/dyi = 4 Σj (P(ij) - Q(ij)) (yi-yj) (1+||yi-yj||^)^(-1)
 
   경사하강법으로 반복 최적화
 
@@ -93,9 +93,9 @@ t-SNE 알고리즘 상세:
   대규모: 100 이상
 
 계산 복잡도:
-  기본: O(n²)
+  기본: O(n^)
   Barnes-Hut 근사: O(n log n)
-  → 10만 개 이상 데이터에는 별도 최적화 필요
+  -> 10만 개 이상 데이터에는 별도 최적화 필요
 ```
 
 > 📢 **섹션 요약 비유**: t-SNE [KL Divergence](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/153_kl_divergence/) 최소화는 지그소 퍼즐 맞추기 — 원본 사진(고차원 P)과 만들어진 퍼즐(저차원 Q)이 최대한 일치하도록 조각 위치를 조금씩 조정.
@@ -118,7 +118,7 @@ t-SNE:
   장점: 클러스터 구조 시각화 강력
   단점:
     - 전역 구조 보존 약함 (클러스터 간 거리 무의미)
-    - O(n²) 계산 복잡도
+    - O(n^) 계산 복잡도
     - 하이퍼파라미터 민감 (Perplexity)
     - 재현성 없음 (랜덤 초기화)
     - 새로운 점 추가 시 재실행 필요
@@ -160,7 +160,7 @@ t-SNE 오용 패턴:
 1. 클러스터 간 거리 해석:
    잘못: "클러스터 A와 B가 C보다 더 유사하다"
    이유: t-SNE는 전역 구조 보존 안 함
-   → 클러스터 간 거리는 무의미
+   -> 클러스터 간 거리는 무의미
 
 2. 클러스터 크기 해석:
    잘못: "A 클러스터가 B보다 크다"
@@ -173,11 +173,11 @@ t-SNE 오용 패턴:
 
 4. 노이즈 클러스터 착시:
    작은 점 하나가 별개 클러스터로 보이는 경우
-   → 실제 아웃라이어인지 확인 필요
+   -> 실제 아웃라이어인지 확인 필요
 
 5. 랜덤 초기화 의존:
    매번 다른 레이아웃
-   → 결론 전에 여러 번 실행, 일관된 패턴 확인
+   -> 결론 전에 여러 번 실행, 일관된 패턴 확인
 
 올바른 t-SNE 사용:
   - "이 데이터에 클러스터 구조가 있는가?" 탐색
@@ -201,7 +201,7 @@ BERT 텍스트 임베딩 t-SNE 시각화:
   20,000개 뉴스 기사
   카테고리: 정치, 경제, 스포츠, 연예, IT, 의학
 
-  BERT 임베딩: 각 기사 → 768차원 벡터
+  BERT 임베딩: 각 기사 -> 768차원 벡터
 
 t-SNE 적용:
   from sklearn.manifold import TSNE
@@ -210,12 +210,12 @@ t-SNE 적용:
   # PCA로 사전 압축 (100차원, 속도 향상)
   from sklearn.decomposition import PCA
   pca = PCA(n_components=100)
-  X_pca = pca.fit_transform(X_bert)  # (20000, 768) → (20000, 100)
+  X_pca = pca.fit_transform(X_bert)  # (20000, 768) -> (20000, 100)
 
   # t-SNE
   tsne = TSNE(n_components=2, perplexity=40,
               n_iter=1000, random_state=42)
-  X_tsne = tsne.fit_transform(X_pca)  # (20000, 100) → (20000, 2)
+  X_tsne = tsne.fit_transform(X_pca)  # (20000, 100) -> (20000, 2)
 
   # 시각화
   plt.figure(figsize=(12, 8))
@@ -312,7 +312,7 @@ TensorBoard Embedding Projector
 
 **진행 상황**: 44 / 420
 
-← **이전**: [043. SVD — 특이값 분해 (Singular Value Decomposition)](/knowledge-base/studynote/10_ai/01_ai_basics/043_svd/)
-**다음**: [045. K-평균 군집화 — K-Means Clustering](/knowledge-base/studynote/10_ai/01_ai_basics/045_kmeans/) →
+<- **이전**: [043. SVD — 특이값 분해 (Singular Value Decomposition)](/knowledge-base/studynote/10_ai/01_ai_basics/043_svd/)
+**다음**: [045. K-평균 군집화 — K-Means Clustering](/knowledge-base/studynote/10_ai/01_ai_basics/045_kmeans/) ->
 
 ---

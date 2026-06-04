@@ -32,16 +32,16 @@ tags = ["studynote-software-engineering"]
 다음은 [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/) [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)) 비동의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                  이벤트 버스 카프카(Kafka) 비동                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  이벤트 버스 카프카(Kafka) 비동                        |
++-------------------------------------------------------------+
+|                                                             |
+|  [입력/요구사항] ---> [핵심 처리 과정] ---> [출력/결과물]  |
+|       |                    |                    |          |
+|       v                    v                    v          |
+|   요구 분석           설계·적용           품질 검증        |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램은 [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/) [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)) 비동가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
@@ -134,21 +134,21 @@ RabbitMQ가 '똑똑한 우체국'이라면, [카프카](/knowledge-base/studynot
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 이벤트 버스 카프카(Kafka) 비동기 내결함성 설계 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -162,7 +162,7 @@ RabbitMQ가 '똑똑한 우체국'이라면, [카프카](/knowledge-base/studynot
 
 **진행 상황**: 963 / 973
 
-← **이전**: [789. 클린 아키텍처 엔티티 유스케이스 프레젠테이션 계층 분리](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/789_clean_architecture_entity_usecase/)
-**다음**: [791. 서비스 지향 아키텍처(SOA) ESB 성능 병목 한계](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/791_soa_esb_performance_bottleneck/) →
+<- **이전**: [789. 클린 아키텍처 엔티티 유스케이스 프레젠테이션 계층 분리](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/789_clean_architecture_entity_usecase/)
+**다음**: [791. 서비스 지향 아키텍처(SOA) ESB 성능 병목 한계](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/791_soa_esb_performance_bottleneck/) ->
 
 ---

@@ -30,15 +30,15 @@ PO가 없으면 백로그는 [이해관계자](/knowledge-base/studynote/04_soft
 
 ```text
 Stakeholders
-  ↓
+  v
 Product Vision
-  ↓
+  v
 Product Backlog
-  ↓
+  v
 Priority / Acceptance Criteria
-  ↓
+  v
 Development Team
-  ↓
+  v
 Feedback
 ```
 
@@ -107,11 +107,11 @@ PO가 제대로 작동하면 팀은 덜 흔들리고, [스프린트](/knowledge-
 
 ```text
 Stakeholders
-  ↓
+  v
 Product Owner
-  ↓
+  v
 Product Backlog
-  ↓
+  v
 Sprint / Increment
 ```
 
@@ -121,11 +121,11 @@ Sprint / Increment
 
 ```text
 요구사항 수집
-  ↓
+  v
 우선순위 결정
-  ↓
+  v
 백로그 관리
-  ↓
+  v
 가치 중심 제품 운영
 ```
 
@@ -143,7 +143,7 @@ Sprint / Increment
 
 **진행 상황**: 63 / 973
 
-← **이전**: [62. 스크럼 (Scrum) 프레임워크 - 역할, 이벤트, 산출물](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)
-**다음**: [64. 스크럼 마스터 (Scrum Master) - 가이드, 장애 제거](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/064_scrum_master_sm/) →
+<- **이전**: [62. 스크럼 (Scrum) 프레임워크 - 역할, 이벤트, 산출물](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)
+**다음**: [64. 스크럼 마스터 (Scrum Master) - 가이드, 장애 제거](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/064_scrum_master_sm/) ->
 
 ---

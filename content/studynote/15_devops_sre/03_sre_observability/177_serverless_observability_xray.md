@@ -24,14 +24,14 @@ tags = ["studynote-devops-sre"]
 문제는 서버가 사라진다고 원인까지 사라지는 것은 아니라는 점이다. 사용자는 단지 "응답이 느리다"고 느끼지만 실제 원인은 [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/), 함수 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 한도, 외부 [Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐 적체, 재시도 폭증 중 어디에든 있을 수 있다. 특히 비동기 이벤트 흐름에서는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)만으로 요청의 인과 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 이어 붙이기 어렵다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Serverless trace가 끊어지기 쉬운 지점                         │
-├──────────────────────────────────────────────────────────────┤
-│ API Gateway -> Lambda A -> SQS Queue -> Lambda B -> DB       │
-│                cold start     async gap       downstream call│
-│                                                              │
-│ 서버는 사라져도 요청 원인은 남으므로 context가 핵심 키가 됨   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Serverless trace가 끊어지기 쉬운 지점                         |
++--------------------------------------------------------------+
+| API Gateway -> Lambda A -> SQS Queue -> Lambda B -> DB       |
+|                cold start     async gap       downstream call|
+|                                                              |
+| 서버는 사라져도 요청 원인은 남으므로 context가 핵심 키가 됨   |
++--------------------------------------------------------------+
 ```
 
 AWS X-Ray가 중요한 이유는 이 단절을 "요청 ID를 가진 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 맵"으로 바꿔 주기 때문이다. 루트 세그먼트([Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/))와 하위 세그먼트(Subsegment)를 통해 어느 함수의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화가 느렸는지, 어느 다운스트림 호출이 병목인지, 비동기 경계에서 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)가 끊겼는지를 한눈에 볼 수 있다.
@@ -47,18 +47,18 @@ AWS X-Ray가 중요한 이유는 이 단절을 "요청 ID를 가진 [서비스](
 아래 그림은 동기 호출과 비동기 경계를 모두 포함한 전형적 구성을 보여준다.
 
 ```text
-┌─────────────┐   trace header   ┌──────────────────────┐
-│ API Gateway │────────────────▶ │ Lambda A             │
-└──────┬──────┘                  │ Init / Handler       │
-       │                         │ DynamoDB / SQS span  │
-       ▼                         └─────────┬────────────┘
-  X-Ray Root Segment                        │ message attr
-                                            ▼
-                                  ┌──────────────────────┐
-                                  │ Lambda B             │
-                                  │ HTTP / DB subsegment │
-                                  └─────────┬────────────┘
-                                            ▼
++-------------+   trace header   +----------------------+
+| API Gateway |-----------------> | Lambda A             |
++------+------+                  | Init / Handler       |
+       |                         | DynamoDB / SQS span  |
+       v                         +---------+------------+
+  X-Ray Root Segment                        | message attr
+                                            v
+                                  +----------------------+
+                                  | Lambda B             |
+                                  | HTTP / DB subsegment |
+                                  +---------+------------+
+                                            v
                             X-Ray Service Map + Logs + Metrics
 ```
 
@@ -153,17 +153,17 @@ X-Ray의 어노테이션과 [메타데이터](/knowledge-base/studynote/05_datab
 
 ```text
 호스트 에이전트 중심 모니터링
-    │
-    ▼
+    |
+    v
 CloudWatch Metrics / Logs
-    │
-    ▼
+    |
+    v
 AWS X-Ray 기반 분산 추적
-    │
-    ▼
+    |
+    v
 OpenTelemetry + Async Context Propagation
-    │
-    ▼
+    |
+    v
 SLO 기반 Serverless Operations
 ```
 
@@ -181,7 +181,7 @@ SLO 기반 Serverless Operations
 
 **진행 상황**: 177 / 373
 
-← **이전**: [176. 분산 DB 쿼리 플랜 지연 역추적 (Slow Query Tracing)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/176_slow_query_distributed_db_tracing/)
-**다음**: [178. 그라파나 대시보드 코드화 (Grafana Dashboard as Code) 프로비저닝](/knowledge-base/studynote/15_devops_sre/03_sre_observability/178_grafana_dashboard_as_code/) →
+<- **이전**: [176. 분산 DB 쿼리 플랜 지연 역추적 (Slow Query Tracing)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/176_slow_query_distributed_db_tracing/)
+**다음**: [178. 그라파나 대시보드 코드화 (Grafana Dashboard as Code) 프로비저닝](/knowledge-base/studynote/15_devops_sre/03_sre_observability/178_grafana_dashboard_as_code/) ->
 
 ---

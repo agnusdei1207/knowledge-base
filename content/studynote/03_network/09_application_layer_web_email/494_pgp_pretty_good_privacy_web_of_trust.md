@@ -31,33 +31,33 @@ tags = ["studynote-network"]
   2. <strong><a href="/knowledge-base/studynote/09_security/03_network_security/110_rsa/">RSA</a> 공개키 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>의 대중화</strong>: 군대나 은행의 전유물이던 비대칭 키 암호화 수학 공식이 개인용 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 연산력으로도 1초 만에 풀릴 만큼 하드웨어가 발전했다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          PGP의 동작 원리 (하이브리드 암호화 + 압축의 융합)            │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ ✉️ [ 송신자: 앨리스의 PC ]                                       │
-│                                                             │
-│ 1️⃣ ZIP 압축: 평문 편지 10MB짜리를 3MB로 쫙 압축시킴. (통신비 절약)        │
-│ 2️⃣ 서명(Signature): 압축된 편지에 앨리스의 '개인키'로 도장을 쾅 찍음.    │
-│                    ➔ (이 편지는 앨리스가 보낸 거 100% 맞음 보증)     │
-│ 3️⃣ 암호화(Encryption): 도장 찍힌 편지를 '랜덤 일회용 대칭키(Session Key)'│
-│                      로 0.01초 만에 꽁꽁 잠가버림. (외계어 변환)      │
-│ 4️⃣ 키 암호화: 그 1회용 대칭키를 **'수신자(밥)의 공개키(Public Key)'**로 │
-│              한 번 더 감싸서 자물쇠를 채움.                        │
-│                                                             │
-│ ➔ 🌟 이제 이 외계어 텍스트 덩어리를 인터넷망에 휙 던짐!                  │
-│    (구글 해커, 미국 CIA가 가로채도 절대 못 푸는 무적의 데이터 덩어리 완성) │
-│                                                             │
-│ ----------------------------------------------------------- │
-│                                                             │
-│ 🕵️‍♂️ [ 수신자: 밥의 PC ]                                        │
-│                                                             │
-│ 1️⃣ 키 복호화: 밥은 자신의 '개인키(Private Key)'를 써서 자물쇠를 부수고   │
-│              앨리스가 숨겨둔 '1회용 대칭키'를 쏙 빼냄.                │
-│ 2️⃣ 메시지 복호화: 그 대칭키로 외계어 편지를 찰칵 열어서 원상 복구시킴.     │
-│ 3️⃣ 도장 확인: 앨리스의 공개키로 도장을 스캔 ➔ "오 진짜 앨리스가 보냈네!" │
-│ 4️⃣ 압축 해제: ZIP을 풀어서 10MB짜리 편지를 읽음.                     │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          PGP의 동작 원리 (하이브리드 암호화 + 압축의 융합)            |
++-------------------------------------------------------------+
+|                                                             |
+| ✉️ [ 송신자: 앨리스의 PC ]                                       |
+|                                                             |
+| 1️⃣ ZIP 압축: 평문 편지 10MB짜리를 3MB로 쫙 압축시킴. (통신비 절약)        |
+| 2️⃣ 서명(Signature): 압축된 편지에 앨리스의 '개인키'로 도장을 쾅 찍음.    |
+|                    ➔ (이 편지는 앨리스가 보낸 거 100% 맞음 보증)     |
+| 3️⃣ 암호화(Encryption): 도장 찍힌 편지를 '랜덤 일회용 대칭키(Session Key)'|
+|                      로 0.01초 만에 꽁꽁 잠가버림. (외계어 변환)      |
+| 4️⃣ 키 암호화: 그 1회용 대칭키를 **'수신자(밥)의 공개키(Public Key)'**로 |
+|              한 번 더 감싸서 자물쇠를 채움.                        |
+|                                                             |
+| ➔ 🌟 이제 이 외계어 텍스트 덩어리를 인터넷망에 휙 던짐!                  |
+|    (구글 해커, 미국 CIA가 가로채도 절대 못 푸는 무적의 데이터 덩어리 완성) |
+|                                                             |
+| ----------------------------------------------------------- |
+|                                                             |
+| 🕵️‍♂️ [ 수신자: 밥의 PC ]                                        |
+|                                                             |
+| 1️⃣ 키 복호화: 밥은 자신의 '개인키(Private Key)'를 써서 자물쇠를 부수고   |
+|              앨리스가 숨겨둔 '1회용 대칭키'를 쏙 빼냄.                |
+| 2️⃣ 메시지 복호화: 그 대칭키로 외계어 편지를 찰칵 열어서 원상 복구시킴.     |
+| 3️⃣ 도장 확인: 앨리스의 공개키로 도장을 스캔 ➔ "오 진짜 앨리스가 보냈네!" |
+| 4️⃣ 압축 해제: ZIP을 풀어서 10MB짜리 편지를 읽음.                     |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 앞서 배운 S/MIME과 본질적인 작동 방식(하이브리드 암호화)은 소름 돋게 똑같다. 대칭키로 무거운 짐을 싸고, 공개키로 열쇠만 감싸는 천재적인 트레이드오프다. PGP의 차별점은 속도 최적화를 위해 맨 처음에 <strong>ZIP <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/">Compression</a>)</strong>을 치고 들어간다는 점이다. [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)을 하면 텍스트의 중복 패턴이 사라지기 때문에, 해커가 암호문을 빈도수 분석법(Crypto-analysis)으로 해독하려는 시도를 원천적으로 차단하는 암호학적 시너지까지 터진다. 이 모든 과정은 GPG(GNU Privacy Guard) 같은 클라이언트 프로그램 앱 단에서 사용자 몰래 눈 깜짝할 새 벌어진다.
@@ -83,11 +83,11 @@ PGP를 기술사나 보안 시험에서 만났을 때 써야 할 0순위 키워�
 
 ```text
 [S/MIME]
-    │
-    ▼
+    |
+    v
 [PGP]
-    │
-    └──▶ [SPF]
+    |
+    +---> [SPF]
 ```
 
 - **📢 섹션 요약 비유**: PGP의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -124,30 +124,30 @@ PGP가 30년 넘게 해커들의 장난감에 머물고 B2B 엔터프라이즈�
    - **판단**: 경찰이 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 열어보니 `-----BEGIN PGP MESSAGE-----` 로 시작하는 외계어 알파벳 덩어리뿐이었다. 범죄자들은 자기들끼리 PGP 공개키만 텍스트로 교환한 뒤, 모든 흥정과 계좌 번호를 PGP로 꽁꽁 잠가서 쪽지로 핑퐁 치고 있었다. 다크웹 서버가 100번 털려도 서버 하드에는 껍데기 외계어만 저장([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) at [Rest](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) Encryption)되어 있으므로, 경찰이 A나 B의 집을 습격해 컴퓨터(개인키)를 물리적으로 압수하지 않는 이상 수사는 영원히 교착 상태에 빠진다. 국가 기관을 바보로 만드는 극강의 PGP 위력이다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │         실무 아키텍처: 메일 내용이 PGP 암호화/서명되어 날아가는 쌩얼 구조 │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │ [ 해커가 와이파이 망에서 스니핑(가로채기)한 앨리스의 메일 본문 ]        │
-  │                                                             │
-  │ -----BEGIN PGP SIGNED MESSAGE-----                           │
-  │ Hash: SHA256                                                │
-  │                                                             │
-  │ 내일 밤 10시에 남산 타워 밑에서 현찰 10억 들고 만나.               │
-  │                                                             │
-  │ -----BEGIN PGP SIGNATURE-----                               │
-  │ iQIzBAEBCAAdFiEEd9HXYZ... (이하 10줄의 외계어 알파벳 더미)       │
-  │ X9zKw8Lp+m3G2A==                                            │
-  │ -----END PGP SIGNATURE-----                                 │
-  │                                                             │
-  │ 🌟 아키텍트 분석: 이건 '암호화'는 안 하고 '서명(Signature)'만 한 메일이다.│
-  │ 본문("내일 밤...")은 평문이라 해커도 다 읽었다. 단, 저 밑의 PGP 서명 도장│
-  │ 블록이 붙어있기 때문에, 수신자는 앨리스의 공개키로 "진짜 앨리스가 보낸 거   │
-  │ 맞네! 사칭이 아니네!" 라고 부인방지(무결성)를 증명받을 수 있다.           │
-  │                                                             │
-  │ (만약 '암호화'까지 걸었다면 본문 한글 자체가 안 보이고 PGP MESSAGE 라는   │
-  │  블록부터 시작해 전체가 싹 다 외계어로 변한다.)                         │
-└─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |         실무 아키텍처: 메일 내용이 PGP 암호화/서명되어 날아가는 쌩얼 구조 |
+  +-------------------------------------------------------------+
+  |                                                             |
+  | [ 해커가 와이파이 망에서 스니핑(가로채기)한 앨리스의 메일 본문 ]        |
+  |                                                             |
+  | -----BEGIN PGP SIGNED MESSAGE-----                           |
+  | Hash: SHA256                                                |
+  |                                                             |
+  | 내일 밤 10시에 남산 타워 밑에서 현찰 10억 들고 만나.               |
+  |                                                             |
+  | -----BEGIN PGP SIGNATURE-----                               |
+  | iQIzBAEBCAAdFiEEd9HXYZ... (이하 10줄의 외계어 알파벳 더미)       |
+  | X9zKw8Lp+m3G2A==                                            |
+  | -----END PGP SIGNATURE-----                                 |
+  |                                                             |
+  | 🌟 아키텍트 분석: 이건 '암호화'는 안 하고 '서명(Signature)'만 한 메일이다.|
+  | 본문("내일 밤...")은 평문이라 해커도 다 읽었다. 단, 저 밑의 PGP 서명 도장|
+  | 블록이 붙어있기 때문에, 수신자는 앨리스의 공개키로 "진짜 앨리스가 보낸 거   |
+  | 맞네! 사칭이 아니네!" 라고 부인방지(무결성)를 증명받을 수 있다.           |
+  |                                                             |
+  | (만약 '암호화'까지 걸었다면 본문 한글 자체가 안 보이고 PGP MESSAGE 라는   |
+  |  블록부터 시작해 전체가 싹 다 외계어로 변한다.)                         |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** PGP 툴이 이메일의 텍스트 본문에 어떤 짓을 해놓는지 보여주는 구조다. PGP는 S/MIME처럼 메일 서버 헤더([MIME](/knowledge-base/studynote/03_network/09_application_layer_web_email/492_mime_multipurpose_internet_mail_extensions/) Type)를 교묘하게 건드려서 투명하게 작동하는 우아함이 없다. 그냥 이메일 `본문(Body)` 텍스트 에디터 창에 저 거대한 암호문 블록 덩어리를 냅다 복붙(Paste)해서 통째로 밀어 던져버리는 원시적이고 투박한 텍스트 방식([ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) Armor)이다. 덕분에 메일 서버가 어떤 구형이든 상관없고, 심지어 카카오톡 채팅창에 저 텍스트 덩어리를 복사해서 보내도 복호화 앱만 있으면 완벽하게 비밀 통신이 성립하는 미친듯한 생존성(Platform Agnostic)을 자랑한다.
@@ -198,12 +198,12 @@ PGP가 30년 넘게 해커들의 장난감에 머물고 B2B 엔터프라이즈�
 
 ```text
 [선행 개념: S/MIME]
-    │
-    ▼
+    |
+    v
 [현재 개념: PGP]
-    │
-    ├──▶ [확장 A: SPF]
-    └──▶ [확장 B: 지능형 애플리케이션 전달]
+    |
+    +---> [확장 A: SPF]
+    +---> [확장 B: 지능형 애플리케이션 전달]
 ```
 
 PGP는 S/MIME에서 출발해 현재 메커니즘을 정교화하고, 이후 SPF와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -220,7 +220,7 @@ PGP는 S/MIME에서 출발해 현재 메커니즘을 정교화하고, 이후 SPF
 
 **진행 상황**: 615 / 1120
 
-← **이전**: [493. S/MIME](/knowledge-base/studynote/03_network/09_application_layer_web_email/493_smime_secure_multipurpose_internet_mail_extensions/)
-**다음**: [495. SPF (Sender Policy Framework)](/knowledge-base/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/) →
+<- **이전**: [493. S/MIME](/knowledge-base/studynote/03_network/09_application_layer_web_email/493_smime_secure_multipurpose_internet_mail_extensions/)
+**다음**: [495. SPF (Sender Policy Framework)](/knowledge-base/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/) ->
 
 ---

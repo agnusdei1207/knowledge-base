@@ -47,20 +47,20 @@ ACPI의 시작점은 테이블이다. [펌웨어](/knowledge-base/studynote/02_o
 아래 그림은 ACPI의 제어 경로를 단순화한 것이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                      ACPI control loop                            │
-├────────────────────────────────────────────────────────────────────┤
-│ Firmware tables : RSDP -> XSDT -> DSDT / SSDT / FADT             │
-│                                  │                                │
-│                                  ▼                                │
-│                     ACPI interpreter in OS kernel                 │
-│                                  │                                │
-│      ┌──────────────┬────────────┼──────────────┬──────────────┐  │
-│      ▼              ▼            ▼              ▼              │  │
-│   S-state        C-state      P-state       Thermal zone       │  │
-│      │              │            │              │              │  │
-│      └──────────────┴──── SCI / GPE events ────┴──────────────┘  │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                      ACPI control loop                            |
++--------------------------------------------------------------------+
+| Firmware tables : RSDP -> XSDT -> DSDT / SSDT / FADT             |
+|                                  |                                |
+|                                  v                                |
+|                     ACPI interpreter in OS kernel                 |
+|                                  |                                |
+|      +--------------+------------+--------------+--------------+  |
+|      v              v            v              v              |  |
+|   S-state        C-state      P-state       Thermal zone       |  |
+|      |              |            |              |              |  |
+|      +--------------+---- SCI / GPE events ----+--------------+  |
++--------------------------------------------------------------------+
 ```
 
 상태 체계도 함께 봐야 한다. 시스템 전반의 S-state는 S0 동작, S3 suspend-to-RAM, S4 hibernation, S5 soft off처럼 이해할 수 있고, CPU는 C-state로 [idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) 깊이를, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 P-state로 동작 수준을 조절한다. 장치별 전원은 D-state로 관리한다. 즉 ACPI는 단일 절전 버튼 규격이 아니라, 시스템·CPU·장치를 함께 다루는 계층형 제어 모델이다.
@@ -137,17 +137,17 @@ ACPI가 잘 구현되면 [운영체제](/knowledge-base/studynote/02_operating_s
 
 ```text
 BIOS 중심 APM 전력 관리
-    │
-    ▼
+    |
+    v
 펌웨어 테이블 기반 하드웨어 기술
-    │
-    ▼
+    |
+    v
 OSPM 중심 ACPI 제어 모델
-    │
-    ▼
+    |
+    v
 S-state · C-state · thermal 통합
-    │
-    ▼
+    |
+    v
 Modern Standby · hotplug · 서버 전력 최적화
 ```
 
@@ -165,7 +165,7 @@ Modern Standby · hotplug · 서버 전력 최적화
 
 **진행 상황**: 708 / 803
 
-← **이전**: [706. UEFI (Unified Extensible Firmware Interface)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/)
-**다음**: [708. SMBIOS (System Management BIOS)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/708_nvme_queue_management/) →
+<- **이전**: [706. UEFI (Unified Extensible Firmware Interface)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/)
+**다음**: [708. SMBIOS (System Management BIOS)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/708_nvme_queue_management/) ->
 
 ---

@@ -20,7 +20,7 @@ tags = ["studynote-bigdata"]
 
 ```text
 데이터 민주화 이전 (데이터 사일로):
-  비즈니스 팀 → IT/데이터팀에 분석 요청 → 수일 대기 → 결과 수령
+  비즈니스 팀 -> IT/데이터팀에 분석 요청 -> 수일 대기 -> 결과 수령
 
   문제:
   - IT 병목: 모든 분석 요청이 데이터팀에 집중
@@ -28,7 +28,7 @@ tags = ["studynote-bigdata"]
   - 속도: 의사결정이 느려짐
 
 데이터 민주화 이후:
-  비즈니스 팀 → 셀프서비스 도구 → 즉시 분석 → 즉시 결정
+  비즈니스 팀 -> 셀프서비스 도구 -> 즉시 분석 -> 즉시 결정
 
   효과:
   - 데이터팀은 인프라·거버넌스에 집중
@@ -90,12 +90,12 @@ tags = ["studynote-bigdata"]
 
 ```text
 기존: SELECT AVG(revenue) FROM sales WHERE year=2024
-      ↓ SQL 지식 필요
+      v SQL 지식 필요
 
 GenAI 질의: "2024년 평균 매출이 얼마야?"
-      ↓ LLM이 SQL 자동 생성
-      ↓ 데이터베이스 실행
-      ↓ 결과 자연어로 설명
+      v LLM이 SQL 자동 생성
+      v 데이터베이스 실행
+      v 결과 자연어로 설명
 
 도구: AWS QuickSight Q, Google Looker AI,
       Tableau Pulse, Power BI Copilot
@@ -144,17 +144,17 @@ GenAI 질의: "2024년 평균 매출이 얼마야?"
 
 ```text
 [데이터 사일로 — IT팀 독점, 비즈니스 대기]
-    │
-    ▼
+    |
+    v
 [셀프서비스 BI — Tableau·Power BI 노코드 분석]
-    │
-    ▼
+    |
+    v
 [데이터 카탈로그 — 데이터 발견·품질·계보 관리]
-    │
-    ▼
+    |
+    v
 [데이터 메시 — 도메인별 데이터 자치·연합 거버넌스]
-    │
-    ▼
+    |
+    v
 [GenAI 자연어 질의 — SQL 없이 데이터와 대화]
 ```
 
@@ -170,7 +170,7 @@ GenAI 질의: "2024년 평균 매출이 얼마야?"
 
 **진행 상황**: 242 / 262
 
-← **이전**: [236. 데이터 옵저버빌리티 (Monte Carlo, Bigeye) 데이터 파이프라인 신뢰성](/knowledge-base/studynote/16_bigdata/12_trends/241_monte_carlo_bigeye/)
-**다음**: [31. 데이터 경제 — 데이터가 자산이 되는 세계](/knowledge-base/studynote/16_bigdata/13_intro_trends/243_data_economy/) →
+<- **이전**: [236. 데이터 옵저버빌리티 (Monte Carlo, Bigeye) 데이터 파이프라인 신뢰성](/knowledge-base/studynote/16_bigdata/12_trends/241_monte_carlo_bigeye/)
+**다음**: [31. 데이터 경제 — 데이터가 자산이 되는 세계](/knowledge-base/studynote/16_bigdata/13_intro_trends/243_data_economy/) ->
 
 ---

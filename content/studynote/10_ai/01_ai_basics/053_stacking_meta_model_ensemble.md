@@ -32,9 +32,9 @@ tags = ["studynote-ai"]
 스태킹은 1단계에서 여러 base model이 예측값을 만들고, 2단계에서 meta model이 그 예측값들을 입력으로 받아 최종 결정을 내린다.
 
 ```text
-X → Model A ┐
-X → Model B ├→ OOF Predictions → Meta Model → Final Prediction
-X → Model C ┘
+X -> Model A +
+X -> Model B +-> OOF Predictions -> Meta Model -> Final Prediction
+X -> Model C +
 ```
 
 | 구성 요소 | 역할 | 포인트 |
@@ -112,14 +112,14 @@ X → Model C ┘
 
 ```text
 단일 모델
-    │
-    ▼
+    |
+    v
 Bagging / Boosting
-    │
-    ▼
+    |
+    v
 Stacking
-    │
-    ▼
+    |
+    v
 Meta Learner + OOF
 ```
 
@@ -137,7 +137,7 @@ Meta Learner + OOF
 
 **진행 상황**: 53 / 420
 
-← **이전**: [52. 부스팅 (Boosting) - AdaBoost, GBM, XGBoost, LightGBM](/knowledge-base/studynote/10_ai/01_ai_basics/052_boosting_ensemble_gradient_boosting/)
-**다음**: [54. 의사결정나무의 불순도 (Decision Tree Impurity: Entropy/Gini)](/knowledge-base/studynote/10_ai/01_ai_basics/054_decision_tree_impurity_entropy_gini/) →
+<- **이전**: [52. 부스팅 (Boosting) - AdaBoost, GBM, XGBoost, LightGBM](/knowledge-base/studynote/10_ai/01_ai_basics/052_boosting_ensemble_gradient_boosting/)
+**다음**: [54. 의사결정나무의 불순도 (Decision Tree Impurity: Entropy/Gini)](/knowledge-base/studynote/10_ai/01_ai_basics/054_decision_tree_impurity_entropy_gini/) ->
 
 ---

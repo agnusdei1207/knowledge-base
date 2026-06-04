@@ -32,7 +32,7 @@ tags = ["studynote-devops-sre"]
 개발자는 짧은 feature branch를 만들거나 직접 trunk에 작은 변경을 자주 넣는다. 메인 브랜치는 항상 배포 가능한 상태를 유지한다.
 
 ```text
-trunk/main ─●─●─●─●─●
+trunk/main -●-●-●-●-●
              \ \ \ \ \
               feature branches
 ```
@@ -113,14 +113,14 @@ Trunk-Based Development는 빠른 통합, 낮은 충돌, 지속 배포에 유리
 
 ```text
 긴 브랜치
-    │
-    ▼
+    |
+    v
 짧은 브랜치
-    │
-    ▼
+    |
+    v
 자주 병합
-    │
-    ▼
+    |
+    v
 Trunk-Based + Feature Flag
 ```
 
@@ -138,7 +138,7 @@ Trunk-Based + Feature Flag
 
 **진행 상황**: 55 / 373
 
-← **이전**: [54. GitHub Flow](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/054_github_flow/)
-**다음**: [56. CI/CD 파이프라인 (Continuous Integration / Continuous Delivery) - 배포 자동화](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/056_cicd_pipeline/) →
+<- **이전**: [54. GitHub Flow](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/054_github_flow/)
+**다음**: [56. CI/CD 파이프라인 (Continuous Integration / Continuous Delivery) - 배포 자동화](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/056_cicd_pipeline/) ->
 
 ---

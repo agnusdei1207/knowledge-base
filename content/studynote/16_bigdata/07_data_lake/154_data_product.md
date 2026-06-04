@@ -37,37 +37,37 @@ tags = ["studynote-bigdata"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌───────────────────────────────────────────────────────────────────┐
-│               데이터 제품 구조 (Data Product Structure)             │
-├───────────────────────────────────────────────────────────────────┤
-│                                                                   │
-│  ┌─────────────────────────────────────────────────────────────┐ │
-│  │  데이터 제품: sales.gold.daily_orders                         │ │
-│  ├─────────────────────────────────────────────────────────────┤ │
-│  │  📋 스키마 계약 (Data Contract)                               │ │
-│  │  - order_date: DATE NOT NULL                                  │ │
-│  │  - total_amount: DECIMAL(18,2) NOT NULL                       │ │
-│  │  - region: STRING (values: KR/US/EU)                          │ │
-│  │  - 버전: v2.1.0 (SemVer)                                      │ │
-│  ├─────────────────────────────────────────────────────────────┤ │
-│  │  📊 SLA 지표                                                  │ │
-│  │  - 신선도: 매일 09:00 KST 이전 갱신 보장                       │ │
-│  │  - 가용성: 99.5% (월간)                                        │ │
-│  │  - 완전성: null_rate < 1%                                     │ │
-│  │  - 정확성: amount_variance < 0.01%                            │ │
-│  ├─────────────────────────────────────────────────────────────┤ │
-│  │  🔍 발견 가능성 (Data Catalog 등록)                            │ │
-│  │  - 소유 팀: Sales Analytics Team                              │ │
-│  │  - 연락처: #data-sales Slack 채널                             │ │
-│  │  - 리니지: bronze.orders → silver.orders_clean → gold.daily  │ │
-│  │  - 사용 예시 쿼리 3개 등록                                     │ │
-│  ├─────────────────────────────────────────────────────────────┤ │
-│  │  🔌 접근 인터페이스                                            │ │
-│  │  - Delta Table URI: catalog.schema.table (Spark/SQL)          │ │
-│  │  - Delta Sharing: REST API (외부 소비자)                       │ │
-│  │  - Kafka Topic: `sales.daily_orders.v2` (스트리밍)             │ │
-│  └─────────────────────────────────────────────────────────────┘ │
-└───────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------+
+|               데이터 제품 구조 (Data Product Structure)             |
++-------------------------------------------------------------------+
+|                                                                   |
+|  +-------------------------------------------------------------+ |
+|  |  데이터 제품: sales.gold.daily_orders                         | |
+|  +-------------------------------------------------------------+ |
+|  |  📋 스키마 계약 (Data Contract)                               | |
+|  |  - order_date: DATE NOT NULL                                  | |
+|  |  - total_amount: DECIMAL(18,2) NOT NULL                       | |
+|  |  - region: STRING (values: KR/US/EU)                          | |
+|  |  - 버전: v2.1.0 (SemVer)                                      | |
+|  +-------------------------------------------------------------+ |
+|  |  📊 SLA 지표                                                  | |
+|  |  - 신선도: 매일 09:00 KST 이전 갱신 보장                       | |
+|  |  - 가용성: 99.5% (월간)                                        | |
+|  |  - 완전성: null_rate < 1%                                     | |
+|  |  - 정확성: amount_variance < 0.01%                            | |
+|  +-------------------------------------------------------------+ |
+|  |  🔍 발견 가능성 (Data Catalog 등록)                            | |
+|  |  - 소유 팀: Sales Analytics Team                              | |
+|  |  - 연락처: #data-sales Slack 채널                             | |
+|  |  - 리니지: bronze.orders -> silver.orders_clean -> gold.daily  | |
+|  |  - 사용 예시 쿼리 3개 등록                                     | |
+|  +-------------------------------------------------------------+ |
+|  |  🔌 접근 인터페이스                                            | |
+|  |  - Delta Table URI: catalog.schema.table (Spark/SQL)          | |
+|  |  - Delta Sharing: REST API (외부 소비자)                       | |
+|  |  - Kafka Topic: `sales.daily_orders.v2` (스트리밍)             | |
+|  +-------------------------------------------------------------+ |
++-------------------------------------------------------------------+
 ```
 
 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 제품 5대 특성 (Dehghani 정의)</strong>
@@ -123,7 +123,7 @@ quality_checks:
 | Level 3 (플랫폼 제품) | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) + [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) + 변경 알림 | Delta Sharing + SemVer |
 | Level 4 (비즈니스 제품) | 수익화 가능한 외부 공유 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 마켓플레이스 등록 |
 
-> 📢 **섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제품 성숙도는 스타트업의 성장 단계와 같다. 아이디어(Level 1) → [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)(Level 2) → 안정적 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(Level 3) → 수익화(Level 4)로 발전한다.
+> 📢 **섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제품 성숙도는 스타트업의 성장 단계와 같다. 아이디어(Level 1) -> [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)(Level 2) -> 안정적 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(Level 3) -> 수익화(Level 4)로 발전한다.
 
 ---
 
@@ -181,17 +181,17 @@ quality_checks:
 
 ```text
 [데이터 레이크 (Data Lake) — 원시 데이터 저장]
-    │
-    ▼
+    |
+    v
 [데이터 메시 (Data Mesh) — 도메인 소유권]
-    │
-    ▼
+    |
+    v
 [데이터 제품 (Data Product) — 소비 가능 단위]
-    │
-    ▼
+    |
+    v
 [데이터 계약 (Data Contract) — SLA 보장]
-    │
-    ▼
+    |
+    v
 [데이터 마켓플레이스 (Data Marketplace) — 내부 거래]
 ```
 
@@ -208,7 +208,7 @@ quality_checks:
 
 **진행 상황**: 154 / 262
 
-← **이전**: [153. 데이터 메시 관점의 레이크하우스 (Data Mesh on Lakehouse)](/knowledge-base/studynote/16_bigdata/07_data_lake/153_data_mesh_in_lake/)
-**다음**: [155. ELT vs ETL — 클라우드 시대 데이터 변환 패러다임 전환](/knowledge-base/studynote/16_bigdata/07_data_lake/155_elt_vs_etl/) →
+<- **이전**: [153. 데이터 메시 관점의 레이크하우스 (Data Mesh on Lakehouse)](/knowledge-base/studynote/16_bigdata/07_data_lake/153_data_mesh_in_lake/)
+**다음**: [155. ELT vs ETL — 클라우드 시대 데이터 변환 패러다임 전환](/knowledge-base/studynote/16_bigdata/07_data_lake/155_elt_vs_etl/) ->
 
 ---

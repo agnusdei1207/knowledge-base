@@ -26,13 +26,13 @@ tags = ["studynote-ict-convergence"]
 | 조건 | 수식 | 의미 |
 |:---|:---|:---|
 | 평균 불변 | E[Xₜ] = μ (상수) | 트렌드(Trend) 없음 |
-| [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 불변 | Var(Xₜ) = σ² (상수) | 변동성 변화 없음 |
+| [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 불변 | Var(Xₜ) = σ^ (상수) | 변동성 변화 없음 |
 | 공분산 시차 의존 | Cov(Xₜ, Xₜ₊ₖ) = f(k)만 의존 | 계절성 없음 |
 
 **비정상 시계열 변환**:
-- 트렌드 제거: 1차 차분 (d=1) → Xₜ' = Xₜ − Xₜ₋₁
-- [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 안정화: [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 변환 → ln(Xₜ)
-- 계절성 제거: 계절 차분 → Xₜ − Xₜ₋ₛ (s: 계절 주기)
+- 트렌드 제거: 1차 차분 (d=1) -> Xₜ' = Xₜ − Xₜ₋₁
+- [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 안정화: [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 변환 -> ln(Xₜ)
+- 계절성 제거: 계절 차분 -> Xₜ − Xₜ₋ₛ (s: 계절 주기)
 
 - **📢 섹션 요약 비유**: 정상성은 강물이 일정한 수위로 흘러야 예측이 가능한 것처럼, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 들쭉날쭉 올라가거나 내려가면(비정상) 모델이 패턴을 찾기 어려워. 차분은 강물의 수위 변화를 분석하는 것과 같아.
 
@@ -44,21 +44,21 @@ tags = ["studynote-ict-convergence"]
 
 ```
 시계열 데이터
-      │
-      ▼
-ADF 검정 → 비정상? → d회 차분 (I 부분 결정)
-      │                 │
-      ▼                 ▼
+      |
+      v
+ADF 검정 -> 비정상? -> d회 차분 (I 부분 결정)
+      |                 |
+      v                 v
   정상성 달성         d=1 or 2
-      │
-      ├─ PACF 분석 → AR 차수 p 결정
-      │  (절단점 = p)
-      │
-      └─ ACF 분석 → MA 차수 q 결정
+      |
+      +- PACF 분석 -> AR 차수 p 결정
+      |  (절단점 = p)
+      |
+      +- ACF 분석 -> MA 차수 q 결정
          (절단점 = q)
-      │
-      ▼
-ARIMA(p,d,q) 적합 → AIC/BIC 최소 모델 선택
+      |
+      v
+ARIMA(p,d,q) 적합 -> AIC/BIC 최소 모델 선택
 ```
 
 ### ACF vs PACF 패턴 해석
@@ -105,18 +105,18 @@ ARIMA(p,d,q) 적합 → AIC/BIC 최소 모델 선택
 
 **시나리오 - 소매점 매출 예측**:
 - 3년치 주간 매출 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석.
-- 1단계: ADF 검정 p-값 = 0.48 > 0.05 → 비정상 → 1차 차분 후 p-값 = 0.003 → 정상 (d=1).
-- 2단계: ACF가 12시차(연간 계절성) 반복 → SARIMA 적용.
-- 3단계: 모델 탐색 SARIMA(1,1,1)(1,1,1)[52] → AIC 최소.
-- RMSE = 4,200만 원 (MAPE 3.8%) → 재고 최적화 연 1.2억 원 절감.
+- 1단계: ADF 검정 p-값 = 0.48 > 0.05 -> 비정상 -> 1차 차분 후 p-값 = 0.003 -> 정상 (d=1).
+- 2단계: ACF가 12시차(연간 계절성) 반복 -> SARIMA 적용.
+- 3단계: 모델 탐색 SARIMA(1,1,1)(1,1,1)[52] -> AIC 최소.
+- RMSE = 4,200만 원 (MAPE 3.8%) -> 재고 최적화 연 1.2억 원 절감.
 
 **잔차 진단**:
-- Ljung-Box 검정: 잔차에 자기상관 없음 → 모델 적합 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
+- Ljung-Box 검정: 잔차에 자기상관 없음 -> 모델 적합 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
 - 잔차 정규성: Q-Q 플롯 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
 
 **기술사 판단 포인트**:
 - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) < 50 포인트: 단순 지수 평활 또는 Holt-Winters 우선 고려.
-- 구조 변화(Structural Break) 탐지: Chow Test → 변환점 전후 별도 모델링.
+- 구조 변화(Structural Break) 탐지: Chow Test -> 변환점 전후 별도 모델링.
 - 이상값 탐지: 시계열 이상값(Innovational [Outlier](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/), Additive [Outlier](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)) 유형별 처리.
 
 - **📢 섹션 요약 비유**: 시계열 예측은 날씨 예보처럼, "오늘이 맑으면 내일도 맑을 가능성이 높다(AR)"는 규칙과 "어제 예보가 틀렸으니 오늘은 보정하자(MA)"는 두 가지 논리를 합쳐서 미래를 예측하는 거야.
@@ -148,7 +148,7 @@ ARIMA(p,d,q) 적합 → AIC/BIC 최소 모델 선택
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[ADF 검정 · 차분] → [시계열 ARIMA 정상성과 평활법] → [장기 의존성 · 딥러닝]
+[ADF 검정 · 차분] -> [시계열 ARIMA 정상성과 평활법] -> [장기 의존성 · 딥러닝]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -163,7 +163,7 @@ ARIMA(p,d,q) 적합 → AIC/BIC 최소 모델 선택
 
 **진행 상황**: 517 / 552
 
-← **이전**: [516. 마르코프 체인: 흡수, 에르고딕, 전이 상태 (Markov Chain Absorbing Ergodic Transition)](/knowledge-base/studynote/06_ict_convergence/05_data_science/516_markov_chain_absorbing_ergodic_transition/)
-**다음**: [518. TF-IDF, 코사인 유사도, 텍스트 마이닝 (TF-IDF Cosine Similarity Text Mining Word2Vec)](/knowledge-base/studynote/06_ict_convergence/05_data_science/518_tfidf_cosine_similarity_text_mining_word2vec/) →
+<- **이전**: [516. 마르코프 체인: 흡수, 에르고딕, 전이 상태 (Markov Chain Absorbing Ergodic Transition)](/knowledge-base/studynote/06_ict_convergence/05_data_science/516_markov_chain_absorbing_ergodic_transition/)
+**다음**: [518. TF-IDF, 코사인 유사도, 텍스트 마이닝 (TF-IDF Cosine Similarity Text Mining Word2Vec)](/knowledge-base/studynote/06_ict_convergence/05_data_science/518_tfidf_cosine_similarity_text_mining_word2vec/) ->
 
 ---

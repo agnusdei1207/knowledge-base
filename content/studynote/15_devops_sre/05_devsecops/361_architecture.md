@@ -32,21 +32,21 @@ tags = ["studynote-devops-sre"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│            Team Topologies 4가지 팀 유형                         │
-├──────────────────────────────────────────────────────────────────┤
-│  스트림 정렬 팀        │ 특정 제품/서비스 비즈니스 흐름 담당      │
-│  (Stream-Aligned)     │ 자율적 배포·운영, 인지 부하 최소화       │
-├──────────────────────────────────────────────────────────────────┤
-│  인에이블링 팀         │ 스트림 팀이 새 역량 습득 돕는 임시 지원  │
-│  (Enabling)           │ 컨설팅·교육 후 철수, 의존성 생성 금지     │
-├──────────────────────────────────────────────────────────────────┤
-│  복잡 서브시스템 팀    │ 전문 도메인(ML, DSP) 개발·유지           │
-│  (Complicated-SS)     │ 소수 전문가, 다른 팀에 컴포넌트 제공      │
-├──────────────────────────────────────────────────────────────────┤
-│  플랫폼 팀            │ IDP(내부 개발자 플랫폼) 제공              │
-│  (Platform)           │ X-as-a-Service로 셀프 서비스 제공         │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|            Team Topologies 4가지 팀 유형                         |
++------------------------------------------------------------------+
+|  스트림 정렬 팀        | 특정 제품/서비스 비즈니스 흐름 담당      |
+|  (Stream-Aligned)     | 자율적 배포·운영, 인지 부하 최소화       |
++------------------------------------------------------------------+
+|  인에이블링 팀         | 스트림 팀이 새 역량 습득 돕는 임시 지원  |
+|  (Enabling)           | 컨설팅·교육 후 철수, 의존성 생성 금지     |
++------------------------------------------------------------------+
+|  복잡 서브시스템 팀    | 전문 도메인(ML, DSP) 개발·유지           |
+|  (Complicated-SS)     | 소수 전문가, 다른 팀에 컴포넌트 제공      |
++------------------------------------------------------------------+
+|  플랫폼 팀            | IDP(내부 개발자 플랫폼) 제공              |
+|  (Platform)           | X-as-a-Service로 셀프 서비스 제공         |
++------------------------------------------------------------------+
 ```
 
 | 인터랙션 모드            | 설명                                      | 적합 상황                         |
@@ -87,14 +87,14 @@ tags = ["studynote-devops-sre"]
 5. 플랫폼 팀이 스트림 팀의 주요 WT(대기 시간) 구간을 해소하는가?
 
 **판단 기준**
-- [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 전환 시: 팀 재구성 → [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 설계 → 코드 분리 순서 준수
+- [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 전환 시: 팀 재구성 -> [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 설계 -> 코드 분리 순서 준수
 - 모놀리스가 적합한 경우: 팀 규모 소규모(10명 이하), [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 단순, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 스타트업
 - [분산 모놀리스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/537_distributed_monolith_antipattern/) 탈출: 팀 경계와 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계가 일치하는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>
-- "[마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 도입"을 기술 과제로만 추진, 팀 구조 유지 → [분산 모놀리스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/537_distributed_monolith_antipattern/)
-- 플랫폼 팀이 스트림 팀에 "게이트키퍼"처럼 통제 → 개발 속도 병목
-- 인에이블링 팀이 장기화되어 의존 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 형성 → 스트림 팀 자립 실패
+- "[마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 도입"을 기술 과제로만 추진, 팀 구조 유지 -> [분산 모놀리스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/537_distributed_monolith_antipattern/)
+- 플랫폼 팀이 스트림 팀에 "게이트키퍼"처럼 통제 -> 개발 속도 병목
+- 인에이블링 팀이 장기화되어 의존 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 형성 -> 스트림 팀 자립 실패
 
 - 📢 섹션 요약 비유: 역 컨웨이 조작은 요리 레시피보다 주방 배치를 먼저 설계하는 것이다. 잘못된 주방(팀 구조)에서는 어떤 레시피(아키텍처)도 제대로 만들 수 없다.
 
@@ -127,24 +127,24 @@ tags = ["studynote-devops-sre"]
 
 ```text
 컨웨이의 법칙 (1968) — 커뮤니케이션 구조 = 시스템 구조
-    │
-    ▼
-역 컨웨이 조작 — 목표 아키텍처 → 팀 구조 역방향 설계
-    │
-    ▼
+    |
+    v
+역 컨웨이 조작 — 목표 아키텍처 -> 팀 구조 역방향 설계
+    |
+    v
 Team Topologies — 4가지 팀 유형 + 3가지 인터랙션 모드
-    │
-    ▼
+    |
+    v
 인지 부하 측정 — 팀 서비스 경계 결정 기준
-    │
-    ▼
+    |
+    v
 플랫폼 엔지니어링 / IDP — 스트림 팀 자율성 극대화
-    │
-    ▼
+    |
+    v
 AI 에이전트 팀 통합 — 인간+AI 혼합 팀 구조 (미래)
 ```
 
-흐름은 "조직-기술 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 원리 → 의도적 설계 → [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/) 관리 → 플랫폼화 → [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 통합"으로 발전한다.
+흐름은 "조직-기술 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 원리 -> 의도적 설계 -> [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/) 관리 -> 플랫폼화 -> [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 통합"으로 발전한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -158,7 +158,7 @@ AI 에이전트 팀 통합 — 인간+AI 혼합 팀 구조 (미래)
 
 **진행 상황**: 361 / 373
 
-← **이전**: [360. 가치 흐름 매핑 낭비 병목 식별 린 사상망 (Value Stream Mapping VSM Waste and Bottleneck](/knowledge-base/studynote/11_design_supervision/06_exam_summary/360_process/)
-**다음**: [362. O-RAN 프론트홀 화이트박스 분리 아키텍처 (O-RAN Open Radio Access Network Fronthaul Whitebox](/knowledge-base/studynote/15_devops_sre/05_devsecops/362_o_ran/) →
+<- **이전**: [360. 가치 흐름 매핑 낭비 병목 식별 린 사상망 (Value Stream Mapping VSM Waste and Bottleneck](/knowledge-base/studynote/11_design_supervision/06_exam_summary/360_process/)
+**다음**: [362. O-RAN 프론트홀 화이트박스 분리 아키텍처 (O-RAN Open Radio Access Network Fronthaul Whitebox](/knowledge-base/studynote/15_devops_sre/05_devsecops/362_o_ran/) ->
 
 ---

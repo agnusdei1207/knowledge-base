@@ -19,11 +19,11 @@ tags = ["studynote-cloud-architecture"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-기존: orders 테이블 → UPDATE status='배송' (이전 상태 유실)
-Event Sourcing: events 테이블 →
+기존: orders 테이블 -> UPDATE status='배송' (이전 상태 유실)
+Event Sourcing: events 테이블 ->
   {주문 생성, 결제 완료, 배송 시작, 배달 완료}
-  → Replay → 현재 상태 = '배달 완료'
-  → 감사: 언제·누가·무엇을 변경했는지 100% 추적
+  -> Replay -> 현재 상태 = '배달 완료'
+  -> 감사: 언제·누가·무엇을 변경했는지 100% 추적
 ```
 
 - **📢 섹션 요약 비유**: Event Sourcing은 <strong>은행 거래 내역</strong>이다. 잔고(상태)만 보는 것이 아니라 <strong>모든 입출금 기록(이벤트)</strong>을 보존한다.
@@ -49,10 +49,10 @@ Event Sourcing은 <strong><a href="/knowledge-base/studynote/02_operating_system
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[CRUD (상태 저장)] → [Event Sourcing (Martin Fowler, 2005)]
-    → [CQRS + ES (Greg Young, 2010)]
-    → [EventStoreDB (2012)] → [Kafka as Event Store]
-    → [현재: Axon Framework — ES+CQRS 통합]
+[CRUD (상태 저장)] -> [Event Sourcing (Martin Fowler, 2005)]
+    -> [CQRS + ES (Greg Young, 2010)]
+    -> [EventStoreDB (2012)] -> [Kafka as Event Store]
+    -> [현재: Axon Framework — ES+CQRS 통합]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -66,7 +66,7 @@ Event Sourcing은 <strong><a href="/knowledge-base/studynote/02_operating_system
 
 **진행 상황**: 137 / 371
 
-← **이전**: [137. Transactional Outbox 패턴 - 이벤트 발행의 원자성 보장](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/137_transactional_outbox_pattern/)
-**다음**: [139. CQRS (Command Query Responsibility Segregation) - 명령·조회 분리](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/139_cqrs_msa/) →
+<- **이전**: [137. Transactional Outbox 패턴 - 이벤트 발행의 원자성 보장](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/137_transactional_outbox_pattern/)
+**다음**: [139. CQRS (Command Query Responsibility Segregation) - 명령·조회 분리](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/139_cqrs_msa/) ->
 
 ---

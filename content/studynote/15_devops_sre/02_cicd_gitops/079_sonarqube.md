@@ -32,29 +32,29 @@ tags = ["studynote-devops-sre"]
 소나큐브는 코드를 '실행(Run)'하지 않고, 코드의 구조(AST 트리)를 수학적으로 쪼개어 검사한다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│           SonarQube 기반 CI/CD 품질 검증 파이프라인 아키텍처       │
-├────────────────────────────────────────────────────────┤
-│   [ 1. 코드 작성 및 Push ]                              │
-│    개발자 ──▶ (if-else 100개 박힌 스파게티 코드) ──▶ GitHub  │
-│             │                                          │
-│             ▼ (Webhook 트리거)                         │
-│   [ 2. CI/CD 파이프라인 (Jenkins / GitHub Actions) ]     │
-│    ├─ 빌드 (Build)                                      │
-│    ├─ 단위 테스트 (JUnit 등)                              │
-│    └─ 🔎 Sonar Scanner 실행! (소스코드 정적 분석 시작)       │
-│             │                                          │
-│             ▼ (분석 결과를 SonarQube 서버로 전송)          │
-│   [ 3. SonarQube 서버 (품질 판독소) ]                      │
-│    - 버그(Bug): 3건 (Null Pointer 예외 가능성 발견!)          │
-│    - 취약점(Vulnerability): 1건 (SQL 인젝션 위험!)          │
-│    - 악취(Code Smell): 50건 (함수가 너무 길고 복잡함!)         │
-│    - 커버리지(Coverage): 40% (테스트 안 짠 코드가 절반 넘음)   │
-│             │                                          │
-│             ▼ (⭐ Quality Gate 판정 ⭐)                   │
-│   [ 4. 배포 차단 (Build FAILED) ]                       │
-│    "회사 기준(A등급, 커버리지 80% 이상) 미달! 배포 파이프라인 폭파!" │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|           SonarQube 기반 CI/CD 품질 검증 파이프라인 아키텍처       |
++--------------------------------------------------------+
+|   [ 1. 코드 작성 및 Push ]                              |
+|    개발자 ---> (if-else 100개 박힌 스파게티 코드) ---> GitHub  |
+|             |                                          |
+|             v (Webhook 트리거)                         |
+|   [ 2. CI/CD 파이프라인 (Jenkins / GitHub Actions) ]     |
+|    +- 빌드 (Build)                                      |
+|    +- 단위 테스트 (JUnit 등)                              |
+|    +- 🔎 Sonar Scanner 실행! (소스코드 정적 분석 시작)       |
+|             |                                          |
+|             v (분석 결과를 SonarQube 서버로 전송)          |
+|   [ 3. SonarQube 서버 (품질 판독소) ]                      |
+|    - 버그(Bug): 3건 (Null Pointer 예외 가능성 발견!)          |
+|    - 취약점(Vulnerability): 1건 (SQL 인젝션 위험!)          |
+|    - 악취(Code Smell): 50건 (함수가 너무 길고 복잡함!)         |
+|    - 커버리지(Coverage): 40% (테스트 안 짠 코드가 절반 넘음)   |
+|             |                                          |
+|             v (⭐ Quality Gate 판정 ⭐)                   |
+|   [ 4. 배포 차단 (Build FAILED) ]                       |
+|    "회사 기준(A등급, 커버리지 80% 이상) 미달! 배포 파이프라인 폭파!" |
++--------------------------------------------------------+
 ```
 
 가장 핵심적이고 무자비한 쇳덩어리 기어는 <strong>퀄리티 게이트(Quality Gate)</strong>다. 아무리 테스트를 통과하고 컴파일이 잘 되어도, 소나큐브가 "이 코드에 중대 보안 취약점 1개가 있다"고 판정(Gate Failed)하는 순간, Jenkins의 배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 붉은색 에러를 뿜으며 기계적으로 중단된다. 개발자는 코드를 고치기 전까지는 절대 서버에 코드를 올릴 수 없다.
@@ -117,21 +117,21 @@ tags = ["studynote-devops-sre"]
 
 ```text
 개발자 개인의 역량에만 의존한 코딩 (주관적 리뷰의 한계 및 스파게티 코드 양산)
-    │
-    ▼
+    |
+    v
 PMD, Checkstyle, FindBugs 등 개별적인 정적 분석/Lint 도구들의 파편화된 등장
-    │
-    ▼
+    |
+    v
 이 모든 도구와 지표를 하나의 웹 대시보드로 통합 관리하는 'SonarQube' 플랫폼 탄생
-    │
-    ▼
+    |
+    v
 CI/CD 파이프라인(Jenkins)과 융합하여 빌드를 강제로 멈추는 Quality Gate 거버넌스 확립
-    │
-    ▼
+    |
+    v
 레거시 코드는 무시하고 '새로운 코드(New Code)'의 품질만 엄격히 통제하는 Clean as You Code 철학 안착
 ```
 
-이 흐름도는 "파편화된 잔소리 도구 → 중앙 집중형 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 대시보드(소나큐브) → [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)과의 강제 융합을 통한 통제권 행사"라는 코드 품질 거버넌스의 진화를 보여준다.
+이 흐름도는 "파편화된 잔소리 도구 -> 중앙 집중형 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 대시보드(소나큐브) -> [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)과의 강제 융합을 통한 통제권 행사"라는 코드 품질 거버넌스의 진화를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -145,7 +145,7 @@ CI/CD 파이프라인(Jenkins)과 융합하여 빌드를 강제로 멈추는 Qua
 
 **진행 상황**: 79 / 373
 
-← **이전**: [78. 코드 커버리지 (Code Coverage) 분석 도구 (JaCoCo) - 소스코드의 몇 %가 테스트되었는지 측정 (구문, 분기](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/078_code_coverage/)
-**다음**: [80. 패키지 취약점 스캐닝 (SCA, Software Composition Analysis)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/080_sca_software_composition_analysis/) →
+<- **이전**: [78. 코드 커버리지 (Code Coverage) 분석 도구 (JaCoCo) - 소스코드의 몇 %가 테스트되었는지 측정 (구문, 분기](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/078_code_coverage/)
+**다음**: [80. 패키지 취약점 스캐닝 (SCA, Software Composition Analysis)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/080_sca_software_composition_analysis/) ->
 
 ---

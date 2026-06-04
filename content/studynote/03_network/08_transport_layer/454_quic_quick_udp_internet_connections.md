@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [XTP]
-    │
-    ▼
+    |
+    v
 [QUIC]
-    │
-    └──▶ [QUIC 전송]
+    |
+    +---> [QUIC 전송]
 ```
 
 - **📢 섹션 요약 비유**: <strong> QUIC의 0-<a href="/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/">RTT</a> 핸드셰이크는 단골 카페의 </strong>"문 열고 들어오면서 동시에 '늘 먹던 걸로' 외치기"**입니다. 처음 온 손님([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))이 인사하고, 메뉴 묻고, 결제하는 과정(3번 핑퐁)을 전부 스킵하고 문지방을 넘자마자 아메리카노([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 손에 쥐는 압도적인 속도 단축입니다.
@@ -61,21 +61,21 @@ tags = ["studynote-network"]
 - **QUIC의 혁명**: QUIC은 터널 안에 <strong>완전히 독립적인 차선(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/">Stream</a> ID)</strong> 수백 개를 분리했다. A차가 1번 차선에서 빠져 죽어도, 2번 차선(B차), 3번 차선(C차)은 1번 차선의 사고와 1도 상관없이 독고다이로 달려서 브라우저 화면에 즉각 사진과 영상을 띄워준다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                TCP vs QUIC의 HOL Blocking 병목 차이 도식         │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 구형 TCP 터널 (1차선 직렬) ]                               │
- │   서버 ─▶ [ A(유실!) | B(도착) | C(도착) ] ─▶ 브라우저 버퍼 갇힘 │
- │   ▶ 브라우저: "야! A 복구될 때까지 B랑 C는 화면에 못 띄워! 대기해!!" │
- │                                                             │
- │   [ 최신 QUIC 터널 (다중 차선 병렬) ]                          │
- │   서버 ─▶ 1차선: [ A(유실!) ] ──▶ 브라우저: "A는 재전송 대기..."   │
- │   서버 ─▶ 2차선: [ B(도착!) ] ──▶ 브라우저: "오 B 왔네? 화면에 띄워!"│
- │   서버 ─▶ 3차선: [ C(도착!) ] ──▶ 브라우저: "오 C 왔네? 화면에 띄워!"│
- │                                                             │
- │   ▶ "1개의 파일이 깨져도 나머지 웹페이지는 쾌적하게 렌더링된다!"        │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                TCP vs QUIC의 HOL Blocking 병목 차이 도식         |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 구형 TCP 터널 (1차선 직렬) ]                               |
+ |   서버 --> [ A(유실!) | B(도착) | C(도착) ] --> 브라우저 버퍼 갇힘 |
+ |   -> 브라우저: "야! A 복구될 때까지 B랑 C는 화면에 못 띄워! 대기해!!" |
+ |                                                             |
+ |   [ 최신 QUIC 터널 (다중 차선 병렬) ]                          |
+ |   서버 --> 1차선: [ A(유실!) ] ---> 브라우저: "A는 재전송 대기..."   |
+ |   서버 --> 2차선: [ B(도착!) ] ---> 브라우저: "오 B 왔네? 화면에 띄워!"|
+ |   서버 --> 3차선: [ C(도착!) ] ---> 브라우저: "오 C 왔네? 화면에 띄워!"|
+ |                                                             |
+ |   -> "1개의 파일이 깨져도 나머지 웹페이지는 쾌적하게 렌더링된다!"        |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. Connection ID (모바일 IP 변경 방어)
@@ -141,12 +141,12 @@ QUIC는 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념이다.
 
 ```text
 [선행 개념: XTP]
-    │
-    ▼
+    |
+    v
 [현재 개념: QUIC]
-    │
-    ├──▶ [확장 A: QUIC 전송]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: QUIC 전송]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 QUIC는 XTP에서 출발해 현재 메커니즘을 정교화하고, 이후 QUIC 전송와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -163,7 +163,7 @@ QUIC는 XTP에서 출발해 현재 메커니즘을 정교화하고, 이후 QUIC 
 
 **진행 상황**: 575 / 1120
 
-← **이전**: [453. XTP (Xpress Transport Protocol)](/knowledge-base/studynote/03_network/08_transport_layer/453_xtp_xpress_transport_protocol/)
-**다음**: [455. QUIC 전송](/knowledge-base/studynote/03_network/08_transport_layer/455_quic_udp_based_transport_layer/) →
+<- **이전**: [453. XTP (Xpress Transport Protocol)](/knowledge-base/studynote/03_network/08_transport_layer/453_xtp_xpress_transport_protocol/)
+**다음**: [455. QUIC 전송](/knowledge-base/studynote/03_network/08_transport_layer/455_quic_udp_based_transport_layer/) ->
 
 ---

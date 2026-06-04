@@ -31,18 +31,18 @@ tags = ["studynote-ict-convergence"]
 
 ```
                    AI 네이티브
-                       │
-          ┌────────────┼────────────┐
-          │            │            │
+                       |
+          +------------+------------+
+          |            |            |
     AI×블록체인   AI×양자     AI×공간
     (거버넌스)  (양자 ML)   (공간 AI)
-          │            │            │
- 탈중앙화(Web3)──────────────── 공간화(Spatial)
-          │            │
+          |            |            |
+ 탈중앙화(Web3)---------------- 공간화(Spatial)
+          |            |
     블록체인×양자   공간×탈중앙
     (양자 내성    (분산 공간
      블록체인)     메타버스)
-          │
+          |
        양자(Quantum)
 ```
 
@@ -111,7 +111,7 @@ tags = ["studynote-ict-convergence"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[핵심 기술 · 교차 조합] → [ICT 융합 메가트렌드 종합 프레임워크] → [XR · LiDAR]
+[핵심 기술 · 교차 조합] -> [ICT 융합 메가트렌드 종합 프레임워크] -> [XR · LiDAR]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -126,7 +126,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 551 / 552
 
-← **이전**: [550. 정보통신기술사 ICT 신기술 통합 정리 (PE ICT Emerging Technologies Comprehensive Review)](/knowledge-base/studynote/06_ict_convergence/uncategorized/550_ict_comprehensive_keywords_integration/)
-**다음**: [800. 최신 ICT 융합 메가트렌드 (AI-Native, Web3, ZTA, Quantum) 구조 프레임워크 총합 망 완성](/knowledge-base/studynote/06_ict_convergence/uncategorized/800_ict_ai_native_web3_zta/) →
+<- **이전**: [550. 정보통신기술사 ICT 신기술 통합 정리 (PE ICT Emerging Technologies Comprehensive Review)](/knowledge-base/studynote/06_ict_convergence/uncategorized/550_ict_comprehensive_keywords_integration/)
+**다음**: [800. 최신 ICT 융합 메가트렌드 (AI-Native, Web3, ZTA, Quantum) 구조 프레임워크 총합 망 완성](/knowledge-base/studynote/06_ict_convergence/uncategorized/800_ict_ai_native_web3_zta/) ->
 
 ---

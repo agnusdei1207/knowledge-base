@@ -33,38 +33,38 @@ tags = ["studynote-operating-system"]
 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)는 프로세스를 찍어내는 `clone()` 시스템 콜의 뱃속 깃발([Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))을 비틀어 6대 차원의 시야를 완벽히 찢어버린다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          리눅스 6대 네임스페이스(Namespace) 도끼 찢기 융합 록온 도해 ✨ │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ 🖥️ [ Host OS (커널 뇌) ] ➔ 무적 건물주 뷰 (모든 게 다 보임)       │
-│                                                             │
-│        ======= [ 🛡️ Docker 컨테이너 생성: 6대 안대 씌우기 발동 쾅!! ] ========│
-│                                                             │
-│ 📦 [ 격리된 컨테이너 룸 (Namespace) ]                           │
-│                                                             │
-│  1️⃣ PID (CLONE_NEWPID): 번호표 세탁 기만술                       │
-│     - 밖(Host)에서 보면 PID 1500번 나부랭이인데, 방 안에서는 자기가 대장 │
-│       [PID 1번(init)] 인 줄 착각함 ㅋ 딴 놈 죽이기(Kill) 100% 불가 차단막! │
-│                                                             │
-│  2️⃣ MNT (CLONE_NEWNS): 눈알 가리기 폴더 세탁 (chroot 진화형)        │
-│     - 방 안에서 `ls /` 치면 가짜 우분투 껍데기 폴더만 보임. 밖의 진짜 호스트  │
-│       `/var` 폴더는 투명 인간 처리돼서 평생 뒤져도 못 찾음 컷!          │
-│                                                             │
-│  3️⃣ NET (CLONE_NEWNET): 가짜 랜카드 랜선 꽂기 기만술                │
-│     - 호스트의 `eth0` 훔쳐보지 못하게 방 안에 가짜 `veth` 가상 랜카드랑    │
-│       나만의 `172.17.0.2` IP 쥐여줌. 포트 번호 충돌 0% 완벽 멸균 이혼.    │
-│                                                             │
-│  4️⃣ UTS (CLONE_NEWUTS): 가짜 컴퓨터 이름표 달기                   │
-│     - 호스트 이름이 'Linux-Server' 인데, 방 안에선 'Web-Bot-1' 로 보임.  │
-│                                                             │
-│  5️⃣ IPC (CLONE_NEWIPC): 귓속말 텔레파시 차단                      │
-│     - 옆 방 컨테이너랑 공유 메모리(Shared Memory)로 꼼수 대화하는 거 척살.  │
-│                                                             │
-│  6️⃣ USER (CLONE_NEWUSER): 가짜 왕관 씌우기 (루트 기만술)           │
-│     - 방 안에선 지가 절대 권력자 [Root 권한] 인 줄 앎 ㅋ 근데 호스트 밖으로   │
-│       나오는 순간 권한 0짜리 쭈구리 평민(uid 1000)으로 강제 신분 하락 방어 락!│
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          리눅스 6대 네임스페이스(Namespace) 도끼 찢기 융합 록온 도해 ✨ |
++-------------------------------------------------------------+
+|                                                             |
+| 🖥️ [ Host OS (커널 뇌) ] ➔ 무적 건물주 뷰 (모든 게 다 보임)       |
+|                                                             |
+|        ======= [ 🛡️ Docker 컨테이너 생성: 6대 안대 씌우기 발동 쾅!! ] ========|
+|                                                             |
+| 📦 [ 격리된 컨테이너 룸 (Namespace) ]                           |
+|                                                             |
+|  1️⃣ PID (CLONE_NEWPID): 번호표 세탁 기만술                       |
+|     - 밖(Host)에서 보면 PID 1500번 나부랭이인데, 방 안에서는 자기가 대장 |
+|       [PID 1번(init)] 인 줄 착각함 ㅋ 딴 놈 죽이기(Kill) 100% 불가 차단막! |
+|                                                             |
+|  2️⃣ MNT (CLONE_NEWNS): 눈알 가리기 폴더 세탁 (chroot 진화형)        |
+|     - 방 안에서 `ls /` 치면 가짜 우분투 껍데기 폴더만 보임. 밖의 진짜 호스트  |
+|       `/var` 폴더는 투명 인간 처리돼서 평생 뒤져도 못 찾음 컷!          |
+|                                                             |
+|  3️⃣ NET (CLONE_NEWNET): 가짜 랜카드 랜선 꽂기 기만술                |
+|     - 호스트의 `eth0` 훔쳐보지 못하게 방 안에 가짜 `veth` 가상 랜카드랑    |
+|       나만의 `172.17.0.2` IP 쥐여줌. 포트 번호 충돌 0% 완벽 멸균 이혼.    |
+|                                                             |
+|  4️⃣ UTS (CLONE_NEWUTS): 가짜 컴퓨터 이름표 달기                   |
+|     - 호스트 이름이 'Linux-Server' 인데, 방 안에선 'Web-Bot-1' 로 보임.  |
+|                                                             |
+|  5️⃣ IPC (CLONE_NEWIPC): 귓속말 텔레파시 차단                      |
+|     - 옆 방 컨테이너랑 공유 메모리(Shared Memory)로 꼼수 대화하는 거 척살.  |
+|                                                             |
+|  6️⃣ USER (CLONE_NEWUSER): 가짜 왕관 씌우기 (루트 기만술)           |
+|     - 방 안에선 지가 절대 권력자 [Root 권한] 인 줄 앎 ㅋ 근데 호스트 밖으로   |
+|       나오는 순간 권한 0짜리 쭈구리 평민(uid 1000)으로 강제 신분 하락 방어 락!|
++-------------------------------------------------------------+
 ```
 
 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/">아키텍트의 피 터지는 핵심 원리: unshare()와 [clone</a>() 시스템 콜]</strong>
@@ -147,17 +147,17 @@ A [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_nati
 
 ```text
 전통적 1통짜리 리눅스 쇳덩이 생태계 / 1번 프로세스 메모리 누수 버그 터지면 ➔ 전체 서버 램 100% 다 타 죽고 옆방 봇들 줄줄이 동반 타살 올스탑 블랙아웃 파국 💥 💀
-    │
-    ▼
+    |
+    v
 가상머신 (Hypervisor VM)의 구원 무거운 쉴드 🛡️ / 완벽 물리 찢기 격리는 성공! 근데 Guest OS 부팅 3분 랙 + 램 1GB 기본 퍼먹는 뚱땡이 오버헤드 한계 병목 부딪힘
-    │
-    ▼
+    |
+    v
 chroot 와 FreeBSD Jails (과도기 흑마법) / "야 무겁게 OS 띄우지 마! 걍 파일 폴더 시스템만 가짜로 속여서 눈 가리개 씌워 감옥에 가둬!"
-    │
-    ▼
+    |
+    v
 리눅스 네임스페이스(Namespace) + cgroups 십자 융합 창조 ✨ / PID, NET, IPC 등 6대 시야를 100% 찢어 기만술 완성 + CPU/RAM 밥그릇 도끼 칼질 통제 록온
-    │
-    ▼
+    |
+    v
 Docker 와 K8s 클라우드 네이티브 우주 대관식 🚀 / 위 흑마법들을 버튼 1개로 자동 렌더링 배포(Deploy) 치게 대통합! 무정단 0.01초 1만 개 스케일 아웃 펌핑 무한 복제 시대 강림
 ```
 
@@ -173,7 +173,7 @@ Docker 와 K8s 클라우드 네이티브 우주 대관식 🚀 / 위 흑마법�
 
 **진행 상황**: 151 / 800
 
-← **이전**: [150. 태스크 (Task) - 리눅스의 프로세스/스레드 대통합 용어](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)
-**다음**: [152. 데몬화 (Daemonization) 절차 - fork, setsid, umask, 파일 디스크립터 닫기](/knowledge-base/studynote/02_operating_system/02_process_thread/152_daemonization/) →
+<- **이전**: [150. 태스크 (Task) - 리눅스의 프로세스/스레드 대통합 용어](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)
+**다음**: [152. 데몬화 (Daemonization) 절차 - fork, setsid, umask, 파일 디스크립터 닫기](/knowledge-base/studynote/02_operating_system/02_process_thread/152_daemonization/) ->
 
 ---

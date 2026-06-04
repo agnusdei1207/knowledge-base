@@ -20,11 +20,11 @@ tags = ["studynote-design-supervision"]
 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 방식이 중요한 이유는 스캔 작업 자체를 별도 상시 서버 없이 필요할 때만 실행함으로써 비용 효율성과 확장성을 동시에 확보할 수 있기 때문이다. 대규모 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 환경에서는 이미지가 수시로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되므로, 수동 검토나 야간 일괄 점검만으로는 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 공격과 최신 취약점 반영 속도를 따라가기 어렵다. 따라서 이미지 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 순간과 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 등록 순간에 자동 차단점을 배치해야 한다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌────────────┐   ┌──────────┐
-│ 소스 변경 │──▶│ 이미지 빌드 │──▶│ 서버리스 스캔 │──▶│ 배포 승인 │
-└──────────┘   └──────────┘   └────────────┘   └────┬─────┘
-                                                     │
-                                   차단/예외 승인 ◀──┘
++----------+   +----------+   +------------+   +----------+
+| 소스 변경 |--->| 이미지 빌드 |--->| 서버리스 스캔 |--->| 배포 승인 |
++----------+   +----------+   +------------+   +----+-----+
+                                                     |
+                                   차단/예외 승인 <---+
 ```
 
 결국 필요성의 핵심은 속도와 보안을 동시에 잡는 것이다. 기술사 답안에서는 [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) 자동화, [공급망 보안](/knowledge-base/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/), 배포 게이트를 한 흐름으로 묶어 서술하면 논지가 단단해진다.
@@ -41,15 +41,15 @@ tags = ["studynote-design-supervision"]
 | [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)·배포 연계 | 통과 이미지에만 서명과 배포 권한을 부여한다. | 스캔 결과와 배포 버전의 매핑, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 기준 검토 |
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│ Build Event │──▶│ Scan Engine │──▶│ Policy Rule │
-└─────┬──────┘   └─────┬──────┘   └─────┬──────┘
-      │                CVE/SBOM/Secret        │
-      │                                       │ Pass
-      ▼                                       ▼
-┌────────────┐                           ┌────────────┐
-│ Audit Log  │◀──────────────────────────│ Registry   │
-└────────────┘                           └────────────┘
++------------+   +------------+   +------------+
+| Build Event |--->| Scan Engine |--->| Policy Rule |
++-----+------+   +-----+------+   +-----+------+
+      |                CVE/SBOM/Secret        |
+      |                                       | Pass
+      v                                       v
++------------+                           +------------+
+| Audit Log  |<---------------------------| Registry   |
++------------+                           +------------+
 ```
 
 핵심 원리는 세 가지다. 첫째, 스캔은 배포 직전이 아니라 이미지 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시점에 가까울수록 효과가 크다. 둘째, 결과는 리포트로 끝나면 안 되고 승인 게이트와 연결되어야 한다. 셋째, 예외는 허용하되 만료일과 책임자를 강제해 영구 면제가 되지 않도록 해야 한다.
@@ -96,13 +96,13 @@ tags = ["studynote-design-supervision"]
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
 수동 취약점 점검
-    ↓
+    v
 CI 빌드 후 이미지 스캔
-    ↓
+    v
 정책 기반 자동 차단
-    ↓
+    v
 SBOM/서명 연계 공급망 보안
-    ↓
+    v
 배포·런타임 연동 전주기 검증
 ```
 
@@ -117,7 +117,7 @@ SBOM/서명 연계 공급망 보안
 
 **진행 상황**: 508 / 530
 
-← **이전**: [429. 마이크로 세그멘테이션 기반 제로 트러스트 (Microsegmentation, Zero Trust)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/429_process/)
-**다음**: [431. 마이크로 커널 플러그인 확장 구조망 (Microkernel Architecture)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/431_architecture/) →
+<- **이전**: [429. 마이크로 세그멘테이션 기반 제로 트러스트 (Microsegmentation, Zero Trust)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/429_process/)
+**다음**: [431. 마이크로 커널 플러그인 확장 구조망 (Microkernel Architecture)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/431_architecture/) ->
 
 ---

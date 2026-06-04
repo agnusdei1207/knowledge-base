@@ -26,38 +26,38 @@ tags = ["studynote-operating-system"]
 
 ```text
                     pthread_create()
-                                                                   │
-                         ▼
-    ┌────────┐    ┌─────────────┐    ┌──────────┐    ┌─────────────┐
-    │ 생성됨  │───▶│  실행 가능   │───▶│  실행 중  │───▶│  블로킹  │
-    │(init)  │    │ (Runnable)  │    │(Running) │    │(Blocked)    │
-    └────────┘    └─────────────┘    └────┬─────┘    └────┬────────┘
-                                            │                      │
-                    ┌─────────────┐          │                     │
-                    │  실행 가능   │◀─────────┘                    │
-                    │ (Runnable)  │◀───────────────────────────────┘
-                    └──────┬──────┘     (블로킹 해제)
-                                                                   │
+                                                                   |
+                         v
+    +--------+    +-------------+    +----------+    +-------------+
+    | 생성됨  |---->|  실행 가능   |---->|  실행 중  |---->|  블로킹  |
+    |(init)  |    | (Runnable)  |    |(Running) |    |(Blocked)    |
+    +--------+    +-------------+    +----+-----+    +----+--------+
+                                            |                      |
+                    +-------------+          |                     |
+                    |  실행 가능   |<----------+                    |
+                    | (Runnable)  |<--------------------------------+
+                    +------+------+     (블로킹 해제)
+                                                                   |
               pthread_exit() / return
-                                                                   │
-                           ▼
-                   ┌───────────────────────────────────────────────┐
-                   │   종료됨                                      │
-                   │ (Terminated)                                  │
-                   └──────┬────────────────────────────────────────┘
-                                                                   │
-              ┌───────────┴────────────────────────────────────────┐
-              │                                                    │
-              ▼                       ▼
-    ┌──────────────┐         ┌─────────────────────────────────────┐
-    │ pthread_join()│         │ join() 미호출                      │
-    │   호출됨      │         │                                    │
-    │              │         │                                     │
-    │ [TCB 해제]   │         │  좀비 상태!                         │
-    │ [스택 회수]  │         │  [TCB 잔류]                         │
-    │ [상태 수집]  │         │  [스택 잔류]                        │
-    │  ✅ 정상 종료 │         │  ❌ 자원 누수                      │
-    └──────────────┘         └─────────────────────────────────────┘
+                                                                   |
+                           v
+                   +-----------------------------------------------+
+                   |   종료됨                                      |
+                   | (Terminated)                                  |
+                   +------+----------------------------------------+
+                                                                   |
+              +-----------+----------------------------------------+
+              |                                                    |
+              v                       v
+    +--------------+         +-------------------------------------+
+    | pthread_join()|         | join() 미호출                      |
+    |   호출됨      |         |                                    |
+    |              |         |                                     |
+    | [TCB 해제]   |         |  좀비 상태!                         |
+    | [스택 회수]  |         |  [TCB 잔류]                         |
+    | [상태 수집]  |         |  [스택 잔류]                        |
+    |  ✅ 정상 종료 |         |  ❌ 자원 누수                      |
+    +--------------+         +-------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 상태 다이어그램은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 생명주기에서 좀비 상태가 어떤 경로로 발생하는지를 명확히 보여준다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 실행 가능(Runnable), 실행 중(Running), 블로킹(Blocked) 상태를 순환하다가, `pthread_exit()` 호출이나 함수 `return`에 의해 종료됨(Terminated) 상태로 전이한다. 이 시점에서 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 코드 실행은 완전히 중단되지만, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 TCB ([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Control Block)와 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 메모리를 유지하면서 부모 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 `pthread_join()` 호출을 대기한다. 부모가 `pthread_join()`을 호출하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 종료 상태를 반환하고 모든 자원을 회수하지만, 호출이 누락되면 TCB와 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이 영구적으로 잔류하게 된다. [좀비 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/)와 달리, `ps` 명령어로 좀비 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 직접 관찰하기 어려우므로 `/proc/<pid>/task/` 디렉토리나 `top -H` 명령으로 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수를 모니터링하여 간접적으로 탐지해야 한다.
@@ -83,38 +83,38 @@ tags = ["studynote-operating-system"]
   [pthread_join() 사용 — 정상 종료]
 
   부모 스레드              자식 스레드              커널
-     │                      │                         │
-     ├── pthread_create()─▶│                          │
-     │                      │                         │
-     ├── pthread_join()────▶│                         │
-     │   [부모 블로킹!]     │   [작업 실행 중...]     │
-     │                      │                         │
-     │                      ├── pthread_exit(42)──▶   │
-     │                      │   [종료 상태: 42]       │
-     │                      │   [좀비 상태 진입]      │
-     │◀───────────────────────────────────────────────┤
-     │   [join 반환: 42]    │                         │
-     │   [TCB 해제, 스택 회수]                        │
-     │   ✅ 자원 정상 정리     │                      │
+     |                      |                         |
+     +-- pthread_create()-->|                          |
+     |                      |                         |
+     +-- pthread_join()----->|                         |
+     |   [부모 블로킹!]     |   [작업 실행 중...]     |
+     |                      |                         |
+     |                      +-- pthread_exit(42)--->   |
+     |                      |   [종료 상태: 42]       |
+     |                      |   [좀비 상태 진입]      |
+     |<------------------------------------------------+
+     |   [join 반환: 42]    |                         |
+     |   [TCB 해제, 스택 회수]                        |
+     |   ✅ 자원 정상 정리     |                      |
 
   [pthread_detach() 사용 — 자동 정리]
 
   부모 스레드              자식 스레드              커널
-     │                      │                         │
-     ├── pthread_create()─▶│                          │
-     │                      │                         │
-     ├── pthread_detach()──▶│                         │
-     │   [분리 상태 전이]    │                        │
-     │   [부모 비블로킹]    │                         │
-     │                      │                         │
-     │   [부모 계속 실행]    │   [작업 실행 중...]    │
-     │                      │                         │
-     │                      ├── pthread_exit(42)──▶   │
-     │                      │                         │
-     │                      │                      ├── [자동 TCB 해제]
-     │                      │                      ├── [자동 스택 회수]
-     │                      │                      │ [상태 42 폐기!]
-     │                      │                      │ ✅ 자동 정리
+     |                      |                         |
+     +-- pthread_create()-->|                          |
+     |                      |                         |
+     +-- pthread_detach()--->|                         |
+     |   [분리 상태 전이]    |                        |
+     |   [부모 비블로킹]    |                         |
+     |                      |                         |
+     |   [부모 계속 실행]    |   [작업 실행 중...]    |
+     |                      |                         |
+     |                      +-- pthread_exit(42)--->   |
+     |                      |                         |
+     |                      |                      +-- [자동 TCB 해제]
+     |                      |                      +-- [자동 스택 회수]
+     |                      |                      | [상태 42 폐기!]
+     |                      |                      | ✅ 자동 정리
 ```
 
 **[다이어그램 해설]** 이 두 흐름도는 `pthread_join()`과 `pthread_detach()`가 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 종료 후의 자원 회수를 어떻게 다르게 처리하는지를 대비적으로 보여준다. `pthread_join()`은 부모 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 블로킹(Block) 상태로 만들고, 자식 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 종료하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 종료 상태(값 42)를 부모에게 반환한 뒤 TCB와 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 해제한다. 반면 `pthread_detach()`는 부모 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 자식의 종료를 기다리지 않아도 되도록 "분리(Detach)" 상태로 전이시킨다. 분리된 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 종료하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 즉시 자원을 회수하며, 종료 상태는 폐기된다. 따라서 `detach`된 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 반환값은 `pthread_join()`으로 수집할 수 없다. 핵심은 개발자가 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 종료 상태를 반드시 수집해야 한다면 `join`을, 수집할 필요가 없다면 `detach`를 선택해야 한다는 점이다. 둘 중 하나도 선택하지 않으면 좀비 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 발생한다.
@@ -140,28 +140,28 @@ tags = ["studynote-operating-system"]
 ```text
   [좀비 프로세스의 자원 잔류]
 
-  ┌── 부모 프로세스 (PPID: 1000) ──┐
-  │                                   │
-  │  ┌── 좀비 자식 (PID: 1001) ──┐    │
-  │  │  상태: Z (Zombie)          │   │
-  │  │  PCB: 유지 (커널 공간)      │  │
-  │  │  물리 메모리: 0 (모두 반납)  │ │
-  │  │  PID: 점유 중!              │  │
-  │  └────────────────────────────┘   │
-  └───────────────────────────────────┘
+  +-- 부모 프로세스 (PPID: 1000) --+
+  |                                   |
+  |  +-- 좀비 자식 (PID: 1001) --+    |
+  |  |  상태: Z (Zombie)          |   |
+  |  |  PCB: 유지 (커널 공간)      |  |
+  |  |  물리 메모리: 0 (모두 반납)  | |
+  |  |  PID: 점유 중!              |  |
+  |  +----------------------------+   |
+  +-----------------------------------+
 
   [좀비 스레드의 자원 잔류]
 
-  ┌── 프로세스 (PID: 1000) ───────────┐
-  │                                   │
-  │  메인 스레드 (TID: 1000) - 정상   │
-  │                                   │
-  │  ┌── 좀비 스레드 (TID: 1001) ─┐   │
-  │  │  TCB: 유지 (커널 공간)      │  │
-  │  │  스택: 유지! (2~8MB 잔류)   │  │
-  │  │  PID: 공유 (부모와 동일)     │ │
-  │  └─────────────────────────────┘  │
-  └───────────────────────────────────┘
+  +-- 프로세스 (PID: 1000) -----------+
+  |                                   |
+  |  메인 스레드 (TID: 1000) - 정상   |
+  |                                   |
+  |  +-- 좀비 스레드 (TID: 1001) -+   |
+  |  |  TCB: 유지 (커널 공간)      |  |
+  |  |  스택: 유지! (2~8MB 잔류)   |  |
+  |  |  PID: 공유 (부모와 동일)     | |
+  |  +-----------------------------+  |
+  +-----------------------------------+
 ```
 
 **[다이어그램 해설]** 이 비교 도식은 두 좀비 유형의 결정적 차이를 보여준다. [좀비 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/)는 물리 메모리를 모두 반납하므로 메모리 소모 문제가 적지만, PID ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) ID)를 계속 점유하므로 대량 발생 시 시스템의 최대 프로세스 수(`pid_max`, 기본 32768)에 도달할 수 있다. 반면 좀비 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)(일반적으로 2~8MB)을 물리 메모리상에 계속 점유하므로, 단일 프로세스 내에서 좀비 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 수백 개 누적되면 수 GB의 메모리가 소모될 수 있다. 또한 [좀비 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/)는 `init` 프로세스(PID 1)가 부모로 재선정(Reparent)되어 자동 수거되지만, 좀비 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 [프로세스 종료](/knowledge-base/studynote/02_operating_system/02_process_thread/107_process_termination/) 시에만 일괄 정리되므로 장기 실행 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에서 더 위험하다.
@@ -186,27 +186,27 @@ tags = ["studynote-operating-system"]
 
 ```text
    [ 스레드 라이프사이클 관리 전략 ]
-                                                    │
-                ▼
+                                                    |
+                v
      자식 스레드의 종료 상태(반환값)가 필요한가?
-        ├── 예 ──▶ pthread_join() 사용
-        │          (부모가 명시적으로 대기 및 상태 수집)
-        │          ※ 블로킹되므로 타임아웃 고려 필요
-                                                    │
-        └── 아니오 ──▶ pthread_detach() 사용
+        +-- 예 ---> pthread_join() 사용
+        |          (부모가 명시적으로 대기 및 상태 수집)
+        |          ※ 블로킹되므로 타임아웃 고려 필요
+                                                    |
+        +-- 아니오 ---> pthread_detach() 사용
                        (스레드 생성 직후 분리)
                        ※ 종료 시 커널이 자동 정리
                        ※ 또는 스레드 속성으로
                          PTHREAD_CREATE_DETACHED 지정
-                                                    │
-                ▼
+                                                    |
+                v
      [최선의 실무 관행]
-     ┌──────────────────────────────────────────────┐
-     │ C++: RAII 래퍼 (소멸자에서 join/detach)      │
-     │ Go:   goroutine (기본 분리, GC가 정리)       │
-     │ Rust: std::thread::spawn (join handle 또는   │
-     │        detach 명시적 선택)                   │
-     └──────────────────────────────────────────────┘
+     +----------------------------------------------+
+     | C++: RAII 래퍼 (소멸자에서 join/detach)      |
+     | Go:   goroutine (기본 분리, GC가 정리)       |
+     | Rust: std::thread::spawn (join handle 또는   |
+     |        detach 명시적 선택)                   |
+     +----------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 의사결정 트리는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 종료 상태의 필요성에 따라 `join`과 `detach`를 선택하는 기준을 제시한다. 종료 상태가 필요한 경우(예: 작업 결과 수집, 에러 코드 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))에는 `pthread_join()`을 사용해야 하지만, 블로킹되므로 타임아웃을 설정하거나 비블로킹 [조건 변수](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/)([Condition Variable](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/))와 조합해야 한다. 종료 상태가 불필요한 "발사 후 잊어버리기(Fire-and-Forget)" 패턴의 경우에는 반드시 `pthread_detach()`를 사용해야 한다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [Attribute](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))에 `PTHREAD_CREATE_DETACHED`를 설정하면 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시점에 자동 분리되므로, 개발자가 매번 `detach()`를 호출하는 것을 잊는 실수를 방지할 수 있다.
@@ -258,12 +258,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [안드로이드 바인더 (Android Binder)]
-    │
-    ▼
+    |
+    v
 [좀비 스레드 (Zombie Thread)]
-    │
-    ├──▶ [멀티프로세스 아키텍처 (크롬 브라우저 등)]
-    └──▶ [멀티스레드 아키텍처 오버헤드 (락 경합 등)]
+    |
+    +---> [멀티프로세스 아키텍처 (크롬 브라우저 등)]
+    +---> [멀티스레드 아키텍처 오버헤드 (락 경합 등)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -280,7 +280,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 136 / 800
 
-← **이전**: [135. 안드로이드 바인더 (Android Binder) - 객체 지향적 경량 IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/135_android_binder/)
-**다음**: [137. 멀티프로세스 아키텍처 (크롬 브라우저 등) (Multiprocess Architecture)](/knowledge-base/studynote/02_operating_system/02_process_thread/137_multiprocess_architecture/) →
+<- **이전**: [135. 안드로이드 바인더 (Android Binder) - 객체 지향적 경량 IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/135_android_binder/)
+**다음**: [137. 멀티프로세스 아키텍처 (크롬 브라우저 등) (Multiprocess Architecture)](/knowledge-base/studynote/02_operating_system/02_process_thread/137_multiprocess_architecture/) ->
 
 ---

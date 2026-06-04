@@ -24,19 +24,19 @@ DDD에서 [도메인](/knowledge-base/studynote/05_database/02_modeling_normaliz
 엔티티의 예: '주문 #1001'은 주문 내용이 바뀌어도(항목 추가, 상태 변경) 여전히 '주문 #1001'이다. 반면 '₩[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000'은 어디서 왔든 같은 금액이면 동일한 값 객체다. 같은 금액의 서로 다른 지폐를 구별할 필요가 없듯이.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          엔티티 vs 값 객체 비교                               │
-├─────────────────────────────────────────────────────────────┤
-│  엔티티 (Entity)                값 객체 (Value Object)       │
-│  ─────────────────              ───────────────────────      │
-│  고유 ID 존재                   ID 없음                      │
-│  가변 (Mutable)                 불변 (Immutable)             │
-│  참조 동일성 비교               값 동일성 비교               │
-│  생명주기 추적                  교체 가능                    │
-│                                                             │
-│  예: Order(orderId)             예: Money(amount, currency)  │
-│      User(userId)                   Address(city, street)   │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          엔티티 vs 값 객체 비교                               |
++-------------------------------------------------------------+
+|  엔티티 (Entity)                값 객체 (Value Object)       |
+|  -----------------              -----------------------      |
+|  고유 ID 존재                   ID 없음                      |
+|  가변 (Mutable)                 불변 (Immutable)             |
+|  참조 동일성 비교               값 동일성 비교               |
+|  생명주기 추적                  교체 가능                    |
+|                                                             |
+|  예: Order(orderId)             예: Money(amount, currency)  |
+|      User(userId)                   Address(city, street)   |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 사람(엔티티)은 이름이 바뀌어도 주민등록번호(ID)로 동일인이 확인된다. 반면 1만원 지폐(값 객체)는 어느 지폐든 1만원이면 동일하다.
@@ -56,16 +56,16 @@ DDD에서 [도메인](/knowledge-base/studynote/05_database/02_modeling_normaliz
 | 공유 가능성 | 위험([참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 공유 시 부작용) | 안전(불변이므로 공유 OK) |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│           값 객체 불변성 - 교체(Replace) 패턴               │
-├─────────────────────────────────────────────────────────────┤
-│  // 잘못된 방법 (가변 값 객체 - 버그 위험)                  │
-│  price.setAmount(12000); // 기존 객체 수정                  │
-│                                                             │
-│  // 올바른 방법 (불변 값 객체 - 교체)                       │
-│  Money newPrice = new Money(12000, "KRW");                  │
-│  order.changePrice(newPrice); // 새 객체로 교체             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|           값 객체 불변성 - 교체(Replace) 패턴               |
++-------------------------------------------------------------+
+|  // 잘못된 방법 (가변 값 객체 - 버그 위험)                  |
+|  price.setAmount(12000); // 기존 객체 수정                  |
+|                                                             |
+|  // 올바른 방법 (불변 값 객체 - 교체)                       |
+|  Money newPrice = new Money(12000, "KRW");                  |
+|  order.changePrice(newPrice); // 새 객체로 교체             |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 값 객체는 수표(Check)처럼 금액이 적혀 있으면([속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)값) 어느 수표든 같다. 찢어지면 같은 금액의 새 수표(새 객체)를 발행하면 된다.
@@ -111,7 +111,7 @@ DDD에서 [도메인](/knowledge-base/studynote/05_database/02_modeling_normaliz
 
 ### 📌 관련 개념 맵
 
-DDD 엔티티·값 객체] → [에그리게이트 설계] → [불변 Value Object] → CQRS 읽기 모델 최적화]
+DDD 엔티티·값 객체] -> [에그리게이트 설계] -> [불변 Value Object] -> CQRS 읽기 모델 최적화]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -122,7 +122,7 @@ DDD 엔티티·값 객체] → [에그리게이트 설계] → [불변 Value Obj
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[프리미티브 타입 남용] → [값 객체·엔티티 구분(Evans)] → [불변 Value Object] → Domain Primitive 패턴] → [함수형 불변 자료구조 융합]
+[프리미티브 타입 남용] -> [값 객체·엔티티 구분(Evans)] -> [불변 Value Object] -> Domain Primitive 패턴] -> [함수형 불변 자료구조 융합]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -136,7 +136,7 @@ DDD 엔티티·값 객체] → [에그리게이트 설계] → [불변 Value Obj
 
 **진행 상황**: 188 / 530
 
-← **이전**: [131. 에그리게이트 루트 (Aggregate Root)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/131_aggregate_root/)
-**다음**: [133. 부패 방지 레이어 (Anti-Corruption Layer (ACL))](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/133_anti_corruption_layer/) →
+<- **이전**: [131. 에그리게이트 루트 (Aggregate Root)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/131_aggregate_root/)
+**다음**: [133. 부패 방지 레이어 (Anti-Corruption Layer (ACL))](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/133_anti_corruption_layer/) ->
 
 ---

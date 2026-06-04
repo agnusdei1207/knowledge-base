@@ -61,36 +61,36 @@ tags = ["studynote-operating-system"]
 `kcompactd` [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 매우 우아한 '양방향 스캐닝' 기법을 사용한다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 메모리 컴팩션 (Memory Compaction) 투 포인터 원리           │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [상황 1: 파편화된 메모리 존 (Zone)]                                  │
-  │   메모리 시작(Bottom)                               메모리 끝(Top) │
-  │   [ M ] [ F ] [ M ] [ U ] [ F ] [ F ] [ M ] [ F ] [ M ] [ F ]     │
-  │   (M: Movable 사용 중, F: Free 빈 공간, U: Unmovable 고정됨)            │
-  │     ▲                                                 ▲           │
-  │  Free Scanner ──▶ (빈 공간 탐색)        (Movable 탐색) ◀── Migration Scanner │
-  │                                                                   │
-  │  [상황 2: 스캐너들의 교차 스캔 및 복사 준비]                             │
-  │   - Migration Scanner(오른쪽)는 옮길 수 있는 [ M ]을 찾는다.           │
-  │   - Free Scanner(왼쪽)는 그 [ M ]을 집어넣을 [ F ]를 찾는다.           │
-  │                                                                   │
-  │   [ M ] [ F ] [ M ] [ U ] [ F ] [ F ] [ M ] [ F ] [ M ] [ F ]     │
-  │           ▲                                         ▲             │
-  │      (여기에 넣자)                              (얘를 옮기자)          │
-  │                                                                   │
-  │  [상황 3: 데이터 이동 (Migration) 및 포인터 업데이트]                   │
-  │   1. 오른쪽의 M(데이터)를 왼쪽의 F(빈 공간)로 물리적 복사한다.              │
-  │   2. 해당 애플리케이션의 Page Table을 새 물리 주소로 고친다.               │
-  │   3. 원래 오른쪽 M이 있던 자리는 빈 공간(F)으로 바꾼다.                   │
-  │                                                                   │
-  │   [ M ] [ M ] [ M ] [ U ] [ F ] [ F ] [ M ] [ F ] [ F ] [ F ]     │
-  │                                                                   │
-  │  [상황 4: 두 스캐너가 중간에서 만남 (완료)]                              │
-  │   결과: 사용 중인 페이지는 전부 왼쪽으로 몰리고, 오른쪽에는 연속된 거대한      │
-  │         [ F ] [ F ] [ F ] 공간이 창출됨! (Huge Page 할당 가능)      │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 메모리 컴팩션 (Memory Compaction) 투 포인터 원리           |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [상황 1: 파편화된 메모리 존 (Zone)]                                  |
+  |   메모리 시작(Bottom)                               메모리 끝(Top) |
+  |   [ M ] [ F ] [ M ] [ U ] [ F ] [ F ] [ M ] [ F ] [ M ] [ F ]     |
+  |   (M: Movable 사용 중, F: Free 빈 공간, U: Unmovable 고정됨)            |
+  |     ^                                                 ^           |
+  |  Free Scanner ---> (빈 공간 탐색)        (Movable 탐색) <--- Migration Scanner |
+  |                                                                   |
+  |  [상황 2: 스캐너들의 교차 스캔 및 복사 준비]                             |
+  |   - Migration Scanner(오른쪽)는 옮길 수 있는 [ M ]을 찾는다.           |
+  |   - Free Scanner(왼쪽)는 그 [ M ]을 집어넣을 [ F ]를 찾는다.           |
+  |                                                                   |
+  |   [ M ] [ F ] [ M ] [ U ] [ F ] [ F ] [ M ] [ F ] [ M ] [ F ]     |
+  |           ^                                         ^             |
+  |      (여기에 넣자)                              (얘를 옮기자)          |
+  |                                                                   |
+  |  [상황 3: 데이터 이동 (Migration) 및 포인터 업데이트]                   |
+  |   1. 오른쪽의 M(데이터)를 왼쪽의 F(빈 공간)로 물리적 복사한다.              |
+  |   2. 해당 애플리케이션의 Page Table을 새 물리 주소로 고친다.               |
+  |   3. 원래 오른쪽 M이 있던 자리는 빈 공간(F)으로 바꾼다.                   |
+  |                                                                   |
+  |   [ M ] [ M ] [ M ] [ U ] [ F ] [ F ] [ M ] [ F ] [ F ] [ F ]     |
+  |                                                                   |
+  |  [상황 4: 두 스캐너가 중간에서 만남 (완료)]                              |
+  |   결과: 사용 중인 페이지는 전부 왼쪽으로 몰리고, 오른쪽에는 연속된 거대한      |
+  |         [ F ] [ F ] [ F ] 공간이 창출됨! (Huge Page 할당 가능)      |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 메모리의 맨 밑에서 위로 올라가는 **Free Scanner**(빈칸 찾기)와 맨 위에서 아래로 내려오는 **Migration Scanner**(옮길 짐 찾기) 두 개의 포인터를 돌린다. 둘이 서로를 향해 다가오며 짐을 빈칸으로 복사해 던진다. 결과적으로 두 스캐너가 쾅 하고 부딪히는 순간 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)이 종료되며, 메모리의 앞단은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 꽉 차고(Packed), 메모리의 뒷단은 텅 빈 운동장(Contiguous Free Space)이 된다.
@@ -147,27 +147,27 @@ tags = ["studynote-operating-system"]
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 메모리 파편화 및 THP 튜닝 의사결정 플로우                │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [서버 성능 모니터링 중 CPU %sys(시스템) 또는 %wait가 비정상적으로 튐]      │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      dmesg 또는 perf 커널 트레이스에 `compact_zone` 함수가 빈발하는가?      │
-  │          ├─ 예 ─────▶ [THP(거대 페이지) Direct Compaction 오버헤드 확인] │
-  │          └─ 아니오                                                │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      워크로드가 TLB 미스율에 극도로 민감한가? (예: KVM 가상화, Oracle DB)    │
-  │          ├─ 예 ─────▶ [THP 활성화 유지 및 kcompactd 튜닝]            │
-  │          │            (compaction_proactiveness 값을 올려 백그라운드에서 │
-  │          │             더 공격적으로 미리 조각 모음을 돌리게 세팅)        │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ [THP 완전 비활성화 (never)]                   │
-  │                         (Redis, Nginx 등 작은 할당이 많은 앱은 THP와     │
-  │                          Compaction이 오히려 독이 됨)                 │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 메모리 파편화 및 THP 튜닝 의사결정 플로우                |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [서버 성능 모니터링 중 CPU %sys(시스템) 또는 %wait가 비정상적으로 튐]      |
+  |                |                                                  |
+  |                v                                                  |
+  |      dmesg 또는 perf 커널 트레이스에 `compact_zone` 함수가 빈발하는가?      |
+  |          +- 예 ------> [THP(거대 페이지) Direct Compaction 오버헤드 확인] |
+  |          +- 아니오                                                |
+  |                |                                                  |
+  |                v                                                  |
+  |      워크로드가 TLB 미스율에 극도로 민감한가? (예: KVM 가상화, Oracle DB)    |
+  |          +- 예 ------> [THP 활성화 유지 및 kcompactd 튜닝]            |
+  |          |            (compaction_proactiveness 값을 올려 백그라운드에서 |
+  |          |             더 공격적으로 미리 조각 모음을 돌리게 세팅)        |
+  |          |                                                        |
+  |          +- 아니오 ---> [THP 완전 비활성화 (never)]                   |
+  |                         (Redis, Nginx 등 작은 할당이 많은 앱은 THP와     |
+  |                          Compaction이 오히려 독이 됨)                 |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 컴팩션은 "공짜"가 아니다. 램의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 램으로 복사하는 행위는 CPU 캐시를 모조리 오염시키고 메모리 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 낭비한다. 초보자는 [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) 서버의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높이겠다며 THP를 무조건 켜지만, 시스템이 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)의 늪에 빠지면 [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) 전체가 멈추는 악몽을 겪는다. 아키텍트는 "미리 조각 모음을 해둘 것인가(CPU 약간 낭비), 아니면 아예 큰 방(THP)을 포기할 것인가([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 약간 하락)" 중 하나를 선택해야 한다.
@@ -214,12 +214,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [프로세스 체크포인트/리스토어 (CRIU) 컨테이너 마이그레이션 도구 구조]
-    │
-    ▼
+    |
+    v
 [커널 메모리 컴팩션 (Compaction) 외부 단편화 런타임 제거 백그라운드 스레드 구조]
-    │
-    ├──▶ [고가용성 클러스터 운영체제 하트비트/펜싱 (Fencing / STONITH) 뇌 분할(Split-Brain) 방어 메커니즘]
-    └──▶ [전력 인식(Power-aware) 스케줄러 동적 전압/주파수 스케일링(DVFS) 통합형 CPU 제어]
+    |
+    +---> [고가용성 클러스터 운영체제 하트비트/펜싱 (Fencing / STONITH) 뇌 분할(Split-Brain) 방어 메커니즘]
+    +---> [전력 인식(Power-aware) 스케줄러 동적 전압/주파수 스케일링(DVFS) 통합형 CPU 제어]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -236,7 +236,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 649 / 800
 
-← **이전**: [648. 프로세스 체크포인트/리스토어 (CRIU) 컨테이너 마이그레이션 도구 구조](/knowledge-base/studynote/02_operating_system/10_security/648_process_checkpoint_restore_criu/)
-**다음**: [650. 고가용성 클러스터 운영체제 하트비트/펜싱 (Fencing / STONITH) 뇌 분할(Split-Brain) 방어 메커니즘](/knowledge-base/studynote/02_operating_system/10_security/650_ha_cluster_split_brain_stonith/) →
+<- **이전**: [648. 프로세스 체크포인트/리스토어 (CRIU) 컨테이너 마이그레이션 도구 구조](/knowledge-base/studynote/02_operating_system/10_security/648_process_checkpoint_restore_criu/)
+**다음**: [650. 고가용성 클러스터 운영체제 하트비트/펜싱 (Fencing / STONITH) 뇌 분할(Split-Brain) 방어 메커니즘](/knowledge-base/studynote/02_operating_system/10_security/650_ha_cluster_split_brain_stonith/) ->
 
 ---

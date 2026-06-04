@@ -23,11 +23,11 @@ tags = ["studynote-network"]
 
 ```text
 [센서 네트워크 / 싱크 노드 구성]
-    │
-    ▼
+    |
+    v
 [WPAN]
-    │
-    └──▶ [블루투스]
+    |
+    +---> [블루투스]
 ```
 
 - **📢 섹션 요약 비유**: WPAN는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -43,11 +43,11 @@ tags = ["studynote-network"]
 
 ```text
 [센서 네트워크 / 싱크 노드 구성]
-    │
-    ▼
+    |
+    v
 [WPAN]
-    │
-    └──▶ [블루투스]
+    |
+    +---> [블루투스]
 ```
 
 - **📢 섹션 요약 비유**: WPAN의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -120,12 +120,12 @@ WPAN는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_i
 
 ```text
 [선행 개념: 센서 네트워크 / 싱크 노드 구성]
-    │
-    ▼
+    |
+    v
 [현재 개념: WPAN]
-    │
-    ├──▶ [확장 A: 블루투스]
-    └──▶ [확장 B: 자율형 엣지 협업]
+    |
+    +---> [확장 A: 블루투스]
+    +---> [확장 B: 자율형 엣지 협업]
 ```
 
 WPAN는 [센서 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/) / 싱크 노드 구성에서 출발해 현재 메커니즘을 정교화하고, 이후 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -142,7 +142,7 @@ WPAN는 [센서 네트워크](/knowledge-base/studynote/06_ict_convergence/02_io
 
 **진행 상황**: 725 / 1120
 
-← **이전**: [603. 센서 네트워크 (WSN, Wireless Sensor Network) / 싱크 노드 (Sink Node) 구성](/knowledge-base/studynote/03_network/12_iot_wpan_edge/603_wsn_wireless_sensor_network_sink_node/)
-**다음**: [605. 블루투스 (Bluetooth)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) →
+<- **이전**: [603. 센서 네트워크 (WSN, Wireless Sensor Network) / 싱크 노드 (Sink Node) 구성](/knowledge-base/studynote/03_network/12_iot_wpan_edge/603_wsn_wireless_sensor_network_sink_node/)
+**다음**: [605. 블루투스 (Bluetooth)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) ->
 
 ---

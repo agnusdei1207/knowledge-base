@@ -13,7 +13,7 @@ tags = ["studynote-design-supervision"]
 
 > 1. **본질**: [Interpreter](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/277_interpreter_pattern/) (인터프리터) 패턴은 언어의 문법을 객체 계층(Object Hierarchy)으로 표현하고, 각 객체가 자신의 해석(Interpret)을 담당하여 표현식을 평가하는 패턴이다 — Boolean Parser는 이 패턴의 가장 실용적인 구현 예다.
 > 2. **가치**: 비개발자도 이해할 수 있는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 언어(DSL, [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Specific Language)를 설계하여, 복잡한 비즈니스 규칙을 코드 변경 없이 외부에서 표현하고 변경할 수 있다.
-> 3. **판단 포인트**: 렉서(Lexer) → 파서(Parser, [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 하강) → AST (Abstract Syntax Tree, 추상 구문 트리) → 평가기(Evaluator)의 4단계 파이프라인이 인터프리터의 표준 구조다.
+> 3. **판단 포인트**: 렉서(Lexer) -> 파서(Parser, [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 하강) -> AST (Abstract Syntax Tree, 추상 구문 트리) -> 평가기(Evaluator)의 4단계 파이프라인이 인터프리터의 표준 구조다.
 
 ---
 
@@ -46,9 +46,9 @@ boolean eligible = interpreter.evaluate(rule, user);
 | 괄호 그룹 | 우선순위 조정 | `(A OR B) AND C` |
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 인터프리터 패턴은 번역가 팀 — 원문(표현식)을 받아 어휘 분석가(Lexer)가 단어로 쪼개고, 문법 분석가(Parser)가 문장 구조(AST)를 파악하고, 번역가(Evaluator)가 최종 의미(true/false)를 판단한다.
@@ -57,35 +57,35 @@ boolean eligible = interpreter.evaluate(rule, user);
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│           Boolean Parser Interpreter Pipeline                   │
-│                                                                 │
-│  입력: "age >= 18 AND (role = 'ADMIN' OR score > 100)"          │
-│                                                                 │
-│  Step 1: Lexer (렉서 / 토크나이저)                               │
-│    ┌─────────────────────────────────────────────────────────┐  │
-│    │ [age] [>=] [18] [AND] [(] [role] [=] ['ADMIN'] [OR]... │  │
-│    └────────────────────────────┬────────────────────────────┘  │
-│                                 │ 토큰 스트림                    │
-│  Step 2: Parser (파서, 재귀 하강)                                │
-│    ┌─────────────────────────────────────────────────────────┐  │
-│    │           AST (추상 구문 트리)                            │  │
-│    │                  AND                                    │  │
-│    │                 /   \                                   │  │
-│    │           age>=18    OR                                 │  │
-│    │                     /  \                                │  │
-│    │              role=ADMIN  score>100                      │  │
-│    └────────────────────────────┬────────────────────────────┘  │
-│                                 │ AST                           │
-│  Step 3: Evaluator (평가기)                                      │
-│    ┌─────────────────────────────────────────────────────────┐  │
-│    │ context = { age: 25, role: "USER", score: 150 }         │  │
-│    │ AND(age>=18:true, OR(role=ADMIN:false, score>100:true))  │  │
-│    │ = AND(true, OR(false, true)) = AND(true, true) = true   │  │
-│    └─────────────────────────────────────────────────────────┘  │
-│                                                                 │
-│  출력: true (조건 충족)                                           │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|           Boolean Parser Interpreter Pipeline                   |
+|                                                                 |
+|  입력: "age >= 18 AND (role = 'ADMIN' OR score > 100)"          |
+|                                                                 |
+|  Step 1: Lexer (렉서 / 토크나이저)                               |
+|    +---------------------------------------------------------+  |
+|    | [age] [>=] [18] [AND] [(] [role] [=] ['ADMIN'] [OR]... |  |
+|    +----------------------------+----------------------------+  |
+|                                 | 토큰 스트림                    |
+|  Step 2: Parser (파서, 재귀 하강)                                |
+|    +---------------------------------------------------------+  |
+|    |           AST (추상 구문 트리)                            |  |
+|    |                  AND                                    |  |
+|    |                 /   \                                   |  |
+|    |           age>=18    OR                                 |  |
+|    |                     /  \                                |  |
+|    |              role=ADMIN  score>100                      |  |
+|    +----------------------------+----------------------------+  |
+|                                 | AST                           |
+|  Step 3: Evaluator (평가기)                                      |
+|    +---------------------------------------------------------+  |
+|    | context = { age: 25, role: "USER", score: 150 }         |  |
+|    | AND(age>=18:true, OR(role=ADMIN:false, score>100:true))  |  |
+|    | = AND(true, OR(false, true)) = AND(true, true) = true   |  |
+|    +---------------------------------------------------------+  |
+|                                                                 |
+|  출력: true (조건 충족)                                           |
++-----------------------------------------------------------------+
 ```
 
 ```bnf
@@ -192,10 +192,10 @@ boolean allowed = engine.evaluate(rule, new PermissionContext(currentUser, targe
 
 ```
 성능 문제:
-  같은 규칙 문자열을 매 요청마다 파싱 → 파싱 비용 반복 발생
+  같은 규칙 문자열을 매 요청마다 파싱 -> 파싱 비용 반복 발생
 
 최적화:
-  규칙 문자열 → AST 변환 결과를 캐시
+  규칙 문자열 -> AST 변환 결과를 캐시
   (규칙 변경 시 캐시 무효화)
 
   Map<String, Expression> astCache = new ConcurrentHashMap<>();
@@ -234,7 +234,7 @@ Boolean Parser [Interpreter](/knowledge-base/studynote/04_software_engineering/0
 - 파싱 오버헤드 (AST 캐싱으로 완화)
 - 문법 에러 처리 및 디버깅 도구 필요
 
-기술사 시험에서는 <strong>Lexer → Parser → AST → Evaluator 4단계</strong>와 <strong>TerminalExpression/NonterminalExpression 역할</strong>을 명확히 서술하고, <strong>실무 적용 사례(Spring <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> SpEL, Drools)</strong>를 언급하는 것이 핵심이다.
+기술사 시험에서는 <strong>Lexer -> Parser -> AST -> Evaluator 4단계</strong>와 <strong>TerminalExpression/NonterminalExpression 역할</strong>을 명확히 서술하고, <strong>실무 적용 사례(Spring <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> SpEL, Drools)</strong>를 언급하는 것이 핵심이다.
 
 확장 방향은 ① 선언형 API와의 결합, ② [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 내장, ③ [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에 맞는 변형 패턴 적용이다.
 
@@ -249,16 +249,16 @@ Boolean Parser [Interpreter](/knowledge-base/studynote/04_software_engineering/0
 | 구성 패턴 | [Composite Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/154_composite_pattern/) | AST 노드 계층 구조에 활용 |
 | 연관 개념 | DSL ([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Specific Language) | 인터프리터가 해석하는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 언어 |
 | 연관 개념 | AST (Abstract Syntax Tree) | 파싱 결과물, 평가의 입력 |
-| 구현 도구 | ANTLR | 문법 정의 → 파서 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 도구 |
+| 구현 도구 | ANTLR | 문법 정의 -> 파서 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 도구 |
 | 실무 사례 | Spring [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) SpEL | 권한 표현식 DSL 인터프리터 |
 | 연관 개념 | BNF 문법 정의 | 언어 구조를 형식적으로 기술하는 표기법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[토큰화](/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/) → 불리언 파서 인터프리터 → 규칙 DSL
+[토큰화](/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/) -> 불리언 파서 인터프리터 -> 규칙 DSL
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 인터프리터는 번역기 — "나이 >= 18 그리고 회원등급 = VIP" 같은 조건문(DSL)을 컴퓨터가 이해하는 true/false로 번역해줘.
-2. 번역하는 순서는 먼저 단어로 쪼개고(Lexer), 그다음 문장 구조를 파악하고(Parser → AST), 마지막으로 실제로 계산해서(Evaluator) 답을 내.
+2. 번역하는 순서는 먼저 단어로 쪼개고(Lexer), 그다음 문장 구조를 파악하고(Parser -> AST), 마지막으로 실제로 계산해서(Evaluator) 답을 내.
 3. 이 방법 덕분에 "접속 허용 규칙"을 개발자가 코드를 바꾸지 않아도 비개발자가 텍스트로 수정할 수 있어 — 마치 법률 조항을 바꾸는 것처럼.
 
 ---
@@ -267,7 +267,7 @@ Boolean Parser [Interpreter](/knowledge-base/studynote/04_software_engineering/0
 
 **진행 상황**: 288 / 530
 
-← **이전**: [226. 리키 버킷 트래픽 쉐이핑 (Leaky Bucket Traffic Shaping)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/226_leaky_bucket_traffic_shaping/)
-**다음**: [228. 컨텍스트 맵과 ACL 패턴 (Context Map / Anti-Corruption Layer Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/228_context_map_acl_pattern/) →
+<- **이전**: [226. 리키 버킷 트래픽 쉐이핑 (Leaky Bucket Traffic Shaping)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/226_leaky_bucket_traffic_shaping/)
+**다음**: [228. 컨텍스트 맵과 ACL 패턴 (Context Map / Anti-Corruption Layer Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/228_context_map_acl_pattern/) ->
 
 ---

@@ -111,15 +111,15 @@ SGD ([Stochastic Gradient Descent](/knowledge-base/studynote/14_data_engineering
 
 ```text
 손실 함수
-   ↓
+   v
 그래디언트 계산
-   ↓
+   v
 과거 그래디언트 누적
-   ↓
+   v
 파라미터별 학습률 조정
-   ↓
+   v
 가중치 업데이트
-   ↓
+   v
 다음 반복
 ```
 
@@ -135,7 +135,7 @@ SGD ([Stochastic Gradient Descent](/knowledge-base/studynote/14_data_engineering
 
 **진행 상황**: 85 / 420
 
-← **이전**: [84. 모멘텀 (Momentum) 옵티마이저 - 관성 활용 최적화](/knowledge-base/studynote/10_ai/01_ai_basics/084_momentum_optimizer_local_minima_escape/)
-**다음**: [86. Adam (Adaptive Moment Estimation) - 최강의 결합 옵티마이저](/knowledge-base/studynote/10_ai/01_ai_basics/086_adam_optimizer_momentum_rmsprop/) →
+<- **이전**: [84. 모멘텀 (Momentum) 옵티마이저 - 관성 활용 최적화](/knowledge-base/studynote/10_ai/01_ai_basics/084_momentum_optimizer_local_minima_escape/)
+**다음**: [86. Adam (Adaptive Moment Estimation) - 최강의 결합 옵티마이저](/knowledge-base/studynote/10_ai/01_ai_basics/086_adam_optimizer_momentum_rmsprop/) ->
 
 ---

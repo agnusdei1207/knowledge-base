@@ -25,11 +25,11 @@ tags = ["studynote-network"]
 
 ```text
 [멀티캐스트 오디오/비디오 스트리밍 프로토콜]
-    │
-    ▼
+    |
+    v
 [CMAF]
-    │
-    └──▶ [화상 회의 지터 버퍼]
+    |
+    +---> [화상 회의 지터 버퍼]
 ```
 
 - **📢 섹션 요약 비유**: CMAF는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -42,11 +42,11 @@ tags = ["studynote-network"]
 
 ```text
 [멀티캐스트 오디오/비디오 스트리밍 프로토콜]
-    │
-    ▼
+    |
+    v
 [CMAF]
-    │
-    └──▶ [화상 회의 지터 버퍼]
+    |
+    +---> [화상 회의 지터 버퍼]
 ```
 
 - **📢 섹션 요약 비유**: CMAF의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -121,12 +121,12 @@ CMAF는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 �
 
 ```text
 [선행 개념: 멀티캐스트 오디오/비디오 스트리밍 프로토콜]
-    │
-    ▼
+    |
+    v
 [현재 개념: CMAF]
-    │
-    ├──▶ [확장 A: 화상 회의 지터 버퍼]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
+    |
+    +---> [확장 A: 화상 회의 지터 버퍼]
+    +---> [확장 B: 의미 기반 통신 최적화]
 ```
 
 CMAF는 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 오디오/비디오 스트리밍 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에서 출발해 현재 메커니즘을 정교화하고, 이후 화상 회의 지터 버퍼와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -143,7 +143,7 @@ CMAF는 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_
 
 **진행 상황**: 1027 / 1120
 
-← **이전**: [905. 멀티캐스트 오디오/비디오 스트리밍 프로토콜 (HLS HTTP Live Streaming)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/905_hls_http_live_streaming_m3u8_adaptive_bitrate/)
-**다음**: [907. 화상 회의 지터 버퍼 (Jitter Buffer 패킷 도달 시간편차 무작위성 완충 재생 지연 최신 동기화 체계망 오디오 왜곡](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/907_jitter_buffer_video_conferencing_adaptive_playout/) →
+<- **이전**: [905. 멀티캐스트 오디오/비디오 스트리밍 프로토콜 (HLS HTTP Live Streaming)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/905_hls_http_live_streaming_m3u8_adaptive_bitrate/)
+**다음**: [907. 화상 회의 지터 버퍼 (Jitter Buffer 패킷 도달 시간편차 무작위성 완충 재생 지연 최신 동기화 체계망 오디오 왜곡](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/907_jitter_buffer_video_conferencing_adaptive_playout/) ->
 
 ---

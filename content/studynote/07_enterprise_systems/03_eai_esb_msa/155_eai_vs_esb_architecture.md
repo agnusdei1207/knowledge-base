@@ -32,19 +32,19 @@ tags = ["studynote-enterprise"]
 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)형 EAI는 모든 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지가 중앙 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)를 거치며, 이곳에서 포맷 변환·[라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)·[오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)을 수행한다. ESB는 공통 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)와 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 인터페이스를 중심으로 중재 기능을 표준화하고, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 단위 연결과 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 중재를 더 유연하게 지원한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ EAI vs ESB topology                                          │
-├──────────────────────────────────────────────────────────────┤
-│ EAI (hub-and-spoke)                                          │
-│   App A ----\                                                 │
-│   App B -----+--> [ Integration Hub ] --> target apps        │
-│   App C ----/      transform / route / control               │
-│                                                              │
-│ ESB (service bus)                                            │
-│   Service A --+                                               │
-│   Service B --+--> [ Bus / mediation / standards ] <---+     │
-│   Service C --+        SOAP / REST / JMS / XML       ----+   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| EAI vs ESB topology                                          |
++--------------------------------------------------------------+
+| EAI (hub-and-spoke)                                          |
+|   App A ----\                                                 |
+|   App B -----+--> [ Integration Hub ] --> target apps        |
+|   App C ----/      transform / route / control               |
+|                                                              |
+| ESB (service bus)                                            |
+|   Service A --+                                               |
+|   Service B --+--> [ Bus / mediation / standards ] <---+     |
+|   Service C --+        SOAP / REST / JMS / XML       ----+   |
++--------------------------------------------------------------+
 ```
 
 | 항목 | [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)형 [EAI](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/143_eai_enterprise_application_integration_hub/) | [ESB](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/) |
@@ -123,14 +123,14 @@ EAI와 ESB는 모두 [P2P](/knowledge-base/studynote/03_network/18_optical_nextg
 
 ```text
 Point-to-Point integration
-  │
-  ▼
+  |
+  v
 EAI (hub-centric integration)
-  │
-  ▼
+  |
+  v
 ESB (SOA service bus)
-  │
-  ▼
+  |
+  v
 API Gateway + Event Broker + iPaaS
 ```
 
@@ -146,7 +146,7 @@ API Gateway + Event Broker + iPaaS
 
 **진행 상황**: 155 / 482
 
-← **이전**: [154. ESB (Enterprise Service Bus) - 스파게티 강결합을 찢어발긴 SOA 중앙 고속도로 통역 뇌](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/154_esb_enterprise_service_bus_soa/)
-**다음**: [156. REST (Representational State Transfer)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) →
+<- **이전**: [154. ESB (Enterprise Service Bus) - 스파게티 강결합을 찢어발긴 SOA 중앙 고속도로 통역 뇌](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/154_esb_enterprise_service_bus_soa/)
+**다음**: [156. REST (Representational State Transfer)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) ->
 
 ---

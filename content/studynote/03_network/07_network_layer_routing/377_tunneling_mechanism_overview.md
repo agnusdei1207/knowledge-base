@@ -31,11 +31,11 @@ tags = ["studynote-network"]
 
 ```text
 [MPLS VPN]
-    │
-    ▼
+    |
+    v
 [터널링 메커니즘 개요]
-    │
-    └──▶ [GRE]
+    |
+    +---> [GRE]
 ```
 
 - **📢 섹션 요약 비유**: ** 터널링은 국경을 넘기 위해 **"마차를 기차 화물칸에 통째로 싣고 달리는 것"**입니다. 마차는 바퀴 한 번 굴리지 않았지만(투명성), 기차 화물칸에 실려 수백 킬로미터를 이동한 뒤 목적지에서 기차 밖으로 나와 다시 마차의 길을 갑니다.
@@ -59,22 +59,22 @@ tags = ["studynote-network"]
    - 예: 목적지가 공인 IP(`8.8.8.8`)로 적혀 있는 겉면의 새로운 IP 헤더.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                터널링의 전형적인 3단 포장(캡슐화) 구조             │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 일반 패킷 ]                                               │
- │   [ 오리지널 IP 헤더 (목적지: 10.x) ] ──▶ [ Data (비밀문서) ]       │
- │           (이대로 인터넷에 나가면 사설 IP라서 버려짐!!)                │
- │                                                             │
- │   [ 터널링 패킷 (VPN 등) ]                                     │
- │   [ 새로운 V4 IP 헤더 (목적지: 211.x) ] ◀─ 3. 운반 (Carrier)    │
- │       └──▶ [ GRE 헤더 (터널링 접착제) ] ◀─ 2. 캡슐화 (Encapsulating)│
- │               └──▶ [ 원본 IP 헤더 ]  ◀─ 1. 여객 (Passenger)  │
- │                       └──▶ [ Data ]                          │
- │                                                             │
- │   ▶ "인터넷 세상은 오직 맨 껍데기(새로운 V4 IP)만 보고 배송해 준다."   │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                터널링의 전형적인 3단 포장(캡슐화) 구조             |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 일반 패킷 ]                                               |
+ |   [ 오리지널 IP 헤더 (목적지: 10.x) ] ---> [ Data (비밀문서) ]       |
+ |           (이대로 인터넷에 나가면 사설 IP라서 버려짐!!)                |
+ |                                                             |
+ |   [ 터널링 패킷 (VPN 등) ]                                     |
+ |   [ 새로운 V4 IP 헤더 (목적지: 211.x) ] <-- 3. 운반 (Carrier)    |
+ |       +---> [ GRE 헤더 (터널링 접착제) ] <-- 2. 캡슐화 (Encapsulating)|
+ |               +---> [ 원본 IP 헤더 ]  <-- 1. 여객 (Passenger)  |
+ |                       +---> [ Data ]                          |
+ |                                                             |
+ |   -> "인터넷 세상은 오직 맨 껍데기(새로운 V4 IP)만 보고 배송해 준다."   |
+ +-------------------------------------------------------------+
 ```
 
 ### 2. 터널링의 한계와 트러블슈팅 (MTU 병목)
@@ -142,12 +142,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: MPLS VPN]
-    │
-    ▼
+    |
+    v
 [현재 개념: 터널링 메커니즘 개요]
-    │
-    ├──▶ [확장 A: GRE]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: GRE]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 터널링 메커니즘 개요는 [MPLS](/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/) VPN에서 출발해 현재 메커니즘을 정교화하고, 이후 GRE와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -164,7 +164,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 498 / 1120
 
-← **이전**: [376. MPLS VPN](/knowledge-base/studynote/03_network/07_network_layer_routing/376_mpls_vpn_l3_vrf_bgp/)
-**다음**: [378. GRE (Generic Routing Encapsulation)](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) →
+<- **이전**: [376. MPLS VPN](/knowledge-base/studynote/03_network/07_network_layer_routing/376_mpls_vpn_l3_vrf_bgp/)
+**다음**: [378. GRE (Generic Routing Encapsulation)](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) ->
 
 ---

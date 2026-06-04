@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [ARP 프레임]
-    │
-    ▼
+    |
+    v
 [RARP]
-    │
-    └──▶ [Proxy ARP]
+    |
+    +---> [Proxy ARP]
 ```
 
 - **📢 섹션 요약 비유**: <strong> RARP는 전입신고 센터입니다. 집(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소)은 샀는데 아직 도로명 주소(IP 주소)를 부여받지 못한 신축 아파트가, 관공서에 달려가서 </strong>"이 집터에 배정된 주소가 뭔가요?"**라고 물어보고 문패를 달아오는 과정입니다.
@@ -44,8 +44,8 @@ tags = ["studynote-network"]
 ### 1. RARP 서버의 맵핑 테이블 수작업
 RARP가 동작하려면 네트워크 어딘가에 RARP 서버(관리자 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))가 한 대 반드시 켜져 있어야 한다.
 관리자는 이 서버 텍스트 파일에 노가다로 매핑을 쳐 놔야 했다.
-- `AA:BB:CC:11:22:33 ──▶ 192.168.0.10`
-- `AA:BB:CC:11:22:44 ──▶ 192.168.0.11`
+- `AA:BB:CC:11:22:33 ---> 192.168.0.10`
+- `AA:BB:CC:11:22:44 ---> 192.168.0.11`
 
 ### 2. 동작 프로세스 ([Opcode](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/) 3, 4)
 RARP 메시지 구조는 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 프레임 28바이트 구조와 완전히 똑같다. 다만 안의 내용물이 반대다.
@@ -53,24 +53,24 @@ RARP 메시지 구조는 [ARP](/knowledge-base/studynote/03_network/06_network_l
 2. **RARP Reply (응답)**: RARP 서버가 이걸 받는다. "음, 내 장부에 [AA](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/):AA는 10번 IP라고 적혀있네." 서버는 빈칸을 채우고 Opcode를 `4`로 바꾼 뒤 유니캐스트로 던져준다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                RARP 요청과 DHCP의 차이점                       │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 깡통 PC ] ──── "내 MAC이 AA:BB야. 내 IP가 뭐지?" ─────▶     │
- │                                                             │
- │   [ RARP 서버 ] "음... 장부(DB)를 보니 10번이네. 옛다 10번!"       │
- │                (※ 단점: 수동으로 장부에 적힌 MAC에게만 IP를 줌)    │
- │                                                             │
- │   * RARP의 한계:                                              │
- │   - 오직 "IP 주소 딱 1개"만 알려준다.                            │
- │   - 서브넷 마스크? 안 알려줌.                                   │
- │   - 게이트웨이? 안 알려줌.                                      │
- │   - DNS 서버 주소? 안 알려줌.                                   │
- │                                                             │
- │   ▶ 인터넷을 하려면 마스크랑 게이트웨이도 필수인데, 달랑 IP 1개만    │
- │      주니까 통신이 불가능했다. 그래서 DHCP로 빠르게 대체되었다.       │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                RARP 요청과 DHCP의 차이점                       |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 깡통 PC ] ---- "내 MAC이 AA:BB야. 내 IP가 뭐지?" ------>     |
+ |                                                             |
+ |   [ RARP 서버 ] "음... 장부(DB)를 보니 10번이네. 옛다 10번!"       |
+ |                (※ 단점: 수동으로 장부에 적힌 MAC에게만 IP를 줌)    |
+ |                                                             |
+ |   * RARP의 한계:                                              |
+ |   - 오직 "IP 주소 딱 1개"만 알려준다.                            |
+ |   - 서브넷 마스크? 안 알려줌.                                   |
+ |   - 게이트웨이? 안 알려줌.                                      |
+ |   - DNS 서버 주소? 안 알려줌.                                   |
+ |                                                             |
+ |   -> 인터넷을 하려면 마스크랑 게이트웨이도 필수인데, 달랑 IP 1개만    |
+ |      주니까 통신이 불가능했다. 그래서 DHCP로 빠르게 대체되었다.       |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. 역사적 퇴장과 진화
@@ -136,12 +136,12 @@ RARP는 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아 주는 �
 
 ```text
 [선행 개념: ARP 프레임]
-    │
-    ▼
+    |
+    v
 [현재 개념: RARP]
-    │
-    ├──▶ [확장 A: Proxy ARP]
-    └──▶ [확장 B: 대규모 주소 자동화]
+    |
+    +---> [확장 A: Proxy ARP]
+    +---> [확장 B: 대규모 주소 자동화]
 ```
 
 RARP는 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 프레임에서 출발해 현재 메커니즘을 정교화하고, 이후 [Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) ARP와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -158,7 +158,7 @@ RARP는 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_a
 
 **진행 상황**: 435 / 1120
 
-← **이전**: [313. ARP 프레임 (요청-브로드캐스트, 응답-유니캐스트)](/knowledge-base/studynote/03_network/06_network_layer_ip/313_arp_frame_request_broadcast_reply_unicast/)
-**다음**: [315. Proxy ARP (프록시 ARP)](/knowledge-base/studynote/03_network/06_network_layer_ip/315_proxy_arp_subnet_proxy_response/) →
+<- **이전**: [313. ARP 프레임 (요청-브로드캐스트, 응답-유니캐스트)](/knowledge-base/studynote/03_network/06_network_layer_ip/313_arp_frame_request_broadcast_reply_unicast/)
+**다음**: [315. Proxy ARP (프록시 ARP)](/knowledge-base/studynote/03_network/06_network_layer_ip/315_proxy_arp_subnet_proxy_response/) ->
 
 ---

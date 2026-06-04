@@ -44,22 +44,22 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 4-way 수퍼스칼라가 어떤 식으로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 처리하는지 보여준다. 핵심은 "4개를 무조건 실행"이 아니라, <strong>독립적인 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>가 있을 때 최대 4개까지 같은 박자에 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a></strong>된다는 점이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│               4-Way 수퍼스칼라의 기본 흐름: 넓은 길을 계속 채우기            │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ 명령어 묶음   ──▶ [ Fetch x4 ] ──▶ [ Decode x4 ] ──▶ [ Issue / Select ]      │
-│                                                        │                     │
-│                                                        ├─▶ [ ALU 0 ]         │
-│                                                        ├─▶ [ ALU 1 ]         │
-│                                                        ├─▶ [ FPU 0 ]         │
-│                                                        └─▶ [ LSU 0 ]         │
-│                                                              │               │
-│                                            결과 수집 ────────┴──────▶ Retire │
-│                                                                              │
-│ 조건 1) 명령어 사이에 RAW/WAR/WAW 충돌이 적어야 함                           │
-│ 조건 2) 실행 유닛 종류와 수가 실제 명령어 혼합 비율에 맞아야 함              │
-│ 조건 3) 캐시와 분기 예측이 계속 명령어/데이터를 공급해 줘야 함               │
-└──────────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------------+
+|               4-Way 수퍼스칼라의 기본 흐름: 넓은 길을 계속 채우기            |
++------------------------------------------------------------------------------+
+| 명령어 묶음   ---> [ Fetch x4 ] ---> [ Decode x4 ] ---> [ Issue / Select ]      |
+|                                                        |                     |
+|                                                        +--> [ ALU 0 ]         |
+|                                                        +--> [ ALU 1 ]         |
+|                                                        +--> [ FPU 0 ]         |
+|                                                        +--> [ LSU 0 ]         |
+|                                                              |               |
+|                                            결과 수집 --------+-------> Retire |
+|                                                                              |
+| 조건 1) 명령어 사이에 RAW/WAR/WAW 충돌이 적어야 함                           |
+| 조건 2) 실행 유닛 종류와 수가 실제 명령어 혼합 비율에 맞아야 함              |
+| 조건 3) 캐시와 분기 예측이 계속 명령어/데이터를 공급해 줘야 함               |
++------------------------------------------------------------------------------+
 ```
 
 수퍼스칼라의 진짜 어려움은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행 자체보다 <strong>어떤 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>를 함께 내보낼지 판단하는 일</strong>이다. 두 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 같은 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 건드리거나, 둘 다 같은 메모리 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 원하거나, 앞선 분기 결과가 아직 확정되지 않았다면 동시 발행이 깨진다. 그래서 발행 폭이 넓어질수록 비교 회로와 우선순위 선택 로직이 급격히 복잡해지고, 이 복잡도는 흔히 O(N^2) 수준으로 설명된다.
@@ -138,24 +138,24 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 명령어 파이프라이닝 (Instruction Pipelining)
-    │
-    ▼
+    |
+    v
 스칼라 처리의 CPI 한계 인식
-    │
-    ▼
+    |
+    v
 수퍼스칼라 (Superscalar)
-    │
-    ├─▶ 명령어 발급 폭 (Issue Width) 확대
-    │
-    ├─▶ 비순차 실행 (Out-of-Order Execution, OoO)
-    │        │
-    │        ├─▶ 레지스터 리네이밍 (Register Renaming)
-    │        └─▶ 재주문 버퍼 (ROB, Reorder Buffer)
-    │
-    └─▶ 대안적 병렬화: VLIW → EPIC (Explicitly Parallel Instruction Computing)
+    |
+    +--> 명령어 발급 폭 (Issue Width) 확대
+    |
+    +--> 비순차 실행 (Out-of-Order Execution, OoO)
+    |        |
+    |        +--> 레지스터 리네이밍 (Register Renaming)
+    |        +--> 재주문 버퍼 (ROB, Reorder Buffer)
+    |
+    +--> 대안적 병렬화: VLIW -> EPIC (Explicitly Parallel Instruction Computing)
 ```
 
-이 흐름은 "단일 파이프라인의 한계 인식 → 하드웨어 동적 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 확대 → 이를 지탱하는 보조 기술 → 소프트웨어 중심 대안"으로 이어지는 진화 경로를 보여준다.
+이 흐름은 "단일 파이프라인의 한계 인식 -> 하드웨어 동적 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 확대 -> 이를 지탱하는 보조 기술 -> 소프트웨어 중심 대안"으로 이어지는 진화 경로를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -169,7 +169,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 236 / 803
 
-← **이전**: [235. 분기 역사 표 (BHT)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/235_bht/)
-**다음**: [237. 명령어 발급 폭 (Issue Width)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/237_issue_width/) →
+<- **이전**: [235. 분기 역사 표 (BHT)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/235_bht/)
+**다음**: [237. 명령어 발급 폭 (Issue Width)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/237_issue_width/) ->
 
 ---

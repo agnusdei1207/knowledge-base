@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [동적 라우팅]
-    │
-    ▼
+    |
+    v
 [메트릭]
-    │
-    └──▶ [관리 거리]
+    |
+    +---> [관리 거리]
 ```
 
 - **📢 섹션 요약 비유**: ** 메트릭은 오디션 프로그램의 **"심사 기준"**입니다. 심사위원([프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))이 RIP냐 OSPF냐에 따라 외모(거리)를 볼지, 가창력([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))을 볼지 기준이 다르지만, 어쨌든 1등 점수를 받은 사람 딱 한 명만 무대([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블)에 설 수 있습니다.
@@ -61,20 +61,20 @@ tags = ["studynote-network"]
 - **계산법**: 엄청나게 복잡한 수학 공식(DUAL [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))을 돌려 천만 단위의 거대한 메트릭 점수를 뽑아낸다. 가장 똑똑하고 정밀하게 최단+최적의 길을 찾아낸다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                RIP vs OSPF 메트릭 판단의 극단적 예시            │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 내 라우터 ] ──── (10Mbps 느린 국도) ────▶ [ 목적지 ]       │
- │        │                                             ▲      │
- │        └── (1Gbps 고속도로) ──▶ [중간 라우터] ── (1Gbps) ──┘      │
- │                                                             │
- │   * RIP의 선택: 윗길(직통)은 라우터 0개(1점), 아랫길은 라우터 1개(2점). │
- │               "직통이 짱이지! 윗길로 가자!" ──▶ 통신 마비 됨.      │
- │                                                             │
- │   * OSPF의 선택: 윗길은 Cost 10, 아랫길은 Cost 1+1=2.           │
- │                "좀 돌아가도 빠른 게 짱이지! 아랫길로 가자!" ──▶ 쾌적함.│
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                RIP vs OSPF 메트릭 판단의 극단적 예시            |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 내 라우터 ] ---- (10Mbps 느린 국도) -----> [ 목적지 ]       |
+ |        |                                             ^      |
+ |        +-- (1Gbps 고속도로) ---> [중간 라우터] -- (1Gbps) --+      |
+ |                                                             |
+ |   * RIP의 선택: 윗길(직통)은 라우터 0개(1점), 아랫길은 라우터 1개(2점). |
+ |               "직통이 짱이지! 윗길로 가자!" ---> 통신 마비 됨.      |
+ |                                                             |
+ |   * OSPF의 선택: 윗길은 Cost 10, 아랫길은 Cost 1+1=2.           |
+ |                "좀 돌아가도 빠른 게 짱이지! 아랫길로 가자!" ---> 쾌적함.|
+ +-------------------------------------------------------------+
 ```
 
 ### 4. 메트릭이 완벽하게 똑같다면? ([ECMP](/knowledge-base/studynote/03_network/16_data_center_cloud/804_ecmp_equal_cost_multi_path_routing_load_balancing/) [로드 밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/))
@@ -139,12 +139,12 @@ A길도 메트릭이 10점, B길도 메트릭이 10점(동점)이라면 라우�
 
 ```text
 [선행 개념: 동적 라우팅]
-    │
-    ▼
+    |
+    v
 [현재 개념: 메트릭]
-    │
-    ├──▶ [확장 A: 관리 거리]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: 관리 거리]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 메트릭는 [동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [관리 거리](/knowledge-base/studynote/03_network/07_network_layer_routing/343_administrative_distance_ad_protocol_priority/)와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -161,7 +161,7 @@ A길도 메트릭이 10점, B길도 메트릭이 10점(동점)이라면 라우�
 
 **진행 상황**: 463 / 1120
 
-← **이전**: [341. 동적 라우팅 (Dynamic Routing)](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/)
-**다음**: [343. 관리 거리 (AD, Administrative Distance)](/knowledge-base/studynote/03_network/07_network_layer_routing/343_administrative_distance_ad_protocol_priority/) →
+<- **이전**: [341. 동적 라우팅 (Dynamic Routing)](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/)
+**다음**: [343. 관리 거리 (AD, Administrative Distance)](/knowledge-base/studynote/03_network/07_network_layer_routing/343_administrative_distance_ad_protocol_priority/) ->
 
 ---

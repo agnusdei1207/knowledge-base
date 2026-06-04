@@ -11,9 +11,9 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: RBF [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(Radial Basis Function [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/), 방사 기저 함수 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) K(x,x') = exp(-γ||x-x'||²)은 두 점 사이의 거리를 무한 차원 특성 공간에서의 내적으로 암묵적으로 변환하는 [커널 트릭](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/)([Kernel Trick](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/))의 대표 구현이다.
+> 1. **본질**: RBF [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(Radial Basis Function [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/), 방사 기저 함수 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) K(x,x') = exp(-γ||x-x'||^)은 두 점 사이의 거리를 무한 차원 특성 공간에서의 내적으로 암묵적으로 변환하는 [커널 트릭](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/)([Kernel Trick](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/))의 대표 구현이다.
 > 2. **가치**: 원본 공간에서 선형 분리 불가능한 XOR 패턴도 가우시안 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 통해 무한 차원으로 매핑하면 선형 분리 가능해져, SVM이 어떤 복잡한 결정 경계도 학습할 수 있다.
-> 3. **판단 포인트**: γ = 1/(2σ²)는 가우시안의 폭을 제어하며, γ가 크면(좁은 가우시안) → 결정 경계 복잡(과적합), γ가 작으면(넓은 가우시안) → 매끄러운 결정 경계(과소적합).
+> 3. **판단 포인트**: γ = 1/(2σ^)는 가우시안의 폭을 제어하며, γ가 크면(좁은 가우시안) -> 결정 경계 복잡(과적합), γ가 작으면(넓은 가우시안) -> 매끄러운 결정 경계(과소적합).
 
 ---
 
@@ -22,12 +22,12 @@ tags = ["studynote-ai"]
 [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) 이중 문제(Dual Problem)에는 샘플 간 내적(x·x')만 나타난다. [커널 트릭](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/)은 원본 공간의 내적을 고차원 특성 공간에서의 내적으로 대체하는 수식 K(x,x') = φ(x)·φ(x')을 이용한다. 핵심은 φ(x)(명시적 고차원 변환)를 직접 계산하지 않고 K(x,x')만 계산하면 된다는 것이다. RBF [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이 아이디어의 가장 강력한 구현으로, Taylor 급수 전개 시 무한 차원 내적으로 확장됨이 수학적으로 증명된다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: RBF [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 "차원 이동 포탈"이다. 2D 평면에서 뒤엉킨 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(선형 분리 불가)를 무한 차원 공간으로 순간 이동시키면 그 공간에서는 초평면 하나로 깔끔하게 나눌 수 있다. 포탈을 직접 만들지 않고(명시적 변환 없이) 목적지에서의 거리([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 값)만 계산하는 것이 트릭이다.
@@ -37,30 +37,30 @@ tags = ["studynote-ai"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│           RBF 커널 수식 및 무한 차원 확장                │
-├──────────────────────────────────────────────────────────┤
-│  K(x,x') = exp(-γ||x-x'||²)  where γ = 1/(2σ²)        │
-│                                                          │
-│  Taylor 급수 전개 (1차원 예시):                         │
-│  exp(-γ(x-x')²) = exp(-γx²)·exp(2γxx')·exp(-γx'²)     │
-│  = Σₙ (2γ)ⁿ/n! · xⁿ·x'ⁿ · exp(-γx²)exp(-γx'²)       │
-│  → φ(x) = exp(-γx²)·[1, √(2γ)x, (2γ)x²/√2!, ...]    │
-│  → 무한 차원 특성 벡터!                                │
-│                                                          │
-│  γ 파라미터 효과:                                       │
-│  γ 크면 → 각 샘플이 좁은 영역만 영향 → 복잡한 경계    │
-│  γ 작으면 → 각 샘플이 넓은 영역 영향 → 매끄러운 경계 │
-│                                                          │
-│  커널 행렬 K_ij = K(xᵢ, xⱼ): 반드시 양 정치(PSD)      │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|           RBF 커널 수식 및 무한 차원 확장                |
++----------------------------------------------------------+
+|  K(x,x') = exp(-γ||x-x'||^)  where γ = 1/(2σ^)        |
+|                                                          |
+|  Taylor 급수 전개 (1차원 예시):                         |
+|  exp(-γ(x-x')^) = exp(-γx^)·exp(2γxx')·exp(-γx'^)     |
+|  = Σₙ (2γ)ⁿ/n! · xⁿ·x'ⁿ · exp(-γx^)exp(-γx'^)       |
+|  -> φ(x) = exp(-γx^)·[1, √(2γ)x, (2γ)x^/√2!, ...]    |
+|  -> 무한 차원 특성 벡터!                                |
+|                                                          |
+|  γ 파라미터 효과:                                       |
+|  γ 크면 -> 각 샘플이 좁은 영역만 영향 -> 복잡한 경계    |
+|  γ 작으면 -> 각 샘플이 넓은 영역 영향 -> 매끄러운 경계 |
+|                                                          |
+|  커널 행렬 K_ij = K(xᵢ, xⱼ): 반드시 양 정치(PSD)      |
++----------------------------------------------------------+
 ```
 
 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) | 수식 | 특성 공간 | 하이퍼파라미터 |
 |:---|:---|:---|:---|
 | 선형 (Linear) | x·x' | 원본 공간 | 없음 |
 | 다항 ([Polynomial](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/)) | (x·x'+c)^d | d차 다항 | d, c |
-| RBF (가우시안) | exp(-γ||x-x'||²) | 무한 차원 | γ |
+| RBF (가우시안) | exp(-γ||x-x'||^) | 무한 차원 | γ |
 | [시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) | [tanh](/knowledge-base/studynote/10_ai/01_ai_basics/070_hyperbolic_tangent_tanh_activation/)(αx·x'+c) | - | α, c |
 
 - **📢 섹션 요약 비유**: γ는 "AI의 집중력 범위"다. γ가 크면 각 훈련 샘플이 아주 가까운 이웃에만 영향을 주어(집중력 좁음) 구불구불한 경계를 그린다. γ가 작으면 멀리까지 영향을 주어(집중력 넓음) 부드러운 경계를 그린다.
@@ -109,7 +109,7 @@ RBF [커널](/knowledge-base/studynote/02_operating_system/01_overview_architect
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [RBF 커널 (Radial Basis Function Kernel)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [RBF 커널 (Radial Basis Function Kernel)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -124,7 +124,7 @@ RBF [커널](/knowledge-base/studynote/02_operating_system/01_overview_architect
 
 **진행 상황**: 368 / 420
 
-← **이전**: [367. SVM 슬랙 변수 (Slack Variable)](/knowledge-base/studynote/10_ai/05_data_science_ml/367_svm_slack_variable/)
-**다음**: [369. 배치 정규화 (Batch Normalization) in CNN](/knowledge-base/studynote/10_ai/05_data_science_ml/369_cnn_batch_norm/) →
+<- **이전**: [367. SVM 슬랙 변수 (Slack Variable)](/knowledge-base/studynote/10_ai/05_data_science_ml/367_svm_slack_variable/)
+**다음**: [369. 배치 정규화 (Batch Normalization) in CNN](/knowledge-base/studynote/10_ai/05_data_science_ml/369_cnn_batch_norm/) ->
 
 ---

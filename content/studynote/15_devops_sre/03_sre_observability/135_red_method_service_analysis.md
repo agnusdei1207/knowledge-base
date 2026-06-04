@@ -22,7 +22,7 @@ tags = ["studynote-devops-sre"]
 Rate:     초당 요청 수 (RPS) — 트래픽 양
 Errors:   에러율 (5xx/전체) — 실패 비율
 Duration: 응답 시간 (P50, P99) — 지연
-  → 서비스별 이 3개만 보면 상태 파악 가능
+  -> 서비스별 이 3개만 보면 상태 파악 가능
 ```
 
 - **📢 섹션 요약 비유**: RED는 식당의 3대 KPI이다. Rate=손님 수, Errors=주문 실수율, Duration=음식 나오는 시간.
@@ -48,10 +48,10 @@ RED는 <strong><a href="/knowledge-base/studynote/04_software_engineering/09_clo
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[비체계적 서비스 모니터링] → [RED 메서드 (Weaveworks, 2017)]
-    → [서비스 메시 자동 수집 (Istio, 2018~)]
-    → [4 Golden Signals 통합]
-    → [현재: AI RED 분석 — 이상 패턴 자동 감지]
+[비체계적 서비스 모니터링] -> [RED 메서드 (Weaveworks, 2017)]
+    -> [서비스 메시 자동 수집 (Istio, 2018~)]
+    -> [4 Golden Signals 통합]
+    -> [현재: AI RED 분석 — 이상 패턴 자동 감지]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -65,7 +65,7 @@ RED는 <strong><a href="/knowledge-base/studynote/04_software_engineering/09_clo
 
 **진행 상황**: 135 / 373
 
-← **이전**: [134. USE 메서드 (Utilization·Saturation·Errors) - 리소스 중심 분석](/knowledge-base/studynote/15_devops_sre/03_sre_observability/134_use_method_resource_analysis/)
-**다음**: [136. Prometheus - 클라우드 네이티브 메트릭 수집·저장 엔진](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) →
+<- **이전**: [134. USE 메서드 (Utilization·Saturation·Errors) - 리소스 중심 분석](/knowledge-base/studynote/15_devops_sre/03_sre_observability/134_use_method_resource_analysis/)
+**다음**: [136. Prometheus - 클라우드 네이티브 메트릭 수집·저장 엔진](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) ->
 
 ---

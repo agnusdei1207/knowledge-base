@@ -29,19 +29,19 @@ tags = ["studynote-operating-system"]
 이 도식은 일괄 처리와 시분할 방식에서 사용자 체감 대기 시간의 근본적 차이를 보여준다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────────┐
-│             Batch Processing vs Time-sharing System                 │
-├─────────────────────────────────────────────────────────────────────┤
-│ [Batch Processing] - 순차적 처리 (Sequential)                       │
-│ 사용자 1 : [=========Job A=========] (완료 후 사용 가능)            │
-│ 사용자 2 : -------------------------[=========Job B=========]       │
-│            (사용자 2는 Job A가 끝날 때까지 하염없이 대기)           │
-│                                                                     │
-│ [Time-sharing System] - 동시적 처리 (Concurrent)                    │
-│ 사용자 1 : [A1][  ][A2][  ][A3][  ]                                 │
-│ 사용자 2 : [  ][B1][  ][B2][  ][B3]                                 │
-│            (매우 빠른 전환으로 두 명 모두 동시에 사용 중이라 느낌)  │
-└─────────────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------------+
+|             Batch Processing vs Time-sharing System                 |
++---------------------------------------------------------------------+
+| [Batch Processing] - 순차적 처리 (Sequential)                       |
+| 사용자 1 : [=========Job A=========] (완료 후 사용 가능)            |
+| 사용자 2 : -------------------------[=========Job B=========]       |
+|            (사용자 2는 Job A가 끝날 때까지 하염없이 대기)           |
+|                                                                     |
+| [Time-sharing System] - 동시적 처리 (Concurrent)                    |
+| 사용자 1 : [A1][  ][A2][  ][A3][  ]                                 |
+| 사용자 2 : [  ][B1][  ][B2][  ][B3]                                 |
+|            (매우 빠른 전환으로 두 명 모두 동시에 사용 중이라 느낌)  |
++---------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 일괄 처리 ([Batch Processing](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)) 시스템에서는 선행 작업이 자원을 독점하므로 후행 사용자의 대기 시간이 작업 길이에 비례하여 늘어난다. 반면 시분할 시스템 (Time-sharing System)은 CPU 사용 시간을 작은 조각 (A1, B1 등)으로 쪼개어 번갈아 할당한다. 이때 조각의 크기인 타임 퀀텀 (Time [Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/))이 충분히 작으면 (보통 10ms~100ms), 사용자는 자신의 작업이 중단되었다고 느끼지 못하고 실시간으로 컴퓨터와 상호작용할 수 있다. 이러한 '[동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) ([Concurrency](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/266_other_transparency/))'은 실제로는 매우 빠른 '순차적 실행'의 연속이며, 이를 지원하기 위해 하드웨어 타이머 ([Timer](/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/))와 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) 메커니즘이 필수적으로 뒷받침되어야 한다.
@@ -70,21 +70,21 @@ tags = ["studynote-operating-system"]
 
 ```text
 
-┌─────────────────────────────────────────────────────────────────┐
-│               Round Robin Scheduling Workflow                   │
-├─────────────────────────────────────────────────────────────────┤
-│   [Ready Queue / 준비 큐] : [ P3 ] [ P2 ] [ P1 ]  <-- (Head)              │
-│                                   │                             │
-│   1. Dispatch P1 (Time Quantum: 20ms) ──▶ [ CPU Running P1  / P1을 실행하는 CPU]    │
-│                                                  │              │
-│   2. Timer Interrupt (20ms Expired) ◀────────────┘              │
-│                                                                 │
-│   3. Context Switch (Save P1, Load P2 / P1 저장, P2 로드)                          │
-│                                                                 │
-│   4. P1 Move to Tail of Ready Queue                             │
-│                                                                 │
-│   [Ready Queue / 준비 큐] : [ P1 ] [ P3 ] [ P2 ]  <-- (Next Target / 다음 대상)       │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|               Round Robin Scheduling Workflow                   |
++-----------------------------------------------------------------+
+|   [Ready Queue / 준비 큐] : [ P3 ] [ P2 ] [ P1 ]  <-- (Head)              |
+|                                   |                             |
+|   1. Dispatch P1 (Time Quantum: 20ms) ---> [ CPU Running P1  / P1을 실행하는 CPU]    |
+|                                                  |              |
+|   2. Timer Interrupt (20ms Expired) <-------------+              |
+|                                                                 |
+|   3. Context Switch (Save P1, Load P2 / P1 저장, P2 로드)                          |
+|                                                                 |
+|   4. P1 Move to Tail of Ready Queue                             |
+|                                                                 |
+|   [Ready Queue / 준비 큐] : [ P1 ] [ P3 ] [ P2 ]  <-- (Next Target / 다음 대상)       |
++-----------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/) ([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/), Round Robin) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 [준비 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/) ([Ready Queue](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/))를 순환 구조로 운영한다. [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 큐의 맨 앞에 있는 프로세스 (P1)를 선택하여 CPU를 할당 (Dispatch)한다. 이때 하드웨어 타이머에 타임 퀀텀 (Time [Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/)) 값을 세팅한다. 지정된 시간이 지나면 타이머 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 발생하고, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 현재 실행 중인 P1의 CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값과 [프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) ([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), Program [Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)) 등을 [프로세스 제어 블록](/knowledge-base/studynote/02_operating_system/02_process_thread/090_pcb_tcb/) (PCB, [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control Block)에 저장한 뒤 큐의 맨 뒤로 보낸다. 이어 다음 순서인 P2를 로드하여 실행을 재개한다. 이 과정이 무한히 반복됨으로써 모든 프로세스는 공평하게 CPU 시간을 나누어 갖게 되며, 특정 프로세스가 자원을 독점하여 타 사용자의 응답성을 저해하는 상황을 구조적으로 방지한다.
@@ -97,15 +97,15 @@ tags = ["studynote-operating-system"]
 
 ```text
   [프로세스 A 실행 중]
-                           │
-  (타이머 인터럽트 발생) ──┐
-          │               │ [커널 모드 진입]
-          ▼               │ 1. 현재 레지스터 저장 (PCB_A)
-   [유저 모드 중단]        │ 2. 다음 프로세스 선택 (Scheduler)
-                          │ 3. 새 레지스터 복구 (PCB_B)
-          ▲                │
-          │               │ [유저 모드 복귀]
-  (프로세스 B 실행 시작) ──┘
+                           |
+  (타이머 인터럽트 발생) --+
+          |               | [커널 모드 진입]
+          v               | 1. 현재 레지스터 저장 (PCB_A)
+   [유저 모드 중단]        | 2. 다음 프로세스 선택 (Scheduler)
+                          | 3. 새 레지스터 복구 (PCB_B)
+          ^                |
+          |               | [유저 모드 복귀]
+  (프로세스 B 실행 시작) --+
 ```
 
 **[다이어그램 해설]** [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching)은 CPU가 한 프로세스에서 다른 프로세스로 전환될 때 발생한다. 이는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 현재 실행 중인 프로세스의 상태 (CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), [스택 포인터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) 등)를 나중에 다시 시작할 수 있도록 PCB에 안전하게 저장하고, 새로 실행할 프로세스의 상태를 PCB로부터 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는 과정이다. 시분할 시스템에서는 타임 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)마다 이 전환이 일어나기 때문에, 전환에 걸리는 시간이 너무 길어지면 실제 작업을 처리하는 시간보다 관리하는 시간이 더 많아지는 주객전도 상황이 발생한다. 따라서 현대 하드웨어는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 세트를 여러 개 두거나 전용 명령어를 제공하여 이 오버헤드를 최소화한다. 실무적으로 타임 퀀텀은 이 [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 오버헤드보다 훨씬 커야 시스템 효율이 보장된다.
@@ -194,20 +194,20 @@ tags = ["studynote-operating-system"]
 
 ```text
 [:---]
-    │
-    ▼
+    |
+    v
 [라운드 로빈 (Round Robin)]
-    │
-    ▼
+    |
+    v
 [타임 슬라이스 (Time Slice)]
-    │
-    ▼
+    |
+    v
 [컨텍스트 스위칭 (Context Switching)]
-    │
-    ▼
+    |
+    v
 [응답 시간 (Response Time)]
-    │
-    ▼
+    |
+    v
 [인터럽트 (Interrupt)]
 ```
 
@@ -224,7 +224,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 3 / 800
 
-← **이전**: [2. 다중 프로그래밍 (Multiprogramming) - CPU 활용도 극대화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/002_multiprogramming/)
-**다음**: [4. 다중 처리 시스템 (Multiprocessing System)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/004_multiprocessing_system/) →
+<- **이전**: [2. 다중 프로그래밍 (Multiprogramming) - CPU 활용도 극대화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/002_multiprogramming/)
+**다음**: [4. 다중 처리 시스템 (Multiprocessing System)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/004_multiprocessing_system/) ->
 
 ---

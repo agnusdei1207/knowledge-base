@@ -30,7 +30,7 @@ ERC-20은 그 규격이다.
 
 ```text
 Token Contract
-  ↓ standard interface
+  v standard interface
 Wallet / Exchange
 ```
 
@@ -102,9 +102,9 @@ ERC-20은 토큰 생태계의 호환성과 유통성을 높인다.
 
 ```text
 Token Contract
-  ↓
+  v
 ERC-20
-  ↓
+  v
 Wallet / Exchange
 ```
 
@@ -114,9 +114,9 @@ Wallet / Exchange
 
 ```text
 Ethereum
-  ↓
+  v
 ERC-20
-  ↓
+  v
 Fungible Token
 ```
 
@@ -134,7 +134,7 @@ ERC-20은 그런 약속이에요.
 
 **진행 상황**: 72 / 552
 
-← **이전**: [71. 블록체인 서비스형 (BaaS, Blockchain as a Service) - 클라우드 기반 블록체인 인프라 제공 서비스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/071_baas_blockchain_as_a_service/)
-**다음**: [73. ERC-1155 (다중 토큰 표준 - NFT와 FT 동시 발행 가능, 게임 아이템에 유리)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/073_erc_1155_multi_token_standard/) →
+<- **이전**: [71. 블록체인 서비스형 (BaaS, Blockchain as a Service) - 클라우드 기반 블록체인 인프라 제공 서비스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/071_baas_blockchain_as_a_service/)
+**다음**: [73. ERC-1155 (다중 토큰 표준 - NFT와 FT 동시 발행 가능, 게임 아이템에 유리)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/073_erc_1155_multi_token_standard/) ->
 
 ---

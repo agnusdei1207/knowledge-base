@@ -26,17 +26,17 @@ MESI [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295
 이 차이는 실제로 매우 중요하다. 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 한 코어에서만 읽히고 곧바로 수정되는 경우는 흔한데, MSI는 이 경우에도 일단 공유 가능성을 전제로 S 상태를 부여했다. 결과적으로 실제로는 아무도 공유하지 않는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)인데도 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 순간마다 불필요한 무효화 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 트래픽이 발생했다. MESI는 "지금은 나만 가진다"는 사실을 E 상태로 표현해 이런 낭비를 줄인다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│           MESI가 필요한 이유: 빠른 캐시와 올바른 값의 동시 보장      │
-├──────────────────────────────────────────────────────────────────────┤
-│ Core 0 Cache        Shared Bus / Interconnect        Core 1 Cache    │
-│ [X = 10] ───────┐                                ┌──▶ [X = 10]       │
-│                 │                                │                   │
-│ Core 0 writes   ├── 무효화/응답 규칙이 없으면 ───┤   Core 1 still     │
-│ X = 11          │                                │   reads old value  │
-│                 ▼                                ▼                   │
-│            서로 다른 "최신 값"이 공존하는 모순 발생                  │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|           MESI가 필요한 이유: 빠른 캐시와 올바른 값의 동시 보장      |
++----------------------------------------------------------------------+
+| Core 0 Cache        Shared Bus / Interconnect        Core 1 Cache    |
+| [X = 10] -------+                                +---> [X = 10]       |
+|                 |                                |                   |
+| Core 0 writes   +-- 무효화/응답 규칙이 없으면 ---+   Core 1 still     |
+| X = 11          |                                |   reads old value  |
+|                 v                                v                   |
+|            서로 다른 "최신 값"이 공존하는 모순 발생                  |
++----------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 캐시가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높이는 장치인 동시에, [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 규칙이 없으면 오히려 시스템 전체의 진실을 깨뜨릴 수 있다는 점이다. MESI는 모든 캐시 라인에 "내가 최신본인지, 혼자 갖는지, 같이 갖는지, 버려졌는지"를 명시해 이 모순을 막는다.
@@ -58,28 +58,28 @@ MESI는 캐시 라인 단위의 유한 상태 기계 (Finite [State](/knowledge-
 
 핵심 절차는 세 가지다. 첫째, 읽기 미스가 발생했을 때 다른 캐시가 해당 라인을 가지고 있지 않으면 E를, 누군가 이미 가지고 있으면 S를 부여한다. 둘째, 로컬 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)는 E라면 즉시 M으로 갈 수 있지만, S라면 다른 사본을 모두 I로 만들기 위한 무효화가 필요하다. 셋째, M 상태를 가진 코어가 외부 읽기 요청을 보면 최신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 제공하고 자신의 독점성을 내려놓는다.
 
-아래 흐름은 시험에서 자주 묻는 대표 시나리오다. "처음 읽기 → 다른 코어가 읽기 → 한 코어가 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)" 순서로 보면 MESI의 전체 철학이 보인다.
+아래 흐름은 시험에서 자주 묻는 대표 시나리오다. "처음 읽기 -> 다른 코어가 읽기 -> 한 코어가 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)" 순서로 보면 MESI의 전체 철학이 보인다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 대표 상태 전이: Read → Share → Invalidate           │
-├──────────────────────────────────────────────────────────────────────┤
-│ 1) Core 0 read miss on A                                             │
-│    Memory/Bus check: no sharer                                       │
-│    ⇒ Core 0 : I → E                                                  │
-│                                                                      │
-│ 2) Core 1 read miss on A                                             │
-│    Snooping sees Core 0 has E                                        │
-│    ⇒ Core 0 : E → S,  Core 1 : I → S                                 │
-│                                                                      │
-│ 3) Core 1 write A                                                    │
-│    Invalidate broadcast                                              │
-│    ⇒ Core 0 : S → I,  Core 1 : S → M                                 │
-│                                                                      │
-│ 4) Core 0 read A again                                               │
-│    Core 1 supplies newest data or writes back as needed              │
-│    ⇒ Core 1 : M → S,  Core 0 : I → S                                 │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 대표 상태 전이: Read -> Share -> Invalidate           |
++----------------------------------------------------------------------+
+| 1) Core 0 read miss on A                                             |
+|    Memory/Bus check: no sharer                                       |
+|    ⇒ Core 0 : I -> E                                                  |
+|                                                                      |
+| 2) Core 1 read miss on A                                             |
+|    Snooping sees Core 0 has E                                        |
+|    ⇒ Core 0 : E -> S,  Core 1 : I -> S                                 |
+|                                                                      |
+| 3) Core 1 write A                                                    |
+|    Invalidate broadcast                                              |
+|    ⇒ Core 0 : S -> I,  Core 1 : S -> M                                 |
+|                                                                      |
+| 4) Core 0 read A again                                               |
+|    Core 1 supplies newest data or writes back as needed              |
+|    ⇒ Core 1 : M -> S,  Core 0 : I -> S                                 |
++----------------------------------------------------------------------+
 ```
 
 이 구조에서 E 상태가 실질적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선 지점이다. E는 "현재는 공유자가 없다"는 정보를 기억해, 로컬 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 위해 굳이 시스템 전체에 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 방송을 하지 않아도 되게 만든다. 즉 MESI는 단순히 4상태를 늘려 복잡하게 만든 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 아니라, 읽기 직후의 독점 가능성을 활용해 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 비용을 줄인 최적화된 [write-invalidate](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/405_write_invalidate/) 전략이다.
@@ -160,22 +160,22 @@ MESI의 가장 큰 효과는 멀티코어 시스템이 캐시의 속도를 유�
 
 ```text
 단일 코어 캐시 적중 최적화
-    │
-    ▼
+    |
+    v
 캐시 일관성 (Cache Coherence) 필요
-    │
-    ├─▶ MSI 프로토콜 (Modified, Shared, Invalid Protocol)
-    │        │
-    │        └─▶ 읽기 직후 쓰기에도 무효화 필요
-    │
-    ▼
+    |
+    +--> MSI 프로토콜 (Modified, Shared, Invalid Protocol)
+    |        |
+    |        +--> 읽기 직후 쓰기에도 무효화 필요
+    |
+    v
 MESI 프로토콜 (Modified, Exclusive, Shared, Invalid Protocol)
-    │
-    ├─▶ E 상태로 단독 보유 최적화
-    ├─▶ Write Invalidate 기반 공유 조정
-    └─▶ False Sharing 분석의 핵심 배경
-    │
-    ▼
+    |
+    +--> E 상태로 단독 보유 최적화
+    +--> Write Invalidate 기반 공유 조정
+    +--> False Sharing 분석의 핵심 배경
+    |
+    v
 MOESI / MESIF 프로토콜 (Modified, Exclusive, Shared, Invalid, Forward Protocol) / Directory-Based Coherence
 ```
 
@@ -193,7 +193,7 @@ MOESI / MESIF 프로토콜 (Modified, Exclusive, Shared, Invalid, Forward Protoc
 
 **진행 상황**: 408 / 803
 
-← **이전**: [406. 갱신 정책 (Write-Update)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/406_write_update/)
-**다음**: [408. MOESI 프로토콜](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/408_moesi_protocol/) →
+<- **이전**: [406. 갱신 정책 (Write-Update)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/406_write_update/)
+**다음**: [408. MOESI 프로토콜](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/408_moesi_protocol/) ->
 
 ---

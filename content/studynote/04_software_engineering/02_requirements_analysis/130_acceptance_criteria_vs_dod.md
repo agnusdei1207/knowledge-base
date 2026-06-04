@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 ```text
 AC (스토리별): "올바른 비밀번호로 로그인 시 대시보드 표시"
 DoD (전체 공통): 코드 리뷰 완료, 단위 테스트 80%+, CI 통과, 배포 가능
-→ Done = AC ✅ + DoD ✅
+-> Done = AC ✅ + DoD ✅
 ```
 
 - **📢 섹션 요약 비유**: AC는 요리의 **레시피(이 요리의 맛 조건)**, DoD는 <strong>위생 기준(모든 요리의 공통 규칙)</strong>이다.
@@ -58,10 +58,10 @@ DoD (전체 공통): 코드 리뷰 완료, 단위 테스트 80%+, CI 통과, 배
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[비공식 완료 기준 (~2005)] → [DoD 표준화 (Scrum Guide, 2010)]
-    → [AC + DoD 분리 (2015~)]
-    → [BDD로 AC 자동화 (2018~)]
-    → [현재: AI AC 생성 — 요구사항→AC 자동 변환]
+[비공식 완료 기준 (~2005)] -> [DoD 표준화 (Scrum Guide, 2010)]
+    -> [AC + DoD 분리 (2015~)]
+    -> [BDD로 AC 자동화 (2018~)]
+    -> [현재: AI AC 생성 — 요구사항->AC 자동 변환]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -75,7 +75,7 @@ DoD (전체 공통): 코드 리뷰 완료, 단위 테스트 80%+, CI 통과, 배
 
 **진행 상황**: 130 / 973
 
-← **이전**: [129. Spike (스파이크) - Agile 기술 불확실성 해소 탐구](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)
-**다음**: [131. 요구사항 공학 (Requirements 엔진ering) - 체계적 요구 수집·분석·관리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/131_requirements_engineering/) →
+<- **이전**: [129. Spike (스파이크) - Agile 기술 불확실성 해소 탐구](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)
+**다음**: [131. 요구사항 공학 (Requirements 엔진ering) - 체계적 요구 수집·분석·관리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/131_requirements_engineering/) ->
 
 ---

@@ -25,19 +25,19 @@ tags = ["studynote-ai"]
 
 | 문제 | 목적 함수 | 제약 조건 |
 |:---|:---|:---|
-| [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) 마진 최대화 | min (1/2)||w||² | yᵢ(w·xᵢ + b) ≥ 1 |
+| [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) 마진 최대화 | min (1/2)||w||^ | yᵢ(w·xᵢ + b) ≥ 1 |
 | [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 최적화 | min [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) | 기대 수익 ≥ r |
-| [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) | max w·Cw | ||w||² = 1 |
+| [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) | max w·Cw | ||w||^ = 1 |
 
 단순 편미분으로는 제약을 처리할 수 없어 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/166_lagrange_multiplier/">라그랑주 승수법</a></strong>이 필요하다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [라그랑주 승수법](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/166_lagrange_multiplier/)은 "울타리 안에서만 산책할 수 있을 때, 울타리 경계를 방정식에 녹여서 자유롭게 최적점을 찾는" 방법이다. 울타리(제약)를 없애는 대신 비용(승수)으로 환산한다.
@@ -54,10 +54,10 @@ tags = ["studynote-ai"]
 
   라그랑지안 (Lagrangian):
   L(x, λ) = f(x) + λ · g(x)
-  ────────────────────────────────────────────
+  --------------------------------------------
   최적 조건: ∇ₓL = 0, ∂L/∂λ = 0
-  → ∇f(x*) = -λ ∇g(x*)  (기울기 평행 조건)
-  → g(x*) = 0            (제약 만족 조건)
+  -> ∇f(x*) = -λ ∇g(x*)  (기울기 평행 조건)
+  -> g(x*) = 0            (제약 만족 조건)
 ```
 
 ### KKT (Karush-Kuhn-Tucker) 조건 (부등식 제약)
@@ -67,38 +67,38 @@ tags = ["studynote-ai"]
          s.t. gᵢ(x) ≤ 0  (i = 1, ..., m)
 
   KKT 조건 (필요충분 조건):
-  ┌──────────────────────────────────────────────────┐
-  │ 1. 정류성: ∇ₓL = ∇f(x*) + Σ μᵢ ∇gᵢ(x*) = 0   │
-  │ 2. 원시 가능성: gᵢ(x*) ≤ 0                     │
-  │ 3. 쌍대 가능성: μᵢ ≥ 0                          │
-  │ 4. 상보적 이완: μᵢ · gᵢ(x*) = 0               │
-  └──────────────────────────────────────────────────┘
-  핵심: 조건 4 → gᵢ = 0 (활성 제약) 이거나 μᵢ = 0
+  +--------------------------------------------------+
+  | 1. 정류성: ∇ₓL = ∇f(x*) + Σ μᵢ ∇gᵢ(x*) = 0   |
+  | 2. 원시 가능성: gᵢ(x*) ≤ 0                     |
+  | 3. 쌍대 가능성: μᵢ ≥ 0                          |
+  | 4. 상보적 이완: μᵢ · gᵢ(x*) = 0               |
+  +--------------------------------------------------+
+  핵심: 조건 4 -> gᵢ = 0 (활성 제약) 이거나 μᵢ = 0
 ```
 
 ### [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) ([Support Vector Machine](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/)) 마진 최대화 유도
 
 ```
   SVM 원시 문제 (Primal Problem):
-  ┌───────────────────────────────────────────┐
-  │  min  (1/2)||w||²                         │
-  │   w,b                                     │
-  │  s.t. yᵢ(w·xᵢ + b) ≥ 1  (i=1,...,n)    │
-  └───────────────────────────────────────────┘
-               ↓ 라그랑지안 구성
-  L(w,b,α) = (1/2)||w||² - Σᵢ αᵢ[yᵢ(w·xᵢ+b)-1]
+  +-------------------------------------------+
+  |  min  (1/2)||w||^                         |
+  |   w,b                                     |
+  |  s.t. yᵢ(w·xᵢ + b) ≥ 1  (i=1,...,n)    |
+  +-------------------------------------------+
+               v 라그랑지안 구성
+  L(w,b,α) = (1/2)||w||^ - Σᵢ αᵢ[yᵢ(w·xᵢ+b)-1]
 
-               ↓ KKT 조건 적용
-  ∂L/∂w = 0 → w = Σᵢ αᵢ yᵢ xᵢ
-  ∂L/∂b = 0 → Σᵢ αᵢ yᵢ = 0
+               v KKT 조건 적용
+  ∂L/∂w = 0 -> w = Σᵢ αᵢ yᵢ xᵢ
+  ∂L/∂b = 0 -> Σᵢ αᵢ yᵢ = 0
 
-               ↓ 쌍대 문제 (Dual Problem)
-  ┌───────────────────────────────────────────┐
-  │  max  Σᵢ αᵢ - (1/2) Σᵢ Σⱼ αᵢαⱼ yᵢyⱼ xᵢ·xⱼ│
-  │   α                                       │
-  │  s.t. αᵢ ≥ 0, Σᵢ αᵢ yᵢ = 0              │
-  └───────────────────────────────────────────┘
-  → αᵢ > 0 인 데이터만 서포트 벡터 (Support Vector)
+               v 쌍대 문제 (Dual Problem)
+  +-------------------------------------------+
+  |  max  Σᵢ αᵢ - (1/2) Σᵢ Σⱼ αᵢαⱼ yᵢyⱼ xᵢ·xⱼ|
+  |   α                                       |
+  |  s.t. αᵢ ≥ 0, Σᵢ αᵢ yᵢ = 0              |
+  +-------------------------------------------+
+  -> αᵢ > 0 인 데이터만 서포트 벡터 (Support Vector)
 ```
 
 ### 새들 포인트 (Saddle Point)
@@ -107,10 +107,10 @@ tags = ["studynote-ai"]
 
 ```
   z
-  ↑    마치 말 안장처럼:
-  │     x 방향 → 아래로 볼록 (최소)
-  │     λ 방향 → 위로 볼록 (최대)
-  └──────── λ
+  ^    마치 말 안장처럼:
+  |     x 방향 -> 아래로 볼록 (최소)
+  |     λ 방향 -> 위로 볼록 (최대)
+  +-------- λ
         (Saddle Point: 최소·최대 동시)
 ```
 
@@ -125,9 +125,9 @@ tags = ["studynote-ai"]
 | 항목 | 원시 문제 | 쌍대 문제 |
 |:---|:---|:---|
 | 최적화 변수 | w, b (차원 d) | α ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수 n) |
-| 목적 | min (1/2)||w||² | max Σα - (1/2)ΣΣαᵢαⱼ yᵢyⱼ xᵢxⱼ |
+| 목적 | min (1/2)||w||^ | max Σα - (1/2)ΣΣαᵢαⱼ yᵢyⱼ xᵢxⱼ |
 | 핵심 | 고차원 특징 공간 | 내적 계산만 필요 |
-| [커널 트릭](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/) | 불가 | 가능 (xᵢ·xⱼ → K(xᵢ,xⱼ)) |
+| [커널 트릭](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/) | 불가 | 가능 (xᵢ·xⱼ -> K(xᵢ,xⱼ)) |
 
 ### [커널 트릭](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/) ([Kernel Trick](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/)) 연계
 
@@ -136,7 +136,7 @@ tags = ["studynote-ai"]
 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) | 수식 | 특성 |
 |:---|:---|:---|
 | 선형 (Linear) | xᵢᵀxⱼ | 선형 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) |
-| RBF (Radial Basis Function) | exp(-γ||xᵢ-xⱼ||²) | 무한 차원, 유연 |
+| RBF (Radial Basis Function) | exp(-γ||xᵢ-xⱼ||^) | 무한 차원, 유연 |
 | 다항 ([Polynomial](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/)) | (γxᵢᵀxⱼ+r)ᵈ | d차 상호작용 |
 
 - **📢 섹션 요약 비유**: 쌍대 문제는 "복잡한 집 설계(원시, 고차원) 대신 이웃집과의 거리 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(내적, 쌍대)만으로 최적 배치를 결정하는" 방법이다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이 거리 계산 규칙을 바꿔 비선형 공간으로 확장한다.
@@ -163,7 +163,7 @@ print(f"전체 데이터 대비 비율: {len(clf.support_vectors_)/len(X_train)*
 
 - 라그랑지안 구성: L = f + λg (등식), L = f + μg (부등식, μ≥0)
 - KKT 조건 4가지를 모두 나열하고 상보적 이완 조건 설명
-- [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) 원시→쌍대 변환 수식 전개 (w = Σ αᵢ yᵢ xᵢ)
+- [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) 원시->쌍대 변환 수식 전개 (w = Σ αᵢ yᵢ xᵢ)
 - 서포트 벡터가 αᵢ > 0 인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)인 이유 (KKT 상보적 이완)
 - [커널 트릭](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/): 쌍대 문제의 내적을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 교체해 비선형 확장
 
@@ -188,7 +188,7 @@ print(f"전체 데이터 대비 비율: {len(clf.support_vectors_)/len(X_train)*
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 라그랑지안 (Lagrangian) | 목적함수 + 제약 통합 / 제약 → 무제약 변환 도구 |
+| 라그랑지안 (Lagrangian) | 목적함수 + 제약 통합 / 제약 -> 무제약 변환 도구 |
 | KKT 조건 | 부등식 제약 최적성 / [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) 서포트 벡터 판별 기준 |
 | 쌍대 문제 (Dual Problem) | αᵢ, 내적 기반 / [커널 트릭](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/) 적용 가능 형태 |
 | 서포트 벡터 | αᵢ > 0, 경계 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) / [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 경계 결정 포인트 |
@@ -198,7 +198,7 @@ print(f"전체 데이터 대비 비율: {len(clf.support_vectors_)/len(X_train)*
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [라그랑주 승수법 (Lagrange Multiplier)] → [최적화·운영 자동화]
+[데이터 전처리] -> [라그랑주 승수법 (Lagrange Multiplier)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -213,7 +213,7 @@ print(f"전체 데이터 대비 비율: {len(clf.support_vectors_)/len(X_train)*
 
 **진행 상황**: 343 / 420
 
-← **이전**: [342. 특이값 분해 (SVD, Singular Value Decomposition)](/knowledge-base/studynote/10_ai/05_data_science_ml/342_svd/)
-**다음**: [344. 활성화 함수 도함수 (Activation Derivative Sigmoid)](/knowledge-base/studynote/10_ai/05_data_science_ml/344_activation_derivative_sigmoid/) →
+<- **이전**: [342. 특이값 분해 (SVD, Singular Value Decomposition)](/knowledge-base/studynote/10_ai/05_data_science_ml/342_svd/)
+**다음**: [344. 활성화 함수 도함수 (Activation Derivative Sigmoid)](/knowledge-base/studynote/10_ai/05_data_science_ml/344_activation_derivative_sigmoid/) ->
 
 ---

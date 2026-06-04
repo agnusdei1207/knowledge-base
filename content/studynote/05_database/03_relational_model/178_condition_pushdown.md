@@ -34,17 +34,17 @@ tags = ["studynote-database"]
 아래 그림은 같은 조건이 어느 단계에서 적용되느냐에 따라 중간 결과 크기가 어떻게 달라지는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Predicate placement changes the cost                              │
-├────────────────────────────────────────────────────────────────────┤
-│ Late filtering                                                    │
-│   EMP 1,000,000 rows -> View V 1,000,000 -> Join -> Filter -> 120 │
-│                                                                    │
-│ Early filtering by pushdown                                       │
-│   EMP 1,000,000 rows -> Filter in V -> 120 -> Join -> 120         │
-│                                                                    │
-│ Same answer / far smaller intermediate result                     │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Predicate placement changes the cost                              |
++--------------------------------------------------------------------+
+| Late filtering                                                    |
+|   EMP 1,000,000 rows -> View V 1,000,000 -> Join -> Filter -> 120 |
+|                                                                    |
+| Early filtering by pushdown                                       |
+|   EMP 1,000,000 rows -> Filter in V -> 120 -> Join -> 120         |
+|                                                                    |
+| Same answer / far smaller intermediate result                     |
++--------------------------------------------------------------------+
 ```
 
 예를 들어 다음과 같은 질의를 보자.
@@ -168,25 +168,25 @@ SELECT d.dept_name, v.emp_name, v.salary
 
 ```text
 Outer predicate discovered
-        │
-        ▼
+        |
+        v
 Safety check on view boundary
-        │
-        ├──────────────► keep predicate outside
-        ▼
+        |
+        +--------------► keep predicate outside
+        v
 Predicate moved into view
-        │
-        ▼
+        |
+        v
 Earlier row reduction
-        │
-        ▼
+        |
+        v
 Cheaper join / sort / aggregation
-        │
-        ▼
+        |
+        v
 Lower overall query cost
 ```
 
-이 흐름도는 "바깥 조건 발견 → 안전성 검사 → 안쪽 이동 여부 결정 → 조기 필터링 → 후속 연산 비용 절감"이라는 조건 푸시 다운의 핵심 판단 절차를 요약한다.
+이 흐름도는 "바깥 조건 발견 -> 안전성 검사 -> 안쪽 이동 여부 결정 -> 조기 필터링 -> 후속 연산 비용 절감"이라는 조건 푸시 다운의 핵심 판단 절차를 요약한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -200,7 +200,7 @@ Lower overall query cost
 
 **진행 상황**: 178 / 600
 
-← **이전**: [177. 뷰 머징 (View Merging) - 옵티마이저의 쿼리 변환 (인라인 뷰를 메인 쿼리에 병합)](/knowledge-base/studynote/05_database/03_relational_model/177_view_merging_query_transformation/)
-**다음**: [179. 파티셔닝 (Partitioning) - 대용량 테이블 물리적 분할 관리 기법](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) →
+<- **이전**: [177. 뷰 머징 (View Merging) - 옵티마이저의 쿼리 변환 (인라인 뷰를 메인 쿼리에 병합)](/knowledge-base/studynote/05_database/03_relational_model/177_view_merging_query_transformation/)
+**다음**: [179. 파티셔닝 (Partitioning) - 대용량 테이블 물리적 분할 관리 기법](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) ->
 
 ---

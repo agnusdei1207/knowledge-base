@@ -42,25 +42,25 @@ tags = ["studynote-bigdata"]
 [제타바이트 시대](/knowledge-base/studynote/16_bigdata/01_intro/004_bigdata_necessity/)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 폭발은 단일 요인이 아닌 <strong>'3대 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/">트리거</a>(Trigger)'</strong>가 상호 작용하여 발생한 아키텍처적 빅뱅입니다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          [ 제타바이트(Zettabyte) 시대를 촉발한 3대 아키텍처 트리거 ]    │
-│                                                             │
-│  1. 사람(Human)이 만드는 데이터: [ Web 2.0 & 모바일 생태계 ]     │
-│     - 유튜브, 틱톡, 인스타그램 등 고용량 비정형 미디어 트래픽 폭증 │
-│     - 스마트폰을 통한 24시간 끊임없는 연결과 디지털 족적 남김     │
-│                                │                            │
-│ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─┼─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ │
-│                                ▼                            │
-│  2. 기계(Machine)가 만드는 데이터: [ IoT & Edge Computing ]     │
-│     - 자율주행차 1대가 하루에 생성하는 센서 데이터 약 4TB       │
-│     - 스마트 팩토리, 스마트 시티의 수백억 개 센서가 뿜어내는 로그 │
-│                                │                            │
-│ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─┼─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ │
-│                                ▼                            │
-│  3. 인공지능(AI)이 복제/생성하는 데이터: [ Generative AI & LLM ] │
-│     - ChatGPT, Midjourney 등 생성 AI가 만들어내는 합성 데이터   │
-│     - 기계가 기계를 학습시키기 위해 만들어내는 2차 파생 데이터 폭발│
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          [ 제타바이트(Zettabyte) 시대를 촉발한 3대 아키텍처 트리거 ]    |
+|                                                             |
+|  1. 사람(Human)이 만드는 데이터: [ Web 2.0 & 모바일 생태계 ]     |
+|     - 유튜브, 틱톡, 인스타그램 등 고용량 비정형 미디어 트래픽 폭증 |
+|     - 스마트폰을 통한 24시간 끊임없는 연결과 디지털 족적 남김     |
+|                                |                            |
+| - - - - - - - - - - - - - - - -+- - - - - - - - - - - - - - |
+|                                v                            |
+|  2. 기계(Machine)가 만드는 데이터: [ IoT & Edge Computing ]     |
+|     - 자율주행차 1대가 하루에 생성하는 센서 데이터 약 4TB       |
+|     - 스마트 팩토리, 스마트 시티의 수백억 개 센서가 뿜어내는 로그 |
+|                                |                            |
+| - - - - - - - - - - - - - - - -+- - - - - - - - - - - - - - |
+|                                v                            |
+|  3. 인공지능(AI)이 복제/생성하는 데이터: [ Generative AI & LLM ] |
+|     - ChatGPT, Midjourney 등 생성 AI가 만들어내는 합성 데이터   |
+|     - 기계가 기계를 학습시키기 위해 만들어내는 2차 파생 데이터 폭발|
++-------------------------------------------------------------+
 ```
 
 ### 1. [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)의 전면적 해체와 재구성
@@ -136,18 +136,18 @@ tags = ["studynote-bigdata"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[Mega→Giga→Tera→Peta (10^15) 규모 성장]
-    │
-    ▼
-[Exa (10^18) → Zetta (10^21) — ZB 시대 도래]
-    │
-    ▼
+[Mega->Giga->Tera->Peta (10^15) 규모 성장]
+    |
+    v
+[Exa (10^18) -> Zetta (10^21) — ZB 시대 도래]
+    |
+    v
 [Scale-out 아키텍처 (Hadoop / NoSQL / 카산드라)]
-    │
-    ▼
+    |
+    v
 [Cloud Native 무한 확장 (AWS S3 / GCP Cloud Storage)]
-    │
-    ▼
+    |
+    v
 [Data Tiering (Hot/Warm/Cold) + Dark Data 거버넌스]
 ```
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모가 ZB 시대에 돌입하면서 단일 서버의 [Scale-up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/) 한계를 Scale-out과 [Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/) 무한 스토리지로 돌파하고, 방치된 Dark Data의 거버넌스가 새로운 과제로 부상한다.
@@ -167,7 +167,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 21 / 262
 
-← **이전**: [20. 데이터 정형화 비율 — 전체 데이터 중 정형 < 20%, 비정형 > 80%](/knowledge-base/studynote/16_bigdata/01_intro/020_data_structure_ratio/)
-**다음**: [22. 데이터 자산 평가 — 재무적 가치화, ISO/IEC 22123](/knowledge-base/studynote/16_bigdata/01_intro/022_small_data_qualitative_analysis/) →
+<- **이전**: [20. 데이터 정형화 비율 — 전체 데이터 중 정형 < 20%, 비정형 > 80%](/knowledge-base/studynote/16_bigdata/01_intro/020_data_structure_ratio/)
+**다음**: [22. 데이터 자산 평가 — 재무적 가치화, ISO/IEC 22123](/knowledge-base/studynote/16_bigdata/01_intro/022_small_data_qualitative_analysis/) ->
 
 ---

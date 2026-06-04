@@ -26,25 +26,25 @@ tags = ["studynote-operating-system"]
 **💡 비유**: 길 가다 운석에 맞을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)([교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)). 이를 방어하겠다고 매일 50kg짜리 티타늄 헬멧(회피 오버헤드)을 쓰고 다닐 것인가? 아니면 헬멧 없이 다니면서 만약 맞으면 재수 없게 병원(재부팅)에 한번 실려 가고 말 것인가? 타조 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 후자다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│         방어 비용(Cost) vs 장애 손상(Damage) 그래프          │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [예방/회피 알고리즘 (은행원, RAG 탐지)]                     │
-│  방어 비용(CPU 연산): ■■■■■■■■■■ (일상적 막대함)             │
-│  장애 빈도: 거의 0                                           │
-│  → 시스템이 계속 무겁고 느리게 돌아감                        │
-│                                                              │
-│  [타조 알고리즘 (Ostrich Algorithm)]                         │
-│  방어 비용(CPU 연산): ■ (ZERO)                               │
-│  장애 발생: 1년에 1~2회 멈춤                                 │
-│  복구 주체: 사용자(User)가 화내면서 전원 리셋 누름           │
-│  → 시스템은 365일 비행기처럼 빠르고 가벼움                   │
-│                                                              │
-│  결론: 윈도우 블루스크린이나 앱 프리징이 가끔 일어나는       │
-│  이유는 MS가 무능해서가 아니라, 타조 알고리즘을 '선택'했기   │
-│  때문이다.                                                   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|         방어 비용(Cost) vs 장애 손상(Damage) 그래프          |
++--------------------------------------------------------------+
+|                                                              |
+|  [예방/회피 알고리즘 (은행원, RAG 탐지)]                     |
+|  방어 비용(CPU 연산): ■■■■■■■■■■ (일상적 막대함)             |
+|  장애 빈도: 거의 0                                           |
+|  -> 시스템이 계속 무겁고 느리게 돌아감                        |
+|                                                              |
+|  [타조 알고리즘 (Ostrich Algorithm)]                         |
+|  방어 비용(CPU 연산): ■ (ZERO)                               |
+|  장애 발생: 1년에 1~2회 멈춤                                 |
+|  복구 주체: 사용자(User)가 화내면서 전원 리셋 누름           |
+|  -> 시스템은 365일 비행기처럼 빠르고 가벼움                   |
+|                                                              |
+|  결론: 윈도우 블루스크린이나 앱 프리징이 가끔 일어나는       |
+|  이유는 MS가 무능해서가 아니라, 타조 알고리즘을 '선택'했기   |
+|  때문이다.                                                   |
++--------------------------------------------------------------+
 ```
 
 **📢 섹션 요약 비유**: 빈대 잡으려 초가삼간 안 태운다 — 평생 어쩌다 한 번 나타나는 빈대(데드락) 때문에 매일 밤 방독면(탐지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))을 쓰고 자면 병이 납니다. 그냥 자다가 물리면 긁는 게 낫습니다.
@@ -119,12 +119,12 @@ OS [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_arch
 
 ```text
 [교착 상태 처리 방법 3가지]
-    │
-    ▼
+    |
+    v
 [타조 알고리즘 (Ostrich Algorithm)]
-    │
-    ├──▶ [교착 상태 예방 (Deadlock Prevention)]
-    └──▶ [상호 배제 부정]
+    |
+    +---> [교착 상태 예방 (Deadlock Prevention)]
+    +---> [상호 배제 부정]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -141,7 +141,7 @@ OS [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_arch
 
 **진행 상황**: 291 / 800
 
-← **이전**: [290. 교착 상태 처리 방법 3가지 (Deadlock Handling Methods)](/knowledge-base/studynote/02_operating_system/05_deadlock/290_deadlock_handling_methods/)
-**다음**: [292. 교착 상태 예방 (Deadlock Prevention) - 4조건 중 하나를 원천적 부정 (효율성 매우 낮음)](/knowledge-base/studynote/02_operating_system/05_deadlock/292_deadlock_prevention/) →
+<- **이전**: [290. 교착 상태 처리 방법 3가지 (Deadlock Handling Methods)](/knowledge-base/studynote/02_operating_system/05_deadlock/290_deadlock_handling_methods/)
+**다음**: [292. 교착 상태 예방 (Deadlock Prevention) - 4조건 중 하나를 원천적 부정 (효율성 매우 낮음)](/knowledge-base/studynote/02_operating_system/05_deadlock/292_deadlock_prevention/) ->
 
 ---

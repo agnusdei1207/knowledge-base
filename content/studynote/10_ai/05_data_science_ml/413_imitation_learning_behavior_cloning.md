@@ -24,13 +24,13 @@ tags = ["studynote-ai"]
 행동 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)는 상태-행동 쌍을 모아 지도학습처럼 학습하는 가장 직관적인 방식이다. 즉, "사람이 브레이크를 밟는 상황"을 보고 모델도 같은 판단을 하게 만드는 것이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           Imitation Learning from Expert Demonstrations      │
-├──────────────────────────────────────────────────────────────┤
-│ [Expert Driving] → [State-Action Pairs] → [Policy Network]   │
-│                                             ↓                │
-│                                         [Action Output]       │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           Imitation Learning from Expert Demonstrations      |
++--------------------------------------------------------------+
+| [Expert Driving] -> [State-Action Pairs] -> [Policy Network]   |
+|                                             v                |
+|                                         [Action Output]       |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 운전 선생님 옆자리에 앉아 "왜 지금 핸들을 꺾는지"를 배우는 것과 같다.
@@ -48,13 +48,13 @@ tags = ["studynote-ai"]
 | **DAgger** | 모델이 만든 상태를 다시 수집 | 분포 이동 완화 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 비용 증가 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  Behavior Cloning Pipeline                   │
-├──────────────────────────────────────────────────────────────┤
-│ demo state ──▶ supervised learner ──▶ action policy          │
-│     ▲                                               │        │
-│     └──────────── expert label / action ────────────┘        │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  Behavior Cloning Pipeline                   |
++--------------------------------------------------------------+
+| demo state ---> supervised learner ---> action policy          |
+|     ^                                               |        |
+|     +------------ expert label / action ------------+        |
++--------------------------------------------------------------+
 ```
 
 모방 학습의 가장 큰 위험은 covariate shift다. 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 전문가가 잘 운전한 상황만 포함하지만, 실제 모델은 스스로 조금씩 잘못된 상태를 만들고 그 상태에선 더 이상 전문가처럼 행동하지 못한다.
@@ -123,7 +123,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [자율주행 모방 학습 (Imitation Learning / Behavior Cloning)] → [최적화·운영 자동화]
+[데이터 전처리] -> [자율주행 모방 학습 (Imitation Learning / Behavior Cloning)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -138,7 +138,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 413 / 420
 
-← **이전**: [412. 서포트 벡터 회귀 (SVR, Support Vector Regression)](/knowledge-base/studynote/10_ai/05_data_science_ml/412_svr_support_vector_regression/)
-**다음**: [414. 지식 증류 (Knowledge Distillation)](/knowledge-base/studynote/10_ai/05_data_science_ml/414_knowledge_distillation_temperature_scaling/) →
+<- **이전**: [412. 서포트 벡터 회귀 (SVR, Support Vector Regression)](/knowledge-base/studynote/10_ai/05_data_science_ml/412_svr_support_vector_regression/)
+**다음**: [414. 지식 증류 (Knowledge Distillation)](/knowledge-base/studynote/10_ai/05_data_science_ml/414_knowledge_distillation_temperature_scaling/) ->
 
 ---

@@ -26,31 +26,31 @@ tags = ["studynote-operating-system"]
 **💡 비유**: 은행이 "지금 당신에게 이 금액을 대출해 줘도, 나머지 고객들의 대출 수요를 모두 충족하고 회수할 수 있는가?"를 확인하고 승인하는 것과 정확히 같다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│        은행원 알고리즘 4개 자료구조                          │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  n = 프로세스 수,  m = 자원 유형 수                          │
-│                                                              │
-│  Available[m]      : 각 자원 유형의 현재 사용 가능 인스턴스  │
-│  Max[n][m]         : 각 프로세스의 최대 자원 요구량          │
-│  Allocation[n][m]  : 각 프로세스에 현재 할당된 자원량        │
-│  Need[n][m]        : 각 프로세스의 추가 필요량               │
-│                                                              │
-│  관계: Need[i][j] = Max[i][j] - Allocation[i][j]             │
-│                                                              │
-│  예시 (5 프로세스, 3 자원 유형 A,B,C):                       │
-│                                                              │
-│         Allocation    Max       Need     Available           │
-│           A  B  C     A  B  C   A  B  C   A  B  C            │
-│  P0:      0  1  0     7  5  3   7  4  3                      │
-│  P1:      2  0  0     3  2  2   1  2  2   3  3  2            │
-│  P2:      3  0  2     9  0  2   6  0  0                      │
-│  P3:      2  1  1     2  2  2   0  1  1                      │
-│  P4:      0  0  2     4  3  3   4  3  1                      │
-│                                                              │
-│  안전 순서: <P1, P3, P4, P2, P0> ← 존재하면 안전 상태        │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|        은행원 알고리즘 4개 자료구조                          |
++--------------------------------------------------------------+
+|                                                              |
+|  n = 프로세스 수,  m = 자원 유형 수                          |
+|                                                              |
+|  Available[m]      : 각 자원 유형의 현재 사용 가능 인스턴스  |
+|  Max[n][m]         : 각 프로세스의 최대 자원 요구량          |
+|  Allocation[n][m]  : 각 프로세스에 현재 할당된 자원량        |
+|  Need[n][m]        : 각 프로세스의 추가 필요량               |
+|                                                              |
+|  관계: Need[i][j] = Max[i][j] - Allocation[i][j]             |
+|                                                              |
+|  예시 (5 프로세스, 3 자원 유형 A,B,C):                       |
+|                                                              |
+|         Allocation    Max       Need     Available           |
+|           A  B  C     A  B  C   A  B  C   A  B  C            |
+|  P0:      0  1  0     7  5  3   7  4  3                      |
+|  P1:      2  0  0     3  2  2   1  2  2   3  3  2            |
+|  P2:      3  0  2     9  0  2   6  0  0                      |
+|  P3:      2  1  1     2  2  2   0  1  1                      |
+|  P4:      0  0  2     4  3  3   4  3  1                      |
+|                                                              |
+|  안전 순서: <P1, P3, P4, P2, P0> <- 존재하면 안전 상태        |
++--------------------------------------------------------------+
 ```
 
 **📢 섹션 요약 비유**: 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 자원 배분의 사전 심사 시스템 — "지금 이 요청을 들어줘도 미래에 모두 회수할 수 있는가"를 계산하는 안전망입니다.
@@ -73,8 +73,8 @@ Safety Algorithm:
        Finish[i] = true
      못 찾으면: 종료
 
-④  Finish[i] == true for all i → 안전 상태
-    그렇지 않으면 → 불안전 상태
+④  Finish[i] == true for all i -> 안전 상태
+    그렇지 않으면 -> 불안전 상태
 ```
 
 ### 자원 요청 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Resource-Request [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))
@@ -83,10 +83,10 @@ Safety Algorithm:
 프로세스 Pi가 Request[i] 요청 시:
 
 ① Request[i] ≤ Need[i]?
-   아니면 → 오류 (최대 요구 초과)
+   아니면 -> 오류 (최대 요구 초과)
 
 ② Request[i] ≤ Available?
-   아니면 → Pi를 대기 상태로 (자원 부족)
+   아니면 -> Pi를 대기 상태로 (자원 부족)
 
 ③ 가정적 할당:
    Available  = Available  - Request[i]
@@ -94,40 +94,40 @@ Safety Algorithm:
    Need[i]    = Need[i]    - Request[i]
 
 ④ 안전 상태인가?
-   안전  → 실제로 자원 할당 완료
-   불안전 → 가상 할당 취소, Pi를 대기 상태로
+   안전  -> 실제로 자원 할당 완료
+   불안전 -> 가상 할당 취소, Pi를 대기 상태로
 ```
 
 ### 안전 순서 탐색 과정 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│      안전 순서 탐색 단계별 상세 예시                         │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  초기: Work=[3,3,2], Finish=[F,F,F,F,F]                      │
-│                                                              │
-│  단계1: Need[1]=[1,2,2] ≤ Work=[3,3,2] → P1 완료!            │
-│         Work = [3,3,2] + [2,0,0] = [5,3,2]                   │
-│         Finish = [F,T,F,F,F]                                 │
-│                                                              │
-│  단계2: Need[3]=[0,1,1] ≤ Work=[5,3,2] → P3 완료!            │
-│         Work = [5,3,2] + [2,1,1] = [7,4,3]                   │
-│         Finish = [F,T,F,T,F]                                 │
-│                                                              │
-│  단계3: Need[4]=[4,3,1] ≤ Work=[7,4,3] → P4 완료!            │
-│         Work = [7,4,3] + [0,0,2] = [7,4,5]                   │
-│         Finish = [F,T,F,T,T]                                 │
-│                                                              │
-│  단계4: Need[2]=[6,0,0] ≤ Work=[7,4,5] → P2 완료!            │
-│         Work = [7,4,5] + [3,0,2] = [10,4,7]                  │
-│         Finish = [F,T,T,T,T]                                 │
-│                                                              │
-│  단계5: Need[0]=[7,4,3] ≤ Work=[10,4,7] → P0 완료!           │
-│         Finish = [T,T,T,T,T] → 안전 순서: P1,P3,P4,P2,P0     │
-│                                                              │
-│  ✅ 결론: 안전 상태                                          │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|      안전 순서 탐색 단계별 상세 예시                         |
++--------------------------------------------------------------+
+|                                                              |
+|  초기: Work=[3,3,2], Finish=[F,F,F,F,F]                      |
+|                                                              |
+|  단계1: Need[1]=[1,2,2] ≤ Work=[3,3,2] -> P1 완료!            |
+|         Work = [3,3,2] + [2,0,0] = [5,3,2]                   |
+|         Finish = [F,T,F,F,F]                                 |
+|                                                              |
+|  단계2: Need[3]=[0,1,1] ≤ Work=[5,3,2] -> P3 완료!            |
+|         Work = [5,3,2] + [2,1,1] = [7,4,3]                   |
+|         Finish = [F,T,F,T,F]                                 |
+|                                                              |
+|  단계3: Need[4]=[4,3,1] ≤ Work=[7,4,3] -> P4 완료!            |
+|         Work = [7,4,3] + [0,0,2] = [7,4,5]                   |
+|         Finish = [F,T,F,T,T]                                 |
+|                                                              |
+|  단계4: Need[2]=[6,0,0] ≤ Work=[7,4,5] -> P2 완료!            |
+|         Work = [7,4,5] + [3,0,2] = [10,4,7]                  |
+|         Finish = [F,T,T,T,T]                                 |
+|                                                              |
+|  단계5: Need[0]=[7,4,3] ≤ Work=[10,4,7] -> P0 완료!           |
+|         Finish = [T,T,T,T,T] -> 안전 순서: P1,P3,P4,P2,P0     |
+|                                                              |
+|  ✅ 결론: 안전 상태                                          |
++--------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 안전 순서 탐색은 욕심쟁이(Greedy) 방식으로 현재 가용 자원(Work)으로 완료 가능한 프로세스를 찾아 완료시키고 자원을 누적해가는 시뮬레이션이다. 시뮬레이션이 완전히 성공하면(Finish 모두 true) 시스템이 [안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/)다. 자원 요청 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 먼저 가상으로 할당한 뒤 이 [안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/) 시뮬레이션을 돌려본다 — 성공하면 실제 할당하고, 실패하면 취소한다.
@@ -141,24 +141,24 @@ Safety Algorithm:
 ### 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 한계
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│          은행원 알고리즘 한계 및 실무 대안                   │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  한계 1: 사전에 Max 정보가 필요                              │
-│         → 실제 OS에서 프로세스의 최대 자원 요구 예측 불가    │
-│                                                              │
-│  한계 2: 프로세스 수와 자원 수가 고정                        │
-│         → 동적 생성/종료, 자원 추가 시 재계산 필요           │
-│                                                              │
-│  한계 3: O(n²×m) 시간 복잡도                                 │
-│         → 수천 프로세스 환경에서 실시간 검사 비현실적        │
-│                                                              │
-│  실무 대안:                                                  │
-│  ① 교착 예방 (Lock Ordering): 순환 대기 원천 차단            │
-│  ② 타임아웃: 락 대기 시간 제한 후 롤백                       │
-│  ③ 데이터베이스: 탐지 후 희생자 롤백                         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|          은행원 알고리즘 한계 및 실무 대안                   |
++--------------------------------------------------------------+
+|                                                              |
+|  한계 1: 사전에 Max 정보가 필요                              |
+|         -> 실제 OS에서 프로세스의 최대 자원 요구 예측 불가    |
+|                                                              |
+|  한계 2: 프로세스 수와 자원 수가 고정                        |
+|         -> 동적 생성/종료, 자원 추가 시 재계산 필요           |
+|                                                              |
+|  한계 3: O(n^×m) 시간 복잡도                                 |
+|         -> 수천 프로세스 환경에서 실시간 검사 비현실적        |
+|                                                              |
+|  실무 대안:                                                  |
+|  ① 교착 예방 (Lock Ordering): 순환 대기 원천 차단            |
+|  ② 타임아웃: 락 대기 시간 제한 후 롤백                       |
+|  ③ 데이터베이스: 탐지 후 희생자 롤백                         |
++--------------------------------------------------------------+
 ```
 
 **[비교 해설]** 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 이론적으로 완벽하지만 실무에서 전면 채택은 거의 없다. 대부분의 일반 목적 OS는 Ostrich [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(무시)을 채택하는 반면, 데이터베이스는 탐지+[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를, 실시간 OS는 예방(PCP)을 채택한다. 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 자원 수와 프로세스 수가 제한적이고 사전 정보를 알 수 있는 임베디드·실시간 환경에서 실용적이다.
@@ -175,7 +175,7 @@ Safety Algorithm:
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - <strong>Max 과소 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: 프로세스가 실제로 필요한 것보다 Max를 적게 신고하면 [안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/) 판단이 잘못되어 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 발생 가능.
-- **N·M 크기 간과**: 큰 시스템에서 O(n²m)의 반복 실행 시 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 레이턴시가 급증.
+- **N·M 크기 간과**: 큰 시스템에서 O(n^m)의 반복 실행 시 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 레이턴시가 급증.
 
 **📢 섹션 요약 비유**: 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 Max 신고 오류는 대출 신청서에 잘못된 소득을 기재하는 것 — 시스템이 잘못된 판단을 내려 결국 파산(교착)에 이를 수 있습니다.
 
@@ -207,12 +207,12 @@ Safety Algorithm:
 
 ```text
 [단일 인스턴스 환경의 회피]
-    │
-    ▼
+    |
+    v
 [다중 인스턴스 환경의 회피]
-    │
-    ├──▶ [은행원 알고리즘 자료구조]
-    └──▶ [은행원 알고리즘 한계]
+    |
+    +---> [은행원 알고리즘 자료구조]
+    +---> [은행원 알고리즘 한계]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -229,7 +229,7 @@ Safety Algorithm:
 
 **진행 상황**: 301 / 800
 
-← **이전**: [300. 단일 인스턴스 환경의 회피 (Rag Avoidance)](/knowledge-base/studynote/02_operating_system/05_deadlock/300_rag_avoidance/)
-**다음**: [302. 은행원 알고리즘 자료구조 (Bankers Data Structure)](/knowledge-base/studynote/02_operating_system/05_deadlock/302_bankers_data_structure/) →
+<- **이전**: [300. 단일 인스턴스 환경의 회피 (Rag Avoidance)](/knowledge-base/studynote/02_operating_system/05_deadlock/300_rag_avoidance/)
+**다음**: [302. 은행원 알고리즘 자료구조 (Bankers Data Structure)](/knowledge-base/studynote/02_operating_system/05_deadlock/302_bankers_data_structure/) ->
 
 ---

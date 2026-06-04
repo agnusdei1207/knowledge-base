@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [SA 풀 전환 클라우드 네이티브 슬라이싱 전…]
-    │
-    ▼
+    |
+    v
 [5GC]
-    │
-    └──▶ [SBA]
+    |
+    +---> [SBA]
 ```
 
 - **📢 섹션 요약 비유**: 5GC는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -59,11 +59,11 @@ tags = ["studynote-network"]
 
 ```text
 [SA 풀 전환 클라우드 네이티브 슬라이싱 전…]
-    │
-    ▼
+    |
+    v
 [5GC]
-    │
-    └──▶ [SBA]
+    |
+    +---> [SBA]
 ```
 
 - **📢 섹션 요약 비유**: 5GC의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -127,12 +127,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: SA 풀 전환 클라우드 네이티브 슬라이싱 전…]
-    │
-    ▼
+    |
+    v
 [현재 개념: 5GC]
-    │
-    ├──▶ [확장 A: SBA]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
+    |
+    +---> [확장 A: SBA]
+    +---> [확장 B: AI 기반 네트워크 최적화]
 ```
 
 5GC는 [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 슬라이싱 전…에서 출발해 현재 메커니즘을 정교화하고, 이후 SBA와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -149,7 +149,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 889 / 1120
 
-← **이전**: [767. SA (Standalone 코어까지 5G Core(5GC) 풀 전환 클라우드 네이티브 슬라이싱 전체 통제 네트워크 지연 해결](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/)
-**다음**: [769. SBA (Service Based Architecture 네트워크 기능 요소가 컨테이너/마이크로 서비스 RESTful API](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/769_sba_service_based_architecture_5g/) →
+<- **이전**: [767. SA (Standalone 코어까지 5G Core(5GC) 풀 전환 클라우드 네이티브 슬라이싱 전체 통제 네트워크 지연 해결](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/)
+**다음**: [769. SBA (Service Based Architecture 네트워크 기능 요소가 컨테이너/마이크로 서비스 RESTful API](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/769_sba_service_based_architecture_5g/) ->
 
 ---

@@ -39,25 +39,25 @@ tags = ["network"]
 | **임의 대기** | Backoff | 충돌 발생 시 [잼 신호](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/107_잼_신호_백오프_알고리즘/)([Jam Signal](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/107_잼_신호_백오프_알고리즘/))를 뿌린 후 무작위 시간 동안 대기 | BEB [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  CSMA/CD 의 충돌 감지 타이밍 딜레마                  │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│ [송신자 A] ───────────────── (케이블) ─────────────────▶ [수신자 B] │
-│                                                              │
-│ 시간 0.0s : A가 데이터 전송 시작 (채널이 비어 있다고 판단)          │
-│ 시간 0.5s : B도 A의 신호가 아직 도착 안 해서 비어있는 줄 알고 송신 시작│
-│ 시간 0.6s : 💥 케이블 중간에서 A의 신호와 B의 신호 충돌 발생!        │
-│ 시간 1.1s : 충돌로 파괴된 반사파가 A에게 도달하여 A가 충돌을 인지함   │
-│                                                              │
-│ 🚨 핵심 조건: A가 충돌을 인지하는 1.1s 시점에, A는 "아직 데이터를 쏘고│
-│             있는 중"이어야만 내 데이터가 충돌했음을 알 수 있다!     │
-│             만약 데이터가 너무 짧아 0.8s에 전송을 끝내버렸다면?    │
-│             A는 "오 성공적으로 보냈군" 하고 완벽히 착각하게 됨.      │
-│                                                              │
-│ ✅ 해결책: 이더넷 최소 프레임 크기를 강제로 64바이트로 규정하여, 충돌파가│
-│          돌아올 때까지(RTT) 무조건 송신기를 틀어놓게 만든 물리적 제약.│
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  CSMA/CD 의 충돌 감지 타이밍 딜레마                  |
++--------------------------------------------------------------+
+|                                                              |
+| [송신자 A] ----------------- (케이블) ------------------> [수신자 B] |
+|                                                              |
+| 시간 0.0s : A가 데이터 전송 시작 (채널이 비어 있다고 판단)          |
+| 시간 0.5s : B도 A의 신호가 아직 도착 안 해서 비어있는 줄 알고 송신 시작|
+| 시간 0.6s : 💥 케이블 중간에서 A의 신호와 B의 신호 충돌 발생!        |
+| 시간 1.1s : 충돌로 파괴된 반사파가 A에게 도달하여 A가 충돌을 인지함   |
+|                                                              |
+| 🚨 핵심 조건: A가 충돌을 인지하는 1.1s 시점에, A는 "아직 데이터를 쏘고|
+|             있는 중"이어야만 내 데이터가 충돌했음을 알 수 있다!     |
+|             만약 데이터가 너무 짧아 0.8s에 전송을 끝내버렸다면?    |
+|             A는 "오 성공적으로 보냈군" 하고 완벽히 착각하게 됨.      |
+|                                                              |
+| ✅ 해결책: 이더넷 최소 프레임 크기를 강제로 64바이트로 규정하여, 충돌파가|
+|          돌아올 때까지(RTT) 무조건 송신기를 틀어놓게 만든 물리적 제약.|
++--------------------------------------------------------------+
 ```
 
 이 다이어그램은 충돌 감지(CD)를 위해 네트워크 케이블의 길이와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 최소 크기가 왜 톱니바퀴처럼 맞물려야 하는지 보여준다. 만약 충돌 횟수가 계속 늘어나면, 이진 지수 백오프 (BEB, Binary Exponential Backoff) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 사용해 대기 시간의 범위를 2배, 4배, 8배로 지수적으로 늘리며 네트워크의 혼잡을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시킨다.
@@ -121,14 +121,14 @@ tags = ["network"]
 
 ```text
 ALOHA (최초의 무선 패킷 통신망, 단순 경쟁으로 충돌 매우 잦음)
-    │
-    ▼
+    |
+    v
 CSMA/CD (유선 이더넷, 통신 전 감지 및 충돌 발생 후 백오프 대기)
-    │
-    ▼
+    |
+    v
 L2 Switch & Full-Duplex (하드웨어 포트 분리, CD 비활성화 및 충돌 원천 봉쇄)
-    │
-    ▼
+    |
+    v
 CSMA/CA (Wi-Fi 무선 통신망, 충돌 감지가 어려워 충돌 회피 알고리즘으로 진화)
 ```
 
@@ -144,7 +144,7 @@ CSMA/CA (Wi-Fi 무선 통신망, 충돌 감지가 어려워 충돌 회피 알고
 
 **진행 상황**: 176 / 1120
 
-← **이전**: [1069. WebRTC NAT 횡단 (STUN/TURN/ICE 통합)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1069_webrtc_nat_traversal_stun_turn_ice/)
-**다음**: [1070. CDN 엣지 노드 분산](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1070_cdn_edge_node_distributed_architecture/) →
+<- **이전**: [1069. WebRTC NAT 횡단 (STUN/TURN/ICE 통합)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1069_webrtc_nat_traversal_stun_turn_ice/)
+**다음**: [1070. CDN 엣지 노드 분산](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1070_cdn_edge_node_distributed_architecture/) ->
 
 ---

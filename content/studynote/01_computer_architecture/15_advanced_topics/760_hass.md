@@ -36,13 +36,13 @@ HASS의 핵심은 정상 사용 조건보다 강하지만 파괴 한계보다 �
 아래 그림은 HASS가 위치해야 할 영역을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                   HASS profile inside safe margin                   │
-├──────────────────────────────────────────────────────────────────────┤
-│ Field spec ───────┬──────── HASS zone ────────┬── Destruct limit    │
-│ normal use        │ catches weak assemblies   │ never cross         │
-│                   │ proof of screen required  │                     │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                   HASS profile inside safe margin                   |
++----------------------------------------------------------------------+
+| Field spec -------+-------- HASS zone --------+-- Destruct limit    |
+| normal use        | catches weak assemblies   | never cross         |
+|                   | proof of screen required  |                     |
++----------------------------------------------------------------------+
 ```
 
 실제 HASS 프로파일은 보통 다음 요소를 조합한다.
@@ -131,21 +131,21 @@ HASS가 잘 설계되면 출하 품질이 높아지고, 고객 현장의 [초기
 
 ```text
 설계 안정화
-    │
-    ▼
+    |
+    v
 HALT limits identified
-    │
-    ▼
+    |
+    v
 Proof of Screen
-    │
-    ▼
+    |
+    v
 HASS (Highly Accelerated Stress Screen)
     : short-duration high-stress production screen
-    │
-    ├──▶ fallout analysis
-    │     : solder · connector · assembly variation
-    │
-    └──▶ outgoing quality improvement
+    |
+    +---> fallout analysis
+    |     : solder · connector · assembly variation
+    |
+    +---> outgoing quality improvement
           : fewer infant failures in the field
 ```
 
@@ -161,7 +161,7 @@ HASS (Highly Accelerated Stress Screen)
 
 **진행 상황**: 761 / 803
 
-← **이전**: [759. HALT (Highly Accelerated Life Test)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/759_halt/)
-**다음**: [761. MIL-HDBK-217 고장률 예측](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/761_mil_hdbk_217/) →
+<- **이전**: [759. HALT (Highly Accelerated Life Test)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/759_halt/)
+**다음**: [761. MIL-HDBK-217 고장률 예측](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/761_mil_hdbk_217/) ->
 
 ---

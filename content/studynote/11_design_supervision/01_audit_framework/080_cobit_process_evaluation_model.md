@@ -24,11 +24,11 @@ tags = ["studynote-design-supervision"]
 특히 공공사업이나 대형 구축 사업처럼 일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 품질 편차, 보안 이슈가 함께 얽히는 환경에서는 문서 한 장의 적합 여부보다 실행 흔적의 정합성이 더 중요하다. 따라서 [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) 프로세스 평가 (APO, BAI, DSS, MEA) 모델 연계 통제 진단은 단순 점검표가 아니라, 기준·증거·조치가 하나의 폐루프로 돌아가는 통제 구조로 이해해야 한다.
 
 ```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ Baseline     │──▶│ Evidence     │──▶│ Finding      │
-└──────┬───────┘   └──────────────┘   └──────┬───────┘
-       │                                     │
-       └──────────────▶ Corrective Action ◀──┘
++--------------+   +--------------+   +--------------+
+| Baseline     |--->| Evidence     |--->| Finding      |
++------+-------+   +--------------+   +------+-------+
+       |                                     |
+       +---------------> Corrective Action <---+
 ```
 
 이 그림은 한 번의 판정으로 끝나는 활동이 아니라, [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)에서 증거 수집, 시정조치 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)까지 이어지는 연속 흐름임을 보여 준다.
@@ -110,14 +110,14 @@ tags = ["studynote-design-supervision"]
 
 ```text
 [선행 개념: 기준선 수립]
-    │
-    ▼
+    |
+    v
 [현재 개념: COBIT 프로세스 평가 (APO, BAI, DSS, MEA) 모델 연계 통제 진단]
-    │
-    ├──▶ [확장 A: BAI]
-    └──▶ [확장 B: 자동화 점검]
-            │
-            ▼
+    |
+    +---> [확장 A: BAI]
+    +---> [확장 B: 자동화 점검]
+            |
+            v
         [다음 단계: 지속적 개선]
 ```
 
@@ -135,7 +135,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 123 / 530
 
-← **이전**: [79. 개발자 클린룸 망분리(VDI) 환경 및 보안 이동 경로 점검 (Security)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/)
-**다음**: [81. 소프트웨어 아키텍처 (Software Architecture)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/081_software_architecture/) →
+<- **이전**: [79. 개발자 클린룸 망분리(VDI) 환경 및 보안 이동 경로 점검 (Security)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/)
+**다음**: [81. 소프트웨어 아키텍처 (Software Architecture)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/081_software_architecture/) ->
 
 ---

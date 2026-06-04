@@ -12,7 +12,7 @@ tags = ["studynote-ict-convergence"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SAE Level 4는 <strong>특정 ODD(지역·날씨·속도) 내에서 인간 개입 없이 완전 자율주행</strong>이 가능하며, Takeover 요청이 없어 **운전석이 필요 없을 수 있다**.
 > 2. **가치**: L3는 운전자가 항상 대기해야 하지만, L4는 <strong>해당 ODD 내에서 완전 무인</strong>이므로 로보택시·무인 셔틀·무인 배달이 가능하다.
-> 3. **판단 포인트**: Waymo(피닉스·샌프란시스코)·Cruise·Baidu Apollo가 L4 로보택시를 운영 중이며, ODD 확장(도심→교외→악천후)이 핵심 과제이다.
+> 3. **판단 포인트**: Waymo(피닉스·샌프란시스코)·Cruise·Baidu Apollo가 L4 로보택시를 운영 중이며, ODD 확장(도심->교외->악천후)이 핵심 과제이다.
 
 ---
 
@@ -48,9 +48,9 @@ L4는 <strong>로보택시·무인 배달의 현실</strong>이며, ODD 확장�
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[L2 ADAS (2015)] → [L3 Mercedes (2023)]
-    → [L4 Waymo 로보택시 (2020~)] → [L4 Cruise (2022)]
-    → [현재: L4 ODD 확장 + 규제 정비]
+[L2 ADAS (2015)] -> [L3 Mercedes (2023)]
+    -> [L4 Waymo 로보택시 (2020~)] -> [L4 Cruise (2022)]
+    -> [현재: L4 ODD 확장 + 규제 정비]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -64,7 +64,7 @@ L4는 <strong>로보택시·무인 배달의 현실</strong>이며, ODD 확장�
 
 **진행 상황**: 138 / 552
 
-← **이전**: [137. 자율주행 Level 3 조건부 자율 - 시스템 책임의 시작](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/137_autonomous_vehicle_level_3_conditional/)
-**다음**: [139. 센서 퓨전 (Camera·LiDAR·Radar) - 자율주행 인지 통합](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/139_sensor_fusion_camera_lidar_radar/) →
+<- **이전**: [137. 자율주행 Level 3 조건부 자율 - 시스템 책임의 시작](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/137_autonomous_vehicle_level_3_conditional/)
+**다음**: [139. 센서 퓨전 (Camera·LiDAR·Radar) - 자율주행 인지 통합](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/139_sensor_fusion_camera_lidar_radar/) ->
 
 ---

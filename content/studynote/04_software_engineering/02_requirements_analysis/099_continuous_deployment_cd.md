@@ -31,19 +31,19 @@ tags = ["software_engineering"]
 CD 파이프라인은 코드가 커밋되는 순간부터 운영 서버에 안착하기까지의 워크플로우를 자동화 툴체인(예: [Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/), ArgoCD, GitHub Actions)으로 연결한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│             CD 파이프라인의 2가지 뉘앙스와 워크플로우        │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│ [ CI 완료 ] ──▶ [ Staging 환경 자동 배포 ] ──▶ (통합 테스트/QA)│
-│                                                              │
-│ 1. Continuous Delivery (지속적 제공) - 인간의 마지막 허락    │
-│    (QA 완료) ──▶ [출하 대기장 보관] ──▶ 👤 PO/보안팀 수동 승인 ──▶ [운영 환경 배포]│
-│                                         (Approve Click)      │
-│                                                              │
-│ 2. Continuous Deployment (지속적 배포) - 로봇의 무인 독주    │
-│    (QA 완료) ──▶ 🤖 조건 만족 시 즉시 100% 자동 직행 ────────▶ [운영 환경 배포]│
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|             CD 파이프라인의 2가지 뉘앙스와 워크플로우        |
++--------------------------------------------------------------+
+|                                                              |
+| [ CI 완료 ] ---> [ Staging 환경 자동 배포 ] ---> (통합 테스트/QA)|
+|                                                              |
+| 1. Continuous Delivery (지속적 제공) - 인간의 마지막 허락    |
+|    (QA 완료) ---> [출하 대기장 보관] ---> 👤 PO/보안팀 수동 승인 ---> [운영 환경 배포]|
+|                                         (Approve Click)      |
+|                                                              |
+| 2. Continuous Deployment (지속적 배포) - 로봇의 무인 독주    |
+|    (QA 완료) ---> 🤖 조건 만족 시 즉시 100% 자동 직행 ---------> [운영 환경 배포]|
++--------------------------------------------------------------+
 ```
 
 CD의 핵심 아키텍처는 <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/">무중단 배포</a>(<a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/">Zero Downtime Deployment</a>)</strong> 메커니즘을 내장한다는 것이다. 고객이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 사용 중인 10초의 순간에도 릴리즈가 이루어져야 하므로, 구버전 서버와 신버전 서버를 스위치처럼 교체하는 블루/그린(Blue/Green) 배포나, 서버를 1~2대씩 순차적으로 갈아 끼우는 롤링(Rolling) 배포, 트래픽을 5%만 먼저 흘려보내 모니터링하는 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)([Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)) 배포 기법이 파이프라인 내부 로직으로 작동한다.
@@ -106,17 +106,17 @@ CD는 기술적인 도구 설치만으로 완성되지 않으며, 배포 실패 
 
 ```text
 빅뱅 배포 (Big Bang) · 월 단위 수동 배포, 잦은 장애 발생
-    │
-    ▼
+    |
+    v
 지속적 통합 (CI) 정착 · 코드 병합 및 테스트 자동화 보편화
-    │
-    ▼
+    |
+    v
 지속적 제공 (Continuous Delivery) · 검증된 코드를 출하 대기까지 자동화 (수동 승인)
-    │
-    ▼
+    |
+    v
 무중단 배포 기법 융합 · 블루/그린, 카나리, 롤링 등 다운타임 제로 아키텍처
-    │
-    ▼
+    |
+    v
 지속적 배포 (Continuous Deployment) · Git 커밋부터 라이브 환경까지 100% 무인 자동화 직행
 ```
 
@@ -132,7 +132,7 @@ CD는 기술적인 도구 설치만으로 완성되지 않으며, 배포 실패 
 
 **진행 상황**: 99 / 973
 
-← **이전**: [98. 인프라로서의 코드 (IaC, Infrastructure as Code)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/098_iac_infrastructure_as_code_terraform/)
-**다음**: [100. SRE (Site Reliability 엔진ering) - 구글의 운영 방식, 에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) →
+<- **이전**: [98. 인프라로서의 코드 (IaC, Infrastructure as Code)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/098_iac_infrastructure_as_code_terraform/)
+**다음**: [100. SRE (Site Reliability 엔진ering) - 구글의 운영 방식, 에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ->
 
 ---

@@ -26,14 +26,14 @@ NIC [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_acceler
 이 그림은 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)이 없을 때 CPU가 어디에 시간을 쓰는지 요약한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│             Offload가 없으면 패킷마다 CPU가 여러 번 개입한다              │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Packet -> Interrupt -> Kernel Parse -> Checksum -> Segment/Merge          │
-│        -> Application                                                     │
-│                                                                            │
-│ 패킷 수가 커질수록 CPU 시간의 상당 부분이 "네트워크 housekeeping"에 묶인다.│
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|             Offload가 없으면 패킷마다 CPU가 여러 번 개입한다              |
++----------------------------------------------------------------------------+
+| Packet -> Interrupt -> Kernel Parse -> Checksum -> Segment/Merge          |
+|        -> Application                                                     |
+|                                                                            |
+| 패킷 수가 커질수록 CPU 시간의 상당 부분이 "네트워크 housekeeping"에 묶인다.|
++----------------------------------------------------------------------------+
 ```
 
 따라서 NIC [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)은 단순한 편의 기능이 아니다. 고속 네트워크 시대에 소프트웨어 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)만으로는 감당하기 어려운 per-packet 비용을 낮추는, 사실상 필수적인 시스템 균형 장치다.
@@ -57,20 +57,20 @@ NIC [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_acceler
 아래 그림은 NIC [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)이 송수신 경로에서 어디에 개입하는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│             NIC offload datapath: control on host, repetition on NIC      │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Application -> OS Stack -> DMA Descriptor Ring -> [NIC Offload Engine]    │
-│                                          │                                 │
-│                                          ├─ checksum / segmentation        │
-│                                          ├─ receive merge                  │
-│                                          └─ queue steering                 │
-│                                          ▼                                 │
-│                                         Wire                               │
-│                                                                            │
-│ Wire -> [NIC Parser / Receive Queue] -> DMA -> selected CPU core          │
-│                                         -> Application                     │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|             NIC offload datapath: control on host, repetition on NIC      |
++----------------------------------------------------------------------------+
+| Application -> OS Stack -> DMA Descriptor Ring -> [NIC Offload Engine]    |
+|                                          |                                 |
+|                                          +- checksum / segmentation        |
+|                                          +- receive merge                  |
+|                                          +- queue steering                 |
+|                                          v                                 |
+|                                         Wire                               |
+|                                                                            |
+| Wire -> [NIC Parser / Receive Queue] -> DMA -> selected CPU core          |
+|                                         -> Application                     |
++----------------------------------------------------------------------------+
 ```
 
 여기서 중요한 것은 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)이 모두 같은 급이 아니라는 점이다. [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/), TSO, RSS는 비교적 <strong>비상태성 (<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a>)</strong> [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)이고, 연결 상태를 오래 기억하지 않는다. 반면 수신 병합이나 이후의 [TOE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/588_toe/) 같은 기능은 더 많은 상태 추적과 재조립을 요구하므로 구현과 운영 난도가 높아진다.
@@ -149,20 +149,20 @@ NIC [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_acceler
 
 ```text
 기본 NIC + DMA
-    │
-    ▼
+    |
+    v
 Checksum Offload
-    │
-    ▼
+    |
+    v
 TSO · LRO · RSS
-    │
-    ▼
+    |
+    v
 상태성 오프로딩 (TOE)
-    │
-    ▼
+    |
+    v
 SmartNIC · DPU 기반 통합 오프로딩
-    │
-    ▼
+    |
+    v
 프로그래머블 네트워크 / 보안 / 스토리지 데이터 경로
 ```
 
@@ -180,7 +180,7 @@ SmartNIC · DPU 기반 통합 오프로딩
 
 **진행 상황**: 587 / 803
 
-← **이전**: [586. 부동소수점 곱셈기 파이프라인 (Floating-Point Multiplier Pipeline)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/586_fpu_multiplier_pipeline/)
-**다음**: [588. TCP 오프로드 엔진 (TOE)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/588_toe/) →
+<- **이전**: [586. 부동소수점 곱셈기 파이프라인 (Floating-Point Multiplier Pipeline)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/586_fpu_multiplier_pipeline/)
+**다음**: [588. TCP 오프로드 엔진 (TOE)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/588_toe/) ->
 
 ---

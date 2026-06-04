@@ -27,11 +27,11 @@ tags = ["studynote-network"]
 
 ```text
 [CHAP]
-    │
-    ▼
+    |
+    v
 [EAP]
-    │
-    └──▶ [이더넷 구조 및 원리]
+    |
+    +---> [이더넷 구조 및 원리]
 ```
 
 - **📢 섹션 요약 비유**: ** EAP는 택배 회사의 **"표준 규격 상자"**입니다. 내용물이 유리잔(비밀번호)이든, 전자기기(생체 정보)이든, 보석(디지털 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서)이든 상관없이 똑같은 네모난 상자에 담아 안전하게 배송해 주는 범용 포장 시스템입니다.
@@ -51,34 +51,34 @@ EAP [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/3
 유선 포트나 무선 AP에 연결될 때 EAP 기반의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 절차는 다음과 같다. 이 과정에서 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)자([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))는 내용물([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 뜯어보지 않는다.
 
 ```text
- ┌───────────────────────────────────────────────────────────────┐
- │            IEEE 802.1X에서의 EAP 인증 과정 (EAP-TLS 예시)       │
- ├───────────────────────────────────────────────────────────────┤
- │                                                               │
- │ [Supplicant]          [Authenticator (AP)]        [RADIUS 서버]  │
- │  (노트북)                  (무선 공유기)               (인증 서버)   │
- │     │                         │                         │     │
- │     │ 1. EAPOL-Start (연결 요청)│                         │     │
- │     ├────────────────────────▶│                         │     │
- │     │                         │                         │     │
- │     │ 2. EAP-Request/Identity │                         │     │
- │     │◀────────────────────────┤                         │     │
- │     │                         │                         │     │
- │     │ 3. EAP-Response/Identity│                         │     │
- │     ├────────────────────────▶│                         │     │
- │     │                         │ 4. RADIUS Access-Request│     │
- │     │                         │    (EAP 메시지 포장)       │     │
- │     │                         ├────────────────────────▶│     │
- │     │                         │                         │     │
- │     │ 5. EAP 방식 협상 및 인증 교환 (서로 TLS 터널 등 생성)       │     │
- │     │◀────────────────────────┼────────────────────────▶│     │
- │     │                         │                         │     │
- │     │                         │ 6. RADIUS Access-Accept │     │
- │     │                         │◀────────────────────────┤     │
- │     │ 7. EAP-Success          │                         │     │
- │     │◀────────────────────────┤ 포트 잠금 해제 (통신 시작)  │     │
- │                                                               │
- └───────────────────────────────────────────────────────────────┘
+ +---------------------------------------------------------------+
+ |            IEEE 802.1X에서의 EAP 인증 과정 (EAP-TLS 예시)       |
+ +---------------------------------------------------------------+
+ |                                                               |
+ | [Supplicant]          [Authenticator (AP)]        [RADIUS 서버]  |
+ |  (노트북)                  (무선 공유기)               (인증 서버)   |
+ |     |                         |                         |     |
+ |     | 1. EAPOL-Start (연결 요청)|                         |     |
+ |     +------------------------->|                         |     |
+ |     |                         |                         |     |
+ |     | 2. EAP-Request/Identity |                         |     |
+ |     |<-------------------------+                         |     |
+ |     |                         |                         |     |
+ |     | 3. EAP-Response/Identity|                         |     |
+ |     +------------------------->|                         |     |
+ |     |                         | 4. RADIUS Access-Request|     |
+ |     |                         |    (EAP 메시지 포장)       |     |
+ |     |                         +------------------------->|     |
+ |     |                         |                         |     |
+ |     | 5. EAP 방식 협상 및 인증 교환 (서로 TLS 터널 등 생성)       |     |
+ |     |<-------------------------+------------------------->|     |
+ |     |                         |                         |     |
+ |     |                         | 6. RADIUS Access-Accept |     |
+ |     |                         |<-------------------------+     |
+ |     | 7. EAP-Success          |                         |     |
+ |     |<-------------------------+ 포트 잠금 해제 (통신 시작)  |     |
+ |                                                               |
+ +---------------------------------------------------------------+
 ```
 
 ### 3. 대표적인 EAP 확장 방식 (EAP Methods)
@@ -144,12 +144,12 @@ EAP는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 
 ```text
 [선행 개념: CHAP]
-    │
-    ▼
+    |
+    v
 [현재 개념: EAP]
-    │
-    ├──▶ [확장 A: 이더넷 구조 및 원리]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+    |
+    +---> [확장 A: 이더넷 구조 및 원리]
+    +---> [확장 B: 고신뢰 저지연 링크 제어]
 ```
 
 EAP는 CHAP에서 출발해 현재 메커니즘을 정교화하고, 이후 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 구조 및 원리와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -166,7 +166,7 @@ EAP는 CHAP에서 출발해 현재 메커니즘을 정교화하고, 이후 [이�
 
 **진행 상황**: 350 / 1120
 
-← **이전**: [228. CHAP (Challenge Handshake Authentication Protocol)](/knowledge-base/studynote/03_network/04_data_link_layer_error/228_chap_challenge_handshake_authentication_protocol/)
-**다음**: [230. 이더넷 (Ethernet) 구조 및 원리 (IEEE 802.3)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) →
+<- **이전**: [228. CHAP (Challenge Handshake Authentication Protocol)](/knowledge-base/studynote/03_network/04_data_link_layer_error/228_chap_challenge_handshake_authentication_protocol/)
+**다음**: [230. 이더넷 (Ethernet) 구조 및 원리 (IEEE 802.3)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) ->
 
 ---

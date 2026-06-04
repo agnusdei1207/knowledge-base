@@ -37,7 +37,7 @@ tags = ["math-mining", "studynote-data-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-Support는 항목집합 X가 포함된 거래 수를 전체 거래 수로 나눈 값이다. 규칙 X → Y의 support는 X와 Y를 함께 포함하는 거래의 비율, 즉 support(X ∪ Y)로 계산한다. 이 값이 충분히 높아야 비로소 의미 있는 패턴으로 본다.
+Support는 항목집합 X가 포함된 거래 수를 전체 거래 수로 나눈 값이다. 규칙 X -> Y의 support는 X와 Y를 함께 포함하는 거래의 비율, 즉 support(X ∪ Y)로 계산한다. 이 값이 충분히 높아야 비로소 의미 있는 패턴으로 본다.
 
 | 지표 | 계산식 | 의미 |
 | :--- | :--- | :--- |
@@ -123,14 +123,14 @@ Support는 [연관 규칙](/knowledge-base/studynote/16_bigdata/05_analysis/106_
 
 ```text
 거래 데이터 수집
-  │
-  ▼
+  |
+  v
 항목집합 빈도 계산
-  │
-  ▼
+  |
+  v
 minsup로 후보 필터링
-  │
-  ▼
+  |
+  v
 confidence / lift 평가
 ```
 
@@ -148,7 +148,7 @@ confidence / lift 평가
 
 **진행 상황**: 84 / 258
 
-← **이전**: [83. 연관 규칙 탐색 (Association Rule) - Apriori 알고리즘](/knowledge-base/studynote/14_data_engineering/02_math_mining/083_association_rule_apriori_market_basket/)
-**다음**: [85. 신뢰도 (Confidence) - 연관 규칙 조건부 확률](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) →
+<- **이전**: [83. 연관 규칙 탐색 (Association Rule) - Apriori 알고리즘](/knowledge-base/studynote/14_data_engineering/02_math_mining/083_association_rule_apriori_market_basket/)
+**다음**: [85. 신뢰도 (Confidence) - 연관 규칙 조건부 확률](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) ->
 
 ---

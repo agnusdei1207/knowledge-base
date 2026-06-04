@@ -34,9 +34,9 @@ tags = ["studynote-operating-system"]
 
   [ 핵심 3단계:while 문 검증 (Critical 검문소) ]
    P0의 내면: "P1이 깃발을 들었나(flag[1]==T), turn이 1(P1)이니?
-               → 그럼 내가 양보. P1이 먼저 건너갈 때까지 대기."
+               -> 그럼 내가 양보. P1이 먼저 건너갈 때까지 대기."
    P1의 내면: "P0이 깃발을 들었나(flag[0]==T), turn이 0(P0)이니?
-               → 그럼 내가 양보. P0이 먼저 건너갈 때까지 대기."
+               -> 그럼 내가 양보. P0이 먼저 건너갈 때까지 대기."
 
   결론: turn 변수가 마지막에 덮어쓴 쪽이
                항상 상대방을 통과시키는 양보자(turn==자신)가 되어
@@ -98,18 +98,18 @@ void leave_critical_section(int i) {
 3. P1 진입 후 P0가 다시 시도하면, P1의 `flag[1] = true` 때문에 P0은 대기해야 한다. 이는 P0의 대기 횟수가 1회로 제한됨을 의미한다. ([한정된 대기](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/) 만족)
 
 ```text
-  ┌─────────────────────────────────────────────────────────────────────┐
-  │         피터슨 알고리즘의 타임라인 동작 시각화                       │
-  ├─────────────────────────────────────────────────────────────────────┤
-  │                                                                     │
-  │  P0: ──flag[0]=T──turn=1──[while: F&&T=F]──[CRITICAL]──flag[0]=F─│
-  │  P1: ──────────────────────flag[1]=T──turn=0──[while: T&&T=T]──│
-  │                                                              대기   │
-  │  시간 ───────────────────────────────────────────────────────────▶    │
-  │                                                                     │
-  │  P0의 enter: flag[0]=T, turn=1 → while(T && T) = T → 대기!        │
-  │  P0의 leave: flag[0]=F → P1의 while(T && T) = F → P1 진입!        │
-  └─────────────────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------------------+
+  |         피터슨 알고리즘의 타임라인 동작 시각화                       |
+  +---------------------------------------------------------------------+
+  |                                                                     |
+  |  P0: --flag[0]=T--turn=1--[while: F&&T=F]--[CRITICAL]--flag[0]=F-|
+  |  P1: ----------------------flag[1]=T--turn=0--[while: T&&T=T]--|
+  |                                                              대기   |
+  |  시간 ------------------------------------------------------------>    |
+  |                                                                     |
+  |  P0의 enter: flag[0]=T, turn=1 -> while(T && T) = T -> 대기!        |
+  |  P0의 leave: flag[0]=F -> P1의 while(T && T) = F -> P1 진입!        |
+  +---------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** P0이 먼저 깃발을 세우고 turn=1로 양보하면, P1이 뒤에 와서 turn=0으로 덮어쓴다. 이때 P1의 while 조건은 `flag[0]=T && turn=0`이 되어 `T`가 되어 P1이 대기하고, P0이 먼저 진입한다. P0이 퇴장하면 P1이 진입하는 완벽한 교대 시퀀스가 형성된다. 이 교대(Alternation)가 바로 [한정된 대기](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/)의 핵심 증거다.
@@ -143,21 +143,21 @@ void leave_critical_section(int i) {
    - P0도 곧 `flag[0]=true`를 세우고 진입한다. **동시 진입 인정!**
 
 ```text
-  ┌─────────────────────────────────────────────────────────────────────┐
-  │        Out-of-Order 실행에 의한 피터슨 알고리즘 붕괴 시나리오         │
-  ├─────────────────────────────────────────────────────────────────────┤
-  │                                                                     │
-  │  정상 순서 (피터슨의 가정):                                        │
-  │    P0: flag[0]=T → turn=1 → while() 대기                         │
-  │    P1: flag[1]=T → turn=0 → while() 대기 (P0 진입)                │
-  │                                                                     │
-  │  CPU가 순서를 뒤집은 경우 (Out-of-Order):                          │
-  │    P0: turn=1 ──▶ flag[0]=T (순서 뒤집힘!)                        │
-  │         ────────────────────────▶ P1이 flag[0]=F를 보고 진입!       │
-  │    P1: flag[1]=T → turn=0 → while(T && F=F) → 진입 성공!          │
-  │         ────────────────────────▶ P0도 곧 flag[0]=T 후 진입!        │
-  │         🚨 두 프로세스가 동시에 임계 구역 진입! 붕괴!                 │
-  └─────────────────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------------------+
+  |        Out-of-Order 실행에 의한 피터슨 알고리즘 붕괴 시나리오         |
+  +---------------------------------------------------------------------+
+  |                                                                     |
+  |  정상 순서 (피터슨의 가정):                                        |
+  |    P0: flag[0]=T -> turn=1 -> while() 대기                         |
+  |    P1: flag[1]=T -> turn=0 -> while() 대기 (P0 진입)                |
+  |                                                                     |
+  |  CPU가 순서를 뒤집은 경우 (Out-of-Order):                          |
+  |    P0: turn=1 ---> flag[0]=T (순서 뒤집힘!)                        |
+  |         -------------------------> P1이 flag[0]=F를 보고 진입!       |
+  |    P1: flag[1]=T -> turn=0 -> while(T && F=F) -> 진입 성공!          |
+  |         -------------------------> P0도 곧 flag[0]=T 후 진입!        |
+  |         🚨 두 프로세스가 동시에 임계 구역 진입! 붕괴!                 |
+  +---------------------------------------------------------------------+
 ```
 
 ### [메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/) ([Memory Barrier](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)) 의한 구원
@@ -186,27 +186,27 @@ void enter_critical_section(int i) {
 2. **교육적 가치**: 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 문제의 세 가지 조건([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/), [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/), [한정된 대기](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/))을 어떻게 하면 최소화한 변수로 충족할 수 있는지를 보여주는 가장우아한 교과서 예제다. 실무에서 직접 쓰는 것은 드물지만, [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어의 기본기로서 필수다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────────────┐
-  │         동시성 제어 알고리즘 선정 아키텍처 결정 트리                  │
-  ├─────────────────────────────────────────────────────────────────────┤
-  │                                                                     │
-  │   [요구사항: 2개 스레드의 임계 구역 동기화]                          │
-  │                │                                                    │
-  │                ▼                                                   │
-  │   [ 하드웨어 원자 명령(TAS/CAS)이 있는가? ]                         │
-  │       ├─ 예 ──▶ [ ✅ 하드웨어 락 사용 (현대적 정답) ]              │
-  │       │           - std::mutex, std::atomic 등                     │
-  │       │           - Out-of-Order 안전, 성능 우수                    │
-  │       │                                                        │
-  │       └─ 아니오 (순수 소프트웨어만 가능)                              │
-  │                │                                                   │
-  │                ▼                                                   │
-  │         [ 2개 프로세스인가? ]                                        │
-  │             ├─ 예 ──▶ [ ✅ 피터슨 + 메모리 배리어 ]                │
-  │             │           - 임베디드, 단일 코어 환경                   │
-  │             └─ 아니오 ──▶ [ ⚠️ 데커/표시 알고리즘 ]                │
-  │                         - N 확장 시 복잡도 폭발 주의                │
-  └─────────────────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------------------+
+  |         동시성 제어 알고리즘 선정 아키텍처 결정 트리                  |
+  +---------------------------------------------------------------------+
+  |                                                                     |
+  |   [요구사항: 2개 스레드의 임계 구역 동기화]                          |
+  |                |                                                    |
+  |                v                                                   |
+  |   [ 하드웨어 원자 명령(TAS/CAS)이 있는가? ]                         |
+  |       +- 예 ---> [ ✅ 하드웨어 락 사용 (현대적 정답) ]              |
+  |       |           - std::mutex, std::atomic 등                     |
+  |       |           - Out-of-Order 안전, 성능 우수                    |
+  |       |                                                        |
+  |       +- 아니오 (순수 소프트웨어만 가능)                              |
+  |                |                                                   |
+  |                v                                                   |
+  |         [ 2개 프로세스인가? ]                                        |
+  |             +- 예 ---> [ ✅ 피터슨 + 메모리 배리어 ]                |
+  |             |           - 임베디드, 단일 코어 환경                   |
+  |             +- 아니오 ---> [ ⚠️ 데커/표시 알고리즘 ]                |
+  |                         - N 확장 시 복잡도 폭발 주의                |
+  +---------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 하드웨어가 약하거나 특수한 환경(교육, 임베디드, 단일 코어)에서만 빛을 발한다. 최신 멀티코어 서버 환경에서는 std::mutex나 std::atomic이 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)보다 안전하고고성능이다. 실무 엔지니어는 "언제 하드웨어 도움 없이 소프트웨어만으로동보를 해야 하는가?"를 구분할 줄 알아야 한다.
@@ -240,12 +240,12 @@ void enter_critical_section(int i) {
 
 ```text
 [실시간 리눅스 (PREEMPT_RT 패치)]
-    │
-    ▼
+    |
+    v
 [피터슨 알고리즘 (Peterson's Algorithm)]
-    │
-    ├──▶ [경쟁 조건 (Race Condition)]
-    └──▶ [임계 구역 (Critical Section)]
+    |
+    +---> [경쟁 조건 (Race Condition)]
+    +---> [임계 구역 (Critical Section)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -262,7 +262,7 @@ void enter_critical_section(int i) {
 
 **진행 상황**: 220 / 800
 
-← **이전**: [219. 데커의 알고리즘 (Dekker's Algorithm)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/219_dekkers_algorithm/)
-**다음**: [221. 하드웨어적 동기화 (TAS, CAS)](/knowledge-base/studynote/02_operating_system/04_synchronization/221_hardware_synchronization_tas_cas/) →
+<- **이전**: [219. 데커의 알고리즘 (Dekker's Algorithm)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/219_dekkers_algorithm/)
+**다음**: [221. 하드웨어적 동기화 (TAS, CAS)](/knowledge-base/studynote/02_operating_system/04_synchronization/221_hardware_synchronization_tas_cas/) ->
 
 ---

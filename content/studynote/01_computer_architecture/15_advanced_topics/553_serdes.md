@@ -45,22 +45,22 @@ SerDes (Serializer/Deserializer)는 칩 내부의 [병렬](/knowledge-base/study
 다음 그림은 고속 링크에서 어느 지점에서 마진을 얻고 잃는지를 압축해 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ High-speed SerDes lane: margin is created in TX/RX and consumed in link   │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Parallel data                                                              │
-│     │                                                                      │
-│     ▼                                                                      │
-│ [PCS/Encode] -> [Serializer] -> [TX FFE] ->== Channel ==-> [CTLE/DFE] ->  │
-│                                                       │                    │
-│                                                       └----> [CDR] ->      │
-│                                                                  [De-Ser]  │
-│                                                                       │    │
-│                                                                       ▼    │
-│                                                               [Deskew/FEC] │
-│                                                                            │
-│ Margin equation: channel loss + crosstalk + jitter < EQ gain + CDR track  │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| High-speed SerDes lane: margin is created in TX/RX and consumed in link   |
++----------------------------------------------------------------------------+
+| Parallel data                                                              |
+|     |                                                                      |
+|     v                                                                      |
+| [PCS/Encode] -> [Serializer] -> [TX FFE] ->== Channel ==-> [CTLE/DFE] ->  |
+|                                                       |                    |
+|                                                       +----> [CDR] ->      |
+|                                                                  [De-Ser]  |
+|                                                                       |    |
+|                                                                       v    |
+|                                                               [Deskew/FEC] |
+|                                                                            |
+| Margin equation: channel loss + crosstalk + jitter < EQ gain + CDR track  |
++----------------------------------------------------------------------------+
 ```
 
 실무적으로는 `총 대역폭 = lane rate × lane 수 × 인코딩 효율`로 생각하면 이해가 쉽다. 하지만 lane rate를 올릴수록 나이퀴스트 주파수 손실, [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/), CDR 난도가 함께 증가하므로, 단순히 더 빠른 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화기만 넣는다고 해결되지 않는다. 그래서 최신 SerDes는 NRZ (Non-Return-to-Zero)에서 PAM4로 넘어가며 1심볼당 전송 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 늘리는 대신, 더 강한 FEC와 DSP (Digital [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) Processing) 기반 적응형 이퀄라이제이션을 함께 도입하고 있다.
@@ -138,17 +138,17 @@ SerDes를 정확히 이해하려면 [병렬](/knowledge-base/studynote/05_databa
 
 ```text
 병렬 보드 간 인터페이스
-        │
-        ▼
+        |
+        v
 차동 직렬 링크 · CDR 도입
-        │
-        ▼
+        |
+        v
 멀티기가비트 NRZ SerDes
-        │
-        ▼
+        |
+        v
 PAM4 · DSP 이퀄라이제이션 · FEC
-        │
-        ▼
+        |
+        v
 CXL · 광 I/O · Co-packaged Optics
 ```
 
@@ -166,7 +166,7 @@ CXL · 광 I/O · Co-packaged Optics
 
 **진행 상황**: 553 / 803
 
-← **이전**: [552. 이미지 센서 ISP (Image Signal Processor)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/552_isp/)
-**다음**: [554. 오류 정정 부호 (ECC) 회로](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) →
+<- **이전**: [552. 이미지 센서 ISP (Image Signal Processor)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/552_isp/)
+**다음**: [554. 오류 정정 부호 (ECC) 회로](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) ->
 
 ---

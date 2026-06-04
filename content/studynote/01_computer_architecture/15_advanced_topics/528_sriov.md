@@ -26,19 +26,19 @@ SR-IOV는 [네트워크 인터페이스 카드](/knowledge-base/studynote/01_com
 이 그림은 왜 전통적인 가상 I/O 경로가 고속 네트워크에서 빠르게 한계에 닿는지를 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                SR-IOV가 필요한 이유: 소프트웨어 중계 비용 제거             │
-├────────────────────────────────────────────────────────────────────────────┤
-│ [일반 가상 I/O]                                                            │
-│ VM → VirtIO → vSwitch → Host Driver → NIC                                 │
-│                      │                                                     │
-│                      └─ 복사·큐 관리·인터럽트 처리 CPU 소모                │
-│                                                                            │
-│ [SR-IOV]                                                                   │
-│ VM → VF Driver ───────────────────────────────▶ NIC 내부 스위치            │
-│                                                                            │
-│ 결과: 데이터 평면은 짧아지고, Host는 관리 평면에 더 집중할 수 있다.        │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                SR-IOV가 필요한 이유: 소프트웨어 중계 비용 제거             |
++----------------------------------------------------------------------------+
+| [일반 가상 I/O]                                                            |
+| VM -> VirtIO -> vSwitch -> Host Driver -> NIC                                 |
+|                      |                                                     |
+|                      +- 복사·큐 관리·인터럽트 처리 CPU 소모                |
+|                                                                            |
+| [SR-IOV]                                                                   |
+| VM -> VF Driver --------------------------------> NIC 내부 스위치            |
+|                                                                            |
+| 결과: 데이터 평면은 짧아지고, Host는 관리 평면에 더 집중할 수 있다.        |
++----------------------------------------------------------------------------+
 ```
 
 즉 SR-IOV의 본질은 "가상 장치가 많아진다"가 아니라, <strong>I/O 중계에 쓰이던 소프트웨어 경로를 하드웨어 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 경로로 대체한다</strong>는 데 있다. 이 관점을 잡아야 VirtIO, full [passthrough](/knowledge-base/studynote/02_operating_system/10_security/657_vfio_virtual_function_io_passthrough/), SmartNIC과의 차이도 명확해진다.
@@ -64,22 +64,22 @@ SR-IOV는 [네트워크 인터페이스 카드](/knowledge-base/studynote/01_com
 이 그림은 PF가 관리 평면을, VF가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면을 담당하는 구조를 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                     SR-IOV의 관리 평면과 데이터 평면                       │
-├────────────────────────────────────────────────────────────────────────────┤
-│ VM1            VM2            VM3                                          │
-│  │              │              │                                           │
-│  ▼              ▼              ▼                                           │
-│ VF1            VF2            VF3                                          │
-│   \              │              /                                          │
-│    \             │             /                                           │
-│     └────── [NIC / 스토리지 어댑터 내부 스위치] ─────▶ Wire / Fabric       │
-│                     ▲                                                       │
-│                     │                                                       │
-│                   PF (Host 관리, VF 생성, 정책 설정)                       │
-│                                                                            │
-│ DMA 경로는 IOMMU가 검증하여 각 VF가 허용된 메모리만 접근하게 한다.         │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                     SR-IOV의 관리 평면과 데이터 평면                       |
++----------------------------------------------------------------------------+
+| VM1            VM2            VM3                                          |
+|  |              |              |                                           |
+|  v              v              v                                           |
+| VF1            VF2            VF3                                          |
+|   \              |              /                                          |
+|    \             |             /                                           |
+|     +------ [NIC / 스토리지 어댑터 내부 스위치] ------> Wire / Fabric       |
+|                     ^                                                       |
+|                     |                                                       |
+|                   PF (Host 관리, VF 생성, 정책 설정)                       |
+|                                                                            |
+| DMA 경로는 IOMMU가 검증하여 각 VF가 허용된 메모리만 접근하게 한다.         |
++----------------------------------------------------------------------------+
 ```
 
 단, VF는 "완전한 장치 복제본"이 아니다. 큐 수, 버퍼, 필터, [인터럽트 벡터](/knowledge-base/studynote/02_operating_system/01_overview_architecture/019_interrupt_vector/), 통계 자원은 PF 아래에서 나눠 쓰는 공유 자원이다. 따라서 VF를 많이 만든다고 무조건 좋은 것이 아니라, PF 내부 자원이 어떻게 분할되는지를 봐야 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 격리 품질을 예측할 수 있다.
@@ -160,20 +160,20 @@ SR-IOV의 가장 큰 효과는 I/O [데이터](/knowledge-base/studynote/05_data
 
 ```text
 장치 에뮬레이션 기반 가상 I/O
-        │
-        ▼
+        |
+        v
 VirtIO 기반 반가상화
-        │
-        ▼
+        |
+        v
 Full PCIe Passthrough
-        │
-        ▼
+        |
+        v
 SR-IOV 기반 공유 장치 직결
-        │
-        ▼
+        |
+        v
 RDMA · SmartNIC · DPU 오프로딩
-        │
-        ▼
+        |
+        v
 Scalable IOV · 더 세밀한 장치 가상화
 ```
 
@@ -191,7 +191,7 @@ Scalable IOV · 더 세밀한 장치 가상화
 
 **진행 상황**: 528 / 803
 
-← **이전**: [527. 가상화 오버헤드 감소 (하드웨어 보조)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/527_hardware_assisted_virtualization/)
-**다음**: [529. 가상 머신 제어 구조 (VMCS)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/529_vmcs/) →
+<- **이전**: [527. 가상화 오버헤드 감소 (하드웨어 보조)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/527_hardware_assisted_virtualization/)
+**다음**: [529. 가상 머신 제어 구조 (VMCS)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/529_vmcs/) ->
 
 ---

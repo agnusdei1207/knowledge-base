@@ -55,45 +55,45 @@ P(C|x₁, x₂, ..., xₙ) ∝ P(C) × ∏ P(xᵢ|C)
 ### 나이브 베이즈 동작 흐름
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                  나이브 베이즈 분류 파이프라인                 │
-│                                                             │
-│  입력 데이터 X = {x₁, x₂, ..., xₙ}                         │
-│         │                                                   │
-│         ▼                                                   │
-│  ┌─────────────────┐     학습 단계                          │
-│  │  사전 확률 계산   │  P(C) = 클래스 C 비율                 │
-│  └────────┬────────┘                                       │
-│           │                                                 │
-│           ▼                                                 │
-│  ┌─────────────────┐                                       │
-│  │  우도 계산       │  P(xᵢ|C) = 특징별 조건부 확률          │
-│  └────────┬────────┘                                       │
-│           │                                                 │
-│           ▼                                                 │
-│  ┌─────────────────────────────────────┐                  │
-│  │  조건부 독립 가정 적용               │                   │
-│  │  P(X|C) ≈ P(x₁|C)×P(x₂|C)×...     │                   │
-│  └────────┬────────────────────────────┘                  │
-│           │                                                 │
-│           ▼                                                 │
-│  ┌─────────────────────────────────────┐                  │
-│  │  사후 확률 계산 (베이즈 정리 적용)   │                   │
-│  │  P(C|X) ∝ P(C) × ∏ P(xᵢ|C)         │                   │
-│  └────────┬────────────────────────────┘                  │
-│           │                                                 │
-│           ▼                                                 │
-│  ┌─────────────────┐                                       │
-│  │  argmax C 선택   │  가장 높은 사후 확률의 클래스 출력     │
-│  └─────────────────┘                                       │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  나이브 베이즈 분류 파이프라인                 |
+|                                                             |
+|  입력 데이터 X = {x₁, x₂, ..., xₙ}                         |
+|         |                                                   |
+|         v                                                   |
+|  +-----------------+     학습 단계                          |
+|  |  사전 확률 계산   |  P(C) = 클래스 C 비율                 |
+|  +--------+--------+                                       |
+|           |                                                 |
+|           v                                                 |
+|  +-----------------+                                       |
+|  |  우도 계산       |  P(xᵢ|C) = 특징별 조건부 확률          |
+|  +--------+--------+                                       |
+|           |                                                 |
+|           v                                                 |
+|  +-------------------------------------+                  |
+|  |  조건부 독립 가정 적용               |                   |
+|  |  P(X|C) ≈ P(x₁|C)×P(x₂|C)×...     |                   |
+|  +--------+----------------------------+                  |
+|           |                                                 |
+|           v                                                 |
+|  +-------------------------------------+                  |
+|  |  사후 확률 계산 (베이즈 정리 적용)   |                   |
+|  |  P(C|X) ∝ P(C) × ∏ P(xᵢ|C)         |                   |
+|  +--------+----------------------------+                  |
+|           |                                                 |
+|           v                                                 |
+|  +-----------------+                                       |
+|  |  argmax C 선택   |  가장 높은 사후 확률의 클래스 출력     |
+|  +-----------------+                                       |
++-------------------------------------------------------------+
 ```
 
 ### 나이브 베이즈 종류 비교
 
 | 종류 | 우도 모델 | 적합한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 주요 사용처 |
 |:---|:---|:---|:---|
-| **가우시안 나이브 베이즈** (Gaussian NB) | [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/) P(xᵢ\|C) ~ N(μ,σ²) | 연속형 수치 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 의료 진단, 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
+| **가우시안 나이브 베이즈** (Gaussian NB) | [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/) P(xᵢ\|C) ~ N(μ,σ^) | 연속형 수치 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 의료 진단, 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 | **다항 나이브 베이즈** (Multinomial NB) | 다항 분포 (단어 빈도) | 이산형 카운트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 텍스트 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 문서 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) |
 | **베르누이 나이브 베이즈** (Bernoulli NB) | 베르누이 분포 (단어 존재 여부) | 이진 특징 | 스팸 필터링 |
 
@@ -118,7 +118,7 @@ P(xᵢ|C) = (count(xᵢ, C) + α) / (count(C) + α × |V|)
 
 | 비교 항목 | 나이브 베이즈 | [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/) | [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) | 결정 트리 |
 |:---|:---|:---|:---|:---|
-| **학습 속도** | 매우 빠름 O(n·d) | 빠름 | 느림 O(n²~n³) | 빠름 |
+| **학습 속도** | 매우 빠름 O(n·d) | 빠름 | 느림 O(n^~n³) | 빠름 |
 | **예측 속도** | 매우 빠름 | 빠름 | 빠름 | 빠름 |
 | **독립 가정** | 강한 가정 필요 | 불필요 | 불필요 | 불필요 |
 | <strong>소규모 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong> | 우수 | 보통 | 보통 | 과적합 위험 |
@@ -147,14 +147,14 @@ P(스팸|무료,당첨,클릭) ∝ P(스팸) × P(무료|스팸) × P(당첨|스
 P(정상|무료,당첨,클릭) ∝ P(정상) × P(무료|정상) × P(당첨|정상) × P(클릭|정상)
                        = 0.7 × 0.1 × 0.02 × 0.05 = 0.00007
 
-→ 스팸으로 분류 (0.1008 >> 0.00007)
+-> 스팸으로 분류 (0.1008 >> 0.00007)
 ```
 
 ### 기술사 시험 핵심 판단 포인트
 
-1. **조건부 독립 가정의 의미**: "왜 나이브(순진한)라고 부르는가?" → 현실적으로 불가능한 독립 가정을 단순히 채택하기 때문
-2. <strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/350_laplace_smoothing/">라플라스 스무딩</a> 필요성</strong>: 학습에 없는 단어 → [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)=0 → 전체 곱이 0 → 스무딩으로 방지
-3. <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> 사용</strong>: 매우 작은 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)들을 곱하면 [언더플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/)([Underflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/)) 발생 → log 변환 후 덧셈으로 처리
+1. **조건부 독립 가정의 의미**: "왜 나이브(순진한)라고 부르는가?" -> 현실적으로 불가능한 독립 가정을 단순히 채택하기 때문
+2. <strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/350_laplace_smoothing/">라플라스 스무딩</a> 필요성</strong>: 학습에 없는 단어 -> [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)=0 -> 전체 곱이 0 -> 스무딩으로 방지
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> 사용</strong>: 매우 작은 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)들을 곱하면 [언더플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/)([Underflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/)) 발생 -> log 변환 후 덧셈으로 처리
 4. **가우시안 vs 다항 선택**: 연속형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)엔 가우시안, 텍스트(카운트)엔 다항 나이브 베이즈
 
 - **📢 섹션 요약 비유**: 나이브 베이즈 실무 적용은 "학교 출석부"처럼 — 각 학생(단어)의 출석 빈도만 세어 패턴을 파악하고, 새로운 상황에서 빠르게 예측한다. 기록이 없는 학생은 0점 대신 최소 점수(스무딩)를 부여해 공정성을 확보한다.
@@ -194,14 +194,14 @@ P(정상|무료,당첨,클릭) ∝ P(정상) × P(무료|정상) × P(당첨|정
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [나이브 베이즈 (Naive Bayes)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [나이브 베이즈 (Naive Bayes)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 🍎 **"사과냐 오렌지냐 맞추기 게임"**
 2. "둥글고", "주황색이고", "신 냄새가 난다" — 각 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)가 독립적으로 오렌지일 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 높여줘요.
-3. 세 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 모두 곱하면 → "오렌지일 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 훨씬 높네!" 하고 답을 내려요.
+3. 세 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 모두 곱하면 -> "오렌지일 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 훨씬 높네!" 하고 답을 내려요.
 
 ---
 
@@ -209,7 +209,7 @@ P(정상|무료,당첨,클릭) ∝ P(정상) × P(무료|정상) × P(당첨|정
 
 **진행 상황**: 264 / 420
 
-← **이전**: [263. K-Means 군집화 (Kmeans EM)](/knowledge-base/studynote/10_ai/03_llm_nlp/263_kmeans_em/)
-**다음**: [265. 단층 퍼셉트론 (Single-Layer Perceptron)](/knowledge-base/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/) →
+<- **이전**: [263. K-Means 군집화 (Kmeans EM)](/knowledge-base/studynote/10_ai/03_llm_nlp/263_kmeans_em/)
+**다음**: [265. 단층 퍼셉트론 (Single-Layer Perceptron)](/knowledge-base/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/) ->
 
 ---

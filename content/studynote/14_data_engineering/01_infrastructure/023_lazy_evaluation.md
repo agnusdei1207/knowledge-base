@@ -23,22 +23,22 @@ tags = ["studynote-data-engineering"]
 즉시 평가(Eager Evaluation)에서는 `map(f, huge_list)`처럼 거대한 리스트 전체를 변환해 메모리에 올리지만, 결국 처음 10개 결과만 사용한다면 나머지 수백만 건의 연산은 낭비다. [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 평가는 이 문제를 연산을 "레시피([실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/))"로만 기억하고, 결과가 필요할 때 그 레시피를 실행하는 방식으로 해결한다.
 
 ```text
-┌────────────────────────────────────────────────────────────┐
-│           즉시 평가 vs 지연 평가 비교                         │
-├────────────────────────────────────────────────────────────┤
-│                                                            │
-│  [즉시 평가 (Eager)]                                        │
-│  data = [1..1000000]                                       │
-│  result = filter(>100, map(*2, data))  ← 즉시 전체 실행     │
-│  first_10 = take(10, result)                               │
-│  → 100만 번 연산 후 10개만 사용 (낭비!)                      │
-│                                                            │
-│  [지연 평가 (Lazy)]                                         │
-│  data = [1..∞]  ← 무한 리스트 (메모리에 없음!)               │
-│  result = filter(>100, map(*2, data))  ← 실행 계획만 기록   │
-│  first_10 = take(10, result)  ← 여기서 실제 10번만 실행     │
-│  → 딱 10개 계산 (최적!)                                     │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|           즉시 평가 vs 지연 평가 비교                         |
++------------------------------------------------------------+
+|                                                            |
+|  [즉시 평가 (Eager)]                                        |
+|  data = [1..1000000]                                       |
+|  result = filter(>100, map(*2, data))  <- 즉시 전체 실행     |
+|  first_10 = take(10, result)                               |
+|  -> 100만 번 연산 후 10개만 사용 (낭비!)                      |
+|                                                            |
+|  [지연 평가 (Lazy)]                                         |
+|  data = [1..∞]  <- 무한 리스트 (메모리에 없음!)               |
+|  result = filter(>100, map(*2, data))  <- 실행 계획만 기록   |
+|  first_10 = take(10, result)  <- 여기서 실제 10번만 실행     |
+|  -> 딱 10개 계산 (최적!)                                     |
++------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 평가는 "배달 음식 미리 주문"이 아니라, 진짜 배고플 때 주문하는 것이다. 언제 먹을지 모르는데 미리 100인분 시켜두면 낭비지만, 먹으려는 순간 딱 필요한 만큼만 주문하면 낭비가 없다.
@@ -57,19 +57,19 @@ Apache Spark는 [지연](/knowledge-base/studynote/03_network/01_data_communicat
 | **Action (행동)** | collect, count, save, show | 즉시 실행 | DAG를 실제로 실행 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) |
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│           Spark 지연 평가 DAG 최적화 흐름                  │
-├──────────────────────────────────────────────────────────┤
-│                                                          │
-│  RDD.filter(condition)  ← Transformation 1 (기록만)       │
-│     .map(transform)     ← Transformation 2 (기록만)       │
-│     .join(other_rdd)    ← Transformation 3 (기록만)       │
-│     .count()            ← Action! 여기서 DAG 실행         │
-│                                                          │
-│  Catalyst Optimizer 개입:                                 │
-│  filter → map → join  →  filter를 join 앞으로 이동!        │
-│  (Predicate Pushdown: 데이터 줄인 후 join → 비용 80% 절감)  │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|           Spark 지연 평가 DAG 최적화 흐름                  |
++----------------------------------------------------------+
+|                                                          |
+|  RDD.filter(condition)  <- Transformation 1 (기록만)       |
+|     .map(transform)     <- Transformation 2 (기록만)       |
+|     .join(other_rdd)    <- Transformation 3 (기록만)       |
+|     .count()            <- Action! 여기서 DAG 실행         |
+|                                                          |
+|  Catalyst Optimizer 개입:                                 |
+|  filter -> map -> join  ->  filter를 join 앞으로 이동!        |
+|  (Predicate Pushdown: 데이터 줄인 후 join -> 비용 80% 절감)  |
++----------------------------------------------------------+
 ```
 
 ### Python Generator의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 평가
@@ -107,9 +107,9 @@ first_10 = [next(lazy_gen) for _ in range(10)]  # 10번만 실행
 10억 건 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 오류 코드 500인 건만 집계하는 Spark 잡이 느리다.
 
 1. **문제**: `join` 후 `filter`를 수행하는 잘못된 연산 순서 (Transformation 기록 순서 오류).
-2. **분석**: Spark UI에서 DAG를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) → [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) Stage 전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 10억 건.
+2. **분석**: Spark UI에서 DAG를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) -> [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) Stage 전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 10억 건.
 3. **해결**: `filter(error_code == 500)`을 `join` 앞으로 이동 (Predicate Pushdown 활용).
-4. **결과**: [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 대상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 90% 감소 → 잡 실행 시간 75% 단축.
+4. **결과**: [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 대상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 90% 감소 -> 잡 실행 시간 75% 단축.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 - `collect()`는 드라이버 메모리로 전체 RDD를 가져오므로 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 절대 사용 금지.
@@ -151,17 +151,17 @@ first_10 = [next(lazy_gen) for _ in range(10)]  # 10번만 실행
 
 ```text
 [함수형 프로그래밍 (Haskell) — 기본 평가 전략으로 지연 평가]
-    │
-    ▼
+    |
+    v
 [Python Generator / Scala Lazy Val — 선택적 지연 평가]
-    │
-    ▼
+    |
+    v
 [Spark RDD Transformation — 분산 지연 평가 + DAG]
-    │
-    ▼
+    |
+    v
 [Catalyst Optimizer — 지연 평가 기반 실행 계획 최적화]
-    │
-    ▼
+    |
+    v
 [AQE (Adaptive Query Execution) — 런타임 동적 최적화]
 ```
 함수형 언어의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 평가 개념이 Python Generator, Spark RDD로 이어지며, Catalyst Optimizer와 AQE를 통해 런타임 적응형 최적화로 진화하는 흐름이다.
@@ -178,7 +178,7 @@ first_10 = [next(lazy_gen) for _ in range(10)]  # 10번만 실행
 
 **진행 상황**: 23 / 258
 
-← **이전**: [22. 아파치 카프카 (Apache Kafka) - 분산 이벤트 스트리밍 플랫폼](/knowledge-base/studynote/14_data_engineering/01_infrastructure/022_apache_kafka/)
-**다음**: [24. Apache Flink — 네이티브 실시간 스트림 처리 엔진](/knowledge-base/studynote/14_data_engineering/01_infrastructure/024_apache_flink_stream_processing/) →
+<- **이전**: [22. 아파치 카프카 (Apache Kafka) - 분산 이벤트 스트리밍 플랫폼](/knowledge-base/studynote/14_data_engineering/01_infrastructure/022_apache_kafka/)
+**다음**: [24. Apache Flink — 네이티브 실시간 스트림 처리 엔진](/knowledge-base/studynote/14_data_engineering/01_infrastructure/024_apache_flink_stream_processing/) ->
 
 ---

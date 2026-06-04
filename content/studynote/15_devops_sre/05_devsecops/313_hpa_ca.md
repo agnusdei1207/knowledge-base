@@ -40,13 +40,13 @@ spec:
 ```
 
 ```
-┌─────────────────────────────────────────────────────┐
-│                    HPA 제어 루프                    │
-│                                                     │
-│  metrics-server ──▶ HPA Controller ──▶ ReplicaSet  │
-│       (CPU 80%)          │               (3 → 5)   │
-│                    [60% 목표 초과]                   │
-└─────────────────────────────────────────────────────┘
++-----------------------------------------------------+
+|                    HPA 제어 루프                    |
+|                                                     |
+|  metrics-server ---> HPA Controller ---> ReplicaSet  |
+|       (CPU 80%)          |               (3 -> 5)   |
+|                    [60% 목표 초과]                   |
++-----------------------------------------------------+
 ```
 
 > 📢 **Ⅰ 섹션 요약 비유**
@@ -59,15 +59,15 @@ spec:
 CA는 Pending 상태인 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 감지해 클라우드 Node Group에 노드를 추가하거나, 유휴 노드를 종료한다.
 
 ```
-┌──────────────────────────────────────────────────┐
-│               CA 동작 흐름                       │
-│                                                  │
-│  Pod Pending ──▶ CA 감지 ──▶ Cloud API 호출     │
-│                              (노드 +1)           │
-│                 ──▶ 노드 등록 ──▶ Pod 배치       │
-│                                                  │
-│  Idle Node ──▶ CA 감지 ──▶ 파드 이동 ──▶ 삭제  │
-└──────────────────────────────────────────────────┘
++--------------------------------------------------+
+|               CA 동작 흐름                       |
+|                                                  |
+|  Pod Pending ---> CA 감지 ---> Cloud API 호출     |
+|                              (노드 +1)           |
+|                 ---> 노드 등록 ---> Pod 배치       |
+|                                                  |
+|  Idle Node ---> CA 감지 ---> 파드 이동 ---> 삭제  |
++--------------------------------------------------+
 ```
 
 조건:
@@ -83,15 +83,15 @@ CA는 Pending 상태인 [파드](/knowledge-base/studynote/13_cloud_architecture
 
 ```
 트래픽 급증
-   │
-   ▼
+   |
+   v
 HPA: 파드 수 증가 (Pending 발생 가능)
-   │
-   ▼
-CA: Pending 파드 감지 → 노드 추가
-   │
-   ▼
-파드 정상 배치 → 서비스 안정화
+   |
+   v
+CA: Pending 파드 감지 -> 노드 추가
+   |
+   v
+파드 정상 배치 -> 서비스 안정화
 ```
 
 **스케일 다운 안전 메커니즘**:
@@ -135,10 +135,10 @@ VPA는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saa
 
 ```
 Autoscaling
-    ├── HPA → 파드 수 조정 (metrics-server 기반)
-    ├── CA  → 노드 수 조정 (Pending 파드 감지)
-    ├── VPA → 리소스 크기 조정
-    └── KEDA → 이벤트/큐 기반 고급 오토스케일링
+    +-- HPA -> 파드 수 조정 (metrics-server 기반)
+    +-- CA  -> 노드 수 조정 (Pending 파드 감지)
+    +-- VPA -> 리소스 크기 조정
+    +-- KEDA -> 이벤트/큐 기반 고급 오토스케일링
 ```
 
 > 🧒 **어린이 비유**
@@ -150,7 +150,7 @@ Autoscaling
 
 **진행 상황**: 313 / 373
 
-← **이전**: [Taint and Toleration](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/312_process/)
-**다음**: [PV PVC PersistentVolume](/knowledge-base/studynote/15_devops_sre/05_devsecops/314_pv_pvc/) →
+<- **이전**: [Taint and Toleration](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/312_process/)
+**다음**: [PV PVC PersistentVolume](/knowledge-base/studynote/15_devops_sre/05_devsecops/314_pv_pvc/) ->
 
 ---

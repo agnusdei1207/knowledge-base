@@ -26,29 +26,29 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 왜 다중 컴퓨터가 등장했는지를 보여준다. 핵심은 "공유를 줄이고 협력을 네트워크로 바꿨다"는 발상의 전환이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│      공유 메모리 확장 한계와 다중 컴퓨터의 등장 배경               │
-├──────────────────────────────────────────────────────────────────────┤
-│ [다중 프로세서]                                                     │
-│  CPU0  CPU1  CPU2  CPU3                                             │
-│    │     │     │     │                                              │
-│    └─────┴─────┴─────┘                                              │
-│            │                                                        │
-│      Shared Memory                                                  │
-│            │                                                        │
-│      병목: 버스 경합 · 캐시 일관성 · 중앙 자원 포화                │
-│                                                                      │
-│ [다중 컴퓨터]                                                       │
-│  Node0 ─── Network ─── Node1                                        │
-│   │                      │                                           │
-│ Local Mem0            Local Mem1                                    │
-│                                                                      │
-│  Node2 ─── Network ─── Node3                                        │
-│   │                      │                                           │
-│ Local Mem2            Local Mem3                                    │
-│                                                                      │
-│      효과: 로컬 계산 확대 · 수평 확장 · 장애 격리                  │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|      공유 메모리 확장 한계와 다중 컴퓨터의 등장 배경               |
++----------------------------------------------------------------------+
+| [다중 프로세서]                                                     |
+|  CPU0  CPU1  CPU2  CPU3                                             |
+|    |     |     |     |                                              |
+|    +-----+-----+-----+                                              |
+|            |                                                        |
+|      Shared Memory                                                  |
+|            |                                                        |
+|      병목: 버스 경합 · 캐시 일관성 · 중앙 자원 포화                |
+|                                                                      |
+| [다중 컴퓨터]                                                       |
+|  Node0 --- Network --- Node1                                        |
+|   |                      |                                           |
+| Local Mem0            Local Mem1                                    |
+|                                                                      |
+|  Node2 --- Network --- Node3                                        |
+|   |                      |                                           |
+| Local Mem2            Local Mem3                                    |
+|                                                                      |
+|      효과: 로컬 계산 확대 · 수평 확장 · 장애 격리                  |
++----------------------------------------------------------------------+
 ```
 
 슈퍼컴퓨터, 대규모 웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 빅데이터 플랫폼, 대형 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 학습 클러스터가 모두 이 철학 위에 서 있다. 한 노드가 모든 것을 책임지는 것이 아니라, 작은 실패를 허용하면서 전체 규모를 키우는 구조이기 때문이다.
@@ -74,25 +74,25 @@ tags = ["studynote-computer-architecture"]
 아래 흐름은 메시지 패싱이 왜 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 핵심 변수인지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 다중 컴퓨터의 데이터 교환 흐름                      │
-├──────────────────────────────────────────────────────────────────────┤
-│ Node A                                                               │
-│  1) 로컬 데이터 계산                                                 │
-│  2) 전송 버퍼에 결과 적재                                            │
-│  3) Send(message) 호출                                               │
-│                 │                                                    │
-│                 ▼                                                    │
-│        Network / Switch / Interconnect                               │
-│                 │                                                    │
-│                 ▼                                                    │
-│ Node B                                                               │
-│  4) Receive(message) 대기 또는 인터럽트 처리                         │
-│  5) 수신 버퍼에서 로컬 메모리로 복사                                 │
-│  6) 다음 계산 단계 수행                                              │
-│                                                                      │
-│ 병목 지점: 작은 메시지 남발 · 빈번한 동기화 · 원격 데이터 의존       │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 다중 컴퓨터의 데이터 교환 흐름                      |
++----------------------------------------------------------------------+
+| Node A                                                               |
+|  1) 로컬 데이터 계산                                                 |
+|  2) 전송 버퍼에 결과 적재                                            |
+|  3) Send(message) 호출                                               |
+|                 |                                                    |
+|                 v                                                    |
+|        Network / Switch / Interconnect                               |
+|                 |                                                    |
+|                 v                                                    |
+| Node B                                                               |
+|  4) Receive(message) 대기 또는 인터럽트 처리                         |
+|  5) 수신 버퍼에서 로컬 메모리로 복사                                 |
+|  6) 다음 계산 단계 수행                                              |
+|                                                                      |
+| 병목 지점: 작은 메시지 남발 · 빈번한 동기화 · 원격 데이터 의존       |
++----------------------------------------------------------------------+
 ```
 
 현대 시스템은 이 한계를 줄이기 위해 [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/) ([InfiniBand](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)), [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) (Remote [Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)), 고속 [토러스](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/390_torus/) ([Torus](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/390_torus/)) 또는 팻트리 (Fat-tree) 네트워크를 사용한다. 하지만 하드웨어가 빨라져도 "[공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)처럼 공짜 통신"이 되는 것은 아니므로, 애초에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치를 잘 설계하는 것이 더 중요하다.
@@ -185,25 +185,25 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 단일 프로세서
-    │
-    ▼
+    |
+    v
 다중 프로세서 (Multiprocessor)
-    │
-    ├─ 공유 메모리 확장 한계
-    ▼
+    |
+    +- 공유 메모리 확장 한계
+    v
 다중 컴퓨터 (Multicomputer)
-    │
-    ├─ 메시지 패싱 (Message Passing)
-    ├─ 클러스터 컴퓨팅 (Cluster Computing)
-    ├─ 그리드 컴퓨팅 (Grid Computing)
-    ▼
+    |
+    +- 메시지 패싱 (Message Passing)
+    +- 클러스터 컴퓨팅 (Cluster Computing)
+    +- 그리드 컴퓨팅 (Grid Computing)
+    v
 클라우드 · 빅데이터 · 분산 AI 학습
-    │
-    ▼
+    |
+    v
 RDMA · CXL 기반 저지연 분산 자원 공유
 ```
 
-이 흐름은 "단일 시스템 확장 → [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 한계 → [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 협력 → 소프트웨어 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) → 저지연 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)화"로 이어지는 진화 방향을 보여준다.
+이 흐름은 "단일 시스템 확장 -> [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 한계 -> [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 협력 -> 소프트웨어 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) -> 저지연 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)화"로 이어지는 진화 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -217,7 +217,7 @@ RDMA · CXL 기반 저지연 분산 자원 공유
 
 **진행 상황**: 377 / 803
 
-← **이전**: [375. 다중 프로세서 (Multiprocessor)](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/375_multiprocessor/)
-**다음**: [377. 공유 메모리 시스템 (Shared Memory)](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/377_shared_memory/) →
+<- **이전**: [375. 다중 프로세서 (Multiprocessor)](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/375_multiprocessor/)
+**다음**: [377. 공유 메모리 시스템 (Shared Memory)](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/377_shared_memory/) ->
 
 ---

@@ -29,21 +29,21 @@ tags = ["studynote-operating-system"]
 이 도식은 운영체제가 하드웨어와 사용자 사이에서 어떻게 샌드위치 구조로 위치하며 각 계층의 복잡도를 은닉하는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                   운영체제의 계층적 위치                     │
-├──────────────────────────────────────────────────────────────┤
-│    [ 사용자 ] (User)                                         │
-│        ↕ (UI/UX)                                             │
-│    [ 응용 프로그램 ] (Application Software)                  │
-│        ↕ (System Call API)                                   │
-│  ┌─────────────────────────────────────────────────────┐     │
-│  │               운영체제 (Operating System)            │    │
-│  │  - 인터페이스 제공 (Shell / GUI)                    │     │
-│  │  - 자원 관리 및 추상화 (Kernel)                     │     │
-│  └─────────────────────────────────────────────────────┘     │
-│        ↕ (Interrupt / I/O)                                   │
-│    [ 하드웨어 ] (CPU, RAM, Disk, Network)                    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                   운영체제의 계층적 위치                     |
++--------------------------------------------------------------+
+|    [ 사용자 ] (User)                                         |
+|        ↕ (UI/UX)                                             |
+|    [ 응용 프로그램 ] (Application Software)                  |
+|        ↕ (System Call API)                                   |
+|  +-----------------------------------------------------+     |
+|  |               운영체제 (Operating System)            |    |
+|  |  - 인터페이스 제공 (Shell / GUI)                    |     |
+|  |  - 자원 관리 및 추상화 (Kernel)                     |     |
+|  +-----------------------------------------------------+     |
+|        ↕ (Interrupt / I/O)                                   |
+|    [ 하드웨어 ] (CPU, RAM, Disk, Network)                    |
++--------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 운영체제 (Operating System)는 하드웨어 (Hardware)의 물리적 복잡성을 숨기고 사용자에게 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적인 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)된 환경을 제공한다. 상단의 응용 프로그램은 시스템 콜 ([System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/))을 통해 OS에 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 요청하며, OS는 내부 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))을 통해 CPU 스케줄링, 메모리 할당 등을 수행하여 하드웨어를 직접 제어한다. 이 계층 구조 덕분에 사용자는 하드웨어의 상세 스펙을 몰라도 프로그램을 실행할 수 있으며, 여러 프로그램이 동일한 하드웨어를 안전하게 공유할 수 있는 '[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)된 실행 환경'이 구축된다. 따라서 OS는 단순한 소프트웨어가 아닌, 시스템 전체의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 담보하는 기반 계층으로 이해해야 한다.
@@ -71,25 +71,25 @@ tags = ["studynote-operating-system"]
 운영체제는 자원 관리 (Resource [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)), 편의성 (Convenience), 효율성 (Efficiency), [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) ([Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/))이라는 네 가지 축을 중심으로 설계된다. 각 목적은 서로 유기적으로 연결되어 있으며, 때로는 효율성을 위해 편의성을 일부 희생하거나 그 반대의 결정을 내리기도 한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                  운영체제 설계의 4대 핵심 목적                     │
-├────────────────────────────────────────────────────────────────────┤
-│                                                                    │
-│       [ 1. 효율성 ]                [ 2. 편의성 ]                   │
-│    - 처리량 (Throughput) ↑      - 사용자 인터페이스 제공           │
-│    - 자원 낭비 최소화           - 하드웨어 복잡성 은닉             │
-│            │                            │                          │
-│            └──────────────┬─────────────┘                          │
-│                           ▼                                        │
-│                  [ 운영체제 커널 ]                                 │
-│                           ▲                                        │
-│            ┌──────────────┴─────────────┐                          │
-│            │                            │                          │
-│       [ 3. 신뢰성 ]                [ 4. 확장성 ]                   │
-│    - 자원 보호 (Protection)     - 새로운 장치 지원                 │
-│    - 오류 복구 및 가용성        - 계층화된 구조                    │
-│                                                                    │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                  운영체제 설계의 4대 핵심 목적                     |
++--------------------------------------------------------------------+
+|                                                                    |
+|       [ 1. 효율성 ]                [ 2. 편의성 ]                   |
+|    - 처리량 (Throughput) ^      - 사용자 인터페이스 제공           |
+|    - 자원 낭비 최소화           - 하드웨어 복잡성 은닉             |
+|            |                            |                          |
+|            +--------------+-------------+                          |
+|                           v                                        |
+|                  [ 운영체제 커널 ]                                 |
+|                           ^                                        |
+|            +--------------+-------------+                          |
+|            |                            |                          |
+|       [ 3. 신뢰성 ]                [ 4. 확장성 ]                   |
+|    - 자원 보호 (Protection)     - 새로운 장치 지원                 |
+|    - 오류 복구 및 가용성        - 계층화된 구조                    |
+|                                                                    |
++--------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 운영체제의 설계 철학은 효율성 (Efficiency)과 편의성 (Convenience) 사이의 균형을 찾는 과정이다. 효율성은 제한된 CPU 시간과 메모리 공간을 낭비 없이 사용하여 단위 시간당 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 높이는 데 집중한다. 반면 편의성은 사용자가 복잡한 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) 처리나 메모리 주소 지정을 신경 쓰지 않고 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적인 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템이나 GUI (Graphical User Interface)를 통해 작업을 수행할 수 있도록 돕는다. [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) ([Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/))은 한 프로세스의 오류가 시스템 전체의 붕괴 (Crash)로 이어지지 않도록 격리하는 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 기능을 의미하며, 확장성 (Scalability)은 다양한 하드웨어 및 소프트웨어 기술의 변화를 수용할 수 있는 모듈러 구조를 지향한다. 실무적으로는 [실시간 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/009_real_time_system/) (RTOS)에서 효율성과 결정론적 동작을 최우선으로 하고, 범용 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) OS에서는 편의성과 호환성에 더 비중을 둔다.
@@ -101,19 +101,19 @@ tags = ["studynote-operating-system"]
 운영체제가 하드웨어 자원을 관리하는 과정은 요청 수신, 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), 할당, 회수라는 사이클을 반복한다. 이 과정에서 프로세스 스케줄링과 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) ([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) 방지 로직이 개입한다.
 
 ```text
-[프로세스 요청] → [시스템 콜 인터페이스] → [자원 관리자(Kernel)]
-                                               ↓
-                                   ┌───────────┴──────────────────────┐
-                                   │ 자원 상태 테이블 조회            │
-                                   └───────────┬──────────────────────┘
-                                               ↓
-                        ┌──────────────────────┴──────────────────────┐
-                        │      [할당 전략 수립]                       │
-                        │ - CPU: Round Robin, Priority 등             │
-                        │ - Memory: Paging, Segmentation 등           │
-                        └──────────────────────┬──────────────────────┘
-                                               ↓
-[자원 할당 및 실행] ← [컨텍스트 스위칭] ← [상태 갱신]
+[프로세스 요청] -> [시스템 콜 인터페이스] -> [자원 관리자(Kernel)]
+                                               v
+                                   +-----------+----------------------+
+                                   | 자원 상태 테이블 조회            |
+                                   +-----------+----------------------+
+                                               v
+                        +----------------------+----------------------+
+                        |      [할당 전략 수립]                       |
+                        | - CPU: Round Robin, Priority 등             |
+                        | - Memory: Paging, Segmentation 등           |
+                        +----------------------+----------------------+
+                                               v
+[자원 할당 및 실행] <- [컨텍스트 스위칭] <- [상태 갱신]
 ```
 
 **[다이어그램 해설]** 이 흐름도는 운영체제가 '자원 관리자'로서 수행하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)적 단계를 보여준다. 응용 프로그램이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽거나 메모리를 할당받으려 할 때, 직접 하드웨어에 접근하지 못하고 반드시 시스템 콜 ([System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/))을 거쳐야 한다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))은 자원 상태 테이블 (Resource Status Table)을 참조하여 현재 가용한 자원이 있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다. 이때 단순히 남는 것을 주는 것이 아니라, 시스템의 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 고려하여 우선순위 기반 스케줄링을 하거나 [페이지 교체 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/401_page_replacement_algorithms/) ([Page Replacement Algorithm](/knowledge-base/studynote/02_operating_system/07_virtual_memory/395_page_replacement_algorithm/))을 적용한다. 자원이 할당된 후에는 [프로세스 제어 블록](/knowledge-base/studynote/02_operating_system/02_process_thread/090_pcb_tcb/) (PCB, [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control Block)을 갱신하고 [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching)을 통해 실행권을 넘긴다. 이러한 엄격한 절차는 시스템의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 보장하고 특정 프로세스가 자원을 독점하는 것을 방지하는 [중재자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/) 역할을 완수하게 한다.
@@ -200,14 +200,14 @@ tags = ["studynote-operating-system"]
 
 ```text
 [개념 명칭]
-    │
-    ▼
+    |
+    v
 [커널 (Kernel)]
-    │
-    ▼
+    |
+    v
 [시스템 콜 (System Call)]
-    │
-    ▼
+    |
+    v
 [인터럽트 (Interrupt)]
 ```
 
@@ -224,8 +224,8 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 1 / 800
 
-← **이전**: (첫 번째 글입니다)
+<- **이전**: (첫 번째 글입니다)
 
-**다음**: [2. 다중 프로그래밍 (Multiprogramming) - CPU 활용도 극대화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/002_multiprogramming/) →
+**다음**: [2. 다중 프로그래밍 (Multiprogramming) - CPU 활용도 극대화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/002_multiprogramming/) ->
 
 ---

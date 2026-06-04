@@ -25,17 +25,17 @@ tags = ["network"]
 아래 그림은 왜 하나의 거대한 기지국만으로는 현대 무선망 요구를 다 만족시키기 어려운지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Layered cellular coverage                                          │
-├────────────────────────────────────────────────────────────────────┤
-│ macro cell  : city block / road / mobility umbrella               │
-│     │                                                              │
-│     ├─ small cell : hotspot capacity on street or inside building │
-│     │                                                              │
-│     └─ femto cell : home / small office indoor dead-zone fix      │
-│                                                                    │
-│ need solved together : coverage hole + traffic hotspot + indoor   │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Layered cellular coverage                                          |
++--------------------------------------------------------------------+
+| macro cell  : city block / road / mobility umbrella               |
+|     |                                                              |
+|     +- small cell : hotspot capacity on street or inside building |
+|     |                                                              |
+|     +- femto cell : home / small office indoor dead-zone fix      |
+|                                                                    |
+| need solved together : coverage hole + traffic hotspot + indoor   |
++--------------------------------------------------------------------+
 ```
 
 즉 셀 계층 설계의 핵심은 "누가 더 강한가"가 아니라, <strong>어떤 영역을 어떤 밀도로 덮어야 하는가</strong>다. 넓은 지역 이동성은 매크로셀이 맡고, 사람들이 몰리는 곳과 벽 안쪽은 스몰셀이 맡는 식으로 역할이 분담된다.
@@ -60,19 +60,19 @@ tags = ["network"]
 아래 그림은 매크로셀과 스몰셀이 어떻게 역할을 나누는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Macro + small-cell + backhaul structure                            │
-├────────────────────────────────────────────────────────────────────┤
-│                 [ Macro site ]                                     │
-│                  /   |   \                                         │
-│         wide-area mobility and control-plane coverage              │
-│                                                                    │
-│   [Street micro/pico] ---- fiber/ethernet ----> operator core     │
-│   [Mall pico cell  ] ---- fiber/ethernet ----> operator core      │
-│   [Home femto cell ] ---- fixed broadband ---> femto gateway      │
-│                                                                    │
-│ result : macro handles blanket coverage, small cells add density  │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Macro + small-cell + backhaul structure                            |
++--------------------------------------------------------------------+
+|                 [ Macro site ]                                     |
+|                  /   |   \                                         |
+|         wide-area mobility and control-plane coverage              |
+|                                                                    |
+|   [Street micro/pico] ---- fiber/ethernet ----> operator core     |
+|   [Mall pico cell  ] ---- fiber/ethernet ----> operator core      |
+|   [Home femto cell ] ---- fixed broadband ---> femto gateway      |
+|                                                                    |
+| result : macro handles blanket coverage, small cells add density  |
++--------------------------------------------------------------------+
 ```
 
 이 구조는 단순히 기지국을 많이 깔았다는 뜻이 아니다. 매크로셀은 이동 중 단말의 연속성을 책임지고, 스몰셀은 가까운 거리의 높은 [Signal-to-Noise Ratio](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/) ([SNR](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/))를 바탕으로 용량을 끌어올린다. 따라서 셀 계층 설계는 커버리지와 용량을 분리해서 최적화하는 작업으로 이해하는 편이 정확하다.
@@ -111,16 +111,16 @@ tags = ["network"]
 아래 흐름은 현장에서 어떤 셀 계층을 우선 검토할지 빠르게 가르는 기준이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Choosing macro, small, or femto                                    │
-├────────────────────────────────────────────────────────────────────┤
-│ need wide outdoor mobility coverage?                               │
-│   ├─ yes -> macro cell first                                       │
-│   └─ no                                                            │
-│        ├─ hotspot with many public users? -> micro / pico cell     │
-│        ├─ indoor dead zone with fixed broadband? -> femto cell     │
-│        └─ severe interference/backhaul issue? -> redesign layer    │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Choosing macro, small, or femto                                    |
++--------------------------------------------------------------------+
+| need wide outdoor mobility coverage?                               |
+|   +- yes -> macro cell first                                       |
+|   +- no                                                            |
+|        +- hotspot with many public users? -> micro / pico cell     |
+|        +- indoor dead zone with fixed broadband? -> femto cell     |
+|        +- severe interference/backhaul issue? -> redesign layer    |
++--------------------------------------------------------------------+
 ```
 
 ### 실무 판단 기준
@@ -169,19 +169,19 @@ tags = ["network"]
 
 ```text
 wide-area cellular coverage
-        │
-        ▼
+        |
+        v
 macro-cell dominated network
-        │
-        ▼
+        |
+        v
 traffic hotspot and indoor loss
-        │
-        ▼
+        |
+        v
 small-cell densification
-        │
-        ├──────────────▶ pico / enterprise indoor cells
-        ├──────────────▶ femto home coverage
-        └──────────────▶ HetNet / 5G dense deployment
+        |
+        +---------------> pico / enterprise indoor cells
+        +---------------> femto home coverage
+        +---------------> HetNet / 5G dense deployment
 ```
 
 이 흐름도는 이동통신망이 단순 광역 커버리지 중심에서, 실내 품질과 용량 밀도를 함께 관리하는 다층 셀 구조로 발전해 온 과정을 보여 준다.
@@ -198,7 +198,7 @@ small-cell densification
 
 **진행 상황**: 299 / 1120
 
-← **이전**: [177. 스마트 안테나 (Smart Antenna) / 위상 배열 안테나 (Phased Array)](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/)
-**다음**: [179. 전력선 통신 (PLC, Power Line Communication)](/knowledge-base/studynote/03_network/03_physical_layer_media/179_plc_power_line_communication/) →
+<- **이전**: [177. 스마트 안테나 (Smart Antenna) / 위상 배열 안테나 (Phased Array)](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/)
+**다음**: [179. 전력선 통신 (PLC, Power Line Communication)](/knowledge-base/studynote/03_network/03_physical_layer_media/179_plc_power_line_communication/) ->
 
 ---

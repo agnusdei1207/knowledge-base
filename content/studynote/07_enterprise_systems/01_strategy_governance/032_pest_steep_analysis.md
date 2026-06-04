@@ -12,7 +12,7 @@ tags = ["studynote-enterprise"]
 > **핵심 인사이트 3줄**
 > 1. [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/)(Political·Economic·Social·Technological) 분석은 기업 외부 거시 환경을 체계적으로 스캔해 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립의 맥락을 제공하는 프레임워크다.
 > 2. STEEP은 PEST에 Environmental(환경) 요인을 추가해 ESG·탄소중립 이슈를 포함하며, PESTLE은 Legal(법적) 요인을 별도로 분리한다.
-> 3. PEST는 산업 분석(Porter 5 Forces)·경쟁 분석(SWOT)과 연계해 외부→산업→기업 순서로 분석 레이어를 쌓는 것이 핵심이다.
+> 3. PEST는 산업 분석(Porter 5 Forces)·경쟁 분석(SWOT)과 연계해 외부->산업->기업 순서로 분석 레이어를 쌓는 것이 핵심이다.
 
 ---
 
@@ -29,13 +29,13 @@ tags = ["studynote-enterprise"]
 
 ```
 PEST 분석 프레임
-┌──────────────┬──────────────┐
-│  Political   │  Economic    │
-│  정부 규제   │  GDP·금리    │
-├──────────────┼──────────────┤
-│  Social      │  Technological│
-│  인구·트렌드 │  AI·자동화   │
-└──────────────┴──────────────┘
++--------------+--------------+
+|  Political   |  Economic    |
+|  정부 규제   |  GDP·금리    |
++--------------+--------------+
+|  Social      |  Technological|
+|  인구·트렌드 |  AI·자동화   |
++--------------+--------------+
 ```
 
 📢 **섹션 요약 비유**: [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/) 분석은 항해 전 기상 예보와 같다 — 바람(정치), 조류(경제), 파도(사회), 선박 기술(기술) 네 가지를 파악해야 항로를 결정할 수 있다.
@@ -68,11 +68,11 @@ PEST 분석 프레임
 ### 분석 프로세스
 
 ```
-1단계: 환경 스캐닝 → 주요 트렌드 수집
-2단계: 요인 분류 → P·E·S·T 매핑
-3단계: 영향 평가 → 기회/위협 분류
-4단계: 우선순위화 → 확률 × 영향 매트릭스
-5단계: 전략 연계 → SWOT 분석 외부 요인으로 활용
+1단계: 환경 스캐닝 -> 주요 트렌드 수집
+2단계: 요인 분류 -> P·E·S·T 매핑
+3단계: 영향 평가 -> 기회/위협 분류
+4단계: 우선순위화 -> 확률 × 영향 매트릭스
+5단계: 전략 연계 -> SWOT 분석 외부 요인으로 활용
 ```
 
 ### 영향 평가 매트릭스
@@ -91,13 +91,13 @@ PEST 분석 프레임
 
 ```
 거시환경 (PEST/STEEP)
-      ↓ 외부 기회·위협 도출
+      v 외부 기회·위협 도출
 산업 구조 분석 (Porter 5 Forces)
-      ↓ 경쟁 강도·수익성 파악
+      v 경쟁 강도·수익성 파악
 기업 내부 분석 (Value Chain / VRIO)
-      ↓ 강점·약점 도출
+      v 강점·약점 도출
 SWOT 통합 분석
-      ↓
+      v
 전략 수립 (SO·ST·WO·WT 전략)
 ```
 
@@ -106,11 +106,11 @@ SWOT 통합 분석
 | 요인 | 내용                          | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 시사점               |
 |------|------------------------------|--------------------------|
 | P   | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 규제(EU [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Act) 강화       | 컴플라이언스 조기 대응      |
-| E   | 금리 상승 → 클라우드 비용 압박 | [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/)·비용 최적화         |
+| E   | 금리 상승 -> 클라우드 비용 압박 | [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/)·비용 최적화         |
 | S   | MZ세대 원격근무 선호           | 리모트-퍼스트 HR [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)      |
 | T   | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)형 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 도입 가속            | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 제품 차별화        |
 
-📢 **섹션 요약 비유**: [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/)→Porter→SWOT 연계는 지도-나침반-GPS를 순서대로 쓰는 것과 같다 — 큰 지형([PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/))을 보고, 경쟁 도로(Porter)를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 현재 위치(SWOT)를 파악해야 목적지 경로가 나온다.
+📢 **섹션 요약 비유**: [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/)->Porter->SWOT 연계는 지도-나침반-GPS를 순서대로 쓰는 것과 같다 — 큰 지형([PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/))을 보고, 경쟁 도로(Porter)를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 현재 위치(SWOT)를 파악해야 목적지 경로가 나온다.
 
 ---
 
@@ -139,19 +139,19 @@ SWOT 통합 분석
 
 ```
 PEST / STEEP 분석
-├── 구성 요인
-│   ├── P: Political (정치·규제)
-│   ├── E: Economic (경제·금융)
-│   ├── S: Social (사회·문화)
-│   ├── T: Technological (기술·혁신)
-│   └── E: Environmental (환경·ESG) — STEEP
-├── 확장 모델
-│   ├── PESTLE (Legal 추가)
-│   └── STEEPLE (Ethical 추가)
-└── 연계 프레임워크
-    ├── Porter 5 Forces (산업 분석)
-    ├── SWOT 분석 (외부 요인 공급)
-    └── 시나리오 플래닝
++-- 구성 요인
+|   +-- P: Political (정치·규제)
+|   +-- E: Economic (경제·금융)
+|   +-- S: Social (사회·문화)
+|   +-- T: Technological (기술·혁신)
+|   +-- E: Environmental (환경·ESG) — STEEP
++-- 확장 모델
+|   +-- PESTLE (Legal 추가)
+|   +-- STEEPLE (Ethical 추가)
++-- 연계 프레임워크
+    +-- Porter 5 Forces (산업 분석)
+    +-- SWOT 분석 (외부 요인 공급)
+    +-- 시나리오 플래닝
 ```
 
 ---
@@ -159,23 +159,23 @@ PEST / STEEP 분석
 ## 📈 관련 키워드 및 발전 흐름도
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│              PEST 분석 발전 흐름                                 │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 1967년       │ ETPS (Aguilar)     │ 환경 스캐닝 최초 체계화      │
-│ 1980년대     │ PEST 명칭 정착     │ 전략 경영 교과서 표준 도구   │
-│ 1990년대     │ PESTLE 확장        │ 법적·환경 요인 추가          │
-│ 2000년대     │ STEEP·PESTLE 혼용  │ 환경/지속가능성 이슈 부상    │
-│ 2010년대     │ 디지털 PEST        │ 플랫폼 파괴·사이버보안 추가  │
-│ 2020년대     │ ESG STEEP          │ 탄소중립·AI 윤리 요인 부각   │
-└──────────────┴────────────────────┴─────────────────────────────┘
++-----------------------------------------------------------------+
+|              PEST 분석 발전 흐름                                 |
++--------------+--------------------+-----------------------------+
+| 1967년       | ETPS (Aguilar)     | 환경 스캐닝 최초 체계화      |
+| 1980년대     | PEST 명칭 정착     | 전략 경영 교과서 표준 도구   |
+| 1990년대     | PESTLE 확장        | 법적·환경 요인 추가          |
+| 2000년대     | STEEP·PESTLE 혼용  | 환경/지속가능성 이슈 부상    |
+| 2010년대     | 디지털 PEST        | 플랫폼 파괴·사이버보안 추가  |
+| 2020년대     | ESG STEEP          | 탄소중립·AI 윤리 요인 부각   |
++--------------+--------------------+-----------------------------+
 
 핵심 키워드 연결:
-거시환경 → PEST/STEEP → 기회/위협 도출 → SWOT
-    ↓           ↓              ↓
+거시환경 -> PEST/STEEP -> 기회/위협 도출 -> SWOT
+    v           v              v
 정치·경제·사회·기술  ESG/규제    전략 방향 수립
-    ↓
-Porter 5 Forces → 산업 경쟁 분석 → 포지셔닝 전략
+    v
+Porter 5 Forces -> 산업 경쟁 분석 -> 포지셔닝 전략
 ```
 
 ---
@@ -184,7 +184,7 @@ Porter 5 Forces → 산업 경쟁 분석 → 포지셔닝 전략
 
 1. [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/) 분석은 소풍 전 날씨 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이다 — 비(정치), 더위(경제), 친구들 분위기(사회), 새 운동화(기술)를 모두 체크해야 즐거운 소풍이 된다.
 2. STEEP은 PEST에 환경 지킴이를 추가한 것이다 — 요즘은 탄소발자국(E)도 기업 성적표에 들어간다.
-3. [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/)→SWOT 연계는 수능 모의고사다 — 외부 환경(시험 난이도)을 분석한 뒤, 내 강점·약점과 연결해 공부 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 세운다.
+3. [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/)->SWOT 연계는 수능 모의고사다 — 외부 환경(시험 난이도)을 분석한 뒤, 내 강점·약점과 연결해 공부 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 세운다.
 
 ---
 
@@ -192,7 +192,7 @@ Porter 5 Forces → 산업 경쟁 분석 → 포지셔닝 전략
 
 **진행 상황**: 32 / 482
 
-← **이전**: [31. 3C 분석 — 고객·경쟁자·자사 전략 삼각형](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/031_3c_analysis/)
-**다음**: [맥킨지 7S 모델 (McKinsey 7S Model)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/033_mckinsey_7s_model/) →
+<- **이전**: [31. 3C 분석 — 고객·경쟁자·자사 전략 삼각형](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/031_3c_analysis/)
+**다음**: [맥킨지 7S 모델 (McKinsey 7S Model)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/033_mckinsey_7s_model/) ->
 
 ---

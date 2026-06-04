@@ -27,23 +27,23 @@ tags = ["studynote-operating-system"]
 **💡 비유**: 파티장에서 "한 사람당 고기 5점까지만!(회피)" 룰을 없애고 맘대로 퍼먹게 냅둔다. 대신 매 30분마다 매니저(탐지기)가 순환(순회)하면서, 고기 접시를 손에 꽉 쥔 채 남의 접시 김치만 내놓으라며 서로 물고 늘어져 굳어버린 진상 테이블(데드락)이 있는가 감시해 잡아내는 사후 순찰 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/).
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│         교착 상태 탐지 모델의 느슨한(Lazy) 자원 관리망        │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│  [시간 흐름별 시스템 상태]                                    │
-│  t0: 막 퍼줌 (자유 할당, 방어/시뮬레이션 전혀 안 함)          │
-│  t1: 막 퍼줌 (엄청나게 높은 시스템 활성화 및 자원 소진율!)    │
-│  t2: 우연의 일치로 P1, P2, P3이 꼬리를 물어버림(Deadlock 발동)│
-│  t3: 시스템 일부가 멈춰버림. But OS는 모름 대기 방치          │
-│  t4: ⏰ (백그라운드 탐지 데몬 깨어남)                         │
-│      OS가 대기 그래프(WFG) 스캔 시작. DFS 탐색.               │
-│      "P1→P2→P3→P1 사이클 1건 적발!!"                          │
-│  t5: OS는 탐지 결과(교착)를 복구 레이어에 토스(Report).       │
-│                                                               │
-│  ▶ 핵심: 방어벽을 없앤 대가로 최상 성능을,                    │
-│           사고가 나면 몰아서 찾아내는 벌금형 통제 체계.       │
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|         교착 상태 탐지 모델의 느슨한(Lazy) 자원 관리망        |
++---------------------------------------------------------------+
+|                                                               |
+|  [시간 흐름별 시스템 상태]                                    |
+|  t0: 막 퍼줌 (자유 할당, 방어/시뮬레이션 전혀 안 함)          |
+|  t1: 막 퍼줌 (엄청나게 높은 시스템 활성화 및 자원 소진율!)    |
+|  t2: 우연의 일치로 P1, P2, P3이 꼬리를 물어버림(Deadlock 발동)|
+|  t3: 시스템 일부가 멈춰버림. But OS는 모름 대기 방치          |
+|  t4: ⏰ (백그라운드 탐지 데몬 깨어남)                         |
+|      OS가 대기 그래프(WFG) 스캔 시작. DFS 탐색.               |
+|      "P1->P2->P3->P1 사이클 1건 적발!!"                          |
+|  t5: OS는 탐지 결과(교착)를 복구 레이어에 토스(Report).       |
+|                                                               |
+|  -> 핵심: 방어벽을 없앤 대가로 최상 성능을,                    |
+|           사고가 나면 몰아서 찾아내는 벌금형 통제 체계.       |
++---------------------------------------------------------------+
 ```
 
 **📢 섹션 요약 비유**: 탐지 방식은 "범죄(데드락) 안 일어나게 전국민을 교도소에 가둬버리자(예방)"는 어설픈 발상을 접고, "자유롭게 살게 냅두되 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 돌려서 터진 강도 사건만 범인을 잡아 패자"는 훨씬 자유 시장적인 최신 문물입니다.
@@ -57,7 +57,7 @@ tags = ["studynote-operating-system"]
 데드락 탐지([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 모양새는 놀랍게도 예방/회피 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/), 뱅커스)의 복붙(Copy-paste)에 가깝다. 단지 쓰는 '타이밍'이 완전히 다르다.
 
 1. <strong>단일 자원 환경 탐지 (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/">Wait-for Graph</a>)</strong>:
-   - 회피 때는 미래 점선(Claim)을 넣었지만, 탐지는 진짜 리얼루 막 붙어있는 지금의 "A대기→B대기→C대기" 방향 화살표만 그린다.
+   - 회피 때는 미래 점선(Claim)을 넣었지만, 탐지는 진짜 리얼루 막 붙어있는 지금의 "A대기->B대기->C대기" 방향 화살표만 그린다.
    - 주기적으로 [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 돌려 그 안에 닫힌 폐곡선(Cycle)이 뚫리면 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 확진!
 2. <strong>다중 자원 환경 탐지 (탐지 전용 은행원 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>)</strong>:
    - 뱅커스와 달리 `Max`(미래치)라는 개소리 행렬은 찢어버린다.
@@ -119,12 +119,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [은행원 알고리즘 한계]
-    │
-    ▼
+    |
+    v
 [교착 상태 탐지 (Deadlock Detection)]
-    │
-    ├──▶ [대기 그래프 (Wait-for Graph)]
-    └──▶ [탐지 알고리즘의 오버헤드]
+    |
+    +---> [대기 그래프 (Wait-for Graph)]
+    +---> [탐지 알고리즘의 오버헤드]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -141,7 +141,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 304 / 800
 
-← **이전**: [303. 은행원 알고리즘 한계 (Bankers Limitations)](/knowledge-base/studynote/02_operating_system/05_deadlock/303_bankers_limitations/)
-**다음**: [305. 대기 그래프 (Wait-for Graph) - 자원 정점을 제거하고 프로세스 간 간선만 남긴 그래프 (단일 자원 탐지용)](/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/) →
+<- **이전**: [303. 은행원 알고리즘 한계 (Bankers Limitations)](/knowledge-base/studynote/02_operating_system/05_deadlock/303_bankers_limitations/)
+**다음**: [305. 대기 그래프 (Wait-for Graph) - 자원 정점을 제거하고 프로세스 간 간선만 남긴 그래프 (단일 자원 탐지용)](/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/) ->
 
 ---

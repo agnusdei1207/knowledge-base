@@ -23,10 +23,10 @@ tags = ["studynote-data-engineering"]
 2000년대 후반 Google(Bigtable, 2006), Amazon(Dynamo, 2007), Facebook([Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), 2008)이 기존 RDBMS로는 처리 불가능한 규모의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 위해 자체 [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) DB를 개발·공개하면서 [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) 생태계가 폭발적으로 성장했다.
 
 **RDBMS의 한계:**
-- 수평 확장([Scale-Out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)) 어려움 → 수직 확장([Scale-Up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)) 비용 폭증
-- 엄격한 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) → [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) 처리 불가
-- ACID [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 오버헤드 → [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 처리 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하
-- [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 연산 비용 → [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 네트워크 병목
+- 수평 확장([Scale-Out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)) 어려움 -> 수직 확장([Scale-Up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)) 비용 폭증
+- 엄격한 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) -> [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) 처리 불가
+- ACID [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 오버헤드 -> [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 처리 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하
+- [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 연산 비용 -> [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 네트워크 병목
 
 ### [NoSQL BASE](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/218_nosql_base_eventual_consistency_sharding/) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)
 
@@ -47,20 +47,20 @@ tags = ["studynote-data-engineering"]
 
 ```
 NoSQL 유형별 데이터 모델
-┌──────────────┬──────────────────────────────────────────┐
-│ 키-값        │  "user:1234" → { name, age, email }     │
-│ (Key-Value)  │  단순 해시맵, 빠른 단일 조회             │
-├──────────────┼──────────────────────────────────────────┤
-│ 도큐먼트     │  { _id: 1, name: "홍길동",              │
-│ (Document)   │    orders: [{...}, {...}] }             │
-│              │  JSON/BSON 중첩 구조, 유연한 스키마      │
-├──────────────┼──────────────────────────────────────────┤
-│ 와이드 컬럼  │  Row Key │ CF:col1 │ CF:col2 │ ...      │
-│ (Wide-Column)│  희소 행렬, 컬럼 패밀리 단위 저장        │
-├──────────────┼──────────────────────────────────────────┤
-│ 그래프       │  (노드A) -[관계:FRIENDS]-> (노드B)       │
-│ (Graph)      │  노드·엣지·속성, 관계 탐색 최적화        │
-└──────────────┴──────────────────────────────────────────┘
++--------------+------------------------------------------+
+| 키-값        |  "user:1234" -> { name, age, email }     |
+| (Key-Value)  |  단순 해시맵, 빠른 단일 조회             |
++--------------+------------------------------------------+
+| 도큐먼트     |  { _id: 1, name: "홍길동",              |
+| (Document)   |    orders: [{...}, {...}] }             |
+|              |  JSON/BSON 중첩 구조, 유연한 스키마      |
++--------------+------------------------------------------+
+| 와이드 컬럼  |  Row Key | CF:col1 | CF:col2 | ...      |
+| (Wide-Column)|  희소 행렬, 컬럼 패밀리 단위 저장        |
++--------------+------------------------------------------+
+| 그래프       |  (노드A) -[관계:FRIENDS]-> (노드B)       |
+| (Graph)      |  노드·엣지·속성, 관계 탐색 최적화        |
++--------------+------------------------------------------+
 ```
 
 ### 세부 비교 표
@@ -68,14 +68,14 @@ NoSQL 유형별 데이터 모델
 | 항목 | 키-값 | 도큐먼트 | 와이드 컬럼 | [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) |
 |:---|:---|:---|:---|:---|
 | **대표 제품** | [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/), [DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/) | [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/), Couchbase | [Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), [HBase](/knowledge-base/studynote/05_database/04_transactions_concurrency/543_hbase/) | Neo4j, Amazon Neptune |
-| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/">데이터 모델</a></strong> | 단순 [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)→Value | [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/)/BSON 도큐먼트 | 컬럼 패밀리 | 노드·엣지 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/">데이터 모델</a></strong> | 단순 [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)->Value | [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/)/BSON 도큐먼트 | 컬럼 패밀리 | 노드·엣지 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) |
 | <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> 방식</strong> | [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) 기반 단순 조회 | 필드 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/), [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) | Row [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/), 범위 스캔 | Cypher, Gremlin |
 | **확장성** | 매우 높음 | 높음 | 매우 높음 | 수평 확장 어려움 |
 | <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong> | 결과적/조정 가능 | 도큐먼트 단위 ACID | 결과적/조정 가능 | ACID (Neo4j) |
 | **주 사용 사례** | 캐시, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/), 리더보드 | 컨텐츠 관리, [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) | 시계열, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) | SNS [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/), 추천, [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) |
 | <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/">JOIN</a> 지원</strong> | 없음 | 제한적 ($lookup) | 없음 | [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 순회 |
 
-📢 **섹션 요약 비유**: 키-값은 **사물함(번호→물건)**, 도큐먼트는 **서류 봉투(내용물 자유)**, 와이드 컬럼은 **엑셀 시트(행·열 희소)**, [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)는 <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a> 지도(사람 간 연결)</strong>다.
+📢 **섹션 요약 비유**: 키-값은 **사물함(번호->물건)**, 도큐먼트는 **서류 봉투(내용물 자유)**, 와이드 컬럼은 **엑셀 시트(행·열 희소)**, [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)는 <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a> 지도(사람 간 연결)</strong>다.
 
 ---
 
@@ -89,11 +89,11 @@ NoSQL 유형별 데이터 모델
 
 <strong>도큐먼트 (<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/">Document</a>):</strong>
 - [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/): BSON 저장, Aggregation [Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/), Atlas Search(전문 검색)
-- [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 유연성 → 마이크로서비스의 독립 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 진화에 적합
+- [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 유연성 -> 마이크로서비스의 독립 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 진화에 적합
 
 **와이드 컬럼 (Wide-Column):**
 - [Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/): 일관적 해시([Consistent Hashing](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/244_consistent_hashing_ring_distribution/)) + 가십 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)(Gossip [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)), [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 최적화(LSM Tree)
-- [HBase](/knowledge-base/studynote/05_database/04_transactions_concurrency/543_hbase/): [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)/[HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 위에 동작, 강한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), [HBase](/knowledge-base/studynote/05_database/04_transactions_concurrency/543_hbase/) → [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 분석 연계
+- [HBase](/knowledge-base/studynote/05_database/04_transactions_concurrency/543_hbase/): [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)/[HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 위에 동작, 강한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), [HBase](/knowledge-base/studynote/05_database/04_transactions_concurrency/543_hbase/) -> [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 분석 연계
 
 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/">Graph</a>):</strong>
 - Neo4j: Property [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) 모델, Cypher [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 언어, 임베디드/클러스터 모드
@@ -129,7 +129,7 @@ NoSQL 유형별 데이터 모델
 
 1. **복합 사용 패턴**: 하나의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 여러 [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) 혼용 ([Polyglot Persistence](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/132_polyglot_persistence/))
 2. **RDBMS와 공존**: RDBMS는 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 핵심, NoSQL은 캐시·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·분석 보조
-3. **운영 복잡성**: [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) 도입 시 관리 오버헤드 증가 → 관리형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(AWS [DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/), Atlas) 활용
+3. **운영 복잡성**: [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) 도입 시 관리 오버헤드 증가 -> 관리형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(AWS [DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/), Atlas) 활용
 
 📢 **섹션 요약 비유**: [폴리글랏 퍼시스턴스](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/308_pgvector/)([Polyglot Persistence](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/132_polyglot_persistence/))는 <strong>요리마다 다른 조리 기구</strong>를 쓰는 것이다. 밥은 솥, 고기는 그릴, 국은 냄비. 모두 밥솥으로만 하려면 불편하다.
 
@@ -144,7 +144,7 @@ NoSQL 유형별 데이터 모델
 | 읽기 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 | [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 캐시 도입으로 DB 부하 70~90% 감소 |
 | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 증가 | [Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) 클러스터 확장으로 초당 수십만 건 처리 |
 | 개발 민첩성 | [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 없는 도큐먼트 DB로 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 마이그레이션 없이 기능 추가 |
-| [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 분석 속도 | 6단계 친구 찾기: RDBMS 수십 초 → Neo4j 수십 밀리초 |
+| [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 분석 속도 | 6단계 친구 찾기: RDBMS 수십 초 -> Neo4j 수십 밀리초 |
 
 ### 결론
 
@@ -175,19 +175,19 @@ NoSQL은 RDBMS를 대체하는 것이 아니라 <strong>상호 보완적으로 �
 
 ```text
 RDBMS (관계형, 정형 데이터)
-    │
-    ▼
+    |
+    v
 NoSQL 4대 유형
-    ├─► Key-Value: Redis · DynamoDB (캐시 · 세션)
-    ├─► Document: MongoDB · CouchDB (유연 스키마)
-    ├─► Wide-Column: Cassandra · HBase (대규모 쓰기)
-    └─► Graph: Neo4j · Amazon Neptune (관계 탐색)
-    │
-    ▼
+    +-► Key-Value: Redis · DynamoDB (캐시 · 세션)
+    +-► Document: MongoDB · CouchDB (유연 스키마)
+    +-► Wide-Column: Cassandra · HBase (대규모 쓰기)
+    +-► Graph: Neo4j · Amazon Neptune (관계 탐색)
+    |
+    v
 Multi-Model DB: 여러 데이터 모델 통합 지원
 ```
 2. 도큐먼트는 <strong>서류 봉투</strong>야. 봉투 안에 사진도 넣고 편지도 넣고 뭐든 넣을 수 있어. 내용이 다 달라도 괜찮아.
-3. [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)는 <strong>친구 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>도</strong>야. 나→내 친구→내 친구의 친구를 따라가면서 "우리 학교에서 몇 다리 건너 연결됐지?" 같은 걸 빠르게 찾을 수 있어.
+3. [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)는 <strong>친구 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>도</strong>야. 나->내 친구->내 친구의 친구를 따라가면서 "우리 학교에서 몇 다리 건너 연결됐지?" 같은 걸 빠르게 찾을 수 있어.
 
 ---
 
@@ -195,7 +195,7 @@ Multi-Model DB: 여러 데이터 모델 통합 지원
 
 **진행 상황**: 220 / 258
 
-← **이전**: [219. CAP 정리 (CAP Theorem)와 PACELC 정리 분산 트레이드오프](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/219_cap_pacelc_distributed_tradeoff/)
-**다음**: [221. LSM 트리 (Log-Structured Merge-Tree) 멤테이블 순차 플러시 콤팩션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/221_lsm_tree_memtable_sequential_flush_compaction/) →
+<- **이전**: [219. CAP 정리 (CAP Theorem)와 PACELC 정리 분산 트레이드오프](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/219_cap_pacelc_distributed_tradeoff/)
+**다음**: [221. LSM 트리 (Log-Structured Merge-Tree) 멤테이블 순차 플러시 콤팩션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/221_lsm_tree_memtable_sequential_flush_compaction/) ->
 
 ---

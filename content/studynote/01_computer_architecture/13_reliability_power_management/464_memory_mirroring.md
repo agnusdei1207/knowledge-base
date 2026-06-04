@@ -36,28 +36,28 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 메모리 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)이 정상 상태와 장애 상태에서 어떻게 동작하는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│               메모리 미러링의 데이터 경로와 절체 흐름               │
-├──────────────────────────────────────────────────────────────────────┤
-│ CPU / 메모리 요청                                                   │
-│        │                                                           │
-│        ▼                                                           │
-│ [메모리 컨트롤러]                                                   │
-│        │                                                           │
-│        ├────────────── 쓰기 데이터 ──────────────┐                 │
-│        │                                         │                 │
-│        ▼                                         ▼                 │
-│ [채널 A : Primary]                         [채널 B : Mirror]       │
-│ [DIMM A0, A1 ... ]                         [DIMM B0, B1 ... ]      │
-│        │                                         │                 │
-│        └────── 동일 주소 / 동일 데이터 동시 반영 ────────┘         │
-│                                                                   │
-│ 읽기 기본 경로 : 채널 A                                             │
-│ 장애 감지      : ECC 오류 누적, 링크 실패, 채널 타임아웃, DIMM 장애   │
-│ 절체 후 읽기   : 채널 B로 즉시 전환                                 │
-│                                                                   │
-│ 결과 : 서비스 지속 / 대가 : 유효 용량 50%, 채널 활용도 감소          │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|               메모리 미러링의 데이터 경로와 절체 흐름               |
++----------------------------------------------------------------------+
+| CPU / 메모리 요청                                                   |
+|        |                                                           |
+|        v                                                           |
+| [메모리 컨트롤러]                                                   |
+|        |                                                           |
+|        +-------------- 쓰기 데이터 --------------+                 |
+|        |                                         |                 |
+|        v                                         v                 |
+| [채널 A : Primary]                         [채널 B : Mirror]       |
+| [DIMM A0, A1 ... ]                         [DIMM B0, B1 ... ]      |
+|        |                                         |                 |
+|        +------ 동일 주소 / 동일 데이터 동시 반영 --------+         |
+|                                                                   |
+| 읽기 기본 경로 : 채널 A                                             |
+| 장애 감지      : ECC 오류 누적, 링크 실패, 채널 타임아웃, DIMM 장애   |
+| 절체 후 읽기   : 채널 B로 즉시 전환                                 |
+|                                                                   |
+| 결과 : 서비스 지속 / 대가 : 유효 용량 50%, 채널 활용도 감소          |
++----------------------------------------------------------------------+
 ```
 
 이 메커니즘이 성립하려면 짝을 이루는 채널의 용량과 속도가 대체로 대칭이어야 한다. 예를 들어 256GB 구성을 메모리 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)으로 운영하면 설치 용량은 256GB여도 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 실제로 활용 가능한 유효 용량은 대개 128GB 수준으로 본다. 또한 읽기를 양쪽에서 병렬로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)하는 인터리빙 (Interleaving) 최적화가 제한되므로, 고대역폭 워크로드에서는 단순 [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) 구성보다 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 효율이 낮아질 수 있다.
@@ -147,29 +147,29 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 비트 오류 증가
-    │
-    ▼
+    |
+    v
 ECC (Error-Correcting Code)
-    │
-    ▼
+    |
+    v
 칩 단위 보호 확장
-    │
-    ▼
+    |
+    v
 칩킬 ECC (Chipkill ECC) · 메모리 스크러빙 (Memory Scrubbing)
-    │
-    ▼
+    |
+    v
 DIMM 열화 대응
-    │
-    ▼
+    |
+    v
 Online Sparing
-    │
-    ▼
+    |
+    v
 채널 단위 연속성 보장
-    │
-    ▼
+    |
+    v
 메모리 미러링 (Memory Mirroring)
-    │
-    ▼
+    |
+    v
 시스템 전계층 RAS · Failover 중심 아키텍처
 ```
 
@@ -187,7 +187,7 @@ Online Sparing
 
 **진행 상황**: 465 / 803
 
-← **이전**: [463. ECC 메모리 (Error-Correcting Code)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/463_ecc_memory/)
-**다음**: [465. 락스텝 (Lockstep) 아키텍처](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/465_lockstep_architecture/) →
+<- **이전**: [463. ECC 메모리 (Error-Correcting Code)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/463_ecc_memory/)
+**다음**: [465. 락스텝 (Lockstep) 아키텍처](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/465_lockstep_architecture/) ->
 
 ---

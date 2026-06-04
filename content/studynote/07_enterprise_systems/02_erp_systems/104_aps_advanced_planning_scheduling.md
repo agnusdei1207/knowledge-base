@@ -36,25 +36,25 @@ APS는 크게 모델링(제약 조건 정의), 최적화 엔진(선형 계획법
 | **What-If 시뮬레이션** | '긴급 주문이 삽입되었을 때' 등 가상의 상황을 시뮬레이션하여 마진 및 납기 변화 예측 | 영업-생산 부서 간 객관적 타협안 도출 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  APS의 What-If 최적화 알고리즘 흐름 시각화                │
-├──────────────────────────────────────────────────────────────┤
-│ [ 입력 데이터: 현실 제약 ]                                        │
-│  BOM(자재명세서) / 라우팅(공정순서) / 설비상태 / 인력 교대조       │
-│             │                                                │
-│             ▼                                                │
-│ ┌───── 인메모리 시뮬레이션 엔진 (APS Core) ─────────────────────┐ │
-│ │  1. 제약 조건 모델링 (Constraints Modeling)                │ │
-│ │  2. 수학적 최적화 탐색 (Heuristics, 선형 계획법 적용)         │ │
-│ │  3. 가상 시나리오(What-If) 반복 연산                       │ │
-│ └───────────┬────────────────────────────────────────────────┘ │
-│             │                                                │
-│             ▼                                                │
-│ [ 출력: 3D 최적 스케줄링 간트 차트 (Gantt Chart) ]                 │
-│  - 납기일 준수도 최대화                                          │
-│  - 기계 셋업(교체) 비용 최소화                                     │
-│  - 수익 극대화 의사결정안 도출                                     │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  APS의 What-If 최적화 알고리즘 흐름 시각화                |
++--------------------------------------------------------------+
+| [ 입력 데이터: 현실 제약 ]                                        |
+|  BOM(자재명세서) / 라우팅(공정순서) / 설비상태 / 인력 교대조       |
+|             |                                                |
+|             v                                                |
+| +----- 인메모리 시뮬레이션 엔진 (APS Core) ---------------------+ |
+| |  1. 제약 조건 모델링 (Constraints Modeling)                | |
+| |  2. 수학적 최적화 탐색 (Heuristics, 선형 계획법 적용)         | |
+| |  3. 가상 시나리오(What-If) 반복 연산                       | |
+| +-----------+------------------------------------------------+ |
+|             |                                                |
+|             v                                                |
+| [ 출력: 3D 최적 스케줄링 간트 차트 (Gantt Chart) ]                 |
+|  - 납기일 준수도 최대화                                          |
+|  - 기계 셋업(교체) 비용 최소화                                     |
+|  - 수익 극대화 의사결정안 도출                                     |
++--------------------------------------------------------------+
 ```
 이 흐름도는 APS가 복잡한 제조 환경의 제약 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실시간 메모리 연산으로 처리하여, 수익성이 가장 높은 최적의 [간트 차트](/knowledge-base/studynote/04_software_engineering/01_overview_principles/039_gantt_chart/)([스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 표)를 동적으로 그려내는 메커니즘을 나타낸다.
 
@@ -116,17 +116,17 @@ APS는 생산 관리 시스템([MES](/knowledge-base/studynote/07_enterprise_sys
 
 ```text
 MRP (Material Requirements Planning) · 무한 능력 가정
-    │
-    ▼
+    |
+    v
 MRP II (Manufacturing Resource Planning) · 생산 자원까지 확장 고려
-    │
-    ▼
+    |
+    v
 ERP (Enterprise Resource Planning) · 전사적 자원 통합 (여전히 무한 능력 기반)
-    │
-    ▼ (본 문서)
+    |
+    v (본 문서)
 APS (Advanced Planning and Scheduling) · 유한 능력 기반(Constraints) 실시간 최적화
-    │
-    ▼
+    |
+    v
 AI-driven SCM (인공지능 공급망) · 기계학습 기반 예측 제약 자동화
 ```
 이 흐름도는 제조업의 계획 시스템이 단순한 수량 계산([MRP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/))에서 제약 조건을 포함한 인메모리 수학적 최적화(APS)를 거쳐 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반으로 지능화되는 진화의 궤적을 보여준다.
@@ -142,7 +142,7 @@ AI-driven SCM (인공지능 공급망) · 기계학습 기반 예측 제약 자�
 
 **진행 상황**: 104 / 482
 
-← **이전**: [103. S&OP (Sales and Operations Planning) - 영업 및 생산 운영 계획의 주별/월별 전사 통합 조정 회의체](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/103_snop_sales_and_operations_planning/)
-**다음**: [105. 디지털 공급망 (Digital Supply Chain) 및 SCM 컨트롤 타워 - 글로벌 물류 가시성 확보](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/105_digital_supply_chain_scm_control_tower/) →
+<- **이전**: [103. S&OP (Sales and Operations Planning) - 영업 및 생산 운영 계획의 주별/월별 전사 통합 조정 회의체](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/103_snop_sales_and_operations_planning/)
+**다음**: [105. 디지털 공급망 (Digital Supply Chain) 및 SCM 컨트롤 타워 - 글로벌 물류 가시성 확보](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/105_digital_supply_chain_scm_control_tower/) ->
 
 ---

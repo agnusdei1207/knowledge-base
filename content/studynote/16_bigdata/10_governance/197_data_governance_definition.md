@@ -33,24 +33,24 @@ tags = ["studynote-bigdata"]
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 폭증 | 2025년 세계 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)량 ≈ 120 ZB — 관리 없이는 [데이터 늪](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/288_data_swamp_metadata_management_absence/)([Data Swamp](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/288_data_swamp_metadata_management_absence/)) 전락 위험 |
 | 규제 강화 | [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/), 한국 PIPA([개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/)), SOX, [HIPAA](/knowledge-base/studynote/09_security/17_framework_compliance/863_hipaa/) 위반 시 막대한 과징금 |
 | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·ML 품질 | Garbage In, Garbage Out — 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질이 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 결정 |
-| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) | 부서별 독립 시스템 → 불일치·중복·비용 증가 |
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) | 부서별 독립 시스템 -> 불일치·중복·비용 증가 |
 | [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 자산으로 취급하려면 거버넌스가 선행 조건 |
 
 ### 1.3 거버넌스 vs [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│             데이터 거버넌스 (What & Why)                  │
-│  ┌──────────────┐  ┌─────────────┐  ┌────────────────┐  │
-│  │  정책 · 표준  │  │  역할 · 책임 │  │  원칙 · 목표   │  │
-│  └──────────────┘  └─────────────┘  └────────────────┘  │
-│                         │                                │
-│                         ▼                                │
-│             데이터 관리 (How)                             │
-│  ┌─────────┐ ┌──────────┐ ┌─────────┐ ┌─────────────┐  │
-│  │ 품질관리 │ │ 메타데이터│ │ 보안관리 │ │ 아키텍처관리 │  │
-│  └─────────┘ └──────────┘ └─────────┘ └─────────────┘  │
-└─────────────────────────────────────────────────────────┘
++---------------------------------------------------------+
+|             데이터 거버넌스 (What & Why)                  |
+|  +--------------+  +-------------+  +----------------+  |
+|  |  정책 · 표준  |  |  역할 · 책임 |  |  원칙 · 목표   |  |
+|  +--------------+  +-------------+  +----------------+  |
+|                         |                                |
+|                         v                                |
+|             데이터 관리 (How)                             |
+|  +---------+ +----------+ +---------+ +-------------+  |
+|  | 품질관리 | | 메타데이터| | 보안관리 | | 아키텍처관리 |  |
+|  +---------+ +----------+ +---------+ +-------------+  |
++---------------------------------------------------------+
 ```
 
 **📢 섹션 요약 비유**: [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)는 국가의 <strong>헌법</strong>이다. 헌법이 "무엇을 허용하고 무엇을 금지하는지" 원칙을 정하면, 각 부처([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리)가 그 원칙을 실제 법령과 행정으로 구현한다.
@@ -62,28 +62,28 @@ tags = ["studynote-bigdata"]
 ### 2.1 거버넌스 프레임워크 구조
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│                  데이터 거버넌스 프레임워크                    │
-│                                                              │
-│  ┌──────────────────────────────────────────────────────┐    │
-│  │         거버넌스 위원회 (Governance Council)           │    │
-│  │   CDO (Chief Data Officer) + 부문별 Data Owner        │    │
-│  └─────────────────────────┬────────────────────────────┘    │
-│                            │ 정책 수립 · 의사결정              │
-│  ┌────────────┬────────────▼────────┬───────────────────┐    │
-│  │  정책·표준  │   역할·책임 (RACI)  │     프로세스       │    │
-│  │            │                     │                   │    │
-│  │ · 접근정책  │ · Data Owner        │ · 이슈 해결        │    │
-│  │ · 보유정책  │ · Data Steward      │ · 변경 관리        │    │
-│  │ · 품질표준  │ · Data Custodian    │ · 인증 절차        │    │
-│  │ · 명명규칙  │ · Data Consumer     │ · 감사            │    │
-│  └────────────┴─────────────────────┴───────────────────┘    │
-│                            │                                 │
-│  ┌─────────────────────────▼──────────────────────────────┐  │
-│  │                  거버넌스 도구 (Tooling)                 │  │
-│  │  데이터 카탈로그 │ 품질 도구 │ 리니지 │ MDM │ 감사로그  │  │
-│  └────────────────────────────────────────────────────────┘  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  데이터 거버넌스 프레임워크                    |
+|                                                              |
+|  +------------------------------------------------------+    |
+|  |         거버넌스 위원회 (Governance Council)           |    |
+|  |   CDO (Chief Data Officer) + 부문별 Data Owner        |    |
+|  +-------------------------+----------------------------+    |
+|                            | 정책 수립 · 의사결정              |
+|  +------------+------------v--------+-------------------+    |
+|  |  정책·표준  |   역할·책임 (RACI)  |     프로세스       |    |
+|  |            |                     |                   |    |
+|  | · 접근정책  | · Data Owner        | · 이슈 해결        |    |
+|  | · 보유정책  | · Data Steward      | · 변경 관리        |    |
+|  | · 품질표준  | · Data Custodian    | · 인증 절차        |    |
+|  | · 명명규칙  | · Data Consumer     | · 감사            |    |
+|  +------------+---------------------+-------------------+    |
+|                            |                                 |
+|  +-------------------------v------------------------------+  |
+|  |                  거버넌스 도구 (Tooling)                 |  |
+|  |  데이터 카탈로그 | 품질 도구 | 리니지 | MDM | 감사로그  |  |
+|  +--------------------------------------------------------+  |
++--------------------------------------------------------------+
 ```
 
 ### 2.2 표준 및 성숙도 모델
@@ -143,12 +143,12 @@ tags = ["studynote-bigdata"]
 ### 4.2 도구 선택 기준
 
 ```
-규모·예산이 크고 엔터프라이즈 요구 → Collibra, Informatica AXON
-오픈소스 선호, Hadoop 생태계 → Apache Atlas
-클라우드 네이티브(AWS) → AWS Glue Data Catalog + Lake Formation
-클라우드 네이티브(GCP) → Dataplex + Data Catalog
-클라우드 네이티브(Azure) → Microsoft Purview
-확장성 높은 오픈소스 → DataHub (LinkedIn), OpenMetadata
+규모·예산이 크고 엔터프라이즈 요구 -> Collibra, Informatica AXON
+오픈소스 선호, Hadoop 생태계 -> Apache Atlas
+클라우드 네이티브(AWS) -> AWS Glue Data Catalog + Lake Formation
+클라우드 네이티브(GCP) -> Dataplex + Data Catalog
+클라우드 네이티브(Azure) -> Microsoft Purview
+확장성 높은 오픈소스 -> DataHub (LinkedIn), OpenMetadata
 ```
 
 ### 4.3 기술사 답안 포인트
@@ -198,17 +198,17 @@ tags = ["studynote-bigdata"]
 
 ```text
 [데이터 관리]
-    │
-    ▼
+    |
+    v
 [데이터 품질]
-    │
-    ▼
+    |
+    v
 [데이터 거버넌스]
-    │
-    ▼
+    |
+    v
 [데이터 카탈로그]
-    │
-    ▼
+    |
+    v
 [데이터 메시 거버넌스]
 ```
 
@@ -228,7 +228,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 197 / 262
 
-← **이전**: [06. 오픈 테이블 포맷 (Open Table Format) - 레이크하우스의 핵심 기반 기술](/knowledge-base/studynote/16_bigdata/10_governance/196_opentableformat/)
-**다음**: [192. 데이터 거버넌스 구성 요소 (Data Governance Components) — 정책/표준/역할/프로세스/도구](/knowledge-base/studynote/16_bigdata/10_governance/198_data_governance_components/) →
+<- **이전**: [06. 오픈 테이블 포맷 (Open Table Format) - 레이크하우스의 핵심 기반 기술](/knowledge-base/studynote/16_bigdata/10_governance/196_opentableformat/)
+**다음**: [192. 데이터 거버넌스 구성 요소 (Data Governance Components) — 정책/표준/역할/프로세스/도구](/knowledge-base/studynote/16_bigdata/10_governance/198_data_governance_components/) ->
 
 ---

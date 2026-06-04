@@ -34,20 +34,20 @@ tags = ["studynote-ai"]
 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 클리핑은 크게 두 가지 방식으로 나뉜다. 값 클리핑 (Value [Clipping](/knowledge-base/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/))은 각 파라미터의 기울기 값을 개별적으로 자르는 방식이고, 노름 클리핑 (Norm [Clipping](/knowledge-base/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/))은 기울기 벡터 전체의 방향은 유지한 채 길이(L2 Norm)만 임곗값으로 축소하는 방식이다. 딥러닝에서는 방향성 왜곡을 막기 위해 주로 노름 클리핑을 사용한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           가중치 클리핑 (Norm Clipping) 동작 원리            │
-├──────────────────────────────────────────────────────────────┤
-│ 1. 역전파 수행 ─▶ 2. 기울기 벡터(g) 계산 ─▶ 3. Norm(||g||) 확인 │
-│                                                              │
-│       ┌── ||g|| > Threshold 인가? ──┐                        │
-│       │                             │                        │
-│     [Yes]                         [No]                       │
-│       ▼                             ▼                        │
-│  방향 유지, 길이 축소          기울기 그대로 유지            │
-│  g = g * (Threshold / ||g||)                                 │
-│       │                             │                        │
-│       └───────────▶ 4. 가중치 갱신 ◀───────────┘            │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           가중치 클리핑 (Norm Clipping) 동작 원리            |
++--------------------------------------------------------------+
+| 1. 역전파 수행 --> 2. 기울기 벡터(g) 계산 --> 3. Norm(||g||) 확인 |
+|                                                              |
+|       +-- ||g|| > Threshold 인가? --+                        |
+|       |                             |                        |
+|     [Yes]                         [No]                       |
+|       v                             v                        |
+|  방향 유지, 길이 축소          기울기 그대로 유지            |
+|  g = g * (Threshold / ||g||)                                 |
+|       |                             |                        |
+|       +------------> 4. 가중치 갱신 <------------+            |
++--------------------------------------------------------------+
 ```
 
 [가중치 초기화](/knowledge-base/studynote/10_ai/01_ai_basics/087_weight_initialization_xavier_he_glorot/) ([Weight Initialization](/knowledge-base/studynote/10_ai/01_ai_basics/087_weight_initialization_xavier_he_glorot/)) 역시 중요하다. Xavier [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화나 He [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화를 사용하여 처음부터 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 1 근처로 안정적으로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하면, 반복 곱셈이 발생해도 값이 폭주하거나 소멸하는 현상을 원천적으로 완화할 수 있다.
@@ -115,17 +115,17 @@ tags = ["studynote-ai"]
 
 ```text
 역전파 미분값 반복 누적
-    │
-    ▼
+    |
+    v
 기울기 폭발 (Exploding Gradient) · NaN 오류
-    │
-    ▼
+    |
+    v
 가중치 클리핑 (Gradient Clipping) · He/Xavier 초기화
-    │
-    ▼
+    |
+    v
 배치 정규화 (Batch Normalization)
-    │
-    ▼
+    |
+    v
 LSTM · GRU · ResNet (구조적 우회로 설계)
 ```
 
@@ -141,7 +141,7 @@ LSTM · GRU · ResNet (구조적 우회로 설계)
 
 **진행 상황**: 89 / 420
 
-← **이전**: [88. 기울기 소실 (Vanishing Gradient) - 딥러닝 암흑기의 원인](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)
-**다음**: [90. 정규화 (Regularization) - 과적합 방지 및 L1/L2 규제](/knowledge-base/studynote/10_ai/01_ai_basics/090_regularization_overfitting_prevention/) →
+<- **이전**: [88. 기울기 소실 (Vanishing Gradient) - 딥러닝 암흑기의 원인](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)
+**다음**: [90. 정규화 (Regularization) - 과적합 방지 및 L1/L2 규제](/knowledge-base/studynote/10_ai/01_ai_basics/090_regularization_overfitting_prevention/) ->
 
 ---

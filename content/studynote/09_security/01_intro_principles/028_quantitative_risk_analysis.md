@@ -19,21 +19,21 @@ tags = ["studynote-security"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌──────────────────────────────────────────────────────┐
-│         정량적 위험 분석 핵심 공식                    │
-├──────────────────────────────────────────────────────┤
-│                                                       │
-│  SLE (단일 예상 손실)                                 │
-│    = 자산 가치 (AV) × 노출 계수 (EF)                  │
-│                                                       │
-│  ALE (연간 기대 손실)                                 │
-│    = SLE × ARO (연간 발생 빈도)                       │
-│                                                       │
-│  예시: 서버 AV=10억, EF=50%, ARO=0.1 (10년에 1번)     │
-│    SLE = 10억 × 0.5 = 5억                            │
-│    ALE = 5억 × 0.1 = 5천만 원/년                      │
-│    → 5천만 원 이하 통제 비용이면 투자 가치 있음        │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|         정량적 위험 분석 핵심 공식                    |
++------------------------------------------------------+
+|                                                       |
+|  SLE (단일 예상 손실)                                 |
+|    = 자산 가치 (AV) × 노출 계수 (EF)                  |
+|                                                       |
+|  ALE (연간 기대 손실)                                 |
+|    = SLE × ARO (연간 발생 빈도)                       |
+|                                                       |
+|  예시: 서버 AV=10억, EF=50%, ARO=0.1 (10년에 1번)     |
+|    SLE = 10억 × 0.5 = 5억                            |
+|    ALE = 5억 × 0.1 = 5천만 원/년                      |
+|    -> 5천만 원 이하 통제 비용이면 투자 가치 있음        |
++------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 정량적 위험 분석은 보험 계리(Actuarial) 방법이다. 보험사가 "화재 발생 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) × 예상 피해액 = 연간 기대 손실"로 보험료를 계산하듯, 기업은 보안 위협의 연간 기대 손실을 계산해서 적정 보안 투자액을 결정한다.
@@ -58,7 +58,7 @@ tags = ["studynote-security"]
 ```text
 ROSI = (ALE before - ALE after - 통제 비용) / 통제 비용 × 100%
 
-예: ALE 5천만 → 통제 도입 후 1천만, 통제 비용 2천만
+예: ALE 5천만 -> 통제 도입 후 1천만, 통제 비용 2천만
 ROSI = (5천만 - 1천만 - 2천만) / 2천만 = 100%
 ```
 
@@ -83,11 +83,11 @@ ROSI = (5천만 - 1천만 - 2천만) / 2천만 = 100%
 
 ### [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 위험 분석 예시
 - **자산**: 핵심 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 서버, [AV](/knowledge-base/studynote/09_security/04_endpoint_security/323_antivirus/) = 50억 원.
-- **EF**: [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 발생 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 불가 40% → EF = 0.4.
+- **EF**: [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 발생 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 불가 40% -> EF = 0.4.
 - **ARO**: 업종 통계상 연 0.2회 (5년에 1번).
 - **SLE** = 50억 × 0.4 = 20억.
 - <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/">ALE</a></strong> = 20억 × 0.2 = 4억 원/년.
-- **통제**: [EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/) + 오프라인 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 비용 1억/년 → ROSI = (4억 - 0.5억 - 1억) / 1억 = 250%.
+- **통제**: [EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/) + 오프라인 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 비용 1억/년 -> ROSI = (4억 - 0.5억 - 1억) / 1억 = 250%.
 
 - **📢 섹션 요약 비유**: [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) [ALE](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/) 계산은 화재 보험 가입 여부 결정과 같다. "연간 4억 원 손실 위험이 있다면 1억짜리 방어 솔루션은 반드시 투자해야 한다"는 경영진 설득 논거가 된다.
 
@@ -121,17 +121,17 @@ ROSI = (5천만 - 1천만 - 2천만) / 2천만 = 100%
 
 ```text
 [정성적 위험 분석 — High/Med/Low 분류]
-    │
-    ▼
+    |
+    v
 [정량적 위험 분석 — ALE = SLE × ARO]
-    │
-    ▼
+    |
+    v
 [ROSI 계산 — 보안 투자 수익률 산정]
-    │
-    ▼
+    |
+    v
 [몬테카를로 시뮬레이션 — 확률 분포 기반 분석]
-    │
-    ▼
+    |
+    v
 [AI 동적 위험 계량화 — 실시간 위협 인텔리전스 기반]
 ```
 
@@ -147,7 +147,7 @@ ROSI = (5천만 - 1천만 - 2천만) / 2천만 = 100%
 
 **진행 상황**: 28 / 1108
 
-← **이전**: [27. 위험 식별 (Risk Identification) — 정보보호 위험 분석 1단계](/knowledge-base/studynote/09_security/01_intro_principles/027_risk_identification/)
-**다음**: [29. 정성적 위험 분석 (Qualitative Risk Analysis)](/knowledge-base/studynote/09_security/01_intro_principles/029_qualitative_risk_analysis/) →
+<- **이전**: [27. 위험 식별 (Risk Identification) — 정보보호 위험 분석 1단계](/knowledge-base/studynote/09_security/01_intro_principles/027_risk_identification/)
+**다음**: [29. 정성적 위험 분석 (Qualitative Risk Analysis)](/knowledge-base/studynote/09_security/01_intro_principles/029_qualitative_risk_analysis/) ->
 
 ---

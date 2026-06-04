@@ -25,7 +25,7 @@ tags = ["studynote-ai"]
 > "같은 모집단에서 독립 표본을 N개 뽑아 평균을 내면 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 1/N로 감소한다"
 
 - 현실에서는 모집단이 하나뿐이므로, <strong>복원 추출(Bootstrap)</strong>로 N개의 가상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋을 만든다.
-- 각 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋으로 독립적으로 모델을 훈련 → 결과를 평균/다수결로 집계
+- 각 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋으로 독립적으로 모델을 훈련 -> 결과를 평균/다수결로 집계
 
 | 특성 | 단일 결정 트리 | 배깅 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) |
 |:---|:---|:---|
@@ -36,12 +36,12 @@ tags = ["studynote-ai"]
 | 과적합 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) | 낮음 | 높음 |
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 배깅은 "여론조사를 여러 번 해서 평균을 내는 것"이다. 한 번의 조사(단일 트리)는 오차가 크지만, 수백 번의 독립 조사(배깅)를 평균 내면 훨씬 안정적인 결과가 나온다.
@@ -54,30 +54,30 @@ tags = ["studynote-ai"]
 
 ```
   원본 훈련 데이터 (n개 샘플)
-         │
-         │  복원 추출 (Bootstrap Sampling)
-  ┌──────┼──────────────────────────────┐
-  │      │    각 부트스트랩 샘플: n개   │
-  │      │    (약 63.2% 고유 샘플 포함) │
-  │  ┌───▼───┐ ┌───────┐ ┌───────┐     │
-  │  │ D_1   │ │  D_2  │ │  D_B  │ ··· │
-  │  └───┬───┘ └───┬───┘ └───┬───┘     │
-  │      │         │         │         │
-  │  ┌───▼───┐ ┌───▼───┐ ┌───▼───┐     │
-  │  │ h_1   │ │  h_2  │ │  h_B  │ ··· │
-  │  │ (Tree)│ │ (Tree)│ │ (Tree)│     │
-  │  └───┬───┘ └───┬───┘ └───┬───┘     │
-  │      └─────────┴─────────┘         │
-  │               집계                  │
-  │   분류: 다수결 / 회귀: 평균         │
-  └─────────────────────────────────────┘
+         |
+         |  복원 추출 (Bootstrap Sampling)
+  +------+------------------------------+
+  |      |    각 부트스트랩 샘플: n개   |
+  |      |    (약 63.2% 고유 샘플 포함) |
+  |  +---v---+ +-------+ +-------+     |
+  |  | D_1   | |  D_2  | |  D_B  | ··· |
+  |  +---+---+ +---+---+ +---+---+     |
+  |      |         |         |         |
+  |  +---v---+ +---v---+ +---v---+     |
+  |  | h_1   | |  h_2  | |  h_B  | ··· |
+  |  | (Tree)| | (Tree)| | (Tree)|     |
+  |  +---+---+ +---+---+ +---+---+     |
+  |      +---------+---------+         |
+  |               집계                  |
+  |   분류: 다수결 / 회귀: 평균         |
+  +-------------------------------------+
               최종 예측
 ```
 
 ### 부트스트랩 샘플링의 특성
 
 n개 샘플에서 복원 추출로 n개를 뽑으면:
-- 특정 샘플이 선택될 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/): 1 - (1-1/n)^n → n→∞ 시 **1 - 1/e ≈ 63.2%**
+- 특정 샘플이 선택될 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/): 1 - (1-1/n)^n -> n->∞ 시 **1 - 1/e ≈ 63.2%**
 - 나머지 <strong>36.8%는 OOB(Out-Of-Bag) 샘플</strong>로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 사용 가능
 
 ### [랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/) ([Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/))
@@ -86,16 +86,16 @@ n개 샘플에서 복원 추출로 n개를 뽑으면:
 
 ```
   각 트리의 노드 분할 시:
-  ┌────────────────────────────────────────┐
-  │ 전체 특성 수: p개                      │
-  │ 무작위 선택 특성 수:                   │
-  │   분류: √p  (예: 100개 중 10개)        │
-  │   회귀: p/3 (예: 100개 중 33개)        │
-  │                                        │
-  │ → 트리 간 상관관계 ↓                   │
-  │ → 다양성 ↑                             │
-  │ → 앙상블 효과 극대화                   │
-  └────────────────────────────────────────┘
+  +----------------------------------------+
+  | 전체 특성 수: p개                      |
+  | 무작위 선택 특성 수:                   |
+  |   분류: √p  (예: 100개 중 10개)        |
+  |   회귀: p/3 (예: 100개 중 33개)        |
+  |                                        |
+  | -> 트리 간 상관관계 v                   |
+  | -> 다양성 ^                             |
+  | -> 앙상블 효과 극대화                   |
+  +----------------------------------------+
 ```
 
 | 하이퍼파라미터 | 설명 | 기본값 |
@@ -131,13 +131,13 @@ Random Forest는 각 특성이 불순도(Gini, [Entropy](/knowledge-base/studyno
 
 ```
   특성 중요도 예시 (신용 평가):
-  ┌──────────────────────────┐
-  │ 월 소득     ████████ 0.32│
-  │ 신용 기간   ██████   0.24│
-  │ 부채 비율   █████    0.20│
-  │ 직업 유형   ████     0.16│
-  │ 나이        ██       0.08│
-  └──────────────────────────┘
+  +--------------------------+
+  | 월 소득     ████████ 0.32|
+  | 신용 기간   ██████   0.24|
+  | 부채 비율   █████    0.20|
+  | 직업 유형   ████     0.16|
+  | 나이        ██       0.08|
+  +--------------------------+
 ```
 
 - **📢 섹션 요약 비유**: Bagging은 "같은 교과서로 공부했지만 서로 다른 부분을 집중한 학생들"이고, Random Forest는 거기에 "각 학생이 랜덤으로 고른 과목만 시험 보는" 규칙을 추가한 것이다.
@@ -159,8 +159,8 @@ Random Forest는 각 특성이 불순도(Gini, [Entropy](/knowledge-base/studyno
 
 ### 기술사 답안 포인트
 
-- <strong>"배깅이 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>을 줄이는 이유"</strong>: 독립 예측기들의 평균 → [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 1/n로 감소 (단, 예측기들이 독립일 때)
-- **"OOB 오차의 활용"**: 별도 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 세트 불필요 → 소규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 유리
+- <strong>"배깅이 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>을 줄이는 이유"</strong>: 독립 예측기들의 평균 -> [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 1/n로 감소 (단, 예측기들이 독립일 때)
+- **"OOB 오차의 활용"**: 별도 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 세트 불필요 -> 소규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 유리
 - <strong>"<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/">Random Forest</a> vs 단일 결정 트리"</strong>: 비선형성·상호작용 포착은 유사하나 RF가 훨씬 안정적
 - <strong>"<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/">Random Forest</a> 한계"</strong>: 해석 불가, 메모리 과다, 연속적 외삽(Extrapolation) 불가
 
@@ -172,7 +172,7 @@ Random Forest는 각 특성이 불순도(Gini, [Entropy](/knowledge-base/studyno
 
 배깅 및 [랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)를 적용하면:
 
-1. **안정성**: 단일 결정 트리 대비 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 대폭 감소 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변화에 강건
+1. **안정성**: 단일 결정 트리 대비 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 대폭 감소 -> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변화에 강건
 2. **특성 중요도**: 모델 해석 및 특성 선택에 활용 가능한 정보 제공
 3. <strong>OOB <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/) 대비 적은 계산 비용으로 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 추정
 4. **결측값 처리**: 일부 구현체에서 결측값을 직접 처리 가능
@@ -197,7 +197,7 @@ Random Forest는 **전처리 부담이 적고, 특성 중요도를 제공하며,
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [배깅 (Bagging)] → [최적화·운영 자동화]
+[데이터 전처리] -> [배깅 (Bagging)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -212,7 +212,7 @@ Random Forest는 **전처리 부담이 적고, 특성 중요도를 제공하며,
 
 **진행 상황**: 259 / 420
 
-← **이전**: [258. 보팅 (Voting)](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)
-**다음**: [260. 부스팅 (Boosting)](/knowledge-base/studynote/10_ai/03_llm_nlp/260_boosting_xgboost/) →
+<- **이전**: [258. 보팅 (Voting)](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)
+**다음**: [260. 부스팅 (Boosting)](/knowledge-base/studynote/10_ai/03_llm_nlp/260_boosting_xgboost/) ->
 
 ---

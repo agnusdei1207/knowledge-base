@@ -22,17 +22,17 @@ tags = ["studynote-design-supervision"]
 특히 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 재진입 방지 패턴 감리은 문서만 맞는지 보는 수준을 넘어서 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 테스트, 산출물, 인터뷰 증거가 같은 방향을 가리키는지 확인해야 한다. 그래야 감리 결과가 일회성 지적이 아니라 재현 가능한 개선 기준이 된다.
 
 ```text
-┌──────────────┐
-│ 자산·위협 식별 │
-└──────┬───────┘
-       │
-┌──────▼───────┐
-│ 예방 통제 설계 │
-└──────┬───────┘
-       │
-┌──────▼───────┐
-│ 증적·재검증   │
-└──────────────┘
++--------------+
+| 자산·위협 식별 |
++------+-------+
+       |
++------v-------+
+| 예방 통제 설계 |
++------+-------+
+       |
++------v-------+
+| 증적·재검증   |
++--------------+
 ```
 
 - **📢 섹션 요약 비유**: 성문, 경비병, 순찰 기록이 함께 있어야 침입을 막는 것과 같다.
@@ -49,9 +49,9 @@ tags = ["studynote-design-supervision"]
 | 증적·조치 | 테스트넷 재현 증적를 중심으로 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·재시험 결과를 닫는다. | 예외 승인과 재검증까지 이어져야 한다. |
 
 ```text
-┌────────────┬────────────┬────────────┐
-│ 정책·설계   │ 운영 설정   │ 로그·조치   │
-└────────────┴────────────┴────────────┘
++------------+------------+------------+
+| 정책·설계   | 운영 설정   | 로그·조치   |
++------------+------------+------------+
 ```
 
 또한 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 재진입 방지 패턴 감리은 한 단계만 잘해서는 완성되지 않는다. [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/), 실행 메커니즘, 증적이 순환 구조를 이루어야 하며, 하나라도 비면 적합 판정의 신뢰도가 떨어진다.
@@ -104,7 +104,7 @@ tags = ["studynote-design-supervision"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 - 관련 키워드: 상태 변경 순서, 재호출 차단 패턴, 테스트넷 재현 증적, [잔여 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/) 보고
-[수동 코드 리뷰] → [패턴 기반 정적 분석] → [온체인 모니터링과 자동 검증]
+[수동 코드 리뷰] -> [패턴 기반 정적 분석] -> [온체인 모니터링과 자동 검증]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 재진입 방지 패턴 감리은 집 문을 잠그고 누가 드나드는지 기록하는 것과 비슷해요.
@@ -117,7 +117,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 381 / 530
 
-← **이전**: [311. 스마트 컨트랙트 재진입 방지 감리 (Smart Contract Reentrancy Defense Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/311_audit/)
-**다음**: [312. 네트워크 장비 펌웨어 백도어 모니터링 (Network Firmware Backdoor Monitoring Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/312_audit/) →
+<- **이전**: [311. 스마트 컨트랙트 재진입 방지 감리 (Smart Contract Reentrancy Defense Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/311_audit/)
+**다음**: [312. 네트워크 장비 펌웨어 백도어 모니터링 (Network Firmware Backdoor Monitoring Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/312_audit/) ->
 
 ---

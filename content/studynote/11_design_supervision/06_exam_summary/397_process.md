@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 [이터레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/) 패턴 ([Iterator Pattern](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/))은 컬렉션 내부 표현을 숨긴 채 순차 탐색 방법을 제공하는 행동 패턴이다. [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/), 트리, [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 등 구조마다 탐색 방식이 달라도 클라이언트는 같은 방식으로 순회하고 싶다. 이 개념이 필요한 이유는 순회 책임을 컬렉션 내부 표현과 분리하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 클라이언트가 내부 자료구조 세부 구현에 의존해 순회 코드가 중복된다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│ Variation  │──▶│    Iter    │──▶│   Reuse    │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+| Variation  |--->|    Iter    |--->|   Reuse    |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Client  │──▶│   Iter   │──▶│  Object  │──▶│  Result  │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|  Client  |--->|   Iter   |--->|  Object  |--->|  Result  |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | 캡슐화 | [이터레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/) 패턴 ([Iterator Pattern](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[직접 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 순회] → [이터레이터 패턴] → [구조 독립 탐색]
+[직접 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 순회] -> [이터레이터 패턴] -> [구조 독립 탐색]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [이터레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/) 패턴 ([Iterator Pattern](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/))은 책장 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 달라도 책갈피를 넘기며 같은 방식으로 읽는 것처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 475 / 530
 
-← **이전**: [396. 중재자 패턴 (Mediator Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/396_process/)
-**다음**: [398. 메멘토 패턴 (Memento Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/398_process/) →
+<- **이전**: [396. 중재자 패턴 (Mediator Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/396_process/)
+**다음**: [398. 메멘토 패턴 (Memento Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/398_process/) ->
 
 ---

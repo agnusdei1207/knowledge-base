@@ -12,7 +12,7 @@ tags = ["studynote-bigdata"]
 > **핵심 인사이트**
 > 1. 실시간 [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/)([Real-Time OLAP](/knowledge-base/studynote/16_bigdata/04_streaming/099_realtime_olap/))은 초 단위 이하 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)으로 대용량 이벤트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석하는 시스템 — [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)/[Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) 기반 배치 분석(시간 단위 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))의 한계를 극복하고, "지금 이 순간" 수십억 행을 집계·필터링하는 능력이 핵심이다.
 > 2. 컬럼형 저장소 + 벡터화 실행 + 사전 집계(Pre-aggregation)의 조합 — ClickHouse는 컬럼형 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 저장 + [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) 벡터화로 초당 수억 행 처리, Druid/Pinot은 인제스트 시 사전 집계로 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 시 부하를 최소화하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 차이가 있다.
-> 3. 워크로드 특성이 엔진 선택을 결정 — 고빈도 업데이트(UPDATE/DELETE) → ClickHouse, 이벤트 스트림 실시간 인제스트 + 밀리초 응답 → Druid/Pinot, 기존 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 대체 → StarRocks가 각각 강점을 가진다.
+> 3. 워크로드 특성이 엔진 선택을 결정 — 고빈도 업데이트(UPDATE/DELETE) -> ClickHouse, 이벤트 스트림 실시간 인제스트 + 밀리초 응답 -> Druid/Pinot, 기존 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 대체 -> StarRocks가 각각 강점을 가진다.
 
 ---
 
@@ -22,7 +22,7 @@ tags = ["studynote-bigdata"]
 전통 분석 아키텍처의 한계:
 
 ETL 배치 파이프라인:
-  이벤트 발생 → Kafka → Spark Batch(1시간) → Hive → 리포트
+  이벤트 발생 -> Kafka -> Spark Batch(1시간) -> Hive -> 리포트
 
   지연: 1~24시간
   문제: "오늘 캠페인 효과를 내일 봄"
@@ -32,7 +32,7 @@ Lambda 아키텍처:
   복잡도 증가, 두 레이어 데이터 불일치 문제
 
 실시간 OLAP 필요성:
-  이벤트 발생 → [실시간 OLAP 엔진] → 쿼리 결과
+  이벤트 발생 -> [실시간 OLAP 엔진] -> 쿼리 결과
   지연: < 1초
 
 대표 사용 사례:
@@ -66,7 +66,7 @@ ClickHouse (클릭하우스):
 1. 컬럼형 저장 (Columnar Storage):
   행: [사용자, 이벤트, 시간, 가격]×10억
   컬럼: 가격 컬럼만 읽어 SUM 계산
-  → 불필요한 컬럼 I/O 없음
+  -> 불필요한 컬럼 I/O 없음
 
   압축률: 일반 대비 10~100배
   LZ4 / ZSTD 알고리즘 적용
@@ -122,8 +122,8 @@ Apache Druid:
     압축: 컬럼별 최적 압축
 
   3. 실시간 인제스트:
-    Kafka → Druid 실시간 (스트리밍)
-    Druid → S3/HDFS (배치 보완)
+    Kafka -> Druid 실시간 (스트리밍)
+    Druid -> S3/HDFS (배치 보완)
 
   노드 유형:
     Historical: 과거 데이터 쿼리
@@ -164,7 +164,7 @@ Apache Pinot:
 
 ```
 StarRocks (스타록스):
-  구 DorisDB → StarRocks
+  구 DorisDB -> StarRocks
   개발: 중국 빅테크, 2021 오픈소스
 
   포지셔닝: "통합 분석 플랫폼"
@@ -187,15 +187,15 @@ StarRocks (스타록스):
 
   Primary Key 모델:
   Upsert 지원, 실시간 업데이트
-  → 전자상거래 재고 실시간 업데이트
+  -> 전자상거래 재고 실시간 업데이트
 
   Aggregate 모델:
   SUM/MAX/MIN 사전 집계
-  → 광고 지표 집계
+  -> 광고 지표 집계
 
   Duplicate 모델:
   원본 데이터 그대로 저장
-  → 로그 분석
+  -> 로그 분석
 
 5. 데이터 레이크 통합:
   S3/HDFS/Iceberg/Delta Lake 직접 쿼리
@@ -230,25 +230,25 @@ StarRocks (스타록스):
   데이터 보존: 90일
 
 문제:
-  배치(Spark+Hive): 1시간 지연 → 광고주 불만
+  배치(Spark+Hive): 1시간 지연 -> 광고주 불만
 
 기존 아키텍처:
-  AdServer → Kafka → Spark(1시간) → Hive → BI
+  AdServer -> Kafka -> Spark(1시간) -> Hive -> BI
 
 신규 아키텍처:
-  AdServer → Kafka → [Druid 실시간] → 대시보드
-                  ↘ [S3 원본 저장] ← Spark 배치
+  AdServer -> Kafka -> [Druid 실시간] -> 대시보드
+                  ↘ [S3 원본 저장] <- Spark 배치
 
   Druid 설정:
-  Rollup: 초→분 집계 (광고주/캠페인/디바이스별)
+  Rollup: 초->분 집계 (광고주/캠페인/디바이스별)
   보존: 실시간 14일 (핫), S3 76일 (콜드)
   쿼리 패턴: GROUP BY 광고주, 캠페인, 날짜
 
 결과:
-  리포트 지연: 1시간 → 1분 이내
+  리포트 지연: 1시간 -> 1분 이내
   쿼리 응답: < 2초 (P99)
   스토리지: Rollup으로 원본 대비 95% 감소
-  (500억 이벤트/일 → 2.5억 집계 행/일)
+  (500억 이벤트/일 -> 2.5억 집계 행/일)
 
 광고주 피드백:
   "실시간 캠페인 최적화 가능해짐"
@@ -332,7 +332,7 @@ AI 자연어 쿼리
 
 **진행 상황**: 259 / 262
 
-← **이전**: [046. 데이터 레이크하우스 — Data Lakehouse](/knowledge-base/studynote/16_bigdata/13_intro_trends/258_data_lakehouse/)
-**다음**: [048. 벡터 데이터베이스 — Vector Database](/knowledge-base/studynote/16_bigdata/13_intro_trends/260_vector_database/) →
+<- **이전**: [046. 데이터 레이크하우스 — Data Lakehouse](/knowledge-base/studynote/16_bigdata/13_intro_trends/258_data_lakehouse/)
+**다음**: [048. 벡터 데이터베이스 — Vector Database](/knowledge-base/studynote/16_bigdata/13_intro_trends/260_vector_database/) ->
 
 ---

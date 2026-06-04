@@ -31,18 +31,18 @@ tags = ["enterprise_systems"]
 [ITA 도입 전후의 IT 투자 및 구조 패러다임 변화]
 
 (도입 전) 벤더/기술 종속적 파편화
-[영업부] ─▶ 독자 예산 ─▶ A사 Unix 서버 + X사 DB ┐ (서로 통신 불가,
-[인사부] ─▶ 독자 예산 ─▶ B사 NT 서버 + Y사 DB   ┘  데이터 중복 저장)
+[영업부] --> 독자 예산 --> A사 Unix 서버 + X사 DB + (서로 통신 불가,
+[인사부] --> 독자 예산 --> B사 NT 서버 + Y사 DB   +  데이터 중복 저장)
 
-       ▼ ITA(정보기술아키텍처) 기반 통제 도입 ▼
+       v ITA(정보기술아키텍처) 기반 통제 도입 v
 
 (도입 후) 아키텍처/표준 기반 전사 최적화
 [전사 비즈니스 목표]
-       │
-[ITA / EA 위원회] ◀── 기술표준(TRM), 데이터표준(DRM) 통제
-       │
-       ├─▶ [영업부] 표준 개방형 리눅스 + 표준 통합 DB 접근 API
-       └─▶ [인사부] 표준 개방형 리눅스 + 표준 통합 DB 접근 API
+       |
+[ITA / EA 위원회] <--- 기술표준(TRM), 데이터표준(DRM) 통제
+       |
+       +--> [영업부] 표준 개방형 리눅스 + 표준 통합 DB 접근 API
+       +--> [인사부] 표준 개방형 리눅스 + 표준 통합 DB 접근 API
        => 벤더 종속(Lock-in) 타파, 인프라 비용 절감, 데이터 통합 달성
 ```
 *해설: 이 다이어그램은 ITA가 기술의 영역을 넘어 예산과 거버넌스를 어떻게 통제하는지 보여준다. 도입 전에는 힘 있는 부서가 원하는 벤더의 기술을 임의로 도입했지만, ITA 도입 후에는 전사 기술 [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/)([TRM](/knowledge-base/studynote/12_it_management/03_ea_isp/120_trm_technical_reference_model/))을 준수하지 않는 프로젝트는 예산 배정 자체가 차단된다.*
@@ -72,18 +72,18 @@ tags = ["enterprise_systems"]
 [ITA 구성요소 간의 작동 및 연계 메커니즘]
 
 [EA (전사 아키텍처)] "목표: 전국망 실시간 민원 서비스 구축"
-         │ (기술적 구현 요구)
-         ▼
+         | (기술적 구현 요구)
+         v
 [TRM (기술 참조 모델)] 기술 요소 분류 체계 적용
-  ├─ 1. 애플리케이션 서비스
-  ├─ 2. 데이터 관리
-  └─ 3. 보안 통제 ◀── (어떤 보안 규격을 쓸 것인가?)
-         │
-         ▼
+  +- 1. 애플리케이션 서비스
+  +- 2. 데이터 관리
+  +- 3. 보안 통제 <--- (어떤 보안 규격을 쓸 것인가?)
+         |
+         v
 [SP (표준 프로파일)] 범정부 개방형 표준 규격 매핑
-  ├─ 인증 표준: SAML 2.0 / OAuth 2.0 필수
-  ├─ 암호화 표준: AES-256 / SHA-256 적용 필수
-  └─ (특정 보안 솔루션 제품명을 명시하지 않고 규격을 강제함)
+  +- 인증 표준: SAML 2.0 / OAuth 2.0 필수
+  +- 암호화 표준: AES-256 / SHA-256 적용 필수
+  +- (특정 보안 솔루션 제품명을 명시하지 않고 규격을 강제함)
 ```
 *해설: 이 계층 흐름도는 IT 기획 단계에서 ITA가 작동하는 원리를 명확히 보여준다. 현업의 요구사항([EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/))은 TRM이라는 큰 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)표를 거쳐, 최종적으로 SP라는 강력한 기술적 가드레일(표준안)을 통과해야만 개발로 이어질 수 있다. 이를 통해 개발자는 임의의 비표준 기술을 사용할 수 없게 된다.*
 
@@ -107,16 +107,16 @@ tags = ["enterprise_systems"]
 ```text
 [ITA와 ISP(정보화전략계획)의 시너지 및 역할 분담]
 
-┌──────────── ISP (기획 관점) ─────────────┐
-│ 1. 비즈니스 환경 분석 및 목표 수립       │  ===> [WHY & WHEN]
-│ 2. 추진 과제 도출 및 예산/ROI 편성       │       "무엇을 언제 할 것인가"
-└──────────────────┬───────────────────────┘
-                   │ 연계 및 제약 작용
-                   ▼
-┌──────────── ITA/EA (구조 관점) ────────────┐
-│ 1. 목표 아키텍처(To-Be)의 청사진 제공    │  ===> [HOW & WHERE]
-│ 2. 기술 참조 모델(TRM) 및 표준 검증      │       "어떤 구조와 표준으로 할 것인가"
-└──────────────────────────────────────────┘
++------------ ISP (기획 관점) -------------+
+| 1. 비즈니스 환경 분석 및 목표 수립       |  ===> [WHY & WHEN]
+| 2. 추진 과제 도출 및 예산/ROI 편성       |       "무엇을 언제 할 것인가"
++------------------+-----------------------+
+                   | 연계 및 제약 작용
+                   v
++------------ ITA/EA (구조 관점) ------------+
+| 1. 목표 아키텍처(To-Be)의 청사진 제공    |  ===> [HOW & WHERE]
+| 2. 기술 참조 모델(TRM) 및 표준 검증      |       "어떤 구조와 표준으로 할 것인가"
++------------------------------------------+
 ```
 *해설: 이 대조도는 IT 기획의 두 축인 ISP와 ITA의 상호보완적 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 보여준다. ISP가 "내년에 100억을 들여 CRM을 구축하자"라는 사업적 결정을 내리면, ITA는 "그 CRM은 기존 시스템과 충돌하지 않도록 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 구조와 표준 API를 적용해 설계해야 한다"는 구조적 통제력을 행사한다. 둘 중 하나라도 없으면 투자는 실패하거나 난개발로 이어진다.*
 
@@ -136,16 +136,16 @@ tags = ["enterprise_systems"]
 [실무 의사결정 트리: 개발팀의 신기술 도입 요구 시 ITA 통제 플로우]
 
 [개발팀] "이번 프로젝트에 최신 NoSQL DB(예: MongoDB)를 쓰고 싶습니다."
-         │
-         ▼
+         |
+         v
 [ITA / 아키텍트 위원회 심의]
 [TRM/SP 조회] 전사 표준 프로파일(SP)에 해당 기술이 등재되어 있는가?
-   ├─ (Yes) ──▶ 즉시 사용 승인 및 아키텍처 도면(EA) 반영
-   │
-   └─ (No) ───▶ [기술 타당성 평가] 기존 RDBMS 표준으로 구현 불가능한 요구사항인가?
-                  ├─ (No) ──▶ [기각] 유지보수 비용 증가 우려. 기존 표준 RDBMS 사용 지시.
-                  │
-                  └─ (Yes) ─▶ 파일럿(PoC) 진행 후, 전사 TRM/SP에 신규 규격으로
+   +- (Yes) ---> 즉시 사용 승인 및 아키텍처 도면(EA) 반영
+   |
+   +- (No) ----> [기술 타당성 평가] 기존 RDBMS 표준으로 구현 불가능한 요구사항인가?
+                  +- (No) ---> [기각] 유지보수 비용 증가 우려. 기존 표준 RDBMS 사용 지시.
+                  |
+                  +- (Yes) --> 파일럿(PoC) 진행 후, 전사 TRM/SP에 신규 규격으로
                                '공식 등재(업데이트)' 처리 후 사용 조건부 승인
 ```
 *해설: 이 프로세스는 ITA가 낡은 기술을 고집하는 장애물이 아니라, 체계적인 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 통해 전사 기술 생태계를 건강하게 진화시키는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인임을 증명한다. 예외적 도입을 허용하더라도, 반드시 '표준 업데이트'라는 문서를 남겨 시스템 사각지대([Shadow IT](/knowledge-base/studynote/12_it_management/01_governance_strategy/049_shadow_it/))가 발생하지 않도록 차단하는 것이 핵심이다.*
@@ -182,17 +182,17 @@ ITA 개념의 등장과 법제화는 대한민국 IT 역사에서 [사일로](/k
 
 ```text
 [ISP (Information Strategy Planning) — 중장기 정보화 마스터플랜 수립]
-    │
-    ▼
+    |
+    v
 [ITA (Information Technology Architecture) — TRM+SP 기반 IT 구조·표준 통제 체계]
-    │
-    ▼
+    |
+    v
 [EA (Enterprise Architecture) — 비즈니스·데이터·앱·기술 4계층 통합 아키텍처]
-    │
-    ▼
+    |
+    v
 [TOGAF / FEA — 글로벌 EA 프레임워크, ADM 방법론 국제 표준화]
-    │
-    ▼
+    |
+    v
 [디지털 트윈 아키텍처 — EA 기반 실물-가상 동기화, 스마트정부·스마트시티 적용]
 ```
 
@@ -209,7 +209,7 @@ ITA 개념의 등장과 법제화는 대한민국 IT 역사에서 [사일로](/k
 
 **진행 상황**: 15 / 482
 
-← **이전**: [14. 범정부 EA 프레임워크 (GEA) - 공공기관 정보화 아키텍처 의무 지침](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/014_gea_framework/)
-**다음**: [16. BPR (Business Process Reengineering) - 마이클 해머, 획기적 성과 향상을 위해 비즈니스 프로세스를](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/016_bpr/) →
+<- **이전**: [14. 범정부 EA 프레임워크 (GEA) - 공공기관 정보화 아키텍처 의무 지침](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/014_gea_framework/)
+**다음**: [16. BPR (Business Process Reengineering) - 마이클 해머, 획기적 성과 향상을 위해 비즈니스 프로세스를](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/016_bpr/) ->
 
 ---

@@ -42,19 +42,19 @@ Speedup_{overall} = \frac{1}{(1-f) + \frac{f}{k}}
 아래 그림은 부분 개선이 전체 시간에 어떻게 반영되는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│                 Speedup은 "부분 배율"이 아니라 "전체 시간"으로 결정      │
-├──────────────────────────────────────────────────────────────────────────┤
-│ 개선 전 전체 시간 = [개선 불가 60] + [개선 대상 40] = 100               │
-│                                                                          │
-│ 개선 대상만 4배 가속                                                     │
-│                 [개선 불가 60] + [개선 대상 10] = 70                    │
-│                                                                          │
-│ 전체 Speedup = 100 / 70 = 1.43배                                         │
-│                                                                          │
-│ 핵심: 부분 4배 향상 ≠ 전체 4배 향상                                      │
-│       전체에서 큰 비중을 차지하는 병목을 건드려야 전체 Speedup이 커진다   │
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+|                 Speedup은 "부분 배율"이 아니라 "전체 시간"으로 결정      |
++--------------------------------------------------------------------------+
+| 개선 전 전체 시간 = [개선 불가 60] + [개선 대상 40] = 100               |
+|                                                                          |
+| 개선 대상만 4배 가속                                                     |
+|                 [개선 불가 60] + [개선 대상 10] = 70                    |
+|                                                                          |
+| 전체 Speedup = 100 / 70 = 1.43배                                         |
+|                                                                          |
+| 핵심: 부분 4배 향상 ≠ 전체 4배 향상                                      |
+|       전체에서 큰 비중을 차지하는 병목을 건드려야 전체 Speedup이 커진다   |
++--------------------------------------------------------------------------+
 ```
 
 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리에서는 여기에 코어 수 `N`과 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 효율성 (Parallel Efficiency)이 함께 등장한다. 이상적으로는 `N`개의 코어가 `N`배 Speedup을 내야 하지만, 실제로는 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/), 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 관리 오버헤드 때문에 `S < N`이 된다. 그래서 멀티코어 시스템에서는 `Efficiency = Speedup / N`을 함께 보며, 추가 자원이 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 얼마나 전환됐는지 확인한다.
@@ -144,22 +144,22 @@ Speedup 개념을 정확히 쓰면 [성능](/knowledge-base/studynote/04_softwar
 
 ```text
 기본 실행 시간 측정
-        │
-        ▼
+        |
+        v
 속도 향상도 (Speedup)
 `T_old / T_new`
-        │
-        ├─▶ 부분 개선의 전체 효과 분석
-        │     └─ 암달의 법칙 (Amdahl's Law)
-        │
-        ├─▶ 병렬 자원 대비 효율 판단
-        │     └─ 병렬 효율성 (Parallel Efficiency)
-        │
-        ▼
+        |
+        +--> 부분 개선의 전체 효과 분석
+        |     +- 암달의 법칙 (Amdahl's Law)
+        |
+        +--> 병렬 자원 대비 효율 판단
+        |     +- 병렬 효율성 (Parallel Efficiency)
+        |
+        v
 문제 크기 확장 관점의 재해석
 구스타프슨의 법칙 (Gustafson's Law)
-        │
-        ▼
+        |
+        v
 멀티코어 · 가속기 · 대규모 분산 처리 성능 설계
 ```
 
@@ -177,7 +177,7 @@ Speedup 개념을 정확히 쓰면 [성능](/knowledge-base/studynote/04_softwar
 
 **진행 상황**: 144 / 803
 
-← **이전**: [143. 암달의 법칙 (Amdahl's Law)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/143_amdahls_law/)
-**다음**: [145. 구스타프슨의 법칙 (Gustafson's Law)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/145_gustafsons_law/) →
+<- **이전**: [143. 암달의 법칙 (Amdahl's Law)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/143_amdahls_law/)
+**다음**: [145. 구스타프슨의 법칙 (Gustafson's Law)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/145_gustafsons_law/) ->
 
 ---

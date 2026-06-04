@@ -33,10 +33,10 @@ Nathan Marz가 2011년 Lambda 아키텍처를 제안하며 두 경로를 병렬�
 
 ```
 Lambda: "정확성(배치) + 속도(스트리밍)를 모두 갖자"
-        → 두 파이프라인 병렬 운영
+        -> 두 파이프라인 병렬 운영
 
 Kappa:  "스트리밍 기술이 충분히 성숙했다면 하나면 충분하다"
-        → 단일 스트리밍 파이프라인
+        -> 단일 스트리밍 파이프라인
 ```
 
 📢 **섹션 요약 비유**: Lambda는 '빠른 지하철 + 정확한 기차' 두 노선을 동시에 운영하는 것이고, Kappa는 '고속 KTX 하나'로 모든 노선을 대체하는 것이다.
@@ -50,34 +50,34 @@ Kappa:  "스트리밍 기술이 충분히 성숙했다면 하나면 충분하다
 ```
 데이터 소스
 (Kafka, DB 등)
-     │
-     ├─────────────────────────────────────────────────────┐
-     │                                                     │
-     ▼                                                     ▼
-┌──────────────────────────────────┐   ┌────────────────────────────┐
-│         배치 레이어               │   │       스피드 레이어          │
-│         (Batch Layer)            │   │       (Speed Layer)         │
-│                                  │   │                            │
-│  - Hadoop MapReduce / Spark      │   │  - Kafka + Flink/Spark     │
-│  - 전체 데이터 집계               │   │  - 최근 N시간 실시간 집계   │
-│  - 정확한 결과, 느린 처리         │   │  - 빠른 결과, 근사치 가능   │
-│  - 주기: 시간/일 단위 배치        │   │  - 주기: 초/분 단위 실시간  │
-└──────────────┬───────────────────┘   └──────────────┬─────────────┘
-               │                                      │
-               ▼                                      ▼
-┌─────────────────────────┐         ┌──────────────────────────────┐
-│    배치 뷰 (Batch View)  │         │   실시간 뷰 (Real-time View) │
-│  (전체 정확 집계 결과)   │         │   (최근 데이터 빠른 집계)    │
-└────────────┬────────────┘         └──────────────┬───────────────┘
-             └──────────────────┬──────────────────┘
-                                │ 쿼리 시 병합(Merge)
-                                ▼
-                    ┌──────────────────────┐
-                    │    서빙 레이어        │
-                    │    (Serving Layer)    │
-                    │  배치 뷰 + 실시간 뷰  │
-                    │  병합하여 최종 응답   │
-                    └──────────────────────┘
+     |
+     +-----------------------------------------------------+
+     |                                                     |
+     v                                                     v
++----------------------------------+   +----------------------------+
+|         배치 레이어               |   |       스피드 레이어          |
+|         (Batch Layer)            |   |       (Speed Layer)         |
+|                                  |   |                            |
+|  - Hadoop MapReduce / Spark      |   |  - Kafka + Flink/Spark     |
+|  - 전체 데이터 집계               |   |  - 최근 N시간 실시간 집계   |
+|  - 정확한 결과, 느린 처리         |   |  - 빠른 결과, 근사치 가능   |
+|  - 주기: 시간/일 단위 배치        |   |  - 주기: 초/분 단위 실시간  |
++--------------+-------------------+   +--------------+-------------+
+               |                                      |
+               v                                      v
++-------------------------+         +------------------------------+
+|    배치 뷰 (Batch View)  |         |   실시간 뷰 (Real-time View) |
+|  (전체 정확 집계 결과)   |         |   (최근 데이터 빠른 집계)    |
++------------+------------+         +--------------+---------------+
+             +------------------+------------------+
+                                | 쿼리 시 병합(Merge)
+                                v
+                    +----------------------+
+                    |    서빙 레이어        |
+                    |    (Serving Layer)    |
+                    |  배치 뷰 + 실시간 뷰  |
+                    |  병합하여 최종 응답   |
+                    +----------------------+
 ```
 
 ### 2.2 [Kappa](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/) 아키텍처 상세 구조
@@ -85,23 +85,23 @@ Kappa:  "스트리밍 기술이 충분히 성숙했다면 하나면 충분하다
 ```
 데이터 소스
 (Kafka, DB 등)
-     │
-     ▼
-┌──────────────────────────────────────────────────────────┐
-│               단일 스트리밍 레이어                         │
-│           (Single Streaming Layer)                        │
-│                                                          │
-│  - Kafka + Flink / Kafka Streams                         │
-│  - 실시간 처리 + 재처리(Reprocessing) 통합               │
-│  - 로그 보존으로 어떤 시점이든 재처리 가능               │
-└──────────────────────────┬───────────────────────────────┘
-                           │
-                           ▼
-              ┌──────────────────────────┐
-              │       서빙 레이어         │
-              │    (Serving Layer)        │
-              │  단일 결과, 단일 관리     │
-              └──────────────────────────┘
+     |
+     v
++----------------------------------------------------------+
+|               단일 스트리밍 레이어                         |
+|           (Single Streaming Layer)                        |
+|                                                          |
+|  - Kafka + Flink / Kafka Streams                         |
+|  - 실시간 처리 + 재처리(Reprocessing) 통합               |
+|  - 로그 보존으로 어떤 시점이든 재처리 가능               |
++--------------------------+-------------------------------+
+                           |
+                           v
+              +--------------------------+
+              |       서빙 레이어         |
+              |    (Serving Layer)        |
+              |  단일 결과, 단일 관리     |
+              +--------------------------+
 ```
 
 ### 2.3 재처리 (Reprocessing) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
@@ -142,10 +142,10 @@ Kappa:  "스트리밍 기술이 충분히 성숙했다면 하나면 충분하다
 
 | 회사 | 아키텍처 | 구체적 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) |
 |:---|:---|:---|
-| Netflix | Lambda → [Kappa](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/) 전환 | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) + Flink |
+| Netflix | Lambda -> [Kappa](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/) 전환 | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) + Flink |
 | LinkedIn | Lambda [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 도입, [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 주도 | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) + Samza |
 | Uber | Lambda 변형 | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) + Flink + [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) |
-| Twitter | [Kappa](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/) | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) + Storm → Heron |
+| Twitter | [Kappa](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/) | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) + Storm -> Heron |
 
 📢 **섹션 요약 비유**: Lambda에서 Kappa로의 전환은 '2중 장부 회계'에서 '디지털 단일 장부 회계'로 바꾸는 것이다 — 예전엔 현금 장부와 전자 장부를 따로 맞춰야 했지만, 이제는 하나의 시스템으로 실시간·과거 분석이 모두 된다.
 
@@ -157,14 +157,14 @@ Kappa:  "스트리밍 기술이 충분히 성숙했다면 하나면 충분하다
 
 ```
 실시간 처리가 필수인가?
-       │
-       ├── YES ──► 배치 정확성도 동시에 필요한가?
-       │                │
-       │                ├── YES, 레거시/복잡 집계 ──► Lambda 아키텍처
-       │                │
-       │                └── NO, 클라우드 네이티브  ──► Kappa 아키텍처
-       │
-       └── NO ──► 순수 배치 아키텍처 (Hadoop/Spark)
+       |
+       +-- YES --► 배치 정확성도 동시에 필요한가?
+       |                |
+       |                +-- YES, 레거시/복잡 집계 --► Lambda 아키텍처
+       |                |
+       |                +-- NO, 클라우드 네이티브  --► Kappa 아키텍처
+       |
+       +-- NO --► 순수 배치 아키텍처 (Hadoop/Spark)
 ```
 
 ### 4.2 Lambda 아키텍처의 핵심 구현 과제
@@ -215,14 +215,14 @@ Kappa:  "스트리밍 기술이 충분히 성숙했다면 하나면 충분하다
 
 ```text
 배치 전용 (MapReduce: 높은 지연)
-    │
-    ▼
-Lambda: Batch Layer + Speed Layer 병행 → Serving Layer
-    │ 코드 중복 · 유지보수 복잡
-    ▼
+    |
+    v
+Lambda: Batch Layer + Speed Layer 병행 -> Serving Layer
+    | 코드 중복 · 유지보수 복잡
+    v
 Kappa: Speed Layer만 (Kafka 리플레이로 배치 대체)
-    │
-    ▼
+    |
+    v
 Lakehouse 패턴: Delta Lake 스트리밍 + 배치 통합
 ```
 2. [Kappa](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/) 아키텍처는 '최신 고속 착즙기 하나'로 빠르고 정확하게 주스를 만들어서 두 대 기계가 필요 없는 가게야.
@@ -234,7 +234,7 @@ Lakehouse 패턴: Delta Lake 스트리밍 + 배치 통합
 
 **진행 상황**: 216 / 258
 
-← **이전**: [215. 아파치 플링크 (Apache Flink) 네이티브 스트림 워터마크 윈도우](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/215_flink_native_stream_watermark_window_time/)
-**다음**: [217. CDC (Change Data Capture) 빈로그 데이터 변경 캡처 Debezium](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) →
+<- **이전**: [215. 아파치 플링크 (Apache Flink) 네이티브 스트림 워터마크 윈도우](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/215_flink_native_stream_watermark_window_time/)
+**다음**: [217. CDC (Change Data Capture) 빈로그 데이터 변경 캡처 Debezium](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) ->
 
 ---

@@ -29,18 +29,18 @@ tags = ["studynote-operating-system"]
 이 도식은 단일 프로세서와 [다중 프로세서](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/375_multiprocessor/) 시스템의 작업 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 차이를 시각적으로 비교한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────────┐
-│               Uni-processor vs Multi-processor                      │
-├─────────────────────────────────────────────────────────────────────┤
-│ [Uni-processor System] - 순차적/시분할 실행                         │
-│ CPU : [ Job 1 ][ Job 2 ][ Job 1 ][ Job 2 ]                          │
-│        (하나의 일꾼이 번갈아 처리)                                  │
-│                                                                     │
-│ [Multi-processor System] - 병렬 실행 (Parallelism)                  │
-│ CPU 1: [ Job 1 ][ Job 1 ][ Job 1 ]                                  │
-│ CPU 2: [ Job 2 ][ Job 2 ][ Job 2 ]                                  │
-│        (두 명의 일꾼이 각자 동시에 처리 -> 처리량 2배!)             │
-└─────────────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------------+
+|               Uni-processor vs Multi-processor                      |
++---------------------------------------------------------------------+
+| [Uni-processor System] - 순차적/시분할 실행                         |
+| CPU : [ Job 1 ][ Job 2 ][ Job 1 ][ Job 2 ]                          |
+|        (하나의 일꾼이 번갈아 처리)                                  |
+|                                                                     |
+| [Multi-processor System] - 병렬 실행 (Parallelism)                  |
+| CPU 1: [ Job 1 ][ Job 1 ][ Job 1 ]                                  |
+| CPU 2: [ Job 2 ][ Job 2 ][ Job 2 ]                                  |
+|        (두 명의 일꾼이 각자 동시에 처리 -> 처리량 2배!)             |
++---------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 단일 프로세서 시스템에서는 아무리 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)이나 시분할 기술을 써도 특정 시점에는 오직 하나의 작업만 수행된다. 하지만 다중 처리 시스템 (Multiprocessing System)에서는 물리적으로 독립된 CPU 1과 CPU 2가 존재하여 Job 1과 Job 2를 문자 그대로 '동시에' 처리한다. 이를 통해 시스템 전체의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))이 비약적으로 증가한다. 이론적으로 프로세서 수만큼 비례하여 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 늘어나야 하지만, 실제로는 메모리 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 경합 (Contention)이나 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 오버헤드 때문에 약간의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 손실이 발생한다. 또한 한 CPU가 고장 나더라도 다른 CPU가 남은 작업을 계속할 수 있어 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) ([Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/)) 측면에서도 탁월한 이점을 가진다.
@@ -68,20 +68,20 @@ tags = ["studynote-operating-system"]
 현대 다중 처리 시스템의 가장 보편적인 형태인 SMP는 모든 프로세서가 대등한 권한을 가지고 하나의 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에 의해 제어되는 구조다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│           SMP (Symmetric Multiprocessing) Architecture           │
-├──────────────────────────────────────────────────────────────────┤
-│  ┌─────────┐      ┌─────────┐      ┌─────────┐                   │
-│  │  CPU 1  │      │  CPU 2  │      │  CPU n  │  (Equal Status)   │
-│  └────┬────┘      └────┬────┘      └────┬────┘                   │
-│       │ 캐시           │ 캐시           │ 캐시                   │
-│  ─────┴────────────────┴────────────────┴────── [System Bus]     │
-│                     │                                            │
-│          ┌──────────┴──────────┐      ┌──────────┐               │
-│          │    공유 메모리      │      │ I/O 장치 │               │
-│          │ (Shared Memory)     │      └──────────┘               │
-│          └─────────────────────┘                                 │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|           SMP (Symmetric Multiprocessing) Architecture           |
++------------------------------------------------------------------+
+|  +---------+      +---------+      +---------+                   |
+|  |  CPU 1  |      |  CPU 2  |      |  CPU n  |  (Equal Status)   |
+|  +----+----+      +----+----+      +----+----+                   |
+|       | 캐시           | 캐시           | 캐시                   |
+|  -----+----------------+----------------+------ [System Bus]     |
+|                     |                                            |
+|          +----------+----------+      +----------+               |
+|          |    공유 메모리      |      | I/O 장치 |               |
+|          | (Shared Memory)     |      +----------+               |
+|          +---------------------+                                 |
++------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [대칭형 다중 처리](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/382_smp/) ([SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/), Symmetric Multiprocessing)의 핵심은 '모든 CPU가 동등하다'는 점이다. 각 CPU는 자신의 로컬 캐시를 가지며 고속 [시스템 버스](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/)를 통해 하나의 거대한 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)에 접근한다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 어느 CPU에서든 실행될 수 있으며, 모든 프로세서가 자원을 공평하게 공유하고 제어한다. 이 구조는 프로그래밍이 상대적으로 쉽고 부하 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 용이하다는 장점이 있다. 하지만 CPU 수가 늘어날수록 [시스템 버스](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/)에 과부하가 걸리는 병목 현상 ([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))이 발생하기 쉬워, 수십 개 이상의 CPU를 연결할 때는 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) ([Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)) 아키텍처로 확장되기도 한다. 실무적으로 서버급 하드웨어는 대부분 이 [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) 구조를 기반으로 설계된다.
@@ -93,12 +93,12 @@ tags = ["studynote-operating-system"]
 여러 작업이 각 CPU에 할당되어 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 처리되는 과정에서 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 자원 효율을 극대화하기 위해 유동적으로 작업을 재배치한다.
 
 ```text
-[작업 큐] ──▶ [OS 스케줄러] ──┬──▶ [CPU 1 할당] ──▶ [Job A 실행]
-                (부하 감지)    │
-                             ├──▶ [CPU 2 할당] ──▶ [Job B 실행]
-                               │
-                             └──▶ [CPU 3 할당] ──▶ [Job C 실행]
-                                       ▲
+[작업 큐] ---> [OS 스케줄러] --+---> [CPU 1 할당] ---> [Job A 실행]
+                (부하 감지)    |
+                             +---> [CPU 2 할당] ---> [Job B 실행]
+                               |
+                             +---> [CPU 3 할당] ---> [Job C 실행]
+                                       ^
                              (CPU 2 바쁘면 3으로 이동!)
 ```
 
@@ -188,20 +188,20 @@ tags = ["studynote-operating-system"]
 
 ```text
 [:---]
-    │
-    ▼
+    |
+    v
 [SMP (Symmetric Multiprocessing)]
-    │
-    ▼
+    |
+    v
 [캐시 일관성 (Cache Coherency)]
-    │
-    ▼
+    |
+    v
 [병렬 처리 (Parallel Processing)]
-    │
-    ▼
+    |
+    v
 [결함 허용 (Fault Tolerance)]
-    │
-    ▼
+    |
+    v
 [부하 분산 (Load Balancing)]
 ```
 
@@ -218,7 +218,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 4 / 800
 
-← **이전**: [3. 시분할 시스템 (Time-sharing System) - 응답 시간 최소화, 인터랙티브](/knowledge-base/studynote/02_operating_system/01_overview_architecture/003_time_sharing_system/)
-**다음**: [5. 비대칭 다중 처리 (ASMP, Asymmetric Multiprocessing)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/005_asmp/) →
+<- **이전**: [3. 시분할 시스템 (Time-sharing System) - 응답 시간 최소화, 인터랙티브](/knowledge-base/studynote/02_operating_system/01_overview_architecture/003_time_sharing_system/)
+**다음**: [5. 비대칭 다중 처리 (ASMP, Asymmetric Multiprocessing)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/005_asmp/) ->
 
 ---

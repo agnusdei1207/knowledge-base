@@ -42,27 +42,27 @@ tags = ["studynote-bigdata"]
 이 그림은 통합 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)의 기본 구조를 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Data catalog integration architecture                              │
-├────────────────────────────────────────────────────────────────────┤
-│ Sources                                                            │
-│  ├─ Data Lake / Warehouse / Database                               │
-│  ├─ 변환 작업 / 오케스트레이터 / 모델링 도구                       │
-│  ├─ 대시보드 / 노트북 / 기계학습 피처 저장소                       │
-│  └─ 품질 검사 / 계보 이벤트                                        │
-│                │                                                   │
-│                ▼                                                   │
-│ Connectors / Crawlers / 응용 프로그래밍 인터페이스 / OpenLineage   │
-│                │                                                   │
-│                ▼                                                   │
-│ Catalog Core                                                       │
-│  ├─ entity model   ├─ glossary   ├─ lineage graph                  │
-│  ├─ ownership      ├─ policy tag ├─ freshness / quality            │
-│  └─ search index   └─ access integration                           │
-│                │                                                   │
-│                ▼                                                   │
-│ Analysts / Engineers / Governance / 인공지능 도우미                │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Data catalog integration architecture                              |
++--------------------------------------------------------------------+
+| Sources                                                            |
+|  +- Data Lake / Warehouse / Database                               |
+|  +- 변환 작업 / 오케스트레이터 / 모델링 도구                       |
+|  +- 대시보드 / 노트북 / 기계학습 피처 저장소                       |
+|  +- 품질 검사 / 계보 이벤트                                        |
+|                |                                                   |
+|                v                                                   |
+| Connectors / Crawlers / 응용 프로그래밍 인터페이스 / OpenLineage   |
+|                |                                                   |
+|                v                                                   |
+| Catalog Core                                                       |
+|  +- entity model   +- glossary   +- lineage graph                  |
+|  +- ownership      +- policy tag +- freshness / quality            |
+|  +- search index   +- access integration                           |
+|                |                                                   |
+|                v                                                   |
+| Analysts / Engineers / Governance / 인공지능 도우미                |
++--------------------------------------------------------------------+
 ```
 
 | 핵심 구성 | 역할 | 실무 포인트 |
@@ -152,20 +152,20 @@ tags = ["studynote-bigdata"]
 
 ```text
 부서별 데이터 사일로
-    │
-    ▼
+    |
+    v
 기술 메타데이터 수집
-    │
-    ▼
+    |
+    v
 검색 가능한 데이터 카탈로그
-    │
-    ▼
+    |
+    v
 계보 · 품질 · 소유권 통합
-    │
-    ▼
+    |
+    v
 정책 태깅 · 거버넌스 자동화
-    │
-    ▼
+    |
+    v
 능동형 메타데이터와 인공지능 기반 데이터 발견
 ```
 
@@ -181,7 +181,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 184 / 262
 
-← **이전**: [183. 데이터 오케스트레이션 (Data Orchestration) - Apache Airflow / Dagster / Prefect](/knowledge-base/studynote/16_bigdata/09_platform/183_data_orchestration/)
-**다음**: [185. 확장성 설계 (Scalability Design) — 수평 확장/샤딩/파티셔닝/자동 확장](/knowledge-base/studynote/16_bigdata/09_platform/185_scalability_design/) →
+<- **이전**: [183. 데이터 오케스트레이션 (Data Orchestration) - Apache Airflow / Dagster / Prefect](/knowledge-base/studynote/16_bigdata/09_platform/183_data_orchestration/)
+**다음**: [185. 확장성 설계 (Scalability Design) — 수평 확장/샤딩/파티셔닝/자동 확장](/knowledge-base/studynote/16_bigdata/09_platform/185_scalability_design/) ->
 
 ---

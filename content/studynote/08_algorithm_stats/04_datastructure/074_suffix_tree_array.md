@@ -50,11 +50,11 @@ tags = ["studynote-algorithm"]
 SA (Suffix Array)   LCP Array
  6  "$"              -
  5  "a$"             0
- 3  "ana$"           1   ← "a$"와 LCP=1 ("a")
- 1  "anana$"         3   ← "ana$"와 LCP=3 ("ana")
+ 3  "ana$"           1   <- "a$"와 LCP=1 ("a")
+ 1  "anana$"         3   <- "ana$"와 LCP=3 ("ana")
  0  "banana$"        0
  4  "na$"            0
- 2  "nana$"          2   ← "na$"와 LCP=2 ("na")
+ 2  "nana$"          2   <- "na$"와 LCP=2 ("na")
 
 SA = [6, 5, 3, 1, 0, 4, 2]
 LCP = [-, 0, 1, 3, 0, 0, 2]
@@ -65,9 +65,9 @@ LCP = [-, 0, 1, 3, 0, 0, 2]
 ```
 패턴 "ana" 탐색:
   SA의 정렬된 접미사에서 이진 탐색
-  "ana" ≤ SA[2]="ana$" ← lower bound
-  "ana" < SA[4]="banana$" ← upper bound
-  → SA[2], SA[3] 두 위치에서 발생 (인덱스 3, 1)
+  "ana" ≤ SA[2]="ana$" <- lower bound
+  "ana" < SA[4]="banana$" <- upper bound
+  -> SA[2], SA[3] 두 위치에서 발생 (인덱스 3, 1)
 
 시간: O(m log n), LCP 활용 시 O(m + log n)
 ```
@@ -81,7 +81,7 @@ LCP = [-, 0, 1, 3, 0, 0, 2]
 
 ```
 LCP 최댓값 = 3 (인덱스 3, "anana$"와 "ana$"의 공통 "ana")
-→ 문자열 "banana"에서 가장 긴 반복 부분 문자열은 "ana"
+-> 문자열 "banana"에서 가장 긴 반복 부분 문자열은 "ana"
 ```
 
 ### 서픽스 트리 vs 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)
@@ -139,19 +139,19 @@ LCP 최댓값 = 3 (인덱스 3, "anana$"와 "ana$"의 공통 "ana")
 
 - **DNA 분석**: 게놈 서열에서 반복 패턴, 서열 정렬 (BWA, Bowtie 등)
 - **전문 검색 엔진**: 역인덱스 구축, 와일드카드 검색
-- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/">데이터 압축</a></strong>: BWT (Burrows-Wheeler Transform) = 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 기반 → bzip2, 롤링 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/">데이터 압축</a></strong>: BWT (Burrows-Wheeler Transform) = 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 기반 -> bzip2, 롤링 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)
 - **표절 검사**: 긴 공통 부분 문자열 탐지
 - <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> 전문 검색</strong>: PostgreSQL의 pg_trgm, [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) 역인덱스
 
 ### 기술사 판단 기준
 
 ```
-짧은 패턴 1회 탐색               →  KMP O(n+m)
-고정 패턴 집합 다중 탐색         →  Aho-Corasick
-접두사 기반 자동 완성             →  압축 트라이
-임의 부분 문자열 다중 쿼리       →  서픽스 배열 + LCP
-DNA/전문 검색, 압축              →  서픽스 배열 + BWT
-메모리 무제한 + 최고 탐색 속도  →  서픽스 트리
+짧은 패턴 1회 탐색               ->  KMP O(n+m)
+고정 패턴 집합 다중 탐색         ->  Aho-Corasick
+접두사 기반 자동 완성             ->  압축 트라이
+임의 부분 문자열 다중 쿼리       ->  서픽스 배열 + LCP
+DNA/전문 검색, 압축              ->  서픽스 배열 + BWT
+메모리 무제한 + 최고 탐색 속도  ->  서픽스 트리
 ```
 
 📢 **섹션 요약 비유**: 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 구축은 책의 모든 페이지를 찢어 알파벳 순으로 파일링하는 것—처음 한 번만 고생하면 이후 어떤 단어도 순식간에 찾는다.
@@ -183,17 +183,17 @@ DNA/전문 검색, 압축              →  서픽스 배열 + BWT
 
 ```text
 [전체 부분 문자열 (Substring) 인덱싱 필요]
-    │
-    ▼
+    |
+    v
 [서픽스 트리 (Suffix Tree) — O(n) 구축, 높은 공간 비용]
-    │
-    ▼
+    |
+    v
 [서픽스 배열 (Suffix Array) — 공간 효율 정렬 인덱스]
-    │
-    ▼
+    |
+    v
 [LCP 배열 (Longest Common Prefix) — 반복 패턴 탐지]
-    │
-    ▼
+    |
+    v
 [BWT (Burrows-Wheeler Transform) — 압축·검색 융합]
 ```
 전체 부분 문자열 탐색을 위해 서픽스 트리를 고안하고, 공간 효율을 위해 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하며, [LCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)과 BWT로 DNA·검색엔진·[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에 융합되는 흐름이다.
@@ -210,7 +210,7 @@ DNA/전문 검색, 압축              →  서픽스 배열 + BWT
 
 **진행 상황**: 74 / 175
 
-← **이전**: [압축된 트라이 (Compressed Trie / Patricia Trie)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/073_compressed_trie/)
-**다음**: [23. HashMap vs TreeMap — 해시맵과 트리맵 비교](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/075_hashmap_vs_treemap/) →
+<- **이전**: [압축된 트라이 (Compressed Trie / Patricia Trie)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/073_compressed_trie/)
+**다음**: [23. HashMap vs TreeMap — 해시맵과 트리맵 비교](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/075_hashmap_vs_treemap/) ->
 
 ---

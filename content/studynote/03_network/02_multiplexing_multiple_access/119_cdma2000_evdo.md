@@ -58,14 +58,14 @@ EV-DO 시스템은 3GPP2 표준 그룹에 의해 제정되었으며, 하향 링�
 **EV-DO TDM 방식의 다운링크 핵심 스케줄링 메커니즘**
 
 ```text
-┌───────────────── 기지국(AN) 다운링크 타임 슬롯 (각 1.67ms) ─────────────────┐
-│                                                                           │
-│ Slot 1: [ 사용자 A 단독 점유 (전파 상태 최상, 16-QAM 적용 -> 2.4Mbps) ]   │
-│ Slot 2: [ 사용자 C 단독 점유 (전파 상태 양호, 8-PSK 적용  -> 1.2Mbps) ]   │
-│ Slot 3: [ 사용자 A 단독 점유 (여전히 전파 최상, 데이터 잔여량 다운로드)]  │
-│ Slot 4: [ 사용자 B 단독 점유 (전파 상태 불량, QPSK 적용   -> 38.4kbps)]   │
-│                                                                           │
-└───────────────────────────────────────────────────────────────────────────┘
++----------------- 기지국(AN) 다운링크 타임 슬롯 (각 1.67ms) -----------------+
+|                                                                           |
+| Slot 1: [ 사용자 A 단독 점유 (전파 상태 최상, 16-QAM 적용 -> 2.4Mbps) ]   |
+| Slot 2: [ 사용자 C 단독 점유 (전파 상태 양호, 8-PSK 적용  -> 1.2Mbps) ]   |
+| Slot 3: [ 사용자 A 단독 점유 (여전히 전파 최상, 데이터 잔여량 다운로드)]  |
+| Slot 4: [ 사용자 B 단독 점유 (전파 상태 불량, QPSK 적용   -> 38.4kbps)]   |
+|                                                                           |
++---------------------------------------------------------------------------+
    * (주의) 기존 CDMA는 코드를 분할해 A, B, C가 동시에 섞여 전송되었으나,
             EV-DO는 특정 짧은 순간 기지국의 최대 전력을 한 사람에게 100% 쏟아붓는다.
 ```
@@ -89,22 +89,22 @@ EV-DO 시스템은 3GPP2 표준 그룹에 의해 제정되었으며, 하향 링�
 | <strong>기지국 간 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a></strong> | 필수 (GPS 위성 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 필요) | 불필요 (비동기식, GPS 의존 없음) | 국가 인프라 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/), 지하/터널 구축 난이도 |
 
 ```text
-┌────────────── 3G 패킷 스케줄링 트레이드오프 매트릭스 ─────────────┐
-│                                                                   │
-│ 시스템 복잡도 / 유연성                                            │
-│   ▲                                                               │
-│   │               [ W-CDMA / HSDPA ]                              │
-│   │              (음성과 데이터를 한 주파수 안에서 복잡하게 조율, │
-│   │               글로벌 로밍 및 유럽 표준화에 유리)              │
-│   │                                                               │
-│   │                                                               │
-│   │       [ EV-DO ]                                               │
-│   │      (아예 도로를 분리해 설계가 직관적이고 데이터 효율 극강,  │
-│   │       단, 음성/데이터 동시 이용 시 듀얼 안테나 등 단말 제약)  │
-│   └──────────────────────────────────────────────────────────►        │
-│          분리형, 단순/고속               혼합형, 유연성/호환성    │
-│                                                네트워크 아키텍처  │
-└───────────────────────────────────────────────────────────────────┘
++-------------- 3G 패킷 스케줄링 트레이드오프 매트릭스 -------------+
+|                                                                   |
+| 시스템 복잡도 / 유연성                                            |
+|   ^                                                               |
+|   |               [ W-CDMA / HSDPA ]                              |
+|   |              (음성과 데이터를 한 주파수 안에서 복잡하게 조율, |
+|   |               글로벌 로밍 및 유럽 표준화에 유리)              |
+|   |                                                               |
+|   |                                                               |
+|   |       [ EV-DO ]                                               |
+|   |      (아예 도로를 분리해 설계가 직관적이고 데이터 효율 극강,  |
+|   |       단, 음성/데이터 동시 이용 시 듀얼 안테나 등 단말 제약)  |
+|   +----------------------------------------------------------►        |
+|          분리형, 단순/고속               혼합형, 유연성/호환성    |
+|                                                네트워크 아키텍처  |
++-------------------------------------------------------------------+
 ```
 
 이 매트릭스의 핵심은 EV-DO 망이 다운로드 속도와 효율성 면에서 선도적이었지만, 음성과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 망을 하드웨어적으로 철저히 분리한 탓에 "음성 통화 중 인터넷 검색 불가능([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 칩셋 한계)"이라는 치명적 트레이드오프를 가졌다는 점이다. 반면 W-CDMA는 한 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 안에서 유연하게 쪼개 쓰므로 동시 작업이 가능했다. 따라서 트래픽이 순수 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위주로 폭발하던 시기에는 EV-DO가 유리했지만, 글로벌 스케일 에코시스템 확장에서는 불리했다. 실무에서는 통신사가 추가 1.25MHz 주파수를 확보할 수 있느냐 여부가 EV-DO 도입의 가장 중요한 물리적 진입 장벽이었다.
@@ -120,19 +120,19 @@ EV-DO 망을 최적화하고 운용하던 실무 엔지니어들은 기지국 �
 **실무 시나리오 및 운영 플로우**
 ```text
 [상황]: 도심 밀집 지역 기지국에서 EV-DO 데이터 속도 저하 및 체감 지연(QoE) 악화 클레임 폭주
-   │
-   ├─ 1. 단말들의 DRC (Data Rate Control) 요청 등급 로그 분석
-   │   ├─ 요청 등급이 전체적으로 낮은가? (QPSK 위주)
-   │   │   => [원인] 셀 경계 지역의 간섭(Interference) 급증.
-   │   │   => [조치] 안테나 틸트 조정, 이웃 셀 파워 최적화, 혹은 기지국 섹터 분할 추가
-   │   │
-   │   └─ 요청 등급은 높으나(16-QAM) 할당 슬롯 수가 적은가?
-   │       │
-   │       ├─ 2. Proportional Fair 스케줄러 알고리즘 임계치 점검
-   │       │   => [원인] 소수의 전파 불량 단말기에게 공정성(Fairness)을 보장하려다,
-   │       │             전파가 좋은 다수 단말기의 타임 슬롯을 빼앗아 전체 처리량(Throughput)이 하락함.
-   │       │   => [조치] 최대 공정성 상수 조정. 전파 불량 단말의 패킷 드롭을 일부 감수하더라도
-   │       │             셀 전체 시스템 스루풋을 극대화하는 쪽으로 스케줄링 파라미터(Tuning) 수정.
+   |
+   +- 1. 단말들의 DRC (Data Rate Control) 요청 등급 로그 분석
+   |   +- 요청 등급이 전체적으로 낮은가? (QPSK 위주)
+   |   |   => [원인] 셀 경계 지역의 간섭(Interference) 급증.
+   |   |   => [조치] 안테나 틸트 조정, 이웃 셀 파워 최적화, 혹은 기지국 섹터 분할 추가
+   |   |
+   |   +- 요청 등급은 높으나(16-QAM) 할당 슬롯 수가 적은가?
+   |       |
+   |       +- 2. Proportional Fair 스케줄러 알고리즘 임계치 점검
+   |       |   => [원인] 소수의 전파 불량 단말기에게 공정성(Fairness)을 보장하려다,
+   |       |             전파가 좋은 다수 단말기의 타임 슬롯을 빼앗아 전체 처리량(Throughput)이 하락함.
+   |       |   => [조치] 최대 공정성 상수 조정. 전파 불량 단말의 패킷 드롭을 일부 감수하더라도
+   |       |             셀 전체 시스템 스루풋을 극대화하는 쪽으로 스케줄링 파라미터(Tuning) 수정.
 ```
 
 이 운영 플로우의 핵심은 EV-DO 망의 속도 저하가 물리적인 '[신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 약화' 때문인지, 아니면 소프트웨어적인 '공정성 분배 오버헤드' 때문인지를 분리하여 판단해야 한다는 점이다. Proportional Fair [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 극단적인 환경에서 속도가 느린 단말기를 구제하느라 시스템 전체의 타임 슬롯을 낭비하는 '하향 평준화'를 유발할 수 있다. 실무에서는 도심 핫스팟 지역의 경우 공정성을 다소 희생하더라도 전체 통신망의 평균 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 높이는 C/I (Carrier-to-Interference) 기반의 Maximum [Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 스케줄링 비중을 상향 조정하는 판단을 내려야만 고객 불만을 잠재울 수 있다.
@@ -176,12 +176,12 @@ CDMA2000 [1x](/knowledge-base/studynote/03_network/11_wireless_mobile_communicat
 
 ```text
 [선행 개념: PAMA]
-    │
-    ▼
+    |
+    v
 [현재 개념: CDMA2000 1x / EV-DO]
-    │
-    ├──▶ [확장 A: W-CDMA / HSPA]
-    └──▶ [확장 B: 지능형 자원 스케줄링]
+    |
+    +---> [확장 A: W-CDMA / HSPA]
+    +---> [확장 B: 지능형 자원 스케줄링]
 ```
 
 CDMA2000 [1x](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/) / EV-DO는 PAMA에서 출발해 현재 메커니즘을 정교화하고, 이후 [W-CDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/120_wcdma_hspa/) / HSPA와 지능형 자원 스케줄링 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -198,7 +198,7 @@ CDMA2000 [1x](/knowledge-base/studynote/03_network/11_wireless_mobile_communicat
 
 **진행 상황**: 240 / 1120
 
-← **이전**: [118. PAMA (Pre-Assigned Multiple Access)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/118_pama/)
-**다음**: [120. W-CDMA (Wideband CDMA) / HSPA (High Speed Packet Access)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/120_wcdma_hspa/) →
+<- **이전**: [118. PAMA (Pre-Assigned Multiple Access)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/118_pama/)
+**다음**: [120. W-CDMA (Wideband CDMA) / HSPA (High Speed Packet Access)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/120_wcdma_hspa/) ->
 
 ---

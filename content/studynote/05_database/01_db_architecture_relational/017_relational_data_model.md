@@ -27,15 +27,15 @@ tags = ["database"]
 다음 다이어그램은 과거 네비게이션 방식의 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)과 선언적 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)의 근본적인 접근 방식 차이를 보여준다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 탐색의 주체가 누구인지 비교해보자.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│ [계층/망형 모델 (Navigation)]                          │
-│ App → "A 찾고, 그 포인터 따라가서 B 찾고..." → Data  │
-│  * 물리적 링크(Pointer) 변경 시 App 코드 전면 수정 필수│
-├────────────────────────────────────────────────────────┤
-│ [관계형 모델 (Declarative)]                            │
-│ App → "A와 B가 조건에 맞는 것 줘 (SQL)" → DBMS가 찾음│
-│  * 논리적 구조만 참조하므로 물리적 저장 구조 변경 자유 │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+| [계층/망형 모델 (Navigation)]                          |
+| App -> "A 찾고, 그 포인터 따라가서 B 찾고..." -> Data  |
+|  * 물리적 링크(Pointer) 변경 시 App 코드 전면 수정 필수|
++--------------------------------------------------------+
+| [관계형 모델 (Declarative)]                            |
+| App -> "A와 B가 조건에 맞는 것 줘 (SQL)" -> DBMS가 찾음|
+|  * 논리적 구조만 참조하므로 물리적 저장 구조 변경 자유 |
++--------------------------------------------------------+
 ```
 
 이 도식의 핵심은 애플리케이션과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간의 강한 결합([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))을 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 모델의 DBMS가 어떻게 끊어내었는가이다. 과거 모델은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인터를 애플리케이션이 직접 추적해야 했기에 물리적 구조 변경이 곧 시스템 장애로 직결되었다. 반면, [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 모델은 집합 연산에 기반한 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 엔진을 중간에 두어, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 선언적으로 요구할 수 있게 하였다. 따라서 스토리지 최적화나 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 추가와 같은 물리적 변경이 애플리케이션 수명주기에 영향을 주지 않으며, 이는 엔터프라이즈 시스템의 장기적인 안정성과 확장성을 담보하는 결정적 요인이 된다. 실무에서는 이러한 특징 덕분에 백엔드 개발자가 스토리지 블록의 배치 상태를 몰라도 복잡한 비즈니스 로직을 구현할 수 있다.
@@ -60,22 +60,22 @@ tags = ["database"]
 아래 다이어그램은 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)의 구조적 레이아웃과 제약조건이 어떻게 상호작용하는지를 시각적으로 보여준다. 기본키(PK)와 외래키(FK)의 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하자.
 
 ```text
-┌───────────────── Relation: EMP (사원) ─────────────────┐
-│ [Attribute(도메인)]                                    │
-│ EMP_ID(Int) │ ENAME(VarChar) │ DEPT_ID(Int)           │
-├─────────────┼────────────────┼────────────────────────┤
-│ 100         │ Alice          │ 10 (FK)  ──┐           │ ← Tuple 1
-│ 101         │ Bob            │ 20 (FK)  ──┼─┐         │ ← Tuple 2
-│ 102         │ Charlie        │ 10 (FK)  ──┘ │         │ ← Tuple 3
-└─────▲───────┴────────────────┴──────────────│─────────┘
-      │ (기본키 무결성)                       │ (참조 무결성)
-      │                                       ▼
-┌─────┴─────────── Relation: DEPT (부서) ─────┴─────────┐
-│ DEPT_ID(Int)│ DNAME(VarChar) │ LOCATION(VarChar)      │
-├─────────────┼────────────────┼────────────────────────┤
-│ 10 (PK)     │ Sales          │ Seoul                  │
-│ 20 (PK)     │ R&D            │ Busan                  │
-└───────────────────────────────────────────────────────┘
++----------------- Relation: EMP (사원) -----------------+
+| [Attribute(도메인)]                                    |
+| EMP_ID(Int) | ENAME(VarChar) | DEPT_ID(Int)           |
++-------------+----------------+------------------------+
+| 100         | Alice          | 10 (FK)  --+           | <- Tuple 1
+| 101         | Bob            | 20 (FK)  --+-+         | <- Tuple 2
+| 102         | Charlie        | 10 (FK)  --+ |         | <- Tuple 3
++-----^-------+----------------+--------------|---------+
+      | (기본키 무결성)                       | (참조 무결성)
+      |                                       v
++-----+----------- Relation: DEPT (부서) -----+---------+
+| DEPT_ID(Int)| DNAME(VarChar) | LOCATION(VarChar)      |
++-------------+----------------+------------------------+
+| 10 (PK)     | Sales          | Seoul                  |
+| 20 (PK)     | R&D            | Busan                  |
++-------------------------------------------------------+
 ```
 
 이 구조도의 핵심은 두 개의 독립된 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)이 <strong>값(Value)</strong>을 통해서만 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 연결된다는 점이다. 물리적인 포인터나 주소값이 아니라, `DEPT_ID`라는 외래키(Foreign [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 값을 통해 개체 간의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 맺는다. 이는 [참조 무결성](/knowledge-base/studynote/05_database/02_modeling_normalization/075_referential_integrity_foreign_key_cascade/)([Referential Integrity](/knowledge-base/studynote/05_database/02_modeling_normalization/075_referential_integrity_foreign_key_cascade/)) 제약을 발생시키며, 자식 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)([EMP](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/931_emp_shielding/))에 있는 `DEPT_ID` 값은 반드시 부모 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)(DEPT)에 존재해야 한다는 강력한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성 규칙을 엔진 차원에서 강제한다. 따라서 개발자가 애플리케이션 단에서 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)) 로직의 오류를 범하더라도, [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) 엔진이 잘못된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 삽입이나 삭제를 원천적으로 차단하여 전사 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 지켜낸다. 실무에서는 이 FK 제약조건이 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)에는 좋지만, 대량 [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/) 작업 시 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 경합과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하의 주범이 되기도 하므로 트레이드오프를 고려해야 한다.
@@ -100,13 +100,13 @@ tags = ["database"]
 
 ```text
 [RDBMS: 정규화 구조의 읽기 병목]
-Order_Tb ──(Join)── User_Tb ──(Join)── Product_Tb
-   └─ 복수의 디스크 블록 접근 + 조인 버퍼/해시 연산 발생 => CPU/Mem 부하
+Order_Tb --(Join)-- User_Tb --(Join)-- Product_Tb
+   +- 복수의 디스크 블록 접근 + 조인 버퍼/해시 연산 발생 => CPU/Mem 부하
 
 [NoSQL (Document): 비정규화 구조의 쓰기 병목]
 Order_Doc { UserInfo: {}, ProductInfo: [] }
-   └─ 단일 디스크 블록 조회 완료 => 초고속 읽기
-   └─ 단, UserInfo 변경 시 모든 관련 주문 문서 업데이트 필요 => 쓰기/일관성 지연
+   +- 단일 디스크 블록 조회 완료 => 초고속 읽기
+   +- 단, UserInfo 변경 시 모든 관련 주문 문서 업데이트 필요 => 쓰기/일관성 지연
 ```
 
 이 비교 매트릭스와 구조도의 핵심은 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)에 따른 워크로드(Workload)의 최적화 방향성이 완전히 다르다는 것이다. RDBMS는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 중복을 없애 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 극한으로 올렸지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 조립하는 과정([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))에서 막대한 CPU와 메모리([PGA](/knowledge-base/studynote/05_database/04_transactions_concurrency/526_first_normal_form/)) 자원을 소모한다. 반면 [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) 문서 모델은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 이미 조립된 채로 저장하여 읽기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))을 최소화하지만, 상태 변경 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 비용과 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 유지 실패 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 감수해야 한다. 실무에서는 금융, 회계 등 강한 정합성이 필요한 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(ACID)은 RDBMS를, 게임 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)나 쇼핑몰 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)처럼 읽기 중심의 대규모 트래픽 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(BASE)은 NoSQL을 채택하는 [폴리글랏 퍼시스턴스](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/308_pgvector/)([Polyglot Persistence](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/132_polyglot_persistence/)) 아키텍처가 표준으로 자리잡았다.
@@ -129,14 +129,14 @@ Order_Doc { UserInfo: {}, ProductInfo: [] }
 
 ```text
 [요구사항 발생]
-   ↓
-(Q1. 트랜잭션 무결성이 절대적인가?) ── 아니오 ──> [NoSQL 도입 고려]
-   ↓ 예
-(Q2. 조인 시 조회 성능 지연이 심각한가?) ── 아니오 ──> [정규화 RDB 유지]
-   ↓ 예
+   v
+(Q1. 트랜잭션 무결성이 절대적인가?) -- 아니오 --> [NoSQL 도입 고려]
+   v 예
+(Q2. 조인 시 조회 성능 지연이 심각한가?) -- 아니오 --> [정규화 RDB 유지]
+   v 예
 (Q3. 실시간 쓰기가 자주 발생하는가?)
-   ├─ 예 ────> [데이터마트 분리(CQRS) / 읽기전용 DB 복제]
-   └─ 아니오 ──> [뷰 머티리얼라이즈(MVIEW) 또는 과감한 반정규화 적용]
+   +- 예 ----> [데이터마트 분리(CQRS) / 읽기전용 DB 복제]
+   +- 아니오 --> [뷰 머티리얼라이즈(MVIEW) 또는 과감한 반정규화 적용]
 ```
 
 이 의사결정 흐름의 핵심은 '조인 비용'과 '[트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 유지 비용' 사이의 저울질이다. 조인 때문에 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 느리다고 무작정 반정규화를 하면, 후속 [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/)(업데이트) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 중복 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모두 수정하느라 치명적인 DB 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 경합을 발생시킨다. 따라서 실시간 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 빈번한 [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) 환경이라면 테이블을 뭉개는 반정규화보다는 [Command Query Responsibility Segregation](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/250_cqrs_command_query_responsibility_segregation_pattern/) ([CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/)) 아키텍처를 통해 조회 전용 DB를 분리하는 것이 구조적으로 안전하다. 기술사 및 아키텍트는 이론적 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)의 함정에 빠지지 않고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 생명 주기(읽기 vs [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 비율)를 정량적으로 분석하여 물리 설계를 타협할 줄 알아야 한다.
@@ -171,20 +171,20 @@ Order_Doc { UserInfo: {}, ProductInfo: [] }
 
 ```text
 [계층형 / 망형 모델 (Hierarchical / Network Model) — 포인터 기반, 물리적 구조 의존]
-    │
-    ▼
+    |
+    v
 [관계형 데이터 모델 (Relational Model) — E.F. Codd 제안, 수학적 집합·릴레이션]
-    │
-    ▼
+    |
+    v
 [SQL (Structured Query Language) — 선언적 질의, 데이터 독립성 실현]
-    │
-    ▼
+    |
+    v
 [정규화 (Normalization) — 함수 종속 제거, 이상 현상 방지, 설계 표준화]
-    │
-    ▼
+    |
+    v
 [ACID 트랜잭션 — 원자성·일관성·격리성·지속성으로 데이터 무결성 보장]
-    │
-    ▼
+    |
+    v
 [NewSQL / HTAP — 관계형 의미론 유지하며 수평 확장·실시간 분석 지원]
 ```
 이 흐름은 물리적 포인터 구조에 얽매이던 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) DB 모델이 수학적 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 이론으로 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)되고, SQL 표준을 거쳐 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)·실시간 처리 요건을 수용하는 현대 DBMS로 진화하는 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기술의 계보를 보여준다.
@@ -200,7 +200,7 @@ Order_Doc { UserInfo: {}, ProductInfo: [] }
 
 **진행 상황**: 17 / 600
 
-← **이전**: [16. 망형 데이터 모델 (Network Model) - 그래프 구조 (N:M 허용)](/knowledge-base/studynote/05_database/01_db_architecture_relational/016_network_data_model/)
-**다음**: [18. 객체지향 데이터 모델 (OODBMS) / 객체 관계형 데이터 모델 (ORDBMS)](/knowledge-base/studynote/05_database/01_db_architecture_relational/018_object_oriented_relational_data_model/) →
+<- **이전**: [16. 망형 데이터 모델 (Network Model) - 그래프 구조 (N:M 허용)](/knowledge-base/studynote/05_database/01_db_architecture_relational/016_network_data_model/)
+**다음**: [18. 객체지향 데이터 모델 (OODBMS) / 객체 관계형 데이터 모델 (ORDBMS)](/knowledge-base/studynote/05_database/01_db_architecture_relational/018_object_oriented_relational_data_model/) ->
 
 ---

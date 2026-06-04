@@ -28,27 +28,27 @@ tags = ["studynote-operating-system"]
   3. **OS 소프트웨어의 꼼수**: OS가 램 구석에 8비트 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 만들어놓고, 매 타이머 인터럽트마다 R [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 차곡차곡 수집하여 스스로 작은 시계(History)를 만들어냄.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│        에이징(Aging)의 8비트 시프트(Shift) 누적 기록 시각화        │
-├────────────────────────────────────────────────────────────────────┤
-│                                                                    │
-│ [ 상황: 타이머가 1틱(0.1초) 돌 때마다 OS가 비트를 밀어 넣음 ]      │
-│ (※ 규칙: 맨 앞에 현재 R비트 추가, 맨 뒤는 버려짐. 크면 생존)       │
-│                                                                    │
-│ ▶ 페이지 A (최근에 갑자기 미친 듯이 쓰이는 핫한 신인)              │
-│   T=1 (R=0) : 00000000 (0)                                         │
-│   T=2 (R=1) : 10000000 (128)                                       │
-│   T=3 (R=1) : 11000000 (192) 🚀 (점수 수직 상승!)                  │
-│                                                                    │
-│ ▶ 페이지 B (과거에 잘 나갔으나 지금 버려진 고인물)                 │
-│   T=1 (R=1) : 10000000 (128)                                       │
-│   T=2 (R=0) : 01000000 (64)  (과거 기록이 반토막 깎임)             │
-│   T=3 (R=0) : 00100000 (32)  🐢 (점수 계속 추락 중)                │
-│                                                                    │
-│ ✅ OS의 최종 판결 (T=3 시점에서 램이 꽉 참)                        │
-│ "A는 192점, B는 32점! 당연히 가장 점수가 낮은 B를 쫓아낸다!"       │
-│ (과거에 잘 나갔던 B가 늙어 죽고(Aging), 신규 코어 A가 램을 장악함) │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|        에이징(Aging)의 8비트 시프트(Shift) 누적 기록 시각화        |
++--------------------------------------------------------------------+
+|                                                                    |
+| [ 상황: 타이머가 1틱(0.1초) 돌 때마다 OS가 비트를 밀어 넣음 ]      |
+| (※ 규칙: 맨 앞에 현재 R비트 추가, 맨 뒤는 버려짐. 크면 생존)       |
+|                                                                    |
+| -> 페이지 A (최근에 갑자기 미친 듯이 쓰이는 핫한 신인)              |
+|   T=1 (R=0) : 00000000 (0)                                         |
+|   T=2 (R=1) : 10000000 (128)                                       |
+|   T=3 (R=1) : 11000000 (192) 🚀 (점수 수직 상승!)                  |
+|                                                                    |
+| -> 페이지 B (과거에 잘 나갔으나 지금 버려진 고인물)                 |
+|   T=1 (R=1) : 10000000 (128)                                       |
+|   T=2 (R=0) : 01000000 (64)  (과거 기록이 반토막 깎임)             |
+|   T=3 (R=0) : 00100000 (32)  🐢 (점수 계속 추락 중)                |
+|                                                                    |
+| ✅ OS의 최종 판결 (T=3 시점에서 램이 꽉 참)                        |
+| "A는 192점, B는 32점! 당연히 가장 점수가 낮은 B를 쫓아낸다!"       |
+| (과거에 잘 나갔던 B가 늙어 죽고(Aging), 신규 코어 A가 램을 장악함) |
++--------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 이 8비트 정수의 크기 대소 비교는 경이로울 정도로 정확하게 <strong>"최근성(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/">LRU</a>)"과 "빈도(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/">LFU</a>)"를 동시에 대변</strong>한다. 맨 왼쪽 최상위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)([MSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/))에 가장 최근 기록이 꽂히기 때문에, 어제 7번 불린 놈(`01111111`, 127점)보다 방금 1번 불린 놈(`10000000`, 128점)이 더 점수가 높다. 철저하게 LRU의 원칙을 따르면서도, 만약 맨 앞 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 똑같다면 그 뒤의 과거 빈도([LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/))로 동점자를 가르는 완벽한 타협의 기술이다.
 
@@ -101,13 +101,13 @@ tags = ["studynote-operating-system"]
 - [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 버퍼나 웹서버 캐시가 가장 사랑하는 마법의 레시피가 바로 이 `LFU + Aging`의 결합이다.
 
 ```text
-┌──────────┬────────────┬────────────┬────────────────────────┐
-│ 평가 지표  │ 순수 LFU    │ 1비트 Clock │ Aging 기법         │
-├──────────┼────────────┼────────────┼────────────────────────┤
-│ 과거 망령  │ ☠️ 알박기 됨 │ 🟢 바로 지움 │ 🟢 서서히 지움   │
-│ 빈도 반영  │ 🟢 완벽 반영 │ ❌ 무시함    │ 🟡 최근 빈도 반영│
-│ 하드웨어 짐│ 무거움      │ 제일 가벼움   │ 적당함 (SW 연산) │
-└──────────┴────────────┴────────────┴────────────────────────┘
++----------+------------+------------+------------------------+
+| 평가 지표  | 순수 LFU    | 1비트 Clock | Aging 기법         |
++----------+------------+------------+------------------------+
+| 과거 망령  | ☠️ 알박기 됨 | 🟢 바로 지움 | 🟢 서서히 지움   |
+| 빈도 반영  | 🟢 완벽 반영 | ❌ 무시함    | 🟡 최근 빈도 반영|
+| 하드웨어 짐| 무거움      | 제일 가벼움   | 적당함 (SW 연산) |
++----------+------------+------------+------------------------+
 ```
 **[매트릭스 해설]** 에이징은 시간([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))과 빈도([LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)) 사이의 가장 완벽한 중재자다. 시간이 지나면 잊어버리지만, 아주 빠르게 잊진 않고 최근 8턴 동안의 누적된 애정(빈도)은 점수로 쳐준다. 양쪽의 장점을 모두 취한 궁극의 밸런스형 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 
@@ -167,12 +167,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [MFU (Most Frequently Used) 알고리즘]
-    │
-    ▼
+    |
+    v
 [에이징 (Aging) 기반 페이지 교체 로직]
-    │
-    ├──▶ [스래싱 (Thrashing)]
-    └──▶ [다중 프로그래밍 정도 (Degree of Multiprogramming)와 CPU 이용률 관계 그래프]
+    |
+    +---> [스래싱 (Thrashing)]
+    +---> [다중 프로그래밍 정도 (Degree of Multiprogramming)와 CPU 이용률 관계 그래프]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -189,7 +189,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 411 / 800
 
-← **이전**: [410. MFU (Most Frequently Used) 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/410_mfu_algorithm/)
-**다음**: [412. 스래싱 (Thrashing) - 프로세스가 실제 실행보다 페이징(스와핑)에 더 많은 시간을 보내는 현상](/knowledge-base/studynote/02_operating_system/07_virtual_memory/412_thrashing/) →
+<- **이전**: [410. MFU (Most Frequently Used) 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/410_mfu_algorithm/)
+**다음**: [412. 스래싱 (Thrashing) - 프로세스가 실제 실행보다 페이징(스와핑)에 더 많은 시간을 보내는 현상](/knowledge-base/studynote/02_operating_system/07_virtual_memory/412_thrashing/) ->
 
 ---

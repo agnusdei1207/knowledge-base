@@ -40,28 +40,28 @@ tags = ["studynote-data-engineering"]
 
 ```
 입력: "나는 학교에 간다"
-         │
-    ┌────┴─────────────────────────┐
-    │         인코더 (Encoder)      │
-    │                               │
-    │  나 → [LSTM] → [LSTM] → [LSTM]│
-    │  는             학교에    간다  │
-    │                         h_n   │
-    │                   ┌─────┘     │
-    │              컨텍스트 벡터 c  │
-    │              (고정 길이 벡터) │
-    └───────────────────────────────┘
-                    │
-                    ↓
-    ┌───────────────────────────────┐
-    │         디코더 (Decoder)       │
-    │                               │
-    │  <SOS> → [LSTM] → [LSTM] → ...│
-    │             ↓         ↓       │
-    │            "I"      "go"      │
-    │                               │
-    │  컨텍스트 c가 초기 상태로 주입 │
-    └───────────────────────────────┘
+         |
+    +----+-------------------------+
+    |         인코더 (Encoder)      |
+    |                               |
+    |  나 -> [LSTM] -> [LSTM] -> [LSTM]|
+    |  는             학교에    간다  |
+    |                         h_n   |
+    |                   +-----+     |
+    |              컨텍스트 벡터 c  |
+    |              (고정 길이 벡터) |
+    +-------------------------------+
+                    |
+                    v
+    +-------------------------------+
+    |         디코더 (Decoder)       |
+    |                               |
+    |  <SOS> -> [LSTM] -> [LSTM] -> ...|
+    |             v         v       |
+    |            "I"      "go"      |
+    |                               |
+    |  컨텍스트 c가 초기 상태로 주입 |
+    +-------------------------------+
 출력: "I go to school"
 ```
 
@@ -70,8 +70,8 @@ tags = ["studynote-data-engineering"]
 ```
 입력 길이가 길수록:
 "나는 어제 학교 도서관에서 친구와 함께 수학 공부를 열심히 했다"
- ─────────────────────────────────────→  [단 하나의 벡터로 압축!]
- 30 단어                                  c ∈ ℝ^{512}  ← 손실 발생!
+ -------------------------------------->  [단 하나의 벡터로 압축!]
+ 30 단어                                  c ∈ ℝ^{512}  <- 손실 발생!
 ```
 
 ### [어텐션 메커니즘](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/296_attention_mechanism/) ([Attention Mechanism](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/296_attention_mechanism/))
@@ -80,25 +80,25 @@ Bahdanau et al. 2015 — "Neural Machine Translation by Jointly [Learning](/know
 
 ```
 어텐션 가중치 계산 과정
-┌─────────────────────────────────────────────┐
-│                                             │
-│  인코더 은닉 상태: h_1, h_2, ..., h_T      │
-│           ↑     ↑              ↑            │
-│    e_{s,t} = score(s_{s-1}, h_t)            │
-│           = 정렬 점수 (Alignment Score)     │
-│                                             │
-│    α_{s,t} = softmax(e_{s,t})               │
-│           = 어텐션 가중치 (합 = 1)          │
-│                                             │
-│    c_s = Σ_t α_{s,t} · h_t                 │
-│       = 동적 컨텍스트 벡터 (매 스텝 갱신)  │
-│                                             │
-└─────────────────────────────────────────────┘
++---------------------------------------------+
+|                                             |
+|  인코더 은닉 상태: h_1, h_2, ..., h_T      |
+|           ^     ^              ^            |
+|    e_{s,t} = score(s_{s-1}, h_t)            |
+|           = 정렬 점수 (Alignment Score)     |
+|                                             |
+|    α_{s,t} = softmax(e_{s,t})               |
+|           = 어텐션 가중치 (합 = 1)          |
+|                                             |
+|    c_s = Σ_t α_{s,t} · h_t                 |
+|       = 동적 컨텍스트 벡터 (매 스텝 갱신)  |
+|                                             |
++---------------------------------------------+
 
 예시: "I go to school" 생성 시
-  "I"   생성 → α 분포: [나:0.9, 는:0.05, 학교:0.02, 간다:0.03]
-  "go"  생성 → α 분포: [나:0.1, 는:0.05, 학교:0.05, 간다:0.8]
-  "to"  생성 → α 분포: [나:0.05, 는:0.1, 학교:0.8, 간다:0.05]
+  "I"   생성 -> α 분포: [나:0.9, 는:0.05, 학교:0.02, 간다:0.03]
+  "go"  생성 -> α 분포: [나:0.1, 는:0.05, 학교:0.05, 간다:0.8]
+  "to"  생성 -> α 분포: [나:0.05, 는:0.1, 학교:0.8, 간다:0.05]
 ```
 
 ### Bahdanau vs Luong 어텐션
@@ -121,14 +121,14 @@ Bahdanau et al. 2015 — "Neural Machine Translation by Jointly [Learning](/know
 
 ```
 2014: Vanilla Seq2Seq
-  단일 컨텍스트 벡터 → 정보 병목
-         ↓
+  단일 컨텍스트 벡터 -> 정보 병목
+         v
 2015: Seq2Seq + Bahdanau Attention
-  동적 컨텍스트 벡터 → 병목 해결, 정렬 시각화 가능
-         ↓
+  동적 컨텍스트 벡터 -> 병목 해결, 정렬 시각화 가능
+         v
 2017: Transformer (Attention Is All You Need)
-  셀프 어텐션으로 RNN 완전 대체 → 병렬화, 장거리 의존성 해결
-         ↓
+  셀프 어텐션으로 RNN 완전 대체 -> 병렬화, 장거리 의존성 해결
+         v
 2018~: BERT, GPT 등 사전 학습 모델
   대규모 코퍼스 사전 학습 + 다운스트림 파인튜닝
 ```
@@ -136,15 +136,15 @@ Bahdanau et al. 2015 — "Neural Machine Translation by Jointly [Learning](/know
 ### 어텐션 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) — 정렬 행렬(Alignment Matrix)
 
 ```
-출력  │ 나 │ 는 │ 학교에│ 간다 │
-──────┼────┼────┼───────┼──────┤
-I     │ ██ │ ▒  │  ▒    │  ▒   │  ← "나"에 집중
-go    │ ▒  │ ▒  │  ▒    │  ██  │  ← "간다"에 집중
-to    │ ▒  │ ▒  │  ██   │  ▒   │  ← "학교에"에 집중
-school│ ▒  │ ▒  │  ██   │  ▒   │  ← "학교에"에 집중
+출력  | 나 | 는 | 학교에| 간다 |
+------+----+----+-------+------+
+I     | ██ | ▒  |  ▒    |  ▒   |  <- "나"에 집중
+go    | ▒  | ▒  |  ▒    |  ██  |  <- "간다"에 집중
+to    | ▒  | ▒  |  ██   |  ▒   |  <- "학교에"에 집중
+school| ▒  | ▒  |  ██   |  ▒   |  <- "학교에"에 집중
 
 ██ = 높은 어텐션 가중치
-→ 번역 시 어느 단어를 참조했는지 해석 가능 (설명 가능 AI)
+-> 번역 시 어느 단어를 참조했는지 해석 가능 (설명 가능 AI)
 ```
 
 | 특성 | Seq2Seq (w/o Attention) | Seq2Seq + Attention |
@@ -165,13 +165,13 @@ school│ ▒  │ ▒  │  ██   │  ▒   │  ← "학교에"에 집중
 ```
 훈련 파이프라인
 병렬 코퍼스 수집
-      ↓
+      v
 토큰화 + BPE (Byte Pair Encoding) 어휘 구축
-      ↓
+      v
 인코더-디코더 LSTM 학습
-      ↓
+      v
 Teacher Forcing (훈련) / Beam Search (추론)
-      ↓
+      v
 BLEU Score 평가
 
 Beam Search (빔 탐색):
@@ -199,23 +199,23 @@ Beam Search (빔 탐색):
 
 ```
 Seq2Seq 프레임워크의 적용 영역
-┌───────────────────────────────────────────┐
-│  입력 시퀀스        →    출력 시퀀스       │
-│  ─────────────────────────────────────   │
-│  한국어 문장        →    영어 번역         │
-│  긴 문서            →    요약문            │
-│  사용자 질문        →    챗봇 응답         │
-│  음성 파형          →    텍스트            │
-│  소스 코드          →    설명문            │
-│  SQL 자연어         →    쿼리문            │
-│  단백질 서열        →    구조 예측         │
-└───────────────────────────────────────────┘
++-------------------------------------------+
+|  입력 시퀀스        ->    출력 시퀀스       |
+|  -------------------------------------   |
+|  한국어 문장        ->    영어 번역         |
+|  긴 문서            ->    요약문            |
+|  사용자 질문        ->    챗봇 응답         |
+|  음성 파형          ->    텍스트            |
+|  소스 코드          ->    설명문            |
+|  SQL 자연어         ->    쿼리문            |
+|  단백질 서열        ->    구조 예측         |
++-------------------------------------------+
 ```
 
 ### 기술사 시험 핵심 포인트
 
 1. <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/120_context_vector/">컨텍스트 벡터</a> 병목</strong>: 고정 길이 벡터의 정보 손실 문제
-2. <strong>어텐션 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 계산</strong>: `α = softmax(score(s, h))` → `c = Σα·h`
+2. <strong>어텐션 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 계산</strong>: `α = softmax(score(s, h))` -> `c = Σα·h`
 3. **Bahdanau vs Luong**: additive vs multiplicative 비교
 4. **Teacher Forcing**: 훈련 효율화 기법 (정답 토큰 강제 입력)
 5. **Beam Search**: 추론 품질 향상 기법
@@ -243,14 +243,14 @@ Seq2Seq 프레임워크의 적용 영역
 
 ```text
 RNN Encoder-Decoder (고정 길이 Context Vector 병목)
-    │
-    ▼
+    |
+    v
 Attention: 매 출력 단어마다 입력 전체를 참조 (동적 가중치)
-    │
-    ▼
-Self-Attention → Transformer (병렬 처리 가능)
-    │
-    ▼
+    |
+    v
+Self-Attention -> Transformer (병렬 처리 가능)
+    |
+    v
 BERT · GPT · T5 (Foundation Models)
 ```
 2. [컨텍스트 벡터](/knowledge-base/studynote/10_ai/02_dl_architecture_new/120_context_vector/) 없는 어텐션은 책을 다 읽고 메모지 하나에만 적어 두는 것, 어텐션이 있으면 번역할 때 원본 책을 다시 펼쳐볼 수 있어.
@@ -262,7 +262,7 @@ BERT · GPT · T5 (Foundation Models)
 
 **진행 상황**: 245 / 258
 
-← **이전**: [244. RNN (Recurrent Neural Network) 시계열 LSTM 셀 게이트 장기 의존성 극복](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/)
-**다음**: [246. 트랜스포머 (Transformer) 셀프 어텐션 병렬 처리 포지셔널 인코딩](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) →
+<- **이전**: [244. RNN (Recurrent Neural Network) 시계열 LSTM 셀 게이트 장기 의존성 극복](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/)
+**다음**: [246. 트랜스포머 (Transformer) 셀프 어텐션 병렬 처리 포지셔널 인코딩](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) ->
 
 ---

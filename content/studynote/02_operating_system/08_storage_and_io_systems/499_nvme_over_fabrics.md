@@ -26,32 +26,32 @@ tags = ["studynote-operating-system"]
 어떻게 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 끈적한 병목 번역 늪을 거치지 않고 상대방 램 메모리를 후벼 팔 수 있는지 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 파괴 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 묘사로 해체하면 아래 투명화 관문파괴 결론이 증폭된다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────────────────────────────────┐
-  │                 기존 네트워크 스토리지 vs 차세대 NVMe-oF 다이렉트 망                         │
-  ├──────────────────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                              │
-  │  [ 구시대 IP-SAN (iSCSI 등) : TCP/IP 병목 랙 포장 관문의 늪 타겟 한계 ]                      │
-  │     | 내 호스트 컴퓨터 대장부 |                       | 원격 깡통 스토리지 머신 |            │
-  │     │ 😭 App 구동 쿼리  │                       │                                            │
-  │     │   ▼ (I/O 병목)  │   (아 수만개의 편지 포장을 언제하지)   │                             │
-  │   ==│ OS 커널 통역관 뻘짓│=======================│ OS 커널 통역관 뻘짓 │=                    │
-  │     │ TCP/IP 스택 캡슐 ├─▶ [ 이더넷 스위치 1G망 ] ─▶┤ TCP 까고 번역 랙 │                     │
-  │     │ 랜카드 드라이버 변환│                       │ 디스크 드라이버 변환│                    │
-  │     └───────────────┘                       │ 🐌느려 터진 바퀴 │                             │
-  │         * (CPU 둘다 불탐 100%)                       └────────────────────┘                  │
-  │                                                                                              │
-  │  =============================================================                               │
-  │                                                                                              │
-  │  [ 극강의 전설 NVMe-oF (RDMA 커널 Bypass): OS 무시 투명인간 뚫기 직파! ]                     │
-  │     | 내 호스트 컴퓨터 척살군 |   (명령 던지고 끝남 CPU는 쉼) | 원격 NVMe 플래시 풀 장비 |   │
-  │     │ 😎 App 쿼리 직통  ├───┐                    │                                           │
-  │     │                │   │  (야 OS 커널 그냥 제끼고 메모리로 광 파이프 꽂아 쏴!)             │
-  │   ==│ OS 커널 신경끄셈!  │===│====================│ OS 커널 나몰라라!   │=                   │
-  │     │ (RDMA 통과 패스) │   ▼                    │ (RDMA 가로채기)    │                       │
-  │     │ 특수 RDMA 랜카드  │ ──(RoCE 100G망 빛의속도)─▶│ 특수 RDMA 랜카드   │                   │
-  │     └───────────────┘                        │ 번개같은 NVMe 칩 │ ─▶ 끝!
-  │         * (CPU 코골며 취침 0% 점유)                    └────────────────────┘                │
-  └──────────────────────────────────────────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------------------------------------------+
+  |                 기존 네트워크 스토리지 vs 차세대 NVMe-oF 다이렉트 망                         |
+  +----------------------------------------------------------------------------------------------+
+  |                                                                                              |
+  |  [ 구시대 IP-SAN (iSCSI 등) : TCP/IP 병목 랙 포장 관문의 늪 타겟 한계 ]                      |
+  |     | 내 호스트 컴퓨터 대장부 |                       | 원격 깡통 스토리지 머신 |            |
+  |     | 😭 App 구동 쿼리  |                       |                                            |
+  |     |   v (I/O 병목)  |   (아 수만개의 편지 포장을 언제하지)   |                             |
+  |   ==| OS 커널 통역관 뻘짓|=======================| OS 커널 통역관 뻘짓 |=                    |
+  |     | TCP/IP 스택 캡슐 +--> [ 이더넷 스위치 1G망 ] -->+ TCP 까고 번역 랙 |                     |
+  |     | 랜카드 드라이버 변환|                       | 디스크 드라이버 변환|                    |
+  |     +---------------+                       | 🐌느려 터진 바퀴 |                             |
+  |         * (CPU 둘다 불탐 100%)                       +--------------------+                  |
+  |                                                                                              |
+  |  =============================================================                               |
+  |                                                                                              |
+  |  [ 극강의 전설 NVMe-oF (RDMA 커널 Bypass): OS 무시 투명인간 뚫기 직파! ]                     |
+  |     | 내 호스트 컴퓨터 척살군 |   (명령 던지고 끝남 CPU는 쉼) | 원격 NVMe 플래시 풀 장비 |   |
+  |     | 😎 App 쿼리 직통  +---+                    |                                           |
+  |     |                |   |  (야 OS 커널 그냥 제끼고 메모리로 광 파이프 꽂아 쏴!)             |
+  |   ==| OS 커널 신경끄셈!  |===|====================| OS 커널 나몰라라!   |=                   |
+  |     | (RDMA 통과 패스) |   v                    | (RDMA 가로채기)    |                       |
+  |     | 특수 RDMA 랜카드  | --(RoCE 100G망 빛의속도)-->| 특수 RDMA 랜카드   |                   |
+  |     +---------------+                        | 번개같은 NVMe 칩 | --> 끝!
+  |         * (CPU 코골며 취침 0% 점유)                    +--------------------+                |
+  +----------------------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 상단의 구식 네트워크 결속([iSCSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/698_iscsi/) 등)은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 내 랜카드를 빠져나가기 전에 엄마(OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))에게 일일이 인사하고 허락([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 버퍼 패킹 복사 연산 오버헤드 늪)을 떡칠 받아야 해서 CPU가 엄청 파괴 피곤했다. 하지만 하단의 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/">NVMe</a>-oF 방식은 그 악명 높은 <a href="/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/">RDMA</a>(원격 메모리 직접 접근 패스스루) 방패 마법 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>을 껴안았다.</strong> 내 App 어플리케이션이 특수 랜카드(RNIC) 기판에 "야 쏴!" 하고 명령만 포인팅 던지면, 랜카드 자체가 호스트 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 머리통 완전히 스킵 투명인간 패스해 버리고(OS Bypass/[Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Bypass), 상대방 스토리지 서버 랜카드의 하드웨어 메모리로 기계 대 기계 수준에서 광속으로 찌르고 패킷을 직입 삽입 복사해 갈취 통과해 버린다! 이 구조 덕분에 "네트워크 거리를 타고 랜선을 넘어갔음에도 불구하고 메인보드에 로컬로 박은 것과 속도가 똑같아!" 깡스피드 1밀리초 극한의 수렴 경지가 우주 창조된 것이다.
@@ -135,12 +135,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [컴퓨테이셔널 스토리지 (Computational Storage / Smart SSD)]
-    │
-    ▼
+    |
+    v
 [NVMe over Fabrics (NVMe-oF)]
-    │
-    ├──▶ [이중 경로 (Multipath) I/O 페일오버 및 로드밸런싱 구조]
-    └──▶ [파일 (File)의 정의]
+    |
+    +---> [이중 경로 (Multipath) I/O 페일오버 및 로드밸런싱 구조]
+    +---> [파일 (File)의 정의]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -157,7 +157,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 499 / 800
 
-← **이전**: [498. 컴퓨테이셔널 스토리지 (Computational Storage / Smart SSD) - I/O 노드 연산 오프로딩](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/498_computational_storage/)
-**다음**: [500. 이중 경로 (Multipath) I/O 페일오버 및 로드밸런싱 구조](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/500_multipath_io/) →
+<- **이전**: [498. 컴퓨테이셔널 스토리지 (Computational Storage / Smart SSD) - I/O 노드 연산 오프로딩](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/498_computational_storage/)
+**다음**: [500. 이중 경로 (Multipath) I/O 페일오버 및 로드밸런싱 구조](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/500_multipath_io/) ->
 
 ---

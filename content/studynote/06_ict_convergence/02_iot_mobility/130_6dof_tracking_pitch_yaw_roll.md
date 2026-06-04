@@ -58,10 +58,10 @@ tags = ["studynote-ict-convergence"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[3DoF (Google Cardboard, 2014)] → [Outside-In 6DoF (Vive, 2016)]
-    → [Inside-Out 6DoF (Quest, 2019)]
-    → [손·눈 추적 + 6DoF (Vision Pro, 2024)]
-    → [현재: 밀리미터 정밀도 6DoF — AR 글래스]
+[3DoF (Google Cardboard, 2014)] -> [Outside-In 6DoF (Vive, 2016)]
+    -> [Inside-Out 6DoF (Quest, 2019)]
+    -> [손·눈 추적 + 6DoF (Vision Pro, 2024)]
+    -> [현재: 밀리미터 정밀도 6DoF — AR 글래스]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -75,7 +75,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 130 / 552
 
-← **이전**: [129. 공간 컴퓨팅 & Apple Vision Pro - 차세대 인터페이스 패러다임](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/129_spatial_computing_apple_vision_pro/)
-**다음**: [131. SLAM (동시 위치 추정과 지도 작성) - XR/자율주행의 공간 인식 핵심](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/131_slam_simultaneous_localization_mapping/) →
+<- **이전**: [129. 공간 컴퓨팅 & Apple Vision Pro - 차세대 인터페이스 패러다임](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/129_spatial_computing_apple_vision_pro/)
+**다음**: [131. SLAM (동시 위치 추정과 지도 작성) - XR/자율주행의 공간 인식 핵심](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/131_slam_simultaneous_localization_mapping/) ->
 
 ---

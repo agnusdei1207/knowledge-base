@@ -43,17 +43,17 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 피연산자 종류에 따라 CPU 내부의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 경로가 달라지는 모습을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                operand path: data location changes latency                 │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Instruction = [ opcode | operand specifier ]                              │
-│                    │                                                       │
-│                    ├── immediate field ───────────────▶ ALU input          │
-│                    ├── register index ─▶ Register File ─▶ ALU input        │
-│                    └── memory address ─▶ Cache / Memory ─▶ Register / ALU  │
-│                                                                            │
-│ Result ─▶ Register write-back / memory store                               │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                operand path: data location changes latency                 |
++----------------------------------------------------------------------------+
+| Instruction = [ opcode | operand specifier ]                              |
+|                    |                                                       |
+|                    +-- immediate field ----------------> ALU input          |
+|                    +-- register index --> Register File --> ALU input        |
+|                    +-- memory address --> Cache / Memory --> Register / ALU  |
+|                                                                            |
+| Result --> Register write-back / memory store                               |
++----------------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 같은 `ADD` 명령이라도 피연산자 위치가 달라지면 실제로 열리는 하드웨어 경로가 완전히 달라진다는 점이다. 즉시값은 디코드 후 바로 쓰이지만, 메모리 피연산자는 주소 계산과 캐시 접근이 추가되고, 그만큼 지연과 전력 소모가 커진다. 그래서 현대 프로세서는 연산기 자체보다 피연산자 공급 경로를 더 엄격하게 설계한다.
@@ -122,18 +122,18 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 상수 / 레지스터 / 메모리
-        │
-        ▼
+        |
+        v
 피연산자 해석
 (Addressing Mode)
-        │
-        ▼
+        |
+        v
 0·1·2·3-주소 명령어 구조
-        │
-        ▼
+        |
+        v
 로드-스토어 아키텍처
-        │
-        ▼
+        |
+        v
 컴파일러의 레지스터 할당 최적화
 ```
 
@@ -151,7 +151,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 160 / 803
 
-← **이전**: [159. 연산 코드 (Opcode)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/)
-**다음**: [161. 누산기 (Accumulator)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/) →
+<- **이전**: [159. 연산 코드 (Opcode)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/)
+**다음**: [161. 누산기 (Accumulator)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/) ->
 
 ---

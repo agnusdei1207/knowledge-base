@@ -29,7 +29,7 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 일반적으로 `데이터 수집 → 피처 엔지니어링 → 학습/검증 → 모델 등록 → 배포 → 모니터링 → 재학습`으로 흐른다. 이때 [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 오프라인 학습용 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)와 온라인 서빙용 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)의 정의를 맞추는 핵심 장치다.
+[MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 일반적으로 `데이터 수집 -> 피처 엔지니어링 -> 학습/검증 -> 모델 등록 -> 배포 -> 모니터링 -> 재학습`으로 흐른다. 이때 [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 오프라인 학습용 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)와 온라인 서빙용 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)의 정의를 맞추는 핵심 장치다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -39,15 +39,15 @@ tags = ["studynote-devops-sre"]
 | [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·드리프트 감시 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질, 예측 품질, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 |
 
 ```text
-┌──────────────┐   features   ┌──────────────┐   train    ┌──────────────┐
-│ Raw Data     │ ───────────▶ │ Feature Store│ ─────────▶ │ Training     │
-└──────────────┘              └──────────────┘            └──────────────┘
-        │                              │                           │
-        │ monitor                      │ online/offline parity     │ register
-        ▼                              ▼                           ▼
-┌──────────────┐              ┌──────────────┐            ┌──────────────┐
-│ Drift Check  │ ◀─────────── │ Serving      │ ◀───────── │ Model Registry│
-└──────────────┘              └──────────────┘            └──────────────┘
++--------------+   features   +--------------+   train    +--------------+
+| Raw Data     | ------------> | Feature Store| ----------> | Training     |
++--------------+              +--------------+            +--------------+
+        |                              |                           |
+        | monitor                      | online/offline parity     | register
+        v                              v                           v
++--------------+              +--------------+            +--------------+
+| Drift Check  | <------------ | Serving      | <---------- | Model Registry|
++--------------+              +--------------+            +--------------+
 ```
 
 핵심 원리는 “학습과 운영이 같은 정의를 사용하게 만드는 것”이다. [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/) 없이 학습용 SQL과 운영용 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 로직이 따로 움직이면, 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 원인을 찾기 어렵다. 또한 재학습은 자동화할 수 있지만, 무조건 자동 승격하는 것이 아니라 품질 기준과 인간 승인 단계를 둬야 안전하다.
@@ -118,18 +118,18 @@ MLOps를 잘 구축하면 모델 배포 속도뿐 아니라 재현성과 [감사
 
 ```text
 Model Training Script
-   │
-   ▼
+   |
+   v
 Experiment Tracking
-   │
-   ▼
+   |
+   v
 Feature Store + Registry
-   │
-   ▼
+   |
+   v
 MLOps Monitoring / Retraining Loop
 ```
 
-이 흐름은 “실험 중심 → 재현성 확보 → 운영 표준화 → 지속적 재학습”으로 MLOps가 성숙하는 경로를 보여준다.
+이 흐름은 “실험 중심 -> 재현성 확보 -> 운영 표준화 -> 지속적 재학습”으로 MLOps가 성숙하는 경로를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -143,7 +143,7 @@ MLOps Monitoring / Retraining Loop
 
 **진행 상황**: 345 / 373
 
-← **이전**: [344. 데이터 패브릭 가상화·메타·지식 연결망 (Data Fabric)](/knowledge-base/studynote/15_devops_sre/05_devsecops/344_process/)
-**다음**: [346. LLM RAG 환각 제어·벡터 임베딩 DB 검색 (Large Language Model Retrieval-Augmented Generation)](/knowledge-base/studynote/15_devops_sre/05_devsecops/346_llm_rag_db/) →
+<- **이전**: [344. 데이터 패브릭 가상화·메타·지식 연결망 (Data Fabric)](/knowledge-base/studynote/15_devops_sre/05_devsecops/344_process/)
+**다음**: [346. LLM RAG 환각 제어·벡터 임베딩 DB 검색 (Large Language Model Retrieval-Augmented Generation)](/knowledge-base/studynote/15_devops_sre/05_devsecops/346_llm_rag_db/) ->
 
 ---

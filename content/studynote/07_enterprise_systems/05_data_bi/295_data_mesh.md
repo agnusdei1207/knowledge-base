@@ -38,13 +38,13 @@ tags = ["studynote-enterprise"]
 | 연합 거버넌스 | 전사 표준은 지키되 실행은 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 위임 | [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/) 유지와 자율성 사이의 균형 |
 
 ```text
-[도메인 A: 마케팅] ──▶ [데이터 제품 A] ──┐
-                                          │
-[도메인 B: 물류]   ──▶ [데이터 제품 B] ──┼──▶ [전사 데이터 메시망]
-                                          │      (표준 API 연동)
-[도메인 C: 재무]   ──▶ [데이터 제품 C] ──┘
-          ▲
-          └────── [중앙 셀프 서비스 데이터 플랫폼 (가이드/도구)]
+[도메인 A: 마케팅] ---> [데이터 제품 A] --+
+                                          |
+[도메인 B: 물류]   ---> [데이터 제품 B] --+---> [전사 데이터 메시망]
+                                          |      (표준 API 연동)
+[도메인 C: 재무]   ---> [데이터 제품 C] --+
+          ^
+          +------ [중앙 셀프 서비스 데이터 플랫폼 (가이드/도구)]
 ```
 
 - **📢 섹션 요약 비유**: 중앙 도서관이 모든 책을 정리하는 대신, 각 전문 학과([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))에서 전공 서적을 관리하고 도서관은 책 대여 시스템(인프라)과 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 규칙(거버넌스)만 제공하는 원리다.
@@ -106,17 +106,17 @@ tags = ["studynote-enterprise"]
 
 ```
 중앙 집중형 데이터 레이크 - 병목·소유권 혼란
-    │
-    ▼
-데이터 플랫폼 팀 단독 관리 → 확장성 한계
-    │
-    ▼
+    |
+    v
+데이터 플랫폼 팀 단독 관리 -> 확장성 한계
+    |
+    v
 Data Mesh 패러다임 - 도메인 소유권 분산
-    │
-    ▼
+    |
+    v
 Data Product + 셀프서브 플랫폼 + 연합 거버넌스
-    │
-    ▼
+    |
+    v
 Federated Computational Governance 표준화
 ```
 
@@ -133,7 +133,7 @@ Federated Computational Governance 표준화
 
 **진행 상황**: 295 / 482
 
-← **이전**: [294. 제로 카피 클론 (Zero-Copy Cloning)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/294_zero_copy_cloning/)
-**다음**: [296. 데이터 패브릭 (Data Fabric)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/296_data_fabric/) →
+<- **이전**: [294. 제로 카피 클론 (Zero-Copy Cloning)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/294_zero_copy_cloning/)
+**다음**: [296. 데이터 패브릭 (Data Fabric)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/296_data_fabric/) ->
 
 ---

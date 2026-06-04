@@ -30,8 +30,8 @@ tags = ["it_management"]
 
 ```text
 Ordering?
-  ├─ Yes → Permutation
-  └─ No  → Combination
+  +- Yes -> Permutation
+  +- No  -> Combination
 ```
 
 | 개념 | 의미 |
@@ -101,9 +101,9 @@ Ordering?
 
 ```text
 Permutation
-  ↓
+  v
 Combination
-  ↓
+  v
 Probability
 ```
 
@@ -113,9 +113,9 @@ Probability
 
 ```text
 Factorial
-  ↓
+  v
 Permutation / Combination
-  ↓
+  v
 Binomial Coefficient
 ```
 
@@ -133,7 +133,7 @@ Binomial Coefficient
 
 **진행 상황**: 132 / 587
 
-← **이전**: [74. 이벤트 관리 (Event Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/074_event_management/)
-**다음**: [75. 세그먼트 트리 (Segment Tree) — 구간 쿼리/업데이트](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/) →
+<- **이전**: [74. 이벤트 관리 (Event Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/074_event_management/)
+**다음**: [75. 세그먼트 트리 (Segment Tree) — 구간 쿼리/업데이트](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/) ->
 
 ---

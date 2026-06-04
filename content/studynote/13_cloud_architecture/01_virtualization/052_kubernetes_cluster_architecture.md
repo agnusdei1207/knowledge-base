@@ -32,13 +32,13 @@ tags = ["studynote-cloud-architecture"]
 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 클러스터는 제어 평면과 워커 노드로 구성된다. 제어 평면은 상태를 결정하고, 워커 노드는 실제 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 실행한다. etcd는 상태 저장소이고, Scheduler는 배치 판단, Controller Manager는 원하는 상태와 실제 상태의 차이를 메운다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                   Kubernetes Cluster Flow                   │
-├──────────────────────────────────────────────────────────────┤
-│ kubectl → API Server → etcd                                 │
-│                      → Scheduler / Controller Manager       │
-│                      → Kubelet → Container Runtime → Pod    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                   Kubernetes Cluster Flow                   |
++--------------------------------------------------------------+
+| kubectl -> API Server -> etcd                                 |
+|                      -> Scheduler / Controller Manager       |
+|                      -> Kubelet -> Container Runtime -> Pod    |
++--------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 핵심 포인트 |
@@ -120,17 +120,17 @@ tags = ["studynote-cloud-architecture"]
 
 ```text
 컨테이너 실행
-    │
-    ▼
+    |
+    v
 오케스트레이션
-    │
-    ▼
+    |
+    v
 쿠버네티스 제어 평면
-    │
-    ▼
+    |
+    v
 워커 노드 / self-healing
-    │
-    ▼
+    |
+    v
 멀티 클러스터 / 클라우드 네이티브
 ```
 
@@ -148,7 +148,7 @@ tags = ["studynote-cloud-architecture"]
 
 **진행 상황**: 51 / 371
 
-← **이전**: [51. 벤더 종속 (Vendor Lock-in) - 클라우드 아키텍처의 함정](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/)
-**다음**: [53. 서비스와 파드 배포 (Service Pod Deployment)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/053_service_pod_deployment/) →
+<- **이전**: [51. 벤더 종속 (Vendor Lock-in) - 클라우드 아키텍처의 함정](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/)
+**다음**: [53. 서비스와 파드 배포 (Service Pod Deployment)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/053_service_pod_deployment/) ->
 
 ---

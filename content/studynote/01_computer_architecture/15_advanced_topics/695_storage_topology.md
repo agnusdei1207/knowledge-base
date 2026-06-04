@@ -48,15 +48,15 @@ tags = ["studynote-computer-architecture"]
 ```text
 [FC-AL: one shared loop]
 
-Host A ── Host B ── Storage A ── Storage B
-  ▲                                   │
-  └───────────────────────────────────┘
+Host A -- Host B -- Storage A -- Storage B
+  ^                                   |
+  +-----------------------------------+
 
 [FC-SW: switched fabric]
 
-Host A ─────┐
-Host B ─────┼──── [ SAN Switch ] ──── Storage A
-Host C ─────┘                └────── Storage B
+Host A -----+
+Host B -----+---- [ SAN Switch ] ---- Storage A
+Host C -----+                +------ Storage B
 ```
 
 이 그림의 핵심은 케이블 개수보다 <strong>통신권이 공유되는지, 독립되는지</strong>다. 루프에서는 모두가 같은 회전목마를 함께 타고 차례를 기다리지만, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 패브릭에서는 각자가 자신의 차선과 교차로를 가진다.
@@ -129,17 +129,17 @@ Host C ─────┘                └────── Storage B
 
 ```text
 Point-to-point direct attach
-    │
-    ▼
+    |
+    v
 FC-AL shared loop
-    │
-    ▼
+    |
+    v
 FC-SW switched fabric
-    │
-    ▼
+    |
+    v
 Dual-fabric high availability SAN
-    │
-    ▼
+    |
+    v
 Converged or hybrid storage networking
 ```
 
@@ -157,7 +157,7 @@ Converged or hybrid storage networking
 
 **진행 상황**: 696 / 803
 
-← **이전**: [694. 광 디스크 주크박스](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/694_optical_disc_jukebox/)
-**다음**: [696. Fibre Channel (FC) 프로토콜](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) →
+<- **이전**: [694. 광 디스크 주크박스](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/694_optical_disc_jukebox/)
+**다음**: [696. Fibre Channel (FC) 프로토콜](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) ->
 
 ---

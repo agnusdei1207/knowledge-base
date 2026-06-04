@@ -26,12 +26,12 @@ tags = ["studynote-ict-convergence"]
 아래 도식은 이 개념이 등장한 배경과 기대 효과를 세 칸으로 압축한 그림이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Why Needed           │ Core Idea            │ Expected Gain │
-├──────────────────────────────────────────────────────────────┤
-│ 문제와 제약           │ 구조/규칙/역할        │ 성능·신뢰·운영 │
-│ 배경을 정리           │ 무엇을 바꾸는가        │ 무엇이 좋아지는가 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Why Needed           | Core Idea            | Expected Gain |
++--------------------------------------------------------------+
+| 문제와 제약           | 구조/규칙/역할        | 성능·신뢰·운영 |
+| 배경을 정리           | 무엇을 바꾸는가        | 무엇이 좋아지는가 |
++--------------------------------------------------------------+
 ```
 
 이 그림에서 기억할 점은 이 개념이 단순 기능이 아니라 배경 문제를 운영 가능한 구조로 번역하는 중간 계층이라는 사실이다. 그래서 공부할 때도 정의만 외우기보다, 무엇이 부족했고 이 개념이 그 부족함을 어디서 보완하는지 먼저 잡는 편이 효과적이다.
@@ -54,11 +54,11 @@ tags = ["studynote-ict-convergence"]
 아래 구조도는 이 개념이 실제 시스템 안에서 어떻게 흘러가는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Input        │ Control            │ Governance       │ Outcome │
-├──────────────────────────────────────────────────────────────┤
-│ 데이터·요청   │ 핵심 처리/규칙       │ 정책·검증·조정    │ 서비스 가치 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Input        | Control            | Governance       | Outcome |
++--------------------------------------------------------------+
+| 데이터·요청   | 핵심 처리/규칙       | 정책·검증·조정    | 서비스 가치 |
++--------------------------------------------------------------+
 ```
 
 핵심은 어느 한 단계만 좋아서는 전체 품질이 좋아지지 않는다는 점이다. 입력 조건이 흔들리면 뒤 단계가 좋아도 결과는 불안정하고, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 지점이 없으면 일시적으로 빠르게 보여도 운영 안정성이 무너진다. 따라서 이 개념은 개별 기능이 아니라 흐름 전체를 맞추는 설계 문제로 이해해야 한다.
@@ -130,12 +130,12 @@ tags = ["studynote-ict-convergence"]
 
 ```text
 [다중 공선성]
-    │
-    ▼
+    |
+    v
 [더미 변수]
-    │
-    ├──▶ [로지스틱 회귀]
-    └──▶ [실시간 분석 / 거버넌스 자동화]
+    |
+    +---> [로지스틱 회귀]
+    +---> [실시간 분석 / 거버넌스 자동화]
 ```
 
 이 흐름도는 [다중 공선성](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/)에서 출발해 현재 개념을 거쳐 [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)와 실시간 분석 방향으로 확장되는 학습 흐름을 보여 준다. 즉, 현재 개념은 독립된 섬이 아니라 앞 개념의 문제를 받아 다음 단계의 설계 선택으로 넘겨 주는 연결 고리다.
@@ -151,7 +151,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 330 / 552
 
-← **이전**: [329. 다중 공선성 (Multicollinearity)](/knowledge-base/studynote/06_ict_convergence/05_data_science/329_multicollinearity_vif/)
-**다음**: [331. 로지스틱 회귀 (Logistic Regression)](/knowledge-base/studynote/06_ict_convergence/05_data_science/331_logistic_regression/) →
+<- **이전**: [329. 다중 공선성 (Multicollinearity)](/knowledge-base/studynote/06_ict_convergence/05_data_science/329_multicollinearity_vif/)
+**다음**: [331. 로지스틱 회귀 (Logistic Regression)](/knowledge-base/studynote/06_ict_convergence/05_data_science/331_logistic_regression/) ->
 
 ---

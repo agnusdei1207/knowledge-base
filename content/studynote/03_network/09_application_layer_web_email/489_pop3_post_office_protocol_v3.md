@@ -31,39 +31,39 @@ tags = ["studynote-network"]
   3. **RFC 1939 확립**: 1996년 POP3 버전이 확립되며 인터넷 메일 수신의 전 세계 표준으로 등극했다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│              POP3 프로토콜 통신 흐름도 (상태 다이어그램)         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ [송신자 PC (Outlook)]                   [수신측 POP3 서버]   │
-│   │                                         │               │
-│   │ 1. TCP 110 포트 연결 (3-Way Handshake)   │               │
-│   │◀───────────────────────── +OK POP3 server ready       │
-│   │                                         │               │
-│   ====== [ AUTHORIZATION (인증 상태) ] ======              │
-│   │ 2. USER alice                           │               │
-│   │─────────────────────────▶               │               │
-│   │◀───────────────────────── +OK User accepted           │
-│   │ 3. PASS secret123                       │               │
-│   │─────────────────────────▶               │               │
-│   │◀───────────────────────── +OK Pass accepted           │
-│   │                                         │               │
-│   ====== [ TRANSACTION (트랜잭션 상태) ] ======            │
-│   │ 4. STAT (메일 개수와 총 용량 묻기)          │               │
-│   │─────────────────────────▶               │               │
-│   │◀───────────────────────── +OK 2 320 (2통, 320바이트)  │
-│   │ 5. RETR 1 (1번 메일 가져와!)               │               │
-│   │─────────────────────────▶               │               │
-│   │◀───────────────────────── +OK 120 octets (본문 전송..)│
-│   │ 6. DELE 1 (1번 메일 지워버려!)             │               │
-│   │─────────────────────────▶               │               │
-│   │◀───────────────────────── +OK message 1 deleted     │
-│   │                                         │               │
-│   ====== [ UPDATE (업데이트 상태) ] ======                 │
-│   │ 7. QUIT                                 │               │
-│   │─────────────────────────▶               │               │
-│   │◀───────────────────────── +OK Bye (진짜 디스크 파쇄)   │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|              POP3 프로토콜 통신 흐름도 (상태 다이어그램)         |
++-------------------------------------------------------------+
+|                                                             |
+| [송신자 PC (Outlook)]                   [수신측 POP3 서버]   |
+|   |                                         |               |
+|   | 1. TCP 110 포트 연결 (3-Way Handshake)   |               |
+|   |<-------------------------- +OK POP3 server ready       |
+|   |                                         |               |
+|   ====== [ AUTHORIZATION (인증 상태) ] ======              |
+|   | 2. USER alice                           |               |
+|   |-------------------------->               |               |
+|   |<-------------------------- +OK User accepted           |
+|   | 3. PASS secret123                       |               |
+|   |-------------------------->               |               |
+|   |<-------------------------- +OK Pass accepted           |
+|   |                                         |               |
+|   ====== [ TRANSACTION (트랜잭션 상태) ] ======            |
+|   | 4. STAT (메일 개수와 총 용량 묻기)          |               |
+|   |-------------------------->               |               |
+|   |<-------------------------- +OK 2 320 (2통, 320바이트)  |
+|   | 5. RETR 1 (1번 메일 가져와!)               |               |
+|   |-------------------------->               |               |
+|   |<-------------------------- +OK 120 octets (본문 전송..)|
+|   | 6. DELE 1 (1번 메일 지워버려!)             |               |
+|   |-------------------------->               |               |
+|   |<-------------------------- +OK message 1 deleted     |
+|   |                                         |               |
+|   ====== [ UPDATE (업데이트 상태) ] ======                 |
+|   | 7. QUIT                                 |               |
+|   |-------------------------->               |               |
+|   |<-------------------------- +OK Bye (진짜 디스크 파쇄)   |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** POP3의 단순 무식하고 직관적인 철학이다. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 거치고 들어가면 `RETR`(Retrieve) 명령으로 이메일 텍스트를 다운받는다. 그리고 기본적으로 `DELE`(Delete) 명령을 날려 서버의 메일을 지운다. 주의할 점은 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 도중에 `DELE`를 쳐도 서버에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 바로 지워지지 않는다는 것이다. 오직 `QUIT` 명령을 쳐서 정상적으로 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 닫고 나가는 마지막 순간(UPDATE [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))에 일괄적으로 삭제된다. 중간에 인터넷이 끊기면 지워지지 않은 채 다음 접속 시 다시 다운받게 되는 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/))을 나름대로 갖추고 있다.
@@ -88,11 +88,11 @@ POP3의 아키텍처는 기본적으로 <strong>'서버는 우체통, 내 PC가 
 
 ```text
 [SMTP]
-    │
-    ▼
+    |
+    v
 [POP3]
-    │
-    └──▶ [IMAP4]
+    |
+    +---> [IMAP4]
 ```
 
 - **📢 섹션 요약 비유**: POP3로 메일을 읽는 건 도서관에서 책을 아예 '대출해서 집으로 가져가는 것(다운 및 삭제)'입니다. 집에 책을 놔두고 빈손으로 다시 도서관(서버)에 가면 그 책을 절대 볼 수 없죠. 억지로 도서관 책을 복사해서(복사본 남기기) 집에 가져갔다고 해도, 내가 집에 있는 복사본에 형광펜(읽음 표시)을 칠했다고 도서관에 남아있는 원본 책에 형광펜이 칠해지는 마법은 절대 일어나지 않습니다.
@@ -128,31 +128,31 @@ POP3의 아키텍처는 기본적으로 <strong>'서버는 우체통, 내 PC가 
    - **판단**: IMAP은 복잡한 폴더 트리와 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 통신 오버헤드가 커서 무거운 벌크(Bulk) 다운로드엔 속도가 느리다. 단순 무식하게 서버의 '받은 편지함'을 처음부터 끝까지 `RETR 1`부터 `RETR 100000`까지 쭉쭉 순차적으로 빨아들여 로컬 텍스트(`.eml` 또는 `mbox`)로 파싱해 내는 용도라면, 파이썬이나 Java 스크립트에서 가벼운 POP3 클라이언트 라이브러리를 써서 덤프를 뜨는 것이 가장 확실하고 원시적인 추출 파이프라인이다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │        실무 아키텍처: 왜 모바일 시대에 POP3는 버려졌는가? (동기화 지옥) │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │ [ ❌ POP3 멀티 디바이스 접속 참사 ]                            │
-  │  (상황: 출근길 폰으로 먼저 메일을 봄 ➔ 회사 와서 PC를 켬)             │
-  │                                                             │
-  │  1. 스마트폰 ──(POP3 접속)──▶ 서버 (편지 5통 있음)                │
-  │  2. 스마트폰 ◀──(5통 다운 및 삭제)── 서버                        │
-  │  ➔ 폰 화면: 편지 5개 뜸! 📱 / 서버 상태: 텅 빔 💥                  │
-  │                                                             │
-  │  3. 회사 PC ──(POP3 접속)──▶ 서버 (텅 빔)                      │
-  │  ➔ PC 화면: "새 메일이 없습니다." 💻 (직원 멘붕: 어? 아침에 온 거 어딨지?) │
-  │                                                             │
-  │ [ ✅ IMAP4의 클라우드 동기화 (Single Source of Truth) ]         │
-  │  1. 스마트폰 ──(IMAP 접속)──▶ 서버 (편지 5통 있음)                 │
-  │  ➔ 폰 화면: 편지 5통 (다운 안 하고 헤더만 봄) 📱                   │
-  │                                                             │
-  │  2. 회사 PC ──(IMAP 접속)──▶ 서버 (편지 5통 그대로 있음)            │
-  │  ➔ PC 화면: 편지 5통 (똑같이 보임) 💻                            │
-  │  3. PC에서 1번 편지 읽고 삭제 ➔ 서버에서 삭제됨 ➔ 폰 화면에서도 즉시 삭제!│
-  │                                                             │
-  │ 🌟 결론: 상태(Status)를 클라이언트 기기에 두는 POP3 아키텍처는 기기가   │
-  │ 2대 이상 되는 순간 데이터 파편화가 일어나 쓸 수 없는 골동품이 되었다.      │
-└─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |        실무 아키텍처: 왜 모바일 시대에 POP3는 버려졌는가? (동기화 지옥) |
+  +-------------------------------------------------------------+
+  |                                                             |
+  | [ ❌ POP3 멀티 디바이스 접속 참사 ]                            |
+  |  (상황: 출근길 폰으로 먼저 메일을 봄 ➔ 회사 와서 PC를 켬)             |
+  |                                                             |
+  |  1. 스마트폰 --(POP3 접속)---> 서버 (편지 5통 있음)                |
+  |  2. 스마트폰 <---(5통 다운 및 삭제)-- 서버                        |
+  |  ➔ 폰 화면: 편지 5개 뜸! 📱 / 서버 상태: 텅 빔 💥                  |
+  |                                                             |
+  |  3. 회사 PC --(POP3 접속)---> 서버 (텅 빔)                      |
+  |  ➔ PC 화면: "새 메일이 없습니다." 💻 (직원 멘붕: 어? 아침에 온 거 어딨지?) |
+  |                                                             |
+  | [ ✅ IMAP4의 클라우드 동기화 (Single Source of Truth) ]         |
+  |  1. 스마트폰 --(IMAP 접속)---> 서버 (편지 5통 있음)                 |
+  |  ➔ 폰 화면: 편지 5통 (다운 안 하고 헤더만 봄) 📱                   |
+  |                                                             |
+  |  2. 회사 PC --(IMAP 접속)---> 서버 (편지 5통 그대로 있음)            |
+  |  ➔ PC 화면: 편지 5통 (똑같이 보임) 💻                            |
+  |  3. PC에서 1번 편지 읽고 삭제 ➔ 서버에서 삭제됨 ➔ 폰 화면에서도 즉시 삭제!|
+  |                                                             |
+  | 🌟 결론: 상태(Status)를 클라이언트 기기에 두는 POP3 아키텍처는 기기가   |
+  | 2대 이상 되는 순간 데이터 파편화가 일어나 쓸 수 없는 골동품이 되었다.      |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 클라이언트-서버 구조에서 <strong>"상태(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>)를 누가 통제할 것인가"</strong>에 대한 아키텍처 대결이다. POP3는 상태 관리를 100% 클라이언트에게 떠넘겼다. 서버는 편지 전달 역할만 하고 책임을 회피했다. PC가 1대일 때는 완벽했지만 모바일 시대엔 재앙이 되었다. IMAP은 편지의 보관, 폴더 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 읽음 표시라는 복잡한 상태 관리를 100% 서버 DB로 끌어올린(Server-centric) 클라우드 철학이다. 현대의 모든 소프트웨어 시스템은 클라이언트를 멍청한 바보(Thin [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))로 만들고 서버 중앙 집중화로 상태를 통제하는 방향으로 진화했음을 가장 잘 보여주는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 교체 역사다.
@@ -203,12 +203,12 @@ POP3의 아키텍처는 기본적으로 <strong>'서버는 우체통, 내 PC가 
 
 ```text
 [선행 개념: SMTP]
-    │
-    ▼
+    |
+    v
 [현재 개념: POP3]
-    │
-    ├──▶ [확장 A: IMAP4]
-    └──▶ [확장 B: 지능형 애플리케이션 전달]
+    |
+    +---> [확장 A: IMAP4]
+    +---> [확장 B: 지능형 애플리케이션 전달]
 ```
 
 POP3는 SMTP에서 출발해 현재 메커니즘을 정교화하고, 이후 IMAP4와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -225,7 +225,7 @@ POP3는 SMTP에서 출발해 현재 메커니즘을 정교화하고, 이후 IMAP
 
 **진행 상황**: 610 / 1120
 
-← **이전**: [488. SMTP (Simple Mail Transfer Protocol)](/knowledge-base/studynote/03_network/09_application_layer_web_email/488_smtp_simple_mail_transfer_protocol/)
-**다음**: [490. IMAP4 (Internet Message Access Protocol v4)](/knowledge-base/studynote/03_network/09_application_layer_web_email/490_imap4_internet_message_access_protocol/) →
+<- **이전**: [488. SMTP (Simple Mail Transfer Protocol)](/knowledge-base/studynote/03_network/09_application_layer_web_email/488_smtp_simple_mail_transfer_protocol/)
+**다음**: [490. IMAP4 (Internet Message Access Protocol v4)](/knowledge-base/studynote/03_network/09_application_layer_web_email/490_imap4_internet_message_access_protocol/) ->
 
 ---

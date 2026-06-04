@@ -11,7 +11,7 @@ tags = ["studynote-data-engineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 멀티모달(Multimodal) AI는 텍스트·이미지·오디오·비디오 등 여러 모달리티(Modality)를 동일한 잠재 공간(Latent Space)에 매핑해, 모달 간 의미적 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 학습한다.
-> 2. **가치**: [CLIP](/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/) ([Contrastive Language-Image Pre-training](/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/))은 4억 개 이미지-텍스트 쌍의 대조 학습(Contrastive [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))으로 텍스트 → 이미지 제로샷 검색·[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)를 가능하게 한다.
+> 2. **가치**: [CLIP](/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/) ([Contrastive Language-Image Pre-training](/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/))은 4억 개 이미지-텍스트 쌍의 대조 학습(Contrastive [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))으로 텍스트 -> 이미지 제로샷 검색·[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)를 가능하게 한다.
 > 3. **판단 포인트**: GPT-4V, Gemini 같은 Large Multimodal Model (LMM)은 이미지를 보면서 텍스트를 이해하고 생성하며, Vision [Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) + [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 결합이 현대 멀티모달 AI의 표준 아키텍처다.
 
 ## Ⅰ. 개요 및 필요성
@@ -48,12 +48,12 @@ tags = ["studynote-data-engineering"]
 이미지:  [고양이 사진] [강아지 사진] [자동차 사진]
 텍스트:  ["귀여운 고양이"] ["강아지가 뛴다"] ["빨간 자동차"]
 
-이미지 인코더 → 이미지 임베딩 I₁, I₂, I₃
-텍스트 인코더 → 텍스트 임베딩 T₁, T₂, T₃
+이미지 인코더 -> 이미지 임베딩 I₁, I₂, I₃
+텍스트 인코더 -> 텍스트 임베딩 T₁, T₂, T₃
 
 유사도 행렬:
          T₁      T₂      T₃
-  I₁ [  HIGH   LOW    LOW  ]  ← 매칭 쌍 높게
+  I₁ [  HIGH   LOW    LOW  ]  <- 매칭 쌍 높게
   I₂ [  LOW   HIGH   LOW  ]
   I₃ [  LOW    LOW   HIGH ]
 
@@ -62,20 +62,20 @@ tags = ["studynote-data-engineering"]
 [GPT-4V / LMM 아키텍처]
 
 이미지 입력
-     │
+     |
 Vision Encoder (CLIP ViT 등)
-     │
+     |
 이미지 패치 임베딩
-     │
+     |
 Linear Projection (차원 맞춤)
-     │
-     └────────────┐
-텍스트 토큰        │
-     └────────────┘
-                  │
+     |
+     +------------+
+텍스트 토큰        |
+     +------------+
+                  |
             LLM (GPT-4 등)
             (이미지+텍스트 통합 처리)
-                  │
+                  |
             텍스트 응답 생성
 ```
 
@@ -114,7 +114,7 @@ Linear Projection (차원 맞춤)
 
 **멀티모달 시스템 설계**
 - Vision [Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) 선택: [CLIP](/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/) ViT-L/14 (범용), DINOv2 (지역 특징)
-- Projector: MLP 또는 Q-Former (Flamingo 방식)으로 이미지→텍스트 차원 연결
+- Projector: MLP 또는 Q-Former (Flamingo 방식)으로 이미지->텍스트 차원 연결
 - [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 선택: LLaVA(LLaMA+[CLIP](/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/)), InternVL, CogVLM
 
 **음성-텍스트 (ASR) 파이프라인**
@@ -152,21 +152,21 @@ Linear Projection (차원 맞춤)
 
 ```text
 단일 모달 AI (텍스트만 / 이미지만)
-    │
-    ▼
+    |
+    v
 CLIP (OpenAI, 2021) — 대조 학습으로 텍스트-이미지 정렬
-    │
-    ▼
+    |
+    v
 멀티모달 LLM (MLLM)
-    ├─► GPT-4V / GPT-4o — 이미지+텍스트+음성
-    ├─► LLaVA — 비전 인코더 + LLM 결합
-    ├─► Gemini — 네이티브 멀티모달
-    └─► ImageBind — 6가지 모달 통합
-    │
-    ▼
+    +-► GPT-4V / GPT-4o — 이미지+텍스트+음성
+    +-► LLaVA — 비전 인코더 + LLM 결합
+    +-► Gemini — 네이티브 멀티모달
+    +-► ImageBind — 6가지 모달 통합
+    |
+    v
 비전 인코더 (ViT / SigLIP) + LLM 디코더
-    │
-    ▼
+    |
+    v
 옴니모달 AI — 모든 감각 통합 추론
 ```
 
@@ -176,7 +176,7 @@ CLIP (OpenAI, 2021) — 대조 학습으로 텍스트-이미지 정렬
 
 **진행 상황**: 158 / 258
 
-← **이전**: [157. 시계열 예측 딥러닝 TCN (Temporal Convolutional Network) 병렬 합성곱](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/157_time_series_deep_learning_tcn_transformer/)
-**다음**: [159. GNN (Graph Neural Network) 그래프 노드 메시지 패싱 네트워크](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) →
+<- **이전**: [157. 시계열 예측 딥러닝 TCN (Temporal Convolutional Network) 병렬 합성곱](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/157_time_series_deep_learning_tcn_transformer/)
+**다음**: [159. GNN (Graph Neural Network) 그래프 노드 메시지 패싱 네트워크](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) ->
 
 ---

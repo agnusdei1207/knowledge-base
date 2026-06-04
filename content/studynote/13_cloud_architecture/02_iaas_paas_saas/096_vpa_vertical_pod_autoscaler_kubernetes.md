@@ -38,19 +38,19 @@ VPA 아키텍처는 관찰, 추천, 그리고 실행을 담당하는 3개의 핵
 | **Admission Controller** | Webhook을 통한 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 주입 | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 새로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)될 때(재시작 시), Recommender의 권장값을 YAML에 덮어쓰기 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  VPA 자원 갱신 메커니즘                     │
-├──────────────────────────────────────────────────────────────┤
-│  [Metric Server] ─▶ (1.사용량 이력) ─▶ [VPA Recommender]   │
-│                                              │               │
-│  [VPA Updater] ◀── (3.축출 지시) ◀── (2.권장값 계산)       │
-│        │                                     │               │
-│        ▼ (4.파드 강제 종료)                  ▼ (5.YAML 덮어쓰기)│
-│  [기존 Pod (RAM 256M)]             [Admission Controller]    │
-│                                              │               │
-│                                              ▼               │
-│                                    [새 Pod 생성 (RAM 512M)]  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  VPA 자원 갱신 메커니즘                     |
++--------------------------------------------------------------+
+|  [Metric Server] --> (1.사용량 이력) --> [VPA Recommender]   |
+|                                              |               |
+|  [VPA Updater] <--- (3.축출 지시) <--- (2.권장값 계산)       |
+|        |                                     |               |
+|        v (4.파드 강제 종료)                  v (5.YAML 덮어쓰기)|
+|  [기존 Pod (RAM 256M)]             [Admission Controller]    |
+|                                              |               |
+|                                              v               |
+|                                    [새 Pod 생성 (RAM 512M)]  |
++--------------------------------------------------------------+
 ```
 
 VPA의 가장 큰 제약은 리눅스 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 특성상 런타임 중에 리소스를 부드럽게 늘릴 수 없다는 점이다. 따라서 자원을 변경하려면 어쩔 수 없이 기존 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 죽이고 새로운 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값을 가진 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 다시 띄워야 한다. 이를 '파괴적 재시작'이라 부르며, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 일시적 단절을 유발할 수 있다.
@@ -116,21 +116,21 @@ VPA를 적절히 활용하면 클러스터의 오버 프로비저닝을 제거�
 
 ```text
 수동 자원 할당 (Manual Allocation)
-    │
-    ▼
+    |
+    v
 OOM 장애 및 오버 프로비저닝 (Over-provisioning) 발생
-    │
-    ▼
+    |
+    v
 HPA (Horizontal Pod Autoscaler) 도입 (개수 확장)
-    │
-    ▼
+    |
+    v
 VPA (Vertical Pod Autoscaler) 도입 (크기 최적화 및 추천)
-    │
-    ▼
+    |
+    v
 In-place VPA (파드 재시작 없는 런타임 자원 갱신 연구)
 ```
 
-이 흐름도는 자원 관리 방식이 "수동 추측 → 수평 확장 → 수직 맞춤화 → 무중단 갱신"으로 진화하는 과정을 보여준다.
+이 흐름도는 자원 관리 방식이 "수동 추측 -> 수평 확장 -> 수직 맞춤화 -> 무중단 갱신"으로 진화하는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -144,7 +144,7 @@ In-place VPA (파드 재시작 없는 런타임 자원 갱신 연구)
 
 **진행 상황**: 95 / 371
 
-← **이전**: [95. HPA (Horizontal Pod Autoscaler) - CPU 기반 파드 자동 스케일링](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/)
-**다음**: [97. 클러스터 오토스케일러 (CA) - K8s 물리 노드 자동 스케일링](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/097_ca_cluster_autoscaler_kubernetes_node_scaling/) →
+<- **이전**: [95. HPA (Horizontal Pod Autoscaler) - CPU 기반 파드 자동 스케일링](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/)
+**다음**: [97. 클러스터 오토스케일러 (CA) - K8s 물리 노드 자동 스케일링](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/097_ca_cluster_autoscaler_kubernetes_node_scaling/) ->
 
 ---

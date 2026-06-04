@@ -26,16 +26,16 @@ DPA가 중요한 이유는 강력한 [AES](/knowledge-base/studynote/03_network/
 아래 그림은 DPA가 "암호화 결과"가 아니라 <strong>전력 파형의 반복 수집</strong>을 시작점으로 삼는다는 점을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│ DPA setup: capture many traces while one secret key is reused   │
-├──────────────────────────────────────────────────────────────────┤
-│ Power source ── Rshunt ── Target chip                           │
-│                    │                                             │
-│                    └── amplifier / oscilloscope -> trace_i(t)   │
-│ Inputs    : P1, P2, P3, ...                                     │
-│ Secret key: fixed during measurement                            │
-│ Goal      : correlate traces with guessed intermediate values    │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+| DPA setup: capture many traces while one secret key is reused   |
++------------------------------------------------------------------+
+| Power source -- Rshunt -- Target chip                           |
+|                    |                                             |
+|                    +-- amplifier / oscilloscope -> trace_i(t)   |
+| Inputs    : P1, P2, P3, ...                                     |
+| Secret key: fixed during measurement                            |
+| Goal      : correlate traces with guessed intermediate values    |
++------------------------------------------------------------------+
 ```
 
 즉 DPA는 "기계를 열어보지 않고도, 전기 사용 습관만 모아 비밀을 추론하는 것"이다. 그래서 작은 스마트카드, MCU ([Microcontroller](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) Unit), 보안 토큰처럼 외형은 단순해도 반복 동작이 가능한 장치에 특히 치명적이다.
@@ -46,7 +46,7 @@ DPA가 중요한 이유는 강력한 [AES](/knowledge-base/studynote/03_network/
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-DPA의 물리적 토대는 동적 전력의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성이다. 간단히 쓰면 `P_dyn ≈ α × C × V² × f`이며, 여기서 `α`는 스위칭 활동량이다. [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 많이 바뀌거나 특정 버스에서 전하 이동이 커질수록 전력 파형에 차이가 생긴다. 공격자는 이 차이를 직접 읽기보다, 중간 연산값에 대한 가설과 전력 파형의 상관을 계산한다.
+DPA의 물리적 토대는 동적 전력의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성이다. 간단히 쓰면 `P_dyn ≈ α × C × V^ × f`이며, 여기서 `α`는 스위칭 활동량이다. [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 많이 바뀌거나 특정 버스에서 전하 이동이 커질수록 전력 파형에 차이가 생긴다. 공격자는 이 차이를 직접 읽기보다, 중간 연산값에 대한 가설과 전력 파형의 상관을 계산한다.
 
 대표적인 절차는 다음과 같다.
 
@@ -66,18 +66,18 @@ DPA의 물리적 토대는 동적 전력의 [데이터](/knowledge-base/studynot
 아래 그림은 수많은 trace 속에서 올바른 키 가설만 뚜렷한 peak를 남기는 상황을 개념적으로 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│ Correct key guess creates a visible statistical peak            │
-├──────────────────────────────────────────────────────────────────┤
-│ score                                                           │
-│  ^                                                              │
-│  |   wrong guesses  _  _  _                                     │
-│  |                 / \/ \/ \__                                  │
-│  |________________/______________\__________ time               │
-│  |                               /\                             │
-│  |                              /  \  correct guess             │
-│  +───────────────────────────────────────────────────────────▶  │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+| Correct key guess creates a visible statistical peak            |
++------------------------------------------------------------------+
+| score                                                           |
+|  ^                                                              |
+|  |   wrong guesses  _  _  _                                     |
+|  |                 / \/ \/ \__                                  |
+|  |________________/______________\__________ time               |
+|  |                               /\                             |
+|  |                              /  \  correct guess             |
+|  +------------------------------------------------------------>  |
++------------------------------------------------------------------+
 ```
 
 결국 DPA는 전력 파형의 절대값보다 <strong>입력 변화에 따라 같은 시간축에서 얼마나 일관된 차이가 반복되는가</strong>를 읽는다. 그래서 노이즈가 크더라도 반복 횟수가 충분하면 공격이 성립할 수 있다.
@@ -161,17 +161,17 @@ DPA를 이해하면 보안 칩 설계가 단순히 "정답을 계산하는 회�
 
 ```text
 CMOS 스위칭 전력 누설
-    │
-    ▼
+    |
+    v
 SPA (단일 trace 관찰)
-    │
-    ▼
+    |
+    v
 DPA (그룹 평균 차 분석)
-    │
-    ▼
+    |
+    v
 CPA · 고차 DPA · ML 기반 분류
-    │
-    ▼
+    |
+    v
 Masking · Shuffling · DPA 내성 논리 · TVLA 검증
 ```
 
@@ -189,7 +189,7 @@ Masking · Shuffling · DPA 내성 논리 · TVLA 검증
 
 **진행 상황**: 779 / 803
 
-← **이전**: [777. Evict+Time 기법](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/777_evict_time/)
-**다음**: [779. 전자기 분석 공격 - EMA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/779_ema_attack/) →
+<- **이전**: [777. Evict+Time 기법](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/777_evict_time/)
+**다음**: [779. 전자기 분석 공격 - EMA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/779_ema_attack/) ->
 
 ---

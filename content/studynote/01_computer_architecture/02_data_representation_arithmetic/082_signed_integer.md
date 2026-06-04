@@ -95,21 +95,21 @@ MSB를 부호로 양보한 대가로 32비트 정수의 최대 표현 한계는 
 
 ```text
 덧셈기와 뺄셈기의 분리 (Hardware Inefficiency)
-    │
-    ▼
+    |
+    v
 부호와 절댓값 표현 (MSB 도입, 0 중복 문제 발생)
-    │
-    ▼
+    |
+    v
 2의 보수 체계 확립 (단일 0 구현 및 덧셈기 일원화)
-    │
-    ▼
+    |
+    v
 부호 확장 (Sign Extension) 및 산술 시프트 설계
-    │
-    ▼
+    |
+    v
 멀티미디어 가속 명령어 (SIMD) 내 부호 최적화 (Saturating Arithmetic)
 ```
 
-이 흐름도는 "회로 낭비 극복 → [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 해결 → 뺄셈의 소프트웨어적(보수) 치환 → 예외 처리 및 가속 최적화"로 이어지는 부호 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 아키텍처의 발전을 보여준다.
+이 흐름도는 "회로 낭비 극복 -> [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 해결 -> 뺄셈의 소프트웨어적(보수) 치환 -> 예외 처리 및 가속 최적화"로 이어지는 부호 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 아키텍처의 발전을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -123,7 +123,7 @@ MSB를 부호로 양보한 대가로 32비트 정수의 최대 표현 한계는 
 
 **진행 상황**: 82 / 803
 
-← **이전**: [81. 부호 없는 정수 (Unsigned Integer)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/081_unsigned_integer/)
-**다음**: [83. 부호와 절댓값 (Sign-Magnitude)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/083_sign_magnitude/) →
+<- **이전**: [81. 부호 없는 정수 (Unsigned Integer)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/081_unsigned_integer/)
+**다음**: [83. 부호와 절댓값 (Sign-Magnitude)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/083_sign_magnitude/) ->
 
 ---

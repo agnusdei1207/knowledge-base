@@ -22,15 +22,15 @@ tags = ["studynote-security"]
 [서비스 거부 공격](/knowledge-base/studynote/03_network/19_frequent_topics_terms/989_dos_denial_of_service/) ([DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/)/DDoS)는 보안 확장 개념에서 반복적으로 등장하는 문제를 일정한 원리로 다루기 위해 정리된 개념이다. 이 주제를 이해할 때는 단순 정의보다 "왜 지금 이 개념이 필요해졌는가"를 먼저 봐야 한다. [서비스 거부 공격](/knowledge-base/studynote/03_network/19_frequent_topics_terms/989_dos_denial_of_service/) ([DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/)/DDoS)가 등장한 배경에는 자산 가치 상승, 공격 정교화, 운영 복잡도 증가가 동시에 작용한다. 대표 세부 포인트로는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 고갈 자원 마비 서버 트래픽 융단 폭격 [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 좀비 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 공격 증폭 반사 공격 DRDoS 방어망 차단 원리가 있다. 이 개념이 없거나 잘못 적용되면 보안 통제가 단편화되어 위험이 눈에 잘 보이지 않거나, 반대로 과도한 통제가 운영 비용을 키우는 문제가 생긴다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ 왜 서비스 거부 공격가 필요한가                                           │
-├──────────────────────────────────────────────────────────────┤
-│ 자산·서비스 운영 ─► 노출/불확실성 ─► 위험 확대              │
-│                     └──── 서비스 거부 공격로 통제·판단 ────┘            │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| 왜 서비스 거부 공격가 필요한가                                           |
++--------------------------------------------------------------+
+| 자산·서비스 운영 -► 노출/불확실성 -► 위험 확대              |
+|                     +---- 서비스 거부 공격로 통제·판단 ----+            |
++--------------------------------------------------------------+
 ```
 
-이 그림은 [서비스 거부 공격](/knowledge-base/studynote/03_network/19_frequent_topics_terms/989_dos_denial_of_service/) ([DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/)/DDoS)가 등장한 배경을 "노출 증가 → 위험 확대 → 통제 필요" 흐름으로 요약한다. 핵심은 이 개념이 단독 기능이 아니라, 더 큰 보안 체계의 빈틈을 메우기 위해 등장했다는 점이다.
+이 그림은 [서비스 거부 공격](/knowledge-base/studynote/03_network/19_frequent_topics_terms/989_dos_denial_of_service/) ([DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/)/DDoS)가 등장한 배경을 "노출 증가 -> 위험 확대 -> 통제 필요" 흐름으로 요약한다. 핵심은 이 개념이 단독 기능이 아니라, 더 큰 보안 체계의 빈틈을 메우기 위해 등장했다는 점이다.
 
 - **📢 섹션 요약 비유**: 작은 틈으로 집 안 구조를 파악한 뒤, 약한 창문을 계속 흔들어 결국 문을 여는 도둑과 같다.
 
@@ -47,12 +47,12 @@ tags = ["studynote-security"]
 | 영향 | [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/), [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 가운데 실제 피해가 나타나는 지점 | 격리와 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 절차를 함께 준비해야 한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ 공격 전개 흐름                                              │
-├──────────────────────────────────────────────────────────────┤
-│ 탐색 ─► 취약 지점 확인 ─► 트리거 실행 ─► 영향 확대          │
-│        └──────────── 탐지·차단 지점 ────────────┘           │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| 공격 전개 흐름                                              |
++--------------------------------------------------------------+
+| 탐색 -► 취약 지점 확인 -► 트리거 실행 -► 영향 확대          |
+|        +------------ 탐지·차단 지점 ------------+           |
++--------------------------------------------------------------+
 ```
 
 이 구조를 볼 때는 입력 조건, 핵심 처리, 결과뿐 아니라 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 상태가 어디에서 관리되는지까지 함께 봐야 한다. 그래야 [서비스 거부 공격](/knowledge-base/studynote/03_network/19_frequent_topics_terms/989_dos_denial_of_service/) ([DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/)/DDoS)를 다른 기술과 연결해도 설명이 흔들리지 않는다.
@@ -114,12 +114,12 @@ tags = ["studynote-security"]
 
 ```text
 [공격 표면 노출]
-    │
-    ▼
+    |
+    v
 [서비스 거부 공격 (DoS/DDoS)]
-    │
-    ├──▶ [탐지 규칙 고도화]
-    └──▶ [격리·복구 자동화]
+    |
+    +---> [탐지 규칙 고도화]
+    +---> [격리·복구 자동화]
 ```
 
 이 흐름도는 [서비스 거부 공격](/knowledge-base/studynote/03_network/19_frequent_topics_terms/989_dos_denial_of_service/) ([DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/)/DDoS)를 단일 용어가 아니라 선행 문제, 현재 해결 방식, 후속 확장 방향으로 기억하게 해 준다. 시험과 실무 모두에서 이 연결 구조를 함께 말할 수 있어야 개념이 살아난다.
@@ -136,7 +136,7 @@ tags = ["studynote-security"]
 
 **진행 상황**: 1097 / 1108
 
-← **이전**: [989. 블록체인 보안 (Blockchain Security)](/knowledge-base/studynote/09_security/19_ai_advanced_security/989_blockchain_security/)
-**다음**: [990. 봇넷 (Botnet) C&C (Botnet Cnc Zombie Pc Ddos Infrastructure)](/knowledge-base/studynote/09_security/uncategorized/990_botnet_cnc_zombie_pc_ddos_infrastructure/) →
+<- **이전**: [989. 블록체인 보안 (Blockchain Security)](/knowledge-base/studynote/09_security/19_ai_advanced_security/989_blockchain_security/)
+**다음**: [990. 봇넷 (Botnet) C&C (Botnet Cnc Zombie Pc Ddos Infrastructure)](/knowledge-base/studynote/09_security/uncategorized/990_botnet_cnc_zombie_pc_ddos_infrastructure/) ->
 
 ---

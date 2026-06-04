@@ -12,7 +12,7 @@ tags = ["studynote-design-supervision"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Promise / Future (프로미스/퓨처)는 "아직 완료되지 않은 비동기 연산의 미래 결과"를 나타내는 객체로, 콜백 지옥(Callback Hell)을 탈피하고 비동기 연산을 체이닝([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/))으로 표현하는 비동기 패턴이다.
-> 2. **가치**: Promise 상태 기계(Pending → Fulfilled/Rejected)와 `.then()/.catch()` 체이닝으로 다단계 비동기 흐름을 선형 코드로 표현할 수 있어 가독성과 에러 처리가 획기적으로 개선된다.
+> 2. **가치**: Promise 상태 기계(Pending -> Fulfilled/Rejected)와 `.then()/.catch()` 체이닝으로 다단계 비동기 흐름을 선형 코드로 표현할 수 있어 가독성과 에러 처리가 획기적으로 개선된다.
 > 3. **판단 포인트**: `async/await`는 Promise의 문법적 설탕(Syntactic Sugar) — Promise 위에서 동작하며, `await`는 Promise가 완료될 때까지 현재 함수를 일시 중단하되 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 블로킹하지 않는다.
 
 ---
@@ -40,24 +40,24 @@ getUser(id)
 ```
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│               Promise State Machine                      │
-│                                                          │
-│   ┌─────────────┐                                        │
-│   │   PENDING   │ ← 초기 상태 (비동기 작업 진행 중)        │
-│   │  (대기 중)   │                                        │
-│   └──────┬──────┘                                        │
-│          │                                               │
-│    ┌─────┴─────┐                                         │
-│    │           │                                         │
-│    ▼           ▼                                         │
-│ ┌──────────┐ ┌──────────┐                                │
-│ │FULFILLED │ │ REJECTED │                                │
-│ │(이행 완료)│ │(거부/실패)│                                │
-│ └──────────┘ └──────────┘                                │
-│                                                          │
-│  ※ 한번 결정(Settled)되면 상태 변경 불가 (불변)            │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|               Promise State Machine                      |
+|                                                          |
+|   +-------------+                                        |
+|   |   PENDING   | <- 초기 상태 (비동기 작업 진행 중)        |
+|   |  (대기 중)   |                                        |
+|   +------+------+                                        |
+|          |                                               |
+|    +-----+-----+                                         |
+|    |           |                                         |
+|    v           v                                         |
+| +----------+ +----------+                                |
+| |FULFILLED | | REJECTED |                                |
+| |(이행 완료)| |(거부/실패)|                                |
+| +----------+ +----------+                                |
+|                                                          |
+|  ※ 한번 결정(Settled)되면 상태 변경 불가 (불변)            |
++----------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: Promise는 식당 예약 확인서 — "아직 확정 안 됨(Pending)", "예약 확정(Fulfilled)", "예약 불가(Rejected)" 세 가지 상태가 있고, 한번 결정되면 다시 바꿀 수 없다.
@@ -69,20 +69,20 @@ getUser(id)
 Promise 생성:
   new Promise((resolve, reject) => {
       // 비동기 작업
-      resolve(result);  // 성공 → FULFILLED
-      reject(error);    // 실패 → REJECTED
+      resolve(result);  // 성공 -> FULFILLED
+      reject(error);    // 실패 -> REJECTED
   });
 
 체이닝 API:
-  .then(onFulfilled)           → 성공 시 실행, 새 Promise 반환
-  .catch(onRejected)           → 실패 시 실행 (.then(null, onRejected))
-  .finally(onFinally)          → 성공/실패 무관 항상 실행 (정리 작업)
+  .then(onFulfilled)           -> 성공 시 실행, 새 Promise 반환
+  .catch(onRejected)           -> 실패 시 실행 (.then(null, onRejected))
+  .finally(onFinally)          -> 성공/실패 무관 항상 실행 (정리 작업)
 
 병렬 처리 API:
-  Promise.all([p1, p2, p3])    → 모두 완료 시 완료 (하나라도 실패 → 실패)
-  Promise.allSettled([...])    → 모두 완료 시 완료 (실패 포함 결과 반환)
-  Promise.race([p1, p2])       → 첫 번째 완료/실패된 것 반환
-  Promise.any([p1, p2])        → 첫 번째 성공한 것 반환
+  Promise.all([p1, p2, p3])    -> 모두 완료 시 완료 (하나라도 실패 -> 실패)
+  Promise.allSettled([...])    -> 모두 완료 시 완료 (실패 포함 결과 반환)
+  Promise.race([p1, p2])       -> 첫 번째 완료/실패된 것 반환
+  Promise.any([p1, p2])        -> 첫 번째 성공한 것 반환
 ```
 
 ```javascript
@@ -115,9 +115,9 @@ async function fetchUserData(id) {
 | `Promise.all([...])` | `CompletableFuture.allOf(...)` | 모두 완료 대기 |
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Input/State  │──▶│ Control Point │──▶│ Output/Action │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Input/State  |--->| Control Point |--->| Output/Action |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: async/await는 마법 안경 — 비동기 코드(구불구불한 실)를 쓰면 마치 직선처럼 보여주는 착시 안경이다. 실제 실행은 여전히 비동기(구불구불)지만, 읽기는 동기처럼 자연스럽다.
@@ -127,14 +127,14 @@ async function fetchUserData(id) {
 ## Ⅲ. 비교 및 연결
 ```
 Promise.all([A, B, C]):
-  A: ──────✓──
-  B: ────────────✓──
-  C: ──────────────✓──
+  A: ------✓--
+  B: ------------✓--
+  C: --------------✓--
   결과: C 완료 후 [A결과, B결과, C결과] (모두 성공)
-  하나라도 실패 → 즉시 실패
+  하나라도 실패 -> 즉시 실패
 
 Promise.race([A, B, C]):
-  A: ──────✓──           ← 가장 빠름
+  A: ------✓--           <- 가장 빠름
   결과: A 결과 (나머지는 무시)
 
 Promise.allSettled([A, B, C]):
@@ -191,7 +191,7 @@ result.orTimeout(5, TimeUnit.SECONDS)
 
 | 실수 | 문제 | 해결 |
 |:---|:---|:---|
-| `await`를 반복문 내부에서 순차 사용 | [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 실행 → 느림 | `Promise.all()` [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 |
+| `await`를 반복문 내부에서 순차 사용 | [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 실행 -> 느림 | `Promise.all()` [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 |
 | `.catch()` 누락 | 미처리 거부(UnhandledRejection) | 모든 체인에 `.catch()` |
 | `async` 없이 `await` 사용 | SyntaxError | 함수에 `async` 명시 |
 | CompletableFuture에서 [blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/) 호출 | [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 고갈 | `thenComposeAsync` 사용 |
@@ -240,7 +240,7 @@ Promise/Future 패턴은 콜백 지옥을 해결하고 비동기 코드의 가�
 | 연관 패턴 | Monad Pattern | CompletableFuture는 모나드 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-콜백 비동기 → Promise/Future 비동기 패턴 → structured [concurrency](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/266_other_transparency/)
+콜백 비동기 -> Promise/Future 비동기 패턴 -> structured [concurrency](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/266_other_transparency/)
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Promise는 은행 대기표 — "아직 처리 중(Pending)", "처리 완료(Fulfilled)", "처리 불가(Rejected)" 세 가지 상태가 있고, 완료되면 다음 할 일(.then())을 알아서 실행해줘.
@@ -253,7 +253,7 @@ Promise/Future 패턴은 콜백 지옥을 해결하고 비동기 코드의 가�
 
 **진행 상황**: 282 / 530
 
-← **이전**: [220. 콜백 패턴 (Callback Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/220_callback_pattern/)
-**다음**: [222. 모킹과 단위 테스트 (Mocking / Unit Test / Test Double)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/222_mocking_unit_test_stub/) →
+<- **이전**: [220. 콜백 패턴 (Callback Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/220_callback_pattern/)
+**다음**: [222. 모킹과 단위 테스트 (Mocking / Unit Test / Test Double)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/222_mocking_unit_test_stub/) ->
 
 ---

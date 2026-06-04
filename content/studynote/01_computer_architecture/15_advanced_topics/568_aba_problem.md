@@ -11,7 +11,7 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: ABA 문제 (ABA Problem)는 비교-교환 ([Compare-and-Swap](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/415_compare_and_swap/), [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/))이 "지금 값이 같은가"만 보고 판단할 때, 실제로는 `A → B → A`라는 변경 이력이 있었음을 놓쳐 잘못된 성공을 선언하는 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 오류다.
+> 1. **본질**: ABA 문제 (ABA Problem)는 비교-교환 ([Compare-and-Swap](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/415_compare_and_swap/), [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/))이 "지금 값이 같은가"만 보고 판단할 때, 실제로는 `A -> B -> A`라는 변경 이력이 있었음을 놓쳐 잘못된 성공을 선언하는 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 오류다.
 > 2. **가치**: 이 문제를 이해해야 [락-프리](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 자료구조가 왜 단순한 원자 명령만으로 끝나지 않고, [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 태그와 안전한 메모리 회수 ([Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) Memory Reclamation, SMR)까지 필요로 하는지 설명할 수 있다.
 > 3. **판단 포인트**: 해결책은 크게 "비교 대상을 넓혀 이력을 보이게 하거나"와 "객체 재사용 시점을 늦춰 위험한 되돌림을 막거나"로 나뉘며, 하드웨어 지원·언어 런타임·[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 요구사항에 따라 선택이 달라진다.
 
@@ -23,7 +23,7 @@ ABA 문제는 어떤 값이 한 번 바뀌었다가 다시 원래 값으로 돌�
 
 이 문제가 위험한 이유는 테스트에서는 잘 드러나지 않기 때문이다. ABA는 매우 짧은 타이밍 창에서만 발생하지만, 실제 서버나 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 수억~수조 번의 연산을 반복하므로 결국 언젠가 맞닥뜨리게 된다. 그래서 [락-프리](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 알고리즘이 논문에서는 간단해 보여도, 실무 구현에서는 메모리 회수와 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리가 필수 주제로 따라붙는다.
 
-또한 모든 `A → B → A`가 항상 버그는 아니다. 단순 정수 플래그처럼 정말 값 자체만 의미가 있는 경우에는 문제가 없을 수 있다. 하지만 포인터, 핸들, 노드 상태처럼 "같은 값이어도 그동안 무슨 일이 있었는지"가 중요해지는 순간, ABA는 correctness를 깨뜨리는 치명적 결함이 된다.
+또한 모든 `A -> B -> A`가 항상 버그는 아니다. 단순 정수 플래그처럼 정말 값 자체만 의미가 있는 경우에는 문제가 없을 수 있다. 하지만 포인터, 핸들, 노드 상태처럼 "같은 값이어도 그동안 무슨 일이 있었는지"가 중요해지는 순간, ABA는 correctness를 깨뜨리는 치명적 결함이 된다.
 
 - **📢 섹션 요약 비유**: ABA 문제는 잠깐 자리를 비운 사이 내 열쇠고리가 똑같은 모양으로 돌아와서 안심했는데, 사실 중간에 누가 열쇠를 바꿔 끼운 상황과 같다. 겉모양은 같아도 실제로 여는 문은 달라질 수 있다.
 
@@ -46,19 +46,19 @@ ABA 문제는 [락-프리](/knowledge-base/studynote/02_operating_system/04_sync
 다음 그림은 "값은 같아도 연결 구조는 달라질 수 있다"는 ABA의 본질을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│ Treiber 스택의 ABA: Top 값이 같아 보여도 노드 생애는 달라질 수 있다         │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ T1 read: Top = A, next = B                                                  │
-│                                                                              │
-│   Top ─▶ [A] ─▶ [B] ─▶ [C]                                                   │
-│                                                                              │
-│ T2: pop A, pop B, push D, 재사용된 주소 A를 다시 push                        │
-│                                                                              │
-│   Top ─▶ [A*] ─▶ [D]                                                         │
-│                                                                              │
-│ T1 resumes: CAS(Top, A, B) 성공  ->  Top = B (이미 해제/재사용된 노드 가능) │
-└──────────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------------+
+| Treiber 스택의 ABA: Top 값이 같아 보여도 노드 생애는 달라질 수 있다         |
++------------------------------------------------------------------------------+
+| T1 read: Top = A, next = B                                                  |
+|                                                                              |
+|   Top --> [A] --> [B] --> [C]                                                   |
+|                                                                              |
+| T2: pop A, pop B, push D, 재사용된 주소 A를 다시 push                        |
+|                                                                              |
+|   Top --> [A*] --> [D]                                                         |
+|                                                                              |
+| T1 resumes: CAS(Top, A, B) 성공  ->  Top = B (이미 해제/재사용된 노드 가능) |
++------------------------------------------------------------------------------+
 ```
 
 여기서 중요한 사실은 ABA가 단지 주소 재사용 버그가 아니라는 점이다. 주소가 재사용되지 않더라도, 상태 기계에서 중간 변화 이력이 중요하면 동일 값 복귀가 문제를 만들 수 있다. 그래서 해결도 단순 allocator 교체가 아니라, <strong>비교 대상과 메모리 생애 관리 모델을 함께 설계하는 일</strong>이 된다.
@@ -138,17 +138,17 @@ ABA 문제를 정확히 다루면 [락-프리](/knowledge-base/studynote/02_oper
 
 ```text
 CAS 기반 락-프리 자료구조
-        │
-        ▼
+        |
+        v
 Treiber Stack에서 ABA 문제 인식
-        │
-        ▼
+        |
+        v
 태그드 포인터 · DWCAS
-        │
-        ▼
+        |
+        v
 Hazard Pointer · EBR · RCU 같은 SMR
-        │
-        ▼
+        |
+        v
 언어/런타임 통합 메모리 회수 · 더 넓은 원자 폭 지원
 ```
 
@@ -166,7 +166,7 @@ Hazard Pointer · EBR · RCU 같은 SMR
 
 **진행 상황**: 568 / 803
 
-← **이전**: [567. 원자적 읽기-수정-쓰기 (Atomic Read-Modify-Write, RMW)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/567_atomic_rmw/)
-**다음**: [569. 멀티코어 칩 온도 불균형 (Thermal Gradient)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/569_thermal_gradient_dark_silicon/) →
+<- **이전**: [567. 원자적 읽기-수정-쓰기 (Atomic Read-Modify-Write, RMW)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/567_atomic_rmw/)
+**다음**: [569. 멀티코어 칩 온도 불균형 (Thermal Gradient)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/569_thermal_gradient_dark_silicon/) ->
 
 ---

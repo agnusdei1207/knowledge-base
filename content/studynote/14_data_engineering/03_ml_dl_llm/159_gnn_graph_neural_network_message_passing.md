@@ -38,9 +38,9 @@ tags = ["studynote-data-engineering"]
 [GNN 메시지 패싱 과정]
 
 초기 그래프:
-    A───B
-    │   │
-    C───D
+    A---B
+    |   |
+    C---D
 
 Layer 1 (1-hop 이웃 집계):
   h'A = Update(hA, Agg({hB, hC}))
@@ -54,7 +54,7 @@ Layer 2 (2-hop 이웃 정보까지):
 [GCN - Graph Convolutional Network]
 h'ᵥ = σ(Σᵤ∈N(v)∪{v} (1/√(dᵤdᵥ)) · Wh_u)
 dᵥ: 노드 v의 차수 (연결 수)
-→ 정규화된 스펙트럼 합성곱
+-> 정규화된 스펙트럼 합성곱
 
 [GAT - Graph Attention Network]
 이웃 중요도에 어텐션 가중치 α_uv 부여:
@@ -134,21 +134,21 @@ GNN은 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/
 
 ```text
 그래프 구조 데이터 (노드 + 엣지)
-    │
-    ▼
+    |
+    v
 메시지 패싱 (Message Passing)
-    노드가 이웃 노드의 특성을 집계 → 자기 표현 업데이트
-    │
-    ▼
+    노드가 이웃 노드의 특성을 집계 -> 자기 표현 업데이트
+    |
+    v
 GNN 변형
-    ├─► GCN (Graph Convolutional Network)
-    ├─► GAT (Graph Attention Network) — Attention 가중치
-    └─► GraphSAGE — 이웃 샘플링, 인덕티브 학습
-    │
-    ▼
+    +-► GCN (Graph Convolutional Network)
+    +-► GAT (Graph Attention Network) — Attention 가중치
+    +-► GraphSAGE — 이웃 샘플링, 인덕티브 학습
+    |
+    v
 응용: 분자 속성 예측 · 소셜 커뮤니티 · 추천 시스템
-    │
-    ▼
+    |
+    v
 GraphRAG — 지식 그래프 + LLM 결합
 ```
 
@@ -158,7 +158,7 @@ GraphRAG — 지식 그래프 + LLM 결합
 
 **진행 상황**: 159 / 258
 
-← **이전**: [158. 멀티모달 (Multimodal) 비전/오디오 동시 인코딩 CLIP](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/)
-**다음**: [160. 지식 그래프 (Knowledge Graph) + GraphRAG 연동망](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) →
+<- **이전**: [158. 멀티모달 (Multimodal) 비전/오디오 동시 인코딩 CLIP](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/)
+**다음**: [160. 지식 그래프 (Knowledge Graph) + GraphRAG 연동망](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) ->
 
 ---

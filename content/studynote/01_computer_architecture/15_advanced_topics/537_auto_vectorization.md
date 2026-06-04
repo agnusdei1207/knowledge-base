@@ -42,20 +42,20 @@ tags = ["studynote-computer-architecture"]
 이 그림은 컴파일러가 실제로 하나의 벡터 루프를 만들 때 흔히 구성하는 실행 경로를 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ 오토 벡터라이제이션이 만드는 실행 경로                                    │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Runtime check: no alias? aligned enough? trip count large enough?         │
-│        │                                                                   │
-│        ├─ No  ───────────────────────────────▶ Scalar Loop                 │
-│        │                                                                   │
-│        └─ Yes ─▶ Prologue ─▶ Vector Loop ─▶ Epilogue                       │
-│                     │          │                   │                        │
-│                     │          ├─ load 8 lanes    │                        │
-│                     │          ├─ SIMD op         │                        │
-│                     │          └─ store 8 lanes   │                        │
-│                     └─ alignment 맞춤        남은 원소 처리                │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| 오토 벡터라이제이션이 만드는 실행 경로                                    |
++----------------------------------------------------------------------------+
+| Runtime check: no alias? aligned enough? trip count large enough?         |
+|        |                                                                   |
+|        +- No  --------------------------------> Scalar Loop                 |
+|        |                                                                   |
+|        +- Yes --> Prologue --> Vector Loop --> Epilogue                       |
+|                     |          |                   |                        |
+|                     |          +- load 8 lanes    |                        |
+|                     |          +- SIMD op         |                        |
+|                     |          +- store 8 lanes   |                        |
+|                     +- alignment 맞춤        남은 원소 처리                |
++----------------------------------------------------------------------------+
 ```
 
 또 하나의 축은 루프 벡터화와 SLP (Superword-Level Parallelism)다. 루프 벡터화는 반복 간 독립성을 묶고, SLP는 한 basic block 안에서 비슷한 스칼라 명령들을 한 벡터 명령으로 묶는다. 그래서 오토 벡터라이제이션은 단일 기법이 아니라, <strong>의존성 분석 + 코드 재구성 + 비용 판단</strong>이 합쳐진 종합 최적화 체계다.
@@ -134,20 +134,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 스칼라 루프 중심 최적화
-        │
-        ▼
+        |
+        v
 SIMD (Single Instruction Multiple Data) ISA 확산
-        │
-        ▼
+        |
+        v
 의존성 분석 · 별칭 분석 · 비용 모델
-        │
-        ▼
+        |
+        v
 루프 벡터화 · SLP (Superword-Level Parallelism)
-        │
-        ▼
+        |
+        v
 마스킹 · reduction · gather/scatter 고도화
-        │
-        ▼
+        |
+        v
 SVE (Scalable Vector Extension) · RVV (RISC-V Vector Extension)
 ```
 
@@ -165,7 +165,7 @@ SVE (Scalable Vector Extension) · RVV (RISC-V Vector Extension)
 
 **진행 상황**: 537 / 803
 
-← **이전**: [536. LLVM IR 변환 (컴파일러-HW 인터페이스)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/536_llvm_ir/)
-**다음**: [538. 루프 언롤링 (Loop Unrolling)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/538_loop_unrolling/) →
+<- **이전**: [536. LLVM IR 변환 (컴파일러-HW 인터페이스)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/536_llvm_ir/)
+**다음**: [538. 루프 언롤링 (Loop Unrolling)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/538_loop_unrolling/) ->
 
 ---

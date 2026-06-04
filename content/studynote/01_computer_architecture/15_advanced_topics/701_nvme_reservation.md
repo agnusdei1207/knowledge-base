@@ -44,22 +44,22 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 하나의 서브시스템 안에 여러 컨트롤러와 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)가 묶이는 모습을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                 One NVMe subsystem, many paths              │
-├──────────────────────────────────────────────────────────────┤
-│ Host A                               Host B                 │
-│   │                                     │                   │
-│   ├──────────── Path 1 ─────────────┐   │                   │
-│   └──────────── Path 2 ───────┐     │   │                   │
-│                               ▼     ▼   ▼                   │
-│                        ┌──────────┐ ┌──────────┐             │
-│                        │Controller│ │Controller│             │
-│                        │1         │ │2         │             │
-│                        └────┬─────┘ └────┬─────┘             │
-│                             └──────┬─────┘                   │
-│                                    ▼                         │
-│                 Namespace set inside same subsystem          │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                 One NVMe subsystem, many paths              |
++--------------------------------------------------------------+
+| Host A                               Host B                 |
+|   |                                     |                   |
+|   +------------ Path 1 -------------+   |                   |
+|   +------------ Path 2 -------+     |   |                   |
+|                               v     v   v                   |
+|                        +----------+ +----------+             |
+|                        |Controller| |Controller|             |
+|                        |1         | |2         |             |
+|                        +----+-----+ +----+-----+             |
+|                             +------+-----+                   |
+|                                    v                         |
+|                 Namespace set inside same subsystem          |
++--------------------------------------------------------------+
 ```
 
 이 구조의 장점은 경로와 컨트롤러가 바뀌어도 저장 대상의 정체성이 유지된다는 점이다. 호스트는 "어느 문으로 들어왔는가"보다 "같은 서브시스템 안의 어느 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)를 보는가"를 기준으로 접근을 계속할 수 있다. 그래서 멀티패스 드라이버와 고가용성 구성은 컨트롤러 단위가 아니라 서브시스템 단위를 기준으로 설계된다.
@@ -133,17 +133,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 단일 로컬 SSD 인식
-    │
-    ▼
+    |
+    v
 컨트롤러 중심 접근
-    │
-    ▼
+    |
+    v
 네임스페이스 분리
-    │
-    ▼
+    |
+    v
 서브시스템 + NQN 기반 식별
-    │
-    ▼
+    |
+    v
 멀티패스 · ANA · 공유 NVMe-oF 스토리지
 ```
 
@@ -161,7 +161,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 702 / 803
 
-← **이전**: [700. NVMe 네임스페이스 (Namespaces)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/700_nvme_namespaces/)
-**다음**: [702. 다중 스트림 쓰기 (Multi-stream Write)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/702_multi_stream_write/) →
+<- **이전**: [700. NVMe 네임스페이스 (Namespaces)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/700_nvme_namespaces/)
+**다음**: [702. 다중 스트림 쓰기 (Multi-stream Write)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/702_multi_stream_write/) ->
 
 ---

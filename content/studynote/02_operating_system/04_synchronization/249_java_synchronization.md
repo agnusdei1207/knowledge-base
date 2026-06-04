@@ -13,7 +13,7 @@ tags = ["studynote-operating-system"]
 
 > 1. **본질**: Java는 언어 수준에서 `synchronized` 키워드로 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 기반 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)를 제공하며, `wait()/notify()/notifyAll()`로 [조건 변수](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 지원하는 고수준 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 모델을 채택했다.
 > 2. **가치**: `java.util.concurrent` 패키지 (JUC)는 ReentrantLock, ReadWriteLock, [Semaphore](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/), CountDownLatch 등 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)·[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)를 모두 추상화한 고성능 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 라이브러리를 제공한다.
-> 3. **융합**: JVM (Java [Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))의 객체 헤더에 내장된 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 락(Biased→Lightweight→Heavyweight 락 승격)은 OS 뮤텍스와 연계되어 성능과 공정성을 동적으로 조정한다.
+> 3. **융합**: JVM (Java [Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))의 객체 헤더에 내장된 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 락(Biased->Lightweight->Heavyweight 락 승격)은 OS 뮤텍스와 연계되어 성능과 공정성을 동적으로 조정한다.
 
 ---
 
@@ -26,23 +26,23 @@ Java는 멀티스레드를 언어 설계의 핵심으로 채택한 최초의 주
 **💡 비유**: `synchronized`는 건물 정문의 보안 요원(진입 시 자동 체크), JUC는 정문 외에 비상구·VIP 입구·출입 시간 제한까지 갖춘 스마트 보안 시스템이다.
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│        Java 동기화 계층 구조                             │
-├──────────────────────────────────────────────────────────┤
-│                                                          │
-│  [고수준]  java.util.concurrent (JUC)                    │
-│           ReentrantLock, ReadWriteLock, Semaphore        │
-│           CountDownLatch, CyclicBarrier, Phaser          │
-│           ConcurrentHashMap, CopyOnWriteArrayList        │
-│                          │                               │
-│  [중간]    synchronized / wait / notify                  │
-│           (모니터 기반 내장 동기화)                      │
-│                          │                               │
-│  [저수준]  Unsafe.compareAndSwap() (CAS 직접 접근)       │
-│           volatile 키워드 (메모리 가시성)                │
-│                          │                               │
-│  [하드웨어] JVM → OS Mutex → CPU 원자적 명령어           │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|        Java 동기화 계층 구조                             |
++----------------------------------------------------------+
+|                                                          |
+|  [고수준]  java.util.concurrent (JUC)                    |
+|           ReentrantLock, ReadWriteLock, Semaphore        |
+|           CountDownLatch, CyclicBarrier, Phaser          |
+|           ConcurrentHashMap, CopyOnWriteArrayList        |
+|                          |                               |
+|  [중간]    synchronized / wait / notify                  |
+|           (모니터 기반 내장 동기화)                      |
+|                          |                               |
+|  [저수준]  Unsafe.compareAndSwap() (CAS 직접 접근)       |
+|           volatile 키워드 (메모리 가시성)                |
+|                          |                               |
+|  [하드웨어] JVM -> OS Mutex -> CPU 원자적 명령어           |
++----------------------------------------------------------+
 ```
 
 **📢 섹션 요약 비유**: Java [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 계층은 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)(기본 자물쇠)부터 정교한 전자 잠금 시스템(JUC)까지, 문제 복잡도에 맞춰 선택하는 도구 상자입니다.
@@ -84,14 +84,14 @@ class BoundedBuffer {
 
     public synchronized void produce(int item) throws InterruptedException {
         while (buffer.size() == N)
-            wait();           // 버퍼 가득 → 모니터 반환 후 대기
+            wait();           // 버퍼 가득 -> 모니터 반환 후 대기
         buffer.add(item);
         notifyAll();          // 소비자 깨우기
     }
 
     public synchronized int consume() throws InterruptedException {
         while (buffer.isEmpty())
-            wait();           // 버퍼 비어 있음 → 대기
+            wait();           // 버퍼 비어 있음 -> 대기
         int item = buffer.remove(0);
         notifyAll();          // 생산자 깨우기
         return item;
@@ -100,24 +100,24 @@ class BoundedBuffer {
 ```
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│       Java wait/notify 모니터 상태 전이                       │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│  [Entry Set]   ──lock 경쟁 성공──▶  [Owner Thread]            │
-│  (lock 대기)                           │                      │
-│      ▲                                 │ wait() 호출          │
-│      │                                 ▼                      │
-│  notify()/    ◀── signal ────    [Wait Set]                   │
-│  notifyAll()                    (모니터 반환 후 조건 대기)    │
-│      │                                 │                      │
-│      └──────────────────────────────────┘                     │
-│                                                               │
-│  ⚠ 핵심 규칙:                                                 │
-│  1. wait()는 반드시 synchronized 블록 안에서 호출             │
-│  2. 깨어난 후 반드시 while 루프로 조건 재확인 (허위 기상)     │
-│  3. notify()는 임의 스레드 1개만 깨움 → notifyAll() 권장      │
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|       Java wait/notify 모니터 상태 전이                       |
++---------------------------------------------------------------+
+|                                                               |
+|  [Entry Set]   --lock 경쟁 성공--->  [Owner Thread]            |
+|  (lock 대기)                           |                      |
+|      ^                                 | wait() 호출          |
+|      |                                 v                      |
+|  notify()/    <--- signal ----    [Wait Set]                   |
+|  notifyAll()                    (모니터 반환 후 조건 대기)    |
+|      |                                 |                      |
+|      +----------------------------------+                     |
+|                                                               |
+|  ⚠ 핵심 규칙:                                                 |
+|  1. wait()는 반드시 synchronized 블록 안에서 호출             |
+|  2. 깨어난 후 반드시 while 루프로 조건 재확인 (허위 기상)     |
+|  3. notify()는 임의 스레드 1개만 깨움 -> notifyAll() 권장      |
++---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** wait()를 호출하면 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)(락)를 반환하고 Wait Set으로 이동한다. notify()/notifyAll()은 Wait Set의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 Entry Set으로 이동시키며, 다시 락 경쟁에 참여하게 한다. 이 때문에 깨어난 후에도 조건이 여전히 충족되지 않을 수 있으므로(다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 먼저 처리) while 루프 재확인이 필수다. notify() 대신 notifyAll()을 쓰는 이유는 notify()가 임의의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 1개만 깨우기 때문에, 잘못된 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 깨어나도 아무 일도 못하고 다시 wait()하는 시나리오에서 무한 대기가 발생할 수 있기 때문이다.
@@ -147,16 +147,16 @@ void produce(int item) throws InterruptedException {
 synchronized vs ReentrantLock 비교:
 
 ```text
-┌─────────────────────┬──────────────────┬─────────────────────────────────────┐
-│ 기능                │ synchronized     │ ReentrantLock                       │
-├─────────────────────┼──────────────────┼─────────────────────────────────────┤
-│ 조건 변수 다중      │ 1개 (wait/notify)│ 여러 개 (Condition)                 │
-│ 타임아웃 대기       │ 불가             │ tryLock(timeout)                    │
-│ 공정성              │ 비공정           │ fair=true 옵션                      │
-│ 락 상태 확인        │ 불가             │ isLocked(), isHeldByCurrentThread() │
-│ 인터럽트 가능 대기  │ 불가             │ lockInterruptibly()                 │
-│ 코드 안전성         │ 자동 해제        │ try-finally 필수                    │
-└─────────────────────┴──────────────────┴─────────────────────────────────────┘
++---------------------+------------------+-------------------------------------+
+| 기능                | synchronized     | ReentrantLock                       |
++---------------------+------------------+-------------------------------------+
+| 조건 변수 다중      | 1개 (wait/notify)| 여러 개 (Condition)                 |
+| 타임아웃 대기       | 불가             | tryLock(timeout)                    |
+| 공정성              | 비공정           | fair=true 옵션                      |
+| 락 상태 확인        | 불가             | isLocked(), isHeldByCurrentThread() |
+| 인터럽트 가능 대기  | 불가             | lockInterruptibly()                 |
+| 코드 안전성         | 자동 해제        | try-finally 필수                    |
++---------------------+------------------+-------------------------------------+
 ```
 
 **📢 섹션 요약 비유**: synchronized는 문에 달린 단순한 자물쇠, ReentrantLock은 타이머·복수 열쇠·공정 대기 기능까지 갖춘 스마트 도어락입니다.
@@ -168,27 +168,27 @@ synchronized vs ReentrantLock 비교:
 ### JVM 내부 락 승격 메커니즘
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│       JVM 모니터 락 상태 전이 (락 팽창)                  │
-├──────────────────────────────────────────────────────────┤
-│                                                          │
-│  [Unlocked]                                              │
-│      │ 동일 스레드 반복 접근                             │
-│      ▼                                                   │
-│  [Biased Lock] ← 편향 잠금: 헤더에 스레드 ID만 기록      │
-│  (CAS 없이 접근, 가장 빠름)                              │
-│      │ 다른 스레드 경쟁 발생                             │
-│      ▼                                                   │
-│  [Thin Lock] ← 경량 잠금: CAS로 스택의 락 레코드 시도    │
-│  (OS 호출 없음, 짧은 경합에 적합)                        │
-│      │ 스핀 실패(경합 심화)                              │
-│      ▼                                                   │
-│  [Fat Lock] ← 중량 잠금: OS Mutex 사용                   │
-│  (스레드 차단, 컨텍스트 스위칭 발생)                     │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|       JVM 모니터 락 상태 전이 (락 팽창)                  |
++----------------------------------------------------------+
+|                                                          |
+|  [Unlocked]                                              |
+|      | 동일 스레드 반복 접근                             |
+|      v                                                   |
+|  [Biased Lock] <- 편향 잠금: 헤더에 스레드 ID만 기록      |
+|  (CAS 없이 접근, 가장 빠름)                              |
+|      | 다른 스레드 경쟁 발생                             |
+|      v                                                   |
+|  [Thin Lock] <- 경량 잠금: CAS로 스택의 락 레코드 시도    |
+|  (OS 호출 없음, 짧은 경합에 적합)                        |
+|      | 스핀 실패(경합 심화)                              |
+|      v                                                   |
+|  [Fat Lock] <- 중량 잠금: OS Mutex 사용                   |
+|  (스레드 차단, 컨텍스트 스위칭 발생)                     |
++----------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** JVM은 락 경쟁 수준에 따라 자동으로 락 구현을 승급시킨다. 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 환경에서는 Biased Lock이 사실상 무비용으로 동작하고, 경쟁이 발생하면 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 기반 Thin Lock으로, 심한 경쟁에서는 OS Mutex로 전환된다. 개발자는 이 과정을 인식하지 않아도 되지만, 잦은 락 경쟁은 Thin→[Fat](/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/) 전환으로 성능이 급락하므로 락 범위를 최소화해야 한다.
+**[다이어그램 해설]** JVM은 락 경쟁 수준에 따라 자동으로 락 구현을 승급시킨다. 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 환경에서는 Biased Lock이 사실상 무비용으로 동작하고, 경쟁이 발생하면 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 기반 Thin Lock으로, 심한 경쟁에서는 OS Mutex로 전환된다. 개발자는 이 과정을 인식하지 않아도 되지만, 잦은 락 경쟁은 Thin->[Fat](/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/) 전환으로 성능이 급락하므로 락 범위를 최소화해야 한다.
 
 **📢 섹션 요약 비유**: JVM 락 승격은 주차장 시스템과 같습니다 — 평소엔 간단한 RFID 게이트(편향 잠금), 차가 많으면 번호표 대기(경량), 꽉 차면 전면 통제(중량 잠금).
 
@@ -206,7 +206,7 @@ synchronized vs ReentrantLock 비교:
 - **범위 최소화**: synchronized 블록 내부에 I/O나 긴 연산이 없는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **notify() 단독 사용**: 잘못된 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 깨어나면 아무 조건도 충족하지 못하고 다시 wait() → 무한 대기.
+- **notify() 단독 사용**: 잘못된 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 깨어나면 아무 조건도 충족하지 못하고 다시 wait() -> 무한 대기.
 - <strong>이중 락 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/272_double_checked_locking/">Double-Checked Locking</a>) 미완성</strong>: `volatile` 없이 구현하면 [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) 최적화로 초기화 전 객체 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 노출.
 
 ```java
@@ -253,12 +253,12 @@ private volatile static Singleton instance;
 
 ```text
 [식사하는 철학자 문제 (Dining-Philosophers Problem)]
-    │
-    ▼
+    |
+    v
 [자바 동기화 (Java Synchronization)]
-    │
-    ├──▶ [Pthreads 동기화]
-    └──▶ [윈도우 동기화]
+    |
+    +---> [Pthreads 동기화]
+    +---> [윈도우 동기화]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -275,7 +275,7 @@ private volatile static Singleton instance;
 
 **진행 상황**: 249 / 800
 
-← **이전**: [248. 식사하는 철학자 문제 (Dining-Philosophers Problem) - 교착상태 및 기아 상태 예방](/knowledge-base/studynote/02_operating_system/04_synchronization/248_dining_philosophers_problem/)
-**다음**: [250. Pthreads 동기화 (Pthreads Synchronization)](/knowledge-base/studynote/02_operating_system/04_synchronization/250_pthreads_synchronization/) →
+<- **이전**: [248. 식사하는 철학자 문제 (Dining-Philosophers Problem) - 교착상태 및 기아 상태 예방](/knowledge-base/studynote/02_operating_system/04_synchronization/248_dining_philosophers_problem/)
+**다음**: [250. Pthreads 동기화 (Pthreads Synchronization)](/knowledge-base/studynote/02_operating_system/04_synchronization/250_pthreads_synchronization/) ->
 
 ---

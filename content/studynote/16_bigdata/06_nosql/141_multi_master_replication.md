@@ -21,26 +21,26 @@ tags = ["studynote-bigdata"]
 ### 단일 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 vs 멀티 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 비교
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│  단일 마스터 복제 (Single-Master)                             │
-│                                                             │
-│  서울 사용자       도쿄 마스터        뉴욕 레플리카            │
-│  [쓰기 요청] ─────→ [Primary] ─────→ [Replica]              │
-│                                                             │
-│  지연: 서울→도쿄 ~30ms + 처리 = ~50ms                        │
-│  장애: 도쿄 다운 → 전 세계 쓰기 불가                          │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|  단일 마스터 복제 (Single-Master)                             |
+|                                                             |
+|  서울 사용자       도쿄 마스터        뉴욕 레플리카            |
+|  [쓰기 요청] ------> [Primary] ------> [Replica]              |
+|                                                             |
+|  지연: 서울->도쿄 ~30ms + 처리 = ~50ms                        |
+|  장애: 도쿄 다운 -> 전 세계 쓰기 불가                          |
++-------------------------------------------------------------+
 
-┌─────────────────────────────────────────────────────────────┐
-│  멀티 마스터 복제 (Multi-Master)                              │
-│                                                             │
-│  서울 Master ←──────────────────────→ 뉴욕 Master            │
-│      ↕  (양방향 비동기 복제)              ↕                   │
-│  도쿄 Master ←──────────────────────→ 유럽 Master            │
-│                                                             │
-│  서울 사용자 → 서울 Master (로컬 쓰기, ~5ms)                  │
-│  장애: 서울 다운 → 다른 3개 Master가 계속 쓰기 수용            │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|  멀티 마스터 복제 (Multi-Master)                              |
+|                                                             |
+|  서울 Master <------------------------> 뉴욕 Master            |
+|      ↕  (양방향 비동기 복제)              ↕                   |
+|  도쿄 Master <------------------------> 유럽 Master            |
+|                                                             |
+|  서울 사용자 -> 서울 Master (로컬 쓰기, ~5ms)                  |
+|  장애: 서울 다운 -> 다른 3개 Master가 계속 쓰기 수용            |
++-------------------------------------------------------------+
 ```
 
 ### 충돌 발생 시나리오
@@ -52,7 +52,7 @@ tags = ["studynote-bigdata"]
   도쿄 Master: user:john.age = 31  (T=1001, 거의 동시)
 
   복제 완료 후: 두 Master에 상충하는 버전 존재
-  → 충돌 해결 전략 필요
+  -> 충돌 해결 전략 필요
 ```
 
 📢 **섹션 요약 비유**
@@ -65,63 +65,63 @@ tags = ["studynote-bigdata"]
 ### 충돌 해결 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 3가지
 
 ```text
-┌────────────────────────────────────────────────────────────┐
-│  1. LWW (Last-Write-Wins, 최신 쓰기 우선)                  │
-│                                                            │
-│  서울 쓰기 (T=1000) vs 도쿄 쓰기 (T=1001)                   │
-│  → 타임스탬프 비교 → T=1001 (도쿄) 승리                      │
-│                                                            │
-│  장점: 단순, 빠른 충돌 해결                                   │
-│  단점: 서울 쓰기 손실 (데이터 유실)                           │
-│  사용: DynamoDB Global Tables (기본값)                      │
-├────────────────────────────────────────────────────────────┤
-│  2. 벡터 클록 (Vector Clock)                               │
-│                                                            │
-│  각 쓰기에 [Seoul:3, Tokyo:1] 형태의 벡터 클록 부여          │
-│  비교: 한쪽이 다른 쪽의 모든 버전을 포함하면 더 최신            │
-│  충돌: 어느 쪽도 포함하지 않으면 진짜 충돌 → 앱 해결          │
-│                                                            │
-│  장점: 인과 관계 추적, 의미 있는 충돌 감지                    │
-│  단점: 클록 크기 노드 수에 비례 증가                          │
-│  사용: Riak, CouchDB                                       │
-├────────────────────────────────────────────────────────────┤
-│  3. CRDT (Conflict-free Replicated Data Type)              │
-│                                                            │
-│  수학적으로 항상 병합 가능한 자료구조 설계                     │
-│  예: G-Counter (증가만) → merge = max(각 노드 값)            │
-│  예: OR-Set → add/remove가 충돌 없이 병합 가능               │
-│                                                            │
-│  장점: 자동 충돌 해결, 데이터 손실 없음                        │
-│  단점: 모든 연산에 적용 불가 (복잡한 비즈니스 로직)             │
-│  사용: Riak (기본), Redis CRDT (엔터프라이즈)                 │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|  1. LWW (Last-Write-Wins, 최신 쓰기 우선)                  |
+|                                                            |
+|  서울 쓰기 (T=1000) vs 도쿄 쓰기 (T=1001)                   |
+|  -> 타임스탬프 비교 -> T=1001 (도쿄) 승리                      |
+|                                                            |
+|  장점: 단순, 빠른 충돌 해결                                   |
+|  단점: 서울 쓰기 손실 (데이터 유실)                           |
+|  사용: DynamoDB Global Tables (기본값)                      |
++------------------------------------------------------------+
+|  2. 벡터 클록 (Vector Clock)                               |
+|                                                            |
+|  각 쓰기에 [Seoul:3, Tokyo:1] 형태의 벡터 클록 부여          |
+|  비교: 한쪽이 다른 쪽의 모든 버전을 포함하면 더 최신            |
+|  충돌: 어느 쪽도 포함하지 않으면 진짜 충돌 -> 앱 해결          |
+|                                                            |
+|  장점: 인과 관계 추적, 의미 있는 충돌 감지                    |
+|  단점: 클록 크기 노드 수에 비례 증가                          |
+|  사용: Riak, CouchDB                                       |
++------------------------------------------------------------+
+|  3. CRDT (Conflict-free Replicated Data Type)              |
+|                                                            |
+|  수학적으로 항상 병합 가능한 자료구조 설계                     |
+|  예: G-Counter (증가만) -> merge = max(각 노드 값)            |
+|  예: OR-Set -> add/remove가 충돌 없이 병합 가능               |
+|                                                            |
+|  장점: 자동 충돌 해결, 데이터 손실 없음                        |
+|  단점: 모든 연산에 적용 불가 (복잡한 비즈니스 로직)             |
+|  사용: Riak (기본), Redis CRDT (엔터프라이즈)                 |
++------------------------------------------------------------+
 ```
 
 ### [DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/) Global Tables 아키텍처
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│              DynamoDB Global Tables                           │
-│                                                               │
-│  ┌──────────────┐        ┌──────────────┐                    │
-│  │  ap-northeast │        │  us-east-1   │                    │
-│  │  (서울 리전)  │        │  (버지니아)   │                    │
-│  │              │        │              │                    │
-│  │  table:orders│←──────→│  table:orders│                    │
-│  │  (Active)    │  양방향  │  (Active)    │                    │
-│  │              │  복제   │              │                    │
-│  └──────────────┘        └──────────────┘                    │
-│           ↕                      ↕                            │
-│  ┌──────────────┐        ┌──────────────┐                    │
-│  │  eu-west-1   │        │  ap-southeast│                    │
-│  │  (아일랜드)  │←──────→│  (싱가포르)  │                    │
-│  │  (Active)    │        │  (Active)    │                    │
-│  └──────────────┘        └──────────────┘                    │
-│                                                               │
-│  충돌 해결: LWW (타임스탬프 기반)                               │
-│  복제 지연: 일반적으로 수초 이내                                 │
-│  조건: 각 리전에서 고유한 PK 사용 권장 (충돌 최소화)             │
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|              DynamoDB Global Tables                           |
+|                                                               |
+|  +--------------+        +--------------+                    |
+|  |  ap-northeast |        |  us-east-1   |                    |
+|  |  (서울 리전)  |        |  (버지니아)   |                    |
+|  |              |        |              |                    |
+|  |  table:orders|<-------->|  table:orders|                    |
+|  |  (Active)    |  양방향  |  (Active)    |                    |
+|  |              |  복제   |              |                    |
+|  +--------------+        +--------------+                    |
+|           ↕                      ↕                            |
+|  +--------------+        +--------------+                    |
+|  |  eu-west-1   |        |  ap-southeast|                    |
+|  |  (아일랜드)  |<-------->|  (싱가포르)  |                    |
+|  |  (Active)    |        |  (Active)    |                    |
+|  +--------------+        +--------------+                    |
+|                                                               |
+|  충돌 해결: LWW (타임스탬프 기반)                               |
+|  복제 지연: 일반적으로 수초 이내                                 |
+|  조건: 각 리전에서 고유한 PK 사용 권장 (충돌 최소화)             |
++---------------------------------------------------------------+
 ```
 
 ### CouchDB 개정(Revision) 기반 충돌 감지
@@ -130,13 +130,13 @@ tags = ["studynote-bigdata"]
 CouchDB 문서:
 {
   "_id": "user:john",
-  "_rev": "3-abc123",   ← 개정 번호:해시
+  "_rev": "3-abc123",   <- 개정 번호:해시
   "age": 30
 }
 
 충돌 발생:
-  서울: _rev: "3-abc123" → 수정 → "4-def456"
-  도쿄: _rev: "3-abc123" → 수정 → "4-xyz789"
+  서울: _rev: "3-abc123" -> 수정 -> "4-def456"
+  도쿄: _rev: "3-abc123" -> 수정 -> "4-xyz789"
 
 CouchDB 충돌 처리:
   - 두 버전 모두 보존 (충돌 상태로 저장)
@@ -144,8 +144,8 @@ CouchDB 충돌 처리:
   - 해결된 버전으로 "winning" 버전 저장
 
 CouchDB 오프라인 우선 동기화:
-  모바일 앱 → 오프라인 작업 → 온라인 시 서버와 복제
-  → 동기화 충돌 자동 감지 + 앱 레벨 해결
+  모바일 앱 -> 오프라인 작업 -> 온라인 시 서버와 복제
+  -> 동기화 충돌 자동 감지 + 앱 레벨 해결
 ```
 
 📢 **섹션 요약 비유**
@@ -193,15 +193,15 @@ CRDT: 분산 시스템 방식
 요구: 서울·뉴욕·유럽 동시 쓰기, 재고 정확도 보장
 
 설계 결정:
-  ① 상품 카탈로그(낮은 충돌) → DynamoDB Global Tables (LWW)
-  ② 재고 수량(충돌 위험 높음) → Cassandra + QUORUM 또는
+  ① 상품 카탈로그(낮은 충돌) -> DynamoDB Global Tables (LWW)
+  ② 재고 수량(충돌 위험 높음) -> Cassandra + QUORUM 또는
                                   단일 재고 서비스(분산 잠금)
-  ③ 사용자 프로필(Session 일관성) → Session + Last-Write-Wins
-  ④ 장바구니(동시 추가) → CRDT OR-Set (충돌 없는 추가)
+  ③ 사용자 프로필(Session 일관성) -> Session + Last-Write-Wins
+  ④ 장바구니(동시 추가) -> CRDT OR-Set (충돌 없는 추가)
 
 핵심 원칙:
-  높은 충돌 위험 데이터 → 멀티 마스터 지양 (단일 마스터 유지)
-  낮은 충돌 위험 데이터 → 멀티 마스터 적극 활용
+  높은 충돌 위험 데이터 -> 멀티 마스터 지양 (단일 마스터 유지)
+  낮은 충돌 위험 데이터 -> 멀티 마스터 적극 활용
 ```
 
 ### 충돌 최소화 설계 패턴
@@ -251,17 +251,17 @@ CRDT: 분산 시스템 방식
 
 ```text
 [싱글 마스터 복제 (Single Master) — 단일 쓰기 노드, 읽기 확장]
-    │
-    ▼
+    |
+    v
 [멀티 마스터 복제 (Multi-Master) — 여러 노드 동시 쓰기, 고가용성]
-    │
-    ▼
+    |
+    v
 [충돌 해결 (Conflict Resolution) — 최종 쓰기 우선·벡터 클록·사용자 정의]
-    │
-    ▼
+    |
+    v
 [CRDT (무충돌 복제 자료구조) — 수학적으로 충돌 없는 분산 자료구조]
-    │
-    ▼
+    |
+    v
 [글로벌 분산 DB (CockroachDB·Spanner) — 지역별 멀티 마스터 + 일관성 보장]
 ```
 [멀티 마스터 복제](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/272_multi_master_replication/)는 단일 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터의 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 한계를 극복하지만 충돌 해결 복잡성을 낳으며, CRDT와 글로벌 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)로 진화해 지역 레이턴시와 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 동시에 해결한다.
@@ -277,7 +277,7 @@ CRDT: 분산 시스템 방식
 
 **진행 상황**: 141 / 262
 
-← **이전**: [140. 일관성 수준 선택 (Consistency Levels) — Strong/Eventual/Bounded Staleness](/knowledge-base/studynote/16_bigdata/06_nosql/140_consistency_levels/)
-**다음**: [142. 스키마리스 설계 패턴 (Schemaless Design Patterns) — 임베딩 vs 참조](/knowledge-base/studynote/16_bigdata/06_nosql/142_schemaless_design_patterns/) →
+<- **이전**: [140. 일관성 수준 선택 (Consistency Levels) — Strong/Eventual/Bounded Staleness](/knowledge-base/studynote/16_bigdata/06_nosql/140_consistency_levels/)
+**다음**: [142. 스키마리스 설계 패턴 (Schemaless Design Patterns) — 임베딩 vs 참조](/knowledge-base/studynote/16_bigdata/06_nosql/142_schemaless_design_patterns/) ->
 
 ---

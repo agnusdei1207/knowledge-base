@@ -25,14 +25,14 @@ tags = ["studynote-design"]
 
 ```text
 요구사항 / 시나리오
-        │
-        ▼
-┌───────────────────────────────┐
-│   4+1 View Model              │
-│  논리 / 개발 / 프로세스 / 물리 │
-└───────────────────────────────┘
-        │
-        ▼
+        |
+        v
++-------------------------------+
+|   4+1 View Model              |
+|  논리 / 개발 / 프로세스 / 물리 |
++-------------------------------+
+        |
+        v
 아키텍처 합의와 검증
 ```
 
@@ -54,14 +54,14 @@ tags = ["studynote-design"]
 
 ```text
 시나리오 1개가 네 뷰를 동시에 관통하는 방식
-┌────────────────┐
-│ Use Case (UC)  │
-└──────┬─────────┘
-       │
-       ├── 논리 뷰 : 기능 흐름과 책임 분리
-       ├── 개발 뷰 : 모듈 / 패키지 배치
-       ├── 프로세스 뷰 : 병렬 처리와 동기화
-       └── 물리 뷰 : 서버 / 네트워크 배치
++----------------+
+| Use Case (UC)  |
++------+---------+
+       |
+       +-- 논리 뷰 : 기능 흐름과 책임 분리
+       +-- 개발 뷰 : 모듈 / 패키지 배치
+       +-- 프로세스 뷰 : 병렬 처리와 동기화
+       +-- 물리 뷰 : 서버 / 네트워크 배치
 ```
 
 시나리오를 먼저 잡으면 문서가 '그림 모음'에서 '증명서'로 바뀐다. 어떤 기능이든 대표 흐름을 따라가며 각 뷰의 설명이 서로 모순되지 않는지 확인할 수 있기 때문이다.
@@ -132,17 +132,17 @@ tags = ["studynote-design"]
 
 ```text
 요구사항
-  │
-  ▼
+  |
+  v
 Use Case (UC) 시나리오
-  │
-  ├──────────────┬──────────────┬──────────────┬──────────────┐
-  ▼              ▼              ▼              ▼
+  |
+  +--------------+--------------+--------------+--------------+
+  v              v              v              v
 논리 뷰         개발 뷰       프로세스 뷰       물리 뷰
-  │              │              │              │
-  └──────────────┴──────────────┴──────────────┴──────────────┘
-                      │
-                      ▼
+  |              |              |              |
+  +--------------+--------------+--------------+--------------+
+                      |
+                      v
            Architecture Decision Record (ADR)
 ```
 
@@ -160,7 +160,7 @@ Use Case (UC) 시나리오
 
 **진행 상황**: 127 / 530
 
-← **이전**: [83. 아키텍처 주요 요소 - 이해관계자, 관심사, 뷰, 뷰포인트](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/083_architecture_elements_stakeholder_view_viewpoint/)
-**다음**: [85. 논리 뷰 (Logical View) - 최종 사용자 요구사항 개념 설계](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/085_logical_view_class_diagram_functional_requirements/) →
+<- **이전**: [83. 아키텍처 주요 요소 - 이해관계자, 관심사, 뷰, 뷰포인트](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/083_architecture_elements_stakeholder_view_viewpoint/)
+**다음**: [85. 논리 뷰 (Logical View) - 최종 사용자 요구사항 개념 설계](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/085_logical_view_class_diagram_functional_requirements/) ->
 
 ---

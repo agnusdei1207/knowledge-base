@@ -33,29 +33,29 @@ tags = ["studynote-bigdata"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-좋은 지리공간 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)는 원본 좌표를 곧바로 뿌리는 대신, 좌표계 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)와 공간 집계, 렌더링 계층을 거쳐 만들어진다. 일반적인 흐름은 Coordinate [Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) System ([CRS](/knowledge-base/studynote/09_security/05_web_app_security/243_owasp_core_rule_set_crs_waf_anomaly_scoring/)) 정리 → 공간 인덱싱 → 레이어 선택 → 타일 또는 집계 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → 클라이언트 렌더링 순서다. 이 중 어느 단계를 생략하느냐에 따라 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 해석력이 동시에 흔들린다.
+좋은 지리공간 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)는 원본 좌표를 곧바로 뿌리는 대신, 좌표계 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)와 공간 집계, 렌더링 계층을 거쳐 만들어진다. 일반적인 흐름은 Coordinate [Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) System ([CRS](/knowledge-base/studynote/09_security/05_web_app_security/243_owasp_core_rule_set_crs_waf_anomaly_scoring/)) 정리 -> 공간 인덱싱 -> 레이어 선택 -> 타일 또는 집계 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) -> 클라이언트 렌더링 순서다. 이 중 어느 단계를 생략하느냐에 따라 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 해석력이 동시에 흔들린다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                 Geospatial visualization pipeline                  │
-├────────────────────────────────────────────────────────────────────┤
-│ raw points / lines / polygons / raster                             │
-│            │                                                       │
-│            ▼                                                       │
-│ CRS normalization + cleaning                                       │
-│            │                                                       │
-│            ▼                                                       │
-│ spatial index / aggregation                                        │
-│   ├─ H3 hex cells                                                  │
-│   ├─ grid / tile bucket                                            │
-│   └─ region join                                                   │
-│            │                                                       │
-│            ▼                                                       │
-│ render layer                                                       │
-│   ├─ point / heatmap                                               │
-│   ├─ hex / choropleth                                              │
-│   └─ arc / trip / 3D                                               │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                 Geospatial visualization pipeline                  |
++--------------------------------------------------------------------+
+| raw points / lines / polygons / raster                             |
+|            |                                                       |
+|            v                                                       |
+| CRS normalization + cleaning                                       |
+|            |                                                       |
+|            v                                                       |
+| spatial index / aggregation                                        |
+|   +- H3 hex cells                                                  |
+|   +- grid / tile bucket                                            |
+|   +- region join                                                   |
+|            |                                                       |
+|            v                                                       |
+| render layer                                                       |
+|   +- point / heatmap                                               |
+|   +- hex / choropleth                                              |
+|   +- arc / trip / 3D                                               |
++--------------------------------------------------------------------+
 ```
 
 레이어 선택은 질문 선택과 같다. 개별 위치를 봐야 하면 포인트 레이어가 맞고, 밀도를 봐야 하면 히트맵이나 헥사곤 집계가 맞다. 행정 구역 간 비교는 코로플레스 (Choropleth)가 적합하고, 출발지-도착지 흐름은 Arc Layer나 Flow Map이 더 낫다. 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다른 레이어로 그리면 완전히 다른 질문에 답하게 된다.
@@ -100,23 +100,23 @@ Kepler.gl, Folium, Deck.gl은 모두 지도 [시각화](/knowledge-base/studynot
 실무에서는 먼저 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모와 목적을 구분해야 한다. 분석가가 하루 동안 업로드한 택시 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 빠르게 탐색하려면 Kepler.gl이 적합하고, Python [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) 결과를 보고서에 붙이려면 Folium이면 충분하다. 반면 수백만 건 이상을 사용자 인터랙션과 함께 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)해야 하면, 서버 측 집계와 벡터 타일을 준비한 뒤 Deck.gl이나 PyDeck으로 전달하는 구성이 현실적이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                   Practical decision workflow                      │
-├────────────────────────────────────────────────────────────────────┤
-│ exploration by analyst?                                            │
-│   ├─ yes -> Kepler.gl                                              │
-│   └─ no                                                            │
-│       │                                                            │
-│       ▼                                                            │
-│ notebook / static report?                                          │
-│   ├─ yes -> Folium                                                 │
-│   └─ no                                                            │
-│       │                                                            │
-│       ▼                                                            │
-│ product-scale interactive map?                                     │
-│   ├─ yes -> Deck.gl + server-side aggregation / tiles              │
-│   └─ no  -> lightweight map stack                                  │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                   Practical decision workflow                      |
++--------------------------------------------------------------------+
+| exploration by analyst?                                            |
+|   +- yes -> Kepler.gl                                              |
+|   +- no                                                            |
+|       |                                                            |
+|       v                                                            |
+| notebook / static report?                                          |
+|   +- yes -> Folium                                                 |
+|   +- no                                                            |
+|       |                                                            |
+|       v                                                            |
+| product-scale interactive map?                                     |
+|   +- yes -> Deck.gl + server-side aggregation / tiles              |
+|   +- no  -> lightweight map stack                                  |
++--------------------------------------------------------------------+
 ```
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -144,7 +144,7 @@ Kepler.gl, Folium, Deck.gl은 모두 지도 [시각화](/knowledge-base/studynot
 - Web Mercator 왜곡을 무시한 채 면적 비교 결론을 내리는 것
 - 개인 이동 궤적을 그대로 공개해 프라이버시 위험을 키우는 것
 
-기술사 답안에서는 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 규모 → 공간 집계 → 도구 선택 → 투영법 → <a href="/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/">개인정보</a> <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong> 순서로 정리하면 실무성이 높다. 지리공간 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)는 예쁜 지도 제작이 아니라, 질문에 맞는 공간 요약과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 설계의 문제다.
+기술사 답안에서는 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 규모 -> 공간 집계 -> 도구 선택 -> 투영법 -> <a href="/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/">개인정보</a> <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong> 순서로 정리하면 실무성이 높다. 지리공간 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)는 예쁜 지도 제작이 아니라, 질문에 맞는 공간 요약과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 설계의 문제다.
 
 - **📢 섹션 요약 비유**: 도시 전체 상황판을 만들 때 집집마다 불빛 하나씩 그대로 보여 주는 것보다, 동네별 열기와 길 흐름을 적절히 묶어 보여 주는 편이 훨씬 이해하기 쉽다.
 
@@ -178,20 +178,20 @@ Kepler.gl, Folium, Deck.gl은 모두 지도 [시각화](/knowledge-base/studynot
 
 ```text
 Raw GPS / polygon / raster data
-    │
-    ▼
+    |
+    v
 CRS normalization + spatial indexing
-    ├─ H3 / grid aggregation
-    ├─ region join
-    └─ vector tile generation
-    │
-    ▼
+    +- H3 / grid aggregation
+    +- region join
+    +- vector tile generation
+    |
+    v
 Interactive map rendering
-    ├─ Folium for lightweight reporting
-    ├─ Kepler.gl for rapid exploration
-    └─ Deck.gl for product-scale WebGL apps
-    │
-    ▼
+    +- Folium for lightweight reporting
+    +- Kepler.gl for rapid exploration
+    +- Deck.gl for product-scale WebGL apps
+    |
+    v
 Real-time geo analytics / digital twin / spatial decision support
 ```
 
@@ -209,7 +209,7 @@ Real-time geo analytics / digital twin / spatial decision support
 
 **진행 상황**: 173 / 262
 
-← **이전**: [172. 네트워크 시각화 (Network Visualization)](/knowledge-base/studynote/16_bigdata/08_visualization/172_network_visualization/)
-**다음**: [174. 빅데이터 시각화 도전 (Big Data Visualization Challenges) — 집계/샘플링/렌더링 최적화](/knowledge-base/studynote/16_bigdata/08_visualization/174_bigdata_visualization_challenges/) →
+<- **이전**: [172. 네트워크 시각화 (Network Visualization)](/knowledge-base/studynote/16_bigdata/08_visualization/172_network_visualization/)
+**다음**: [174. 빅데이터 시각화 도전 (Big Data Visualization Challenges) — 집계/샘플링/렌더링 최적화](/knowledge-base/studynote/16_bigdata/08_visualization/174_bigdata_visualization_challenges/) ->
 
 ---

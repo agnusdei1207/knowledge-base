@@ -12,7 +12,7 @@ tags = ["studynote-ict-convergence"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: PoW(Proof of Work, [작업 증명](/knowledge-base/studynote/06_ict_convergence/01_blockchain/014_pow_proof_of_work/))은 연산 비용으로 블록 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)권을 경쟁하고, PoS(Proof of Stake, [지분 증명](/knowledge-base/studynote/06_ict_convergence/01_blockchain/015_pos_proof_of_stake/))은 담보 자산으로 검증자를 선정해 에너지 없이 같은 보안을 달성한다.
-> 2. **가치**: 이더리움 The Merge(2022.09)로 PoW → PoS 전환 후 에너지 소비가 <strong>99.95% 감소</strong>했으며, 이는 탄소 중립 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 설계의 기준이 됐다.
+> 2. **가치**: 이더리움 The Merge(2022.09)로 PoW -> PoS 전환 후 에너지 소비가 <strong>99.95% 감소</strong>했으며, 이는 탄소 중립 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 설계의 기준이 됐다.
 > 3. **판단 포인트**: PoW는 51% 공격 비용(전기비 + 하드웨어), PoS는 33% 공격 비용(자산 담보 + 슬래싱 손실)으로 보안 모델이 근본적으로 다르며, 각각 다른 위협 시나리오에 대응한다.
 
 ---
@@ -23,8 +23,8 @@ tags = ["studynote-ict-convergence"]
 
 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 네트워크에서 수천 개의 노드가 동시에 새 블록을 제안할 때, **어느 블록을 정답으로 채택할지** 결정하는 규칙이 합의 메커니즘이다. 이 규칙은 악의적 노드의 공격을 경제적으로 비용이 너무 많이 들게 만들어야 한다.
 
-- **PoW**: 연산 자원 낭비를 통해 공격 비용 창출 → "작업했음을 증명하라"
-- **PoS**: 자산 담보를 통해 공격 비용 창출 → "지분이 있음을 증명하라"
+- **PoW**: 연산 자원 낭비를 통해 공격 비용 창출 -> "작업했음을 증명하라"
+- **PoS**: 자산 담보를 통해 공격 비용 창출 -> "지분이 있음을 증명하라"
 
 - **📢 섹션 요약 비유**: — "PoW는 '제일 힘든 수학 문제 푼 사람이 반장', PoS는 '학급 기금을 제일 많이 낸 사람이 반장'인 셈이다.
 
@@ -35,33 +35,33 @@ tags = ["studynote-ict-convergence"]
 ### PoW 동작 구조
 
 ```
-┌────────────────────────────────────────────────┐
-│          PoW 채굴 사이클                        │
-│                                                │
-│  ① 트랜잭션 수집 → 후보 블록 구성              │
-│  ② Nonce 값 0부터 증가시키며 반복:              │
-│     SHA-256(SHA-256(헤더)) < 난이도 목표값?     │
-│     YES → 블록 전파 / NO → Nonce++ 반복        │
-│  ③ 2016블록마다 난이도 조정(Difficulty Adjust) │
-│     목표: 블록 간격 10분 유지                   │
-│  ④ 채굴 성공 시 블록 보상 + 트랜잭션 수수료    │
-└────────────────────────────────────────────────┘
++------------------------------------------------+
+|          PoW 채굴 사이클                        |
+|                                                |
+|  ① 트랜잭션 수집 -> 후보 블록 구성              |
+|  ② Nonce 값 0부터 증가시키며 반복:              |
+|     SHA-256(SHA-256(헤더)) < 난이도 목표값?     |
+|     YES -> 블록 전파 / NO -> Nonce++ 반복        |
+|  ③ 2016블록마다 난이도 조정(Difficulty Adjust) |
+|     목표: 블록 간격 10분 유지                   |
+|  ④ 채굴 성공 시 블록 보상 + 트랜잭션 수수료    |
++------------------------------------------------+
 ```
 
 ### PoS 검증자 선택 구조
 
 ```
-┌────────────────────────────────────────────────┐
-│          PoS 이더리움 검증 사이클               │
-│                                                │
-│  ① 검증자: 32 ETH 스테이킹 → 등록              │
-│  ② 에폭(Epoch, 32 슬롯)마다 무작위 위원회 구성 │
-│  ③ 슬롯 제안자(Proposer): 블록 제안            │
-│  ④ 위원회(Committee): Attestation 투표         │
-│  ⑤ 2/3 투표 달성 → 체크포인트 최종화           │
-│  ⑥ 악의적 행동 시 슬래싱(Slashing):            │
-│     담보 ETH 일부 소각 + 네트워크 강제 퇴출    │
-└────────────────────────────────────────────────┘
++------------------------------------------------+
+|          PoS 이더리움 검증 사이클               |
+|                                                |
+|  ① 검증자: 32 ETH 스테이킹 -> 등록              |
+|  ② 에폭(Epoch, 32 슬롯)마다 무작위 위원회 구성 |
+|  ③ 슬롯 제안자(Proposer): 블록 제안            |
+|  ④ 위원회(Committee): Attestation 투표         |
+|  ⑤ 2/3 투표 달성 -> 체크포인트 최종화           |
+|  ⑥ 악의적 행동 시 슬래싱(Slashing):            |
+|     담보 ETH 일부 소각 + 네트워크 강제 퇴출    |
++------------------------------------------------+
 ```
 
 ### PoW vs PoS 핵심 비교
@@ -102,9 +102,9 @@ tags = ["studynote-ict-convergence"]
 
 ### 선택 기준
 
-1. <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/">탈중앙화</a> 극대화 필요</strong>: PoW → 채굴 분산도 측정 지표(Nakamoto 계수) 활용
-2. **에너지 효율 / ESG 규제**: PoS → 탄소 발자국 최소화
-3. **빠른 최종성 필요**: PoS Tendermint/Ethereum → 결정적 최종화
+1. <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/">탈중앙화</a> 극대화 필요</strong>: PoW -> 채굴 분산도 측정 지표(Nakamoto 계수) 활용
+2. **에너지 효율 / ESG 규제**: PoS -> 탄소 발자국 최소화
+3. **빠른 최종성 필요**: PoS Tendermint/Ethereum -> 결정적 최종화
 4. <strong>하드웨어 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/">ASIC</a> 집중화 위험</strong>: PoW의 고질적 문제, PoS로 완화
 
 ### 슬래싱(Slashing) 조건
@@ -138,13 +138,13 @@ PoW와 PoS는 각각 물리적 비용(전기·장비)과 경제적 비용(자산
 | 연결 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 설명 |
 | 난이도 조정 | PoW의 블록 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 속도 안정화 메커니즘 |
 | 슬래싱 | PoS의 악의적 검증자 경제적 처벌 |
-| The Merge | 이더리움 PoW→PoS 전환 역사적 사건 |
+| The Merge | 이더리움 PoW->PoS 전환 역사적 사건 |
 | DPoS | PoS 변형, 대표 검증자 선출 방식 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[관계 설명] → [PoW · PoS 합의 메커니즘 비교] → [PoS 변형 · 대표 검증자 선출 방식]
+[관계 설명] -> [PoW · PoS 합의 메커니즘 비교] -> [PoS 변형 · 대표 검증자 선출 방식]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -159,7 +159,7 @@ PoW와 PoS는 각각 물리적 비용(전기·장비)과 경제적 비용(자산
 
 **진행 상황**: 475 / 552
 
-← **이전**: [474. 분산 원장 기술 (DLT, Distributed Ledger Technology)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/474_dlt_distributed_ledger_technology/)
-**다음**: [476. BFT 비잔틴 장애 허용과 다수결 방어 (Byzantine Fault Tolerance Majority Defense)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/476_bft_byzantine_fault_tolerance_majority_defense/) →
+<- **이전**: [474. 분산 원장 기술 (DLT, Distributed Ledger Technology)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/474_dlt_distributed_ledger_technology/)
+**다음**: [476. BFT 비잔틴 장애 허용과 다수결 방어 (Byzantine Fault Tolerance Majority Defense)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/476_bft_byzantine_fault_tolerance_majority_defense/) ->
 
 ---

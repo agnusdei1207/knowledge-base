@@ -31,11 +31,11 @@ Secure by Default는 사용자가 아무것도 바꾸지 않아도 안전하게 
 
 ```text
 기본 설치
-   ↓
+   v
 안전한 기본값
-   ↓
+   v
 명시적 Opt-in
-   ↓
+   v
 감사 로그 / 모니터링
 ```
 
@@ -117,13 +117,13 @@ Secure by Default는 사고를 없애는 만능열쇠는 아니지만, 가장 �
 
 ```text
 Security by Design
-   ↓
+   v
 Secure by Default
-   ↓
+   v
 Least Privilege
-   ↓
+   v
 Fail-safe / Opt-in
-   ↓
+   v
 Secure Product Baseline
 ```
 
@@ -133,13 +133,13 @@ Secure Product Baseline
 
 ```text
 기본 비밀번호
-   ↓
+   v
 초기 설정 실수
-   ↓
+   v
 Secure by Default
-   ↓
+   v
 기본값 보안 강화
-   ↓
+   v
 Zero Trust
 ```
 
@@ -157,7 +157,7 @@ Zero Trust
 
 **진행 상황**: 61 / 1108
 
-← **이전**: [60. Privacy by Design (PbD) - 7대 기본 원칙](/knowledge-base/studynote/09_security/01_intro_principles/060_privacy_by_design/)
-**다음**: [62. 시큐어 코딩 (Secure Coding)](/knowledge-base/studynote/09_security/01_intro_principles/062_secure_coding/) →
+<- **이전**: [60. Privacy by Design (PbD) - 7대 기본 원칙](/knowledge-base/studynote/09_security/01_intro_principles/060_privacy_by_design/)
+**다음**: [62. 시큐어 코딩 (Secure Coding)](/knowledge-base/studynote/09_security/01_intro_principles/062_secure_coding/) ->
 
 ---

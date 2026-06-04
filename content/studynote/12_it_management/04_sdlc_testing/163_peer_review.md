@@ -36,19 +36,19 @@ tags = ["studynote-it-management"]
 아래 그림은 [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 기반 동료 검토의 기본 구조를 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                PR 기반 동료 검토 흐름                                │
-├──────────────────────────────────────────────────────────────────────┤
-│ 작성자 브랜치 커밋                                                   │
-│        │                                                             │
-│        ▼                                                             │
-│  Pull Request 생성 ──▶ 자동 검사 (Lint/Test/SAST)                    │
-│        │                         │                                   │
-│        │                         └─ 실패 시 즉시 수정                │
-│        ▼                                                             │
-│  리뷰어 검토 ──▶ 코멘트 분류 ──▶ 작성자 수정 ──▶ 재검토 ──▶ 승인/병합 │
-│                  (버그/질문/제안)                                    │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                PR 기반 동료 검토 흐름                                |
++----------------------------------------------------------------------+
+| 작성자 브랜치 커밋                                                   |
+|        |                                                             |
+|        v                                                             |
+|  Pull Request 생성 ---> 자동 검사 (Lint/Test/SAST)                    |
+|        |                         |                                   |
+|        |                         +- 실패 시 즉시 수정                |
+|        v                                                             |
+|  리뷰어 검토 ---> 코멘트 분류 ---> 작성자 수정 ---> 재검토 ---> 승인/병합 |
+|                  (버그/질문/제안)                                    |
++----------------------------------------------------------------------+
 ```
 
 | 역할 | 주요 관점 | 놓치기 쉬운 포인트 |
@@ -132,17 +132,17 @@ tags = ["studynote-it-management"]
 
 ```text
 비공식 상호 점검
-    │
-    ▼
+    |
+    v
 워크스루 (Walkthrough) · 동료 검토 (Peer Review)
-    │
-    ▼
+    |
+    v
 Pull Request 기반 코드 리뷰
-    │
-    ▼
+    |
+    v
 CI 연계 자동 검사 · 보안 리뷰 · 품질 게이트
-    │
-    ▼
+    |
+    v
 Collective Code Ownership · 학습 조직 문화
 ```
 
@@ -160,7 +160,7 @@ Collective Code Ownership · 학습 조직 문화
 
 **진행 상황**: 277 / 587
 
-← **이전**: [162. 워크스루 (Walkthrough, 비공식 검토)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/)
-**다음**: [164. TDD (Test Driven Development, 테스트 주도 개발)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) →
+<- **이전**: [162. 워크스루 (Walkthrough, 비공식 검토)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/)
+**다음**: [164. TDD (Test Driven Development, 테스트 주도 개발)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) ->
 
 ---

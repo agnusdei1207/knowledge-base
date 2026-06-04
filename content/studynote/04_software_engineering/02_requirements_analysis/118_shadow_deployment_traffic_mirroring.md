@@ -19,17 +19,17 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    섀도 배포 트래픽 흐름                               │
-├───────────────────────────────────────────────────────┤
-│  사용자 요청 ──▶ LB ──▶ v1 (응답 반환) ✅            │
-│                    │                                  │
-│                    └──▶ v2 (복제본, 응답 버림) 🗑️     │
-│                         └── 로그·메트릭만 수집        │
-│                                                       │
-│  사용자: v1 응답만 받음 (영향 제로)                   │
-│  엔지니어: v2 로그·에러·레이턴시 비교 분석            │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    섀도 배포 트래픽 흐름                               |
++-------------------------------------------------------+
+|  사용자 요청 ---> LB ---> v1 (응답 반환) ✅            |
+|                    |                                  |
+|                    +---> v2 (복제본, 응답 버림) 🗑️     |
+|                         +-- 로그·메트릭만 수집        |
+|                                                       |
+|  사용자: v1 응답만 받음 (영향 제로)                   |
+|  엔지니어: v2 로그·에러·레이턴시 비교 분석            |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 섀도 배포는 신인 배우(v2)가 무대 뒤에서 동시에 연기하지만, 관객(사용자)은 베테랑(v1)만 보는 드레스 리허설이다.
@@ -82,7 +82,7 @@ spec:
 2. **DB 마이그레이션**: 읽기 쿼리를 신 DB에 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)하여 결과 비교.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 요청 무분별 <a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/">미러링</a></strong>: 주문·결제가 중복 처리 → 반드시 읽기 전용 또는 격리 DB.
+- <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 요청 무분별 <a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/">미러링</a></strong>: 주문·결제가 중복 처리 -> 반드시 읽기 전용 또는 격리 DB.
 
 ---
 
@@ -111,17 +111,17 @@ spec:
 
 ```text
 [스테이징 테스트 (합성 트래픽)]
-    │
-    ▼
+    |
+    v
 [카나리 배포 (실 트래픽 1~5%, 사용자 영향 있음)]
-    │
-    ▼
+    |
+    v
 [섀도 배포 (실 트래픽 미러링, 사용자 영향 제로)]
-    │
-    ▼
+    |
+    v
 [Istio mirror (2018~) — Service Mesh 기반 자동 미러링]
-    │
-    ▼
+    |
+    v
 [현재: AI 기반 섀도 분석 — 미러링 결과 자동 비교·판정]
 ```
 
@@ -136,7 +136,7 @@ spec:
 
 **진행 상황**: 118 / 973
 
-← **이전**: [117. 롤링 업데이트 (Rolling Update Deployment) - K8s 기본 무중단 배포 전략](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/117_rolling_update_deployment/)
-**다음**: [119. GitOps (Single Source of Truth) - Git을 단일 진실 원천으로 한 선언적 운영](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) →
+<- **이전**: [117. 롤링 업데이트 (Rolling Update Deployment) - K8s 기본 무중단 배포 전략](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/117_rolling_update_deployment/)
+**다음**: [119. GitOps (Single Source of Truth) - Git을 단일 진실 원천으로 한 선언적 운영](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) ->
 
 ---

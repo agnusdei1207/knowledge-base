@@ -10,7 +10,7 @@ tags = ["studynote-it-management"]
 +++
 
 > **핵심 인사이트**
-> 1. AARRR 퍼널([Pirate Metrics](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/043_aarrr_funnel_pirate_metrics/))은 Dave McClure(500 Startups)가 제안한 고객 여정 5단계 측정 프레임워크로, [Acquisition](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/)(획득)→Activation(활성화)→[Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/)(유지)→Referral(추천)→Revenue(수익)의 흐름을 정량 지표로 관리한다.
+> 1. AARRR 퍼널([Pirate Metrics](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/043_aarrr_funnel_pirate_metrics/))은 Dave McClure(500 Startups)가 제안한 고객 여정 5단계 측정 프레임워크로, [Acquisition](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/)(획득)->Activation(활성화)->[Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/)(유지)->Referral(추천)->Revenue(수익)의 흐름을 정량 지표로 관리한다.
 > 2. [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/)([Growth Hacking](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/))은 마케팅·제품·데이터를 통합하여 최소 비용으로 최대 성장을 달성하는 방법론으로, AARRR 퍼널에서 가장 취약한 단계를 찾아 실험(A/B 테스트)으로 빠르게 개선하는 것이 핵심이다.
 > 3. AARRR에서 가장 중요한 단계는 R([Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/))으로, 새 사용자를 끊임없이 획득([Acquisition](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/))하더라도 유지하지 못하면 "밑 빠진 독에 물 붓기"이며, PMF(Product-Market Fit) 달성 여부가 Retention으로 판별된다.
 
@@ -61,7 +61,7 @@ AARRR 퍼널 (Pirate Metrics):
 
 핵심 원칙:
   "마케팅 = 실험" 패러다임
-  빠른 실험 → 측정 → 학습 → 반복
+  빠른 실험 -> 측정 -> 학습 -> 반복
   부서 경계 없는 Growth Team
 
 그로스 팀 구성:
@@ -107,7 +107,7 @@ PMF (Product-Market Fit) 측정:
 
 Sean Ellis Test:
   "이 서비스가 없어진다면 얼마나 실망하겠습니까?"
-  40% 이상 "매우 실망" → PMF 달성
+  40% 이상 "매우 실망" -> PMF 달성
 
 주요 지표:
 
@@ -181,7 +181,7 @@ B2B SaaS A사 그로스 해킹 사례:
   Retention: 30일 리텐션 18%
   Revenue: 유료 전환율 3.2%
 
-주요 문제: Activation 낮음 → Retention 낮음 → Revenue 저조
+주요 문제: Activation 낮음 -> Retention 낮음 -> Revenue 저조
 
 가설:
   "온보딩 과정에서 핵심 기능 Aha Moment를
@@ -199,10 +199,10 @@ B2B SaaS A사 그로스 해킹 사례:
 통계 검증: p < 0.001, 유의미한 개선
 
 롤아웃 후 3개월:
-  유료 전환율: 3.2% → 7.1%
-  MRR: 5,000만원 → 1억1천만원 (120% 성장)
+  유료 전환율: 3.2% -> 7.1%
+  MRR: 5,000만원 -> 1억1천만원 (120% 성장)
 
-성공 요인: Activation 개선 → Retention 개선 → Revenue 자연 증가
+성공 요인: Activation 개선 -> Retention 개선 -> Revenue 자연 증가
 ```
 
 > 📢 **섹션 요약 비유**: AARRR 취약 단계 개선은 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 막힌 곳 뚫기 — Activation이 막히면 [Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/)·Revenue도 흐르지 않는다.
@@ -269,7 +269,7 @@ Predictive Churn Prevention
 
 **진행 상황**: 73 / 587
 
-← **이전**: [040. OKR (Objectives and Key Results) — 목표와 핵심 결과](/knowledge-base/studynote/12_it_management/01_governance_strategy/040_okr_objectives_key_results/)
-**다음**: [41. 그로스 해킹 (Growth Hacking)](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/) →
+<- **이전**: [040. OKR (Objectives and Key Results) — 목표와 핵심 결과](/knowledge-base/studynote/12_it_management/01_governance_strategy/040_okr_objectives_key_results/)
+**다음**: [41. 그로스 해킹 (Growth Hacking)](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/) ->
 
 ---

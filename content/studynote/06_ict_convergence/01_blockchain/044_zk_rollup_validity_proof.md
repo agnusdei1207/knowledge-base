@@ -24,7 +24,7 @@ ZK-Rollup (Zero-Knowledge Rollup):
 배경 — Ethereum 확장 문제:
   이더리움 메인넷: 15~30 TPS
   비자 카드: 24,000 TPS
-  → 확장성 문제
+  -> 확장성 문제
 
 Layer 2 해결책:
   트랜잭션을 오프체인에서 처리
@@ -36,10 +36,10 @@ ZK-Rollup 동작:
   3. ZK 증명(Validity Proof) 생성 (계산 집약적)
   4. 배치 상태 + ZK 증명만 이더리움 메인넷에 게시
   5. 메인넷 스마트 컨트랙트가 증명 검증 (빠름)
-  6. 검증 성공 → 상태 확정 (즉시 최종성)
+  6. 검증 성공 -> 상태 확정 (즉시 최종성)
 
 효과:
-  1,000건 트랜잭션 → 1개 ZK 증명
+  1,000건 트랜잭션 -> 1개 ZK 증명
   가스비: 1,000배 절약
   처리량: ~3,000 TPS (zkEVM 기준)
 
@@ -49,7 +49,7 @@ ZK-Rollup 동작:
 ZK-Rollup vs Optimistic Rollup:
   ZK: 즉시 최종성, 증명 생성 비용 높음
   Optimistic: 7일 대기 기간, 사기 증명 필요
-  → ZK가 이론적으로 더 우수 (복잡성이 단점)
+  -> ZK가 이론적으로 더 우수 (복잡성이 단점)
 ```
 
 > 📢 **섹션 요약 비유**: ZK-Rollup은 회계 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 요약 — 1만 건 거래 장부를 보내는 대신, 수학적 증명서 하나로 "모든 거래가 정확하다"를 증명. 장부 없이 도장(ZK 증명)만으로 신뢰.
@@ -79,7 +79,7 @@ ZK-Rollup vs Optimistic Rollup:
   ZKP: Bob이 등 뒤에서 공 교체 or 유지
   Alice: 교체 여부 맞춤 (색으로 판단)
 
-  100번 반복 → 모두 맞추면:
+  100번 반복 -> 모두 맞추면:
   Alice가 실제 색 구별한다는 것을 증명
   Bob은 Alice가 빨강/초록 어느 것인지 여전히 모름
 
@@ -87,7 +87,7 @@ ZK-Rollup vs Optimistic Rollup:
   계산: 1000건 트랜잭션 처리 정확성
   증명: "모든 트랜잭션이 유효하다" (수식으로)
 
-  메인넷: 수식만 검증 → 빠르고 저렴
+  메인넷: 수식만 검증 -> 빠르고 저렴
   개별 트랜잭션 검증 불필요
 ```
 
@@ -102,19 +102,19 @@ zk-SNARK (Succinct Non-interactive ARgument of Knowledge):
 
 특징:
   Succinct: 증명 크기 매우 작음 (수백 바이트)
-  Non-interactive: 단방향 (증명자 → 검증자)
+  Non-interactive: 단방향 (증명자 -> 검증자)
   ARgument: 계산 가정 하에 건전성
   Knowledge: 비밀 지식 증명
 
 장점:
-  증명 크기 작음 → 온체인 가스비 저렴
+  증명 크기 작음 -> 온체인 가스비 저렴
   검증 빠름
 
 단점:
   Trusted Setup (신뢰된 셋업) 필요
   특수 파라미터 생성 행사 필요
   파라미터 생성 참여자가 결탁하면 보안 취약
-  → "독성 폐기물 (Toxic Waste)" 문제
+  -> "독성 폐기물 (Toxic Waste)" 문제
 
   양자 컴퓨터 취약 (Elliptic Curve 기반)
 
@@ -123,17 +123,17 @@ zk-SNARK (Succinct Non-interactive ARgument of Knowledge):
 zk-STARK (Scalable Transparent ARgument of Knowledge):
 
 특징:
-  Scalable: 증명 크기 O(log²n) 스케일
+  Scalable: 증명 크기 O(log^n) 스케일
   Transparent: Trusted Setup 불필요
   ARgument of Knowledge: 같음
 
 장점:
-  Trusted Setup 없음 → 완전 투명
+  Trusted Setup 없음 -> 완전 투명
   양자 내성 (해시 함수 기반)
 
 단점:
   증명 크기 큼 (수십~수백 KB)
-  → 온체인 비용 높음
+  -> 온체인 비용 높음
 
 비교:
 
@@ -215,7 +215,7 @@ ZK-Rollup 기반 탈중앙화 거래소 (DEX):
 
 StarkEx ZK-Rollup 해결:
   처리 방식:
-  1. 사용자 → dYdX API: 주문 제출
+  1. 사용자 -> dYdX API: 주문 제출
   2. StarkEx 시퀀서: 수천 건 주문 배치 처리
   3. zk-STARK 증명 생성 (오프체인, GPU)
   4. 증명 + 상태 루트만 이더리움 게시
@@ -239,7 +239,7 @@ StarkEx ZK-Rollup 해결:
 ZK-Rollup의 미래:
   이더리움 로드맵: "The Surge" = ZK-Rollup 100,000 TPS
   ZK 증명 생성 비용 감소 추세
-  → 2025~2027년 주류 L2 기술로 자리잡을 전망
+  -> 2025~2027년 주류 L2 기술로 자리잡을 전망
 ```
 
 > 📢 **섹션 요약 비유**: dYdX ZK-DEX는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 거래 창구 — 수천 건 주문을 모아서 수학 증명 도장 하나로 이더리움에 제출. 개별 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 없이 도장 하나로 모두 인정받아요!
@@ -279,7 +279,7 @@ Zcash 프라이버시 코인 적용
       |
       v
 [이더리움 L2 탄생 (2018~)]
-Plasma → Optimistic Rollup → ZK-Rollup
+Plasma -> Optimistic Rollup -> ZK-Rollup
 StarkEx dYdX 런칭 (2020)
       |
       v
@@ -307,7 +307,7 @@ ZK 증명 하드웨어 가속기 등장
 
 **진행 상황**: 44 / 552
 
-← **이전**: [043. 옵티미스틱 롤업 & 사기 증명 (Optimistic Rollup & Fraud Proof)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/043_optimistic_rollup_fraud_proof/)
-**다음**: [045. 사이드체인과 브릿지 — Sidechain & Bridge (Polygon)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/045_sidechain_bridge_polygon/) →
+<- **이전**: [043. 옵티미스틱 롤업 & 사기 증명 (Optimistic Rollup & Fraud Proof)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/043_optimistic_rollup_fraud_proof/)
+**다음**: [045. 사이드체인과 브릿지 — Sidechain & Bridge (Polygon)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/045_sidechain_bridge_polygon/) ->
 
 ---

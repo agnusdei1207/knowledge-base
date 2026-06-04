@@ -23,9 +23,9 @@ tags = ["software_engineering"]
 CI가 필요한 이유는 코드가 합쳐질수록 문제 원인을 찾기 어려워지기 때문이다. 작은 커밋 하나가 빌드를 깨면 바로 알 수 있지만, 한 달치 변경이 뒤섞이면 원인 추적이 거의 불가능하다.
 
 ```text
-커밋 ─▶ 자동 빌드 ─▶ 자동 테스트 ─▶ 결과 보고
-   │                         │
-   └──── 작은 변경이 바로 검증됨 ─────────┘
+커밋 --> 자동 빌드 --> 자동 테스트 --> 결과 보고
+   |                         |
+   +---- 작은 변경이 바로 검증됨 ---------+
 ```
 
 이 구조는 실패를 없애는 게 아니라, 실패를 빨리 보이게 만드는 데 목적이 있다.
@@ -47,12 +47,12 @@ CI가 필요한 이유는 코드가 합쳐질수록 문제 원인을 찾기 어�
 | Publish | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물 보관 | 재현성 확보 |
 
 ```text
-개발자 → Commit/PR → CI 서버
-                  │
-                  ├─ Build
-                  ├─ Test
-                  ├─ Lint / Scan
-                  └─ 알림(성공/실패)
+개발자 -> Commit/PR -> CI 서버
+                  |
+                  +- Build
+                  +- Test
+                  +- Lint / Scan
+                  +- 알림(성공/실패)
 ```
 
 CI의 철학은 Fail Fast다. 빨리 실패하면 빨리 고칠 수 있다. 그래서 파이프라인은 짧고, 테스트는 안정적이어야 한다.
@@ -124,17 +124,17 @@ CI는 문제를 조기에 발견하고, 통합 비용을 낮추며, 릴리스 �
 
 ```text
 수동 병합
-    │
-    ▼
+    |
+    v
 CI: 작은 커밋 + 자동 빌드/테스트
-    │
-    ▼
+    |
+    v
 Artifact 저장 + PR 검증
-    │
-    ▼
+    |
+    v
 CD로 배포 자동화
-    │
-    ▼
+    |
+    v
 지속적 개선과 피드백 루프
 ```
 
@@ -152,7 +152,7 @@ CD로 배포 자동화
 
 **진행 상황**: 76 / 973
 
-← **이전**: [75. 공동 코드 소유 (Collective Code Ownership)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/075_collective_code_ownership/)
-**다음**: [77. 테스트 주도 개발 (TDD, Test Driven Development) - Red-Green-Refactor](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/) →
+<- **이전**: [75. 공동 코드 소유 (Collective Code Ownership)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/075_collective_code_ownership/)
+**다음**: [77. 테스트 주도 개발 (TDD, Test Driven Development) - Red-Green-Refactor](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/) ->
 
 ---

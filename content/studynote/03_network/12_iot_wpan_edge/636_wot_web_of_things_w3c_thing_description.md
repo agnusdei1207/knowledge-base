@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [IETF 산하 IoT CoRE 워킹그룹 동향]
-    │
-    ▼
+    |
+    v
 [W3C WoT]
-    │
-    └──▶ [IIoT 트래픽 관리 한계/QoS 이슈]
+    |
+    +---> [IIoT 트래픽 관리 한계/QoS 이슈]
 ```
 
 - **📢 섹션 요약 비유**: W3C WoT는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -50,11 +50,11 @@ tags = ["studynote-network"]
 
 ```text
 [IETF 산하 IoT CoRE 워킹그룹 동향]
-    │
-    ▼
+    |
+    v
 [W3C WoT]
-    │
-    └──▶ [IIoT 트래픽 관리 한계/QoS 이슈]
+    |
+    +---> [IIoT 트래픽 관리 한계/QoS 이슈]
 ```
 
 - **📢 섹션 요약 비유**: W3C WoT의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -110,12 +110,12 @@ W3C WoT는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/10
 
 ```text
 [선행 개념: IETF 산하 IoT CoRE 워킹그룹 동향]
-    │
-    ▼
+    |
+    v
 [현재 개념: W3C WoT]
-    │
-    ├──▶ [확장 A: IIoT 트래픽 관리 한계/QoS 이슈]
-    └──▶ [확장 B: 자율형 엣지 협업]
+    |
+    +---> [확장 A: IIoT 트래픽 관리 한계/QoS 이슈]
+    +---> [확장 B: 자율형 엣지 협업]
 ```
 
 W3C WoT는 [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 산하 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) CoRE 워킹그룹 동향에서 출발해 현재 메커니즘을 정교화하고, 이후 [IIoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/637_iiot_industrial_iot_qos_latency/) 트래픽 관리 한계/[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 이슈와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -132,7 +132,7 @@ W3C WoT는 [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf
 
 **진행 상황**: 757 / 1120
 
-← **이전**: [635. IETF (Internet 엔진ering Task Force) 산하 IoT CoRE 워킹그룹 동향](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/)
-**다음**: [637. IIoT (공업계 사물인터넷/산업용 IoT) 트래픽 관리 한계/QoS 이슈](/knowledge-base/studynote/03_network/12_iot_wpan_edge/637_iiot_industrial_iot_qos_latency/) →
+<- **이전**: [635. IETF (Internet 엔진ering Task Force) 산하 IoT CoRE 워킹그룹 동향](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/)
+**다음**: [637. IIoT (공업계 사물인터넷/산업용 IoT) 트래픽 관리 한계/QoS 이슈](/knowledge-base/studynote/03_network/12_iot_wpan_edge/637_iiot_industrial_iot_qos_latency/) ->
 
 ---

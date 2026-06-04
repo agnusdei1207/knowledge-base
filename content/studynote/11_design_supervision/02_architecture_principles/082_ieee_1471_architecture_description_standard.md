@@ -24,11 +24,11 @@ IEEE 1471은 [소프트웨어 아키텍처](/knowledge-base/studynote/04_softwar
 설계감리에서 IEEE 1471은 '멋진 구조'를 말하기 위한 주제가 아니라, 어떤 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 왜 우선했는지 설명하기 위한 기준이다. 그래서 정의를 외우는 것보다, 어디서 경계를 긋고 무엇을 고정하며 무엇을 유연하게 남길지를 이해하는 것이 더 중요하다.
 
 ```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ Requirement  │──▶│ Decision     │──▶│ Structure    │
-└──────────────┘   └──────┬───────┘   └──────┬───────┘
-                          │                  │
-                          └──────▶ Quality Attribute
++--------------+   +--------------+   +--------------+
+| Requirement  |--->| Decision     |--->| Structure    |
++--------------+   +------+-------+   +------+-------+
+                          |                  |
+                          +-------> Quality Attribute
 ```
 
 이 다이어그램은 요구사항이 그대로 코드가 되는 것이 아니라, 중간의 설계 결정과 책임 분할을 거쳐 구조와 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)으로 연결된다는 점을 보여 준다.
@@ -110,14 +110,14 @@ IEEE 1471을 기준으로 설계하면 변경 이유가 [모듈](/knowledge-base
 
 ```text
 [선행 개념: 요구사항]
-    │
-    ▼
+    |
+    v
 [현재 개념: IEEE 1471]
-    │
-    ├──▶ [확장 A: Concern]
-    └──▶ [확장 B: 품질 속성]
-            │
-            ▼
+    |
+    +---> [확장 A: Concern]
+    +---> [확장 B: 품질 속성]
+            |
+            v
         [다음 단계: 구조 진화]
 ```
 
@@ -135,7 +135,7 @@ IEEE 1471을 기준으로 설계하면 변경 이유가 [모듈](/knowledge-base
 
 **진행 상황**: 125 / 530
 
-← **이전**: [81. 소프트웨어 아키텍처 (Software Architecture)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/081_software_architecture/)
-**다음**: [83. 아키텍처 주요 요소 - 이해관계자, 관심사, 뷰, 뷰포인트](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/083_architecture_elements_stakeholder_view_viewpoint/) →
+<- **이전**: [81. 소프트웨어 아키텍처 (Software Architecture)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/081_software_architecture/)
+**다음**: [83. 아키텍처 주요 요소 - 이해관계자, 관심사, 뷰, 뷰포인트](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/083_architecture_elements_stakeholder_view_viewpoint/) ->
 
 ---

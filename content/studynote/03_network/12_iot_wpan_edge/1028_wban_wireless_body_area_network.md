@@ -25,11 +25,11 @@ tags = ["studynote-network"]
 
 ```text
 [수중 음파 통신망]
-    │
-    ▼
+    |
+    v
 [체내 통신]
-    │
-    └──▶ [LPWAN 로라]
+    |
+    +---> [LPWAN 로라]
 ```
 
 - **📢 섹션 요약 비유**: 병원의 무거운 링거 줄과 전선들을 모두 잘라내고, 사람 피부와 몸속에 보이지 않는 얇은 투명 거미줄(무선 통신망)을 쳐서 의사 선생님의 컴퓨터와 바로 연결해 주는 마법이다.
@@ -41,21 +41,21 @@ tags = ["studynote-network"]
 [WBAN](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/927_wban_wireless_body_area_network_healthcare_sar/) 시스템은 인체를 중심으로 하는 Star(별) 모양의 통신 토폴로지를 갖는다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│                [ 병원 / 클라우드 서버 (WAN) ]          │
-│                (생체 데이터 분석, 응급 알람)           │
-└──────────────▲─────────────────────────────────────────┘
-               │ (인터넷망: 5G, Wi-Fi 등)
-┌──────────────▼──────────┐
-│      [ 허브 (Hub) ]     │ ◀ 스마트폰, 스마트워치, 전용 단말기
-│   (Coordinator 역할)    │    (데이터를 모아 외부로 쏘는 역할)
-└───────▲───────────▲─────┘
-        │ (WBAN: IEEE 802.15.6 / Bluetooth BLE)
-┌───────▼──────┐ ┌──────▼───────┐
-│ [ 체외 센서 ]  │ │ [ 체내 센서 ]  │
-│ (스마트 패치,  │ │ (캡슐 내시경,  │
-│  인슐린 펌프)  │ │  심박 조율기)  │
-└──────────────┘ └──────────────┘
++--------------------------------------------------------+
+|                [ 병원 / 클라우드 서버 (WAN) ]          |
+|                (생체 데이터 분석, 응급 알람)           |
++--------------^-----------------------------------------+
+               | (인터넷망: 5G, Wi-Fi 등)
++--------------v----------+
+|      [ 허브 (Hub) ]     | <- 스마트폰, 스마트워치, 전용 단말기
+|   (Coordinator 역할)    |    (데이터를 모아 외부로 쏘는 역할)
++-------^-----------^-----+
+        | (WBAN: IEEE 802.15.6 / Bluetooth BLE)
++-------v------+ +------v-------+
+| [ 체외 센서 ]  | | [ 체내 센서 ]  |
+| (스마트 패치,  | | (캡슐 내시경,  |
+|  인슐린 펌프)  | |  심박 조율기)  |
++--------------+ +--------------+
 ```
 
 1. <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">허브</a> (<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">Hub</a>/<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/250_coordinator_participant_2pc_roles/">Coordinator</a>)</strong>: 환자의 주머니에 있는 스마트폰이나 손목의 스마트워치가 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 역할을 한다. 몸 곳곳의 센서에서 올라오는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 취합해 병원 서버로 넘겨주는 중계기(Gateway)다.
@@ -127,12 +127,12 @@ WBAN은 환자의 삶의 질을 혁신적으로 끌어올리는 기술이다. �
 
 ```text
 [선행 개념: 수중 음파 통신망]
-    │
-    ▼
+    |
+    v
 [현재 개념: 체내 통신]
-    │
-    ├──▶ [확장 A: LPWAN 로라]
-    └──▶ [확장 B: 자율형 엣지 협업]
+    |
+    +---> [확장 A: LPWAN 로라]
+    +---> [확장 B: 자율형 엣지 협업]
 ```
 
 체내 통신는 [수중 음파 통신망](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/1027_underwater_acoustic_network/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) [로라](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/283_lora_low_rank_adaptation/)와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -149,7 +149,7 @@ WBAN은 환자의 삶의 질을 혁신적으로 끌어올리는 기술이다. �
 
 **진행 상황**: 130 / 1120
 
-← **이전**: [1027. 수중 음파 통신망 (IoUT)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/1027_underwater_acoustic_network/)
-**다음**: [1029. LPWAN 로라 (LoRa)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1029_lpwan_lora/) →
+<- **이전**: [1027. 수중 음파 통신망 (IoUT)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/1027_underwater_acoustic_network/)
+**다음**: [1029. LPWAN 로라 (LoRa)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1029_lpwan_lora/) ->
 
 ---

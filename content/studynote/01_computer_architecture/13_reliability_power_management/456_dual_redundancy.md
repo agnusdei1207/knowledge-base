@@ -38,25 +38,25 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 절체 제어가 가상 IP (Virtual IP, VIP)를 중심으로 어떻게 작동하는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                  이중화의 기본 절체 흐름 (1-out-of-2)               │
-├──────────────────────────────────────────────────────────────────────┤
-│ 사용자 요청                                                         │
-│     │                                                              │
-│     ▼                                                              │
-│ [가상 서비스 주소(VIP)]                                             │
-│     │                                                              │
-│     ├──────────────▶ [주 장치 A : Active] ──────────────┐           │
-│     │                     ▲            │                │           │
-│     │                     │ Heartbeat  │ 서비스 제공    │           │
-│     │                     │            ▼                │           │
-│     └──────────────▶ [예비 장치 B : Standby]            │           │
-│                           │                             │           │
-│                           └─ A 무응답 감지 ─▶ 역할 승계 ┘           │
-│                                            │                        │
-│                                            ▼                        │
-│                                   [B가 새 Active]                   │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                  이중화의 기본 절체 흐름 (1-out-of-2)               |
++----------------------------------------------------------------------+
+| 사용자 요청                                                         |
+|     |                                                              |
+|     v                                                              |
+| [가상 서비스 주소(VIP)]                                             |
+|     |                                                              |
+|     +---------------> [주 장치 A : Active] --------------+           |
+|     |                     ^            |                |           |
+|     |                     | Heartbeat  | 서비스 제공    |           |
+|     |                     |            v                |           |
+|     +---------------> [예비 장치 B : Standby]            |           |
+|                           |                             |           |
+|                           +- A 무응답 감지 --> 역할 승계 +           |
+|                                            |                        |
+|                                            v                        |
+|                                   [B가 새 Active]                   |
++----------------------------------------------------------------------+
 ```
 
 이 구조에서 가장 중요한 설계 포인트는 독립성과 검출 속도다. 두 장치가 같은 전원, 같은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), 같은 랙, 같은 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)에 묶여 있으면 “2대”여도 사실상 하나와 다르지 않다. 또한 하트비트 (Heartbeat) 간격이 너무 짧으면 오탐이 늘고, 너무 길면 절체 시간이 길어져 중단 시간이 늘어난다.
@@ -147,21 +147,21 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 단일 장비 의존
-    │
-    ▼
+    |
+    v
 SPOF (Single Point of Failure) 인식
-    │
-    ▼
+    |
+    v
 전원·링크·서버 이중화 (Dual Redundancy)
-    │
-    ├──▶ 서비스 절체형: Heartbeat → Failover → HA (High Availability)
-    │
-    └──▶ 연산 검출형: DMR (Dual Modular Redundancy) → Comparator
-    │
-    ▼
+    |
+    +---> 서비스 절체형: Heartbeat -> Failover -> HA (High Availability)
+    |
+    +---> 연산 검출형: DMR (Dual Modular Redundancy) -> Comparator
+    |
+    v
 쿼럼·펜싱 기반 Split-Brain 방지
-    │
-    ▼
+    |
+    v
 TMR · Geo-Redundancy · Self-Healing Architecture
 ```
 
@@ -179,7 +179,7 @@ TMR · Geo-Redundancy · Self-Healing Architecture
 
 **진행 상황**: 457 / 803
 
-← **이전**: [455. TMR (Triple Modular Redundancy, 삼중 모듈 중복)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/455_tmr/)
-**다음**: [457. 핫 스탠바이 (Hot Standby)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/457_hot_standby/) →
+<- **이전**: [455. TMR (Triple Modular Redundancy, 삼중 모듈 중복)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/455_tmr/)
+**다음**: [457. 핫 스탠바이 (Hot Standby)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/457_hot_standby/) ->
 
 ---

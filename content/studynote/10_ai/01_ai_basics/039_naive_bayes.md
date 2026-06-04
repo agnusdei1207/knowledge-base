@@ -87,7 +87,7 @@ tags = ["studynote-ai"]
 
 1. 가우시안 나이브 베이즈 (Gaussian NB):
    연속형 특성 (정규분포 가정)
-   P(xi|c) = 정규분포(μ_c, σ²_c)
+   P(xi|c) = 정규분포(μ_c, σ^_c)
    예: 꽃잎 길이/너비로 붓꽃 분류
 
 2. 다항 나이브 베이즈 (Multinomial NB):
@@ -242,7 +242,7 @@ SVM, 랜덤 포레스트와 경쟁
 
 **진행 상황**: 39 / 420
 
-← **이전**: [038. k-최근접 이웃 (k-NN, k-Nearest Neighbors)](/knowledge-base/studynote/10_ai/01_ai_basics/038_knn/)
-**다음**: [040. 앙상블 학습 (Ensemble Learning)](/knowledge-base/studynote/10_ai/01_ai_basics/040_ensemble_learning/) →
+<- **이전**: [038. k-최근접 이웃 (k-NN, k-Nearest Neighbors)](/knowledge-base/studynote/10_ai/01_ai_basics/038_knn/)
+**다음**: [040. 앙상블 학습 (Ensemble Learning)](/knowledge-base/studynote/10_ai/01_ai_basics/040_ensemble_learning/) ->
 
 ---

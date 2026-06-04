@@ -31,7 +31,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-로직 트리의 내부 원리는 `질문 고정 → 분해 기준 선택 → 하위 노드 검증 → 실행 단위 도출`의 순서로 움직인다. 먼저 루트 질문을 한 문장으로 정의하고, 그다음 수식, 프로세스, 구성 요소, [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 같은 분해 기준을 선택한다. 이후 각 가지가 MECE한지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 더 이상 쪼개는 것이 의미 없을 때 측정 지표나 실행 과제를 Leaf Node로 남긴다.
+로직 트리의 내부 원리는 `질문 고정 -> 분해 기준 선택 -> 하위 노드 검증 -> 실행 단위 도출`의 순서로 움직인다. 먼저 루트 질문을 한 문장으로 정의하고, 그다음 수식, 프로세스, 구성 요소, [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 같은 분해 기준을 선택한다. 이후 각 가지가 MECE한지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 더 이상 쪼개는 것이 의미 없을 때 측정 지표나 실행 과제를 Leaf Node로 남긴다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :-- | :-- | :-- |
@@ -44,23 +44,23 @@ tags = ["studynote-enterprise"]
 아래 그림은 로직 트리가 단순 트리 모양이 아니라 문제 해결 순서를 강제하는 장치임을 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Logic Tree problem-solving path                                   │
-├────────────────────────────────────────────────────────────────────┤
-│ Root Question: "Why did performance drop?"                       │
-│        │                                                          │
-│        ├─ What Tree : scope and components                        │
-│        │      └─ app / db / network / workload                    │
-│        ├─ Why Tree  : causal analysis                             │
-│        │      └─ bottleneck / defect / policy / demand change     │
-│        └─ How Tree  : response options                            │
-│               └─ tune / redesign / automate / stop                │
-│                                                                  │
-│ Final leaf = evidence + KPI + owner + due date                   │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Logic Tree problem-solving path                                   |
++--------------------------------------------------------------------+
+| Root Question: "Why did performance drop?"                       |
+|        |                                                          |
+|        +- What Tree : scope and components                        |
+|        |      +- app / db / network / workload                    |
+|        +- Why Tree  : causal analysis                             |
+|        |      +- bottleneck / defect / policy / demand change     |
+|        +- How Tree  : response options                            |
+|               +- tune / redesign / automate / stop                |
+|                                                                  |
+| Final leaf = evidence + KPI + owner + due date                   |
++--------------------------------------------------------------------+
 ```
 
-이 구조의 핵심은 트리의 끝이 반드시 실행 가능한 수준에 도달해야 한다는 점이다. "고객 경험 개선" 같은 추상어로 끝나면 트리는 발표 자료일 뿐이고, "결제 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 이탈률 18% → 12%"처럼 계량 지표와 책임 주체가 붙어야 진짜 운영 도구가 된다.
+이 구조의 핵심은 트리의 끝이 반드시 실행 가능한 수준에 도달해야 한다는 점이다. "고객 경험 개선" 같은 추상어로 끝나면 트리는 발표 자료일 뿐이고, "결제 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 이탈률 18% -> 12%"처럼 계량 지표와 책임 주체가 붙어야 진짜 운영 도구가 된다.
 
 - **📢 섹션 요약 비유**: 로직 트리는 나무 그림을 그리는 일이 아니라, 큰 나뭇가지를 잘라 끝에서 바로 장작으로 쓸 수 있는 크기까지 쪼개는 작업과 같다.
 
@@ -129,17 +129,17 @@ tags = ["studynote-enterprise"]
 
 ```text
 Problem Structuring
-    │
-    ▼
+    |
+    v
 MECE-based Decomposition
-    │
-    ▼
+    |
+    v
 What / Why / How Tree
-    │
-    ▼
+    |
+    v
 RCA · WBS · Decision Support
-    │
-    ▼
+    |
+    v
 Data-driven Action Design
 ```
 
@@ -157,7 +157,7 @@ Data-driven Action Design
 
 **진행 상황**: 217 / 482
 
-← **이전**: [216. LISS (Linearly Independent, Spatially Spanning) 논리 원리](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/216_liss_logic/)
-**다음**: [218. 포터의 본원적 경쟁 전략 - 원가 우위, 차별화, 집중화](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/218_porter_generic_strategies/) →
+<- **이전**: [216. LISS (Linearly Independent, Spatially Spanning) 논리 원리](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/216_liss_logic/)
+**다음**: [218. 포터의 본원적 경쟁 전략 - 원가 우위, 차별화, 집중화](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/218_porter_generic_strategies/) ->
 
 ---

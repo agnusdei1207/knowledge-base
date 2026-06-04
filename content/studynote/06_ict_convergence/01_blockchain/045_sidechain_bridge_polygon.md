@@ -12,7 +12,7 @@ tags = ["studynote-ict-convergence"]
 > **핵심 인사이트**
 > 1. 사이드체인(Sidechain)은 메인체인(Main Chain)과 양방향 페그(Two-Way Peg)로 연결된 독립 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) — 메인체인의 보안을 활용하면서 독자적 합의 규칙으로 더 빠르고 저렴한 트랜잭션을 처리하며, Polygon PoS가 대표적 Ethereum 사이드체인이다.
 > 2. 브릿지([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/))는 서로 다른 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 간 자산/데이터를 이전하는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) — Lock-and-Mint(원체인 잠금 + 대상체인 발행) 방식이 일반적이며, 브릿지 스마트 컨트랙트는 해커의 주요 공격 표적(2022년 Ronin 해킹 6,100억원)이다.
-> 3. Polygon은 사이드체인 + ZK [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)을 모두 제공하는 Ethereum [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 생태계 — Polygon PoS(사이드체인), Polygon [zkEVM](/knowledge-base/studynote/06_ict_convergence/01_blockchain/074_zkevm_zero_knowledge_ethereum_virtual_machine/)(ZK [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/))으로 다양한 확장 솔루션을 제공하며, [ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/) → MATIC 페그를 통해 가스비를 95% 절감한다.
+> 3. Polygon은 사이드체인 + ZK [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)을 모두 제공하는 Ethereum [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 생태계 — Polygon PoS(사이드체인), Polygon [zkEVM](/knowledge-base/studynote/06_ict_convergence/01_blockchain/074_zkevm_zero_knowledge_ethereum_virtual_machine/)(ZK [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/))으로 다양한 확장 솔루션을 제공하며, [ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/) -> MATIC 페그를 통해 가스비를 95% 절감한다.
 
 ---
 
@@ -24,7 +24,7 @@ tags = ["studynote-ict-convergence"]
 메인체인 (Ethereum):
   높은 보안, 탈중앙화
   느림, 비싼 가스비
-  → 모든 거래 처리 불가능
+  -> 모든 거래 처리 불가능
 
 사이드체인:
   메인체인과 연결된 별도 블록체인
@@ -37,16 +37,16 @@ tags = ["studynote-ict-convergence"]
   - 메인체인과 양방향 자산 이동 가능
 
 양방향 페그 (Two-Way Peg):
-  메인체인 → 사이드체인:
+  메인체인 -> 사이드체인:
   1. ETH 잠금 (Lock) on Ethereum
   2. 사이드체인에 wETH 발행 (Mint)
 
-  사이드체인 → 메인체인:
+  사이드체인 -> 메인체인:
   1. wETH 소각 (Burn) on Sidechain
   2. 원래 ETH 잠금 해제 (Unlock)
 
 롤업과 차이:
-  사이드체인: 독립 합의 → 보안 독립
+  사이드체인: 독립 합의 -> 보안 독립
   롤업: 이더리움 보안 직접 활용 (강함)
 
   사이드체인 보안 = 자체 검증자 신뢰
@@ -63,9 +63,9 @@ tags = ["studynote-ict-convergence"]
 브릿지 (Bridge) 유형:
 
 1. Lock-and-Mint:
-   체인 A에 자산 잠금 → 체인 B에 래핑 토큰 발행
+   체인 A에 자산 잠금 -> 체인 B에 래핑 토큰 발행
 
-   예: ETH → Polygon
+   예: ETH -> Polygon
    1. Ethereum: Bridge 컨트랙트에 1 ETH 잠금
    2. Polygon: 1 wETH 발행 (래핑 ETH)
    3. Polygon에서 사용
@@ -73,11 +73,11 @@ tags = ["studynote-ict-convergence"]
    5. Ethereum: 1 ETH 잠금 해제
 
 2. Burn-and-Mint:
-   네이티브 자산 소각 → 대상 체인에서 발행
+   네이티브 자산 소각 -> 대상 체인에서 발행
    (양쪽 모두 토큰 발행 권한 있을 때)
 
 3. Liquidity Pool:
-   양쪽 유동성 풀 → 원자적 스왑
+   양쪽 유동성 풀 -> 원자적 스왑
    (예: Connext, Hop Protocol)
 
 브릿지 보안 위험:
@@ -119,7 +119,7 @@ Polygon PoS (사이드체인):
 
   보안: Ethereum보다 약함 (100 검증자 신뢰)
   체크포인트: ~256 블록마다 Ethereum에 기록
-              → 최종 확정은 Ethereum 보안
+              -> 최종 확정은 Ethereum 보안
 
 Polygon zkEVM (ZK 롤업):
   ZK 증명으로 이더리움 레벨 보안
@@ -131,7 +131,7 @@ Polygon zkEVM (ZK 롤업):
 
 Polygon 2.0:
   목표: ZK 기반 Ethereum 유동성 계층
-  각 체인 → ZK 증명 → 공통 브릿지
+  각 체인 -> ZK 증명 -> 공통 브릿지
   원자적 크로스체인 거래
 
 비교:
@@ -142,7 +142,7 @@ Polygon 2.0:
 EVM 호환   완전           완전
 출시        2020           2023
 
-MATIC → POL 토큰 전환:
+MATIC -> POL 토큰 전환:
   Polygon 2.0 업그레이드 (2023)
   POL: 다중 역할 토큰 (검증, 거버넌스, 수수료)
 ```
@@ -206,10 +206,10 @@ P2E 게임 NFT 크로스체인 아키텍처:
 구조:
 
 Polygon PoS:
-  게임 플레이 → NFT 획득 → Polygon에 보관
+  게임 플레이 -> NFT 획득 -> Polygon에 보관
   가스비: 0.001 MATIC (= ~$0.001)
 
-Polygon Bridge → Ethereum:
+Polygon Bridge -> Ethereum:
   1. Polygon: NFT 잠금 (Bridge 컨트랙트)
   2. 체크포인트 확인 (7일 또는 빠른 인출)
   3. Ethereum: 동일 NFT 복원 (래핑)
@@ -227,7 +227,7 @@ Ethereum:
   이상 거래 모니터링
 
 성과:
-  NFT 민팅 비용: ETH 기준 $50 → Polygon $0.01
+  NFT 민팅 비용: ETH 기준 $50 -> Polygon $0.01
   거래 속도: 30초 (Polygon) vs 15초 (Ethereum, 혼잡 없을 때)
   사용자 경험: 게임 = Polygon, 거래 = Ethereum 선택적
 ```
@@ -269,7 +269,7 @@ Bitcoin 사이드체인
       v
 [Plasma + Polygon Matic (2017~2019)]
 이더리움 사이드체인 본격화
-Matic Network → Polygon 브랜드
+Matic Network -> Polygon 브랜드
       |
       v
 [브릿지 해킹 급증 (2022)]
@@ -297,7 +297,7 @@ LayerZero V2, Chainlink CCIP
 
 **진행 상황**: 45 / 552
 
-← **이전**: [044. ZK-Rollup & 유효성 증명](/knowledge-base/studynote/06_ict_convergence/01_blockchain/044_zk_rollup_validity_proof/)
-**다음**: [046. 블록체인 샤딩 — Blockchain Sharding](/knowledge-base/studynote/06_ict_convergence/01_blockchain/046_sharding_parallel_processing/) →
+<- **이전**: [044. ZK-Rollup & 유효성 증명](/knowledge-base/studynote/06_ict_convergence/01_blockchain/044_zk_rollup_validity_proof/)
+**다음**: [046. 블록체인 샤딩 — Blockchain Sharding](/knowledge-base/studynote/06_ict_convergence/01_blockchain/046_sharding_parallel_processing/) ->
 
 ---

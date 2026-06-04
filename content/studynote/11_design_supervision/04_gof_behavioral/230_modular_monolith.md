@@ -20,18 +20,18 @@ tags = ["studynote-design-supervision"]
 ## Ⅰ. 개요 및 필요성
 ```
 전통 모놀리스의 문제:
-  ┌──────────────────────────────────────────────┐
-  │  단일 코드베이스 — 스파게티 의존성              │
-  │  모든 코드가 서로 참조 가능                     │
-  │  → 수정 시 전체 영향도 예측 불가                │
-  └──────────────────────────────────────────────┘
+  +----------------------------------------------+
+  |  단일 코드베이스 — 스파게티 의존성              |
+  |  모든 코드가 서로 참조 가능                     |
+  |  -> 수정 시 전체 영향도 예측 불가                |
+  +----------------------------------------------+
 
 MSA의 오버킬:
-  ├─ 네트워크 레이턴시 (서비스 간 HTTP/gRPC)
-  ├─ 분산 트랜잭션의 복잡성 (Saga, 2PC)
-  ├─ 서비스 디스커버리, API Gateway 운영
-  ├─ 복수의 DB 관리
-  └─ 소규모 팀에게는 운영 부담이 기능 개발 시간 초과
+  +- 네트워크 레이턴시 (서비스 간 HTTP/gRPC)
+  +- 분산 트랜잭션의 복잡성 (Saga, 2PC)
+  +- 서비스 디스커버리, API Gateway 운영
+  +- 복수의 DB 관리
+  +- 소규모 팀에게는 운영 부담이 기능 개발 시간 초과
 
 적절한 중간 지점: Modular Monolith
 ```
@@ -46,38 +46,38 @@ MSA의 오버킬:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 ```
-┌────────────────────────────────────────────────────────────────┐
-│                    Modular Monolith                            │
-│                (단일 배포, 단일 프로세스)                        │
-│                                                                │
-│  ┌─────────────────────────────────────────────────────────┐   │
-│  │              Public API 계층 (모듈 공개 인터페이스)        │   │
-│  └─────────────────────────────────────────────────────────┘   │
-│         │                  │                  │                │
-│         ▼                  ▼                  ▼                │
-│  ┌─────────────┐   ┌─────────────┐   ┌─────────────┐         │
-│  │   주문 모듈  │   │   결제 모듈  │   │   배송 모듈  │         │
-│  │  (Order BC) │   │ (Payment BC)│   │(Delivery BC)│         │
-│  │             │   │             │   │             │         │
-│  │  도메인 모델 │   │  도메인 모델 │   │  도메인 모델 │         │
-│  │  서비스     │   │  서비스     │   │  서비스     │         │
-│  │  레포지토리 │   │  레포지토리 │   │  레포지토리 │         │
-│  │  [내부 클래스│   │  [내부 클래스│   │  [내부 클래스│         │
-│  │   직접 참조 │   │   직접 참조 │   │   직접 참조 │         │
-│  │   금지!]    │   │   금지!]    │   │   금지!]    │         │
-│  └─────────────┘   └─────────────┘   └─────────────┘         │
-│         │                  │                  │                │
-│  ┌──────────────────────────────────────────────────────────┐  │
-│  │              공유 DB (스키마 격리 또는 별도 스키마)          │  │
-│  └──────────────────────────────────────────────────────────┘  │
-└────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------+
+|                    Modular Monolith                            |
+|                (단일 배포, 단일 프로세스)                        |
+|                                                                |
+|  +---------------------------------------------------------+   |
+|  |              Public API 계층 (모듈 공개 인터페이스)        |   |
+|  +---------------------------------------------------------+   |
+|         |                  |                  |                |
+|         v                  v                  v                |
+|  +-------------+   +-------------+   +-------------+         |
+|  |   주문 모듈  |   |   결제 모듈  |   |   배송 모듈  |         |
+|  |  (Order BC) |   | (Payment BC)|   |(Delivery BC)|         |
+|  |             |   |             |   |             |         |
+|  |  도메인 모델 |   |  도메인 모델 |   |  도메인 모델 |         |
+|  |  서비스     |   |  서비스     |   |  서비스     |         |
+|  |  레포지토리 |   |  레포지토리 |   |  레포지토리 |         |
+|  |  [내부 클래스|   |  [내부 클래스|   |  [내부 클래스|         |
+|  |   직접 참조 |   |   직접 참조 |   |   직접 참조 |         |
+|  |   금지!]    |   |   금지!]    |   |   금지!]    |         |
+|  +-------------+   +-------------+   +-------------+         |
+|         |                  |                  |                |
+|  +----------------------------------------------------------+  |
+|  |              공유 DB (스키마 격리 또는 별도 스키마)          |  |
+|  +----------------------------------------------------------+  |
++----------------------------------------------------------------+
 ```
 
 | 원칙 | 설명 |
 |:---|:---|
 | <strong>퍼블릭 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 강제</strong> | [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간 통신은 공개 인터페이스만 허용 (내부 구현 은닉) |
 | <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 격리</strong> | 각 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 자신의 DB [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)/테이블만 접근 |
-| **순환 의존 금지** | [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) A → B → A 순환 의존 불허 |
+| **순환 의존 금지** | [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) A -> B -> A 순환 의존 불허 |
 | **이벤트 기반 통신** | [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간 결합 최소화 시 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 이벤트 활용 |
 | **독립 배포 준비** | 향후 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 분리 시 경계가 자연스럽게 분리선이 됨 |
 
@@ -88,7 +88,7 @@ module com.example.order {
     requires com.example.payment.api;        // 결제 모듈의 공개 API만 참조
     requires com.example.inventory.api;
 
-    // com.example.order.internal은 exports하지 않음 → 외부 접근 불가
+    // com.example.order.internal은 exports하지 않음 -> 외부 접근 불가
 }
 ```
 
@@ -147,8 +147,8 @@ Phase 1: Modular Monolith 구축
   - 모듈 간 이벤트 기반 통신 설계
 
 Phase 2: 병목/분리 필요 모듈 식별
-  - 성능 병목 모듈 → 먼저 분리 검토
-  - 독립 배포 요구 모듈 → MSA 전환 후보
+  - 성능 병목 모듈 -> 먼저 분리 검토
+  - 독립 배포 요구 모듈 -> MSA 전환 후보
 
 Phase 3: 선택적 MSA 전환
   - 준비된 모듈부터 별도 서비스로 추출
@@ -188,7 +188,7 @@ Phase 3: 선택적 MSA 전환
 - [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 경계가 안정화 단계
 - [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 전환을 고려하지만 아직 필요성 불명확
 
-기술사 시험에서는 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>형 모놀리스와 전통 모놀리스의 차이(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> 경계 존재 여부)</strong>, **MSA와의 트레이드오프(운영 복잡도 vs 독립 배포)**, <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/">DDD</a> → <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/599_modular_monolith_architecture/">Modular Monolith</a> → <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> 진화 경로</strong>를 명확히 서술하는 것이 핵심이다.
+기술사 시험에서는 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>형 모놀리스와 전통 모놀리스의 차이(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> 경계 존재 여부)</strong>, **MSA와의 트레이드오프(운영 복잡도 vs 독립 배포)**, <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/">DDD</a> -> <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/599_modular_monolith_architecture/">Modular Monolith</a> -> <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> 진화 경로</strong>를 명확히 서술하는 것이 핵심이다.
 
 확장 방향은 ① 선언형 API와의 결합, ② [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 내장, ③ [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에 맞는 변형 패턴 적용이다.
 
@@ -208,7 +208,7 @@ Phase 3: 선택적 MSA 전환
 | 성공 사례 | Shopify, [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [Overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) | 대규모 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)형 모놀리스 운영 사례 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-monolith boundary → [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)형 모놀리스 → [microservices](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 분해
+monolith boundary -> [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)형 모놀리스 -> [microservices](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 분해
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)형 모놀리스는 잘 정리된 학교 건물 — 하나의 건물(단일 배포)이지만 국어실, 수학실, 과학실(각 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))이 따로 있어서 각 방에서 필요한 것은 복도(공개 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))를 통해서만 요청해.
@@ -221,7 +221,7 @@ monolith boundary → [모듈](/knowledge-base/studynote/04_software_engineering
 
 **진행 상황**: 291 / 530
 
-← **이전**: [229. 더블 디스패치와 방문자 패턴 (Double Dispatch / Visitor Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/229_double_dispatch_visitor/)
-**다음**: [231. 도메인 이벤트 아웃박스 패턴 (Domain Event Outbox Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/231_domain_event_outbox_pattern/) →
+<- **이전**: [229. 더블 디스패치와 방문자 패턴 (Double Dispatch / Visitor Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/229_double_dispatch_visitor/)
+**다음**: [231. 도메인 이벤트 아웃박스 패턴 (Domain Event Outbox Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/231_domain_event_outbox_pattern/) ->
 
 ---

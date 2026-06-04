@@ -30,11 +30,11 @@ tags = ["studynote-network"]
 
 ```text
 [BPDU]
-    │
-    ▼
+    |
+    v
 [루트 브리지, 루트 포트, 지정 포트, 차단…]
-    │
-    └──▶ [브리지 ID, 비용]
+    |
+    +---> [브리지 ID, 비용]
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/">STP</a> 선거는 </strong>"왕(Root)을 뽑고, 각 영주들이 왕에게 충성 맹세를 하러 가는 가장 빠른 고속도로([RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/))를 하나씩 뚫은 뒤, 불법 우회로(Block)에는 성벽을 쌓아버리는 완벽한 봉건제 왕국 건설 과정"**입니다.
@@ -43,7 +43,7 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-모든 대결의 승리 조건은 <strong>가장 낮은 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/">브리지</a> ID(Priority + <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a>) ──▶ 가장 낮은 누적 Cost ──▶ 가장 낮은 송신자 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/">브리지</a> ID ──▶ 가장 낮은 송신자 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> ID</strong> 순으로 비교하여 가장 숫자가 작은 쪽이 승리한다.
+모든 대결의 승리 조건은 <strong>가장 낮은 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/">브리지</a> ID(Priority + <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a>) ---> 가장 낮은 누적 Cost ---> 가장 낮은 송신자 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/">브리지</a> ID ---> 가장 낮은 송신자 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> ID</strong> 순으로 비교하여 가장 숫자가 작은 쪽이 승리한다.
 
 ### 1. 루트 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) (Root [Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)) 선출
 - 네트워크라는 마을의 단 한 명뿐인 <strong>대장(Root)</strong>이다.
@@ -68,23 +68,23 @@ tags = ["studynote-network"]
 - **안전핀**: 하지만 Block [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 완전히 귀를 막은 건 아니다. 상대방이 보내는 [BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/)(상태 엽서)는 계속 듣고(Listen) 있다. 만약 20초(Max Age) 동안 상대방 DP가 BPDU를 보내지 않으면 "어? 선로가 죽었나?" 하고 자기가 닫아둔 문을 서서히 열기 시작하여 통신 장애를 50초 만에 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(Self-healing)해 낸다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                STP 4대 역할 배정 다이어그램                   │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │            [ Root Bridge (대장) ]                           │
- │                DP ↙      ↘ DP (대장의 포트는 100% DP)       │
- │                  /        \                                 │
- │                 /          \                                │
- │             RP ↙            ↘ RP  (대장에게 가는 가장 빠른 길) │
- │       [ 스위치 B ] ────────── [ 스위치 C ]                  │
- │           (ID: 2등)          (ID: 3등)                      │
- │                 DP          Block                           │
- │                 │             │                             │
- │                 └──── 선로 ───┘                             │
- │          (선로의 주인은 2등인 B가 차지. C의 포트는 막힘)          │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                STP 4대 역할 배정 다이어그램                   |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |            [ Root Bridge (대장) ]                           |
+ |                DP ↙      ↘ DP (대장의 포트는 100% DP)       |
+ |                  /        \                                 |
+ |                 /          \                                |
+ |             RP ↙            ↘ RP  (대장에게 가는 가장 빠른 길) |
+ |       [ 스위치 B ] ---------- [ 스위치 C ]                  |
+ |           (ID: 2등)          (ID: 3등)                      |
+ |                 DP          Block                           |
+ |                 |             |                             |
+ |                 +---- 선로 ---+                             |
+ |          (선로의 주인은 2등인 B가 차지. C의 포트는 막힘)          |
+ |                                                             |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: ** RP가 왕궁으로 출근하는 **"나만의 전용 하이패스 차로"**라면, DP는 동네 도로를 관리하는 **"관할 구역 통행권"<strong>이고, Block <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>는 꼬리물기 사고가 나지 않게 차단봉을 내려놓은 </strong>"비상용 갓길"**입니다.
@@ -145,12 +145,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: BPDU]
-    │
-    ▼
+    |
+    v
 [현재 개념: 루트 브리지, 루트 포트, 지정 포트, 차단…]
-    │
-    ├──▶ [확장 A: 브리지 ID, 비용]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+    |
+    +---> [확장 A: 브리지 ID, 비용]
+    +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
 루트 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/), 루트 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 지정 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 차단…는 BPDU에서 출발해 현재 메커니즘을 정교화하고, 이후 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ID, 비용와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -167,7 +167,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 376 / 1120
 
-← **이전**: [254. BPDU (Bridge Protocol Data Unit)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/)
-**다음**: [256. 브리지 ID (Priority + MAC), 비용 (Path Cost)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/256_bridge_id_priority_mac_and_path_cost/) →
+<- **이전**: [254. BPDU (Bridge Protocol Data Unit)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/)
+**다음**: [256. 브리지 ID (Priority + MAC), 비용 (Path Cost)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/256_bridge_id_priority_mac_and_path_cost/) ->
 
 ---

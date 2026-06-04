@@ -32,11 +32,11 @@ DR은 BCP (Business Continuity Plan)의 일부이지만, 특히 정보시스템�
 
 ```text
 BIA
-  ↓
+  v
 핵심 업무 선정
-  ↓
+  v
 RTO / RPO 설정
-  ↓
+  v
 복구 사이트와 백업 전략 결정
 ```
 
@@ -101,11 +101,11 @@ DR은 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_
 
 ```text
 BIA
-   ↓
+   v
 RTO / RPO
-   ↓
+   v
 Mirror / Hot / Warm / Cold site
-   ↓
+   v
 복구 훈련 / 검증
 ```
 
@@ -113,11 +113,11 @@ Mirror / Hot / Warm / Cold site
 
 ## 관련 키워드 및 발전 흐름도
 
-1. [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 중심 사고 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장에만 초점
-2. [BIA](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/212_bia_business_impact_analysis_rto_rpo_dr/) 도입 → 핵심 업무 우선순위화
-3. [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/)/[RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/) 수치화 → [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 목표 정량화
-4. 사이트 계층화 → 비용과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 속도의 균형
-5. [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 훈련과 자동화 → DR의 실전 운용 강화
+1. [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 중심 사고 -> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장에만 초점
+2. [BIA](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/212_bia_business_impact_analysis_rto_rpo_dr/) 도입 -> 핵심 업무 우선순위화
+3. [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/)/[RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/) 수치화 -> [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 목표 정량화
+4. 사이트 계층화 -> 비용과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 속도의 균형
+5. [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 훈련과 자동화 -> DR의 실전 운용 강화
 
 ---
 
@@ -133,7 +133,7 @@ Mirror / Hot / Warm / Cold site
 
 **진행 상황**: 57 / 482
 
-← **이전**: [56. 비즈니스 연속성 계획 (BCP, Business Continuity Plan) - 재난/재해 시 핵심 업무 기능 유지 지침](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/056_bcp_business_continuity_plan_bia/)
-**다음**: [58. IT 컴플라이언스 (Compliance) - SOX, Basel, GDPR, ISMS](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/) →
+<- **이전**: [56. 비즈니스 연속성 계획 (BCP, Business Continuity Plan) - 재난/재해 시 핵심 업무 기능 유지 지침](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/056_bcp_business_continuity_plan_bia/)
+**다음**: [58. IT 컴플라이언스 (Compliance) - SOX, Basel, GDPR, ISMS](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/) ->
 
 ---

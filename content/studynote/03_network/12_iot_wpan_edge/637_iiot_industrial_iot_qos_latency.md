@@ -23,11 +23,11 @@ tags = ["studynote-network"]
 
 ```text
 [W3C WoT]
-    │
-    ▼
+    |
+    v
 [IIoT 트래픽 관리 한계/QoS 이슈]
-    │
-    └──▶ [스마트 시티 센싱 시스템]
+    |
+    +---> [스마트 시티 센싱 시스템]
 ```
 
 - **📢 섹션 요약 비유**: IIoT 트래픽 관리 한계/[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 이슈는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -48,11 +48,11 @@ tags = ["studynote-network"]
 
 ```text
 [W3C WoT]
-    │
-    ▼
+    |
+    v
 [IIoT 트래픽 관리 한계/QoS 이슈]
-    │
-    └──▶ [스마트 시티 센싱 시스템]
+    |
+    +---> [스마트 시티 센싱 시스템]
 ```
 
 - **📢 섹션 요약 비유**: IIoT 트래픽 관리 한계/[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 이슈의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -122,12 +122,12 @@ IIoT 트래픽 관리 한계/[QoS](/knowledge-base/studynote/03_network/07_netwo
 
 ```text
 [선행 개념: W3C WoT]
-    │
-    ▼
+    |
+    v
 [현재 개념: IIoT 트래픽 관리 한계/QoS 이슈]
-    │
-    ├──▶ [확장 A: 스마트 시티 센싱 시스템]
-    └──▶ [확장 B: 자율형 엣지 협업]
+    |
+    +---> [확장 A: 스마트 시티 센싱 시스템]
+    +---> [확장 B: 자율형 엣지 협업]
 ```
 
 IIoT 트래픽 관리 한계/[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 이슈는 W3C WoT에서 출발해 현재 메커니즘을 정교화하고, 이후 [스마트 시티](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/171_smart_city_platform_architecture/) 센싱 시스템와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -144,7 +144,7 @@ IIoT 트래픽 관리 한계/[QoS](/knowledge-base/studynote/03_network/07_netwo
 
 **진행 상황**: 758 / 1120
 
-← **이전**: [636. W3C WoT (Web of Things)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/636_wot_web_of_things_w3c_thing_description/)
-**다음**: [638. 스마트 시티 (Smart City 통신망 다중화 연계) 센싱 시스템](/knowledge-base/studynote/03_network/12_iot_wpan_edge/638_smart_city_sensing_system_heterogeneous/) →
+<- **이전**: [636. W3C WoT (Web of Things)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/636_wot_web_of_things_w3c_thing_description/)
+**다음**: [638. 스마트 시티 (Smart City 통신망 다중화 연계) 센싱 시스템](/knowledge-base/studynote/03_network/12_iot_wpan_edge/638_smart_city_sensing_system_heterogeneous/) ->
 
 ---

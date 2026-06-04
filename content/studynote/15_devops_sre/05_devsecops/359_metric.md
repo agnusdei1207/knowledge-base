@@ -32,20 +32,20 @@ tags = ["studynote-devops-sre"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│              3계층 시맨틱 캐시 아키텍처                          │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  사용자 질의 → [임베딩 모델] → 질의 벡터                         │
-│                                    │                            │
-│             ┌──────────────────────┼──────────────────────┐    │
-│             ▼                      ▼                      ▼    │
-│        [L1 정확 일치]         [L2 시맨틱 캐시]       [L3 LLM]  │
-│        (Redis GET)          (벡터 유사도 ≥ θ)    (OpenAI/등)   │
-│        히트율: 5~15%         히트율: 40~70%       항상 응답     │
-│        레이턴시: 1ms          레이턴시: 10~50ms   레이턴시: 1~5s│
-│                                                                  │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|              3계층 시맨틱 캐시 아키텍처                          |
++------------------------------------------------------------------+
+|                                                                  |
+|  사용자 질의 -> [임베딩 모델] -> 질의 벡터                         |
+|                                    |                            |
+|             +----------------------+----------------------+    |
+|             v                      v                      v    |
+|        [L1 정확 일치]         [L2 시맨틱 캐시]       [L3 LLM]  |
+|        (Redis GET)          (벡터 유사도 ≥ θ)    (OpenAI/등)   |
+|        히트율: 5~15%         히트율: 40~70%       항상 응답     |
+|        레이턴시: 1ms          레이턴시: 10~50ms   레이턴시: 1~5s|
+|                                                                  |
++------------------------------------------------------------------+
 ```
 
 | 계층               | 방식                          | 히트 조건                       | 적합 시나리오              |
@@ -90,12 +90,12 @@ GPTCache, LangChain의 semantic_cache, [Redis](/knowledge-base/studynote/05_data
 **비용 절감 계산 예시**
 - 하루 100만 질의, 평균 500 토큰/응답, [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4 $0.01/1K 토큰
 - [시맨틱 캐시](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/280_ppo_proximal_policy_optimization/) 히트율 60% 적용 시: 40만 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 호출 × 500 토큰 × $0.01/1K = $2,000/일
-- 미적용 시: 100만 × $5 = $5,000/일 → 60% 비용 절감
+- 미적용 시: 100만 × $5 = $5,000/일 -> 60% 비용 절감
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>
-- 임계값 없이 가장 유사한 응답을 무조건 반환 → 전혀 다른 질의에 오응답 반환
-- 개인 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 정보(PII)가 포함된 응답을 공유 캐시에 저장 → 프라이버시 침해
-- 캐시 [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 없이 무한 보존 → 오래된 응답이 신선한 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 응답보다 우선 반환
+- 임계값 없이 가장 유사한 응답을 무조건 반환 -> 전혀 다른 질의에 오응답 반환
+- 개인 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 정보(PII)가 포함된 응답을 공유 캐시에 저장 -> 프라이버시 침해
+- 캐시 [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 없이 무한 보존 -> 오래된 응답이 신선한 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 응답보다 우선 반환
 
 - 📢 섹션 요약 비유: 임계값 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)은 냉장고 온도 조절과 같다. 너무 낮으면(관대) 상한 음식이 나오고(오응답), 너무 높으면(엄격) 히트율이 떨어져 캐시의 의미가 없다.
 
@@ -128,24 +128,24 @@ GPTCache, LangChain의 semantic_cache, [Redis](/knowledge-base/studynote/05_data
 
 ```text
 LLM 직접 호출 (고비용, 고레이턴시)
-    │
-    ▼
+    |
+    v
 정확 일치 캐시 (Exact-Match Redis) — 낮은 히트율
-    │
-    ▼
+    |
+    v
 임베딩 모델 (text-embedding) — 질의 벡터화
-    │
-    ▼
+    |
+    v
 시맨틱 캐시 (Semantic Cache) — 코사인 유사도 기반 히트
-    │
-    ▼
+    |
+    v
 3계층 캐시 (L1 정확/L2 시맨틱/L3 LLM) — 최적 히트율
-    │
-    ▼
+    |
+    v
 지식 그래프 + 자동 캐시 갱신 (미래)
 ```
 
-흐름은 "단순 호출 → 정확 일치 → 의미 기반 → 계층화 → 지식 연계"로 발전한다.
+흐름은 "단순 호출 -> 정확 일치 -> 의미 기반 -> 계층화 -> 지식 연계"로 발전한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -159,7 +159,7 @@ LLM 직접 호출 (고비용, 고레이턴시)
 
 **진행 상황**: 359 / 373
 
-← **이전**: [358. 서드파티 API 통신 폴백 지터 백오프 설계 (Third-party API Fallback Jitter and Exponential](/knowledge-base/studynote/11_design_supervision/06_exam_summary/358_architecture/)
-**다음**: [360. 가치 흐름 매핑 낭비 병목 식별 린 사상망 (Value Stream Mapping VSM Waste and Bottleneck](/knowledge-base/studynote/11_design_supervision/06_exam_summary/360_process/) →
+<- **이전**: [358. 서드파티 API 통신 폴백 지터 백오프 설계 (Third-party API Fallback Jitter and Exponential](/knowledge-base/studynote/11_design_supervision/06_exam_summary/358_architecture/)
+**다음**: [360. 가치 흐름 매핑 낭비 병목 식별 린 사상망 (Value Stream Mapping VSM Waste and Bottleneck](/knowledge-base/studynote/11_design_supervision/06_exam_summary/360_process/) ->
 
 ---

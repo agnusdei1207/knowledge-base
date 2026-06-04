@@ -32,21 +32,21 @@ tags = ["studynote-operating-system"]
 다대다 모델의 아키텍처는 사용자 공간과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간을 이어주는 가상의 매개체인 경량 프로세스 (LWP, Lightweight [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))와, 두 공간 사이의 통신 메커니즘으로 완성된다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│          다대다 모델의 스케줄러 촉발 및 다중화 아키텍처      │
-├──────────────────────────────────────────────────────────────┤
-│ [사용자 공간]          [스레드 라이브러리 (로비 매니저)]       │
-│  ULT 1 ─┐                │                                   │
-│  ULT 2 ─┼──▶ 동적 매핑 ──▶ [ LWP 1 ] ──▶ (KLT 1로 연결)       │
-│  ULT 3 ─┘                │   (I/O 블로킹 발생!)              │
-│                          │                                   │
-│ [스케줄러 촉발 발동]     │                                   │
-│ 커널 ──(Upcall)──▶ "LWP 1 멈췄어! 대신 새 LWP 2 줄게!"       │
-│                          │                                   │
-│  ULT 4 ─┐                │                                   │
-│  ULT 5 ─┼──▶ 즉시 재배정 ─▶ [ LWP 2 ] ──▶ (KLT 2로 연결)       │
-│  ULT 6 ─┘                │   (지연 없이 계속 실행됨)         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|          다대다 모델의 스케줄러 촉발 및 다중화 아키텍처      |
++--------------------------------------------------------------+
+| [사용자 공간]          [스레드 라이브러리 (로비 매니저)]       |
+|  ULT 1 -+                |                                   |
+|  ULT 2 -+---> 동적 매핑 ---> [ LWP 1 ] ---> (KLT 1로 연결)       |
+|  ULT 3 -+                |   (I/O 블로킹 발생!)              |
+|                          |                                   |
+| [스케줄러 촉발 발동]     |                                   |
+| 커널 --(Upcall)---> "LWP 1 멈췄어! 대신 새 LWP 2 줄게!"       |
+|                          |                                   |
+|  ULT 4 -+                |                                   |
+|  ULT 5 -+---> 즉시 재배정 --> [ LWP 2 ] ---> (KLT 2로 연결)       |
+|  ULT 6 -+                |   (지연 없이 계속 실행됨)         |
++--------------------------------------------------------------+
 ```
 
 이 모델이 블로킹 문제를 극복하는 핵심 원리는 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 촉발 ([Scheduler Activation](/knowledge-base/studynote/02_operating_system/02_process_thread/114_scheduler_activation/))과 업콜 ([Upcall](/knowledge-base/studynote/02_operating_system/02_process_thread/115_upcall/))이다. ULT 1이 I/O를 호출해 KLT 1이 멈추게 되면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이 사실을 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)에 업콜(콜백)로 알려주고 새로운 LWP를 임시로 제공 단서한다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)는 멈춘 ULT 1의 상태를 저장한 뒤, 대기 중이던 다른 ULT 4를 새로 받은 LWP 2에 신속하게 배정한다. 이 메커니즘 덕분에 하나의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 블로킹되어도 프로세스 전체가 멈추지 않고 남은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)들이 계속 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 실행된다.
@@ -105,17 +105,17 @@ tags = ["studynote-operating-system"]
 
 ```text
 다대일 (Many-to-One) 모델 · 빠른 스위칭, 블로킹 마비
-    │
-    ▼
+    |
+    v
 일대일 (One-to-One) 모델 · 병렬성 확보, 컨텍스트 스위칭 오버헤드
-    │
-    ▼
+    |
+    v
 다대다 (Many-to-Many) 모델 · 스케줄러 촉발 (Scheduler Activation) 도입
-    │
-    ▼
+    |
+    v
 OS 레벨 다대다 사장 · Linux NPTL(1:1) 표준화 및 스레드 풀(Thread Pool) 활용
-    │
-    ▼
+    |
+    v
 런타임 레벨 다대다 부활 · Go 고루틴(Goroutine), Java 가상 스레드(Virtual Thread)
 ```
 
@@ -131,7 +131,7 @@ OS 레벨 다대다 사장 · Linux NPTL(1:1) 표준화 및 스레드 풀(Thread
 
 **진행 상황**: 100 / 800
 
-← **이전**: [99. 일대일 (One-to-One) 스레드 모델](/knowledge-base/studynote/02_operating_system/02_process_thread/099_one_to_one_model/)
-**다음**: [101. 두 수준 (Two-level) 모델](/knowledge-base/studynote/02_operating_system/02_process_thread/101_two_level_model/) →
+<- **이전**: [99. 일대일 (One-to-One) 스레드 모델](/knowledge-base/studynote/02_operating_system/02_process_thread/099_one_to_one_model/)
+**다음**: [101. 두 수준 (Two-level) 모델](/knowledge-base/studynote/02_operating_system/02_process_thread/101_two_level_model/) ->
 
 ---

@@ -44,18 +44,18 @@ tags = ["studynote-computer-architecture"]
 이 그림은 4-phase handshake에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 언제 유효해야 하는지까지 함께 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│ 4-phase handshake: 데이터는 REQ 이전에 안정되고 ACK 동안 유지되어야 한다   │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ 1) Sender   : Data Stable, REQ ↑                                            │
-│ 2) Receiver : Data Sample, ACK ↑                                            │
-│ 3) Sender   : REQ ↓ after observing ACK                                     │
-│ 4) Receiver : ACK ↓, next transfer ready                                    │
-│                                                                              │
-│ Data  : [=========== valid ===========]                                     │
-│ REQ   : ________/‾‾‾‾‾‾‾‾\_____________________                              │
-│ ACK   : ________________/‾‾‾‾‾‾\______________                              │
-└──────────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------------+
+| 4-phase handshake: 데이터는 REQ 이전에 안정되고 ACK 동안 유지되어야 한다   |
++------------------------------------------------------------------------------+
+| 1) Sender   : Data Stable, REQ ^                                            |
+| 2) Receiver : Data Sample, ACK ^                                            |
+| 3) Sender   : REQ v after observing ACK                                     |
+| 4) Receiver : ACK v, next transfer ready                                    |
+|                                                                              |
+| Data  : [=========== valid ===========]                                     |
+| REQ   : ________/‾‾‾‾‾‾‾‾\_____________________                              |
+| ACK   : ________________/‾‾‾‾‾‾\______________                              |
++------------------------------------------------------------------------------+
 ```
 
 더 높은 효율이 필요하면 2-phase transition signaling처럼 에지 변화만으로 의미를 전달하는 방식도 쓸 수 있다. 하지만 구현 난이도는 4-phase보다 높아진다. 따라서 설계자는 안전성과 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 사이의 균형을 봐야 한다.
@@ -136,17 +136,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 고정 지연 기반 Strobe 제어
-        │
-        ▼
+        |
+        v
 4-phase REQ / ACK 핸드셰이크
-        │
-        ▼
+        |
+        v
 2-phase transition signaling
-        │
-        ▼
+        |
+        v
 Async FIFO · CDC bridge
-        │
-        ▼
+        |
+        v
 GALS · 칩렛 경계 제어 프로토콜
 ```
 
@@ -164,7 +164,7 @@ GALS · 칩렛 경계 제어 프로토콜
 
 **진행 상황**: 564 / 803
 
-← **이전**: [563. 분리 트랜잭션 버스 (Split Transaction)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/563_split_transaction_bus/)
-**다음**: [565. 메시지 패싱 하드웨어 큐 (Message Passing Hardware Queue)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/565_message_passing_queue/) →
+<- **이전**: [563. 분리 트랜잭션 버스 (Split Transaction)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/563_split_transaction_bus/)
+**다음**: [565. 메시지 패싱 하드웨어 큐 (Message Passing Hardware Queue)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/565_message_passing_queue/) ->
 
 ---

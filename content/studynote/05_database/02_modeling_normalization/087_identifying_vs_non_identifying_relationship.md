@@ -38,8 +38,8 @@ tags = ["database"]
 | 표기 감각 | 강한 소속감 | 느슨한 연결 |
 
 ```text
-식별 관계:   Parent ──< Child(PK = ParentPK + ChildSeq)
-비식별 관계: Parent ──.. Child(PK = ChildID, FK = ParentPK)
+식별 관계:   Parent --< Child(PK = ParentPK + ChildSeq)
+비식별 관계: Parent --.. Child(PK = ChildID, FK = ParentPK)
 ```
 
 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 "자식의 이름표에 부모 이름이 같이 적히는가"로 이해하면 쉽다. 비식별 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 자식이 자기 이름표를 따로 갖고 부모는 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)만 하는 방식이다.
@@ -107,14 +107,14 @@ tags = ["database"]
     ### 📈 관련 키워드 및 발전 흐름도
 
     엔터티 의미 파악
-    │
-    ▼
+    |
+    v
 존재 의존성 판단
-    │
-    ▼
+    |
+    v
 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) / 비식별 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 선택
-    │
-    ▼
+    |
+    v
 PK / FK / 삭제 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 정렬
 
     ### 👶 어린이를 위한 3줄 비유 설명
@@ -129,7 +129,7 @@ PK / FK / 삭제 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new
 
 **진행 상황**: 87 / 600
 
-← **이전**: [86. 약한 개체 (Weak Entity) - 이중 사각형, 부모 개체에 종속 (식별 관계)](/knowledge-base/studynote/05_database/02_modeling_normalization/086_weak_entity_identifying_relationship/)
-**다음**: [88. 식별자 (Identifier) - ER 모델에서의 키](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/) →
+<- **이전**: [86. 약한 개체 (Weak Entity) - 이중 사각형, 부모 개체에 종속 (식별 관계)](/knowledge-base/studynote/05_database/02_modeling_normalization/086_weak_entity_identifying_relationship/)
+**다음**: [88. 식별자 (Identifier) - ER 모델에서의 키](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/) ->
 
 ---

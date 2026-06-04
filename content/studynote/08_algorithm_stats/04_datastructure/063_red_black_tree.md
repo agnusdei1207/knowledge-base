@@ -78,17 +78,17 @@ tags = ["studynote-algorithm"]
 
 ```text
 [이진 탐색 트리 (BST — Binary Search Tree) — 삽입 순서에 따라 편향 발생]
-    │
-    ▼
+    |
+    v
 [AVL 트리 (AVL Tree) — 엄격한 높이 균형, 회전 빈도 높음]
-    │
-    ▼
+    |
+    v
 [레드-블랙 트리 (Red-Black Tree) — 색 속성으로 느슨한 균형·O(log n) 보장]
-    │
-    ▼
+    |
+    v
 [B-트리 / B+-트리 (B-Tree) — 디스크 I/O 최소화, DBMS 인덱스에 적용]
-    │
-    ▼
+    |
+    v
 [표준 라이브러리 내장 (STL map·Java TreeMap) — 실무 언어 런타임에서 기본 채택]
 ```
 
@@ -105,7 +105,7 @@ tags = ["studynote-algorithm"]
 
 **진행 상황**: 63 / 175
 
-← **이전**: [AVL 트리 (Adelson-Velsky and Landis Tree)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/062_avl_tree/)
-**다음**: [B-트리 (B-Tree)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) →
+<- **이전**: [AVL 트리 (Adelson-Velsky and Landis Tree)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/062_avl_tree/)
+**다음**: [B-트리 (B-Tree)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) ->
 
 ---

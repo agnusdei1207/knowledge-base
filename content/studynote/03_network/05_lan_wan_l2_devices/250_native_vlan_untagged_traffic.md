@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [ISL]
-    │
-    ▼
+    |
+    v
 [Native VLAN]
-    │
-    └──▶ [루프 문제]
+    |
+    +---> [루프 문제]
 ```
 
 - **📢 섹션 요약 비유**: ** Native VLAN은 여권을 들고 국경을 넘는 정상적인 여행객들 사이에서, **"여권(Tag)을 잃어버린 밀입국자들(Untagged)을 무조건 수용하는 특별 수용소"**입니다.
@@ -45,20 +45,20 @@ Native VLAN이 1번으로 [설정](/knowledge-base/studynote/15_devops_sre/01_cu
 - **수신 시 (Rx)**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 트렁크를 통해 프레임을 받았는데, 태그가 붙어있으면 까보고 그 VLAN으로 포워딩한다. 만약 아무 태그도 없는 생얼(Untagged) 프레임이 들어오면 "넌 무조건 Native [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/)(1번) 소속이구나!"라고 판단하여 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 1 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 쪽으로만 쏴준다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                Native VLAN의 송수신 처리 흐름                  │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 스위치 A (Native VLAN = 1) ]        [ 스위치 B (Native VLAN = 1) ] │
- │                                                             │
- │   VLAN 10 데이터 ──(Tag:10 달고 출발)──▶  받고 VLAN 10으로 전달      │
- │   VLAN 20 데이터 ──(Tag:20 달고 출발)──▶  받고 VLAN 20으로 전달      │
- │                                                             │
- │   VLAN 1 데이터 ──(Tag 없이 쌩얼 출발!)──▶  받고 "태그 없네? VLAN 1!"   │
- │                                                             │
- │   * 주의: 양쪽 스위치의 Native VLAN 번호가 1과 99처럼 서로 다르면       │
- │     "Native VLAN Mismatch" 에러가 뜨며 네트워크가 엉망진창 꼬이게 됨. │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                Native VLAN의 송수신 처리 흐름                  |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 스위치 A (Native VLAN = 1) ]        [ 스위치 B (Native VLAN = 1) ] |
+ |                                                             |
+ |   VLAN 10 데이터 --(Tag:10 달고 출발)--->  받고 VLAN 10으로 전달      |
+ |   VLAN 20 데이터 --(Tag:20 달고 출발)--->  받고 VLAN 20으로 전달      |
+ |                                                             |
+ |   VLAN 1 데이터 --(Tag 없이 쌩얼 출발!)--->  받고 "태그 없네? VLAN 1!"   |
+ |                                                             |
+ |   * 주의: 양쪽 스위치의 Native VLAN 번호가 1과 99처럼 서로 다르면       |
+ |     "Native VLAN Mismatch" 에러가 뜨며 네트워크가 엉망진창 꼬이게 됨. |
+ +-------------------------------------------------------------+
 ```
 
 ### 2. [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 호핑 공격 (Double Tagging)과 보안 대책
@@ -127,12 +127,12 @@ Native VLAN는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 �
 
 ```text
 [선행 개념: ISL]
-    │
-    ▼
+    |
+    v
 [현재 개념: Native VLAN]
-    │
-    ├──▶ [확장 A: 루프 문제]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+    |
+    +---> [확장 A: 루프 문제]
+    +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
 Native VLAN는 ISL에서 출발해 현재 메커니즘을 정교화하고, 이후 [루프 문제](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/251_looping_broadcast_storm/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -149,7 +149,7 @@ Native VLAN는 ISL에서 출발해 현재 메커니즘을 정교화하고, 이�
 
 **진행 상황**: 371 / 1120
 
-← **이전**: [249. ISL (Inter-Switch Link)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/)
-**다음**: [251. 루프 문제 (Looping)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/251_looping_broadcast_storm/) →
+<- **이전**: [249. ISL (Inter-Switch Link)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/)
+**다음**: [251. 루프 문제 (Looping)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/251_looping_broadcast_storm/) ->
 
 ---

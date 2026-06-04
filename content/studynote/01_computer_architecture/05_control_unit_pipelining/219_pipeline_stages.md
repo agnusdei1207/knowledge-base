@@ -44,19 +44,19 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 "무엇을 하느냐"보다 "어떤 정보가 어떻게 넘겨지느냐"를 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                5단 파이프라인의 단계 흐름과 레지스터 경계                 │
-├────────────────────────────────────────────────────────────────────────────┤
-│ IF                ID                EX                MEM              WB  │
-│ ┌──────────┐      ┌──────────┐      ┌──────────┐      ┌──────────┐   ┌──┐ │
-│ │ PC, I$   │ ───▶ │ Decode   │ ───▶ │ ALU      │ ───▶ │ D$       │ ─▶│RF│ │
-│ │ Fetch    │      │ Reg Read │      │ Branch   │      │ Load/    │   │  │ │
-│ └──────────┘      └──────────┘      └──────────┘      │ Store    │   └──┘ │
-│        │                │                │             └──────────┘        │
-│        ▼                ▼                ▼                  ▼              │
-│    IF/ID Reg        ID/EX Reg        EX/MEM Reg        MEM/WB Reg          │
-│  (명령어, PC)   (피연산자, 제어)   (결과, 분기)     (메모리값, 목적지)     │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                5단 파이프라인의 단계 흐름과 레지스터 경계                 |
++----------------------------------------------------------------------------+
+| IF                ID                EX                MEM              WB  |
+| +----------+      +----------+      +----------+      +----------+   +--+ |
+| | PC, I$   | ----> | Decode   | ----> | ALU      | ----> | D$       | -->|RF| |
+| | Fetch    |      | Reg Read |      | Branch   |      | Load/    |   |  | |
+| +----------+      +----------+      +----------+      | Store    |   +--+ |
+|        |                |                |             +----------+        |
+|        v                v                v                  v              |
+|    IF/ID Reg        ID/EX Reg        EX/MEM Reg        MEM/WB Reg          |
+|  (명령어, PC)   (피연산자, 제어)   (결과, 분기)     (메모리값, 목적지)     |
++----------------------------------------------------------------------------+
 ```
 
 이 구조의 본질은 <strong>한 단계가 끝난 결과만 넘기는 것이 아니라, 나중 단계에서 필요한 제어 의도까지 함께 넘긴다</strong>는 점이다. 예를 들어 ID 단계에서 "이 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 메모리 읽기 후 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 기록해야 한다"는 제어 비트가 만들어지면, 그 정보는 EX와 MEM, WB를 지나며 필요한 순간에만 효력을 발휘한다. 그래서 파이프라인 단계는 단순한 작업 순서가 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 제어가 같이 이동하는 시간 구조라고 이해해야 한다.
@@ -135,27 +135,27 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 단일 사이클 실행
-    │
-    ▼
+    |
+    v
 다중 사이클 제어
-    │
-    ▼
+    |
+    v
 명령어 파이프라이닝 (Instruction Pipelining)
-    │
-    ├──▶ IF · ID · EX · MEM · WB 표준 5단 분할
-    │
-    ├──▶ 해저드 대응
-    │      ├─ 구조적 해저드 (Structural Hazard)
-    │      ├─ 데이터 해저드 (Data Hazard)
-    │      └─ 제어 해저드 (Control Hazard)
-    │
-    └──▶ 고도화
-           ├─ 데이터 포워딩 (Data Forwarding)
-           ├─ 분기 예측 (Branch Prediction)
-           └─ 슈퍼스칼라 (Superscalar) · 비순차 실행 (Out-of-Order Execution)
+    |
+    +---> IF · ID · EX · MEM · WB 표준 5단 분할
+    |
+    +---> 해저드 대응
+    |      +- 구조적 해저드 (Structural Hazard)
+    |      +- 데이터 해저드 (Data Hazard)
+    |      +- 제어 해저드 (Control Hazard)
+    |
+    +---> 고도화
+           +- 데이터 포워딩 (Data Forwarding)
+           +- 분기 예측 (Branch Prediction)
+           +- 슈퍼스칼라 (Superscalar) · 비순차 실행 (Out-of-Order Execution)
 ```
 
-이 흐름은 "단순 실행 → 단계 분리 → 충돌 인식 → 충돌 완화 → 고성능 확장"으로 이어지는 발전 방향을 보여준다.
+이 흐름은 "단순 실행 -> 단계 분리 -> 충돌 인식 -> 충돌 완화 -> 고성능 확장"으로 이어지는 발전 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -169,7 +169,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 219 / 803
 
-← **이전**: [218. 명령어 파이프라이닝 (Instruction Pipelining)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/218_instruction_pipelining/)
-**다음**: [220. 파이프라인 깊이 (Pipeline Depth)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/220_pipeline_depth/) →
+<- **이전**: [218. 명령어 파이프라이닝 (Instruction Pipelining)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/218_instruction_pipelining/)
+**다음**: [220. 파이프라인 깊이 (Pipeline Depth)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/220_pipeline_depth/) ->
 
 ---

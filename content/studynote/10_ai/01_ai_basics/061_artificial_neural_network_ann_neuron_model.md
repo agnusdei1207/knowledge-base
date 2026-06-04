@@ -104,13 +104,13 @@ ANN은 특징 공학의 부담을 줄이고, 더 큰 [데이터](/knowledge-base
 
 ```text
 Neuron
-   ↓
+   v
 ANN
-   ↓
+   v
 MLP
-   ↓
+   v
 Backpropagation
-   ↓
+   v
 Deep Learning
 ```
 
@@ -120,13 +120,13 @@ Deep Learning
 
 ```text
 Perceptron
-   ↓
+   v
 XOR 한계
-   ↓
+   v
 MLP / Backpropagation
-   ↓
+   v
 GPU 학습
-   ↓
+   v
 Deep Learning
 ```
 
@@ -144,7 +144,7 @@ ANN은 작은 판단 로봇들이 줄지어 일하는 팀이에요.
 
 **진행 상황**: 61 / 420
 
-← **이전**: [60. 나이브 베이즈 분류기 (Naive Bayes) - 조건부 독립과 스팸 필터링](/knowledge-base/studynote/10_ai/01_ai_basics/060_naive_bayes_classifier_conditional_independence/)
-**다음**: [62. 퍼셉트론 (Perceptron) - 단층 신경망](/knowledge-base/studynote/10_ai/01_ai_basics/062_perceptron_rosenblatt_single_layer/) →
+<- **이전**: [60. 나이브 베이즈 분류기 (Naive Bayes) - 조건부 독립과 스팸 필터링](/knowledge-base/studynote/10_ai/01_ai_basics/060_naive_bayes_classifier_conditional_independence/)
+**다음**: [62. 퍼셉트론 (Perceptron) - 단층 신경망](/knowledge-base/studynote/10_ai/01_ai_basics/062_perceptron_rosenblatt_single_layer/) ->
 
 ---

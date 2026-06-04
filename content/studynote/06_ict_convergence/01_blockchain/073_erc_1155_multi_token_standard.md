@@ -30,9 +30,9 @@ ERC-20과 ERC-721을 따로 쓰면 비효율적일 수 있다. ERC-1155는 이�
 
 ```text
 Single Contract
-  ↓
+  v
 FT + NFT
-  ↓
+  v
 Batch Transfer
 ```
 
@@ -104,9 +104,9 @@ ERC-1155는 멀티 토큰 운영 효율을 높인다.
 
 ```text
 Multi Token
-  ↓
+  v
 ERC-1155
-  ↓
+  v
 Batch Transfer
 ```
 
@@ -116,9 +116,9 @@ Batch Transfer
 
 ```text
 ERC-20 / ERC-721
-  ↓
+  v
 ERC-1155
-  ↓
+  v
 Game Assets
 ```
 
@@ -136,7 +136,7 @@ ERC-1155는 그런 규칙이에요.
 
 **진행 상황**: 73 / 552
 
-← **이전**: [72. ERC-20 (이더리움 대체 가능 토큰 표준)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/072_erc_20_fungible_token_standard/)
-**다음**: [74. zkEVM (Zero-Knowledge Ethereum Virtual Machine)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/074_zkevm_zero_knowledge_ethereum_virtual_machine/) →
+<- **이전**: [72. ERC-20 (이더리움 대체 가능 토큰 표준)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/072_erc_20_fungible_token_standard/)
+**다음**: [74. zkEVM (Zero-Knowledge Ethereum Virtual Machine)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/074_zkevm_zero_knowledge_ethereum_virtual_machine/) ->
 
 ---

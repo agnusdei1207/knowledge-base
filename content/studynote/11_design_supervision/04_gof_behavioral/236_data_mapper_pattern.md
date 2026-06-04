@@ -34,9 +34,9 @@ tags = ["studynote-design-supervision"]
 | 현재 | TypeORM, Prisma, SQLAlchemy | 현대 언어 구현체 |
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 외교관이 두 나라 사이에서 번역과 협상을 담당하듯, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 매퍼는 객체 세계와 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 세계 사이의 전문 통역사다.
@@ -45,26 +45,26 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 ```
-┌────────────────────────────────────────────────────────────────┐
-│                  Data Mapper 아키텍처                           │
-│                                                                │
-│  [도메인 레이어]         [매퍼 레이어]          [영속성 레이어]   │
-│                                                                │
-│  ┌──────────────┐       ┌─────────────────┐  ┌──────────────┐ │
-│  │  User        │       │   UserMapper    │  │  DB Table    │ │
-│  │  (순수 객체) │◀─────▶│  (변환 전담)     │◀─▶│  users       │ │
-│  │  - id        │       │  + toEntity()   │  │  id          │ │
-│  │  - name      │       │  + toRow()      │  │  name        │ │
-│  │  - email     │       │  + findById()   │  │  email       │ │
-│  │              │       │  + save()       │  │  created_at  │ │
-│  │  DB 모름!    │       └─────────────────┘  └──────────────┘ │
-│  └──────────────┘                                              │
-│                                                                │
-│  ┌──────────────┐       ┌─────────────────┐                   │
-│  │  Service     │──────▶│  UserRepository │ ← 현대적 추상화    │
-│  │  (비즈니스)   │       │  (인터페이스)    │                   │
-│  └──────────────┘       └─────────────────┘                   │
-└────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------+
+|                  Data Mapper 아키텍처                           |
+|                                                                |
+|  [도메인 레이어]         [매퍼 레이어]          [영속성 레이어]   |
+|                                                                |
+|  +--------------+       +-----------------+  +--------------+ |
+|  |  User        |       |   UserMapper    |  |  DB Table    | |
+|  |  (순수 객체) |<------->|  (변환 전담)     |<--->|  users       | |
+|  |  - id        |       |  + toEntity()   |  |  id          | |
+|  |  - name      |       |  + toRow()      |  |  name        | |
+|  |  - email     |       |  + findById()   |  |  email       | |
+|  |              |       |  + save()       |  |  created_at  | |
+|  |  DB 모름!    |       +-----------------+  +--------------+ |
+|  +--------------+                                              |
+|                                                                |
+|  +--------------+       +-----------------+                   |
+|  |  Service     |------->|  UserRepository | <- 현대적 추상화    |
+|  |  (비즈니스)   |       |  (인터페이스)    |                   |
+|  +--------------+       +-----------------+                   |
++----------------------------------------------------------------+
 ```
 
 ```java
@@ -86,12 +86,12 @@ public class UserJpaRepository implements UserRepository {
     @Override
     public User findById(Long id) {
         UserEntity entity = jpaRepo.findById(id).orElseThrow();
-        return UserMapper.toDomain(entity);  // Entity → Domain 변환
+        return UserMapper.toDomain(entity);  // Entity -> Domain 변환
     }
 
     @Override
     public void save(User user) {
-        UserEntity entity = UserMapper.toEntity(user);  // Domain → Entity 변환
+        UserEntity entity = UserMapper.toEntity(user);  // Domain -> Entity 변환
         jpaRepo.save(entity);
     }
 }
@@ -120,22 +120,22 @@ public class UserJpaRepository implements UserRepository {
 | 대표 프레임워크 | Hibernate, JPA, TypeORM | Rails, Laravel Eloquent |
 
 ```
-┌────────────────────────────────────────────────────┐
-│            Clean Architecture 레이어                │
-│                                                    │
-│  ┌──────────────────┐  ← 데이터 매퍼가 보호하는 영역│
-│  │   Entities (도메인) │                           │
-│  └──────────────────┘                             │
-│  ┌──────────────────┐                             │
-│  │   Use Cases      │                             │
-│  └──────────────────┘                             │
-│  ┌──────────────────┐  ← 데이터 매퍼/리포지토리     │
-│  │   Interface Adapters │  (Infrastructure)       │
-│  └──────────────────┘                             │
-│  ┌──────────────────┐                             │
-│  │   Frameworks/DB  │                             │
-│  └──────────────────┘                             │
-└────────────────────────────────────────────────────┘
++----------------------------------------------------+
+|            Clean Architecture 레이어                |
+|                                                    |
+|  +------------------+  <- 데이터 매퍼가 보호하는 영역|
+|  |   Entities (도메인) |                           |
+|  +------------------+                             |
+|  +------------------+                             |
+|  |   Use Cases      |                             |
+|  +------------------+                             |
+|  +------------------+  <- 데이터 매퍼/리포지토리     |
+|  |   Interface Adapters |  (Infrastructure)       |
+|  +------------------+                             |
+|  +------------------+                             |
+|  |   Frameworks/DB  |                             |
+|  +------------------+                             |
++----------------------------------------------------+
 ```
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 매퍼 패턴은 Clean Architecture의 **Infrastructure Layer** 에 위치하며, [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Layer를 DB 변화로부터 보호한다.
@@ -189,7 +189,7 @@ class UserService {
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 매퍼 패턴 도입의 효과:
 
 - **테스트 가능성**: Repository를 Mock으로 교체하면 DB 없이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 레이어 완전 테스트
-- **DB 변경 격리**: PostgreSQL → [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) 이전 시 매퍼만 교체, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 코드 변경 없음
+- **DB 변경 격리**: PostgreSQL -> [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) 이전 시 매퍼만 교체, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 코드 변경 없음
 - <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 풍부화</strong>: DB 제약 없이 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체에 비즈니스 메서드 자유롭게 추가
 - **팀 분업**: 백엔드 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 개발자와 [DBA](/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/) ([Database Administrator](/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/)) 가 독립적으로 작업
 
@@ -212,7 +212,7 @@ class UserService {
 | 연관 개념 | Unit of Work | [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 범위 내 변경 추적 패턴 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-persistence separation → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 매퍼 패턴 → repository/unit of work
+persistence separation -> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 매퍼 패턴 -> repository/unit of work
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 요리사([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))는 요리만 하고, 배달원(매퍼)은 음식을 냉장고(DB)에서 꺼내고 넣는 일만 해.
@@ -225,7 +225,7 @@ persistence separation → [데이터](/knowledge-base/studynote/05_database/01_
 
 **진행 상황**: 297 / 530
 
-← **이전**: [235. 액티브 레코드 ORM 패턴 (Active Record ORM Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/235_active_record_orm_pattern/)
-**다음**: [237. 싱글 테이블 상속 (Single Table Inheritance, STI)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/237_single_table_inheritance/) →
+<- **이전**: [235. 액티브 레코드 ORM 패턴 (Active Record ORM Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/235_active_record_orm_pattern/)
+**다음**: [237. 싱글 테이블 상속 (Single Table Inheritance, STI)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/237_single_table_inheritance/) ->
 
 ---

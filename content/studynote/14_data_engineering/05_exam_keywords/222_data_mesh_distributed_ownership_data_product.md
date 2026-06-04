@@ -38,29 +38,29 @@ Zhamak Dehghani가 2019년 제안한 [데이터 메시](/knowledge-base/studynot
 ### 2-1. [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) 4원칙
 
 ```
-┌────────────────────────────────────────────────────────────────────┐
-│                    Data Mesh 4 Principles                          │
-│                                                                    │
-│  ┌─────────────────┐    ┌──────────────────────────────────────┐  │
-│  │  ① Domain       │    │  ② Data as a Product                 │  │
-│  │  Ownership      │    │  (데이터를 제품으로 취급)              │  │
-│  │  (도메인 소유권) │    │  - 검색 가능 (Discoverable)          │  │
-│  │                 │    │  - 주소 지정 가능 (Addressable)      │  │
-│  │  도메인 팀이     │    │  - 이해 가능 (Understandable)        │  │
-│  │  데이터 생산·    │    │  - 신뢰 가능 (Trustworthy)           │  │
-│  │  관리·제공 책임 │    │  - 자체 완비 (Self-contained)        │  │
-│  └─────────────────┘    └──────────────────────────────────────┘  │
-│                                                                    │
-│  ┌─────────────────────────┐    ┌───────────────────────────────┐ │
-│  │  ③ Self-Serve Data      │    │  ④ Federated Computational    │ │
-│  │  Infrastructure Platform│    │  Governance                   │ │
-│  │  (셀프 서빙 플랫폼)      │    │  (연합 거버넌스)               │ │
-│  │                         │    │                               │ │
-│  │  도메인 팀이 인프라      │    │  중앙·도메인 공동 거버넌스     │ │
-│  │  없이도 데이터 제품을   │    │  정책, 표준, 계약 협의         │ │
-│  │  자율 생산할 수 있도록  │    │  자율성 + 글로벌 일관성        │ │
-│  └─────────────────────────┘    └───────────────────────────────┘ │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                    Data Mesh 4 Principles                          |
+|                                                                    |
+|  +-----------------+    +--------------------------------------+  |
+|  |  ① Domain       |    |  ② Data as a Product                 |  |
+|  |  Ownership      |    |  (데이터를 제품으로 취급)              |  |
+|  |  (도메인 소유권) |    |  - 검색 가능 (Discoverable)          |  |
+|  |                 |    |  - 주소 지정 가능 (Addressable)      |  |
+|  |  도메인 팀이     |    |  - 이해 가능 (Understandable)        |  |
+|  |  데이터 생산·    |    |  - 신뢰 가능 (Trustworthy)           |  |
+|  |  관리·제공 책임 |    |  - 자체 완비 (Self-contained)        |  |
+|  +-----------------+    +--------------------------------------+  |
+|                                                                    |
+|  +-------------------------+    +-------------------------------+ |
+|  |  ③ Self-Serve Data      |    |  ④ Federated Computational    | |
+|  |  Infrastructure Platform|    |  Governance                   | |
+|  |  (셀프 서빙 플랫폼)      |    |  (연합 거버넌스)               | |
+|  |                         |    |                               | |
+|  |  도메인 팀이 인프라      |    |  중앙·도메인 공동 거버넌스     | |
+|  |  없이도 데이터 제품을   |    |  정책, 표준, 계약 협의         | |
+|  |  자율 생산할 수 있도록  |    |  자율성 + 글로벌 일관성        | |
+|  +-------------------------+    +-------------------------------+ |
++--------------------------------------------------------------------+
 ```
 
 ### 2-2. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 프로덕트([Data Product](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/)) 구조
@@ -95,31 +95,31 @@ Zhamak Dehghani가 2019년 제안한 [데이터 메시](/knowledge-base/studynot
 ### 3-2. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 소유권의 실제 구조
 
 ```
-                  ┌─────────────────────────────────┐
-                  │    Federated Governance Layer    │
-                  │  (글로벌 정책: 보안, 개인정보,   │
-                  │   데이터 계약 표준)               │
-                  └──────────────┬──────────────────┘
-                                 │ 정책 제공
-          ┌──────────────────────┼───────────────────────┐
-          │                      │                       │
-          ▼                      ▼                       ▼
-┌──────────────────┐   ┌──────────────────┐   ┌──────────────────┐
-│   주문 도메인     │   │   고객 도메인     │   │   물류 도메인     │
-│  Order Domain    │   │  Customer Domain │   │ Logistics Domain │
-│                  │   │                  │   │                  │
-│ 주문 이력        │   │ 고객 프로파일     │   │ 배송 현황        │
-│ 주문 분석        │   │ CLV 분석         │   │ 창고 재고        │
-│ (Data Product A) │   │ (Data Product B) │   │ (Data Product C) │
-└──────────────────┘   └──────────────────┘   └──────────────────┘
-          │                      │                       │
-          └──────────────────────┴───────────────────────┘
-                                 │ 소비
-                    ┌────────────▼────────────┐
-                    │  Self-Serve Platform     │
-                    │  (공통 인프라: 카탈로그,  │
-                    │   스토리지, 컴퓨팅 API)  │
-                    └─────────────────────────┘
+                  +---------------------------------+
+                  |    Federated Governance Layer    |
+                  |  (글로벌 정책: 보안, 개인정보,   |
+                  |   데이터 계약 표준)               |
+                  +--------------+------------------+
+                                 | 정책 제공
+          +----------------------+-----------------------+
+          |                      |                       |
+          v                      v                       v
++------------------+   +------------------+   +------------------+
+|   주문 도메인     |   |   고객 도메인     |   |   물류 도메인     |
+|  Order Domain    |   |  Customer Domain |   | Logistics Domain |
+|                  |   |                  |   |                  |
+| 주문 이력        |   | 고객 프로파일     |   | 배송 현황        |
+| 주문 분석        |   | CLV 분석         |   | 창고 재고        |
+| (Data Product A) |   | (Data Product B) |   | (Data Product C) |
++------------------+   +------------------+   +------------------+
+          |                      |                       |
+          +----------------------+-----------------------+
+                                 | 소비
+                    +------------v------------+
+                    |  Self-Serve Platform     |
+                    |  (공통 인프라: 카탈로그,  |
+                    |   스토리지, 컴퓨팅 API)  |
+                    +-------------------------+
 ```
 
 📢 **섹션 요약 비유**: [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 "프랜차이즈 식당" 모델이다. 각 가맹점([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀)은 자체 운영 권한이 있지만, 본사(연합 거버넌스)의 레시피 표준과 식품 안전 규정을 따른다.
@@ -139,9 +139,9 @@ Zhamak Dehghani가 2019년 제안한 [데이터 메시](/knowledge-base/studynot
 
 ### 4-2. 도입 실패 패턴 및 대응
 
-- **실패 패턴 1**: [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀 역량 미비 → 대응: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)(Embedded) 운영
-- **실패 패턴 2**: 셀프 서빙 플랫폼 부재 → 대응: [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/)([Internal Developer Platform](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/200_internal_developer_platform_backstage/), [내부 개발자 플랫폼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/110_idp_internal_developer_platform_backstage/)) 먼저 구축
-- **실패 패턴 3**: 표준 없는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) → 대응: [데이터 계약](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/)([Data Contract](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/)) 표준 선행 정의
+- **실패 패턴 1**: [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀 역량 미비 -> 대응: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)(Embedded) 운영
+- **실패 패턴 2**: 셀프 서빙 플랫폼 부재 -> 대응: [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/)([Internal Developer Platform](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/200_internal_developer_platform_backstage/), [내부 개발자 플랫폼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/110_idp_internal_developer_platform_backstage/)) 먼저 구축
+- **실패 패턴 3**: 표준 없는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) -> 대응: [데이터 계약](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/)([Data Contract](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/)) 표준 선행 정의
 
 📢 **섹션 요약 비유**: [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) 도입은 "직원들에게 재택근무를 허용하는 것"과 같다. 성숙한 조직에는 생산성 폭발이지만, 준비 없이 시행하면 소통 부재와 혼란만 커진다.
 
@@ -155,10 +155,10 @@ Zhamak Dehghani가 2019년 제안한 [데이터 메시](/knowledge-base/studynot
 
 | [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) | 기대 개선 |
 |:---|:---|
-| [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) 리드타임 | 중앙 팀 대기 제거 → 60~80% 감소 |
-| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 오류율 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 책임 명확화 → 30~50% 감소 |
-| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재사용률 | 검색 가능한 [Data Product](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/) → 2~3× 향상 |
-| 거버넌스 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대응 속도 | 리니지 자동화 → 80% 단축 |
+| [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) 리드타임 | 중앙 팀 대기 제거 -> 60~80% 감소 |
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 오류율 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 책임 명확화 -> 30~50% 감소 |
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재사용률 | 검색 가능한 [Data Product](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/) -> 2~3× 향상 |
+| 거버넌스 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대응 속도 | 리니지 자동화 -> 80% 단축 |
 
 기술사 시험에서 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 <strong>"조직 중심(Organization-Centric) <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/">데이터 아키텍처</a>"</strong> 로, 기술 문제가 아닌 조직·문화적 전환임을 강조해야 한다.
 
@@ -190,15 +190,15 @@ Zhamak Dehghani가 2019년 제안한 [데이터 메시](/knowledge-base/studynot
 
 ```text
 중앙 집중 데이터 팀 (병목 · 확장 한계)
-    │
-    ▼
+    |
+    v
 Data Mesh: 도메인별 데이터 소유권 분산
-    ├─► 도메인 데이터 프로덕트: 자율 운영
-    ├─► Self-Serve 인프라 플랫폼
-    └─► 연방 거버넌스: 전사 표준 + 도메인 자율
-    │
-    ▼
-Data Product Thinking → API · SLA 기반 데이터 계약
+    +-► 도메인 데이터 프로덕트: 자율 운영
+    +-► Self-Serve 인프라 플랫폼
+    +-► 연방 거버넌스: 전사 표준 + 도메인 자율
+    |
+    v
+Data Product Thinking -> API · SLA 기반 데이터 계약
 ```
 2. [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 각 반 선생님([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀)이 직접 자기 반 숙제를 검사하고 관리하도록 바꾸는 것이다.
 3. 교장 선생님(연합 거버넌스)은 전체 채점 기준만 정해주고, 각 반은 그 기준 안에서 자유롭게 운영한다.
@@ -209,7 +209,7 @@ Data Product Thinking → API · SLA 기반 데이터 계약
 
 **진행 상황**: 222 / 258
 
-← **이전**: [221. LSM 트리 (Log-Structured Merge-Tree) 멤테이블 순차 플러시 콤팩션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/221_lsm_tree_memtable_sequential_flush_compaction/)
-**다음**: [223. 데이터 패브릭 (Data Fabric) 메타데이터 가상화 AI 통합](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/223_data_fabric_metadata_virtualization_integration/) →
+<- **이전**: [221. LSM 트리 (Log-Structured Merge-Tree) 멤테이블 순차 플러시 콤팩션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/221_lsm_tree_memtable_sequential_flush_compaction/)
+**다음**: [223. 데이터 패브릭 (Data Fabric) 메타데이터 가상화 AI 통합](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/223_data_fabric_metadata_virtualization_integration/) ->
 
 ---

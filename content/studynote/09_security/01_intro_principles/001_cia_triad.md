@@ -61,18 +61,18 @@ CIA Triad를 구현하기 위해 시스템은 다양한 보안 통제([Security]
 
 ```text
 [Client]
-   │ (1. 기밀성: TLS 암호화 채널 형성)
-   ▼
+   | (1. 기밀성: TLS 암호화 채널 형성)
+   v
 [API Gateway / WAF] -- (2. 가용성: 트래픽 필터링 및 Rate Limiting)
-   │
-   ├─> [인증/인가 서버] (3. 기밀성: RBAC 기반 권한 검증)
-   │
-   ▼
+   |
+   +-> [인증/인가 서버] (3. 기밀성: RBAC 기반 권한 검증)
+   |
+   v
 [Application Server]
-   │
-   ├─> (4. 무결성: 입력 데이터 Hash 검증 및 SQL Injection 방지)
-   │
-   ▼
+   |
+   +-> (4. 무결성: 입력 데이터 Hash 검증 및 SQL Injection 방지)
+   |
+   v
 [Database / Storage] -- (5. 가용성/무결성: Active-Standby 복제, 트랜잭션 처리)
 ```
 
@@ -95,19 +95,19 @@ CIA 모델을 더욱 명확히 이해하기 위해, 보안 실패 시 발생하�
 CIA 모델은 직관적이지만 현대의 복잡한 비즈니스 요구사항을 모두 담기에는 한계가 있다. 이에 따라 등장한 확장 모델과의 비교는 다음과 같다.
 
 ```text
-┌───────────────┬─────────────────────────┬──────────────────────────┐
-│ 모델 구분     │ 구성 요소               │ 한계점 및 특징             │
-├───────────────┼─────────────────────────┼──────────────────────────┤
-│ CIA Triad     │ 기밀성, 무결성, 가용성  │ 단순명료하나, 소유권과   │
-│               │                         │ 책임 소재의 증명이 약함  │
-├───────────────┼─────────────────────────┼──────────────────────────┤
-│ Parkerian     │ CIA + 소유성(Possession)│ 데이터가 유출되었으나    │
-│ Hexad         │ + 진본성(Authenticity)  │ 암호화되어 기밀성은 유지 │
-│               │ + 유용성(Utility)       │ 되는 상태를 설명 가능함  │
-├───────────────┼─────────────────────────┼──────────────────────────┤
-│ 정보보안 6요소│ CIA + 인증성, 부인방지, │ 금융/전자상거래의 법적   │
-│               │ 책임추적성              │ 분쟁 해결에 필수적임     │
-└───────────────┴─────────────────────────┴──────────────────────────┘
++---------------+-------------------------+--------------------------+
+| 모델 구분     | 구성 요소               | 한계점 및 특징             |
++---------------+-------------------------+--------------------------+
+| CIA Triad     | 기밀성, 무결성, 가용성  | 단순명료하나, 소유권과   |
+|               |                         | 책임 소재의 증명이 약함  |
++---------------+-------------------------+--------------------------+
+| Parkerian     | CIA + 소유성(Possession)| 데이터가 유출되었으나    |
+| Hexad         | + 진본성(Authenticity)  | 암호화되어 기밀성은 유지 |
+|               | + 유용성(Utility)       | 되는 상태를 설명 가능함  |
++---------------+-------------------------+--------------------------+
+| 정보보안 6요소| CIA + 인증성, 부인방지, | 금융/전자상거래의 법적   |
+|               | 책임추적성              | 분쟁 해결에 필수적임     |
++---------------+-------------------------+--------------------------+
 ```
 
 이 매트릭스의 핵심은 순수한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)(CIA)를 넘어, 현대 보안은 '사람의 행위'에 대한 증명([인증성](/knowledge-base/studynote/09_security/01_intro_principles/005_authenticity/), 부인방지)과 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 실질적 통제권'(소유성, 유용성)까지 영역을 확장하고 있다는 점이다. [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/)에 감염된 경우, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 위변조([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 침해)가 발생하지만 암호화되어 있어 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)은 유지될 수 있다. 그러나 '유용성'과 '소유성'은 상실된다. 따라서 실무에서는 CIA 모델을 뼈대로 하되, 산업군의 규제([Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/))에 맞춰 확장된 통제 항목을 결합하는 하이브리드 접근이 필수적이다.
@@ -132,13 +132,13 @@ CIA 모델은 직관적이지만 현대의 복잡한 비즈니스 요구사항�
 
 ```text
 [보안 이벤트 발생]
-       │
-       ▼
+       |
+       v
 [서비스 유형 판단]
- ├─ (금융/군사 시스템) ──> [기밀성/무결성 최우선] ──> 시스템 강제 종료 및 차단 (Fail-Secure)
- │                                                    (가용성 포기)
- │
- └─ (의료/통신 인프라) ──> [가용성 최우선] ────────> 격리된 네트워크에서 최소 기능 유지 (Fail-Safe)
+ +- (금융/군사 시스템) --> [기밀성/무결성 최우선] --> 시스템 강제 종료 및 차단 (Fail-Secure)
+ |                                                    (가용성 포기)
+ |
+ +- (의료/통신 인프라) --> [가용성 최우선] --------> 격리된 네트워크에서 최소 기능 유지 (Fail-Safe)
                                                       (부분적 보안위험 감수)
 ```
 
@@ -184,14 +184,14 @@ CIA Triad를 기반으로 설계된 [보안 아키텍처](/knowledge-base/studyn
 
 ```text
 [접근 통제 (Access Control)]
-    │
-    ▼
+    |
+    v
 [제로 트러스트 (Zero Trust)]
-    │
-    ▼
+    |
+    v
 [위험 관리 (Risk Management)]
-    │
-    ▼
+    |
+    v
 [암호학 (Cryptography)]
 ```
 
@@ -208,8 +208,8 @@ CIA Triad를 기반으로 설계된 [보안 아키텍처](/knowledge-base/studyn
 
 **진행 상황**: 1 / 1108
 
-← **이전**: (첫 번째 글입니다)
+<- **이전**: (첫 번째 글입니다)
 
-**다음**: [2. 기밀성 (Confidentiality) — 암호화, 접근 제어, DRM, 분류](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) →
+**다음**: [2. 기밀성 (Confidentiality) — 암호화, 접근 제어, DRM, 분류](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) ->
 
 ---

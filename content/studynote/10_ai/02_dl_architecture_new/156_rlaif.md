@@ -24,12 +24,12 @@ tags = ["studynote-ai"]
 이를 혁파하기 위해 등장한 것이 <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/269_vector_database/">RLAIF</a> (<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 피드백 기반 강화학습)</strong>이다. 이미 전 세계 최고의 지식과 윤리 가드레일을 체득한 초거대 상용 모델(Teacher Model, 예: [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4, Claude 3 Opus)에게 상세한 평가 기준(프롬프트)을 주고, 작은 학생 모델(Student Model)이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한 답변 A와 B 중 어느 것이 더 훌륭한지 랭킹을 매기게 하는 것이다. AI가 AI를 가르치고 평가하는 이 폐쇄 루프(Closed-loop)의 완성은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 발전 속도에 터보 엔진을 달았다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: RLHF가 전국의 수능 교수님들을 모셔 와서 학생들의 모의고사를 한 땀 한 땀 손으로 채점하는 비싼 과정이라면, RLAIF는 이미 수능 만점을 받은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 컴퓨터 채점기를 돌려 하룻밤 만에 전교생의 채점과 오답 노트를 싹 끝내버리는 자동화 마법이다.
@@ -41,24 +41,24 @@ tags = ["studynote-ai"]
 RLAIF의 전체 강화학습 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인(보상 모델 훈련 $\rightarrow$ [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) 최적화)은 기본적으로 RLHF와 100% 동일하다. 오직 심판(Evaluator)의 자리에 '인간' 대신 '초거대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)-[as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-a-Judge)'이 들어갈 뿐이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           RLAIF (AI 피드백 강화학습) 자동화 파이프라인 도해          │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [1. 학생 모델(Student)의 텍스트 생성]                              │
-│   질문: "우울할 때 먹기 좋은 약 추천해 줘."                        │
-│   답변 A: "수면제를 많이 먹고 주무세요." (유해함)                  │
-│   답변 B: "전문의와 상담하고, 초콜릿이나 바나나를 드세요." (안전함)   │
-│                                                              │
-│  [2. 교사 AI (LLM-as-a-Judge, 예: GPT-4)의 자동 프롬프트 채점]   │
-│   (심판 프롬프트): "당신은 윤리 전문가입니다. A와 B 중 도움이 되고    │
-│                  안전한 답변의 승자를 고르고 이유를 설명하시오."      │
-│   (교사 AI 출력): "승자: B. 이유는 A는 자해 위험이 있기 때문입니다." │
-│                                                              │
-│  [3. 보상 모델(RM) 및 PPO 학습]                                 │
-│   * 교사 AI가 남긴 수십만 개의 채점표(Ranking)를 바탕으로 보상 모델 훈련│
-│   * 학생 모델은 교사 AI가 선호한 B의 어투와 논리를 흉내 내도록 최적화됨!│
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           RLAIF (AI 피드백 강화학습) 자동화 파이프라인 도해          |
++--------------------------------------------------------------+
+|                                                              |
+|  [1. 학생 모델(Student)의 텍스트 생성]                              |
+|   질문: "우울할 때 먹기 좋은 약 추천해 줘."                        |
+|   답변 A: "수면제를 많이 먹고 주무세요." (유해함)                  |
+|   답변 B: "전문의와 상담하고, 초콜릿이나 바나나를 드세요." (안전함)   |
+|                                                              |
+|  [2. 교사 AI (LLM-as-a-Judge, 예: GPT-4)의 자동 프롬프트 채점]   |
+|   (심판 프롬프트): "당신은 윤리 전문가입니다. A와 B 중 도움이 되고    |
+|                  안전한 답변의 승자를 고르고 이유를 설명하시오."      |
+|   (교사 AI 출력): "승자: B. 이유는 A는 자해 위험이 있기 때문입니다." |
+|                                                              |
+|  [3. 보상 모델(RM) 및 PPO 학습]                                 |
+|   * 교사 AI가 남긴 수십만 개의 채점표(Ranking)를 바탕으로 보상 모델 훈련|
+|   * 학생 모델은 교사 AI가 선호한 B의 어투와 논리를 흉내 내도록 최적화됨!|
++--------------------------------------------------------------+
 ```
 
 **핵심 원리 (프롬프팅을 통한 윤리 주입)**:
@@ -129,7 +129,7 @@ RLAIF의 등장은 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [RLAIF (AI 피드백 기반 강화학습)] → [최적화·운영 자동화]
+[데이터 전처리] -> [RLAIF (AI 피드백 기반 강화학습)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -144,7 +144,7 @@ RLAIF의 등장은 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231
 
 **진행 상황**: 156 / 420
 
-← **이전**: [155. RLHF (인간 피드백 기반 강화학습)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/155_rlhf/)
-**다음**: [157. 지식 증류 (Knowledge Distillation)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/157_knowledge_distillation/) →
+<- **이전**: [155. RLHF (인간 피드백 기반 강화학습)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/155_rlhf/)
+**다음**: [157. 지식 증류 (Knowledge Distillation)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/157_knowledge_distillation/) ->
 
 ---

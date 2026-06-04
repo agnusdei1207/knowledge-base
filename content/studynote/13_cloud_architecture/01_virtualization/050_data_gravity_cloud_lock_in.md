@@ -23,10 +23,10 @@ tags = ["cloud lock-in", "data gravity", "egress cost", "multi-cloud", "open sou
 
 ```
 데이터 양 증가
-    ↓
+    v
 데이터 주변으로 컴퓨팅 자원 집결
 (데이터를 이동시키는 비용 > 컴퓨팅을 이동시키는 비용)
-    ↓
+    v
 서비스·애플리케이션이 데이터 있는 클라우드에 묶임
 ```
 
@@ -51,10 +51,10 @@ tags = ["cloud lock-in", "data gravity", "egress cost", "multi-cloud", "open sou
 ```
 기술적 Lock-In: 전용 API, 서비스
   예: AWS Lambda 이벤트 소스, Azure AD 통합
-       ↓
+       v
 데이터 Lock-In: 이동 비용, 포맷
   예: S3 Egress 요금 ($0.09/GB 아웃바운드)
-       ↓
+       v
 운영 Lock-In: 기술 스택, 인력 스킬
   예: AWS-only 인증 엔지니어, 전용 도구 의존
 ```
@@ -79,9 +79,9 @@ PB 규모에서는 수십억 원 이상의 이전 비용 발생.
 
 ```
 AWS (컴퓨팅)  Azure (AI)  GCP (데이터)
-       ↓             ↓           ↓
+       v             v           v
 [추상화 레이어: Kubernetes, Terraform, Crossplane]
-              ↓
+              v
        워크로드 이식성 확보
 ```
 
@@ -114,7 +114,7 @@ AWS (컴퓨팅)  Azure (AI)  GCP (데이터)
 
 ### 4.2 [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/) ([Data Fabric](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/))
 
-여러 클라우드·온프레미스의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가상화하여 단일 뷰 제공 → 물리적 이동 없이 활용.
+여러 클라우드·온프레미스의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가상화하여 단일 뷰 제공 -> 물리적 이동 없이 활용.
 
 📢 **섹션 요약 비유**: [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)은 여러 창고(클라우드)의 재고를 가상으로 연결 — 실제 이사 없이 어느 창고 물건이든 주문 가능.
 
@@ -131,9 +131,9 @@ AWS (컴퓨팅)  Azure (AI)  GCP (데이터)
 
 ```
 글로벌 CSP (AWS, Azure, GCP)
-    ↓ 현지화
+    v 현지화
 주권 클라우드 (EU Gaia-X, K-Cloud, CNCLOUD)
-    ↓
+    v
 데이터 국경 준수 + 글로벌 클라우드 서비스 활용
 ```
 
@@ -145,20 +145,20 @@ AWS (컴퓨팅)  Azure (AI)  GCP (데이터)
 
 ```
 데이터 중력 & Lock-In
-├── 데이터 중력
-│   ├── Egress 비용
-│   └── PB 규모 종속
-├── Lock-In 유형
-│   ├── 기술적 (전용 API)
-│   ├── 데이터적 (이동 비용)
-│   └── 운영적 (스킬 종속)
-├── 탈출 전략
-│   ├── 멀티클라우드
-│   ├── 오픈소스 표준 (K8s, TF)
-│   └── 데이터 패브릭
-└── 규제
-    ├── GDPR 역외 이전
-    └── 주권 클라우드
++-- 데이터 중력
+|   +-- Egress 비용
+|   +-- PB 규모 종속
++-- Lock-In 유형
+|   +-- 기술적 (전용 API)
+|   +-- 데이터적 (이동 비용)
+|   +-- 운영적 (스킬 종속)
++-- 탈출 전략
+|   +-- 멀티클라우드
+|   +-- 오픈소스 표준 (K8s, TF)
+|   +-- 데이터 패브릭
++-- 규제
+    +-- GDPR 역외 이전
+    +-- 주권 클라우드
 ```
 
 ---
@@ -167,17 +167,17 @@ AWS (컴퓨팅)  Azure (AI)  GCP (데이터)
 
 ```
 단일 클라우드 이전 (2010s 초반)
-     │  벤더 종속 문제 인식
-     ▼
+     |  벤더 종속 문제 인식
+     v
 멀티클라우드 전략 등장 (2015~)
-     │  데이터 이동 비용이 실질 장벽
-     ▼
+     |  데이터 이동 비용이 실질 장벽
+     v
 데이터 중력 개념 부상 (Dave McCrory, 2010~)
-     │  컨테이너/K8s로 이식성 확보
-     ▼
+     |  컨테이너/K8s로 이식성 확보
+     v
 클라우드 네이티브 + 오픈소스 표준 (CNCF, 2015~)
-     │  데이터 주권 규제 강화
-     ▼
+     |  데이터 주권 규제 강화
+     v
 주권 클라우드 / 하이브리드 메시 (현재~)
 ```
 
@@ -197,7 +197,7 @@ AWS (컴퓨팅)  Azure (AI)  GCP (데이터)
 
 **진행 상황**: 49 / 371
 
-← **이전**: [049. 클라우드 섀도 IT — Cloud Shadow IT](/knowledge-base/studynote/12_it_management/01_governance_strategy/049_shadow_it_risk_management/)
-**다음**: [51. 벤더 종속 (Vendor Lock-in) - 클라우드 아키텍처의 함정](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/) →
+<- **이전**: [049. 클라우드 섀도 IT — Cloud Shadow IT](/knowledge-base/studynote/12_it_management/01_governance_strategy/049_shadow_it_risk_management/)
+**다음**: [51. 벤더 종속 (Vendor Lock-in) - 클라우드 아키텍처의 함정](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/) ->
 
 ---

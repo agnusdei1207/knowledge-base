@@ -21,20 +21,20 @@ tags = ["studynote-database"]
 DML은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 조회·삽입·갱신·삭제하는 언어로, 구현 철학에 따라 두 가지로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)된다.
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│         절차적 DML vs 비절차적 DML 비교                    │
-├──────────────────────────┬───────────────────────────────┤
-│     절차적(Procedural)    │    비절차적(Non-Procedural)    │
-├──────────────────────────┼───────────────────────────────┤
-│  HOW: 레코드 탐색 경로    │  WHAT: 원하는 결과 선언        │
-│  네트워크·계층형 DB 시대  │  관계형 DB, SQL               │
-│  DL/1 (IBM IMS), COBOL   │  SQL (SELECT, UPDATE 등)      │
-│  레코드 단위 처리         │  집합(Set) 단위 처리           │
-│  옵티마이저 불필요        │  옵티마이저 필수               │
-└──────────────────────────┴───────────────────────────────┘
++----------------------------------------------------------+
+|         절차적 DML vs 비절차적 DML 비교                    |
++--------------------------+-------------------------------+
+|     절차적(Procedural)    |    비절차적(Non-Procedural)    |
++--------------------------+-------------------------------+
+|  HOW: 레코드 탐색 경로    |  WHAT: 원하는 결과 선언        |
+|  네트워크·계층형 DB 시대  |  관계형 DB, SQL               |
+|  DL/1 (IBM IMS), COBOL   |  SQL (SELECT, UPDATE 등)      |
+|  레코드 단위 처리         |  집합(Set) 단위 처리           |
+|  옵티마이저 불필요        |  옵티마이저 필수               |
++--------------------------+-------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: 절차적 DML은 "1번 서랍 열고 → 3번 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 꺼내고 → 5번 항목 찾아라"는 지시이고, 비절차적 DML은 "김철수 씨 정보 주세요"라는 요청이다. 두 번째는 내부 과정은 DB가 알아서 처리한다.
+- **📢 섹션 요약 비유**: 절차적 DML은 "1번 서랍 열고 -> 3번 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 꺼내고 -> 5번 항목 찾아라"는 지시이고, 비절차적 DML은 "김철수 씨 정보 주세요"라는 요청이다. 두 번째는 내부 과정은 DB가 알아서 처리한다.
 
 ---
 
@@ -44,18 +44,18 @@ DML은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architec
 
 ```text
 SQL 문 입력
-    │
-    ▼
+    |
+    v
 [파서 (Parser)] — 문법 검사, 파스 트리 생성
-    │
-    ▼
+    |
+    v
 [옵티마이저 (Optimizer)] — 최적 실행 계획 선택
-    │  ├─ 규칙 기반 (RBO, Rule-Based Optimizer)
-    │  └─ 비용 기반 (CBO, Cost-Based Optimizer) ← 현대 표준
-    ▼
+    |  +- 규칙 기반 (RBO, Rule-Based Optimizer)
+    |  +- 비용 기반 (CBO, Cost-Based Optimizer) <- 현대 표준
+    v
 [실행 엔진 (Execution Engine)] — 계획 실행
-    │
-    ▼
+    |
+    v
 결과 집합(Result Set) 반환
 ```
 
@@ -99,10 +99,10 @@ CLOSE cur;
 ### 실무 시나리오: [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화
 10억 행 주문 테이블에서 월별 매출을 집계하는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 15초 소요.
 
-1. `EXPLAIN PLAN` [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) → Full Table Scan 탐지.
+1. `EXPLAIN PLAN` [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) -> Full Table Scan 탐지.
 2. [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/): `/*+ INDEX(orders idx_order_date) */` 추가.
-3. [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/): `PARTITION BY RANGE (order_date)` → 월별 [파티션 프루닝](/knowledge-base/studynote/05_database/03_relational_model/184_partition_pruning/).
-4. 결과: 15초 → 0.3초 (50배 향상).
+3. [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/): `PARTITION BY RANGE (order_date)` -> 월별 [파티션 프루닝](/knowledge-base/studynote/05_database/03_relational_model/184_partition_pruning/).
+4. 결과: 15초 -> 0.3초 (50배 향상).
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 비절차적 SQL 대신 커서 루프로 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 행별 처리하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/). 100만 행을 커서로 처리하면 SQL 집합 처리 대비 수십~수백 배 느리다. "SQL로 집합 처리하고, 부득이한 경우만 PL/SQL 커서 사용"이 원칙이다.
@@ -115,8 +115,8 @@ CLOSE cur;
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **생산성** | WHAT만 선언 → 개발 속도 향상 |
-| **이식성** | ANSI SQL 표준 → DB 독립성 |
+| **생산성** | WHAT만 선언 -> 개발 속도 향상 |
+| **이식성** | ANSI SQL 표준 -> DB 독립성 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 자동 최적화 |
 
 현대 NewSQL과 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) SQL(Distributed SQL)은 비절차적 SQL의 선언적 간결함을 유지하면서 수평 확장([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))을 지원하는 방향으로 발전하고 있다. [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)도 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 학습형 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)(Learned [Optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/))로 진화하여 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 선택의 정확도를 높이고 있다.
@@ -139,17 +139,17 @@ CLOSE cur;
 
 ```text
 [절차적 DML — 네트워크/계층형 DB, 레코드 단위 네비게이션]
-    │
-    ▼
+    |
+    v
 [비절차적 DML (SQL) — 관계형 DB, 집합 처리, 옵티마이저]
-    │
-    ▼
+    |
+    v
 [PL/SQL / T-SQL — 절차적 확장; 커서·트리거·저장 프로시저]
-    │
-    ▼
+    |
+    v
 [CBO 옵티마이저 — 통계 기반 비용 최적 실행 계획]
-    │
-    ▼
+    |
+    v
 [AI Learned Optimizer — 머신러닝 기반 실행 계획 예측]
 ```
 
@@ -165,7 +165,7 @@ CLOSE cur;
 
 **진행 상황**: 24 / 600
 
-← **이전**: [23. TCL (Transaction Control Language)](/knowledge-base/studynote/05_database/01_db_architecture_relational/023_tcl/)
-**다음**: [25. DBA (Database Administrator) — 데이터베이스 관리자](/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/) →
+<- **이전**: [23. TCL (Transaction Control Language)](/knowledge-base/studynote/05_database/01_db_architecture_relational/023_tcl/)
+**다음**: [25. DBA (Database Administrator) — 데이터베이스 관리자](/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/) ->
 
 ---

@@ -29,15 +29,15 @@ tags = ["database"]
 
 ```text
 [과거: 파일 시스템의 중복 한계]
-App A ──> File A (Name, Phone, Address)  <-- 중복 공간 차지
-App B ──> File B (Name, Phone, Email)    <-- Phone 변경 시 A/B 갱신 불일치 발생!
+App A --> File A (Name, Phone, Address)  <-- 중복 공간 차지
+App B --> File B (Name, Phone, Email)    <-- Phone 변경 시 A/B 갱신 불일치 발생!
 
 [현재: 데이터베이스의 통합 뷰]
-App A ──┐                      ┌──> [Name, Phone]
-        │    ┌───────────┐     │
-App B ──┼──> │ Database  │ ────┼──> [Address]
-        │    └───────────┘     │
-App C ──┘                      └──> [Email]
+App A --+                      +--> [Name, Phone]
+        |    +-----------+     |
+App B --+--> | Database  | ----+--> [Address]
+        |    +-----------+     |
+App C --+                      +--> [Email]
 ```
 이 도식의 핵심은 단일화된 저장소가 애플리케이션 간의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 끊어냈다는 점입니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 개별 애플리케이션에 속하는 것이 아니라 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스"라는 공통의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에 담김으로써, 한 곳에서 전화번호를 업데이트하면 모든 애플리케이션이 즉시 최신 상태를 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)할 수 있게 됩니다. 따라서 불일치로 인한 장애와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 오버헤드가 원천적으로 차단됩니다. 실무에서는 이러한 통합 뷰 관리가 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)([Microservices Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/)) 환경에서 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)마다 DB를 분리할지, 공용 DB를 쓸지 판단하는 척도가 되기도 합니다.
 
@@ -59,21 +59,21 @@ App C ──┘                      └──> [Email]
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스 시스템 내에서 이 네 가지 요소가 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 흐름과 어떻게 상호작용하는지 아래 아키텍처 다이어그램으로 살펴볼 수 있습니다.
 
 ```text
-┌─────────────────────── Database System ───────────────────────┐
-│                                                               │
-│  [App 1] ──(Shared)──┐                                        │
-│                      │                                        │
-│  [App 2] ──(Shared)──┼──> [ Concurrency Control (MVCC) ]      │
-│                      │                 │                      │
-│  [App 3] ──(Shared)──┘                 ▼                      │
-│                           [ Transaction Manager ]             │
-│                                        │                      │
-│                           [ Buffer Pool (Memory) ]            │
-│                                        │ (Integrated / Ops)   │
-│                                        ▼                      │
-│  [Storage I/O] ═════════════════════════════════════════════  │
-│          └──────> (Stored) SSD / HDD Data Files               │
-└───────────────────────────────────────────────────────────────┘
++----------------------- Database System -----------------------+
+|                                                               |
+|  [App 1] --(Shared)--+                                        |
+|                      |                                        |
+|  [App 2] --(Shared)--+--> [ Concurrency Control (MVCC) ]      |
+|                      |                 |                      |
+|  [App 3] --(Shared)--+                 v                      |
+|                           [ Transaction Manager ]             |
+|                                        |                      |
+|                           [ Buffer Pool (Memory) ]            |
+|                                        | (Integrated / Ops)   |
+|                                        v                      |
+|  [Storage I/O] ---------------------------------------------  |
+|          +------> (Stored) SSD / HDD Data Files               |
++---------------------------------------------------------------+
 ```
 이 그림의 핵심은 여러 애플리케이션이 동시에 접근(Shared)할 때, 버퍼 풀과 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 매니저가 중간에서 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)과 통합성(Integrated)을 제어하고, 최종적으로 디스크에 영속적으로 저장(Stored)되어 비즈니스 운영(Operational)을 뒷받침한다는 점입니다. 특히 [MVCC](/knowledge-base/studynote/11_design_supervision/06_exam_summary/449_mvcc/)([다중 버전 동시성 제어](/knowledge-base/studynote/05_database/04_transactions_concurrency/224_mvcc_multi_version_concurrency_control/)) 계층의 배치는 읽기 락과 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 락의 충돌을 방지하여 공용(Shared) 환경의 병목을 해소합니다. 실무에서는 이 구조에서 버퍼 풀의 크기와 스토리지 I/O [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 전체 시스템 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)(TPS)의 한계를 결정짓는 주요 병목 지점이 됩니다.
 
@@ -99,11 +99,11 @@ App C ──┘                      └──> [Email]
 
 ```text
 [파일 시스템 접근 패턴]
-Application ──> OS System Call (read/write) ──> File (Data & Format 혼재)
+Application --> OS System Call (read/write) --> File (Data & Format 혼재)
    ↳ 문제: 데이터 구조가 바뀌면 App 코드도 수정해야 함 (종속성 심각)
 
 [데이터베이스 접근 패턴]
-Application ──> SQL Query ──> DBMS 엔진 (Optimizer/Parser) ──> DB (Data만 존재)
+Application --> SQL Query --> DBMS 엔진 (Optimizer/Parser) --> DB (Data만 존재)
    ↳ 장점: 논리적 스키마 변경 시 App 코드 수정 불필요 (독립성 확보)
 ```
 이 흐름도의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스가 애플리케이션과 물리적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사이에 "[추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층([DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) 엔진)"을 제공한다는 사실입니다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 애플리케이션이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 포맷과 저장 위치를 모두 알아야 하는 강한 결합을 낳지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스는 SQL이라는 선언적 언어로 "무엇을 원하는지"만 전달하면 됩니다. 이 차이는 [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) 내내 유지보수 복잡도를 획기적으로 낮춥니다. 실무 환경에서는 이러한 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)로 인해 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 파싱과 최적화 오버헤드가 발생하므로, [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)과 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 튜닝이 필수적입니다.
@@ -125,7 +125,7 @@ Application ──> SQL Query ──> DBMS 엔진 (Optimizer/Parser) ──> DB 
 ```text
 [운영 DB와 분석 DB의 충돌 및 격리 구조]
        (OLTP 혼잡 병목)                (CDC를 통한 분리 격리)
-[App] ──> [ DB ] <── [BI Tool]   =>   [App] ──> [ DB(운영) ] ──CDC──> [ DW(분석) ] <── [BI Tool]
+[App] --> [ DB ] <-- [BI Tool]   =>   [App] --> [ DB(운영) ] --CDC--> [ DW(분석) ] <-- [BI Tool]
 ```
 이 도식은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스의 공용(Shared) 특성이 트래픽 증가 시 어떻게 시스템 부하를 유발하는지 보여줍니다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 단일 DB로 충분하지만, 조회(Read) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 무거워질수록 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 엔진이 멈추는 현상이 일어납니다. 따라서 [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)([Change Data Capture](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/))를 통해 비동기로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하여 워크로드를 분리하는 것이 안정성 확보의 핵심입니다. 실무에서는 이 지점에서 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Replication Lag](/knowledge-base/studynote/05_database/04_transactions_concurrency/556_master_slave_replication_lag_inconsistency/)) 관리가 새로운 과제로 대두됩니다.
 
@@ -164,17 +164,17 @@ Application ──> SQL Query ──> DBMS 엔진 (Optimizer/Parser) ──> DB 
 
 ```text
 [단일 진실 공급원 (SSOT)]
-    │
-    ▼
+    |
+    v
 [무결성 제약조건 (Integrity Constraints)]
-    │
-    ▼
+    |
+    v
 [ACID 특성]
-    │
-    ▼
+    |
+    v
 [데이터 독립성 (Data Independence)]
-    │
-    ▼
+    |
+    v
 [다중 버전 동시성 제어 (MVCC)]
 ```
 
@@ -191,7 +191,7 @@ Application ──> SQL Query ──> DBMS 엔진 (Optimizer/Parser) ──> DB 
 
 **진행 상황**: 2 / 600
 
-← **이전**: [1. 데이터 (Data) / 정보 (Information) / 지식 (Knowledge) / 지혜 (Wisdom) - DIKW 피라미드](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)
-**다음**: [3. 데이터베이스 관리 시스템 (DBMS) - 사용자와 DB 사이의 인터페이스 (데이터 독립성 제공)](/knowledge-base/studynote/05_database/01_db_architecture_relational/003_dbms_database_management_system/) →
+<- **이전**: [1. 데이터 (Data) / 정보 (Information) / 지식 (Knowledge) / 지혜 (Wisdom) - DIKW 피라미드](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)
+**다음**: [3. 데이터베이스 관리 시스템 (DBMS) - 사용자와 DB 사이의 인터페이스 (데이터 독립성 제공)](/knowledge-base/studynote/05_database/01_db_architecture_relational/003_dbms_database_management_system/) ->
 
 ---

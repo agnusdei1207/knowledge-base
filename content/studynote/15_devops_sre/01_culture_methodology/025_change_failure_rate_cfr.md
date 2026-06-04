@@ -19,20 +19,20 @@ tags = ["studynote-devops-sre"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│        DORA 4대 메트릭                                     │
-├──────────────────────────────────────────────────────────┤
-│                                                          │
-│  처리량(Throughput):                                      │
-│  1. Deployment Frequency (배포 빈도) — 얼마나 자주?        │
-│  2. Lead Time for Changes (변경 리드타임) — 얼마나 빨리?   │
-│                                                          │
-│  안정성(Stability):                                       │
-│  3. CFR (Change Failure Rate) — 얼마나 안전하게?           │
-│  4. MTTR (Mean Time to Recover) — 장애 시 얼마나 빨리?     │
-│                                                          │
-│  ★ CFR = 실패 배포 수 / 전체 배포 수 × 100%               │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|        DORA 4대 메트릭                                     |
++----------------------------------------------------------+
+|                                                          |
+|  처리량(Throughput):                                      |
+|  1. Deployment Frequency (배포 빈도) — 얼마나 자주?        |
+|  2. Lead Time for Changes (변경 리드타임) — 얼마나 빨리?   |
+|                                                          |
+|  안정성(Stability):                                       |
+|  3. CFR (Change Failure Rate) — 얼마나 안전하게?           |
+|  4. MTTR (Mean Time to Recover) — 장애 시 얼마나 빨리?     |
+|                                                          |
+|  ★ CFR = 실패 배포 수 / 전체 배포 수 × 100%               |
++----------------------------------------------------------+
 ```
 
 ### [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 성과 수준별 CFR 벤치마크
@@ -56,35 +56,35 @@ tags = ["studynote-devops-sre"]
 1. 자동화 테스트 피라미드
    E2E Tests (적음)
    Integration Tests
-   Unit Tests (많음) → 빠른 피드백, CFR 감소
+   Unit Tests (많음) -> 빠른 피드백, CFR 감소
 
 2. 점진적 배포 (Progressive Delivery)
    Blue-Green: 전체 트래픽을 신규 버전으로 한 번에 전환
-                → 문제 시 즉시 롤백
-   Canary:     5% → 25% → 100% 단계적 트래픽 전환
-                → 소수 사용자에서 문제 조기 탐지
+                -> 문제 시 즉시 롤백
+   Canary:     5% -> 25% -> 100% 단계적 트래픽 전환
+                -> 소수 사용자에서 문제 조기 탐지
 
 3. Feature Flag
    배포(Deploy) ≠ 릴리스(Release)
    코드는 배포하되 Feature Flag로 ON/OFF
-   → 문제 시 코드 배포 없이 플래그만 OFF
+   -> 문제 시 코드 배포 없이 플래그만 OFF
 ```
 
 ### [Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 배포 CFR 감소 원리
 
 ```text
 [전체 트래픽 100%]
-         │
-  ┌──────┴──────┐
-  │ Stable v1.0 │  → 95% 트래픽
-  └─────────────┘
+         |
+  +------+------+
+  | Stable v1.0 |  -> 95% 트래픽
+  +-------------+
 
-  ┌──────────────┐
-  │ Canary v1.1  │  → 5% 트래픽 (모니터링 중)
-  └──────────────┘
-         │
+  +--------------+
+  | Canary v1.1  |  -> 5% 트래픽 (모니터링 중)
+  +--------------+
+         |
    에러율 증가 감지
-         │
+         |
   자동 롤백 또는 계속 진행
 ```
 
@@ -97,7 +97,7 @@ tags = ["studynote-devops-sre"]
 | [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) | 측정 대상 | CFR과의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|:---|
 | **배포 빈도** | 단위 시간당 배포 횟수 | 높은 빈도 + 낮은 CFR = Elite 팀 |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/">리드 타임</a></strong> | 커밋→배포 소요 시간 | 짧은 리드타임 → 빠른 피드백 → CFR↓ |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/">리드 타임</a></strong> | 커밋->배포 소요 시간 | 짧은 리드타임 -> 빠른 피드백 -> CFRv |
 | **CFR** | 실패 배포 비율 | 안정성의 핵심 지표 |
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/">MTTR</a></strong> | 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 평균 시간 | CFR 높아도 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 낮으면 영향 최소화 |
 
@@ -128,7 +128,7 @@ def calculate_cfr(deployments, incidents):
 ```
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- CFR을 낮추기 위해 배포 빈도를 줄이는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/). 배포 빈도 감소 → 배포 당 변경 크기 증가 → 오히려 CFR 상승(큰 변경 = 높은 위험). 빈번하고 작은 변경(Small Batches)이 CFR을 낮추는 올바른 접근이다.
+- CFR을 낮추기 위해 배포 빈도를 줄이는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/). 배포 빈도 감소 -> 배포 당 변경 크기 증가 -> 오히려 CFR 상승(큰 변경 = 높은 위험). 빈번하고 작은 변경(Small Batches)이 CFR을 낮추는 올바른 접근이다.
 
 - **📢 섹션 요약 비유**: CFR을 낮추려고 배포 빈도를 줄이는 것은, 사고율을 낮추려고 도로를 덜 달리는 것이다. 더 안전하게 자주 달리는(점진적 배포, 자동화 테스트) 것이 올바른 해결책이다.
 
@@ -162,17 +162,17 @@ def calculate_cfr(deployments, incidents):
 
 ```text
 [수동 배포 — 높은 CFR, 낮은 배포 빈도]
-    │
-    ▼
+    |
+    v
 [CI/CD 자동화 — 테스트 자동화로 CFR 감소]
-    │
-    ▼
+    |
+    v
 [점진적 배포 (Canary/Blue-Green) — 리스크 최소화]
-    │
-    ▼
+    |
+    v
 [Feature Flag — 배포와 릴리스 완전 분리]
-    │
-    ▼
+    |
+    v
 [DORA 메트릭 기반 Elite DevOps — CFR 0~15%]
 ```
 
@@ -188,7 +188,7 @@ def calculate_cfr(deployments, incidents):
 
 **진행 상황**: 25 / 373
 
-← **이전**: [24. Lead Time for Changes — 변경 리드 타임](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/024_lead_time_for_changes/)
-**다음**: [26. MTTR (Mean Time to Recover) — 평균 복구 시간](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/026_mttr/) →
+<- **이전**: [24. Lead Time for Changes — 변경 리드 타임](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/024_lead_time_for_changes/)
+**다음**: [26. MTTR (Mean Time to Recover) — 평균 복구 시간](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/026_mttr/) ->
 
 ---

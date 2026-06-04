@@ -38,19 +38,19 @@ LLMOps는 기존 기계 학습 운영([MLOps](/knowledge-base/studynote/12_it_ma
 | **가드레일 및 평가 자동화** | LLM이 사내 기밀을 내뱉거나 혐오 발언을 하지 않도록, 또 다른 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)-as-a-Judge)를 문지기로 세워 실시간으로 응답의 안전성을 평가하고 필터링한다. | NeMo [Guardrails](/knowledge-base/studynote/09_security/19_ai_advanced_security/965_llm_guardrails/), [Ragas](/knowledge-base/studynote/10_ai/03_llm_nlp/225_rag_evaluation_ragas/) |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           LLMOps의 심장: RAG(검색 증강 생성) 동작 흐름도          │
-├──────────────────────────────────────────────────────────────┤
-│ 1. [사용자 질문] "우리 회사 연차 규정 알려줘."                  │
-│        │                                                     │
-│ 2. [문서 검색] 벡터 DB에서 사내 규정집 검색 ──▶ 관련 텍스트 추출 │
-│        │                                                     │
-│ 3. [프롬프트 합성] "아래 사내 규정을 보고 대답해: [규정 텍스트]"    │
-│        │                                                     │
-│ 4. [LLM 호출] 프롬프트를 GPT-4 API로 전송                        │
-│        │                                                     │
-│ 5. [가드레일 검열] 답변에 기밀이 없는지 검사 후 사용자에게 반환      │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           LLMOps의 심장: RAG(검색 증강 생성) 동작 흐름도          |
++--------------------------------------------------------------+
+| 1. [사용자 질문] "우리 회사 연차 규정 알려줘."                  |
+|        |                                                     |
+| 2. [문서 검색] 벡터 DB에서 사내 규정집 검색 ---> 관련 텍스트 추출 |
+|        |                                                     |
+| 3. [프롬프트 합성] "아래 사내 규정을 보고 대답해: [규정 텍스트]"    |
+|        |                                                     |
+| 4. [LLM 호출] 프롬프트를 GPT-4 API로 전송                        |
+|        |                                                     |
+| 5. [가드레일 검열] 답변에 기밀이 없는지 검사 후 사용자에게 반환      |
++--------------------------------------------------------------+
 ```
 
 이 다이어그램은 LLMOps가 LLM의 뇌(기존 지식)에 의존하지 않고, 철저히 외부에서 주입된 정보만을 요약하도록 강제하는 과정을 보여준다. 이를 통해 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)을 근본적으로 차단한다.
@@ -118,17 +118,17 @@ LLMOps를 성공적으로 구축하면, 기업은 천문학적인 비용이 드�
 
 ```text
 전통적 머신러닝 운영 (MLOps - 재학습 및 예측 정확도 중심)
-    │
-    ▼
+    |
+    v
 파운데이션 모델의 등장 (GPT-3, 파라미터 폭발, 직접 학습 불가능)
-    │
-    ▼
+    |
+    v
 프롬프트 엔지니어링 대두 (명령어에 따라 출력 품질이 변동)
-    │
-    ▼
+    |
+    v
 할루시네이션(환각) 억제를 위한 RAG(검색 증강 생성) 도입
-    │
-    ▼
+    |
+    v
 LLMOps 통합 아키텍처 (프롬프트 형상 관리, RAG 파이프라인, 평가 및 비용 통제)
 ```
 
@@ -144,7 +144,7 @@ LLMOps 통합 아키텍처 (프롬프트 형상 관리, RAG 파이프라인, 평
 
 **진행 상황**: 108 / 973
 
-← **이전**: [107. MLOps - 머신러닝 생명주기 관리](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/107_mlops_machine_learning_lifecycle/)
-**다음**: [109. 플랫폼 엔지니어링 (Platform 엔진ering) - 개발자 인지 부하 해소와 IDP 셀프서비스](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) →
+<- **이전**: [107. MLOps - 머신러닝 생명주기 관리](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/107_mlops_machine_learning_lifecycle/)
+**다음**: [109. 플랫폼 엔지니어링 (Platform 엔진ering) - 개발자 인지 부하 해소와 IDP 셀프서비스](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) ->
 
 ---

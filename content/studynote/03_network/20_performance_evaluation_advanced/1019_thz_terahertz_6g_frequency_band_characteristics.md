@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [밀리미터파 전파 감쇠]
-    │
-    ▼
+    |
+    v
 [테라헤르츠 대역]
-    │
-    └──▶ [자유 공간 광통신]
+    |
+    +---> [자유 공간 광통신]
 ```
 
 - **📢 섹션 요약 비유**: [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) 대역은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -45,11 +45,11 @@ tags = ["studynote-network"]
 
 ```text
 [밀리미터파 전파 감쇠]
-    │
-    ▼
+    |
+    v
 [테라헤르츠 대역]
-    │
-    └──▶ [자유 공간 광통신]
+    |
+    +---> [자유 공간 광통신]
 ```
 
 - **📢 섹션 요약 비유**: [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) 대역의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -117,12 +117,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 밀리미터파 전파 감쇠]
-    │
-    ▼
+    |
+    v
 [현재 개념: 테라헤르츠 대역]
-    │
-    ├──▶ [확장 A: 자유 공간 광통신]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: 자유 공간 광통신]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) 대역는 [밀리미터파](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/) 전파 감쇠에서 출발해 현재 메커니즘을 정교화하고, 이후 [자유 공간 광통신](/knowledge-base/studynote/03_network/03_physical_layer_media/136_fso_free_space_optics_laser/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -139,7 +139,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 120 / 1120
 
-← **이전**: [1018. 밀리미터파 (mmWave) 전파 감쇠](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1018_mmwave_millimeter_wave_attenuation_path_loss/)
-**다음**: [101. 빔포밍 (Beamforming) - 아날로그/디지털 빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) →
+<- **이전**: [1018. 밀리미터파 (mmWave) 전파 감쇠](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1018_mmwave_millimeter_wave_attenuation_path_loss/)
+**다음**: [101. 빔포밍 (Beamforming) - 아날로그/디지털 빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) ->
 
 ---

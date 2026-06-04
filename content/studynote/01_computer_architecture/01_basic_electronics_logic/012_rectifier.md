@@ -23,18 +23,18 @@ tags = ["studynote-computer-architecture"]
 발전소에서 오는 교류는 송전에 유리하지만, CPU나 메모리 같은 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 칩들은 일정한 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)의 직류만으로 동작한다. 이 전력 형식의 불일치를 해결하지 못하면 컴퓨터는 켜질 수조차 없다. 따라서 파워서플라이 (PSU, [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Supply Unit)의 가장 앞단에서 교류 파형의 마이너스(-) 구간을 통제하는 1차 정류 작업이 반드시 선행되어야 한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           교류(AC)에서 직류(DC)로 가는 전력 정제 파이프라인      │
-├──────────────────────────────────────────────────────────────┤
-│  [220V 교류]   [1차 정류]    [평활 커패시터]   [레귤레이터]     │
-│      /\           /\  /\       /─/─/─/       ───────        │
-│     /  \   ──▶   /  \/  \ ──▶ / / / /  ──▶                 │
-│  ──/────\──    ──/──────────  ──/─────────  ──────────────── │
-│         /                                                    │
-│        \/                                                    │
-│ * 정류 회로가 파도의 방향을 하나로 통일하고, 커패시터가 빈틈을 │
-│   채우면, 레귤레이터가 완벽한 직선의 직류를 깎아낸다.          │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           교류(AC)에서 직류(DC)로 가는 전력 정제 파이프라인      |
++--------------------------------------------------------------+
+|  [220V 교류]   [1차 정류]    [평활 커패시터]   [레귤레이터]     |
+|      /\           /\  /\       /-/-/-/       -------        |
+|     /  \   --->   /  \/  \ ---> / / / /  --->                 |
+|  --/----\--    --/----------  --/---------  ---------------- |
+|         /                                                    |
+|        \/                                                    |
+| * 정류 회로가 파도의 방향을 하나로 통일하고, 커패시터가 빈틈을 |
+|   채우면, 레귤레이터가 완벽한 직선의 직류를 깎아낸다.          |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 밭에서 뽑아온 흙투성이 무(교류)를 식탁에 올리기 위해, 제일 먼저 껍질을 벗기고 큼직하게 썰어 기본 뼈대(맥동 직류)를 잡는 1차 주방 칼질 작업과 같다.
@@ -110,17 +110,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 [교류 (AC, Alternating Current) — 전압 방향이 주기적으로 바뀌는 입력]
-    │
-    ▼
+    |
+    v
 [다이오드 (Diode) — 한 방향으로만 전류를 흐르게 하는 소자]
-    │
-    ▼
+    |
+    v
 [브리지 전파 정류 (Bridge Full-Wave Rectification) — 4개 다이오드로 양·음파를 모두 활용]
-    │
-    ▼
+    |
+    v
 [맥동 직류 (Pulsating DC) — 방향은 같지만 리플이 남은 출력]
-    │
-    ▼
+    |
+    v
 [동기식 정류 (Synchronous Rectification) — MOSFET 스위칭으로 손실을 줄인 고효율 방식]
 ```
 
@@ -138,7 +138,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 12 / 803
 
-← **이전**: [11. 다이오드 (Diode)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)
-**다음**: [13. 발광 다이오드 (LED)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) →
+<- **이전**: [11. 다이오드 (Diode)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)
+**다음**: [13. 발광 다이오드 (LED)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) ->
 
 ---

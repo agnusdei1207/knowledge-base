@@ -26,11 +26,11 @@ ETSI(유럽통신표준협회)가 정의한 NFV의 뼈대는 크게 3층으로 �
 
 ```text
 [VNF]
-    │
-    ▼
+    |
+    v
 [NFVI]
-    │
-    └──▶ [MANO]
+    |
+    +---> [MANO]
 ```
 
 - **📢 섹션 요약 비유**: NFVI는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -53,11 +53,11 @@ ETSI(유럽통신표준협회)가 정의한 NFV의 뼈대는 크게 3층으로 �
 
 ```text
 [VNF]
-    │
-    ▼
+    |
+    v
 [NFVI]
-    │
-    └──▶ [MANO]
+    |
+    +---> [MANO]
 ```
 
 - **📢 섹션 요약 비유**: NFVI의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -118,12 +118,12 @@ NFVI는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_top
 
 ```text
 [선행 개념: VNF]
-    │
-    ▼
+    |
+    v
 [현재 개념: NFVI]
-    │
-    ├──▶ [확장 A: MANO]
-    └──▶ [확장 B: 프로그래머블 네트워크]
+    |
+    +---> [확장 A: MANO]
+    +---> [확장 B: 프로그래머블 네트워크]
 ```
 
 NFVI는 VNF에서 출발해 현재 메커니즘을 정교화하고, 이후 MANO와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -140,7 +140,7 @@ NFVI는 VNF에서 출발해 현재 메커니즘을 정교화하고, 이후 MANO�
 
 **진행 상황**: 988 / 1120
 
-← **이전**: [866. VNF (가상 네트워크 기능)](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/)
-**다음**: [868. NFV MANO 프레임워크](/knowledge-base/studynote/03_network/17_sdn_nfv/868_nfv_mano_management_and_orchestration_framework/) →
+<- **이전**: [866. VNF (가상 네트워크 기능)](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/)
+**다음**: [868. NFV MANO 프레임워크](/knowledge-base/studynote/03_network/17_sdn_nfv/868_nfv_mano_management_and_orchestration_framework/) ->
 
 ---

@@ -79,11 +79,11 @@ f_folding = f_s / 2
 
 ```text
 샘플링 주파수
-   ↓
+   v
 폴딩 주파수
-   ↓
+   v
 에일리어싱 경계
-   ↓
+   v
 필터 / 오버샘플링
 ```
 
@@ -91,11 +91,11 @@ f_folding = f_s / 2
 
 ## 관련 키워드 및 발전 흐름도
 
-1. 나이퀴스트 주파수 → 샘플링 한계선
-2. 폴딩 주파수 → 접힘 경계의 해석
-3. [에일리어싱](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/) → 왜곡 발생
-4. 저역통과 필터 → 고주파 제거
-5. 오버샘플링 → 복원 여유 확보
+1. 나이퀴스트 주파수 -> 샘플링 한계선
+2. 폴딩 주파수 -> 접힘 경계의 해석
+3. [에일리어싱](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/) -> 왜곡 발생
+4. 저역통과 필터 -> 고주파 제거
+5. 오버샘플링 -> 복원 여유 확보
 
 ---
 
@@ -111,7 +111,7 @@ f_folding = f_s / 2
 
 **진행 상황**: 58 / 1120
 
-← **이전**: [57. 에일리어싱 (Aliasing) - 표본화 주파수 부족시 발생](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/)
-**다음**: [59. 양자화 (Quantization) - 선형/비선형](/knowledge-base/studynote/03_network/01_data_communication/059_양자화_Quantization/) →
+<- **이전**: [57. 에일리어싱 (Aliasing) - 표본화 주파수 부족시 발생](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/)
+**다음**: [59. 양자화 (Quantization) - 선형/비선형](/knowledge-base/studynote/03_network/01_data_communication/059_양자화_Quantization/) ->
 
 ---

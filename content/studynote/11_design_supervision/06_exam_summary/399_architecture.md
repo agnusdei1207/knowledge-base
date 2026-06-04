@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 [방문자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 패턴 ([Visitor Pattern](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/))은 객체 구조는 유지한 채 새로운 연산을 외부 [방문자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/)로 추가하는 행동 패턴이다. 안정된 객체 구조 위에 보고서, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 변환 같은 새 기능이 자주 붙는 경우 구조 변경 없이 확장을 원한다. 이 개념이 필요한 이유는 구조와 연산의 변화 축을 분리하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 새 연산마다 객체 구조 클래스를 계속 수정해 안정된 모델까지 흔들리게 된다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│ Variation  │──▶│   Visit    │──▶│   Reuse    │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+| Variation  |--->|   Visit    |--->|   Reuse    |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Client  │──▶│  Visit   │──▶│  Object  │──▶│  Result  │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|  Client  |--->|  Visit   |--->|  Object  |--->|  Result  |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | 리포트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | [방문자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 패턴 ([Visitor Pattern](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[구조 클래스 직접 수정] → [방문자 패턴] → [연산 외부 확장]
+[구조 클래스 직접 수정] -> [방문자 패턴] -> [연산 외부 확장]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [방문자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 패턴 ([Visitor Pattern](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/))은 전시품은 그대로 두고 해설사만 바꿔 여러 설명을 듣는 것처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 477 / 530
 
-← **이전**: [398. 메멘토 패턴 (Memento Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/398_process/)
-**다음**: [400. 해석자 패턴 (Interpreter Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/400_process/) →
+<- **이전**: [398. 메멘토 패턴 (Memento Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/398_process/)
+**다음**: [400. 해석자 패턴 (Interpreter Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/400_process/) ->
 
 ---

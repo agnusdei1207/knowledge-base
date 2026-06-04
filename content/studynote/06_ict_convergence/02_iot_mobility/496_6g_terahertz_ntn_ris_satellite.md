@@ -42,27 +42,27 @@ tags = ["studynote-ict-convergence"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│           6G 통합 네트워크 아키텍처 (3계층)                 │
-├──────────────────────────────────────────────────────────┤
-│  [비지상 계층 - NTN]                                       │
-│  LEO 위성(Starlink 등, 550km) / MEO(8,000km) / GEO(36,000km)│
-│  HAPS(High-Altitude Platform Station, 20km 성층권)         │
-│        │  위성-지상 직접 통신 / 위성간 ISL 링크             │
-│        ▼                                                  │
-│  [지상 계층 - Terrestrial]                                 │
-│  6G gNB(THz 기지국, 초소형·밀집 배치)                      │
-│        │                                                  │
-│  [RIS 계층]                                                │
-│  ┌────────────────────────────────────────────────┐      │
-│  │ RIS(Reconfigurable Intelligent Surface)        │      │
-│  │ - 메타물질 패널(수백~수천 개 반사 소자)           │      │
-│  │ - 전파 방향·위상 프로그래머블 제어               │      │
-│  │ - 능동 증폭 없이 신호 반사·굴절 → 음영지역 제거   │      │
-│  └────────────────────────────────────────────────┘      │
-│        ▼                                                  │
-│  [단말 계층]  스마트폰·XR·자율주행·IoT                      │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|           6G 통합 네트워크 아키텍처 (3계층)                 |
++----------------------------------------------------------+
+|  [비지상 계층 - NTN]                                       |
+|  LEO 위성(Starlink 등, 550km) / MEO(8,000km) / GEO(36,000km)|
+|  HAPS(High-Altitude Platform Station, 20km 성층권)         |
+|        |  위성-지상 직접 통신 / 위성간 ISL 링크             |
+|        v                                                  |
+|  [지상 계층 - Terrestrial]                                 |
+|  6G gNB(THz 기지국, 초소형·밀집 배치)                      |
+|        |                                                  |
+|  [RIS 계층]                                                |
+|  +------------------------------------------------+      |
+|  | RIS(Reconfigurable Intelligent Surface)        |      |
+|  | - 메타물질 패널(수백~수천 개 반사 소자)           |      |
+|  | - 전파 방향·위상 프로그래머블 제어               |      |
+|  | - 능동 증폭 없이 신호 반사·굴절 -> 음영지역 제거   |      |
+|  +------------------------------------------------+      |
+|        v                                                  |
+|  [단말 계층]  스마트폰·XR·자율주행·IoT                      |
++----------------------------------------------------------+
 ```
 
 ### [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 핵심 기술 비교
@@ -91,8 +91,8 @@ tags = ["studynote-ict-convergence"]
 
 <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/">THz</a> 대역의 과제</strong>
 
-- **대기 흡수(Molecular Absorption)**: 수증기·산소가 THz파 강하게 흡수 → 강우 시 급격한 감쇠.
-- **높은 경로 손실**: 주파수가 높을수록 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 감쇠 급증 → 수십 m 셀 크기(Nano Cell) 필요.
+- **대기 흡수(Molecular Absorption)**: 수증기·산소가 THz파 강하게 흡수 -> 강우 시 급격한 감쇠.
+- **높은 경로 손실**: 주파수가 높을수록 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 감쇠 급증 -> 수십 m 셀 크기(Nano Cell) 필요.
 - **소자 성숙도**: [THz](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·처리 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 아직 연구 단계.
 
 - **📢 섹션 요약 비유**: THz는 레이저 포인터다. 매우 강렬하고 빠르지만, 창문(수증기) 한 장만 있어도 막혀버린다. 그래서 RIS 거울 네트워크와 [HAPS](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/596_haps_high_altitude_platform_station_drone/) 중계기가 필요하다.
@@ -113,9 +113,9 @@ tags = ["studynote-ict-convergence"]
 **기술사 답안 핵심**
 
 1. [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) = [THz](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/)(속도) + NTN(커버리지) + RIS(음영해소) + [AI-Native](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/792_ai_native_6g_neural_network_radio/)(자율화) 4축.
-2. THz의 단거리 한계 → 밀집 기지국(Nano Cell) + RIS 보완.
+2. THz의 단거리 한계 -> 밀집 기지국(Nano Cell) + RIS 보완.
 3. NTN [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/): [LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) < [HAPS](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/596_haps_high_altitude_platform_station_drone/) < [MEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/594_meo_medium_earth_orbit_gps/) < [GEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/593_geo_geostationary_earth_orbit_satellite/) 순서 반드시 암기.
-4. RIS vs 중계기([Repeater](/knowledge-base/studynote/03_network/03_physical_layer_media/151_repeater_baseband/)): RIS는 능동 증폭 없이 반사만 → 전력 소비 극소.
+4. RIS vs 중계기([Repeater](/knowledge-base/studynote/03_network/03_physical_layer_media/151_repeater_baseband/)): RIS는 능동 증폭 없이 반사만 -> 전력 소비 극소.
 
 - **📢 섹션 요약 비유**: 6G의 4축은 슈퍼히어로 팀이다. [THz](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/)(속도 담당), NTN(범위 담당), RIS(장애물 제거), [AI-Native](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/792_ai_native_6g_neural_network_radio/)(두뇌·[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 담당). 혼자론 한계가 있지만 함께라면 전 지구를 커버한다.
 
@@ -142,7 +142,7 @@ tags = ["studynote-ict-convergence"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[100GHz~10THz · 6G 고주파 대역] → [6G 테라헤르츠 · NTN] → [성층권 · 20km]
+[100GHz~10THz · 6G 고주파 대역] -> [6G 테라헤르츠 · NTN] -> [성층권 · 20km]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -157,7 +157,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 496 / 552
 
-← **이전**: [495. 5G 3대 특성과 네트워크 슬라이싱 (5G eMBB uRLLC mMTC Network Slicing)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/495_5g_embb_urllc_mmtc_network_slicing/)
-**다음**: [497. O-RAN 오픈 무선 접속 네트워크 (O-RAN Open Radio Access Network)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/497_oran_open_radio_access_network/) →
+<- **이전**: [495. 5G 3대 특성과 네트워크 슬라이싱 (5G eMBB uRLLC mMTC Network Slicing)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/495_5g_embb_urllc_mmtc_network_slicing/)
+**다음**: [497. O-RAN 오픈 무선 접속 네트워크 (O-RAN Open Radio Access Network)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/497_oran_open_radio_access_network/) ->
 
 ---

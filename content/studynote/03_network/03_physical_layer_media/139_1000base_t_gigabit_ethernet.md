@@ -25,11 +25,11 @@ tags = ["studynote-network"]
 
 ```text
 [10BASE-T, 100BASE-TX]
-    │
-    ▼
+    |
+    v
 [1000BASE-T]
-    │
-    └──▶ [10GBASE-T / 10GBASE-SR /…]
+    |
+    +---> [10GBASE-T / 10GBASE-SR /…]
 ```
 
 - **📢 섹션 요약 비유**: 1000BASE-T는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -45,10 +45,10 @@ tags = ["studynote-network"]
 
 ```text
 [100BASE-TX]            [1000BASE-T]
- Pair 1: 송신 (Tx) ──▶   Pair 1: 송수신 동시 ◀──▶ (250 Mbps)
- Pair 2: 수신 (Rx) ◀──   Pair 2: 송수신 동시 ◀──▶ (250 Mbps)
- Pair 3: (미사용)        Pair 3: 송수신 동시 ◀──▶ (250 Mbps)
- Pair 4: (미사용)        Pair 4: 송수신 동시 ◀──▶ (250 Mbps)
+ Pair 1: 송신 (Tx) --->   Pair 1: 송수신 동시 <----> (250 Mbps)
+ Pair 2: 수신 (Rx) <---   Pair 2: 송수신 동시 <----> (250 Mbps)
+ Pair 3: (미사용)        Pair 3: 송수신 동시 <----> (250 Mbps)
+ Pair 4: (미사용)        Pair 4: 송수신 동시 <----> (250 Mbps)
                         ------------------------------------
                                             Total: 1,000 Mbps
 ```
@@ -128,12 +128,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 10BASE-T, 100BASE-TX]
-    │
-    ▼
+    |
+    v
 [현재 개념: 1000BASE-T]
-    │
-    ├──▶ [확장 A: 10GBASE-T / 10GBASE-SR /…]
-    └──▶ [확장 B: 고속 광전송 최적화]
+    |
+    +---> [확장 A: 10GBASE-T / 10GBASE-SR /…]
+    +---> [확장 B: 고속 광전송 최적화]
 ```
 
 1000BASE-T는 10BASE-T, 100BASE-TX에서 출발해 현재 메커니즘을 정교화하고, 이후 10GBASE-T / 10GBASE-SR /…와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -150,7 +150,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 260 / 1120
 
-← **이전**: [138. 10BASE-T, 100BASE-TX (Fast Ethernet)](/knowledge-base/studynote/03_network/03_physical_layer_media/138_10base_t_100base_tx_fast_ethernet/)
-**다음**: [140. 10GBASE-T / 10GBASE-SR / 10GBASE-LR](/knowledge-base/studynote/03_network/03_physical_layer_media/140_10gbase_t_sr_lr_10_gigabit/) →
+<- **이전**: [138. 10BASE-T, 100BASE-TX (Fast Ethernet)](/knowledge-base/studynote/03_network/03_physical_layer_media/138_10base_t_100base_tx_fast_ethernet/)
+**다음**: [140. 10GBASE-T / 10GBASE-SR / 10GBASE-LR](/knowledge-base/studynote/03_network/03_physical_layer_media/140_10gbase_t_sr_lr_10_gigabit/) ->
 
 ---

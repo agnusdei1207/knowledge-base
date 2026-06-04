@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [EPC S-GW, P-GW 제어 망 트래픽…]
-    │
-    ▼
+    |
+    v
 [MME]
-    │
-    └──▶ [HSS]
+    |
+    +---> [HSS]
 ```
 
 - **📢 섹션 요약 비유**: MME는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -52,11 +52,11 @@ tags = ["studynote-network"]
 
 ```text
 [EPC S-GW, P-GW 제어 망 트래픽…]
-    │
-    ▼
+    |
+    v
 [MME]
-    │
-    └──▶ [HSS]
+    |
+    +---> [HSS]
 ```
 
 - **📢 섹션 요약 비유**: MME의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -121,12 +121,12 @@ MME는 차세대 통신 아키텍처를 이해할 때 핵심 축을 잡아 주�
 
 ```text
 [선행 개념: EPC S-GW, P-GW 제어 망 트래픽…]
-    │
-    ▼
+    |
+    v
 [현재 개념: MME]
-    │
-    ├──▶ [확장 A: HSS]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
+    |
+    +---> [확장 A: HSS]
+    +---> [확장 B: AI 기반 네트워크 최적화]
 ```
 
 MME는 [EPC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/) S-GW, P-GW 제어 망 트래픽…에서 출발해 현재 메커니즘을 정교화하고, 이후 HSS와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -143,7 +143,7 @@ MME는 [EPC](/knowledge-base/studynote/03_network/15_nextgen_communication_archi
 
 **진행 상황**: 875 / 1120
 
-← **이전**: [753. EPC (Evolved Packet Core 코어망 시스템) S-GW, P-GW 제어 망 트래픽 통합](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/)
-**다음**: [755. HSS (Home Subscriber Server 가입자 마스터 정보)](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/755_hss_home_subscriber_server/) →
+<- **이전**: [753. EPC (Evolved Packet Core 코어망 시스템) S-GW, P-GW 제어 망 트래픽 통합](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/)
+**다음**: [755. HSS (Home Subscriber Server 가입자 마스터 정보)](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/755_hss_home_subscriber_server/) ->
 
 ---

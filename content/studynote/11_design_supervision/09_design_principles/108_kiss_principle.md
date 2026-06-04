@@ -37,22 +37,22 @@ tags = ["studynote-design-supervision"]
 | **표준 기술 준수 (Standard)** | 독창적인 자체 프레임워크나 묘수(Trick)보다, 이미 널리 검증된 표준 라이브러리와 [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/) 사용 | "내가 직접 만든" ORM 프레임워크 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           단순함(KISS)과 과잉 설계(Over-engineering)의 비교          │
-├──────────────────────────────────────────────────────────────┤
-│ [ 요구사항: 입력받은 a와 b가 같은지 비교하라 ]                     │
-│                                                              │
-│ [ ❌ 과잉 설계 (Over-Engineering) ] - 똑똑해 보이려는 병            │
-│  Interface EqualityComparer { bool compare(T a, T b); }      │
-│  Class StringComparer implements EqualityComparer { ... }    │
-│  Class ComparerFactory { getComparer() ... }                 │
-│  result = ComparerFactory.get(a.type).compare(a, b);         │
-│  // -> "추적하다가 개발자 퇴사함"                                  │
-│                                                              │
-│ [ 🟢 KISS 원칙 적용 ] - 단순하고 직관적인 해답                     │
-│  result = (a == b);                                          │
-│  // -> "유치원생도 이해함, 버그 발생 확률 0%"                        │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           단순함(KISS)과 과잉 설계(Over-engineering)의 비교          |
++--------------------------------------------------------------+
+| [ 요구사항: 입력받은 a와 b가 같은지 비교하라 ]                     |
+|                                                              |
+| [ ❌ 과잉 설계 (Over-Engineering) ] - 똑똑해 보이려는 병            |
+|  Interface EqualityComparer { bool compare(T a, T b); }      |
+|  Class StringComparer implements EqualityComparer { ... }    |
+|  Class ComparerFactory { getComparer() ... }                 |
+|  result = ComparerFactory.get(a.type).compare(a, b);         |
+|  // -> "추적하다가 개발자 퇴사함"                                  |
+|                                                              |
+| [ 🟢 KISS 원칙 적용 ] - 단순하고 직관적인 해답                     |
+|  result = (a == b);                                          |
+|  // -> "유치원생도 이해함, 버그 발생 확률 0%"                        |
++--------------------------------------------------------------+
 ```
 
 이 다이어그램은 확장을 핑계로 불필요한 계층(Layer)을 만들었을 때, 로직을 추적하는 데 들어가는 인지적 부하([Cognitive Load](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/))가 얼마나 커지는지 극명하게 보여준다. 단순한 로직은 숨겨진 부작용(Side Effect)이 끼어들 틈이 없다.
@@ -118,17 +118,17 @@ KISS는 독립적인 원칙이 아니라 현대 소프트웨어 철학을 떠받
 
 ```text
 소프트웨어 위기 (코드 덩치가 커지면서 스파게티 코드 양산 및 유지보수 불능)
-    │
-    ▼
+    |
+    v
 구조적 프로그래밍 및 객체지향 철학의 등장 (복잡성을 관리하기 위한 추상화 도입)
-    │
-    ▼
+    |
+    v
 추상화의 남용과 과잉 설계(Over-Engineering)의 역효과 발생 (코드 해독 불가)
-    │
-    ▼
+    |
+    v
 KISS, YAGNI, DRY 원칙의 대두 (실용주의 소프트웨어 공학: 최소한의 명확한 코드가 최고다)
-    │
-    ▼
+    |
+    v
 클린 코드(Clean Code), 리팩토링(Refactoring), 애자일(Agile) 문화로 정착
 ```
 
@@ -144,7 +144,7 @@ KISS, YAGNI, DRY 원칙의 대두 (실용주의 소프트웨어 공학: 최소�
 
 **진행 상황**: 159 / 530
 
-← **이전**: [108. 단순성 유지 원칙 (KISS, Keep It Simple, Stupid)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/108_kiss_keep_it_simple_stupid/)
-**다음**: [109. YAGNI 원칙 (You Aren't Gonna Need It)](/knowledge-base/studynote/11_design_supervision/09_design_principles/109_yagni_principle/) →
+<- **이전**: [108. 단순성 유지 원칙 (KISS, Keep It Simple, Stupid)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/108_kiss_keep_it_simple_stupid/)
+**다음**: [109. YAGNI 원칙 (You Aren't Gonna Need It)](/knowledge-base/studynote/11_design_supervision/09_design_principles/109_yagni_principle/) ->
 
 ---

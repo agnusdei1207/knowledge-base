@@ -21,28 +21,28 @@ tags = ["studynote-design-supervision"]
 
 두 패턴은 모두 GoF 패턴이며 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)을 기반으로 서브클래스에 결정을 위임한다. 비슷해 보이지만 해결하는 문제가 다르다.
 
-팩터리 메서드의 질문: "어떤 클래스의 인스턴스를 만들어야 하는가?" → [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)
+팩터리 메서드의 질문: "어떤 클래스의 인스턴스를 만들어야 하는가?" -> [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)
 
-[템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)의 질문: "[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 이 단계를 어떻게 수행해야 하는가?" → [행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/)
+[템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)의 질문: "[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 이 단계를 어떻게 수행해야 하는가?" -> [행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/)
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          팩터리 메서드 vs 템플릿 메서드 비교                 │
-├─────────────────────────────────────────────────────────────┤
-│  팩터리 메서드                                              │
-│  Creator.someOperation() {                                  │
-│    Product p = createProduct(); // 팩터리 메서드 (생성)     │
-│    p.doSomething();                                         │
-│  }                                                          │
-│  ConcreteCreator.createProduct() { return new ProductA(); } │
-│                                                             │
-│  템플릿 메서드                                              │
-│  AbstractClass.templateMethod() {  // final                 │
-│    step1(); // 공통                                         │
-│    step2(); // abstract - 서브클래스 구현 (행위)            │
-│  }                                                          │
-│  ConcreteClass.step2() { // A만의 행위 구현 }              │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          팩터리 메서드 vs 템플릿 메서드 비교                 |
++-------------------------------------------------------------+
+|  팩터리 메서드                                              |
+|  Creator.someOperation() {                                  |
+|    Product p = createProduct(); // 팩터리 메서드 (생성)     |
+|    p.doSomething();                                         |
+|  }                                                          |
+|  ConcreteCreator.createProduct() { return new ProductA(); } |
+|                                                             |
+|  템플릿 메서드                                              |
+|  AbstractClass.templateMethod() {  // final                 |
+|    step1(); // 공통                                         |
+|    step2(); // abstract - 서브클래스 구현 (행위)            |
+|  }                                                          |
+|  ConcreteClass.step2() { // A만의 행위 구현 }              |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 팩터리 메서드는 '무엇을 만들지'를 결정하는 것이고(요리 재료 선택), [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)는 '어떻게 만들지'를 결정하는 것이다(조리 방법 선택).
@@ -61,17 +61,17 @@ tags = ["studynote-design-supervision"]
 | 주요 사용 | 다형적 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 코드 재사용·[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 변형 |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│       두 패턴 조합 예시 (AbstractApplicationContext)        │
-├─────────────────────────────────────────────────────────────┤
-│  AbstractApplicationContext.refresh() { // 템플릿 메서드    │
-│    1. createBeanFactory()   ← 팩터리 메서드                 │
-│    2. loadBeanDefinitions() ← 추상 메서드 (행위)           │
-│    3. invokeBeanFactoryPostProcessors()                     │
-│    4. registerBeanPostProcessors()                          │
-│    5. finishBeanFactoryInitialization()                     │
-│  }                                                          │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|       두 패턴 조합 예시 (AbstractApplicationContext)        |
++-------------------------------------------------------------+
+|  AbstractApplicationContext.refresh() { // 템플릿 메서드    |
+|    1. createBeanFactory()   <- 팩터리 메서드                 |
+|    2. loadBeanDefinitions() <- 추상 메서드 (행위)           |
+|    3. invokeBeanFactoryPostProcessors()                     |
+|    4. registerBeanPostProcessors()                          |
+|    5. finishBeanFactoryInitialization()                     |
+|  }                                                          |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 식당(AbstractApplicationContext)이 개장(refresh [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)) 시 주방 도구(BeanFactory, 팩터리 메서드)를 준비하고, 음식 조리법(행위 단계)을 따라 운영을 시작한다.
@@ -95,8 +95,8 @@ tags = ["studynote-design-supervision"]
 기술사 시험에서 두 패턴의 차이를 명확히 서술해야 한다. 핵심 키워드: ① 팩터리 메서드: "[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)", "어떤 클래스의 인스턴스", "Creator-Product 계층", ② [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/): "[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 골격", "공통 흐름", "가변 단계 서브클래스 위임", "[할리우드 원칙](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/111_hollywood_principle/)".
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. 서브클래스에 위임하는 것이 '객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)'[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)? → 팩터리 메서드
-2. 서브클래스에 위임하는 것이 '[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 단계'[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)? → [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)
+1. 서브클래스에 위임하는 것이 '객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)'[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)? -> 팩터리 메서드
+2. 서브클래스에 위임하는 것이 '[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 단계'[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)? -> [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)
 3. 두 패턴이 함께 사용될 때 각 메서드의 역할을 명확히 구분할 수 있는가?
 4. static 팩터리 메서드를 팩터리 메서드 패턴으로 혼동하지 않는가?
 5. 두 패턴이 모두 '[할리우드 원칙](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/111_hollywood_principle/)'을 구현하는 것을 이해하는가?
@@ -117,7 +117,7 @@ tags = ["studynote-design-supervision"]
 
 ### 📌 관련 개념 맵
 
-[GoF 패턴 비교] → [팩터리 메서드([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))] vs [템플릿 메서드(행위)] → [두 패턴 조합(스프링 AbstractApplicationContext)] → [함수형 대체]
+[GoF 패턴 비교] -> [팩터리 메서드([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))] vs [템플릿 메서드(행위)] -> [두 패턴 조합(스프링 AbstractApplicationContext)] -> [함수형 대체]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -128,7 +128,7 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[GoF 두 패턴 비교] → [스프링 프레임워크 적용] → [함수형 인터페이스 대체] → [콜백 패턴으로 단순화]
+[GoF 두 패턴 비교] -> [스프링 프레임워크 적용] -> [함수형 인터페이스 대체] -> [콜백 패턴으로 단순화]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -142,7 +142,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 256 / 530
 
-← **이전**: [194. 템플릿 메서드 패턴 (Template Method Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/194_template_method_pattern/)
-**다음**: [196. 커맨드 패턴 (Command Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/196_command_pattern/) →
+<- **이전**: [194. 템플릿 메서드 패턴 (Template Method Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/194_template_method_pattern/)
+**다음**: [196. 커맨드 패턴 (Command Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/196_command_pattern/) ->
 
 ---

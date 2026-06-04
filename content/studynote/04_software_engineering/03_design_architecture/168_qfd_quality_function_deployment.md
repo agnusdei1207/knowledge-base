@@ -26,20 +26,20 @@ QFD는 고객이 말하는 요구를 엔지니어가 실행 가능한 설계 언
 이 그림은 QFD가 왜 단순 요구 수집이 아니라 "번역 파이프라인"으로 불리는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                 QFD cascade: from voice to work             │
-├──────────────────────────────────────────────────────────────┤
-│ VOC (customer needs)                                        │
-│        │                                                     │
-│        ▼                                                     │
-│ HoQ 1: product characteristics                              │
-│        │                                                     │
-│        ▼                                                     │
-│ HoQ 2: subsystem / component specs                           │
-│        │                                                     │
-│        ▼                                                     │
-│ process specs / test criteria / operation metrics            │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                 QFD cascade: from voice to work             |
++--------------------------------------------------------------+
+| VOC (customer needs)                                        |
+|        |                                                     |
+|        v                                                     |
+| HoQ 1: product characteristics                              |
+|        |                                                     |
+|        v                                                     |
+| HoQ 2: subsystem / component specs                           |
+|        |                                                     |
+|        v                                                     |
+| process specs / test criteria / operation metrics            |
++--------------------------------------------------------------+
 ```
 
 즉 QFD의 핵심은 요구사항을 한 번 정리하고 끝내는 것이 아니라, 상위 요구를 하위 실행 항목까지 끊기지 않게 전개하는 데 있다. 이 연결성이 있어야 설계와 테스트가 처음 고객 요구와 같은 방향을 바라본다.
@@ -63,15 +63,15 @@ QFD의 대표 도구는 HoQ다. 왼쪽에는 고객 요구(WHAT), 위쪽에는 �
 이 그림은 HoQ의 핵심 구조를 단순화한 것이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                    House of Quality (HoQ)                   │
-├──────────────────────────────────────────────────────────────┤
-│ Roof: HOW vs HOW correlation (+ / -)                        │
-│                                                              │
-│ WHAT + importance ─▶ Relationship Matrix ◀─ HOW metrics      │
-│                                                              │
-│ Competitive review ─▶ weighted priority ─▶ target values     │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                    House of Quality (HoQ)                   |
++--------------------------------------------------------------+
+| Roof: HOW vs HOW correlation (+ / -)                        |
+|                                                              |
+| WHAT + importance --> Relationship Matrix <-- HOW metrics      |
+|                                                              |
+| Competitive review --> weighted priority --> target values     |
++--------------------------------------------------------------+
 ```
 
 QFD의 중요한 특징은 "전개"에 있다. 첫 번째 HoQ에서 정리한 제품 수준 기술 특성은 다음 단계에서는 다시 WHAT이 되어, 세부 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 설계·부품 선택·공정 조건·테스트 기준으로 이어진다. 그래서 QFD를 제대로 쓰면 "고객이 왜 그 기능을 원하는가"와 "테스터가 무엇을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 하는가"가 한 줄의 추적성으로 연결된다.
@@ -152,17 +152,17 @@ QFD를 올바르게 적용하면 요구사항의 모호성이 줄고, 설계·�
 
 ```text
 VOC 수집
-    │
-    ▼
+    |
+    v
 WHAT 정리 · 중요도 부여
-    │
-    ▼
+    |
+    v
 HoQ 작성
-    │
-    ├──────────────▶ HOW 도출 · 관계 점수화
-    ├──────────────▶ 상충 관계 분석
-    ├──────────────▶ 목표치·우선순위 결정
-    ▼
+    |
+    +---------------> HOW 도출 · 관계 점수화
+    +---------------> 상충 관계 분석
+    +---------------> 목표치·우선순위 결정
+    v
 설계 · 구현 · 테스트 · 운영 지표 전개
 ```
 
@@ -180,7 +180,7 @@ HoQ 작성
 
 **진행 상황**: 168 / 973
 
-← **이전**: [167. 카노 모델 (Kano Model) - 당연적, 일원적, 매력적 품질](/knowledge-base/studynote/04_software_engineering/03_design_architecture/167_kano_model_quality_attributes/)
-**다음**: [169. 품질의 집 (HoQ, House of Quality) 매트릭스](/knowledge-base/studynote/04_software_engineering/03_design_architecture/169_hoq_house_of_quality_matrix/) →
+<- **이전**: [167. 카노 모델 (Kano Model) - 당연적, 일원적, 매력적 품질](/knowledge-base/studynote/04_software_engineering/03_design_architecture/167_kano_model_quality_attributes/)
+**다음**: [169. 품질의 집 (HoQ, House of Quality) 매트릭스](/knowledge-base/studynote/04_software_engineering/03_design_architecture/169_hoq_house_of_quality_matrix/) ->
 
 ---

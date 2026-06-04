@@ -28,32 +28,32 @@ tags = ["studynote-operating-system"]
   3. **실리콘(칩셋) 기반의 독립 선언**: OS나 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 같은 소프트웨어를 일절 믿지 않고, 오직 실리콘 조각(AMD/Intel CPU)이 쥐고 있는 마스터키만 믿는 극단적 하드웨어 암호화가 상용화됨.
 
 ```text
-┌───────────────────────────────────────────────────────────────────────┐
-│        메모리 암호화 기술(SME/SEV)의 런타임 보안 아키텍처 시각화      │
-├───────────────────────────────────────────────────────────────────────┤
-│                                                                       │
-│ [ 해커의 공격: 물리 램(RAM) 칩을 통째로 뽑아가서 데이터를 덤프 뜸! ]  │
-│                                                                       │
-│ ▶ 1. 과거의 시스템 (평문 램)                                          │
-│  [ 물리 RAM ] ──안에 들어있는 값──▶ `Password: 1234`                  │
-│  💥 결과: 해커가 램을 읽는 순간 은행 서버 고객 비번 100% 유출!        │
-│                                                                       │
-│ ▶ 2. 메모리 암호화(AMD SME/Intel MKTME) 적용 시                       │
-│  [ 물리 RAM ] ──안에 들어있는 값──▶ `XyZ@#9!qP` (쓰레기 난수)         │
-│  ✅ 결과: 해커가 램을 뽑아가도 아무것도 해독 불가 (방어 성공).        │
-│                                                                       │
-│ [ 그렇다면 정당한 CPU는 저 쓰레기 값을 어떻게 읽을까? ]               │
-│                                                                       │
-│  [ 물리 RAM (XyZ@#9!qP) ]                                             │
-│         │ (전기 신호가 메인보드를 타고 이동)                          │
-│         ▼                                                             │
-│  [ CPU 칩셋 내부: 메모리 컨트롤러 (AES 암호 해독기 탑재) ]            │
-│  "어? 암호화된 데이터네? 내 몸속에 있는 마스터키로 0.001초만에 풀어!" │
-│         │ (복호화 진행)                                               │
-│         ▼                                                             │
-│  [ CPU 코어 내부 L1 캐시 ] ──평문 상태──▶ `Password: 1234`            │
-│  ✅ CPU는 램이 암호화되어있는 줄 1도 모르고 평소 속도대로 처리함!     │
-└───────────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------------+
+|        메모리 암호화 기술(SME/SEV)의 런타임 보안 아키텍처 시각화      |
++-----------------------------------------------------------------------+
+|                                                                       |
+| [ 해커의 공격: 물리 램(RAM) 칩을 통째로 뽑아가서 데이터를 덤프 뜸! ]  |
+|                                                                       |
+| -> 1. 과거의 시스템 (평문 램)                                          |
+|  [ 물리 RAM ] --안에 들어있는 값---> `Password: 1234`                  |
+|  💥 결과: 해커가 램을 읽는 순간 은행 서버 고객 비번 100% 유출!        |
+|                                                                       |
+| -> 2. 메모리 암호화(AMD SME/Intel MKTME) 적용 시                       |
+|  [ 물리 RAM ] --안에 들어있는 값---> `XyZ@#9!qP` (쓰레기 난수)         |
+|  ✅ 결과: 해커가 램을 뽑아가도 아무것도 해독 불가 (방어 성공).        |
+|                                                                       |
+| [ 그렇다면 정당한 CPU는 저 쓰레기 값을 어떻게 읽을까? ]               |
+|                                                                       |
+|  [ 물리 RAM (XyZ@#9!qP) ]                                             |
+|         | (전기 신호가 메인보드를 타고 이동)                          |
+|         v                                                             |
+|  [ CPU 칩셋 내부: 메모리 컨트롤러 (AES 암호 해독기 탑재) ]            |
+|  "어? 암호화된 데이터네? 내 몸속에 있는 마스터키로 0.001초만에 풀어!" |
+|         | (복호화 진행)                                               |
+|         v                                                             |
+|  [ CPU 코어 내부 L1 캐시 ] --평문 상태---> `Password: 1234`            |
+|  ✅ CPU는 램이 암호화되어있는 줄 1도 모르고 평소 속도대로 처리함!     |
++-----------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 이 아키텍처의 소름 돋는 점은 <strong>"CPU 칩의 울타리(Boundary) 바깥으로 나가는 모든 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>는 무조건 암호화되어 메인보드 전선을 탄다"</strong>는 것이다. 해커가 램을 뽑아가는 걸 넘어 메인보드 램 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)에 도청기([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) Sniffer)를 달아도 무의미하다. 오직 CPU라는 물리적 성곽 안쪽(L1, L2 캐시)에 들어와서 연산될 때만 진짜 평문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 잠시 풀린다(Cleartext in Cache). 이것이 [기밀 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/)의 미학이다.
 
@@ -111,14 +111,14 @@ OS가 메모리를 할당할 때, 하드웨어에 "이 [페이지](/knowledge-ba
 하지만 이 하드웨어 암호화(SEV/TDX) 기술이 도입되면서, <strong>"나는 클라우드 인프라 제공자(AWS, MS)를 잠재적 해커(Untrusted)로 간주한다. 그들이 내 서버를 훔쳐보려 해도 물리적으로 막아버리겠다"</strong>는 진정한 의미의 '[기밀 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/)([Confidential Computing](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/))'이 성립되었다. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 노드나 은행권이 클라우드로 대이동할 수 있었던 결정적인 물리적 담보가 바로 이 기술이다.
 
 ```text
-┌──────────┬────────────┬────────────┬────────────────────┐
-│ 해커의 위치│ 기존 일반 서버 │ Intel SGX  │ AMD SEV (VM) │
-├──────────┼────────────┼────────────┼────────────────────┤
-│ 앱 내부 버그│ ☠️ 다 털림  │ 🟢 부분 방어 │ ☠️ 다 털림   │
-│ OS 루트 권한│ ☠️ 다 털림  │ 🟢 완벽 방어 │ ☠️ 다 털림   │
-│ 하이퍼바이저│ ☠️ 다 털림  │ 🟢 완벽 방어 │ 🟢 완벽 방어 │
-│ 램 물리 탈취│ ☠️ 다 털림  │ 🟢 완벽 방어 │ 🟢 완벽 방어 │
-└──────────┴────────────┴────────────┴────────────────────┘
++----------+------------+------------+--------------------+
+| 해커의 위치| 기존 일반 서버 | Intel SGX  | AMD SEV (VM) |
++----------+------------+------------+--------------------+
+| 앱 내부 버그| ☠️ 다 털림  | 🟢 부분 방어 | ☠️ 다 털림   |
+| OS 루트 권한| ☠️ 다 털림  | 🟢 완벽 방어 | ☠️ 다 털림   |
+| 하이퍼바이저| ☠️ 다 털림  | 🟢 완벽 방어 | 🟢 완벽 방어 |
+| 램 물리 탈취| ☠️ 다 털림  | 🟢 완벽 방어 | 🟢 완벽 방어 |
++----------+------------+------------+--------------------+
 ```
 **[매트릭스 해설]** 인텔 SGX가 방어력 하나는 무적(앱 안에서 남의 스레드가 훔쳐보는 것까지 막아냄)이지만, 코드를 다 뜯어고쳐야 하는 재앙 수준의 불편함 때문에 널리 쓰이지 못했다. AMD SEV는 앱 내부의 버그나 게스트 OS가 해킹당하는 건 못 막지만(이건 백신이 할 일), 가장 무서운 "[하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)의 도둑질"과 "물리 램 탈취"를 코드 수정 한 줄 없이 완벽하게 막아주어 클라우드 사업자들의 환호를 받으며 천하를 통일했다. (이후 인텔도 꼬리를 내리고 AMD SEV와 똑같은 방식의 Intel TDX를 내놓았다).
 
@@ -181,12 +181,12 @@ A 회사의 윈도우 코드와 B 회사의 윈도우 코드가 내용이 완전
 
 ```text
 [커널 페이지 테이블 격리 (KPTI, Kernel Page-Table Isolation)]
-    │
-    ▼
+    |
+    v
 [메모리 암호화 가상화 (AMD SME/SEV, Intel SGX)]
-    │
-    ├──▶ [파일시스템 버퍼 캐시(Buffer Cache)와 가상 메모리 페이지 캐시(Page Cache)의 통합 원리]
-    └──▶ [Cgroups 메모리 서브시스템의 자원 제한 (Memory Limit) 동작]
+    |
+    +---> [파일시스템 버퍼 캐시(Buffer Cache)와 가상 메모리 페이지 캐시(Page Cache)의 통합 원리]
+    +---> [Cgroups 메모리 서브시스템의 자원 제한 (Memory Limit) 동작]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -203,7 +203,7 @@ A 회사의 윈도우 코드와 B 회사의 윈도우 코드가 내용이 완전
 
 **진행 상황**: 437 / 800
 
-← **이전**: [436. 커널 페이지 테이블 격리 (KPTI, Kernel Page-Table Isolation) - Meltdown 취약점 대응망](/knowledge-base/studynote/02_operating_system/07_virtual_memory/436_kpti_kernel_page_table_isolation/)
-**다음**: [438. 파일시스템 버퍼 캐시(Buffer Cache)와 가상 메모리 페이지 캐시(Page Cache)의 통합 원리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/438_unified_buffer_cache_page_cache/) →
+<- **이전**: [436. 커널 페이지 테이블 격리 (KPTI, Kernel Page-Table Isolation) - Meltdown 취약점 대응망](/knowledge-base/studynote/02_operating_system/07_virtual_memory/436_kpti_kernel_page_table_isolation/)
+**다음**: [438. 파일시스템 버퍼 캐시(Buffer Cache)와 가상 메모리 페이지 캐시(Page Cache)의 통합 원리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/438_unified_buffer_cache_page_cache/) ->
 
 ---

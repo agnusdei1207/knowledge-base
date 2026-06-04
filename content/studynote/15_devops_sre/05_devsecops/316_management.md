@@ -27,14 +27,14 @@ SRE는 Google이 2003년에 시작한 직군으로, "[신뢰성](/knowledge-base
 | 지표        | [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/), 배포 빈도           | [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/), [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/), [Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)           |
 
 ```
-┌────────────────────────────────────────────────────┐
-│                 SRE 핵심 원칙                      │
-│                                                    │
-│  1. SLO 기반 신뢰성 목표 정의                      │
-│  2. Error Budget으로 혁신-안정성 균형              │
-│  3. Toil 자동화 (운영 업무 50% 상한)               │
-│  4. Blameless Postmortem 문화                      │
-└────────────────────────────────────────────────────┘
++----------------------------------------------------+
+|                 SRE 핵심 원칙                      |
+|                                                    |
+|  1. SLO 기반 신뢰성 목표 정의                      |
+|  2. Error Budget으로 혁신-안정성 균형              |
+|  3. Toil 자동화 (운영 업무 50% 상한)               |
+|  4. Blameless Postmortem 문화                      |
++----------------------------------------------------+
 ```
 
 > 📢 **Ⅰ 섹션 요약 비유**
@@ -66,7 +66,7 @@ On-[call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_
 
 ```
 Error Budget 소진 시나리오
-─────────────────────────
+-------------------------
 예산 여유 있음: 신기능 배포 가속 가능
 예산 소진 경고: 배포 속도 조절, 안정화 우선
 예산 완전 소진: 기능 동결, 신뢰성 개선 집중
@@ -115,11 +115,11 @@ PRR (Production Readiness [Review](/knowledge-base/studynote/04_software_enginee
 
 ```
 SRE
-    ├── SLI/SLO/SLA → 신뢰성 정량화
-    ├── Error Budget → 혁신-안정성 균형
-    ├── Toil 자동화 → 운영 부담 50% 이하
-    ├── Blameless Postmortem → 장애 학습 문화
-    └── PRR / Capacity Planning → 서비스 출시 품질 보증
+    +-- SLI/SLO/SLA -> 신뢰성 정량화
+    +-- Error Budget -> 혁신-안정성 균형
+    +-- Toil 자동화 -> 운영 부담 50% 이하
+    +-- Blameless Postmortem -> 장애 학습 문화
+    +-- PRR / Capacity Planning -> 서비스 출시 품질 보증
 ```
 
 > 🧒 **어린이 비유**
@@ -131,7 +131,7 @@ SRE
 
 **진행 상황**: 316 / 373
 
-← **이전**: [Helm Package Manager](/knowledge-base/studynote/15_devops_sre/05_devsecops/315_process/)
-**다음**: [SLI SLO SLA Error Budget](/knowledge-base/studynote/15_devops_sre/05_devsecops/317_sli_slo_sla/) →
+<- **이전**: [Helm Package Manager](/knowledge-base/studynote/15_devops_sre/05_devsecops/315_process/)
+**다음**: [SLI SLO SLA Error Budget](/knowledge-base/studynote/15_devops_sre/05_devsecops/317_sli_slo_sla/) ->
 
 ---

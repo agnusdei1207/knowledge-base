@@ -24,22 +24,22 @@ tags = ["studynote-design-supervision"]
 소프트웨어의 복잡성에는 두 종류가 있다. 첫째, 본질적 복잡성(essential complexity)은 문제 자체가 복잡한 경우로 제거할 수 없다. 둘째, 우발적 복잡성(accidental complexity)은 설계자가 불필요하게 추가한 복잡성으로 KISS가 제거해야 할 대상이다. 과도한 [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/) 적용, 불필요한 계층 추가, 추측성 기능 구현이 대표적이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│           복잡성의 두 유형과 KISS 적용 대상                  │
-├─────────────────────────────────────────────────────────────┤
-│                     복잡성 전체                              │
-│                         │                                   │
-│            ┌────────────┴────────────┐                      │
-│            ▼                        ▼                       │
-│   본질적 복잡성               우발적 복잡성                  │
-│  (Essential Complexity)     (Accidental Complexity)         │
-│   문제 자체의 속성            설계자가 추가한 복잡성          │
-│   → 수용·관리 필요            → KISS로 제거 대상             │
-│                                    │                        │
-│                       ┌────────────┼────────────┐           │
-│                       ▼            ▼            ▼           │
-│               과도한 패턴    불필요 계층    추측성 기능      │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|           복잡성의 두 유형과 KISS 적용 대상                  |
++-------------------------------------------------------------+
+|                     복잡성 전체                              |
+|                         |                                   |
+|            +------------+------------+                      |
+|            v                        v                       |
+|   본질적 복잡성               우발적 복잡성                  |
+|  (Essential Complexity)     (Accidental Complexity)         |
+|   문제 자체의 속성            설계자가 추가한 복잡성          |
+|   -> 수용·관리 필요            -> KISS로 제거 대상             |
+|                                    |                        |
+|                       +------------+------------+           |
+|                       v            v            v           |
+|               과도한 패턴    불필요 계층    추측성 기능      |
++-------------------------------------------------------------+
 ```
 
 [KISS](/knowledge-base/studynote/04_software_engineering/04_testing_quality/249_kiss_keep_it_simple_stupid/) 없이 설계가 진행되면 코드는 점점 "영리한 트릭"으로 가득 찬 블랙박스가 된다. 팀원이 코드를 이해하는 데 드는 시간이 늘어나고, 버그가 발생했을 때 원인 추적이 어려워진다.
@@ -60,18 +60,18 @@ KISS를 실현하는 구체적 기법으로는 ① 명확한 함수명으로 의
 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 영리하지만 해독 불가한 코드 | [가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/) 우선 명료한 구현 |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          Early Return 패턴: 복잡한 중첩 조건 제거            │
-├─────────────────────────────────────────────────────────────┤
-│ Before (복잡한 중첩):         After (KISS 적용):             │
-│ if (user != null) {          if (user == null) return null; │
-│   if (user.isActive()) {     if (!user.isActive()) return;  │
-│     if (user.hasRole()) {    if (!user.hasRole()) return;   │
-│       doProcess();           doProcess();                   │
-│     }                                                       │
-│   }                                                         │
-│ }                                                           │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          Early Return 패턴: 복잡한 중첩 조건 제거            |
++-------------------------------------------------------------+
+| Before (복잡한 중첩):         After (KISS 적용):             |
+| if (user != null) {          if (user == null) return null; |
+|   if (user.isActive()) {     if (!user.isActive()) return;  |
+|     if (user.hasRole()) {    if (!user.hasRole()) return;   |
+|       doProcess();           doProcess();                   |
+|     }                                                       |
+|   }                                                         |
+| }                                                           |
++-------------------------------------------------------------+
 ```
 
 측정 기준으로 순환 복잡도(Cyclomatic Complexity)가 있다. 일반적으로 메서드당 복잡도가 10을 초과하면 단순화 검토가 필요하고, 15를 초과하면 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)이 강하게 권장된다. [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/) 등의 [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 도구로 자동 측정이 가능하다.
@@ -126,7 +126,7 @@ KISS는 "영리함의 [억제](/knowledge-base/studynote/09_security/13_secops_i
 
 ### 📌 관련 개념 맵
 
-[복잡성 관리] → KISS] → SRP] → [순환 복잡도 측정] → [리팩토링] → [코드 리뷰]
+[복잡성 관리] -> KISS] -> SRP] -> [순환 복잡도 측정] -> [리팩토링] -> [코드 리뷰]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -137,7 +137,7 @@ KISS는 "영리함의 [억제](/knowledge-base/studynote/09_security/13_secops_i
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[우발적 복잡성 인식] → KISS 원칙 정립] → SRP·[리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 기법] → [순환 복잡도 자동 측정] → AI 기반 코드 단순화 제안] → [Low-code 플랫폼]
+[우발적 복잡성 인식] -> KISS 원칙 정립] -> SRP·[리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 기법] -> [순환 복잡도 자동 측정] -> AI 기반 코드 단순화 제안] -> [Low-code 플랫폼]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -151,7 +151,7 @@ KISS는 "영리함의 [억제](/knowledge-base/studynote/09_security/13_secops_i
 
 **진행 상황**: 158 / 530
 
-← **이전**: [107. DRY 원칙 (Don't Repeat Yourself) - 코드 중복 방지 (데이터 일관성 보장)](/knowledge-base/studynote/11_design_supervision/09_design_principles/107_dry_principle/)
-**다음**: [108. KISS 원칙 (Keep It Simple, Stupid)](/knowledge-base/studynote/11_design_supervision/09_design_principles/108_kiss_principle/) →
+<- **이전**: [107. DRY 원칙 (Don't Repeat Yourself) - 코드 중복 방지 (데이터 일관성 보장)](/knowledge-base/studynote/11_design_supervision/09_design_principles/107_dry_principle/)
+**다음**: [108. KISS 원칙 (Keep It Simple, Stupid)](/knowledge-base/studynote/11_design_supervision/09_design_principles/108_kiss_principle/) ->
 
 ---

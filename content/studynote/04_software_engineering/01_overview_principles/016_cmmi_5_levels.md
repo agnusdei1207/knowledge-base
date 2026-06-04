@@ -27,14 +27,14 @@ tags = ["software_engineering"]
 
 이 도식은 조직이 CMMI를 도입하지 않았을 때 겪게 되는 근본적인 병목과, 프로세스 성숙도가 높아짐에 따라 변화하는 조직의 양상을 대조하여 보여준다.
 ```text
-┌─────────────────── 프로세스 부재 vs 프로세스 성숙 ───────────────────┐
-│ [초기/비구조화 조직]                  [성숙/구조화 조직]               │
-│  Req ──> (Black Box) ──> Product      Req ──> [Process] ──> Product    │
-│           ▲ 영웅적 개발자                      ▲ OSP, 통계적 관리      │
-│  - 위기 시 절차 무시, 철야            - 위기 시 프로세스에 의존        │
-│  - 성공 경험의 전수 불가능            - 성공 경험이 자산화(OPA)됨      │
-│  - 예측 불가능한 일정/비용            - 오차 범위 내 예측 가능         │
-└────────────────────────────────────────────────────────────────────────┘
++------------------- 프로세스 부재 vs 프로세스 성숙 -------------------+
+| [초기/비구조화 조직]                  [성숙/구조화 조직]               |
+|  Req --> (Black Box) --> Product      Req --> [Process] --> Product    |
+|           ^ 영웅적 개발자                      ^ OSP, 통계적 관리      |
+|  - 위기 시 절차 무시, 철야            - 위기 시 프로세스에 의존        |
+|  - 성공 경험의 전수 불가능            - 성공 경험이 자산화(OPA)됨      |
+|  - 예측 불가능한 일정/비용            - 오차 범위 내 예측 가능         |
++------------------------------------------------------------------------+
 ```
 이 그림의 핵심은 성숙하지 않은 조직은 프로세스를 '블랙박스'처럼 취급하여 투입 자원에 대한 결과를 전혀 예측할 수 없다는 점이다. 이는 특정 핵심 인력이 이탈하면 프로젝트 전체가 무너지는 극심한 불안정성을 의미한다. 반면 성숙한 조직은 프로세스 자체가 안정적인 파이프라인 역할을 수행하여, 누가 투입되더라도 일관된 산출물을 기대할 수 있다. 실무에서는 이러한 예측 가능성이야말로 엔터프라이즈급 프로젝트를 수주하고 완수할 수 있는 핵심 경쟁력이 된다.
 
@@ -56,22 +56,22 @@ tags = ["software_engineering"]
 
 아래는 [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 5단계가 어떻게 계층적으로 진화하는지, 그리고 각 단계가 이전 단계의 기반 위에서 어떻게 확장되는지를 보여주는 계단식 구조도이다.
 ```text
-┌───────────────── CMMI 단계형 표현(Staged Representation) ─────────────────┐
-│                                                                         │
-│ [L5. 최적화] 지속적 개선, 결함 원인 분석(CAR), 혁신(OPI)                │
-│       ▲ └─▶ (목표: 프로세스의 선제적 개선 및 최적화)                    │
-│       │                                                                 │
-│ [L4. 정량적] 통계적 공정 관리(SPC), 정량적 프로젝트 관리(QPM)           │
-│       ▲ └─▶ (목표: 프로세스 성능의 정량적 예측 및 통제)                 │
-│       │                                                                 │
-│ [L3. 정의] 조직 표준 프로세스(OSP), 테일러링, 통합 프로젝트 관리(IPM)   │
-│       ▲ └─▶ (목표: 부서 간 일관성 유지 및 조직 전체의 표준화)           │
-│       │                                                                 │
-│ [L2. 관리] 요구사항 관리, 형상 관리(SCM), 기본적 프로젝트 계획/통제     │
-│       ▲ └─▶ (목표: 동일한 유형의 프로젝트를 성공적으로 반복)            │
-│       │                                                                 │
-│ [L1. 초기] 개인의 역량에 의존, 예측 불가, 위기 시 프로세스 폐기         │
-└─────────────────────────────────────────────────────────────────────────┘
++----------------- CMMI 단계형 표현(Staged Representation) -----------------+
+|                                                                         |
+| [L5. 최적화] 지속적 개선, 결함 원인 분석(CAR), 혁신(OPI)                |
+|       ^ +--> (목표: 프로세스의 선제적 개선 및 최적화)                    |
+|       |                                                                 |
+| [L4. 정량적] 통계적 공정 관리(SPC), 정량적 프로젝트 관리(QPM)           |
+|       ^ +--> (목표: 프로세스 성능의 정량적 예측 및 통제)                 |
+|       |                                                                 |
+| [L3. 정의] 조직 표준 프로세스(OSP), 테일러링, 통합 프로젝트 관리(IPM)   |
+|       ^ +--> (목표: 부서 간 일관성 유지 및 조직 전체의 표준화)           |
+|       |                                                                 |
+| [L2. 관리] 요구사항 관리, 형상 관리(SCM), 기본적 프로젝트 계획/통제     |
+|       ^ +--> (목표: 동일한 유형의 프로젝트를 성공적으로 반복)            |
+|       |                                                                 |
+| [L1. 초기] 개인의 역량에 의존, 예측 불가, 위기 시 프로세스 폐기         |
++-------------------------------------------------------------------------+
 ```
 이 구조도의 핵심은 상위 레벨로 가기 위해서는 하위 레벨의 프랙티스가 반드시 '내재화'되어 있어야 한다는 점이다. 예를 들어, Level 2의 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/))가 제대로 수행되지 않아 소스코드의 베이스라인조차 없는 상황에서, Level 4의 [통계적 공정 관리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/368_spc/)([SPC](/knowledge-base/studynote/09_security/04_endpoint_security/203_spc_signed_public_key_challenge/))를 도입하는 것은 불가능하다. 실무에서 많은 조직이 [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)만을 위해 상위 레벨의 문서를 허위로 작성하지만, 기반이 약한 프로세스는 실제 프로젝트의 스트레스 상황에서 쉽게 Level 1 상태로 퇴행(Regression)하고 만다.
 
@@ -94,21 +94,21 @@ CMMI는 접근 방식에 따라 크게 '단계형(Staged)'과 '연속형(Continu
 
 다음은 CMMI의 단계형/연속형 접근 방식과 국제 표준인 ISO/IEC 15504 ([SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/)) 간의 관계를 보여주는 매트릭스이다.
 ```text
-┌───────────────── CMMI 표현 모델 및 SPICE 비교 매트릭스 ─────────────────┐
-│                                                                         │
-│     [CMMI 단계형]                [CMMI 연속형]            [SPICE (ISO 15504)] │
-│  Maturity Level (1~5)       Capability Level (0~3)    Capability Level (0~5)│
-│                                                                         │
-│    5. 최적화 단계                3. 정의된 능력             5. 최적화 단계  │
-│         ▲                            ▲                            ▲         │
-│    4. 정량적 관리 단계           2. 관리된 능력             4. 예측 단계    │
-│         ▲                            ▲                            ▲         │
-│    3. 정의 단계                  1. 수행된 능력             3. 확립 단계    │
-│         ▲                            ▲                            ▲         │
-│    2. 관리 단계                  0. 불완전 능력             2. 관리 단계    │
-│         ▲                                                         ▲         │
-│    1. 초기 단계                                             1. 수행 단계    │
-└─────────────────────────────────────────────────────────────────────────┘
++----------------- CMMI 표현 모델 및 SPICE 비교 매트릭스 -----------------+
+|                                                                         |
+|     [CMMI 단계형]                [CMMI 연속형]            [SPICE (ISO 15504)] |
+|  Maturity Level (1~5)       Capability Level (0~3)    Capability Level (0~5)|
+|                                                                         |
+|    5. 최적화 단계                3. 정의된 능력             5. 최적화 단계  |
+|         ^                            ^                            ^         |
+|    4. 정량적 관리 단계           2. 관리된 능력             4. 예측 단계    |
+|         ^                            ^                            ^         |
+|    3. 정의 단계                  1. 수행된 능력             3. 확립 단계    |
+|         ^                            ^                            ^         |
+|    2. 관리 단계                  0. 불완전 능력             2. 관리 단계    |
+|         ^                                                         ^         |
+|    1. 초기 단계                                             1. 수행 단계    |
++-------------------------------------------------------------------------+
 ```
 이 매트릭스의 핵심은 [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 연속형 모델이 [SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/)(Software [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Improvement and Capability dEtermination)의 사상과 궤를 같이한다는 점이다. 단계형은 조직 전체의 획일적인 업그레이드를 강제하지만, 실무에서는 보안([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))이나 품질 보증(QA)처럼 특정 도메인의 역량만 우선적으로 끌어올려야 하는 경우가 많다. 이 때문에 SPICE나 [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 연속형 모델은 실질적인 프로세스 개선을 원하는 엔지니어링 리더들에게 더 적합하며, 단계형은 주로 공공 입찰 자격 요건이나 대외 홍보를 목적으로 하는 경영진에 의해 선택된다.
 
@@ -127,16 +127,16 @@ CMMI는 접근 방식에 따라 크게 '단계형(Staged)'과 '연속형(Continu
 
 다음은 실무에서 프로세스 위기가 발생했을 때, 성숙도 레벨에 따라 어떻게 장애가 전파되고 방어되는지를 보여주는 운영 플로우이다.
 ```text
-┌───────────────── 프로세스 성숙도별 장애 전파 및 방어 구조 ─────────────────┐
-│                                                                            │
-│ [장애 자극원] : 핵심 개발자 퇴사 & 요구사항 급변                           │
-│       │                                                                    │
-│ ├──▶ (L1 조직) : "누가 코드를 짰는지 모른다" ─▶ 프로젝트 실패/일정 붕괴│
-│ │                                                                          │
-│ ├──▶ (L2 조직) : 형상 관리(SCM)로 코드는 복구 ─▶ 지연되나 릴리즈 가능 │
-│ │                                                                          │
-│ └──▶ (L4 조직) : 변동성을 정량적(QPM)으로 감지 ─▶ 자원 선제 투입 (안정)│
-└────────────────────────────────────────────────────────────────────────────┘
++----------------- 프로세스 성숙도별 장애 전파 및 방어 구조 -----------------+
+|                                                                            |
+| [장애 자극원] : 핵심 개발자 퇴사 & 요구사항 급변                           |
+|       |                                                                    |
+| +---> (L1 조직) : "누가 코드를 짰는지 모른다" --> 프로젝트 실패/일정 붕괴|
+| |                                                                          |
+| +---> (L2 조직) : 형상 관리(SCM)로 코드는 복구 --> 지연되나 릴리즈 가능 |
+| |                                                                          |
+| +---> (L4 조직) : 변동성을 정량적(QPM)으로 감지 --> 자원 선제 투입 (안정)|
++----------------------------------------------------------------------------+
 ```
 이 흐름도의 핵심은 상위 레벨 조직일수록 장애가 발생하기 '전'에 정량적 지표의 이탈을 통해 위험을 감지한다는 점이다. 반면 하위 레벨 조직은 장애가 프로덕션 환경에 도달하여 서비스가 중단된 이후에야 사후 수습에 나선다. 실무 엔지니어는 화려한 최신 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 이전에, 최소한 소스코드와 요구사항의 기준선을 맞추는 L2 수준의 '방어막'이 구축되어 있는지부터 점검해야 한다.
 
@@ -171,20 +171,20 @@ CMMI의 성공적 도입은 단기적으로는 프로세스 적응을 위한 간
 
 ```text
 [CMMI Level 1 (초기) — 개인 역량 의존, 프로세스 비공식]
-    │
-    ▼
+    |
+    v
 [CMMI Level 2 (관리) — 프로젝트별 기본 관리, 계획·추적 수립]
-    │
-    ▼
+    |
+    v
 [CMMI Level 3 (정의) — 조직 표준 프로세스 정의, OPA 자산 축적]
-    │
-    ▼
+    |
+    v
 [CMMI Level 4 (정량적 관리) — SPC 통계 제어, 측정 기반 품질 관리]
-    │
-    ▼
+    |
+    v
 [CMMI Level 5 (최적화) — 혁신·원인 분석으로 지속 개선 내재화]
-    │
-    ▼
+    |
+    v
 [Compliance as Code — CI/CD 파이프라인 내 자동 CMMI 통제, CMMI v2.0+]
 ```
 이 흐름은 개인에 의존하던 개발 조직이 단계별 프로세스 규율을 내재화하여 예측 가능하고 자기 진화하는 소프트웨어 생산 체계로 성숙해가는 과정을 보여주며, 최신 [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) 파이프라인으로의 통합이 그 종착점이다.
@@ -200,7 +200,7 @@ CMMI의 성공적 도입은 단기적으로는 프로세스 적응을 위한 간
 
 **진행 상황**: 16 / 973
 
-← **이전**: [15. CMMI (Capability Maturity Model Integration) - 단계형/연속형 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/015_cmmi/)
-**다음**: [17. 프로세스 자산 (Process Assets) 및 조직 표준 프로세스](/knowledge-base/studynote/04_software_engineering/01_overview_principles/017_process_assets_osp/) →
+<- **이전**: [15. CMMI (Capability Maturity Model Integration) - 단계형/연속형 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/015_cmmi/)
+**다음**: [17. 프로세스 자산 (Process Assets) 및 조직 표준 프로세스](/knowledge-base/studynote/04_software_engineering/01_overview_principles/017_process_assets_osp/) ->
 
 ---

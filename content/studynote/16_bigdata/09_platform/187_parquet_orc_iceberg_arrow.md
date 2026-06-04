@@ -22,9 +22,9 @@ tags = ["studynote-bigdata"]
 컬럼 기반 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 포맷 ([Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/), ORC, Iceberg, Arrow) 조회 최적화은 빅데이터 환경에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 포맷을 실제 문서, 시스템, 운영 흐름에 연결하는 문제를 다룬다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모가 커질수록 포맷, 비용, 이동 경로, 운영 기준이 조금만 흔들려도 전체 분석 품질이 급격히 무너진다. 그래서 이 주제는 단순 기술 나열이 아니라, 어떤 조건에서 어떤 구조를 선택해야 하는지를 설명하는 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이다.
 
 ```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ 요구사항         │──▶│ 구성 요소        │──▶│ 운영 결과        │
-└──────────────┘   └──────────────┘   └──────────────┘
++--------------+   +--------------+   +--------------+
+| 요구사항         |--->| 구성 요소        |--->| 운영 결과        |
++--------------+   +--------------+   +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 도시의 구역 분할처럼, 출발점이 흔들리면 뒤 단계의 결과도 같이 흔들린다.
@@ -42,9 +42,9 @@ tags = ["studynote-bigdata"]
 | 운영 결과 | 결과/증거 | 기록이 남아야 재현과 추적이 된다 |
 
 ```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ 요구사항         │──▶│ 구성 요소        │──▶│ 운영 결과        │
-└──────────────┘   └──────────────┘   └──────────────┘
++--------------+   +--------------+   +--------------+
+| 요구사항         |--->| 구성 요소        |--->| 운영 결과        |
++--------------+   +--------------+   +--------------+
 ```
 
 [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) / ORC / Iceberg / Arrow와 열 지향 스토리지은 이 흐름을 보강하는 대표 축이다. 하나는 저장과 처리의 방식이고, 다른 하나는 활용과 품질의 방식이다. 둘을 같이 봐야 과도한 단순화도, 과도한 복잡화도 피할 수 있다.
@@ -110,17 +110,17 @@ tags = ["studynote-bigdata"]
 
 ```text
 [행 기반 포맷 (CSV / JSON) — 쓰기 편의성, 분석 쿼리 시 전체 열 스캔 비효율]
-    │
-    ▼
+    |
+    v
 [열 기반 포맷 (Parquet / ORC) — 열 단위 압축·스킵으로 분석 쿼리 최적화]
-    │
-    ▼
+    |
+    v
 [Apache Arrow — 열 기반 인메모리 표준 포맷, 제로 카피 IPC로 엔진 간 공유]
-    │
-    ▼
+    |
+    v
 [Apache Iceberg — 테이블 포맷 레이어, 스키마 진화·파티션 숨기기·ACID 지원]
-    │
-    ▼
+    |
+    v
 [레이크하우스 표준 스택 — Parquet+Iceberg+Arrow로 오픈 데이터 레이크하우스 구성]
 ```
 
@@ -138,7 +138,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 187 / 262
 
-← **이전**: [186. 데이터 컴프레션 전략 (Data Compression Strategy) — Snappy/Zstd/Gzip](/knowledge-base/studynote/16_bigdata/09_platform/186_data_compression/)
-**다음**: [188. 빅데이터 비용 최적화 (Spot Instance, 컴퓨팅-스토리지 분리, RI)](/knowledge-base/studynote/16_bigdata/09_platform/188_spot_instance_ri/) →
+<- **이전**: [186. 데이터 컴프레션 전략 (Data Compression Strategy) — Snappy/Zstd/Gzip](/knowledge-base/studynote/16_bigdata/09_platform/186_data_compression/)
+**다음**: [188. 빅데이터 비용 최적화 (Spot Instance, 컴퓨팅-스토리지 분리, RI)](/knowledge-base/studynote/16_bigdata/09_platform/188_spot_instance_ri/) ->
 
 ---

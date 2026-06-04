@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [제로 데이 공격]
-    │
-    ▼
+    |
+    v
 [포트 스캐닝 도구 작동 메커니즘 (NMAP…]
-    │
-    └──▶ [방화벽 우회기법]
+    |
+    +---> [방화벽 우회기법]
 ```
 
 - **📢 섹션 요약 비유**: [포트 스캐닝](/knowledge-base/studynote/02_operating_system/10_security/600_port_scanning/) 도구 작동 메커니즘 (NMAP…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -61,11 +61,11 @@ tags = ["studynote-network"]
 
 ```text
 [제로 데이 공격]
-    │
-    ▼
+    |
+    v
 [포트 스캐닝 도구 작동 메커니즘 (NMAP…]
-    │
-    └──▶ [방화벽 우회기법]
+    |
+    +---> [방화벽 우회기법]
 ```
 
 - **📢 섹션 요약 비유**: [포트 스캐닝](/knowledge-base/studynote/02_operating_system/10_security/600_port_scanning/) 도구 작동 메커니즘 (NMAP…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -129,12 +129,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 제로 데이 공격]
-    │
-    ▼
+    |
+    v
 [현재 개념: 포트 스캐닝 도구 작동 메커니즘 (NMAP…]
-    │
-    ├──▶ [확장 A: 방화벽 우회기법]
-    └──▶ [확장 B: 예측형 위협 대응]
+    |
+    +---> [확장 A: 방화벽 우회기법]
+    +---> [확장 B: 예측형 위협 대응]
 ```
 
 [포트 스캐닝](/knowledge-base/studynote/02_operating_system/10_security/600_port_scanning/) 도구 작동 메커니즘 (NMAP…는 [제로 데이](/knowledge-base/studynote/02_operating_system/10_security/597_zero_day_exploit/) 공격에서 출발해 현재 메커니즘을 정교화하고, 이후 [방화벽 우회기법](/knowledge-base/studynote/03_network/14_network_security_threats/734_firewall_bypass_tunneling_fragmentation/)와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -151,7 +151,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 854 / 1120
 
-← **이전**: [732. 제로 데이 (Zero-day 방어되지 않은 취약점 노출 즉시 전산자원 위협) 공격](/knowledge-base/studynote/03_network/14_network_security_threats/732_zero_day_attack_vulnerability_exploit/)
-**다음**: [734. 방화벽 우회기법 (터널링 캡슐화 포트 우회/분산 패킷 망 회피)](/knowledge-base/studynote/03_network/14_network_security_threats/734_firewall_bypass_tunneling_fragmentation/) →
+<- **이전**: [732. 제로 데이 (Zero-day 방어되지 않은 취약점 노출 즉시 전산자원 위협) 공격](/knowledge-base/studynote/03_network/14_network_security_threats/732_zero_day_attack_vulnerability_exploit/)
+**다음**: [734. 방화벽 우회기법 (터널링 캡슐화 포트 우회/분산 패킷 망 회피)](/knowledge-base/studynote/03_network/14_network_security_threats/734_firewall_bypass_tunneling_fragmentation/) ->
 
 ---

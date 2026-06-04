@@ -26,17 +26,17 @@ tags = ["studynote-enterprise"]
 아래 그림은 외부화가 왜 "같은 코드, 다른 환경"을 가능하게 하는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Same artifact, different environments                              │
-├────────────────────────────────────────────────────────────────────┤
-│ payment-service:2.4.1                                              │
-│        │                                                           │
-│        ├─ Dev  ─▶ config.dev.yml  + dev secrets                    │
-│        ├─ Stage ─▶ config.stage.yml + stage secrets                │
-│        └─ Prod ─▶ config.prod.yml  + prod secrets                  │
-│                                                                    │
-│ Code stays identical; only runtime configuration changes           │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Same artifact, different environments                              |
++--------------------------------------------------------------------+
+| payment-service:2.4.1                                              |
+|        |                                                           |
+|        +- Dev  --> config.dev.yml  + dev secrets                    |
+|        +- Stage --> config.stage.yml + stage secrets                |
+|        +- Prod --> config.prod.yml  + prod secrets                  |
+|                                                                    |
+| Code stays identical; only runtime configuration changes           |
++--------------------------------------------------------------------+
 ```
 
 따라서 외부화된 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 서버는 단순한 원격 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 저장소가 아니다. 이는 배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 "환경마다 다른 빌드"에서 "하나의 빌드 + 환경별 주입"으로 바꾸는 운영 원칙이며, MSA에서 불변 배포 ([Immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/) [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/))를 가능하게 하는 핵심 장치다.
@@ -50,22 +50,22 @@ tags = ["studynote-enterprise"]
 외부화된 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 서버는 보통 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 저장소, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 제공 응용 프로그램 인터페이스 ([Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)), 비밀 저장소, 클라이언트 부트스트랩, 갱신 메커니즘으로 구성된다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 시작할 때 자신이 누구인지와 어떤 프로파일인지 알리고, 중앙 서버는 해당 조합에 맞는 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 반환한다. 이후 일부 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)은 런타임 중 갱신할 수 있지만, 연결 풀이나 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)처럼 구조적 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)은 재시작이 더 안전할 수 있다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Externalized configuration architecture                             │
-├────────────────────────────────────────────────────────────────────┤
-│ Git / config repository        Secret manager                      │
-│        │                            │                              │
-│        └──────────────┬─────────────┘                              │
-│                       ▼                                            │
-│              Configuration Server API                              │
-│                       │                                            │
-│        ┌──────────────┼──────────────┐                             │
-│        ▼              ▼              ▼                             │
-│   Service A      Service B      Service C                         │
-│   bootstrap      bootstrap      bootstrap                         │
-│        │              │              │                             │
-│        └─ cache / refresh / fallback policy ──────────────────────┘
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Externalized configuration architecture                             |
++--------------------------------------------------------------------+
+| Git / config repository        Secret manager                      |
+|        |                            |                              |
+|        +--------------+-------------+                              |
+|                       v                                            |
+|              Configuration Server API                              |
+|                       |                                            |
+|        +--------------+--------------+                             |
+|        v              v              v                             |
+|   Service A      Service B      Service C                         |
+|   bootstrap      bootstrap      bootstrap                         |
+|        |              |              |                             |
+|        +- cache / refresh / fallback policy ----------------------+
++--------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 설계 포인트 |
@@ -110,23 +110,23 @@ tags = ["studynote-enterprise"]
 하지만 중앙화에는 대가도 있다. [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 서버가 기동 시점 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) (Single Point of Failure, [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))이 되면 신규 인스턴스가 올라오지 못할 수 있고, 잘못된 공통 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 하나가 여러 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 동시에 흔들 수도 있다. 그래서 캐시, 읽기 전용 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/), [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 라벨, 단계적 배포가 중요하다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ When to centralize configuration                                   │
-├────────────────────────────────────────────────────────────────────┤
-│ Few apps, one environment, rare changes?                           │
-│        ├─ Yes ─▶ local file / environment variables                │
-│        └─ No                                                       │
-│             │                                                      │
-│             ▼                                                      │
-│ Many services or multiple environments with audit needs?           │
-│        ├─ Yes ─▶ externalized configuration server                 │
-│        └─ No                                                       │
-│             │                                                      │
-│             ▼                                                      │
-│ Are secrets short-lived or highly sensitive?                       │
-│        ├─ Yes ─▶ add secret manager / dynamic credentials          │
-│        └─ No  ─▶ config server may be enough for non-secret values │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| When to centralize configuration                                   |
++--------------------------------------------------------------------+
+| Few apps, one environment, rare changes?                           |
+|        +- Yes --> local file / environment variables                |
+|        +- No                                                       |
+|             |                                                      |
+|             v                                                      |
+| Many services or multiple environments with audit needs?           |
+|        +- Yes --> externalized configuration server                 |
+|        +- No                                                       |
+|             |                                                      |
+|             v                                                      |
+| Are secrets short-lived or highly sensitive?                       |
+|        +- Yes --> add secret manager / dynamic credentials          |
+|        +- No  --> config server may be enough for non-secret values |
++--------------------------------------------------------------------+
 ```
 
 ### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -178,20 +178,20 @@ tags = ["studynote-enterprise"]
 
 ```text
 환경별 설정 증가
-        │
-        ▼
+        |
+        v
 코드 내 하드코딩 한계
-        │
-        ▼
+        |
+        v
 외부화된 설정 (Externalized Configuration)
-        │
-        ▼
+        |
+        v
 외부화된 설정 서버 (Externalized Configuration Server)
-        │
-        ├──────────────► Profile · Version · Rollback
-        ├──────────────► Secret Manager 연계
-        ├──────────────► Dynamic refresh · Feature flag
-        └──────────────► GitOps · 정책 기반 변경 통제
+        |
+        +--------------► Profile · Version · Rollback
+        +--------------► Secret Manager 연계
+        +--------------► Dynamic refresh · Feature flag
+        +--------------► GitOps · 정책 기반 변경 통제
 ```
 
 이 흐름은 단순 환경 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 관리에서 중앙 통제형 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 운영으로 성숙해 가는 방향을 보여 준다.
@@ -208,7 +208,7 @@ tags = ["studynote-enterprise"]
 
 **진행 상황**: 184 / 482
 
-← **이전**: [183. 마이크로서비스 샤시 (Microservice Chassis) - 공통 뼈대 패턴](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/183_microservice_chassis_pattern/)
-**다음**: [185. 로그 수집 통합 (Log Aggregation) 아키텍처 - Fluentd -> Elasticsearch 파이프라인](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/185_log_aggregation_fluentd_elasticsearch/) →
+<- **이전**: [183. 마이크로서비스 샤시 (Microservice Chassis) - 공통 뼈대 패턴](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/183_microservice_chassis_pattern/)
+**다음**: [185. 로그 수집 통합 (Log Aggregation) 아키텍처 - Fluentd -> Elasticsearch 파이프라인](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/185_log_aggregation_fluentd_elasticsearch/) ->
 
 ---

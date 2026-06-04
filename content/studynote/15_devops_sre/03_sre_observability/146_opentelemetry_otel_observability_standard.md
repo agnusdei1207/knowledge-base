@@ -12,7 +12,7 @@ tags = ["studynote-devops-sre"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: OpenTelemetry는 <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/">Metrics</a>·<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">Logs</a>·Traces 3축 텔레메트리 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 수집·전파·내보내기를 통합 표준화</strong>한 [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) 프로젝트이며, OpenTracing+OpenCensus의 통합체이다.
 > 2. **가치**: 기존에는 [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/)([Metrics](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/))·ELK([Logs](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))·Jaeger(Traces)가 <strong>각각 다른 SDK·포맷</strong>을 사용했지만, OTel은 <strong>하나의 SDK로 3축을 모두 계측</strong>하고 백엔드를 자유롭게 교체할 수 있다(Vendor-neutral).
-> 3. **판단 포인트**: OTel SDK(계측)→OTel Collector(수집·처리·내보내기)→Backend([Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/)·Jaeger·Loki)의 3계층이며, Auto-instrumentation으로 코드 변경 없이 계측할 수 있다.
+> 3. **판단 포인트**: OTel SDK(계측)->OTel Collector(수집·처리·내보내기)->Backend([Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/)·Jaeger·Loki)의 3계층이며, Auto-instrumentation으로 코드 변경 없이 계측할 수 있다.
 
 ---
 
@@ -20,8 +20,8 @@ tags = ["studynote-devops-sre"]
 
 ```text
 OTel 아키텍처:
-  App + OTel SDK (계측) → OTel Collector → Backend
-  Collector: 수집 → 처리(필터·샘플링) → 내보내기
+  App + OTel SDK (계측) -> OTel Collector -> Backend
+  Collector: 수집 -> 처리(필터·샘플링) -> 내보내기
   Backend: Prometheus(Metrics) + Jaeger(Traces) + Loki(Logs)
   Auto-instrumentation: 코드 변경 없이 자동 계측
 ```
@@ -50,9 +50,9 @@ OpenTelemetry는 <strong>Observability의 <a href="/knowledge-base/studynote/15_
 
 ```text
 [OpenTracing (2016)] + [OpenCensus (Google, 2018)]
-    → [OpenTelemetry 통합 (2019)]
-    → [OTel Traces GA (2021)] → [OTel Metrics GA (2023)]
-    → [현재: OTel Logs GA — 3축 완성]
+    -> [OpenTelemetry 통합 (2019)]
+    -> [OTel Traces GA (2021)] -> [OTel Metrics GA (2023)]
+    -> [현재: OTel Logs GA — 3축 완성]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -66,7 +66,7 @@ OpenTelemetry는 <strong>Observability의 <a href="/knowledge-base/studynote/15_
 
 **진행 상황**: 146 / 373
 
-← **이전**: [145. Jaeger & Zipkin - 분산 트레이싱 백엔드 비교](/knowledge-base/studynote/15_devops_sre/03_sre_observability/145_jaeger_zipkin_distributed_tracing_backend/)
-**다음**: [147. eBPF (Extended Berkeley Packet Filter) - 커널 레벨 샌드박스 관측 기술](/knowledge-base/studynote/15_devops_sre/03_sre_observability/147_ebpf_kernel_observability_cilium/) →
+<- **이전**: [145. Jaeger & Zipkin - 분산 트레이싱 백엔드 비교](/knowledge-base/studynote/15_devops_sre/03_sre_observability/145_jaeger_zipkin_distributed_tracing_backend/)
+**다음**: [147. eBPF (Extended Berkeley Packet Filter) - 커널 레벨 샌드박스 관측 기술](/knowledge-base/studynote/15_devops_sre/03_sre_observability/147_ebpf_kernel_observability_cilium/) ->
 
 ---

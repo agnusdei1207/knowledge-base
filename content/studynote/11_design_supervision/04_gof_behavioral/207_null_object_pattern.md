@@ -40,7 +40,7 @@ if (user != null && user.getAddress() != null
 ```java
 // Null Object 도입 후
 Logger logger = getLogger();  // null 대신 NullLogger 반환
-logger.log("message");        // NullLogger.log() → 아무것도 안 함, NPE 없음
+logger.log("message");        // NullLogger.log() -> 아무것도 안 함, NPE 없음
 
 // null 체크 코드 완전 제거!
 ```
@@ -54,9 +54,9 @@ logger.log("message");        // NullLogger.log() → 아무것도 안 함, NPE 
 | Anonymous User | 미로그인 사용자 | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 사용자 |
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 음소거 버튼(Null Object) — 음악이 없을 때 리모컨의 "다음 곡" 버튼을 눌러도 그냥 아무 일도 일어나지 않는다. 에러가 나지 않는다.
@@ -67,14 +67,14 @@ logger.log("message");        // NullLogger.log() → 아무것도 안 함, NPE 
 ```
   «interface» / «abstract class»
   AbstractLogger
-  ──────────────────
+  ------------------
   + log(message)
-        ▲
-        │
-  ┌─────┴──────────┐
-  ▼                ▼
+        ^
+        |
+  +-----+----------+
+  v                v
 FileLogger      NullLogger
-──────────      ──────────────────────────
+----------      --------------------------
 log(msg) {      log(msg) {
   file.write      // 아무것도 하지 않음
   (msg)           // NoOp (No-Operation)
@@ -112,7 +112,7 @@ logger.log("start");  // 항상 안전
 ```
 
 ```
-  계층: User → Address → City
+  계층: User -> Address -> City
 
   ❌ null 체크 방식:
   String city = "알 수 없음";
@@ -128,10 +128,10 @@ logger.log("start");  // 항상 안전
 
   ✅ Null Object 방식:
   String city = user.getAddress().getCity().getName();
-  // 각 레이어에 Null Object → 체인 전체가 안전
-  // NullUser.getAddress() → NullAddress 반환
-  // NullAddress.getCity() → NullCity 반환
-  // NullCity.getName() → "알 수 없음" 반환
+  // 각 레이어에 Null Object -> 체인 전체가 안전
+  // NullUser.getAddress() -> NullAddress 반환
+  // NullAddress.getCity() -> NullCity 반환
+  // NullCity.getName() -> "알 수 없음" 반환
 ```
 
 | 항목 | 설명 | 포인트 |
@@ -141,9 +141,9 @@ logger.log("start");  // 항상 안전
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 포인트 | 테스트·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·모니터링으로 확인할 지점 | 운영 가능성이 설계 품질을 결정한다. |
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Input/State  │──▶│ Control Point │──▶│ Output/Action │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Input/State  |--->| Control Point |--->| Output/Action |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 비어있는 통장(Null Object) — 잔액 조회를 해도 에러가 나지 않고 "0원"이라고 알려준다. null [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)라면 ATM기가 오작동할 것이다.
@@ -167,7 +167,7 @@ logger.log("start");  // 항상 안전
   - 기본 정책: 할인 없음, 필터 없음
 
   ❌ Null Object 부적합:
-  - 결제 처리: null 결제는 위험 → 예외 발생 필수
+  - 결제 처리: null 결제는 위험 -> 예외 발생 필수
   - 인증: null 사용자는 명확히 거부해야 함
   - 데이터 저장: null 저장소는 데이터 유실로 이어짐
 ```
@@ -179,7 +179,7 @@ logger.log("start");  // 항상 안전
 ## Ⅳ. 실무 적용 및 기술사 판단
 ```java
 // Spring Security의 AnonymousAuthenticationToken
-// → 미로그인 사용자 = null이 아닌 AnonymousUser
+// -> 미로그인 사용자 = null이 아닌 AnonymousUser
 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 // auth가 AnonymousAuthenticationToken이면 Null Object
 
@@ -234,7 +234,7 @@ ApplicationEventPublisher publisher = isTest
 | 일관된 인터페이스 | null 여부 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)없이 동일하게 호출 |
 | 테스트 용이 | NullObject로 의존성 제거 ([테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/)) |
 
-- 오류 상황을 <strong>조용히 무시</strong>할 수 있음 → 중요한 에러가 숨겨질 위험
+- 오류 상황을 <strong>조용히 무시</strong>할 수 있음 -> 중요한 에러가 숨겨질 위험
 - 디버깅 시 "왜 아무 일도 일어나지 않는지" 파악 어려울 수 있음
 - Null Object도 명확한 <strong>로깅</strong>을 포함하는 것을 권장
 
@@ -257,7 +257,7 @@ Null Object (널 객체) 패턴은 [방어적 프로그래밍](/knowledge-base/s
 | 연관 개념 | NoOp (No-Operation) | Null Object의 다른 이름 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-기본값 처리 → 널 객체 패턴 → [Fail-safe](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/) 객체
+기본값 처리 -> 널 객체 패턴 -> [Fail-safe](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/) 객체
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 음악을 끄면 소리가 나지 않아요. 에러가 나는 게 아니라 그냥 조용해지는 거죠.
@@ -270,7 +270,7 @@ Null Object (널 객체) 패턴은 [방어적 프로그래밍](/knowledge-base/s
 
 **진행 상황**: 268 / 530
 
-← **이전**: [206. 해석자 패턴 (Interpreter Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/206_interpreter_pattern/)
-**다음**: [208. 가드 서스펜션 패턴 (Guarded Suspension Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/208_guarded_suspension_pattern/) →
+<- **이전**: [206. 해석자 패턴 (Interpreter Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/206_interpreter_pattern/)
+**다음**: [208. 가드 서스펜션 패턴 (Guarded Suspension Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/208_guarded_suspension_pattern/) ->
 
 ---

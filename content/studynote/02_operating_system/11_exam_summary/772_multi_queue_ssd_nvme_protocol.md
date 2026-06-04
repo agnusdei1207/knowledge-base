@@ -36,22 +36,22 @@ tags = ["studynote-operating-system"]
   - 엔터프라이즈 환경에서 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 10만 IOPS를 넘어가자, 통신 규격(Overhead)이 하드웨어의 발목을 잡는 'Tail chasing' 역전 현상이 일어났다. 이에 인텔, 삼성, 샌디스크 등 90여 개 기업이 모여 2011년 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 1.0 컨소시엄을 출범시켰다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │                 AHCI (단일 큐) vs NVMe (다중 큐) 병목 구조 비교       │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │  [ 레거시 SATA / AHCI 구조 ] - 병목 지옥                       │
-  │   Core 0 ─▶ (Lock 대기) ─┐                                 │
-  │   Core 1 ─▶ (Lock 대기) ─┼─▶ 톨게이트 1개 (Max 32개) ──▶ [SSD]  │
-  │   Core 2 ─▶ 큐 점유 중!  ─┘                                 │
-  │   ※ 코어가 늘어날수록 톨게이트 앞에 줄을 서야 해서 성능이 수직 하락함.    │
-  │                                                             │
-  │  [ 모던 PCIe / NVMe 구조 ] - 하이패스 병렬 처리                 │
-  │   Core 0 ──▶ 전용 Queue 0 (Max 64K개 명령) ────┐             │
-  │   Core 1 ──▶ 전용 Queue 1 (Max 64K개 명령) ────┼──▶ [SSD]  │
-  │   Core 2 ──▶ 전용 Queue 2 (Max 64K개 명령) ────┘             │
-  │   ※ 코어마다 자기만의 큐를 가지므로 Lock 경합 0%. 스케일 아웃 무한정!    │
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |                 AHCI (단일 큐) vs NVMe (다중 큐) 병목 구조 비교       |
+  +-------------------------------------------------------------+
+  |                                                             |
+  |  [ 레거시 SATA / AHCI 구조 ] - 병목 지옥                       |
+  |   Core 0 --> (Lock 대기) -+                                 |
+  |   Core 1 --> (Lock 대기) -+--> 톨게이트 1개 (Max 32개) ---> [SSD]  |
+  |   Core 2 --> 큐 점유 중!  -+                                 |
+  |   ※ 코어가 늘어날수록 톨게이트 앞에 줄을 서야 해서 성능이 수직 하락함.    |
+  |                                                             |
+  |  [ 모던 PCIe / NVMe 구조 ] - 하이패스 병렬 처리                 |
+  |   Core 0 ---> 전용 Queue 0 (Max 64K개 명령) ----+             |
+  |   Core 1 ---> 전용 Queue 1 (Max 64K개 명령) ----+---> [SSD]  |
+  |   Core 2 ---> 전용 Queue 2 (Max 64K개 명령) ----+             |
+  |   ※ 코어마다 자기만의 큐를 가지므로 Lock 경합 0%. 스케일 아웃 무한정!    |
+  +-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 구조적 차이가 수십 배의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 격차를 만들어낸다. AHCI 환경에서는 여러 응용 프로그램이 동시에 디스크 I/O를 유발하면, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 블록 레이어(Block Layer)에서 글로벌 락(Global [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))이 걸려버려 CPU [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)들이 줄줄이 수면(Sleep) 상태로 뻗어버렸다. 반면 NVMe는 메인 메모리(RAM)에 큐(Ring Buffer)를 수만 개 만들어 둔다. 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 CPU 코어 개수만큼 큐를 매핑시켜(Multi-[Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)), 코어 0번은 큐 0번에만, 코어 1번은 큐 1번에만 [락-프리](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)([Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/))로 I/O 요청을 쑤셔 넣는다. 뒷단의 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 컨트롤러가 이 수만 개의 큐를 맹렬히 순회하며 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓸어가는 진정한 의미의 '독립 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 고속도로'가 개통된 것이다.
@@ -75,32 +75,32 @@ tags = ["studynote-operating-system"]
 아무리 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 하드웨어가 다중 큐를 지원해도, OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 예전 방식대로 줄을 한 줄로 세우면 말짱 도루묵이다. 리눅스는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 3.13부터 NVMe의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 100% 뽑기 위해 <strong>멀티 큐 블록 I/O 레이어(blk-mq)</strong>라는 거대한 아키텍처 개조를 단행했다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 Linux blk-mq (Multi-Queue) 아키텍처 맵핑 흐름       │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ 사용자 애플리케이션 스레드 (User Space) ]                        │
-  │     Thread 1 (Core 0)      Thread 2 (Core 1)      Thread 3 (Core 2) │
-  │        │                      │                      │            │
-  │  ======│======================│======================│=========== │
-  │        ▼                      ▼                      ▼            │
-  │   [ Software Staging Queues (소프트웨어 큐) ] - 코어마다 1개씩 존재      │
-  │     ┌─────────┐            ┌─────────┐            ┌─────────┐     │
-  │     │ SW 큐 0 │            │ SW 큐 1 │            │ SW 큐 2 │     │
-  │     └────┬────┘            └────┬────┘            └────┬────┘     │
-  │          │ (I/O 병합 및 스케줄링)│                      │            │
-  │          └─────────┬──────────┘                      │            │
-  │                    ▼                                ▼            │
-  │   [ Hardware Dispatch Queues (하드웨어 큐 = NVMe SQ) ]              │
-  │           ┌─────────────────┐             ┌─────────────────┐     │
-  │           │  HW Queue 0     │             │  HW Queue 1     │     │
-  │           │ (NVMe 컨트롤러 연결)│             │ (NVMe 컨트롤러 연결)│     │
-  │           └─────────┬───────┘             └─────────┬───────┘     │
-  │                     │                               │             │
-  │  ===================│===============================│============ │
-  │                     ▼                               ▼             │
-  │   [ 물리적 장치 (NVMe SSD 하드웨어 컨트롤러) ]                         │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 Linux blk-mq (Multi-Queue) 아키텍처 맵핑 흐름       |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ 사용자 애플리케이션 스레드 (User Space) ]                        |
+  |     Thread 1 (Core 0)      Thread 2 (Core 1)      Thread 3 (Core 2) |
+  |        |                      |                      |            |
+  |  ======|======================|======================|=========== |
+  |        v                      v                      v            |
+  |   [ Software Staging Queues (소프트웨어 큐) ] - 코어마다 1개씩 존재      |
+  |     +---------+            +---------+            +---------+     |
+  |     | SW 큐 0 |            | SW 큐 1 |            | SW 큐 2 |     |
+  |     +----+----+            +----+----+            +----+----+     |
+  |          | (I/O 병합 및 스케줄링)|                      |            |
+  |          +---------+----------+                      |            |
+  |                    v                                v            |
+  |   [ Hardware Dispatch Queues (하드웨어 큐 = NVMe SQ) ]              |
+  |           +-----------------+             +-----------------+     |
+  |           |  HW Queue 0     |             |  HW Queue 1     |     |
+  |           | (NVMe 컨트롤러 연결)|             | (NVMe 컨트롤러 연결)|     |
+  |           +---------+-------+             +---------+-------+     |
+  |                     |                               |             |
+  |  ===================|===============================|============ |
+  |                     v                               v             |
+  |   [ 물리적 장치 (NVMe SSD 하드웨어 컨트롤러) ]                         |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 아키텍처의 핵심은 "락 프리([Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/))"에 있다. 리눅스는 CPU 코어마다 독립적인 `Software Queue`를 달아주어, 앱 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)들이 큐에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 넣을 때 다른 코어 눈치를 보지 않게([락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/) 배제) 만들었다. 그리고 이 소프트웨어 큐들을 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 컨트롤러가 지원하는 실제 `Hardware Queue`의 개수에 맞춰 1:1 또는 N:1로 스마트하게 매핑([Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))해 준다. 이 2계층 큐 구조 덕분에 백만 IOPS의 미친 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 폭우 속에서도 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 CPU 소모율은 극단적으로 낮게 유지된다.
@@ -145,26 +145,26 @@ NVMe는 조금 빠른 기술이 아니라, 스토리지 패러다임 자체를 �
    - <strong>아키텍트 판단 (OS 업그레이드 및 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 바이패스)</strong>: 하드웨어가 아무리 좋아도 OS가 옛날 것이면 병목이다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 3.13 이상(안전하게 4.x 이상) 최신 OS로 즉시 마이그레이션 해야 한다. 만약 레거시 OS를 도저히 바꿀 수 없다면, <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/672_spdk/">SPDK</a> (Storage <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a> Development Kit)</strong> 같은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 바이패스 툴을 써서 앱이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 무시하고 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 유저 스페이스에서 직접 다이렉트 통신을 갈겨버리는 우회 아키텍처를 세워야 한다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 극초저지연(Ultra-low Latency) I/O 아키텍트 선택 트리      │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ 밀리초(ms) 단위가 아닌 마이크로초(µs) 보장 시스템을 구축한다 ]          │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      인터럽트 처리로 인한 CPU 문맥 교환 오버헤드(5~10µs) 조차 아까운가?      │
-  │          ├─ 예 ─────▶ [ NVMe I/O Polling 활성화 ]                  │
-  │          │             (인터럽트 끄고 CPU가 100% 루프 돌며 장치 확인. 극강 속도)│
-  │          └─ 아니오 (일반적인 웹/DB 서버 환경)                          │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      운영체제의 시스템 콜과 파일 시스템(VFS) 오버헤드마저 없애고 싶은가?        │
-  │          ├─ 예 ─────▶ [ SPDK (Storage Performance Dev Kit) 도입 ] │
-  │          │             (커널 바이패스! DB가 NVMe 하드웨어를 직접 제어함!)    │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ [ 최신 커널의 `io_uring` + `blk-mq` 조합 채택 ]  │
-  │                        (기본 NVMe 환경의 가장 우아하고 강력한 성능 표준)      │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 극초저지연(Ultra-low Latency) I/O 아키텍트 선택 트리      |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ 밀리초(ms) 단위가 아닌 마이크로초(µs) 보장 시스템을 구축한다 ]          |
+  |                |                                                  |
+  |                v                                                  |
+  |      인터럽트 처리로 인한 CPU 문맥 교환 오버헤드(5~10µs) 조차 아까운가?      |
+  |          +- 예 ------> [ NVMe I/O Polling 활성화 ]                  |
+  |          |             (인터럽트 끄고 CPU가 100% 루프 돌며 장치 확인. 극강 속도)|
+  |          +- 아니오 (일반적인 웹/DB 서버 환경)                          |
+  |                |                                                  |
+  |                v                                                  |
+  |      운영체제의 시스템 콜과 파일 시스템(VFS) 오버헤드마저 없애고 싶은가?        |
+  |          +- 예 ------> [ SPDK (Storage Performance Dev Kit) 도입 ] |
+  |          |             (커널 바이패스! DB가 NVMe 하드웨어를 직접 제어함!)    |
+  |          |                                                        |
+  |          +- 아니오 ---> [ 최신 커널의 `io_uring` + `blk-mq` 조합 채택 ]  |
+  |                        (기본 NVMe 환경의 가장 우아하고 강력한 성능 표준)      |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 클라우드 엔지니어나 하드코어 DB 아키텍트는 "장비만 꽂으면 다 빠른 줄 아는" 편견과 싸워야 한다. [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 자체 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)이 10µs인데, 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 타고 내려가는 소프트웨어 시간이 15µs다. 배보다 배꼽이 더 커진 시대다. 이 벽을 부수기 위해 인텔과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 해커들이 내놓은 답은 "방해되는 중간 관리자([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/), [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))를 모조리 치워버리고, 앱과 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 칩을 다이렉트로 연결([SPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/672_spdk/), [Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))해 버려라"는 극단적 탈중앙화다.
@@ -213,12 +213,12 @@ NVMe는 조금 빠른 기술이 아니라, 스토리지 패러다임 자체를 �
 
 ```text
 [플래시 메모리 마모 평준화 (Wear Leveling)]
-    │
-    ▼
+    |
+    v
 [다중 큐 SSD NVMe 프로토콜 장점 (Multi Queue SSD NVMe Protocol)]
-    │
-    ├──▶ [오브젝트 스토리지 메타데이터 분리]
-    └──▶ [네트워크 파일 시스템 (NFS) 무상태 (Stateless)]
+    |
+    +---> [오브젝트 스토리지 메타데이터 분리]
+    +---> [네트워크 파일 시스템 (NFS) 무상태 (Stateless)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -235,7 +235,7 @@ NVMe는 조금 빠른 기술이 아니라, 스토리지 패러다임 자체를 �
 
 **진행 상황**: 772 / 800
 
-← **이전**: [771. 플래시 메모리 마모 평준화 (Wear Leveling)](/knowledge-base/studynote/02_operating_system/11_exam_summary/771_flash_memory_wear_leveling/)
-**다음**: [773. 오브젝트 스토리지 메타데이터 분리 (Object Storage Metadata Decoupling)](/knowledge-base/studynote/02_operating_system/11_exam_summary/773_object_storage_metadata_decoupling/) →
+<- **이전**: [771. 플래시 메모리 마모 평준화 (Wear Leveling)](/knowledge-base/studynote/02_operating_system/11_exam_summary/771_flash_memory_wear_leveling/)
+**다음**: [773. 오브젝트 스토리지 메타데이터 분리 (Object Storage Metadata Decoupling)](/knowledge-base/studynote/02_operating_system/11_exam_summary/773_object_storage_metadata_decoupling/) ->
 
 ---

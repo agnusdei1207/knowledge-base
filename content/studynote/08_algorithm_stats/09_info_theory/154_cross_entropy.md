@@ -66,15 +66,15 @@ L_CCE = -Σ_{c=1}^{C} y_c · log(ŷ_c)
 
 ```
 입력 로짓 z = [z₁, z₂, ..., zC]
-       │
-       ▼  Softmax
+       |
+       v  Softmax
 ŷ_c = exp(z_c) / Σ exp(z_j)
-       │
-       ▼  Cross-Entropy
+       |
+       v  Cross-Entropy
 L = -Σ y_c · log(ŷ_c)
-       │
-       ▼  역전파 그래디언트
-∂L/∂z_c = ŷ_c - y_c     ← 매우 깔끔한 수식!
+       |
+       v  역전파 그래디언트
+∂L/∂z_c = ŷ_c - y_c     <- 매우 깔끔한 수식!
 ```
 
 [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) + CCE 조합의 그래디언트가 **예측 - 실제** 형태로 나오는 것은 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 수치 안정성의 핵심이다.
@@ -101,7 +101,7 @@ L = -Σ y_c · log(ŷ_c)
 ```
 θ* = argmax_{θ} Σᵢ log P_θ(yᵢ|xᵢ)
    = argmin_{θ} -1/N Σᵢ log P_θ(yᵢ|xᵢ)
-   = argmin_{θ} H(P_data, P_θ)       ← 크로스 엔트로피 최소화
+   = argmin_{θ} H(P_data, P_θ)       <- 크로스 엔트로피 최소화
 ```
 
 따라서 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/">MLE</a> = 크로스 <a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/">엔트로피</a> 최소화</strong>.
@@ -126,7 +126,7 @@ H(P, Q) - H(P) = D_KL(P‖Q) ≥ 0
 
 T > 1: 분포 평탄화 (soft labels, 더 불확실)
 T < 1: 분포 첨예화 (sharper, 더 확실)
-T → 0: 최댓값에 집중 (argmax)
+T -> 0: 최댓값에 집중 (argmax)
 ```
 
 📢 **섹션 요약 비유**: 온도 조정은 "자신감 조절기"다 — 온도가 높으면 모델이 "음... 여러 가능성이 있어요"(분포 평탄), 낮으면 "무조건 이거예요!"(분포 첨예)라고 답한다.
@@ -139,21 +139,21 @@ T → 0: 최댓값에 집중 (argmax)
 
 ```
 입력 x
-  │
-  ▼ 신경망 forward
+  |
+  v 신경망 forward
 로짓 z (C차원)
-  │
-  ▼ Softmax
+  |
+  v Softmax
 예측 확률 ŷ (Σŷ_c = 1)
-  │
-  ▼ Cross-Entropy with 원-핫 레이블 y
-손실 L = -log(ŷ_y_true)      ← 정답 클래스의 로그 확률만 남음!
-  │
-  ▼ 역전파
+  |
+  v Cross-Entropy with 원-핫 레이블 y
+손실 L = -log(ŷ_y_true)      <- 정답 클래스의 로그 확률만 남음!
+  |
+  v 역전파
 ∂L/∂z_c = ŷ_c - y_c
 ```
 
-정답 클래스 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 높을수록 L → 0, 낮을수록 L → ∞.
+정답 클래스 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 높을수록 L -> 0, 낮을수록 L -> ∞.
 
 ### 레이블 스무딩 (Label Smoothing)
 
@@ -163,10 +163,10 @@ T → 0: 최댓값에 집중 (argmax)
 y_smooth_c = (1-ε)·y_c + ε/C
 
 예: 3-class, ε=0.1:
-  원래 [1, 0, 0] → [0.933, 0.033, 0.033]
+  원래 [1, 0, 0] -> [0.933, 0.033, 0.033]
 ```
 
-모델 과확신 (overconfidence) 방지 → 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상.
+모델 과확신 (overconfidence) 방지 -> 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상.
 
 ### 불균형 클래스 처리
 
@@ -202,7 +202,7 @@ LLM에서는 다음 토큰 예측이 전부 크로스 [엔트로피](/knowledge-
 |:---|:---|:---|
 | H(P,Q) 크로스 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) | H(P) + D_KL(P‖Q) | [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) + KL |
 | [MLE](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/) | 크로스 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 최소화와 동치 | [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기 학습 |
-| [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) | 로짓 → [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변환 | 다중 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) |
+| [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) | 로짓 -> [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변환 | 다중 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) |
 | 레이블 스무딩 | 과확신 방지 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) | 일반화 향상 |
 | 포컬 손실 | (1-p)^γ 가중 크로스 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) | 불균형 클래스 |
 
@@ -212,17 +212,17 @@ LLM에서는 다음 토큰 예측이 전부 크로스 [엔트로피](/knowledge-
 
 ```text
 [크로스 엔트로피 (Cross Entropy)]
-    │
-    ▼
+    |
+    v
 [MLE (Maximum Likelihood Estimation)]
-    │
-    ▼
+    |
+    v
 [소프트맥스 (Softmax)]
-    │
-    ▼
+    |
+    v
 [레이블 스무딩 (Label Smoothing)]
-    │
-    ▼
+    |
+    v
 [포컬 손실 (Focal Loss)]
 ```
 
@@ -240,7 +240,7 @@ LLM에서는 다음 토큰 예측이 전부 크로스 [엔트로피](/knowledge-
 
 **진행 상황**: 154 / 175
 
-← **이전**: [4. KL 다이버전스 (KL Divergence, Kullback-Leibler Divergence) — 분포 차이](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/153_kl_divergence/)
-**다음**: [6. 채널 용량 (Channel Capacity) — 샤논 용량 공식](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/) →
+<- **이전**: [4. KL 다이버전스 (KL Divergence, Kullback-Leibler Divergence) — 분포 차이](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/153_kl_divergence/)
+**다음**: [6. 채널 용량 (Channel Capacity) — 샤논 용량 공식](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/) ->
 
 ---

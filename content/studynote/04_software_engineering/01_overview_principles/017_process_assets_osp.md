@@ -27,16 +27,16 @@ tags = ["software_engineering"]
 
 이 도식은 조직 표준 프로세스가 없을 때 발생하는 지식 단절의 문제와, 자산화 시스템이 도입된 후 지식이 선순환하는 구조를 대조하여 보여준다.
 ```text
-┌───────────────── 지식 단절 구조 vs OPA 기반 선순환 구조 ─────────────────┐
-│                                                                        │
-│ [AS-IS: 지식 단절]                         [TO-BE: OPA 선순환]         │
-│ Project A ──(노하우)─┐  (소멸)              Project A ──(Lesson)──┐    │
-│                      X ◀─ 퇴사                                    ▼    │
-│ Project B ──(템플릿)─┘  (재사용 불가)       Project B ◀──[ OPA / OSP ] │
-│                                                          (조직 자산화) │
-│ * 현상: 매번 새로운 템플릿 생성           * 현상: 기존 템플릿 테일러링 │
-│ * 결과: 조직 성숙도 정체                  * 결과: 상향 평준화 및 가속  │
-└────────────────────────────────────────────────────────────────────────┘
++----------------- 지식 단절 구조 vs OPA 기반 선순환 구조 -----------------+
+|                                                                        |
+| [AS-IS: 지식 단절]                         [TO-BE: OPA 선순환]         |
+| Project A --(노하우)-+  (소멸)              Project A --(Lesson)--+    |
+|                      X <-- 퇴사                                    v    |
+| Project B --(템플릿)-+  (재사용 불가)       Project B <---[ OPA / OSP ] |
+|                                                          (조직 자산화) |
+| * 현상: 매번 새로운 템플릿 생성           * 현상: 기존 템플릿 테일러링 |
+| * 결과: 조직 성숙도 정체                  * 결과: 상향 평준화 및 가속  |
++------------------------------------------------------------------------+
 ```
 이 그림의 핵심은 [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 상태에서는 프로젝트의 결과물이 프로젝트 종료와 함께 증발한다는 점이다. 반면 TO-BE 구조에서는 각 프로젝트가 종료될 때 얻은 [교훈](/knowledge-base/studynote/09_security/13_secops_ir_forensics/659_ir_lessons_learned/)([Lessons Learned](/knowledge-base/studynote/09_security/13_secops_ir_forensics/659_ir_lessons_learned/)), [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 대응 사례, 유효했던 템플릿이 [OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/) 중앙 저장소로 모인다. 따라서 [OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/) 시스템의 성패는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 단순히 저장하는 '아카이브'를 넘어, 다음 프로젝트가 쉽게 검색하고 가져다 쓸 수 있도록 구조화된 '검색 및 활용 레이어'를 갖추었느냐에 달려 있다.
 
@@ -57,22 +57,22 @@ tags = ["software_engineering"]
 
 아래 흐름도는 OSP가 어떻게 테일러링을 거쳐 실제 프로젝트 프로세스로 변환되고, 프로젝트 완료 후 다시 OPA로 환원되는지를 보여준다.
 ```text
-┌────────────── OSP 테일러링 및 OPA 지식 환원 라이프사이클 ──────────────┐
-│                                                                        │
-│ 1. [조직 레벨]      [ OSP (조직 표준 프로세스) ]                       │
-│                           │        ▲ (지식 환원 및 표준 갱신)          │
-│                           ▼        │                                   │
-│ 2. [테일러링 레벨]  ( 테일러링 가이드라인 적용 )  ◀── [ OPA 데이터 ]   │
-│                   - 규모, 리스크, 도메인에 따라 축소/확장              │
-│                           │        │                                   │
-│                           ▼        │                                   │
-│ 3. [프로젝트 레벨]  [ 프로젝트 정의 프로세스 (PDP) ]                   │
-│                           │        │                                   │
-│                     (프로젝트 수행 및 완료)                            │
-│                           │        │                                   │
-│                           ▼        │                                   │
-│ 4. [종료 레벨]      [ 프로젝트 산출물 & Lessons Learned ] ─────────┘   │
-└────────────────────────────────────────────────────────────────────────┘
++-------------- OSP 테일러링 및 OPA 지식 환원 라이프사이클 --------------+
+|                                                                        |
+| 1. [조직 레벨]      [ OSP (조직 표준 프로세스) ]                       |
+|                           |        ^ (지식 환원 및 표준 갱신)          |
+|                           v        |                                   |
+| 2. [테일러링 레벨]  ( 테일러링 가이드라인 적용 )  <--- [ OPA 데이터 ]   |
+|                   - 규모, 리스크, 도메인에 따라 축소/확장              |
+|                           |        |                                   |
+|                           v        |                                   |
+| 3. [프로젝트 레벨]  [ 프로젝트 정의 프로세스 (PDP) ]                   |
+|                           |        |                                   |
+|                     (프로젝트 수행 및 완료)                            |
+|                           |        |                                   |
+|                           v        |                                   |
+| 4. [종료 레벨]      [ 프로젝트 산출물 & Lessons Learned ] ---------+   |
++------------------------------------------------------------------------+
 ```
 이 흐름도의 핵심은 상향식([Bottom-up](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/))과 하향식([Top-down](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/))의 결합이다. 하향식으로 표준이 내려오지만, 단계 2에서 철저한 테일러링 과정을 거치지 않으면 프로젝트 팀은 불필요한 문서 작성(Overhead)에 짓눌리게 된다. 테일러링의 핵심 파라미터는 프로젝트의 규모(예산/인원), 중요도(장애 파급력), 개발 방법론([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)/Waterfall)이다. 프로젝트가 완료된 후 도출된 산출물과 [교훈](/knowledge-base/studynote/09_security/13_secops_ir_forensics/659_ir_lessons_learned/)은 단계 4에서 [PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/)([Project Management Office](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/))의 필터링을 거쳐 유의미한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 OPA로 환원되며, 이 과정을 통해 OSP 자체도 시대에 맞게 진화한다.
 
@@ -93,16 +93,16 @@ OPA와 유사해 보이지만 성격이 전혀 다른 자산이 '기업 환경 �
 
 다음은 조직 표준 프로세스(OSP)가 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 환경과 폭포수(Waterfall) 환경에서 어떻게 다르게 구성되는지를 보여주는 매트릭스이다.
 ```text
-┌──────────────── OSP의 패러다임별 아키텍처 비교 매트릭스 ────────────────┐
-│                                                                         │
-│ 항목         │ 폭포수(Waterfall) 기반 OSP  │ 애자일(Agile) 기반 OSP     │
-│ ─────────────┼─────────────────────────────┼────────────────────────────│
-│ 핵심 산출물  │ 상세 요구사항 명세서, 설계서│ Product Backlog, User Story│
-│ 통제 게이트  │ 단계별 엄격한 Phase-gate    │ Sprint 단위의 Review/Demo  │
-│ 자산 형태    │ Word, Excel 기반 정적 문서  │ Jira, Confluence, Wiki     │
-│ 변경 관리    │ CCB(형상통제위) 공식 심의   │ Product Owner의 우선순위   │
-│ 병목 지점    │ 과도한 문서화로 인한 지연   │ 표준화 부족으로 인한 파편화│
-└─────────────────────────────────────────────────────────────────────────┘
++---------------- OSP의 패러다임별 아키텍처 비교 매트릭스 ----------------+
+|                                                                         |
+| 항목         | 폭포수(Waterfall) 기반 OSP  | 애자일(Agile) 기반 OSP     |
+| -------------+-----------------------------+----------------------------|
+| 핵심 산출물  | 상세 요구사항 명세서, 설계서| Product Backlog, User Story|
+| 통제 게이트  | 단계별 엄격한 Phase-gate    | Sprint 단위의 Review/Demo  |
+| 자산 형태    | Word, Excel 기반 정적 문서  | Jira, Confluence, Wiki     |
+| 변경 관리    | CCB(형상통제위) 공식 심의   | Product Owner의 우선순위   |
+| 병목 지점    | 과도한 문서화로 인한 지연   | 표준화 부족으로 인한 파편화|
++-------------------------------------------------------------------------+
 ```
 이 매트릭스의 핵심은 OSP가 단일한 정답이 아니라는 것이다. 전통적인 금융/국방 IT 환경에서는 폭포수 기반의 무거운 OSP가 '추적성과 책임 소재 명확화' 측면에서 유리하다. 반면 스타트업이나 웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 환경에서는 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 기반 OSP가 필수적이다. [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 환경에서 OSP가 없다고 착각하기 쉬우나, 'Jira 티켓 작성 표준', 'Git Branch [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(Git Flow)', '[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인 구성 템플릿' 등이 현대적 의미의 OSP이자 OPA로 기능한다. 실무에서는 이 두 가지 OSP를 하이브리드로 구성하여, 코어 시스템은 폭포수, 프론트엔드는 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) OSP를 따르는 방식([Bimodal IT](/knowledge-base/studynote/12_it_management/01_governance_strategy/059_bimodal_it/))을 채택한다.
 
@@ -121,22 +121,22 @@ OPA와 유사해 보이지만 성격이 전혀 다른 자산이 '기업 환경 �
 
 다음은 [PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/) 주도로 프로젝트 초기에 OSP 테일러링을 결정하는 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)([Decision Tree](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/))를 나타낸다.
 ```text
-┌───────────────── OSP 테일러링 의사결정 트리 (Tailoring Flow) ─────────────┐
-│                                                                           │
-│ [프로젝트 착수]                                                           │
-│        │                                                                  │
-│        ▼                                                                  │
-│ < 예산 10억 이상 or 대국민 서비스인가? > ──(Yes)──▶ [Full OSP 적용]    │
-│        │                                           (모든 단계/문서 필수)  │
-│      (No)                                                                 │
-│        ▼                                                                  │
-│ < 기존 시스템의 단순 UI/기능 변경인가? > ──(Yes)──▶ [Light OSP 적용]   │
-│        │                                           (설계/테스트 문서 생략)│
-│      (No)                                                                 │
-│        ▼                                                                  │
-│ < R&D 성격의 프로토타입/PoC 인가? > ─────(Yes)──▶ [Agile/Minimal OSP] │
-│                                                    (최소 코드리뷰만 강제) │
-└───────────────────────────────────────────────────────────────────────────┘
++----------------- OSP 테일러링 의사결정 트리 (Tailoring Flow) -------------+
+|                                                                           |
+| [프로젝트 착수]                                                           |
+|        |                                                                  |
+|        v                                                                  |
+| < 예산 10억 이상 or 대국민 서비스인가? > --(Yes)---> [Full OSP 적용]    |
+|        |                                           (모든 단계/문서 필수)  |
+|      (No)                                                                 |
+|        v                                                                  |
+| < 기존 시스템의 단순 UI/기능 변경인가? > --(Yes)---> [Light OSP 적용]   |
+|        |                                           (설계/테스트 문서 생략)|
+|      (No)                                                                 |
+|        v                                                                  |
+| < R&D 성격의 프로토타입/PoC 인가? > -----(Yes)---> [Agile/Minimal OSP] |
+|                                                    (최소 코드리뷰만 강제) |
++---------------------------------------------------------------------------+
 ```
 이 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)의 핵심은 '위험 기반 테일러링(Risk-based [Tailoring](/knowledge-base/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/))'이다. 모든 프로젝트에 동일한 중량의 OSP를 강제하면 작은 프로젝트는 프로세스 오버헤드로 인해 압사당한다. 실무 엔지니어링 리더나 PMO는 프로젝트의 성격과 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)에 따라 생략 가능한 산출물과 절대 타협 불가한 게이트(예: 보안 검수, 이행 테스트)를 선별하여 가이드를 제공해야 한다. 이를 통해 프로세스가 개발의 발목을 잡는 것이 아니라, 가드레일 역할을 하도록 만들어야 한다.
 
@@ -171,20 +171,20 @@ OPA와 유사해 보이지만 성격이 전혀 다른 자산이 '기업 환경 �
 
 ```text
 [개인 역량 의존 (Ad-hoc) — 프로세스 미정의, 지식이 개인에 종속]
-    │
-    ▼
+    |
+    v
 [프로젝트 표준 절차서 (PMP) — 프로젝트 단위 계획·통제, 재사용 부재]
-    │
-    ▼
+    |
+    v
 [조직 표준 프로세스 (OSP, Organizational Standard Process) — 조직 공통 규범 정의]
-    │
-    ▼
+    |
+    v
 [프로세스 자산 라이브러리 (PAL, Process Asset Library) — 템플릿·교훈 중앙 저장·공유]
-    │
-    ▼
+    |
+    v
 [CMMI Level 3+ — OSP 기반 프로젝트 맞춤화, 측정·지속 개선 내재화]
-    │
-    ▼
+    |
+    v
 [DevOps Inner Source — Git 저장소 기반 프로세스 자산 버전 관리·자동 배포]
 ```
 이 흐름은 개인에 의존하던 개발 지식이 조직 표준 프로세스로 외재화되고, 지속적으로 학습·개선되는 지식 관리 체계로 진화하는 소프트웨어 조직 성숙도의 발전을 보여준다.
@@ -200,7 +200,7 @@ OPA와 유사해 보이지만 성격이 전혀 다른 자산이 '기업 환경 �
 
 **진행 상황**: 17 / 973
 
-← **이전**: [16. CMMI 5단계 - 초기, 관리, 정의, 정량적 관리, 최적화](/knowledge-base/studynote/04_software_engineering/01_overview_principles/016_cmmi_5_levels/)
-**다음**: [18. PSP (Personal Software Process) / TSP (Team Software Process)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/018_psp_tsp/) →
+<- **이전**: [16. CMMI 5단계 - 초기, 관리, 정의, 정량적 관리, 최적화](/knowledge-base/studynote/04_software_engineering/01_overview_principles/016_cmmi_5_levels/)
+**다음**: [18. PSP (Personal Software Process) / TSP (Team Software Process)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/018_psp_tsp/) ->
 
 ---

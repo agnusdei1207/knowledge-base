@@ -32,29 +32,29 @@ tags = ["studynote-ict-convergence"]
 - **싱크 노드(Sink Node)**: 센서 노드들이 수집한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 집결시켜 상위 네트워크로 전달하는 게이트웨이 역할. 보통 전원 제약 없이 상시 동작.
 - **클러스터 헤드(Cluster Head)**: 인근 노드들의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 집계·압축하여 싱크로 전달. 에너지 균형을 위해 순환 선출(LEACH [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 등).
 
-- **📢 섹션 요약 비유**: [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [센서 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/)는 전국 날씨 관측소 네트워크와 같다. 수천 개의 작은 기상 센서(노드)가 지역 집결소(클러스터 헤드)에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내고, 집결소는 기상청 서버(싱크 노드 → 플랫폼)로 취합한다. 배터리로 산꼭대기에서 수년간 버텨야 하므로 "얼마나 자주 전송할지"가 생존의 핵심이다.
+- **📢 섹션 요약 비유**: [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [센서 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/)는 전국 날씨 관측소 네트워크와 같다. 수천 개의 작은 기상 센서(노드)가 지역 집결소(클러스터 헤드)에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내고, 집결소는 기상청 서버(싱크 노드 -> 플랫폼)로 취합한다. 배터리로 산꼭대기에서 수년간 버텨야 하므로 "얼마나 자주 전송할지"가 생존의 핵심이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│            IoT 3계층 아키텍처 및 무선 기술 분류             │
-├─────────────────────────────────────────────────────────┤
-│  [디바이스 계층]  센서 노드 (MCU + 센서 + 무선 모듈)         │
-│      │  WPAN(ZigBee/BLE, ~10m)                         │
-│      │  WLAN(Wi-Fi, ~100m, 고속)                        │
-│      │  LPWAN(LoRa/NB-IoT, ~수km, 저전력)               │
-│      ▼                                                  │
-│  [네트워크 계층]  게이트웨이 / 싱크 노드                     │
-│      │  인터넷(IP 백홀)                                   │
-│      ▼                                                  │
-│  [플랫폼 계층]   IoT 플랫폼 (수집·저장·분석·API)             │
-│      │  대시보드 / 응용 서비스                              │
-│      ▼                                                  │
-│  [응용 계층]    스마트팩토리 / 스마트시티 / 헬스케어            │
-└─────────────────────────────────────────────────────────┘
++---------------------------------------------------------+
+|            IoT 3계층 아키텍처 및 무선 기술 분류             |
++---------------------------------------------------------+
+|  [디바이스 계층]  센서 노드 (MCU + 센서 + 무선 모듈)         |
+|      |  WPAN(ZigBee/BLE, ~10m)                         |
+|      |  WLAN(Wi-Fi, ~100m, 고속)                        |
+|      |  LPWAN(LoRa/NB-IoT, ~수km, 저전력)               |
+|      v                                                  |
+|  [네트워크 계층]  게이트웨이 / 싱크 노드                     |
+|      |  인터넷(IP 백홀)                                   |
+|      v                                                  |
+|  [플랫폼 계층]   IoT 플랫폼 (수집·저장·분석·API)             |
+|      |  대시보드 / 응용 서비스                              |
+|      v                                                  |
+|  [응용 계층]    스마트팩토리 / 스마트시티 / 헬스케어            |
++---------------------------------------------------------+
 ```
 
 ### 무선 기술 비교표
@@ -113,7 +113,7 @@ tags = ["studynote-ict-convergence"]
 
 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [센서 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/)는 제조·농업·도시 인프라에서 <strong>실시간 가시성(Visibility)</strong>을 제공함으로써 예방적 유지보수와 자원 최적화를 실현한다. 무선 기술의 발전([LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 정확도 향상, 에너지 하베스팅)과 엣지 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 결합으로 자율적 의사결정 능력이 확대되고 있다.
 
-핵심 결론: <strong>디바이스 제약 → 통신 기술 선택 → 아키텍처 설계</strong>의 논리적 흐름을 시험 답안에서 반드시 전개해야 한다.
+핵심 결론: <strong>디바이스 제약 -> 통신 기술 선택 -> 아키텍처 설계</strong>의 논리적 흐름을 시험 답안에서 반드시 전개해야 한다.
 
 - **📢 섹션 요약 비유**: [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [센서 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/)는 도시에 깔리는 신경계다. 뇌(플랫폼)가 아무리 뛰어나도 말초 신경(센서 노드)이 배터리 방전으로 죽어버리면 도시는 눈이 멀게 된다.
 
@@ -132,7 +132,7 @@ tags = ["studynote-ict-convergence"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[싱크 노드 · LEACH] → [IoT 센서 네트워크 종합] → [태양광 · 진동]
+[싱크 노드 · LEACH] -> [IoT 센서 네트워크 종합] -> [태양광 · 진동]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -147,7 +147,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 486 / 552
 
-← **이전**: [485. 블록체인 공격: 51%, 이클립스, 시빌 (Blockchain Attacks: 51%, Eclipse, Sybil)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/485_blockchain_attack_51_eclipse_sybil/)
-**다음**: [487. 엣지·포그 컴퓨팅과 분산 AI 처리 (Edge-Fog Computing and Distributed AI)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/487_edge_fog_computing_distributed_ai/) →
+<- **이전**: [485. 블록체인 공격: 51%, 이클립스, 시빌 (Blockchain Attacks: 51%, Eclipse, Sybil)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/485_blockchain_attack_51_eclipse_sybil/)
+**다음**: [487. 엣지·포그 컴퓨팅과 분산 AI 처리 (Edge-Fog Computing and Distributed AI)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/487_edge_fog_computing_distributed_ai/) ->
 
 ---

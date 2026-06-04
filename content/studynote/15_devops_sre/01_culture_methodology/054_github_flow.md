@@ -32,9 +32,9 @@ GitHub Flow는 복잡한 릴리스 브랜치보다 단순한 개발 흐름을 �
 GitHub Flow는 main과 feature branch 중심이다. feature branch에서 작업하고, PR로 리뷰한 뒤, CI가 통과하면 main에 합친다.
 
 ```text
-main ────────●────────●────────●
+main --------●--------●--------●
               \      /        /
-feature ───────●────●─────────
+feature -------●----●---------
 ```
 
 | 단계 | 역할 | 포인트 |
@@ -113,14 +113,14 @@ GitHub Flow는 협업을 단순하게 만들고, 배포를 빠르게 한다. 작
 
 ```text
 feature branch
-    │
-    ▼
+    |
+    v
 PR / CI
-    │
-    ▼
+    |
+    v
 main merge
-    │
-    ▼
+    |
+    v
 즉시 배포
 ```
 
@@ -138,7 +138,7 @@ main merge
 
 **진행 상황**: 54 / 373
 
-← **이전**: [53. GitFlow](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/053_gitflow/)
-**다음**: [55. Trunk-Based Development](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/055_trunk_based_development/) →
+<- **이전**: [53. GitFlow](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/053_gitflow/)
+**다음**: [55. Trunk-Based Development](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/055_trunk_based_development/) ->
 
 ---

@@ -31,16 +31,16 @@ PI는 단순히 "컴퓨터를 도입하는 것"이 아니라, 정보기술이 �
 이 도식은 PI와 BPR의 차이점을 보여준다.
 
 [BPR: Business Process Reengineering]
-업무 프로세스 재설계가 먼저 ──> 이를 支持하는 IT 선택
-        │
-        │ "기존 프로세스를 완전히 탈피하여 근본적再설계"
-        ▼
+업무 프로세스 재설계가 먼저 --> 이를 支持하는 IT 선택
+        |
+        | "기존 프로세스를 완전히 탈피하여 근본적再설계"
+        v
 
 [PI: Process Innovation]
-IT 기술 발전이 먼저 ──> 이에 부합하는 프로세스 再설계
-        │
-        │ "IT 기술의 발전이 가져올 수 있는 새로운 가능성에 주목"
-        ▼
+IT 기술 발전이 먼저 --> 이에 부합하는 프로세스 再설계
+        |
+        | "IT 기술의 발전이 가져올 수 있는 새로운 가능성에 주목"
+        v
 ```
 
 PI와 BPR의근본적 차이는 "무엇이 선이고 무엇이 뒤인가"에 있다. BPR이 비즈니스 필요에 따라 프로세스를 먼저재설계한다면, PI는 IT 기술의 발전 가능성에 주목하여 이를 활용한 프로세스 혁신을 추구한다. 그러나 실제로는 둘 다 상호 보완적으로 활용된다.
@@ -79,16 +79,16 @@ PI는 체계적인단계를 통해실행되며, 각 단계에서 다양한 분�
 
 [1단계: Automation]
 엑셀 도입으로 수작업 계산 자동화
-        │
-        ▼
+        |
+        v
 [2단계: Integration]
 ERP 도입으로 부서 간 데이터 공유
-        │
-        ▼
+        |
+        v
 [3단계: Digital Transformation]
 클라우드, 모바일, 소셜 미디어 활용
-        │
-        ▼
+        |
+        v
 [4단계: 지능형 자동화]
 AI/ML 기반 예측 및 의사결정 자동화
 ```
@@ -123,22 +123,22 @@ PI와 다른 경영혁신기법과의 [관계](/knowledge-base/studynote/05_data
 
 [기존 비즈니스 모델]
  产品中心 + 传统渠道 + 物理设施
-        │
-        │ PI 적용
-        ▼
+        |
+        | PI 적용
+        v
 [디지털 전환]
- ┌──────────────────────────────────────────────────────┐
- │                                                      │
- │  [디지털 제품/서비스] ◄──► [디지털 채널]            │
- │           │                        │                  │
- │           └────────┬───────────────┘                  │
- │                    ▼                                   │
- │         [데이터 기반 의사결정]                         │
- │                    │                                   │
- │                    ▼                                   │
- │         [고객 경험 혁신]                              │
- │                                                      │
- └──────────────────────────────────────────────────────┘
+ +------------------------------------------------------+
+ |                                                      |
+ |  [디지털 제품/서비스] ◄--► [디지털 채널]            |
+ |           |                        |                  |
+ |           +--------+---------------+                  |
+ |                    v                                   |
+ |         [데이터 기반 의사결정]                         |
+ |                    |                                   |
+ |                    v                                   |
+ |         [고객 경험 혁신]                              |
+ |                                                      |
+ +------------------------------------------------------+
 ```
 
 [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)은 제품/[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 채널, 의사결정 방식, 고객 경험 전반을포함하는 포괄적 변화이다. PI는 이러한 [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)을구현하기 위한 핵심 엔진 역할을 한다.
@@ -175,14 +175,14 @@ PI는 기술 도입과 함께 조직 구성원의 업무 방식과 문화의 변
 [Phase 1: 인식]
  - 변화의 필요성 인식시킴
  - 경영진의 비전 공유
-        │
-        ▼
+        |
+        v
 [Phase 2: 준비]
  - 영향을 받는 구성원 파악
  - 교육 및 역량 강화 프로그램
  - 자원 배분
-        │
-        ▼
+        |
+        v
 [Phase 3: 실행]
  - 파일럿 运行
  - 점진적 확대
@@ -227,17 +227,17 @@ PI를 성공적으로실행하면 다음과 같은 효과를 기대할 수 있�
 
 ```text
 [AS-IS 프로세스 분석]
-    │
-    ▼
+    |
+    v
 [BPR(업무 프로세스 재설계)]
-    │
-    ▼
+    |
+    v
 [ERP/워크플로우 시스템]
-    │
-    ▼
+    |
+    v
 [RPA 자동화]
-    │
-    ▼
+    |
+    v
 [지속적 개선(BPI/Kaizen)]
 ```
 
@@ -254,7 +254,7 @@ BPR은 [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_archi
 
 **진행 상황**: 14 / 587
 
-← **이전**: [9. PI (Process Innovation)](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_pi_process_innovation/)
-**다음**: [10. EA (Enterprise Architecture) - 기업의 비즈니스, 데이터, 애플리케이션, 기술(인프라) 아키텍처를 체계적으로](/knowledge-base/studynote/12_it_management/01_governance_strategy/010_ea/) →
+<- **이전**: [9. PI (Process Innovation)](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_pi_process_innovation/)
+**다음**: [10. EA (Enterprise Architecture) - 기업의 비즈니스, 데이터, 애플리케이션, 기술(인프라) 아키텍처를 체계적으로](/knowledge-base/studynote/12_it_management/01_governance_strategy/010_ea/) ->
 
 ---

@@ -20,9 +20,9 @@ tags = ["studynote-dataengineering"]
 
 ```text
 Foundation Model:
-  대규모 데이터(수조 토큰) → 사전 학습 (GPU 수천 장, 수개월)
-  → 범용 능력 획득
-  → Fine-tuning / Prompt → 다양한 작업 적응
+  대규모 데이터(수조 토큰) -> 사전 학습 (GPU 수천 장, 수개월)
+  -> 범용 능력 획득
+  -> Fine-tuning / Prompt -> 다양한 작업 적응
   예: GPT-4, LLaMA, BERT, Stable Diffusion
 ```
 
@@ -49,10 +49,10 @@ Foundation Model은 **"하나의 모델=모든 작업"** 패러다임의 핵심�
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[Task-specific 모델 (~2017)] → [BERT/GPT (2018, FM 시작)]
-    → [GPT-3 (2020, 대규모 FM)]
-    → [Foundation Model 보고서 (Stanford, 2021)]
-    → [현재: 멀티모달 FM (GPT-4o·Gemini)]
+[Task-specific 모델 (~2017)] -> [BERT/GPT (2018, FM 시작)]
+    -> [GPT-3 (2020, 대규모 FM)]
+    -> [Foundation Model 보고서 (Stanford, 2021)]
+    -> [현재: 멀티모달 FM (GPT-4o·Gemini)]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -66,7 +66,7 @@ Foundation Model은 **"하나의 모델=모든 작업"** 패러다임의 핵심�
 
 **진행 상황**: 143 / 258
 
-← **이전**: [142. GPT Decoder - 자기회귀 생성 모델 상세](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/142_gpt_decoder_autoregressive_generation/)
-**다음**: [144. Fine-tuning & Transfer Learning - 사전 학습 모델 적응](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/144_fine_tuning_transfer_learning/) →
+<- **이전**: [142. GPT Decoder - 자기회귀 생성 모델 상세](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/142_gpt_decoder_autoregressive_generation/)
+**다음**: [144. Fine-tuning & Transfer Learning - 사전 학습 모델 적응](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/144_fine_tuning_transfer_learning/) ->
 
 ---

@@ -22,13 +22,13 @@ tags = ["studynote-cloud-architecture"]
 따라서 [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) 명령(쓰기) 조회(읽기) 모델 DB 분리를 이해할 때는 단순 정의보다 "어떤 병목을 줄이기 위해 경계를 다시 그렸는가"를 보는 것이 중요하다. 이 관점이 잡혀야 이후의 도구·플랫폼 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 기능 비교가 아니라 구조 비교로 바뀐다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ CQRS 명령(쓰기) 조회(읽기) 모델 DB 분리가 필요한 이유: 서비스 간 결합을 낮추고 장애 전파를 차단              │
-├──────────────────────────────────────────────────────────────┤
-│ Client ─▶ Entry/Contract ─▶ Service Flow ─▶ Recovery/Policy       │
-│   │             │                  │                    │           │
-│   └──────── 버전 변화와 장애 차이를 중간 계층이 흡수 ─────────────┘
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| CQRS 명령(쓰기) 조회(읽기) 모델 DB 분리가 필요한 이유: 서비스 간 결합을 낮추고 장애 전파를 차단              |
++--------------------------------------------------------------+
+| Client --> Entry/Contract --> Service Flow --> Recovery/Policy       |
+|   |             |                  |                    |           |
+|   +-------- 버전 변화와 장애 차이를 중간 계층이 흡수 -------------+
++--------------------------------------------------------------+
 ```
 
 이 그림은 [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) 명령(쓰기) 조회(읽기) 모델 DB 분리가 단일 기능이 아니라 입력, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 실행, 피드백을 잇는 흐름 전체를 다루는 주제임을 보여준다. 즉 어디서 제어하고 어디서 자율화할지를 정하는 것이 본질이다.
@@ -47,13 +47,13 @@ tags = ["studynote-cloud-architecture"]
 | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 계층 | 재시도·격리·보상 처리 | [circuit breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/), [saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/), [fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/) |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ CQRS 명령(쓰기) 조회(읽기) 모델 DB 분리 핵심 원리                                          │
-├──────────────────────────────────────────────────────────────┤
-│ 입력/요구 ─▶ 정책 결정 ─▶ 실행/저장 ─▶ 검증/피드백            │
-│     │           │            │              │                │
-│     └────── 병목이 생기면 제어 규칙과 데이터 경계를 재조정 ──┘
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| CQRS 명령(쓰기) 조회(읽기) 모델 DB 분리 핵심 원리                                          |
++--------------------------------------------------------------+
+| 입력/요구 --> 정책 결정 --> 실행/저장 --> 검증/피드백            |
+|     |           |            |              |                |
+|     +------ 병목이 생기면 제어 규칙과 데이터 경계를 재조정 --+
++--------------------------------------------------------------+
 ```
 
 강한 통제는 안정성을 높이지만 지연과 복잡도를 늘리고, 느슨한 통제는 유연성을 높이지만 거버넌스와 관측성을 약화시킬 수 있다. 그래서 [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) 명령(쓰기) 조회(읽기) 모델 DB 분리는 기술 선택보다도 경계와 기본값을 정하는 설계 문제로 봐야 한다.
@@ -110,7 +110,7 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
-[직접 호출·강결합] → [CQRS 명령(쓰기) 조회(읽기) 모델 DB 분리] → [복원력·관측성 내장 구조]
+[직접 호출·강결합] -> [CQRS 명령(쓰기) 조회(읽기) 모델 DB 분리] -> [복원력·관측성 내장 구조]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -124,7 +124,7 @@ tags = ["studynote-cloud-architecture"]
 
 **진행 상황**: 288 / 371
 
-← **이전**: [288. 사가 패턴 보상 트랜잭션 2PC 대안 (Saga)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/288_saga_2pc/)
-**다음**: [290. 이벤트 소싱 상태 변경 이력 순차 저장 스트림 (Cloud Architecture Concept)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/290_process/) →
+<- **이전**: [288. 사가 패턴 보상 트랜잭션 2PC 대안 (Saga)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/288_saga_2pc/)
+**다음**: [290. 이벤트 소싱 상태 변경 이력 순차 저장 스트림 (Cloud Architecture Concept)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/290_process/) ->
 
 ---

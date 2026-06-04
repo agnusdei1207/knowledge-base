@@ -10,7 +10,7 @@ tags = ["studynote-operating-system"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 부트로더(Bootloader)는 컴퓨터 전원이 켜질 때 가장 먼저 실행되는 소프트웨어로, 하드웨어 초기화 후 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 메모리에 적재(Load)하고 제어를 넘기는 역할을 한다. BIOS→[MBR](/knowledge-base/studynote/02_operating_system/09_file_system/515_mbr_vs_gpt/)→부트로더→[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 순서가 전통 부팅 체인이다.
+> 1. **본질**: 부트로더(Bootloader)는 컴퓨터 전원이 켜질 때 가장 먼저 실행되는 소프트웨어로, 하드웨어 초기화 후 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 메모리에 적재(Load)하고 제어를 넘기는 역할을 한다. BIOS->[MBR](/knowledge-base/studynote/02_operating_system/09_file_system/515_mbr_vs_gpt/)->부트로더->[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 순서가 전통 부팅 체인이다.
 > 2. **가치**: 부트로더는 하드웨어와 OS 사이의 브릿지다. 적절한 부트로더가 없으면 OS는 실행 불가능하다. GRUB, U-Boot, [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) 등이 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)·임베디드·서버에서 각각 표준으로 사용된다.
 > 3. **판단 포인트**: BIOS vs [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) — 전통 BIOS는 [MBR](/knowledge-base/studynote/02_operating_system/09_file_system/515_mbr_vs_gpt/)(512B) 제약(2TB 이하 디스크, 4개 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))이 있고 16비트 실행 모드로 시작한다. UEFI는 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)(9.4ZB), [Secure Boot](/knowledge-base/studynote/02_operating_system/10_security/608_secure_boot/), 64비트 네이티브, 빠른 부팅을 제공한다. 현대 시스템은 UEFI가 표준이다.
 
@@ -19,27 +19,27 @@ tags = ["studynote-operating-system"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│               전통 BIOS 부팅 순서                         │
-├──────────────────────────────────────────────────────────┤
-│                                                           │
-│  전원 ON                                                  │
-│    │                                                      │
-│    ▼                                                      │
-│  BIOS (ROM/NVRAM) — POST(Power-On Self Test) 수행         │
-│    │  CPU, RAM, 키보드, 디스크 초기화 검사                │
-│    ▼                                                      │
-│  MBR (Master Boot Record) — 디스크 첫 512바이트           │
-│    │  부트로더 1단계 코드 실행 (446바이트)                │
-│    ▼                                                      │
-│  부트로더 2단계 (GRUB Stage 2)                            │
-│    │  파일 시스템 인식, 커널 선택 메뉴                    │
-│    ▼                                                      │
-│  커널 적재 (kernel + initrd)                              │
-│    │                                                      │
-│    ▼                                                      │
-│  OS 초기화 (init/systemd)                                 │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|               전통 BIOS 부팅 순서                         |
++----------------------------------------------------------+
+|                                                           |
+|  전원 ON                                                  |
+|    |                                                      |
+|    v                                                      |
+|  BIOS (ROM/NVRAM) — POST(Power-On Self Test) 수행         |
+|    |  CPU, RAM, 키보드, 디스크 초기화 검사                |
+|    v                                                      |
+|  MBR (Master Boot Record) — 디스크 첫 512바이트           |
+|    |  부트로더 1단계 코드 실행 (446바이트)                |
+|    v                                                      |
+|  부트로더 2단계 (GRUB Stage 2)                            |
+|    |  파일 시스템 인식, 커널 선택 메뉴                    |
+|    v                                                      |
+|  커널 적재 (kernel + initrd)                              |
+|    |                                                      |
+|    v                                                      |
+|  OS 초기화 (init/systemd)                                 |
++----------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 부트로더는 자동차 시동 과정의 스타터 모터다. 키를 돌리면(전원 ON) 스타터(BIOS/[UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/))가 엔진(OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))을 시동시키고, 엔진이 켜지면 스타터는 더 이상 필요 없다.
@@ -99,22 +99,22 @@ UEFI Secure Boot 동작:
   3. 서명되지 않은 부트킷(Bootkit) 악성코드 차단
 
 문제:
-  일부 Linux 배포판이 MS 서명 필요 → Shim 부트로더 사용
+  일부 Linux 배포판이 MS 서명 필요 -> Shim 부트로더 사용
 ```
 
 ### 클라우드 부팅
 
 ```text
 VM 부팅:
-  Hypervisor (KVM/VMware) → UEFI OVMF / SeaBIOS
-  → 게스트 OS GRUB → 게스트 커널
+  Hypervisor (KVM/VMware) -> UEFI OVMF / SeaBIOS
+  -> 게스트 OS GRUB -> 게스트 커널
 
 컨테이너:
   부트로더 없음! 호스트 커널 공유
-  → 네임스페이스·cgroup으로 격리만
+  -> 네임스페이스·cgroup으로 격리만
 
 임베디드 Linux:
-  U-Boot → DTB(디바이스 트리) 적재 → Kernel → BusyBox
+  U-Boot -> DTB(디바이스 트리) 적재 -> Kernel -> BusyBox
 ```
 
 - **📢 섹션 요약 비유**: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에는 부트로더가 없다! 호텔 방([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))은 호텔 건물(호스트 OS)의 엘리베이터([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))를 공유해서 자기 방 전용 엘리베이터가 필요 없다.
@@ -149,17 +149,17 @@ VM 부팅:
 
 ```text
 [BIOS + MBR — 전통 16비트 부팅 체계]
-    │
-    ▼
+    |
+    v
 [GRUB — 멀티 OS 지원 Linux 부트로더]
-    │
-    ▼
+    |
+    v
 [UEFI + GPT — 64비트·GPT·Secure Boot 현대 표준]
-    │
-    ▼
+    |
+    v
 [TPM + Secure Boot — 하드웨어 신뢰 앵커]
-    │
-    ▼
+    |
+    v
 [컨테이너·서버리스 — 부트로더 없는 즉시 실행 환경]
 ```
 
@@ -175,7 +175,7 @@ VM 부팅:
 
 **진행 상황**: 29 / 800
 
-← **이전**: [28. 부트스트랩 프로그램 (Bootstrap Program) — 시스템 부팅의 첫 번째 코드](/knowledge-base/studynote/02_operating_system/01_overview_architecture/028_bootstrap_program/)
-**다음**: [30. UEFI vs BIOS — 현대 펌웨어 부팅 표준](/knowledge-base/studynote/02_operating_system/01_overview_architecture/030_uefi_vs_bios/) →
+<- **이전**: [28. 부트스트랩 프로그램 (Bootstrap Program) — 시스템 부팅의 첫 번째 코드](/knowledge-base/studynote/02_operating_system/01_overview_architecture/028_bootstrap_program/)
+**다음**: [30. UEFI vs BIOS — 현대 펌웨어 부팅 표준](/knowledge-base/studynote/02_operating_system/01_overview_architecture/030_uefi_vs_bios/) ->
 
 ---

@@ -21,21 +21,21 @@ tags = ["studynote-bigdata"]
 ### 시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 특성
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│              시계열 데이터의 4가지 특성                     │
-│                                                          │
-│  1. 시간 순서 (Time-Ordered)                              │
-│     타임스탬프가 기본 식별자이자 정렬 기준                    │
-│                                                          │
-│  2. 추가 전용 (Append-Only)                               │
-│     과거 데이터 수정 거의 없음 → 쓰기 최적화                 │
-│                                                          │
-│  3. 고빈도 쓰기 (High Write Throughput)                   │
-│     초당 수천~수백만 개의 센서 포인트 동시 유입               │
-│                                                          │
-│  4. 시간 기반 쿼리 (Time-Range Query)                     │
-│     "지난 1시간 평균 CPU", "어제 최대 온도" 등              │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|              시계열 데이터의 4가지 특성                     |
+|                                                          |
+|  1. 시간 순서 (Time-Ordered)                              |
+|     타임스탬프가 기본 식별자이자 정렬 기준                    |
+|                                                          |
+|  2. 추가 전용 (Append-Only)                               |
+|     과거 데이터 수정 거의 없음 -> 쓰기 최적화                 |
+|                                                          |
+|  3. 고빈도 쓰기 (High Write Throughput)                   |
+|     초당 수천~수백만 개의 센서 포인트 동시 유입               |
+|                                                          |
+|  4. 시간 기반 쿼리 (Time-Range Query)                     |
+|     "지난 1시간 평균 CPU", "어제 최대 온도" 등              |
++----------------------------------------------------------+
 ```
 
 ### 범용 DB vs 시계열 DB 비교
@@ -59,72 +59,72 @@ tags = ["studynote-bigdata"]
 ### [InfluxDB](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/255_time_series_rollup_retention_compression/) 핵심 개념 구조
 
 ```text
-┌────────────────────────────────────────────────────────────┐
-│                  InfluxDB 데이터 모델                        │
-│                                                            │
-│  Measurement (≈ 테이블):  "cpu_usage"                       │
-│  ┌──────────────┬───────────────────┬────────────────────┐ │
-│  │  Timestamp   │     Tags (인덱스)  │  Fields (값)       │ │
-│  │  (ns 정밀도) │  host | region    │  usage_user|idle   │ │
-│  ├──────────────┼──────┬────────────┼────────────────────┤ │
-│  │ 1714550400ns │ web1 │ ap-korea   │   45.2  |  54.8   │ │
-│  │ 1714550460ns │ web1 │ ap-korea   │   47.1  |  52.9   │ │
-│  │ 1714550400ns │ db1  │ ap-korea   │   12.3  |  87.7   │ │
-│  └──────────────┴──────┴────────────┴────────────────────┘ │
-│                                                            │
-│  Tags: 인덱싱, 그룹핑 기준 (low cardinality 권장)            │
-│  Fields: 실제 측정값, 집계 대상 (숫자/문자열/불리언)            │
-│  Series: Measurement + Tags의 고유 조합                      │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|                  InfluxDB 데이터 모델                        |
+|                                                            |
+|  Measurement (≈ 테이블):  "cpu_usage"                       |
+|  +--------------+-------------------+--------------------+ |
+|  |  Timestamp   |     Tags (인덱스)  |  Fields (값)       | |
+|  |  (ns 정밀도) |  host | region    |  usage_user|idle   | |
+|  +--------------+------+------------+--------------------+ |
+|  | 1714550400ns | web1 | ap-korea   |   45.2  |  54.8   | |
+|  | 1714550460ns | web1 | ap-korea   |   47.1  |  52.9   | |
+|  | 1714550400ns | db1  | ap-korea   |   12.3  |  87.7   | |
+|  +--------------+------+------------+--------------------+ |
+|                                                            |
+|  Tags: 인덱싱, 그룹핑 기준 (low cardinality 권장)            |
+|  Fields: 실제 측정값, 집계 대상 (숫자/문자열/불리언)            |
+|  Series: Measurement + Tags의 고유 조합                      |
++------------------------------------------------------------+
 ```
 
 ### [InfluxDB](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/255_time_series_rollup_retention_compression/) 보존 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) ([Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/) [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))과 다운샘플링
 
 ```text
 원시 데이터 (1초 간격, 30일 보관)
-       │
-       ↓ Continuous Query / Task
-1분 집계 (avg, min, max) → 1년 보관
-       │
-       ↓
-1시간 집계            → 5년 보관
-       │
-       ↓
-1일 집계              → 영구 보관
+       |
+       v Continuous Query / Task
+1분 집계 (avg, min, max) -> 1년 보관
+       |
+       v
+1시간 집계            -> 5년 보관
+       |
+       v
+1일 집계              -> 영구 보관
 
-결과: 스토리지 99% 절약 (1초 × 365일 → 1일 × 365일)
+결과: 스토리지 99% 절약 (1초 × 365일 -> 1일 × 365일)
 ```
 
 ### TimescaleDB 구조 (PostgreSQL 확장)
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│                 TimescaleDB 아키텍처                       │
-│                                                          │
-│  Hypertable (논리적 단일 테이블)                           │
-│  ┌──────────────────────────────────────────────────┐   │
-│  │  CREATE TABLE metrics (                          │   │
-│  │    time  TIMESTAMPTZ NOT NULL,                   │   │
-│  │    host  TEXT,                                   │   │
-│  │    cpu   DOUBLE PRECISION                        │   │
-│  │  );                                              │   │
-│  │  SELECT create_hypertable('metrics', 'time');    │   │
-│  └──────────────────────────────────────────────────┘   │
-│                        ↓                                 │
-│  Chunks (시간 기반 자동 파티션):                           │
-│  chunk_2026_04_01  |  chunk_2026_04_02  |  ...           │
-│                                                          │
-│  * 오래된 Chunk → 저비용 스토리지로 자동 이동(티어링)         │
-│  * 풀 SQL 지원: JOIN, Window Function, CTE 모두 가능       │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|                 TimescaleDB 아키텍처                       |
+|                                                          |
+|  Hypertable (논리적 단일 테이블)                           |
+|  +--------------------------------------------------+   |
+|  |  CREATE TABLE metrics (                          |   |
+|  |    time  TIMESTAMPTZ NOT NULL,                   |   |
+|  |    host  TEXT,                                   |   |
+|  |    cpu   DOUBLE PRECISION                        |   |
+|  |  );                                              |   |
+|  |  SELECT create_hypertable('metrics', 'time');    |   |
+|  +--------------------------------------------------+   |
+|                        v                                 |
+|  Chunks (시간 기반 자동 파티션):                           |
+|  chunk_2026_04_01  |  chunk_2026_04_02  |  ...           |
+|                                                          |
+|  * 오래된 Chunk -> 저비용 스토리지로 자동 이동(티어링)         |
+|  * 풀 SQL 지원: JOIN, Window Function, CTE 모두 가능       |
++----------------------------------------------------------+
 ```
 
 ### QuestDB 고성능 인제스션 구조
 
 ```text
 QuestDB 성능 비결:
-  1. 열 기반 (Columnar) 저장 → 특정 필드 집계 시 I/O 최소화
-  2. 메모리 매핑 파일 (Memory-Mapped Files) → 커널 I/O 우회
+  1. 열 기반 (Columnar) 저장 -> 특정 필드 집계 시 I/O 최소화
+  2. 메모리 매핑 파일 (Memory-Mapped Files) -> 커널 I/O 우회
   3. SIMD (Single Instruction, Multiple Data) 활용
   4. 파티션 병렬 처리
 
@@ -181,21 +181,21 @@ QuestDB 성능 비결:
 
 ```text
 센서 디바이스
-     │ MQTT/HTTP
-     ↓
+     | MQTT/HTTP
+     v
 IoT 브로커(Mosquitto/AWS IoT)
-     │ 스트림 처리
-     ↓
+     | 스트림 처리
+     v
 Kafka (버퍼 + 내결함성)
-     │
-     ↓
+     |
+     v
 시계열 DB (InfluxDB/TimescaleDB)
-     │
-     ↓
+     |
+     v
 Grafana (시각화 대시보드)
-     │
-     ↓
-이상 감지 (ML 모델 → 알람)
+     |
+     v
+이상 감지 (ML 모델 -> 알람)
 ```
 
 ### 기술사 설계 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -203,7 +203,7 @@ Grafana (시각화 대시보드)
 | 항목 | 결정 기준 |
 |:---|:---:|
 | 카디널리티 관리 | Tags 조합 수 < 수백만 ([InfluxDB](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/255_time_series_rollup_retention_compression/) High Cardinality 주의) |
-| 보존 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 설계 | 원시→1분→1시간 다운샘플링 계층 정의 |
+| 보존 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 설계 | 원시->1분->1시간 다운샘플링 계층 정의 |
 | [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화 | 시간 범위 WHERE 절 항상 포함 |
 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 시간 기반 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 오래된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 빠른 삭제 |
 | 고가용성 | [InfluxDB](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/255_time_series_rollup_retention_compression/) Enterprise 클러스터 or 관리형 클라우드 |
@@ -238,7 +238,7 @@ Grafana (시각화 대시보드)
 |:---:|:---:|:---|
 | Gorilla [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) | 저장 최적화 | 델타 XOR 인코딩, 시계열 전용 |
 | [Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/) [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리 | 보존 기간 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 자동 삭제 |
-| Downsampling | 집계 최적화 | 원시 → 집계 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계층화 |
+| Downsampling | 집계 최적화 | 원시 -> 집계 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계층화 |
 | Hypertable | TimescaleDB 구조 | 시간 기반 자동 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 테이블 |
 | PromQL | 연관 기술 | [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) 시계열 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 언어 |
 
@@ -246,18 +246,18 @@ Grafana (시각화 대시보드)
 
 ```text
 [관계형 DB (RDBMS) — 시계열 저장 시 인덱스 팽창·쓰기 병목 발생]
-    │
-    ▼
+    |
+    v
 [시계열 DB (TSDB) — 시간 스탬프 기반 압축·집계 최적화 전문 스토리지]
-    │
-    ▼
+    |
+    v
 [InfluxDB / TimescaleDB — 대표 TSDB, 라인 프로토콜·SQL 인터페이스 제공]
-    │
-    ▼
+    |
+    v
 [다운샘플링·보존 정책 (Downsampling & Retention) — 오래된 데이터 자동 집계·삭제]
-    │
-    ▼
-[스트리밍 연계 (Kafka → TSDB) — 실시간 지표 수집·저장·알림 파이프라인]
+    |
+    v
+[스트리밍 연계 (Kafka -> TSDB) — 실시간 지표 수집·저장·알림 파이프라인]
 ```
 
 이 흐름은 RDBMS의 시계열 저장 한계를 전문 TSDB가 극복하고, 다운샘플링으로 장기 보관을 최적화하며, 실시간 스트리밍 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 통합되는 과정을 보여준다.
@@ -273,7 +273,7 @@ Grafana (시각화 대시보드)
 
 **진행 상황**: 135 / 262
 
-← **이전**: [134. Cypher 쿼리 언어 (Cypher Query Language) — 그래프 패턴 매칭](/knowledge-base/studynote/16_bigdata/06_nosql/134_cypher_query/)
-**다음**: [136. 검색 엔진 데이터베이스 (Search 엔진 DB) — Elasticsearch/OpenSearch](/knowledge-base/studynote/16_bigdata/06_nosql/136_search_engine_db/) →
+<- **이전**: [134. Cypher 쿼리 언어 (Cypher Query Language) — 그래프 패턴 매칭](/knowledge-base/studynote/16_bigdata/06_nosql/134_cypher_query/)
+**다음**: [136. 검색 엔진 데이터베이스 (Search 엔진 DB) — Elasticsearch/OpenSearch](/knowledge-base/studynote/16_bigdata/06_nosql/136_search_engine_db/) ->
 
 ---

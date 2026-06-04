@@ -32,16 +32,16 @@ tags = ["studynote-ai"]
 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 학습해야 할 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) ([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)) 파라미터가 없는 정적 연산이다. 주로 $2 \times 2$ 크기의 윈도우([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))와 보폭 ([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)) 2를 사용하여 공간 해상도를 정확히 1/4로 줄인다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           [Max Pooling vs Average Pooling 연산 비교]           │
-├──────────────────────────────────────────────────────────────┤
-│  [입력 2x2 특성 맵]                                               │
-│  ┌───┬───┐                                                 │
-│  │ 1 │ 5 │ ─── Max Pooling ───────▶ [ 9 ] (가장 큰 값 추출)   │
-│  ├───┼───┤                                                 │
-│  │ 2 │ 9 │ ─── Average Pooling ───▶ [ 4.25 ] (전체 평균 계산) │
-│  └───┴───┘                                                 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           [Max Pooling vs Average Pooling 연산 비교]           |
++--------------------------------------------------------------+
+|  [입력 2x2 특성 맵]                                               |
+|  +---+---+                                                 |
+|  | 1 | 5 | --- Max Pooling --------> [ 9 ] (가장 큰 값 추출)   |
+|  +---+---+                                                 |
+|  | 2 | 9 | --- Average Pooling ----> [ 4.25 ] (전체 평균 계산) |
+|  +---+---+                                                 |
++--------------------------------------------------------------+
 ```
 
 최대 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)에서 큰 값(`9`)은 해당 위치에 필터가 찾는 특징(예: 고양이 귀)이 강하게 존재함을 의미한다. 최대 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 이 강한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)만 살리고 나머지 노이즈(`1, 2, 5`)는 제거하여 특징을 극대화한다. 반면 평균 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 노이즈까지 모두 섞어 평균(`4.25`)을 내므로, 특징이 뭉개지는 블러 (Blur) 현상을 초래한다.
@@ -107,14 +107,14 @@ GAP는 $7 \times 7$ 크기의 [특성 맵](/knowledge-base/studynote/10_ai/01_ai
 
 ```text
 합성곱 층 (Convolution Layer) 특징 추출
-    │
-    ▼
+    |
+    v
 최대 풀링 (Max Pooling) · 은닉층의 공간 정보 압축
-    │
-    ▼
+    |
+    v
 전역 평균 풀링 (GAP) · 분류기 파라미터 경량화 (ResNet 등)
-    │
-    ▼
+    |
+    v
 스트라이드 합성곱 (Strided Convolution) · 풀링을 대체하는 학습 가능한 압축
 ```
 
@@ -130,7 +130,7 @@ GAP는 $7 \times 7$ 크기의 [특성 맵](/knowledge-base/studynote/10_ai/01_ai
 
 **진행 상황**: 101 / 420
 
-← **이전**: [100. 풀링 층 (Pooling Layer) - 해상도 압축과 불변성 확보](/knowledge-base/studynote/10_ai/01_ai_basics/100_pooling_layer_max_pooling_downsampling_cnn/)
-**다음**: [102. 완전 연결 층 (FC Layer) - 추출된 특징의 1차원 분류](/knowledge-base/studynote/10_ai/02_dl_architecture_new/102_fully_connected_layer_dense_flatten_softmax/) →
+<- **이전**: [100. 풀링 층 (Pooling Layer) - 해상도 압축과 불변성 확보](/knowledge-base/studynote/10_ai/01_ai_basics/100_pooling_layer_max_pooling_downsampling_cnn/)
+**다음**: [102. 완전 연결 층 (FC Layer) - 추출된 특징의 1차원 분류](/knowledge-base/studynote/10_ai/02_dl_architecture_new/102_fully_connected_layer_dense_flatten_softmax/) ->
 
 ---

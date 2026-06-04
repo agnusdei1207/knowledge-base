@@ -33,18 +33,18 @@ SWOT 분석과 3C/4C 분석을 연계한 요구 도출은 <strong>현업이 말�
 핵심은 분석 프레임을 단순 진단표가 아니라 <strong>요구사항 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 파이프라인</strong>으로 쓰는 것이다. SWOT이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 과제의 방향을 뽑아내면, 3C/4C가 그 방향을 시장·고객·경쟁·채널 관점에서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고, 그 결과를 시스템 역량과 세부 요구로 내려야 한다. 즉 분석의 산출물은 보고서가 아니라 <strong>우선순위가 있는 요구 후보군</strong>이어야 한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Strategy-to-requirement pipeline                                   │
-├────────────────────────────────────────────────────────────────────┤
-│ SWOT -> strategic issue -> 3C/4C validation -> capability          │
-│        │                      │                   │                 │
-│        │                      ├─ customer value   ├─ process        │
-│        │                      ├─ competitor gap   ├─ data           │
-│        │                      ├─ company fit      ├─ application    │
-│        │                      └─ channel/context  └─ KPI            │
-│                                                                    │
-│ outcome : prioritized functional / non-functional requirements      │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Strategy-to-requirement pipeline                                   |
++--------------------------------------------------------------------+
+| SWOT -> strategic issue -> 3C/4C validation -> capability          |
+|        |                      |                   |                 |
+|        |                      +- customer value   +- process        |
+|        |                      +- competitor gap   +- data           |
+|        |                      +- company fit      +- application    |
+|        |                      +- channel/context  +- KPI            |
+|                                                                    |
+| outcome : prioritized functional / non-functional requirements      |
++--------------------------------------------------------------------+
 ```
 
 SWOT에서 많이 쓰는 교차 관점은 다음과 같다.
@@ -82,7 +82,7 @@ SWOT에서 많이 쓰는 교차 관점은 다음과 같다.
 | [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) / TO-BE | 현재와 목표 사이에 무엇이 비어 있는가? | 변화 과제, Gap 목록 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 우선순위 근거는 약할 수 있음 |
 | [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) ([Return on Investment](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/)) / [Business Case](/knowledge-base/studynote/04_software_engineering/03_design_architecture/172_business_case_roi_analysis/) | 왜 투자해야 하는가? | 경제성, 경영진 설득 근거 | 요구 상세 정의는 못 함 |
 
-따라서 좋은 요구 도출은 보통 다음 순서로 이어진다. <strong>SWOT으로 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 방향을 잡고 → 3C/4C로 시장 적합성을 확인하고 → <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/">AS-IS</a> / TO-BE로 운영 간극을 구체화하고 → 우선순위와 KPI로 실행 계획을 만든다.</strong> 이 연결이 끊기면 두 가지 실패가 나온다. 하나는 내부 강점만 믿고 고객이 원하지 않는 기능을 만드는 것이고, 다른 하나는 시장 트렌드만 따라가다 자사 역량이 감당 못 하는 프로젝트를 시작하는 것이다.
+따라서 좋은 요구 도출은 보통 다음 순서로 이어진다. <strong>SWOT으로 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 방향을 잡고 -> 3C/4C로 시장 적합성을 확인하고 -> <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/">AS-IS</a> / TO-BE로 운영 간극을 구체화하고 -> 우선순위와 KPI로 실행 계획을 만든다.</strong> 이 연결이 끊기면 두 가지 실패가 나온다. 하나는 내부 강점만 믿고 고객이 원하지 않는 기능을 만드는 것이고, 다른 하나는 시장 트렌드만 따라가다 자사 역량이 감당 못 하는 프로젝트를 시작하는 것이다.
 
 또한 SWOT만으로는 고객의 실제 Pain Point가 흐려질 수 있고, 3C/4C만으로는 조직 내부 제약이 과소평가될 수 있다. 그래서 둘을 함께 써야 "우리에게 가능한 것"과 "시장에 필요한 것"의 교집합을 찾을 수 있다.
 
@@ -106,16 +106,16 @@ SWOT에서 많이 쓰는 교차 관점은 다음과 같다.
 아래 흐름은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 분석이 실제 요구사항으로 변환되는 과정을 요약한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ From analysis to backlog                                           │
-├────────────────────────────────────────────────────────────────────┤
-│ strategic theme                                                    │
-│   -> required capability                                           │
-│      -> functional / non-functional requirement                    │
-│         -> owner / priority / KPI                                  │
-│                                                                    │
-│ if KPI or owner is missing, analysis is still incomplete           │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| From analysis to backlog                                           |
++--------------------------------------------------------------------+
+| strategic theme                                                    |
+|   -> required capability                                           |
+|      -> functional / non-functional requirement                    |
+|         -> owner / priority / KPI                                  |
+|                                                                    |
+| if KPI or owner is missing, analysis is still incomplete           |
++--------------------------------------------------------------------+
 ```
 
 ### 실무 판단 기준
@@ -164,17 +164,17 @@ SWOT과 3C/4C를 연계한 요구 도출의 가장 큰 효과는 **시스템 요
 
 ```text
 내부/외부 환경 진단
-        │
-        ▼
+        |
+        v
 SWOT 전략 방향 도출
-        │
-        ▼
+        |
+        v
 3C/4C 시장·채널 검증
-        │
-        ▼
+        |
+        v
 필요 역량 정의
-        │
-        ▼
+        |
+        v
 기능/비기능 요구사항 + KPI + 우선순위
 ```
 
@@ -192,7 +192,7 @@ SWOT 전략 방향 도출
 
 **진행 상황**: 179 / 973
 
-← **이전**: [178. AS-IS (현재 상태) / TO-BE (미래 상태) 분석](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)
-**다음**: [180. 마인드 맵 (Mind Map) 및 친화도 (Affinity Diagram)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/180_mind_map_affinity_diagram/) →
+<- **이전**: [178. AS-IS (현재 상태) / TO-BE (미래 상태) 분석](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)
+**다음**: [180. 마인드 맵 (Mind Map) 및 친화도 (Affinity Diagram)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/180_mind_map_affinity_diagram/) ->
 
 ---

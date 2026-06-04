@@ -26,16 +26,16 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 왜 장부가 필요한지, 그리고 어떤 종류의 낭비를 줄이는지를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                Broadcast vs Directory Message Scope                  │
-├───────────────────────────────┬──────────────────────────────────────┤
-│ Snooping                      │ Directory-based                      │
-├───────────────────────────────┼──────────────────────────────────────┤
-│ Core0 write X                 │ Core0 write X                        │
-│   └─ broadcast to all cores   │   └─ ask Home Node for sharers       │
-│ Core1..Core127 all snoop      │ Home Node -> Core5, Core9 only       │
-│   └─ most messages irrelevant │   └─ only real holders invalidate    │
-└───────────────────────────────┴──────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                Broadcast vs Directory Message Scope                  |
++-------------------------------+--------------------------------------+
+| Snooping                      | Directory-based                      |
++-------------------------------+--------------------------------------+
+| Core0 write X                 | Core0 write X                        |
+|   +- broadcast to all cores   |   +- ask Home Node for sharers       |
+| Core1..Core127 all snoop      | Home Node -> Core5, Core9 only       |
+|   +- most messages irrelevant |   +- only real holders invalidate    |
++-------------------------------+--------------------------------------+
 ```
 
 이 차이는 단순히 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 수 절감 이상의 의미를 가진다. 스누핑은 참여자가 늘수록 모든 코어가 비용을 함께 부담하지만, [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)는 실제 공유 관계가 희소할수록 더 큰 이득을 본다. 따라서 대규모 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 시스템에서 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 기법이 아니라 생존 조건에 가깝다.
@@ -60,16 +60,16 @@ tags = ["studynote-computer-architecture"]
 다음 그림은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 업그레이드(write upgrade)에서 홈 노드가 어떤 순서로 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 중개하는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 Write Permission Flow in Directory                   │
-├──────────────────────────────────────────────────────────────────────┤
-│ Requester(Core0) -> Home Node : GetM(X)                             │
-│ Home Node      -> Sharer(Core5): Invalidate(X)                      │
-│ Home Node      -> Sharer(Core9): Invalidate(X)                      │
-│ Sharer(Core5)  -> Home Node : Done                                  │
-│ Sharer(Core9)  -> Home Node : Done                                  │
-│ Home Node      -> Core0      : Grant Modified                       │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 Write Permission Flow in Directory                   |
++----------------------------------------------------------------------+
+| Requester(Core0) -> Home Node : GetM(X)                             |
+| Home Node      -> Sharer(Core5): Invalidate(X)                      |
+| Home Node      -> Sharer(Core9): Invalidate(X)                      |
+| Sharer(Core5)  -> Home Node : Done                                  |
+| Sharer(Core9)  -> Home Node : Done                                  |
+| Home Node      -> Core0      : Grant Modified                       |
++----------------------------------------------------------------------+
 ```
 
 이 구조 덕분에 전체 네트워크가 무작정 흔들리지는 않지만, 요청이 홈 노드를 한 번 거쳐야 하므로 홉 수(hop count)가 늘어난다. 또한 코어 수만큼 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 두는 풀 [비트 벡터](/knowledge-base/studynote/02_operating_system/09_file_system/533_bit_vector_bitmap/)(full [bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) vector) 방식은 단순하지만 저장 비용이 크다. 그래서 실제 시스템은 제한 포인터(limited pointer), 거친 벡터(coarse vector), 계층형 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 같은 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 구조를 사용해 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 비용을 줄인다.
@@ -150,18 +150,18 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 공유 버스 기반 일관성
-    │
-    ▼
+    |
+    v
 스누핑 프로토콜 (Snooping Protocol)
-    │
-    ▼
+    |
+    v
 디렉터리 기반 프로토콜 (Directory-based Protocol)
-    │
-    ├─▶ ccNUMA (cache-coherent Non-Uniform Memory Access)
-    │
-    ├─▶ 제한 포인터 / 계층형 디렉터리
-    │
-    ▼
+    |
+    +--> ccNUMA (cache-coherent Non-Uniform Memory Access)
+    |
+    +--> 제한 포인터 / 계층형 디렉터리
+    |
+    v
 분산 디렉터리 · many-core · 패킷 기반 인터커넥트
 ```
 
@@ -179,7 +179,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 405 / 803
 
-← **이전**: [403. 스누핑 프로토콜 (Snooping Protocol)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/403_snooping_protocol/)
-**다음**: [405. 무효화 정책 (Write-Invalidate)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/405_write_invalidate/) →
+<- **이전**: [403. 스누핑 프로토콜 (Snooping Protocol)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/403_snooping_protocol/)
+**다음**: [405. 무효화 정책 (Write-Invalidate)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/405_write_invalidate/) ->
 
 ---

@@ -38,18 +38,18 @@ K-Means [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/00
 | **실루엣 계수 (Silhouette Coefficient)** | 군집 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) $a(i)$와 인접 군집과의 분리도 $b(i)$를 비교 계산 | $s(i) = \frac{b(i) - a(i)}{\max(a(i), b(i))}$, -1 ~ 1의 값 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  최적 K 도출을 위한 지표 변화 그래프                │
-├──────────────────────────────────────────────────────────────┤
-│    [ 엘보우 기법 (SSE) ]            [ 실루엣 분석 (Score) ]     │
-│ SSE                                Score                      │
-│  │\                                1.0 │    [최적 K 지점]     │
-│  │ \  <- 감소가 둔화되는 팔꿈치           │   / \                │
-│  │  \ (Elbow Point)                0.5 │  /   \              │
-│  │   *─────▶ K=3 이 적당해 보임        │ /     \             │
-│  │    \                                │/       \            │
-│  └──────────────── K               └──────────────── K      │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  최적 K 도출을 위한 지표 변화 그래프                |
++--------------------------------------------------------------+
+|    [ 엘보우 기법 (SSE) ]            [ 실루엣 분석 (Score) ]     |
+| SSE                                Score                      |
+|  |\                                1.0 |    [최적 K 지점]     |
+|  | \  <- 감소가 둔화되는 팔꿈치           |   / \                |
+|  |  \ (Elbow Point)                0.5 |  /   \              |
+|  |   *------> K=3 이 적당해 보임        | /     \             |
+|  |    \                                |/       \            |
+|  +---------------- K               +---------------- K      |
++--------------------------------------------------------------+
 ```
 
 엘보우 기법은 K가 증가함에 따라 SSE가 급격히 줄어들다가 어느 순간 완만해지는 변곡점을 찾는다. 반면 실루엣 분석은 개별 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 자신이 속한 군집에 얼마나 잘 맞고 다른 군집과 얼마나 잘 분리되었는지를 -1에서 1 사이의 스코어로 정량화하여 가장 1에 가까운 K 지점을 찾아낸다.
@@ -113,17 +113,17 @@ K-Means와 두 가지 평가 지표의 결합은 정답이 없는 미지의 [데
 
 ```text
 미지의 데이터 군집화 (비지도 학습)
-    │
-    ▼
+    |
+    v
 K-Means 군집화 알고리즘 · 유클리드 거리 측정
-    │
-    ▼
+    |
+    v
 최적 K 도출 1: 엘보우 (Elbow) 기법 (SSE 감소량 확인)
-    │
-    ▼
+    |
+    v
 최적 K 도출 2: 실루엣 (Silhouette) 분석 (군집 내/외부 거리 평가)
-    │
-    ▼
+    |
+    v
 초기화 문제 해결 (K-Means++) 및 고차원 문제 해결 (PCA 결합)
 ```
 
@@ -139,7 +139,7 @@ K-Means 군집화 알고리즘 · 유클리드 거리 측정
 
 **진행 상황**: 100 / 258
 
-← **이전**: [A/B 테스트 검정력 및 p-value 해킹 (A/B Testing Power & p-value Hacking)](/knowledge-base/studynote/14_data_engineering/02_math_mining/099_ab_testing_statistical_power/)
-**다음**: [나이브 베이즈 분류와 라플라스 스무딩 (Naive Bayes Classifier & Laplace Smoothing)](/knowledge-base/studynote/14_data_engineering/02_math_mining/101_naive_bayes_classifier/) →
+<- **이전**: [A/B 테스트 검정력 및 p-value 해킹 (A/B Testing Power & p-value Hacking)](/knowledge-base/studynote/14_data_engineering/02_math_mining/099_ab_testing_statistical_power/)
+**다음**: [나이브 베이즈 분류와 라플라스 스무딩 (Naive Bayes Classifier & Laplace Smoothing)](/knowledge-base/studynote/14_data_engineering/02_math_mining/101_naive_bayes_classifier/) ->
 
 ---

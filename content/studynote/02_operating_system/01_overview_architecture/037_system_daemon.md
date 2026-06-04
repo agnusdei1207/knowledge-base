@@ -225,7 +225,7 @@ systemd --user: 사용자 레벨 서비스
 
 **진행 상황**: 37 / 800
 
-← **이전**: [036. 커널 패닉 (Kernel Panic)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/)
-**다음**: [038. init과 systemd — 부팅 초기화 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/038_init_systemd/) →
+<- **이전**: [036. 커널 패닉 (Kernel Panic)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/)
+**다음**: [038. init과 systemd — 부팅 초기화 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/038_init_systemd/) ->
 
 ---

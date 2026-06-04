@@ -24,31 +24,31 @@ tags = ["studynote-it-management"]
 ```text
 [IT 경영 관리 프레임워크 전체 구조도]
 
-  ┌─────────────────────────────────────────────────────────────┐
-  │              Mission / Vision / 전략적 목표                  │
-  └──────────────────────────┬──────────────────────────────────┘
-                             │
-  ┌──────────────────────────▼──────────────────────────────────┐
-  │                  IT 거버넌스 (Governance)                     │
-  │  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐    │
-  │  │ 전략위   │  │  CIO     │  │  EA위    │  │ PMO      │    │
-  │  │ (Steering│  │ (의사결정)│  │ (표준화) │  │ (집행)   │    │
-  │  │  Committee)│ │          │  │          │  │          │    │
-  │  └────┬─────┘  └────┬─────┘  └────┬─────┘  └────┬─────┘    │
-  └───────┼─────────────┼─────────────┼─────────────┼───────────┘
-          │             │             │             │
-  ┌───────▼─────────────▼─────────────▼─────────────▼───────────┐
-  │                    IT 관리 프로세스                          │
-  │  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐    │
-  │  │전략기획  │→ │포트폴리오│→ │프로젝트  │→ │서비스   │    │
-  │  │(ISP)     │  │관리(PPM) │  │관리(PMO) │  │운영(ITSM)│    │
-  │  └──────────┘  └──────────┘  └──────────┘  └──────────┘    │
-  └───────┬─────────────────────────────────────────┬───────────┘
-          │                                         │
-  ┌───────▼───────────────────┐  ┌─────────────────▼───────────┐
-  │   BSC 기반 성과 측정       │  │   리스크/컴플라이언스        │
-  │  (4관점 KPI)              │  │  (ISO 27001, GDPR, PIPC)   │
-  └───────────────────────────┘  └─────────────────────────────┘
+  +-------------------------------------------------------------+
+  |              Mission / Vision / 전략적 목표                  |
+  +--------------------------+----------------------------------+
+                             |
+  +--------------------------v----------------------------------+
+  |                  IT 거버넌스 (Governance)                     |
+  |  +----------+  +----------+  +----------+  +----------+    |
+  |  | 전략위   |  |  CIO     |  |  EA위    |  | PMO      |    |
+  |  | (Steering|  | (의사결정)|  | (표준화) |  | (집행)   |    |
+  |  |  Committee)| |          |  |          |  |          |    |
+  |  +----+-----+  +----+-----+  +----+-----+  +----+-----+    |
+  +-------+-------------+-------------+-------------+-----------+
+          |             |             |             |
+  +-------v-------------v-------------v-------------v-----------+
+  |                    IT 관리 프로세스                          |
+  |  +----------+  +----------+  +----------+  +----------+    |
+  |  |전략기획  |-> |포트폴리오|-> |프로젝트  |-> |서비스   |    |
+  |  |(ISP)     |  |관리(PPM) |  |관리(PMO) |  |운영(ITSM)|    |
+  |  +----------+  +----------+  +----------+  +----------+    |
+  +-------+-----------------------------------------+-----------+
+          |                                         |
+  +-------v-------------------+  +-----------------v-----------+
+  |   BSC 기반 성과 측정       |  |   리스크/컴플라이언스        |
+  |  (4관점 KPI)              |  |  (ISO 27001, GDPR, PIPC)   |
+  +---------------------------+  +-----------------------------+
 ```
 
 기존 패러다임은 IT를 비용 중심(Cost Center)으로 인식하여 CAPEX(자본적 지출) 회계 방식에 머물렀으나, 새로운 패러다임은 IT를 가치 창출 센터(Value Center)로 재정의하고, 클라우드/구독 모델 기반 OPEX(운영적 지출)와 TCO(Total Cost of Ownership) 기반 의사결정을 수행한다. 이를 위해 BSIMM(Building Security In Maturity Model), CMMI(Capability Maturity Model Integration) 등 성숙도 모델을 활용한 정량적 거버넌스가 필수적이다.
@@ -65,28 +65,28 @@ IT 경영 관리 아키텍처는 크게 **거버넌스 계층(Governance Layer)*
 [IT 투자 의사결정 및 가치 실현 흐름 - 5단계 Value Realization Model]
 
   Stage 1        Stage 2        Stage 3        Stage 4        Stage 5
-  [아이디어]  →  [평가/선정]  →  [실행]      →  [운영]      →  [성과측정]
+  [아이디어]  ->  [평가/선정]  ->  [실행]      ->  [운영]      ->  [성과측정]
   Idea          Selection       Execution      Operation      Evaluation
-  ─────────────────────────────────────────────────────────────────────
-  ┌─────┐     ┌─────────┐     ┌─────────┐   ┌─────────┐   ┌─────────┐
-  │     │     │ Business│     │ Project │   │ Service │   │ KPI    │
-  │Idea │────▶│ Case    │────▶│ Mgmt    │──▶│ Mgmt    │──▶│ BSC    │
-  │Pool │     │ (NPV,   │     │ (PMO)   │   │ (ITSM)  │   │ Score  │
-  │     │     │ IRR,    │     │         │   │ SLA    │   │        │
-  └─────┘     │ Payback)│     └─────────┘   └─────────┘   └─────────┘
-              └─────────┘            │              │            │
-                                    │              │            │
-                              ┌─────▼─────┐   ┌─────▼─────┐  ┌──▼──────┐
-              [Stage 3 Gate]   │Scope/    │   │Benefit    │  │Value   │
-              일정/품질/예산   │Schedule/ │   │Realization│  │Capture │
-              Triple Constraint│Budget   │   │Plan       │  │        │
-                              └──────────┘   └────────────┘  └─────────┘
+  ---------------------------------------------------------------------
+  +-----+     +---------+     +---------+   +---------+   +---------+
+  |     |     | Business|     | Project |   | Service |   | KPI    |
+  |Idea |----->| Case    |----->| Mgmt    |--->| Mgmt    |--->| BSC    |
+  |Pool |     | (NPV,   |     | (PMO)   |   | (ITSM)  |   | Score  |
+  |     |     | IRR,    |     |         |   | SLA    |   |        |
+  +-----+     | Payback)|     +---------+   +---------+   +---------+
+              +---------+            |              |            |
+                                    |              |            |
+                              +-----v-----+   +-----v-----+  +--v------+
+              [Stage 3 Gate]   |Scope/    |   |Benefit    |  |Value   |
+              일정/품질/예산   |Schedule/ |   |Realization|  |Capture |
+              Triple Constraint|Budget   |   |Plan       |  |        |
+                              +----------+   +------------+  +---------+
 ```
 
 | 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
 | **IT 전략위원회 (Steering Committee)** | CIO·CEO·CFO·COO 등 C-Level 의사결정 기구 | 월 1회 정례 회의, IT 투자 포트폴리오 승인, BSC 관점별 KPI 리뷰, ISO 38500 6원칙(Evaluate-Direct-Monitor-Decide) 적용 |
-| **COBIT 2019 거버넌스 시스템** | IT 목표-기업 목표 정렬, 40개 관리 목표 | Cascade Goal: 기업 13목표 → IT 13목표 → Enabler 7종(원리/정책/프레임워크/프로세스/조직/정보/인프라) |
+| **COBIT 2019 거버넌스 시스템** | IT 목표-기업 목표 정렬, 40개 관리 목표 | Cascade Goal: 기업 13목표 -> IT 13목표 -> Enabler 7종(원리/정책/프레임워크/프로세스/조직/정보/인프라) |
 | **BSC (Balanced Scorecard)** | 4관점 균형 성과 측정 | 재무관점(ROI, NPV) / 고객관점(NPS, CSAT) / 내부프로세스(처리속도, 결함률) / 학습성장(직원역량, 혁신률) |
 | **PMO (Project Management Office)** | 프로젝트 포트폴리오 통합 관리 | Earned Value Management(EVM: CPI, SPI), 위험도-가치 매트릭스, Stage-Gate Process, KPI 대시보드 |
 | **EA (Enterprise Architecture)** | 업무-정보-시스템-기술 4계층 표준화 | TOGAF ADM(Architecture Development Method) 8단계, Zachman Framework 6x6 매트릭스, ARIS/EA플랫폼 |
@@ -104,7 +104,7 @@ IT 경영 관리 아키텍처는 크게 **거버넌스 계층(Governance Layer)*
 ### 거버넌스 의사결정 모델
 
 - **RACI 매트릭스**: 각 활동에 대해 1명의 A(Accountable), 1-2명의 R(Responsible), 다수의 C(Consulted), I(Informed) 배정
-- **Stage-Gate Process**: Idea → Business Case → Plan → Develop → Test → Launch → Operate의 7단계별 Go/Kill 결정
+- **Stage-Gate Process**: Idea -> Business Case -> Plan -> Develop -> Test -> Launch -> Operate의 7단계별 Go/Kill 결정
 - **Risk-Value Matrix**: 4분면(고위험-고가치/고위험-저가치/저위험-고가치/저위험-저가치)으로 투자 우선순위 결정
 
 - **📢 섹션 요약 비유**: COBIT과 BSC는 회사의 '두뇌'와 '심장'과 같습니다. COBIT(거버넌스)이 두뇌처럼 합리적 의사결정 구조를 짜고, BSC(성과측정)가 심장처럼 4가지 혈관(4관점)으로 가치를 온몸에 공급합니다. 둘 중 하나라도 없으면 조직은 죽거나 방향을 잃습니다.
@@ -118,7 +118,7 @@ IT 경영 관리에서 자주 혼동되는 주요 프레임워크와 개념을 �
 | 구분 | **COBIT 2019** (거버넌스) | **ITIL 4** (서비스 운영) | **PMBOK 7** (프로젝트 관리) | **ISO 38500** (IT 거버넌스 표준) |
 | :--- | :--- | :--- | :--- | :--- |
 | **목적** | IT와 비즈니스 목표 정렬 | IT 서비스 가치 공동창조 | 프로젝트 성공적 수행 | IT 의사결정의 책임·투명성 |
-| **적용 범위** | 엔터프라이즈 전체 (전략→운영) | 서비스 라이프사이클 중심 | 단일 프로젝트 한정 | 거버넌스 의사결정 원칙 |
+| **적용 범위** | 엔터프라이즈 전체 (전략->운영) | 서비스 라이프사이클 중심 | 단일 프로젝트 한정 | 거버넌스 의사결정 원칙 |
 | **핵심 산출물** | 40 관리목표, 7 Enabler, Maturity Model | 34 Practice, Service Value Chain | 12 Project Principles, 8 Domains | 6 원칙(책임/전략/취득/성능/규정/인간) |
 | **프로세스 수** | 40개 관리목표 | 34개 Practice | 8개 Performance Domain | 6개 원칙 + 5개 거버넌스 모델 |
 | **성숙도 모델** | CMMI 0-5단계 (6단계) | 4-Dimension 모델 | Organizational Maturity | 자체 평가 체크리스트 |
@@ -133,23 +133,23 @@ IT 경영 관리에서 자주 혼동되는 주요 프레임워크와 개념을 �
 ```text
 [IT 경영 관리 통합 아키텍처 - 거버넌스/관리/운영/인프라 4계층]
 
-  ┌─────────────────────────────────────────────────────────────┐
-  │ [1] 거버넌스 계층: ISO 38500 / COBIT 2019                   │
-  │      - 이사회/전략위 / BSC / GRC 대시보드                    │
-  │         ↓ KPI/CSF (Critical Success Factor)                 │
-  ├─────────────────────────────────────────────────────────────┤
-  │ [2] 관리 계층: ISP / EA / PPM / Portfolio Mgmt              │
-  │      - TOGAF / Zachman / Stage-Gate / Risk-Value Matrix     │
-  │         ↓ 서비스 카탈로그 / 프로젝트 헌장(Project Charter)   │
-  ├─────────────────────────────────────────────────────────────┤
-  │ [3] 운영 계층: ITIL 4 / DevOps / Agile / SRE               │
-  │      - Service Value Chain / CI-CD Pipeline / AIOps        │
-  │         ↓ SLA / OLA / UC (계약서)                            │
-  ├─────────────────────────────────────────────────────────────┤
-  │ [4] 인프라/플랫폼 계층: Cloud / Container / Data Platform    │
-  │      - AWS/Azure/GCP / K8s / Snowflake / Data Lake         │
-  │         ↓ IaC(Terraform) / Observability(Prometheus-Grafana)│
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  | [1] 거버넌스 계층: ISO 38500 / COBIT 2019                   |
+  |      - 이사회/전략위 / BSC / GRC 대시보드                    |
+  |         v KPI/CSF (Critical Success Factor)                 |
+  +-------------------------------------------------------------+
+  | [2] 관리 계층: ISP / EA / PPM / Portfolio Mgmt              |
+  |      - TOGAF / Zachman / Stage-Gate / Risk-Value Matrix     |
+  |         v 서비스 카탈로그 / 프로젝트 헌장(Project Charter)   |
+  +-------------------------------------------------------------+
+  | [3] 운영 계층: ITIL 4 / DevOps / Agile / SRE               |
+  |      - Service Value Chain / CI-CD Pipeline / AIOps        |
+  |         v SLA / OLA / UC (계약서)                            |
+  +-------------------------------------------------------------+
+  | [4] 인프라/플랫폼 계층: Cloud / Container / Data Platform    |
+  |      - AWS/Azure/GCP / K8s / Snowflake / Data Lake         |
+  |         v IaC(Terraform) / Observability(Prometheus-Grafana)|
+  +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: COBIT과 ITIL의 관계는 도시계획(COBIT)과 건물 관리(ITIL)의 차이입니다. 도시계획이 전체 도시의 토지이용·도로·공원 배치를 결정(거버넌스)한다면, 건물 관리는 개별 건물의 HVAC·소방·청소를 관리(운영)합니다. 둘 다 필요하지만 책임 영역이 다릅니다.
@@ -170,7 +170,7 @@ IT 경영 관리에서 자주 혼동되는 주요 프레임워크와 개념을 �
 
 **진행 상황**: 662 / 800
 
-← **이전**: [661. IT 경영 관리 핵심 토픽 661번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/661_it_management_core_topic_661_exam_summary/)
-**다음**: [663. IT 경영 관리 핵심 토픽 663번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/663_it_management_core_topic_663_exam_summary/) →
+<- **이전**: [661. IT 경영 관리 핵심 토픽 661번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/661_it_management_core_topic_661_exam_summary/)
+**다음**: [663. IT 경영 관리 핵심 토픽 663번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/663_it_management_core_topic_663_exam_summary/) ->
 
 ---

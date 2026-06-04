@@ -32,14 +32,14 @@ tags = ["studynote-enterprise"]
 
 ```text
 [사용자/BI 도구] (Standard SQL 쿼리 실행)
-           │
-           ▼
-┌──────────────────────────────────────────────────────────────┐
-│                  데이터 가상화 계층 (DV Layer)                │
-│ [추상화] [연방 쿼리 최적화] [캐싱] [데이터 보안 및 거버넌스]  │
-└──────────────────────────────────────────────────────────────┘
-      │               │               │               │
-      ▼               ▼               ▼               ▼
+           |
+           v
++--------------------------------------------------------------+
+|                  데이터 가상화 계층 (DV Layer)                |
+| [추상화] [연방 쿼리 최적화] [캐싱] [데이터 보안 및 거버넌스]  |
++--------------------------------------------------------------+
+      |               |               |               |
+      v               v               v               v
  [SQL DB]        [NoSQL DB]       [SaaS API]      [Flat Files]
 ```
 
@@ -109,17 +109,17 @@ tags = ["studynote-enterprise"]
 
 ```
 물리적 ETL 복사 - 지연·중복 스토리지 문제
-    │
-    ▼
+    |
+    v
 연합 쿼리 (Federated Query) 초기 방식
-    │
-    ▼
+    |
+    v
 데이터 가상화 레이어 - 논리적 단일 뷰 제공
-    │
-    ▼
+    |
+    v
 Denodo/Dremio - 실시간 쿼리 푸시다운 최적화
-    │
-    ▼
+    |
+    v
 Data Fabric 구성 요소로 편입·진화
 ```
 
@@ -136,7 +136,7 @@ Data Fabric 구성 요소로 편입·진화
 
 **진행 상황**: 297 / 482
 
-← **이전**: [296. 데이터 패브릭 (Data Fabric)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/296_data_fabric/)
-**다음**: [298. 빅데이터 분산 처리 프레임워크 (MapReduce vs Spark)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/298_distributed_processing_framework_mapreduce_spark/) →
+<- **이전**: [296. 데이터 패브릭 (Data Fabric)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/296_data_fabric/)
+**다음**: [298. 빅데이터 분산 처리 프레임워크 (MapReduce vs Spark)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/298_distributed_processing_framework_mapreduce_spark/) ->
 
 ---

@@ -31,29 +31,29 @@ tags = ["studynote-bigdata"]
 ### A/B 테스트 프레임워크
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                  A/B 테스트 실행 프레임워크                           │
-├──────────────────────────────────────────────────────────────────────┤
-│  1. 가설 설정                                                         │
-│     H0 (귀무): 버튼 색 변경이 CTR에 영향 없음                         │
-│     H1 (대립): 초록 버튼이 파랑보다 CTR 높음                           │
-│                                                                      │
-│  2. 표본 크기 계산 (검정력 분석, Power Analysis)                      │
-│     α = 0.05 (유의수준), 1-β = 0.80 (검정력), δ = 최소효과크기(MDE)  │
-│     → 최소 n명이 필요 (각 그룹)                                       │
-│                                                                      │
-│  3. 무작위 배정 (Randomization)                                       │
-│     user_id 기반 해시 → A 그룹 (50%) or B 그룹 (50%)                 │
-│                                                                      │
-│  4. 실험 실행 (충분한 기간 = 1~2주 이상)                              │
-│                                                                      │
-│  5. 통계 분석                                                         │
-│     t-test / Z-test → p-value 계산                                   │
-│     p < 0.05 → H0 기각 → 통계적 유의미한 차이 존재                   │
-│                                                                      │
-│  6. 의사결정 및 롤아웃                                                │
-│     유의미 + 비즈니스 가치 → B 버전 전체 배포                         │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                  A/B 테스트 실행 프레임워크                           |
++----------------------------------------------------------------------+
+|  1. 가설 설정                                                         |
+|     H0 (귀무): 버튼 색 변경이 CTR에 영향 없음                         |
+|     H1 (대립): 초록 버튼이 파랑보다 CTR 높음                           |
+|                                                                      |
+|  2. 표본 크기 계산 (검정력 분석, Power Analysis)                      |
+|     α = 0.05 (유의수준), 1-β = 0.80 (검정력), δ = 최소효과크기(MDE)  |
+|     -> 최소 n명이 필요 (각 그룹)                                       |
+|                                                                      |
+|  3. 무작위 배정 (Randomization)                                       |
+|     user_id 기반 해시 -> A 그룹 (50%) or B 그룹 (50%)                 |
+|                                                                      |
+|  4. 실험 실행 (충분한 기간 = 1~2주 이상)                              |
+|                                                                      |
+|  5. 통계 분석                                                         |
+|     t-test / Z-test -> p-value 계산                                   |
+|     p < 0.05 -> H0 기각 -> 통계적 유의미한 차이 존재                   |
+|                                                                      |
+|  6. 의사결정 및 롤아웃                                                |
+|     유의미 + 비즈니스 가치 -> B 버전 전체 배포                         |
++----------------------------------------------------------------------+
 ```
 
 ### 통계 개념 정리
@@ -97,10 +97,10 @@ A/B 테스트는 [클릭스트림 분석](/knowledge-base/studynote/16_bigdata/0
 
 ### 적용 시나리오
 
-1. **이커머스 체크아웃**: CTA 버튼 문구 "구매하기" vs "지금 결제" → 전환율 비교
-2. **이메일 캠페인**: 제목줄 A vs B → 오픈율·클릭률 비교
-3. <strong>가격 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: 월 구독 $9.99 vs $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) vs $12.99 (A/B/n) → 매출 최적화
-4. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 변경</strong>: 추천 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) v1 vs v2 → 참여율·구매 전환율 비교
+1. **이커머스 체크아웃**: CTA 버튼 문구 "구매하기" vs "지금 결제" -> 전환율 비교
+2. **이메일 캠페인**: 제목줄 A vs B -> 오픈율·클릭률 비교
+3. <strong>가격 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: 월 구독 $9.99 vs $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) vs $12.99 (A/B/n) -> 매출 최적화
+4. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 변경</strong>: 추천 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) v1 vs v2 -> 참여율·구매 전환율 비교
 
 ### A/B 테스트 플랫폼
 
@@ -134,7 +134,7 @@ A/B 테스트는 [클릭스트림 분석](/knowledge-base/studynote/16_bigdata/0
 
 A/B 테스트는 단순한 실험 기법이 아니라 조직이 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 배우는" 문화를 구현하는 방법론이다. 통계적 엄밀함과 비즈니스 맥락의 균형이 핵심이다. 빅데이터 시대에는 수억 명의 사용자를 대상으로 수천 개의 실험을 동시에 운영하는 실험 [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)이 핵심 경쟁력이 됐다.
 
-- **📢 섹션 요약 비유**: A/B 테스트는 과학자가 실험실에서 하는 것을 온라인 비즈니스에 적용한 것이다. 가설→실험→[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)→결론의 과학적 사이클이 제품 개선을 이끈다.
+- **📢 섹션 요약 비유**: A/B 테스트는 과학자가 실험실에서 하는 것을 온라인 비즈니스에 적용한 것이다. 가설->실험->[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)->결론의 과학적 사이클이 제품 개선을 이끈다.
 
 ---
 
@@ -154,17 +154,17 @@ A/B 테스트는 단순한 실험 기법이 아니라 조직이 "[데이터](/kn
 
 ```text
 [가설 수립 (Hypothesis) — 비즈니스 목표 정의]
-    │
-    ▼
+    |
+    v
 [무작위 집단 분리 (Randomization) — A그룹 vs B그룹]
-    │
-    ▼
+    |
+    v
 [실험 실행 — 충분한 표본 수집 (검정력 분석)]
-    │
-    ▼
+    |
+    v
 [통계 검정 (p-value · 신뢰구간) — 유의성 판단]
-    │
-    ▼
+    |
+    v
 [베이지안 A/B 테스트 / 멀티암드 밴딧 — 현대적 진화]
 ```
 가설을 세우고 무작위 집단 분리로 편향을 제거한 실험 결과를 통계 검정으로 판단하며, 베이지안 방법론과 멀티암드 밴딧으로 진화하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 의사결정 흐름이다.
@@ -180,7 +180,7 @@ A/B 테스트는 단순한 실험 기법이 아니라 조직이 "[데이터](/kn
 
 **진행 상황**: 121 / 262
 
-← **이전**: [117. 클릭스트림 분석 (Clickstream Analysis) — 사용자 행동 패턴 최적화](/knowledge-base/studynote/16_bigdata/05_analysis/120_clickstream_analysis/)
-**다음**: [26. 인과 추론 (Causal Inference) — 상관관계를 넘어 인과관계 규명](/knowledge-base/studynote/16_bigdata/05_analysis/122_causal_inference/) →
+<- **이전**: [117. 클릭스트림 분석 (Clickstream Analysis) — 사용자 행동 패턴 최적화](/knowledge-base/studynote/16_bigdata/05_analysis/120_clickstream_analysis/)
+**다음**: [26. 인과 추론 (Causal Inference) — 상관관계를 넘어 인과관계 규명](/knowledge-base/studynote/16_bigdata/05_analysis/122_causal_inference/) ->
 
 ---

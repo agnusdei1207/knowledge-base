@@ -31,9 +31,9 @@ tags = ["studynote-operating-system"]
 
 ```text
 eBPF Program
-  ↓ verifier
+  v verifier
 Kernel Hook
-  ↓
+  v
 Safe Execution
 ```
 
@@ -106,11 +106,11 @@ eBPF는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_archi
 
 ```text
 BPF
-  ↓
+  v
 eBPF
-  ↓
+  v
 Verifier / Map
-  ↓
+  v
 Observability
 ```
 
@@ -120,11 +120,11 @@ Observability
 
 ```text
 Packet Filter
-  ↓
+  v
 BPF
-  ↓
+  v
 eBPF
-  ↓
+  v
 Kernel Observability
 ```
 
@@ -142,7 +142,7 @@ eBPF는 그런 똑똑한 안경이에요.
 
 **진행 상황**: 69 / 800
 
-← **이전**: [68. 동적 커널 패치 (Live Patching) - kpatch, kGraft](/knowledge-base/studynote/02_operating_system/01_overview_architecture/068_live_patching/)
-**다음**: [70. 하드웨어 추상화 계층 (HAL, Hardware Abstraction Layer)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/070_hal/) →
+<- **이전**: [68. 동적 커널 패치 (Live Patching) - kpatch, kGraft](/knowledge-base/studynote/02_operating_system/01_overview_architecture/068_live_patching/)
+**다음**: [70. 하드웨어 추상화 계층 (HAL, Hardware Abstraction Layer)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/070_hal/) ->
 
 ---

@@ -22,11 +22,11 @@ tags = ["studynote-database"]
 Read Committed (레벨 1)은 커밋된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 읽음 ([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) 기본, Non-[Repeatable Read](/knowledge-base/studynote/05_database/04_transactions_concurrency/230_repeatable_read_isolation_level/) 발생)에 초점을 맞춘 개념이다. 여러 SQL을 하나의 성공·실패 단위로 묶어야 업무 정합성이 유지된다. 경계가 흐리면 일부만 반영된 중간 상태가 남는다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Request -> Tx boundary -> Current concept -> Commit/RB       │
-├──────────────────────────────────────────────────────────────┤
-│ Work unit -> control point -> consistency                    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Request -> Tx boundary -> Current concept -> Commit/RB       |
++--------------------------------------------------------------+
+| Work unit -> control point -> consistency                    |
++--------------------------------------------------------------+
 ```
 
 이 그림은 Read Committed를 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
@@ -47,11 +47,11 @@ Read Committed는 결국 "언제 보고, 어디에서 적용하고, 무엇을 �
 | 운영 주의 | `Read Uncommitted`·`Repeatable Read`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 전략을 미리 준비해야 한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Begin -> current concept -> Commit / Rollback                │
-├──────────────────────────────────────────────────────────────┤
-│ State change -> control command -> durable result            │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Begin -> current concept -> Commit / Rollback                |
++--------------------------------------------------------------+
+| State change -> control command -> durable result            |
++--------------------------------------------------------------+
 ```
 
 핵심은 Read Committed를 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
@@ -115,12 +115,12 @@ Read Committed를 올바르게 적용하면 구조를 단순화하고, 정합성
 
 ```text
 [Read Uncommitted]
-    │
-    ▼
+    |
+    v
 [Read Committed]
-    │
-    ├──▶ [Repeatable Read]
-    └──▶ [Serializable]
+    |
+    +---> [Repeatable Read]
+    +---> [Serializable]
 ```
 
 Read Uncommitted에서 출발한 논점이 Read Committed에서 핵심 판단으로 모이고, 이후 [Repeatable Read](/knowledge-base/studynote/05_database/04_transactions_concurrency/230_repeatable_read_isolation_level/)·[Serializable](/knowledge-base/studynote/05_database/04_transactions_concurrency/231_serializable_isolation_level/) 같은 확장 주제로 이어지는 흐름을 보여 준다.
@@ -137,7 +137,7 @@ Read Uncommitted에서 출발한 논점이 Read Committed에서 핵심 판단으
 
 **진행 상황**: 229 / 600
 
-← **이전**: [228. Read Uncommitted (Read uncommitted Isolation Level)](/knowledge-base/studynote/05_database/04_transactions_concurrency/228_read_uncommitted_isolation_level/)
-**다음**: [230. Repeatable Read (Repeatable read Isolation Level)](/knowledge-base/studynote/05_database/04_transactions_concurrency/230_repeatable_read_isolation_level/) →
+<- **이전**: [228. Read Uncommitted (Read uncommitted Isolation Level)](/knowledge-base/studynote/05_database/04_transactions_concurrency/228_read_uncommitted_isolation_level/)
+**다음**: [230. Repeatable Read (Repeatable read Isolation Level)](/knowledge-base/studynote/05_database/04_transactions_concurrency/230_repeatable_read_isolation_level/) ->
 
 ---

@@ -31,9 +31,9 @@ tags = ["studynote-cloud"]
 
 ```text
 Dockerfile
-  ↓ build
+  v build
 Image Layers
-  ↓ run
+  v run
 Container
 ```
 
@@ -106,11 +106,11 @@ Dockerfile을 잘 쓰면 빌드 자동화와 이미지 품질이 좋아진다. �
 
 ```text
 Dockerfile
-  ↓
+  v
 Image Build
-  ↓
+  v
 Layers / Cache
-  ↓
+  v
 Container Deployment
 ```
 
@@ -120,11 +120,11 @@ Container Deployment
 
 ```text
 Dockerfile
-  ↓
+  v
 Image Layering
-  ↓
+  v
 Multi-stage Build
-  ↓
+  v
 CI/CD
 ```
 
@@ -142,7 +142,7 @@ CI/CD
 
 **진행 상황**: 66 / 371
 
-← **이전**: [66. 도커 데몬 (Docker Daemon, dockerd) - 컨테이너 라이프사이클 관리 프로세스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/066_docker_daemon_dockerd/)
-**다음**: [68. 도커 이미지 (Docker Image) - 불변(Immutable) 상태의 애플리케이션 실행 패키지 파일](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/068_docker_image_immutable_package/) →
+<- **이전**: [66. 도커 데몬 (Docker Daemon, dockerd) - 컨테이너 라이프사이클 관리 프로세스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/066_docker_daemon_dockerd/)
+**다음**: [68. 도커 이미지 (Docker Image) - 불변(Immutable) 상태의 애플리케이션 실행 패키지 파일](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/068_docker_image_immutable_package/) ->
 
 ---

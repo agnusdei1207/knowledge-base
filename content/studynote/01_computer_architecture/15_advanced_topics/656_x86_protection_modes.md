@@ -26,18 +26,18 @@ x86 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_prote
 아래 그림은 x86 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 모드가 "권한의 동심원"으로 시스템을 나눈다는 점을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Ring 3 : User Applications                                  │
-│   ┌──────────────────────────────────────────────────────┐   │
-│   │ Ring 2 : Optional System Services                   │   │
-│   │   ┌──────────────────────────────────────────────┐   │   │
-│   │   │ Ring 1 : Optional Drivers / OS Extensions   │   │   │
-│   │   │   ┌──────────────────────────────────────┐   │   │   │
-│   │   │   │ Ring 0 : Kernel / Core Privilege     │   │   │   │
-│   │   │   └──────────────────────────────────────┘   │   │   │
-│   │   └──────────────────────────────────────────────┘   │   │
-│   └──────────────────────────────────────────────────────┘   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Ring 3 : User Applications                                  |
+|   +------------------------------------------------------+   |
+|   | Ring 2 : Optional System Services                   |   |
+|   |   +----------------------------------------------+   |   |
+|   |   | Ring 1 : Optional Drivers / OS Extensions   |   |   |
+|   |   |   +--------------------------------------+   |   |   |
+|   |   |   | Ring 0 : Kernel / Core Privilege     |   |   |   |
+|   |   |   +--------------------------------------+   |   |   |
+|   |   +----------------------------------------------+   |   |
+|   +------------------------------------------------------+   |
++--------------------------------------------------------------+
 ```
 
 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 모드의 핵심은 단순 분리가 아니다. CPU가 각 접근마다 현재 권한을 확인하고, 허용되지 않은 시도는 예외로 끊어낸다는 점이 중요하다. 덕분에 앱은 앱답게, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)답게 행동하도록 강제된다.
@@ -57,23 +57,23 @@ x86 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_prote
 | GDT / LDT | 세그먼트 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 정의 | 전통적 권한 검사 기반 |
 | [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) | 주소 변환과 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 권한 검사 | 사용자/[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 격리의 핵심 |
 | [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 디스크립터 테이블 ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Descriptor Table, IDT) | 예외·[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 진입점 관리 | [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/)과 오류 처리 경로 |
-| [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 상태 세그먼트 ([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) [Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/), TSS) | 권한 전환 시 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 등 상태 제공 | 사용자→[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 진입 안정화 |
+| [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 상태 세그먼트 ([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) [Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/), TSS) | 권한 전환 시 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 등 상태 제공 | 사용자->[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 진입 안정화 |
 | 제어 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) (Control [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)) | [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 모드, [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/), 기능 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 제어 | 시스템 부팅·[보안 기능](/knowledge-base/studynote/04_software_engineering/11_testing_validation/503_security_features_design/) 활성화 |
 
 접근 흐름은 아래처럼 요약할 수 있다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ User Code (Ring 3)                                          │
-│      │                                                      │
-│      ├─ allowed memory access ─────▶ page + privilege check │
-│      │                                                      │
-│      ├─ system call / interrupt ───▶ gate via IDT/TSS       │
-│      │                                                      │
-│      └─ forbidden privileged op ──▶ fault / trap            │
-│                                                             │
-│ Kernel Code (Ring 0) handles request or exception           │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| User Code (Ring 3)                                          |
+|      |                                                      |
+|      +- allowed memory access ------> page + privilege check |
+|      |                                                      |
+|      +- system call / interrupt ----> gate via IDT/TSS       |
+|      |                                                      |
+|      +- forbidden privileged op ---> fault / trap            |
+|                                                             |
+| Kernel Code (Ring 0) handles request or exception           |
++--------------------------------------------------------------+
 ```
 
 즉 x86 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 모드는 "[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)만 높은 권한을 가진다"는 문장 하나로 끝나지 않는다. 어떤 명령, 어떤 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/), 어떤 진입 경로가 허용되는지까지 CPU가 세밀하게 본다.
@@ -156,17 +156,17 @@ x86 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_prote
 
 ```text
 8086 리얼 모드
-    │
-    ▼
+    |
+    v
 80286 보호 모드 · Ring 0~3
-    │
-    ▼
+    |
+    v
 80386 페이징 · 가상 메모리 강화
-    │
-    ▼
+    |
+    v
 64비트 롱 모드 · NX · 현대 커널 보호
-    │
-    ▼
+    |
+    v
 VMX / 하이퍼바이저 · 더 깊어진 권한 계층
 ```
 
@@ -184,7 +184,7 @@ VMX / 하이퍼바이저 · 더 깊어진 권한 계층
 
 **진행 상황**: 657 / 803
 
-← **이전**: [655. ARM Cortex-M 시리즈](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/655_arm_cortex_m_series/)
-**다음**: [657. 가상화 VMX root 모드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/657_vmx_root_mode/) →
+<- **이전**: [655. ARM Cortex-M 시리즈](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/655_arm_cortex_m_series/)
+**다음**: [657. 가상화 VMX root 모드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/657_vmx_root_mode/) ->
 
 ---

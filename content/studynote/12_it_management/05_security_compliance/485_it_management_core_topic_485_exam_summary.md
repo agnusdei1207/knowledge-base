@@ -29,32 +29,32 @@ tags = ["studynote-it-management"]
 - **변화 관리**: Kotter의 8단계 모델, ADKAR 모델
 
 ```text
-┌─────────────────────────────────────────────────────────────────┐
-│                  IT 경영 관리 5단계 가치 사슬                     │
-│         (Strategic Value Chain for IT Management)               │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  [1.전략]        [2.기획]         [3.구축]        [4.운영]       │
-│  Biz Strategy ──▶ IT Strategy ──▶ EA Design ──▶ Service Ops    │
-│   │                │               │              │            │
-│   ▼                ▼               ▼              ▼            │
-│  BSC/KPI       Portfolio      TOGAF ADM       ITIL 4 SVS        │
-│  SWOT/PEST     Prioritization Zachman         SIAM              │
-│                FinOps                                                │
-│                                              │            │
-│                          [5.평가]◀──────────┘            │
-│                          Governance & Audit                          │
-│                          COBIT 2019, ISO 38500                       │
-│                          Balanced Scorecard                          │
-│                                                                 │
-│  ◀─── 피드백 루프 (Continuous Improvement / Kaizen) ────▶          │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|                  IT 경영 관리 5단계 가치 사슬                     |
+|         (Strategic Value Chain for IT Management)               |
++-----------------------------------------------------------------+
+|                                                                 |
+|  [1.전략]        [2.기획]         [3.구축]        [4.운영]       |
+|  Biz Strategy ---> IT Strategy ---> EA Design ---> Service Ops    |
+|   |                |               |              |            |
+|   v                v               v              v            |
+|  BSC/KPI       Portfolio      TOGAF ADM       ITIL 4 SVS        |
+|  SWOT/PEST     Prioritization Zachman         SIAM              |
+|                FinOps                                                |
+|                                              |            |
+|                          [5.평가]<-----------+            |
+|                          Governance & Audit                          |
+|                          COBIT 2019, ISO 38500                       |
+|                          Balanced Scorecard                          |
+|                                                                 |
+|  <---- 피드백 루프 (Continuous Improvement / Kaizen) ----->          |
++-----------------------------------------------------------------+
 ```
 
 기존 패러다임(2000년대)과 새로운 패러다임(2020년대) 비교:
-- **2000년대**: "IT for Cost Reduction" → BPO/Offshoring, ERP(MM/FI/HR), 데이터센터 통합
-- **2010년대**: "IT for Efficiency" → Cloud Migration, SaaS 도입, Agile/DevOps
-- **2020년대**: "IT for Business Innovation" → AI/ML, Hyperautomation, Data Mesh, 생성형 AI, Cloud-Native, Edge Computing
+- **2000년대**: "IT for Cost Reduction" -> BPO/Offshoring, ERP(MM/FI/HR), 데이터센터 통합
+- **2010년대**: "IT for Efficiency" -> Cloud Migration, SaaS 도입, Agile/DevOps
+- **2020년대**: "IT for Business Innovation" -> AI/ML, Hyperautomation, Data Mesh, 생성형 AI, Cloud-Native, Edge Computing
 
 - **📢 섹션 요약 비유**: IT 경영 관리는 마치 **오케스트라의 지휘자**와 같다. 바이올린(개발팀), 첼로(운영팀), 트럼펫(영업), 팀파니(경영진)라는 다양한 악기(부서)가 각자 다른 음(목표)을 연주할 때, 지휘자(CDO/CIO)는 **악보(전략)**, **파트 배정(거버넌스)**, **음정 조율(EA)**, **공연 평가(BSC)**를 통해 하나의 아름다운 협주곡(디지털 비즈니스)을 만들어낸다.
 
@@ -65,39 +65,39 @@ tags = ["studynote-it-management"]
 IT 경영 관리의 표준 아키텍처는 **COBIT 2019**의 체계와 **TOGAF ADM**(Architecture Development Method)을 결합한 형태가 일반적이다. COBIT의 5개 도메인(EDM: Evaluate/Direct/Monitor, APO: Align/Plan/Organize, BAI: Build/Acquire/Implement, DSS: Deliver/Service/Support, MEA: Monitor/Evaluate/Assess)이 40개 관리 목표로 분해되며, TOGAF의 8단계 ADM 사이클(Phase A: Architecture Vision ~ Phase H: Architecture Change Management)과 상호 매핑된다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│             통합 IT 경영 관리 아키텍처 (Reference Model)              │
-├──────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│  ┌─── Strategic Layer (전략 계층) ────────────────────────┐          │
-│  │  • 비즈니스 전략    • IT 거버넌스 위원회 (ITGC)            │          │
-│  │  • 디지털 로드맵    • 투자 우선순위(FinOps/Business Case)  │          │
-│  └────────────────────────────────────────────────────┘          │
-│                          ↕ 정렬(Alignment)                              │
-│  ┌─── Planning Layer (기획 계층) ─────────────────────────┐          │
-│  │  • 포트폴리오 관리(PPM)  • PMO(3-tier: Portfolio/Program)│       │
-│  │  • 자원 배분(Budgeting)  • 위험 관리(Risk Register)     │          │
-│  └────────────────────────────────────────────────────┘          │
-│                          ↕ 변환(Transformation)                          │
-│  ┌─── Execution Layer (수행 계층) ────────────────────────┐          │
-│  │  • EA 구현(TOGAF ADM)  • Agile/Scrum/SAFe              │       │
-│  │  • DevOps 파이프라인    • SRE 관행(Error Budget)         │          │
-│  └────────────────────────────────────────────────────┘          │
-│                          ↕ 제공(Delivery)                                │
-│  ┌─── Operations Layer (운영 계층) ──────────────────────┐          │
-│  │  • ITIL 4 SVS(34 Practices)                            │       │
-│  │  • AIOps/관측가능성(Observability: M/E/L/T)             │       │
-│  │  • FinOps(클라우드 비용 최적화)                          │       │
-│  └────────────────────────────────────────────────────┘          │
-│                          ↕ 측정(Measurement)                            │
-│  ┌─── Governance Layer (거버넌스 계층) ──────────────────────┐      │
-│  │  • COBIT 2019(40 Goals)  • ISO 38500                   │       │
-│  │  • BSC 4관점(Financial/Customer/Process/Learning)        │       │
-│  │  • 내부 통제(감사/컴플라이언스/SOX/K-ISMS)                  │       │
-│  └────────────────────────────────────────────────────┘          │
-│                                                                      │
-│  ※ 모든 계층은 PDCA(Deming Cycle) + OODA Loop로 연결                    │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|             통합 IT 경영 관리 아키텍처 (Reference Model)              |
++----------------------------------------------------------------------+
+|                                                                      |
+|  +--- Strategic Layer (전략 계층) ------------------------+          |
+|  |  • 비즈니스 전략    • IT 거버넌스 위원회 (ITGC)            |          |
+|  |  • 디지털 로드맵    • 투자 우선순위(FinOps/Business Case)  |          |
+|  +----------------------------------------------------+          |
+|                          ↕ 정렬(Alignment)                              |
+|  +--- Planning Layer (기획 계층) -------------------------+          |
+|  |  • 포트폴리오 관리(PPM)  • PMO(3-tier: Portfolio/Program)|       |
+|  |  • 자원 배분(Budgeting)  • 위험 관리(Risk Register)     |          |
+|  +----------------------------------------------------+          |
+|                          ↕ 변환(Transformation)                          |
+|  +--- Execution Layer (수행 계층) ------------------------+          |
+|  |  • EA 구현(TOGAF ADM)  • Agile/Scrum/SAFe              |       |
+|  |  • DevOps 파이프라인    • SRE 관행(Error Budget)         |          |
+|  +----------------------------------------------------+          |
+|                          ↕ 제공(Delivery)                                |
+|  +--- Operations Layer (운영 계층) ----------------------+          |
+|  |  • ITIL 4 SVS(34 Practices)                            |       |
+|  |  • AIOps/관측가능성(Observability: M/E/L/T)             |       |
+|  |  • FinOps(클라우드 비용 최적화)                          |       |
+|  +----------------------------------------------------+          |
+|                          ↕ 측정(Measurement)                            |
+|  +--- Governance Layer (거버넌스 계층) ----------------------+      |
+|  |  • COBIT 2019(40 Goals)  • ISO 38500                   |       |
+|  |  • BSC 4관점(Financial/Customer/Process/Learning)        |       |
+|  |  • 내부 통제(감사/컴플라이언스/SOX/K-ISMS)                  |       |
+|  +----------------------------------------------------+          |
+|                                                                      |
+|  ※ 모든 계층은 PDCA(Deming Cycle) + OODA Loop로 연결                    |
++----------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
@@ -126,7 +126,7 @@ IT 경영 관리의 표준 아키텍처는 **COBIT 2019**의 체계와 **TOGAF A
    - **MTTR(Mean Time To Recovery)**: Elite(< 1시간) vs Low(1주~1개월)
 
 4. **COBIT 2019 Cascade of Goals**:
-   Stakeholder Needs → Enterprise Goals → Alignment Goals → Management Goals → Component(Process/Structure/People/Skills/Information)
+   Stakeholder Needs -> Enterprise Goals -> Alignment Goals -> Management Goals -> Component(Process/Structure/People/Skills/Information)
 
 - **📢 섹션 요약 비유**: IT 경영 관리의 아키텍처는 **신체 기관**과 같다. **뇌**(거버넌스 위원회)가 전략적 결정을 내리고, **심장**(EA)이 조직 전체에 정렬된 비전과 표준을 펌프질하며, **근육**(DevOps/Agile 팀)이 실제 움직임을 만들고, **소화계**(운영/관측)가 자원을 흡수·배분하며, **신경계**(BSC/COBIT)가 모든 기관의 상태를 실시간 피드백한다. 어느 하나라도 멈추면 **디지털 비즈니스**라는 신체 전체가 쓰러진다.
 
@@ -181,7 +181,7 @@ IT 경영 관리에서 자주 혼동되는 개념들의 정밀 비교는 기술�
 
 **진행 상황**: 485 / 800
 
-← **이전**: [484. IT 경영 관리 핵심 토픽 484번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/484_it_management_core_topic_484_exam_summary/)
-**다음**: [486. IT 경영 관리 핵심 토픽 486번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/486_it_management_core_topic_486_exam_summary/) →
+<- **이전**: [484. IT 경영 관리 핵심 토픽 484번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/484_it_management_core_topic_484_exam_summary/)
+**다음**: [486. IT 경영 관리 핵심 토픽 486번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/486_it_management_core_topic_486_exam_summary/) ->
 
 ---

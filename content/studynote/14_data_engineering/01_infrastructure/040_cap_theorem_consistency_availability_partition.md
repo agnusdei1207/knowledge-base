@@ -249,7 +249,7 @@ CockroachDB, Spanner: CP + 글로벌 분산
 
 **진행 상황**: 40 / 258
 
-← **이전**: [039. 그래프 데이터베이스 (Graph Database)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/039_graph_db/)
-**다음**: [041. PACELC 정리 (PACELC Theorem)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/041_pacelc_theorem_cap_extension/) →
+<- **이전**: [039. 그래프 데이터베이스 (Graph Database)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/039_graph_db/)
+**다음**: [041. PACELC 정리 (PACELC Theorem)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/041_pacelc_theorem_cap_extension/) ->
 
 ---

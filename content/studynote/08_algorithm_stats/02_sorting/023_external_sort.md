@@ -52,29 +52,29 @@ K개 런 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/5
 ```
 데이터: 1TB, 메모리: 1GB, K=4
 
-── 런 생성 단계 ─────────────────────────────────────
-디스크 → [1GB 청크] → 내부 정렬 → 임시 런 파일
-         [1GB 청크] → 내부 정렬 → 임시 런 파일
+-- 런 생성 단계 -------------------------------------
+디스크 -> [1GB 청크] -> 내부 정렬 -> 임시 런 파일
+         [1GB 청크] -> 내부 정렬 -> 임시 런 파일
          ...
 결과: 1,024개 런 파일 (각 1GB)
 
-── 패스 1: 4-way 합병 ───────────────────────────────
-┌──────┐  ┌──────┐  ┌──────┐  ┌──────┐
-│ Run1 │  │ Run2 │  │ Run3 │  │ Run4 │
-└──┬───┘  └──┬───┘  └──┬───┘  └──┬───┘
-   │         │         │         │
-   └─────────┴────┬────┘─────────┘
-                  ▼
+-- 패스 1: 4-way 합병 -------------------------------
++------+  +------+  +------+  +------+
+| Run1 |  | Run2 |  | Run3 |  | Run4 |
++--+---+  +--+---+  +--+---+  +--+---+
+   |         |         |         |
+   +---------+----+----+---------+
+                  v
              [최솟값 힙]
-                  │
-                  ▼
+                  |
+                  v
              Merged Run (4GB)
 
-1,024 런 → 256 런 (패스 1 후)
-256 런  → 64 런  (패스 2 후)
-64 런   → 16 런  (패스 3 후)
-16 런   → 4 런   (패스 4 후)
-4 런    → 1 런   (패스 5 후) ✅
+1,024 런 -> 256 런 (패스 1 후)
+256 런  -> 64 런  (패스 2 후)
+64 런   -> 16 런  (패스 3 후)
+16 런   -> 4 런   (패스 4 후)
+4 런    -> 1 런   (패스 5 후) ✅
 
 총 패스 수: ceil(log_K(N/M)) = ceil(log₄(1024)) = 5
 ```
@@ -112,18 +112,18 @@ K개 런 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/5
 
 ### 런 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 최적화: 대체 선택 (Replacement [Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/))
 
-표준 런 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)은 메모리 M개 원소 → 런 크기 M. 대체 선택은 평균 **2M** 크기 런을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다.
+표준 런 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)은 메모리 M개 원소 -> 런 크기 M. 대체 선택은 평균 **2M** 크기 런을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다.
 
 ```
 대체 선택 알고리즘:
-1. 메모리에 M개 원소 로드 → 최소 힙 구성
+1. 메모리에 M개 원소 로드 -> 최소 힙 구성
 2. 힙 최솟값을 출력 버퍼에 쓰기
 3. 디스크에서 새 원소 읽기
-   - 새 원소 ≥ 방금 쓴 값: 같은 런에 포함 → 힙에 삽입
-   - 새 원소 < 방금 쓴 값: 다음 런 후보 → 별도 보관
+   - 새 원소 ≥ 방금 쓴 값: 같은 런에 포함 -> 힙에 삽입
+   - 새 원소 < 방금 쓴 값: 다음 런 후보 -> 별도 보관
 4. 힙이 비면 현재 런 종료, 보관 원소로 새 런 시작
 
-효과: 런 수 절반 → 패스 수 1 감소 → I/O 30-50% 절감
+효과: 런 수 절반 -> 패스 수 1 감소 -> I/O 30-50% 절감
 ```
 
 ### 외부 정렬 vs 관련 기법
@@ -145,7 +145,7 @@ K개 런 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/5
 
 **시나리오 — MySQL ORDER BY on 1억 건 테이블**:
 1. `sort_buffer_size` (기본 256KB~1MB) 내에서 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)
-2. 버퍼 초과 → 임시 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(Temp [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))에 런 저장
+2. 버퍼 초과 -> 임시 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(Temp [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))에 런 저장
 3. K-way 병합으로 최종 결과 반환
 4. `read_rnd_buffer_size` 최적화로 랜덤 I/O 감소
 
@@ -157,16 +157,16 @@ K개 런 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/5
 ### [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝 포인트
 
 ```
-┌──────────────────────────────────────────────────────┐
-│  외부 정렬 성능 튜닝 체크리스트                       │
-│                                                      │
-│  1. 메모리 할당 최대화: 런 수 감소 → 패스 수 감소    │
-│  2. K 최적값 선택: K ↑ → 패스 수 ↓, 하지만 버퍼 증가│
-│     최적 K ≈ M / (B * 2)  (B=블록 크기)              │
-│  3. 대체 선택 적용: 런 평균 크기 2배 → 패스 1 감소   │
-│  4. 디스크 병렬 I/O: SSD/RAID로 읽기/쓰기 동시 수행  │
-│  5. 압축 런 파일: I/O 데이터 크기 감소               │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|  외부 정렬 성능 튜닝 체크리스트                       |
+|                                                      |
+|  1. 메모리 할당 최대화: 런 수 감소 -> 패스 수 감소    |
+|  2. K 최적값 선택: K ^ -> 패스 수 v, 하지만 버퍼 증가|
+|     최적 K ≈ M / (B * 2)  (B=블록 크기)              |
+|  3. 대체 선택 적용: 런 평균 크기 2배 -> 패스 1 감소   |
+|  4. 디스크 병렬 I/O: SSD/RAID로 읽기/쓰기 동시 수행  |
+|  5. 압축 런 파일: I/O 데이터 크기 감소               |
++------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: 외부 정렬 튜닝은 공장 조립 라인 최적화와 같다. 더 큰 부품 트레이(메모리), 더 많은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 라인(K), 더 효율적인 부품 준비(대체 선택)로 전체 처리 시간을 단축한다.
@@ -194,32 +194,32 @@ K개 런 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/5
 
 | 개념 | 연결 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 |:---|:---|:---|
-| 병합 정렬 ([Merge Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)) | → 기반 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | K-way 병합의 이론적 근거 |
-| 버퍼 풀 (Buffer Pool) | → 구현 요소 | DBMS의 메모리 관리 |
-| B-트리 ([B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/)) | → 연관 구조 | 디스크 기반 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) |
-| [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) | → [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 확장 | Hadoop의 정렬 단계 |
-| 대체 선택 (Replacement [Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/)) | → 런 최적화 | 런 크기 2배 달성 |
+| 병합 정렬 ([Merge Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)) | -> 기반 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | K-way 병합의 이론적 근거 |
+| 버퍼 풀 (Buffer Pool) | -> 구현 요소 | DBMS의 메모리 관리 |
+| B-트리 ([B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/)) | -> 연관 구조 | 디스크 기반 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) |
+| [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) | -> [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 확장 | Hadoop의 정렬 단계 |
+| 대체 선택 (Replacement [Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/)) | -> 런 최적화 | 런 크기 2배 달성 |
 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
 [내부 정렬 (Internal Sort) — 데이터 전체가 메모리에 올라오는 전제 하에 동작하는 정렬]
-    │
-    ▼
+    |
+    v
 [외부 정렬 (External Sort) — 디스크 I/O를 최소화하며 메모리 초과 데이터를 정렬]
-    │
-    ▼
+    |
+    v
 [런 생성 (Run Generation) — 메모리 크기만큼 부분 정렬 후 디스크에 런(Run) 저장]
-    │
-    ▼
+    |
+    v
 [K-way 병합 (K-way Merge) — 최소 힙을 활용해 K개 런을 동시 병합, Pass 수 최소화]
-    │
-    ▼
+    |
+    v
 [MapReduce 분산 정렬 — 외부 정렬의 분산 확장, Hadoop Shuffle 단계가 K-way 병합 구현]
 ```
 
-이 흐름은 메모리 한계를 넘는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하기 위해 런 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)→K-way 병합이라는 2단계 외부 정렬 패러다임이 탄생하고, 이 원리가 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 컴퓨팅 환경에서 [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) Shuffle 단계로 수평 확장되는 정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 발전 계보를 보여준다.
+이 흐름은 메모리 한계를 넘는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하기 위해 런 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)->K-way 병합이라는 2단계 외부 정렬 패러다임이 탄생하고, 이 원리가 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 컴퓨팅 환경에서 [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) Shuffle 단계로 수평 확장되는 정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 발전 계보를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -233,7 +233,7 @@ K개 런 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/5
 
 **진행 상황**: 23 / 175
 
-← **이전**: [15. 버블 정렬 (Bubble Sort) — O(n²), 안정, 제자리](/knowledge-base/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/)
-**다음**: [16. 선택 정렬 (Selection Sort) — O(n²), 불안정, 제자리](/knowledge-base/studynote/08_algorithm_stats/02_sorting/024_selection_sort/) →
+<- **이전**: [15. 버블 정렬 (Bubble Sort) — O(n^), 안정, 제자리](/knowledge-base/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/)
+**다음**: [16. 선택 정렬 (Selection Sort) — O(n^), 불안정, 제자리](/knowledge-base/studynote/08_algorithm_stats/02_sorting/024_selection_sort/) ->
 
 ---

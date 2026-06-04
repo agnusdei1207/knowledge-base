@@ -21,17 +21,17 @@ tags = ["studynote-ai"]
 
 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 하이퍼파라미터([학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/), 배치 크기, 레이어 수 등)에 크게 의존하지만, 최적값을 찾는 것은 비용이 많이 든다.
 
-- <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/251_grid_search_random_search/">그리드 서치</a></strong>: 모든 조합 탐색 → k개 파라미터, 각 n값 → nᵏ 조합
-- **랜덤 서치**: 무작위 탐색 → 이전 결과 활용 없음
+- <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/251_grid_search_random_search/">그리드 서치</a></strong>: 모든 조합 탐색 -> k개 파라미터, 각 n값 -> nᵏ 조합
+- **랜덤 서치**: 무작위 탐색 -> 이전 결과 활용 없음
 - **베이지안 최적화 (BO)**: 대리 모델(Surrogate Model)로 목적 함수를 근사하며 효율적 탐색
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [그리드 서치](/knowledge-base/studynote/10_ai/03_llm_nlp/251_grid_search_random_search/)는 "지도의 모든 칸을 탐색", 랜덤 서치는 "지도를 무작위로 탐색", TPE는 "이미 찾은 보물 근처를 집중 탐색"이다.
@@ -57,26 +57,26 @@ Expected Improvement: EI(x) = E[max(f(x)-f*, 0)]
 ```
 y* = 좋은 성능의 임계값 (예: 상위 γ=25%)
 
-l(x) = p(x | y < y*)  ← 좋은 하이퍼파라미터 분포
-g(x) = p(x | y ≥ y*)  ← 나쁜 하이퍼파라미터 분포
+l(x) = p(x | y < y*)  <- 좋은 하이퍼파라미터 분포
+g(x) = p(x | y ≥ y*)  <- 나쁜 하이퍼파라미터 분포
 
 획득 함수: EI(x) ∝ l(x) / g(x)
-→ l(x)가 높고 g(x)가 낮은 x를 다음 탐색점으로 선택
+-> l(x)가 높고 g(x)가 낮은 x를 다음 탐색점으로 선택
 ```
 
 ```
-┌──────────────────────────────────────────────────────┐
-│  TPE 반복 사이클                                      │
-│                                                      │
-│  1. 초기 랜덤 탐색 (n_startup = 20)                   │
-│  2. 결과를 y* 기준으로 l(x), g(x) 분리               │
-│  3. l(x)/g(x) 최대화 → 다음 하이퍼파라미터 제안       │
-│  4. 모델 학습 및 평가                                 │
-│  5. l(x), g(x) 업데이트 → 반복                       │
-│                                                      │
-│  l(x): KDE(좋은 샘플)   g(x): KDE(나쁜 샘플)         │
-│  KDE = Kernel Density Estimation                     │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|  TPE 반복 사이클                                      |
+|                                                      |
+|  1. 초기 랜덤 탐색 (n_startup = 20)                   |
+|  2. 결과를 y* 기준으로 l(x), g(x) 분리               |
+|  3. l(x)/g(x) 최대화 -> 다음 하이퍼파라미터 제안       |
+|  4. 모델 학습 및 평가                                 |
+|  5. l(x), g(x) 업데이트 -> 반복                       |
+|                                                      |
+|  l(x): KDE(좋은 샘플)   g(x): KDE(나쁜 샘플)         |
+|  KDE = Kernel Density Estimation                     |
++------------------------------------------------------+
 ```
 
 | 방법 | 대리 모델 | 복잡도 | 조건부 탐색 | 고차원 |
@@ -84,14 +84,14 @@ g(x) = p(x | y ≥ y*)  ← 나쁜 하이퍼파라미터 분포
 | GP-BO | 가우시안 프로세스 | O(n³) | 어려움 | 어려움 |
 | TPE | 비모수 KDE | O(n log n) | 쉬움 (Tree) | 가능 |
 | SMAC | [랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/) | O(n log n) | 가능 | 가능 |
-| CMA-ES | 진화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | O(d²) | 어려움 | 중간 |
+| CMA-ES | 진화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | O(d^) | 어려움 | 중간 |
 
 ### Tree-structured의 의미
 
 ```
 하이퍼파라미터가 조건부 관계를 가질 때:
-  모델 = "트리" → {max_depth, min_samples}
-  모델 = "SVM"  → {C, kernel, gamma}
+  모델 = "트리" -> {max_depth, min_samples}
+  모델 = "SVM"  -> {C, kernel, gamma}
 TPE는 이 조건부 구조를 트리 형태로 모델링
 ```
 
@@ -158,7 +158,7 @@ TPE 기반 베이지안 최적화는 제한된 계산 예산으로 최적 하이
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [AutoML / Hyperopt (Automl Hyperopt TPE)] → [최적화·운영 자동화]
+[데이터 전처리] -> [AutoML / Hyperopt (Automl Hyperopt TPE)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -173,7 +173,7 @@ TPE 기반 베이지안 최적화는 제한된 계산 예산으로 최적 하이
 
 **진행 상황**: 394 / 420
 
-← **이전**: [393. t-SNE / UMAP (TSNE UMAP)](/knowledge-base/studynote/10_ai/05_data_science_ml/393_tsne_umap/)
-**다음**: [395. PPO (Proximal Policy Optimization)](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) →
+<- **이전**: [393. t-SNE / UMAP (TSNE UMAP)](/knowledge-base/studynote/10_ai/05_data_science_ml/393_tsne_umap/)
+**다음**: [395. PPO (Proximal Policy Optimization)](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) ->
 
 ---

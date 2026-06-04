@@ -36,15 +36,15 @@ CRL의 기본 원리는 단순하다. 인증기관은 폐지된 인증서의 일
 아래 그림은 [CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/) 기반 상태 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 흐름을 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                    CRL 기반 인증서 상태 검증 흐름                  │
-├────────────────────────────────────────────────────────────────────┤
-│ [CA] -- 폐지 목록 서명/배포 --> [CRL 저장소]                       │
-│   │                                                                │
-│   └-- 인증서에 CDP 포함                                            │
-│                                                                    │
-│ [검증자] -- 인증서 수신 --> 일련번호 확인 --> CRL 조회 --> 허용/차단 │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                    CRL 기반 인증서 상태 검증 흐름                  |
++--------------------------------------------------------------------+
+| [CA] -- 폐지 목록 서명/배포 --> [CRL 저장소]                       |
+|   |                                                                |
+|   +-- 인증서에 CDP 포함                                            |
+|                                                                    |
+| [검증자] -- 인증서 수신 --> 일련번호 확인 --> CRL 조회 --> 허용/차단 |
++--------------------------------------------------------------------+
 ```
 
 이 구조의 강점은 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자가 실시간 질의 없이도 일정 주기로 목록을 내려받아 사용할 수 있다는 점이다. 반면 목록 전체를 받아야 하므로, 폐지 건수가 많아질수록 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 크기와 배포 부담이 커질 수 있다. 이를 보완하기 위해 델타 [CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/) ([Delta CRL](/knowledge-base/studynote/09_security/04_endpoint_security/196_delta_crl_efficiency_improvement/))처럼 변경분만 배포하는 방식도 사용된다.
@@ -131,21 +131,21 @@ CRL을 적절히 운영하면 만료 전 사고가 난 인증서를 신속히 �
 
 ```text
 인증서 발급
-    │
-    ▼
+    |
+    v
 중도 폐기 필요 발생
-    │
-    ▼
+    |
+    v
 CRL (Certificate Revocation List)
-    │
-    ▼
+    |
+    v
 델타 CRL · 캐시 최적화
-    │
-    ▼
+    |
+    v
 OCSP · OCSP 스테이플링
 ```
 
-이 흐름은 "발급 중심 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) → 폐지 목록 관리 → 최신성 보완"으로 인증서 상태 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기술이 발전하는 방향을 보여준다.
+이 흐름은 "발급 중심 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) -> 폐지 목록 관리 -> 최신성 보완"으로 인증서 상태 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기술이 발전하는 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -159,7 +159,7 @@ OCSP · OCSP 스테이플링
 
 **진행 상황**: 215 / 1108
 
-← **이전**: [161. RA (Registration Authority) — 인증 요청 검증/승인](/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/)
-**다음**: [163. OCSP (Online Certificate Status Protocol) — 실시간 인증서 상태 질의](/knowledge-base/studynote/09_security/04_endpoint_security/163_ocsp_online_certificate_status_protocol/) →
+<- **이전**: [161. RA (Registration Authority) — 인증 요청 검증/승인](/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/)
+**다음**: [163. OCSP (Online Certificate Status Protocol) — 실시간 인증서 상태 질의](/knowledge-base/studynote/09_security/04_endpoint_security/163_ocsp_online_certificate_status_protocol/) ->
 
 ---

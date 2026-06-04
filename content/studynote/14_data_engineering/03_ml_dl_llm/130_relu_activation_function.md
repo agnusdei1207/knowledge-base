@@ -20,9 +20,9 @@ tags = ["studynote-dataengineering"]
 
 ```text
 ReLU: f(x) = max(0, x)
-  x > 0 → x (그대로), x ≤ 0 → 0 (차단)
-  기울기: x > 0 → 1, x ≤ 0 → 0
-  → Vanishing Gradient 없음 (기울기=1 유지)
+  x > 0 -> x (그대로), x ≤ 0 -> 0 (차단)
+  기울기: x > 0 -> 1, x ≤ 0 -> 0
+  -> Vanishing Gradient 없음 (기울기=1 유지)
 ```
 
 - **📢 섹션 요약 비유**: ReLU는 문(양수=열림, 음수=닫힘)이다. Sigmoid는 반쯤 열린 문([기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 위험).
@@ -50,17 +50,17 @@ ReLU는 <strong>딥러닝의 가장 기본적이고 중요한 <a href="/knowledg
 | 개념 | 연결 포인트 |
 |:---|:---|
 | <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/">ReLU</a></strong> | max(0,x) — [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 표준 |
-| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/">Vanishing Gradient</a></strong> | Sigmoid의 문제 → [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) 해결 |
-| **Dead Neuron** | ReLU의 문제 → Leaky [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) 해결 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/">Vanishing Gradient</a></strong> | Sigmoid의 문제 -> [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) 해결 |
+| **Dead Neuron** | ReLU의 문제 -> Leaky [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) 해결 |
 | **GELU** | [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 표준 |
 | **AlexNet** | ReLU를 최초 대규모 적용 (2012) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[Sigmoid (1980s)] → [ReLU (2010, Nair)] → [AlexNet ReLU 성공 (2012)]
-    → [Leaky/PReLU (2015)] → [GELU (2016, Transformer)]
-    → [SwiGLU (2022, LLM)] → [현재: KAN (2024)]
+[Sigmoid (1980s)] -> [ReLU (2010, Nair)] -> [AlexNet ReLU 성공 (2012)]
+    -> [Leaky/PReLU (2015)] -> [GELU (2016, Transformer)]
+    -> [SwiGLU (2022, LLM)] -> [현재: KAN (2024)]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -74,7 +74,7 @@ ReLU는 <strong>딥러닝의 가장 기본적이고 중요한 <a href="/knowledg
 
 **진행 상황**: 130 / 258
 
-← **이전**: [129. 활성화 함수 (Activation Function) - 신경망의 비선형 변환 핵심](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)
-**다음**: [131. 손실 함수·옵티마이저·경사 하강법 - 딥러닝 학습의 3대 축](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/131_loss_function_optimizer_gradient_descent/) →
+<- **이전**: [129. 활성화 함수 (Activation Function) - 신경망의 비선형 변환 핵심](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)
+**다음**: [131. 손실 함수·옵티마이저·경사 하강법 - 딥러닝 학습의 3대 축](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/131_loss_function_optimizer_gradient_descent/) ->
 
 ---

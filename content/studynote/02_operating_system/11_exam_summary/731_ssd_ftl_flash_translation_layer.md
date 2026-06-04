@@ -59,25 +59,25 @@ SSD를 이해하려면 셀, [페이지](/knowledge-base/studynote/01_computer_ar
 이 지우기의 저주를 풀기 위해 FTL이 개입한다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 FTL의 주소 맵핑 및 덮어쓰기 우회 메커니즘             │
-  ├───────────────────────────────────────────────────────────────────┤
-  │  [상황 1: OS가 논리 주소(LBA) 10번에 "A"를 기록함]                     │
-  │   - FTL 맵핑 테이블: LBA 10 ──▶ PBA 100 (물리 주소)                  │
-  │   - 물리 낸드 상태:  [100: "A" (Valid)] [101: 비어있음] [102: 비어있음] │
-  │                                                                   │
-  │  [상황 2: OS가 논리 주소 10번에 "B"를 덮어써라(Update)고 명령함!]          │
-  │   - 원래라면 PBA 100번을 지우고 써야 하지만 (Erase는 너무 무거움)...       │
-  │                                                                   │
-  │   ★ FTL의 마술 발동!                                                │
-  │   1. 100번을 건드리지 않고, 비어있는 물리 주소 101번에 "B"를 그냥 씀!      │
-  │   2. FTL 맵핑 테이블을 몰래 바꿈: LBA 10 ──▶ **PBA 101**             │
-  │   3. 예전 데이터가 있던 100번 셀은 "이제 쓸모없는 쓰레기(Invalid)"로 마킹함.│
-  │                                                                   │
-  │  [상황 3: OS가 다시 10번을 읽으라고 명령함]                           │
-  │   - FTL 맵핑 테이블: "LBA 10은 101번에 있군!"                         │
-  │   - 물리 101번을 읽어서 "B"를 반환함. OS는 완벽하게 속아 넘어감.          │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 FTL의 주소 맵핑 및 덮어쓰기 우회 메커니즘             |
+  +-------------------------------------------------------------------+
+  |  [상황 1: OS가 논리 주소(LBA) 10번에 "A"를 기록함]                     |
+  |   - FTL 맵핑 테이블: LBA 10 ---> PBA 100 (물리 주소)                  |
+  |   - 물리 낸드 상태:  [100: "A" (Valid)] [101: 비어있음] [102: 비어있음] |
+  |                                                                   |
+  |  [상황 2: OS가 논리 주소 10번에 "B"를 덮어써라(Update)고 명령함!]          |
+  |   - 원래라면 PBA 100번을 지우고 써야 하지만 (Erase는 너무 무거움)...       |
+  |                                                                   |
+  |   ★ FTL의 마술 발동!                                                |
+  |   1. 100번을 건드리지 않고, 비어있는 물리 주소 101번에 "B"를 그냥 씀!      |
+  |   2. FTL 맵핑 테이블을 몰래 바꿈: LBA 10 ---> **PBA 101**             |
+  |   3. 예전 데이터가 있던 100번 셀은 "이제 쓸모없는 쓰레기(Invalid)"로 마킹함.|
+  |                                                                   |
+  |  [상황 3: OS가 다시 10번을 읽으라고 명령함]                           |
+  |   - FTL 맵핑 테이블: "LBA 10은 101번에 있군!"                         |
+  |   - 물리 101번을 읽어서 "B"를 반환함. OS는 완벽하게 속아 넘어감.          |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** OS는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 블록 주소(LBA, Logical Block Address)만 본다. 자기가 LBA 10번에 썼으니 당연히 물리적으로도 10번에 덮어써졌을 거라 믿는다. 하지만 FTL은 맵핑 테이블([SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/))을 통해 <strong>LBA(<a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>)를 PBA(물리, Physical Block Address)로 번역</strong>해 버린다. 이 완벽한 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 덕분에 덮어쓰기의 지옥에서 벗어나 SSD가 미친 듯한 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 속도를 낼 수 있게 되었다.
@@ -120,26 +120,26 @@ SSD를 이해하려면 셀, [페이지](/knowledge-base/studynote/01_computer_ar
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 SSD 성능 최적화를 위한 OS-하드웨어 튜닝 플로우            │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [새로운 리눅스 서버에 NVMe SSD를 꽂고 파일 시스템을 마운트함]               │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      1. 리눅스 파일 시스템에 [TRIM] 기능이 활성화(fstrim.timer)되어 있는가?│
-  │          ├─ 아니오 ─▶ [Write Amplification(쓰기 증폭) 폭발!]          │
-  │          │            OS가 파일을 지워도, FTL은 그 사실을 몰라 쓸데없는      │
-  │          │            쓰레기 데이터를 계속 이사시키느라 수명/속도 다 갉아먹음. │
-  │          └─ 예 ───▶ [주기적인 TRIM으로 FTL에게 빈 공간을 알려줌]      │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      2. 데이터베이스(MySQL)의 페이지 크기(16KB)와 SSD의 블록 크기가 맞는가? │
-  │          ├──▶ [Alignment (정렬) 튜닝]                               │
-  │          │    파일 시스템 포맷 시 Block Size를 SSD의 내부 Page Size와    │
-  │          │    정확히 맞춰야(4K/16K Alignment) 한 번 쓸 때 셀을 2개 건드리는 │
-  │          │    비효율을 원천 방지할 수 있음.                             │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 SSD 성능 최적화를 위한 OS-하드웨어 튜닝 플로우            |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [새로운 리눅스 서버에 NVMe SSD를 꽂고 파일 시스템을 마운트함]               |
+  |                |                                                  |
+  |                v                                                  |
+  |      1. 리눅스 파일 시스템에 [TRIM] 기능이 활성화(fstrim.timer)되어 있는가?|
+  |          +- 아니오 --> [Write Amplification(쓰기 증폭) 폭발!]          |
+  |          |            OS가 파일을 지워도, FTL은 그 사실을 몰라 쓸데없는      |
+  |          |            쓰레기 데이터를 계속 이사시키느라 수명/속도 다 갉아먹음. |
+  |          +- 예 ----> [주기적인 TRIM으로 FTL에게 빈 공간을 알려줌]      |
+  |                |                                                  |
+  |                v                                                  |
+  |      2. 데이터베이스(MySQL)의 페이지 크기(16KB)와 SSD의 블록 크기가 맞는가? |
+  |          +---> [Alignment (정렬) 튜닝]                               |
+  |          |    파일 시스템 포맷 시 Block Size를 SSD의 내부 Page Size와    |
+  |          |    정확히 맞춰야(4K/16K Alignment) 한 번 쓸 때 셀을 2개 건드리는 |
+  |          |    비효율을 원천 방지할 수 있음.                             |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "TRIM"은 FTL을 돕는 OS의 유일한 구원줄이다. OS에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 아이콘을 휴지통에 넣고 비워도, OS만 알지 FTL은 모른다. [FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/) 입장에서는 그 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 아직 '살아있는 중요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'인 줄 알고 지우지도 못하고 안고 간다. OS가 주기적으로 TRIM(ATA [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))을 날려 "아까 100번 주소 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 지웠어! 그 셀 버려도 돼!"라고 귓띔해 주어야만 FTL이 맘 편하게 청소(GC)를 할 수 있다.
@@ -184,12 +184,12 @@ SSD를 이해하려면 셀, [페이지](/knowledge-base/studynote/01_computer_ar
 
 ```text
 [RAID 0, 1, 5, 6 성능 신뢰성]
-    │
-    ▼
+    |
+    v
 [SSD FTL (Flash Translation Layer)]
-    │
-    ├──▶ [가비지 컬렉션 블록 지우기]
-    └──▶ [파일 시스템 연속, 연결, 색인 할당]
+    |
+    +---> [가비지 컬렉션 블록 지우기]
+    +---> [파일 시스템 연속, 연결, 색인 할당]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -206,7 +206,7 @@ SSD를 이해하려면 셀, [페이지](/knowledge-base/studynote/01_computer_ar
 
 **진행 상황**: 731 / 800
 
-← **이전**: [730. RAID 0, 1, 5, 6 성능 신뢰성 (RAID Levels Performance Reliability)](/knowledge-base/studynote/02_operating_system/11_exam_summary/730_raid_levels_performance_reliability/)
-**다음**: [732. 가비지 컬렉션 블록 지우기 (Garbage Collection Block Erase)](/knowledge-base/studynote/02_operating_system/11_exam_summary/732_garbage_collection_block_erase/) →
+<- **이전**: [730. RAID 0, 1, 5, 6 성능 신뢰성 (RAID Levels Performance Reliability)](/knowledge-base/studynote/02_operating_system/11_exam_summary/730_raid_levels_performance_reliability/)
+**다음**: [732. 가비지 컬렉션 블록 지우기 (Garbage Collection Block Erase)](/knowledge-base/studynote/02_operating_system/11_exam_summary/732_garbage_collection_block_erase/) ->
 
 ---

@@ -13,7 +13,7 @@ tags = ["studynote-ai"]
 
 > 1. **본질**: [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/)([Cosine Similarity](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/))는 두 벡터 사이의 각도(θ)의 코사인 값으로 방향적 유사성을 측정하며, 벡터의 크기(magnitude)를 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)하므로 문서 길이에 무관한 텍스트 유사도 측정에 최적화된 거리 척도다.
 > 2. **가치**: "[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)"와 "[인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)"처럼 의미는 같지만 하나는 2자, 다른 하나는 4자인 경우 [TF-IDF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/) 벡터의 L2 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 후 [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/)를 계산하면 크기 차이를 무시하고 의미적 방향만 비교해 높은 유사도를 얻는다.
-> 3. **판단 포인트**: cos(θ) = (A·B)/(|A||B|) = ΣAᵢBᵢ/√(ΣAᵢ²·ΣBᵢ²) 범위는 [-1, 1]이며, L2 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)된 벡터 간의 내적([Dot](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/) Product)이 [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/)와 동치다.
+> 3. **판단 포인트**: cos(θ) = (A·B)/(|A||B|) = ΣAᵢBᵢ/√(ΣAᵢ^·ΣBᵢ^) 범위는 [-1, 1]이며, L2 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)된 벡터 간의 내적([Dot](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/) Product)이 [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/)와 동치다.
 
 ---
 
@@ -22,12 +22,12 @@ tags = ["studynote-ai"]
 검색 엔진에서 "기계 학습"이라는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에 가장 유사한 문서를 찾을 때, 짧은 문서([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)0단어)와 긴 문서(1,000단어)를 유클리드 거리로 비교하면 긴 문서의 단어 빈도가 절대적으로 크므로 불공평하다. [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/)는 두 벡터의 방향만 비교하므로 문서 길이(크기)에 무관하게 의미적 유사도를 측정한다. [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 기반 모델의 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 공간에서 의미론적 [유사도 검색](/knowledge-base/studynote/05_database/06_dw_olap_trends/348_similarity_search/)(Semantic [Similarity Search](/knowledge-base/studynote/05_database/06_dw_olap_trends/348_similarity_search/))의 핵심 지표다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/)는 "나침반 방향 비교"다. 두 사람이 걷는 거리(벡터 크기)는 달라도, 같은 방향(북쪽)을 향하면 [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/) = 1(동일 방향)이다. AI는 문서의 "방향성(주제)"만 보고 유사도를 결정한다.
@@ -37,29 +37,29 @@ tags = ["studynote-ai"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│           코사인 유사도 수식 및 기하학적 의미            │
-├─────────────────────────────────────────────────────────┤
-│                                                         │
-│  cos(θ) = (A·B) / (|A|·|B|)                           │
-│         = ΣᵢAᵢBᵢ / √(ΣᵢAᵢ²) · √(ΣᵢBᵢ²)             │
-│                                                         │
-│  θ=0°  → cos=1.0  → 완전 동일 방향 (최고 유사)        │
-│  θ=90° → cos=0.0  → 직교 (무관)                       │
-│  θ=180°→ cos=-1.0 → 반대 방향 (최저 유사)             │
-│                                                         │
-│  L2 정규화 후 내적:                                    │
-│  â = A/|A|,  b̂ = B/|B|   (단위 벡터)                  │
-│  cos(θ) = â · b̂          (정규화된 내적)              │
-│                                                         │
-│  ANN 검색: FAISS/Milvus에서 코사인 거리 =1-cos(θ)     │
-└─────────────────────────────────────────────────────────┘
++---------------------------------------------------------+
+|           코사인 유사도 수식 및 기하학적 의미            |
++---------------------------------------------------------+
+|                                                         |
+|  cos(θ) = (A·B) / (|A|·|B|)                           |
+|         = ΣᵢAᵢBᵢ / √(ΣᵢAᵢ^) · √(ΣᵢBᵢ^)             |
+|                                                         |
+|  θ=0+  -> cos=1.0  -> 완전 동일 방향 (최고 유사)        |
+|  θ=90+ -> cos=0.0  -> 직교 (무관)                       |
+|  θ=180+-> cos=-1.0 -> 반대 방향 (최저 유사)             |
+|                                                         |
+|  L2 정규화 후 내적:                                    |
+|  + = A/|A|,  b̂ = B/|B|   (단위 벡터)                  |
+|  cos(θ) = + · b̂          (정규화된 내적)              |
+|                                                         |
+|  ANN 검색: FAISS/Milvus에서 코사인 거리 =1-cos(θ)     |
++---------------------------------------------------------+
 ```
 
 | 유사도/거리 | 수식 | 크기 영향 | 주요 용도 |
 |:---|:---|:---|:---|
 | [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/) | A·B/\|A\|\|B\| | ❌ 무관 | 텍스트, [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) |
-| 유클리드 거리 | √Σ(Aᵢ-Bᵢ)² | ✅ 영향 있음 | K-Means, [KNN](/knowledge-base/studynote/10_ai/03_llm_nlp/262_knn/) |
+| 유클리드 거리 | √Σ(Aᵢ-Bᵢ)^ | ✅ 영향 있음 | K-Means, [KNN](/knowledge-base/studynote/10_ai/03_llm_nlp/262_knn/) |
 | 내적 ([Dot](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/) Product) | Σ AᵢBᵢ | ✅ 영향 있음 | Attention Score |
 | 맨해튼 거리 (L1) | Σ\|Aᵢ-Bᵢ\| | ✅ 영향 있음 | 희소 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 
@@ -109,7 +109,7 @@ PPMI(Positive Pointwise [Mutual Information](/knowledge-base/studynote/08_algori
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[문서·임베딩 준비] → [코사인 유사도 (Cosine Similarity)] → [관측성·평가·거버넌스 확장]
+[문서·임베딩 준비] -> [코사인 유사도 (Cosine Similarity)] -> [관측성·평가·거버넌스 확장]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -124,7 +124,7 @@ PPMI(Positive Pointwise [Mutual Information](/knowledge-base/studynote/08_algori
 
 **진행 상황**: 359 / 420
 
-← **이전**: [358. 계층적 군집화 (Hierarchical Clustering)](/knowledge-base/studynote/10_ai/05_data_science_ml/358_hierarchical_clustering/)
-**다음**: [360. GMM (Gaussian Mixture Model) 과 EM 알고리즘](/knowledge-base/studynote/10_ai/05_data_science_ml/360_gmm_em_algorithm/) →
+<- **이전**: [358. 계층적 군집화 (Hierarchical Clustering)](/knowledge-base/studynote/10_ai/05_data_science_ml/358_hierarchical_clustering/)
+**다음**: [360. GMM (Gaussian Mixture Model) 과 EM 알고리즘](/knowledge-base/studynote/10_ai/05_data_science_ml/360_gmm_em_algorithm/) ->
 
 ---

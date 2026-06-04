@@ -22,17 +22,17 @@ tags = ["studynote-design-supervision"]
 특히 [CBAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/230_cbam_cost_benefit_analysis_method/) 경제성 관점 확장은 문서만 맞는지 보는 수준을 넘어서 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 테스트, 산출물, 인터뷰 증거가 같은 방향을 가리키는지 확인해야 한다. 그래야 감리 결과가 일회성 지적이 아니라 재현 가능한 개선 기준이 된다.
 
 ```text
-┌──────────────┐
-│ 요구·시나리오 │
-└──────┬───────┘
-       │
-┌──────▼───────┐
-│ 관점·패턴 설계 │
-└──────┬───────┘
-       │
-┌──────▼───────┐
-│ 평가·결정 기록 │
-└──────────────┘
++--------------+
+| 요구·시나리오 |
++------+-------+
+       |
++------v-------+
+| 관점·패턴 설계 |
++------+-------+
+       |
++------v-------+
+| 평가·결정 기록 |
++--------------+
 ```
 
 - **📢 섹션 요약 비유**: 집을 짓기 전에 방 배치와 동선을 함께 그려 보는 것과 같다.
@@ -49,9 +49,9 @@ tags = ["studynote-design-supervision"]
 | 결정 추적 | 투자 우선순위을 근거로 선택안과 파급효과를 기록한다. | 나중에 다시 설명할 수 있어야 한다. |
 
 ```text
-┌────────────┬────────────┬────────────┐
-│ 뷰·패턴     │ 시나리오     │ 결정 기록    │
-└────────────┴────────────┴────────────┘
++------------+------------+------------+
+| 뷰·패턴     | 시나리오     | 결정 기록    |
++------------+------------+------------+
 ```
 
 또한 [CBAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/230_cbam_cost_benefit_analysis_method/) 경제성 관점 확장은 한 단계만 잘해서는 완성되지 않는다. [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/), 실행 메커니즘, 증적이 순환 구조를 이루어야 하며, 하나라도 비면 적합 판정의 신뢰도가 떨어진다.
@@ -104,7 +104,7 @@ tags = ["studynote-design-supervision"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 - 관련 키워드: 비용 추정, 효익 비교, 투자 우선순위, 의사결정 추적성
-[정성적 설계 선택] → ATAM 이후 경제성 분석] → [포트폴리오 가치 최적화]
+[정성적 설계 선택] -> ATAM 이후 경제성 분석] -> [포트폴리오 가치 최적화]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [CBAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/230_cbam_cost_benefit_analysis_method/) 경제성 관점 확장은 집을 짓기 전에 방과 길을 먼저 그려 보는 것과 같아요.
@@ -117,7 +117,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 428 / 530
 
-← **이전**: [349. ATAM 아키텍처 트레이드오프 평가 (Architecture Tradeoff Analysis Method)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/349_atam/)
-**다음**: [351. 민감도 상충점 리스크 (Sensitivity Point and Tradeoff Risk)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/351_process/) →
+<- **이전**: [349. ATAM 아키텍처 트레이드오프 평가 (Architecture Tradeoff Analysis Method)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/349_atam/)
+**다음**: [351. 민감도 상충점 리스크 (Sensitivity Point and Tradeoff Risk)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/351_process/) ->
 
 ---

@@ -35,30 +35,30 @@ tags = ["studynote-computer-architecture"]
 
 이 과정에서 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 현재 프로세스의 [세그먼트 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/) 위치를 STBR ([Segment Table](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/) [Base Register](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/))에 넣고, 세그먼트 개수는 STLR ([Segment Table](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/) Length [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))에 저장한다. 그래서 세그먼트 번호가 존재 범위를 벗어나면 테이블을 읽기도 전에 차단할 수 있다. 유효한 번호라면 MMU는 해당 엔트리에서 Base, Limit, [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/), 존재 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 같은 정보를 읽는다.
 
-아래 그림은 [세그먼트 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/)이 단순 조회표가 아니라, <strong>번호 검사 → 엔트리 조회 → 경계/권한 검사 → <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/">물리 주소</a> 산출</strong>을 담당하는 흐름을 보여준다.
+아래 그림은 [세그먼트 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/)이 단순 조회표가 아니라, <strong>번호 검사 -> 엔트리 조회 -> 경계/권한 검사 -> <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/">물리 주소</a> 산출</strong>을 담당하는 흐름을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│                 세그먼트 테이블 기반 주소 변환 및 보호 흐름                 │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ 논리 주소 = (Segment s, Offset d)                                           │
-│                                                                              │
-│   CPU                                                                        │
-│    │                                                                         │
-│    ▼                                                                         │
-│ [1] s < STLR ? ── 아니오 ───────────────▶ Trap                               │
-│    │ 예                                                                     │
-│    ▼                                                                         │
-│ [2] STBR + s × 엔트리크기 ─────────────▶ 세그먼트 테이블 엔트리 읽기         │
-│                                          ┌──────────────────────────────┐    │
-│                                          │ Base │ Limit │ Prot │ Valid │    │
-│                                          └──────────────────────────────┘    │
-│    ▼                                                                         │
-│ [3] d < Limit && 권한 허용 ? ─ 아니오 ─▶ Segmentation Fault                 │
-│    │ 예                                                                     │
-│    ▼                                                                         │
-│ [4] Physical Address = Base + d                                             │
-└──────────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------------+
+|                 세그먼트 테이블 기반 주소 변환 및 보호 흐름                 |
++------------------------------------------------------------------------------+
+| 논리 주소 = (Segment s, Offset d)                                           |
+|                                                                              |
+|   CPU                                                                        |
+|    |                                                                         |
+|    v                                                                         |
+| [1] s < STLR ? -- 아니오 ----------------> Trap                               |
+|    | 예                                                                     |
+|    v                                                                         |
+| [2] STBR + s × 엔트리크기 --------------> 세그먼트 테이블 엔트리 읽기         |
+|                                          +------------------------------+    |
+|                                          | Base | Limit | Prot | Valid |    |
+|                                          +------------------------------+    |
+|    v                                                                         |
+| [3] d < Limit && 권한 허용 ? - 아니오 --> Segmentation Fault                 |
+|    | 예                                                                     |
+|    v                                                                         |
+| [4] Physical Address = Base + d                                             |
++------------------------------------------------------------------------------+
 ```
 
 | 엔트리 필드 | 의미 | 설계상 중요 포인트 |
@@ -146,26 +146,26 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 단일 Base/Limit 보호
-    │
-    ▼
+    |
+    v
 세그멘테이션 (Segmentation)
-    │
-    ▼
+    |
+    v
 세그먼트 테이블 (Segment Table)
-    │
-    ├──▶ 보호 비트 · 공유 세그먼트
-    │
-    ▼
+    |
+    +---> 보호 비트 · 공유 세그먼트
+    |
+    v
 TLB (Translation Lookaside Buffer) · 디스크립터 캐싱
-    │
-    ▼
+    |
+    v
 페이징과 세그멘테이션 혼용
-    │
-    ▼
+    |
+    v
 현대 메모리 보호 모델의 권한 분리 사고
 ```
 
-이 흐름은 "단일 경계 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) → 다중 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구역 관리 → [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 보완 → 하이브리드 메모리 관리"로 발전하는 방향을 보여준다.
+이 흐름은 "단일 경계 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) -> 다중 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구역 관리 -> [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 보완 -> 하이브리드 메모리 관리"로 발전하는 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -179,7 +179,7 @@ TLB (Translation Lookaside Buffer) · 디스크립터 캐싱
 
 **진행 상황**: 294 / 803
 
-← **이전**: [293. 세그멘테이션 (Segmentation)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/293_segmentation/)
-**다음**: [295. 외부 단편화 (External Fragmentation)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/295_external_fragmentation/) →
+<- **이전**: [293. 세그멘테이션 (Segmentation)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/293_segmentation/)
+**다음**: [295. 외부 단편화 (External Fragmentation)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/295_external_fragmentation/) ->
 
 ---

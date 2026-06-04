@@ -31,7 +31,7 @@ CLT는 그 표본평균을 정규분포로 다룰 수 있게 해 준다.
 
 ```text
 Population
-  ↓ sample means
+  v sample means
 Approximately Normal
 ```
 
@@ -103,11 +103,11 @@ CLT는 통계 추론을 가능하게 하는 핵심 정리다.
 
 ```text
 Population
-  ↓
+  v
 Sample Mean
-  ↓
+  v
 CLT
-  ↓
+  v
 Inference
 ```
 
@@ -117,11 +117,11 @@ Inference
 
 ```text
 Sampling
-  ↓
+  v
 CLT
-  ↓
+  v
 Normal Approximation
-  ↓
+  v
 Statistical Inference
 ```
 
@@ -139,7 +139,7 @@ CLT는 그런 법칙이에요.
 
 **진행 상황**: 73 / 258
 
-← **이전**: [72. 카이제곱 검정 (Chi-square Test) - 범주형 데이터 독립성/적합성](/knowledge-base/studynote/14_data_engineering/02_math_mining/072_chi_square_test_categorical_independence_goodness_of_fit/)
-**다음**: [74. 대수의 법칙 (LLN, Law of Large Numbers) - 수렴 확률](/knowledge-base/studynote/14_data_engineering/02_math_mining/074_law_of_large_numbers_lln_convergence_probability/) →
+<- **이전**: [72. 카이제곱 검정 (Chi-square Test) - 범주형 데이터 독립성/적합성](/knowledge-base/studynote/14_data_engineering/02_math_mining/072_chi_square_test_categorical_independence_goodness_of_fit/)
+**다음**: [74. 대수의 법칙 (LLN, Law of Large Numbers) - 수렴 확률](/knowledge-base/studynote/14_data_engineering/02_math_mining/074_law_of_large_numbers_lln_convergence_probability/) ->
 
 ---

@@ -69,30 +69,30 @@ tags = ["studynote-operating-system"]
 "원래 i-node에는 rwxrwxrwx [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(2바이트)밖에 저장 공간이 없는데 어떻게 길쭉한 ACL을 저장할까?"
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 리눅스 파일 시스템의 ACL 저장 및 검증 아키텍처            │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [ 1. 파일 시스템 (ext4) 구조 ]                                       │
-  │   - 파일 `report.txt`의 [i-node] 블록 (기본 권한: `rw- r-- r--`)      │
-  │   - i-node 안에 저장 공간이 모자라므로, OS는 **확장 속성(xattr)** 영역이라는 │
-  │     숨겨진 별도의 디스크 블록을 할당하여 ACL 데이터를 기록함.                │
-  │                                                                   │
-  │  [ 2. 권한 검사 (Access Check) 로직 ]                                │
-  │   - 유저 '철수'가 `report.txt`에 Write 요청!                        │
-  │                                                                   │
-  │   ① 철수가 이 파일의 Owner(소유자)인가?                               │
-  │      -> 아니오.                                                   │
-  │                                                                   │
-  │   ② 철수라는 이름이 파일의 [ACL 명단]에 명시적으로 있는가?                │
-  │      -> `getfacl` 조회: `user:철수:rw-` 발견!                       │
-  │      ★ 통과! (기본 Group이나 Other 권한보다 명시적 ACL을 우선함)          │
-  │                                                                   │
-  │   ③ 만약 ACL에도 철수가 없다면?                                       │
-  │      -> 철수가 속한 그룹이 ACL에 있는지 검사 -> 통과/실패                 │
-  │                                                                   │
-  │   ④ 그것도 없다면? -> 기본 `Other` 권한(r--)을 적용하여 Write 차단.     │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 리눅스 파일 시스템의 ACL 저장 및 검증 아키텍처            |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [ 1. 파일 시스템 (ext4) 구조 ]                                       |
+  |   - 파일 `report.txt`의 [i-node] 블록 (기본 권한: `rw- r-- r--`)      |
+  |   - i-node 안에 저장 공간이 모자라므로, OS는 **확장 속성(xattr)** 영역이라는 |
+  |     숨겨진 별도의 디스크 블록을 할당하여 ACL 데이터를 기록함.                |
+  |                                                                   |
+  |  [ 2. 권한 검사 (Access Check) 로직 ]                                |
+  |   - 유저 '철수'가 `report.txt`에 Write 요청!                        |
+  |                                                                   |
+  |   ① 철수가 이 파일의 Owner(소유자)인가?                               |
+  |      -> 아니오.                                                   |
+  |                                                                   |
+  |   ② 철수라는 이름이 파일의 [ACL 명단]에 명시적으로 있는가?                |
+  |      -> `getfacl` 조회: `user:철수:rw-` 발견!                       |
+  |      ★ 통과! (기본 Group이나 Other 권한보다 명시적 ACL을 우선함)          |
+  |                                                                   |
+  |   ③ 만약 ACL에도 철수가 없다면?                                       |
+  |      -> 철수가 속한 그룹이 ACL에 있는지 검사 -> 통과/실패                 |
+  |                                                                   |
+  |   ④ 그것도 없다면? -> 기본 `Other` 권한(r--)을 적용하여 Write 차단.     |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 리눅스에서 `ls -l`을 쳤을 때 권한 끝에 `+` 기호가 붙어있으면(`-rw-rwxr--+`) 숨겨진 ACL이 존재한다는 뜻이다. [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/)(가상 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템)는 이 `+` 기호를 보면, 단순한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)마스크 검사를 넘어 무거운 `xattr` 블록을 뒤져 권한을 파싱하는 다단계 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 로직을 타게 된다.
@@ -137,24 +137,24 @@ ACL은 그저 '목록'일 뿐이다. 이 목록을 누가 통제하느냐에 따
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 엔터프라이즈 접근 제어(Access Control) 모델 설계 플로우   │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [사내 인트라넷, DB, 클라우드 자원에 대한 직원들의 접근 권한을 설계함]          │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      자원의 소유자(개발자)가 임의로 동료에게 권한을 넘겨주어도 무방한가?       │
-  │          ├─ 예 ─────▶ [DAC 모델 (전통적 ACL / xattr) 허용]           │
-  │          │            (개발 편의성 높음. 빠르고 유연한 스타트업 문화에 적합)   │
-  │          └─ 아니오 (국방망, 금융망, 망분리 환경 등 규제가 엄격한 곳이다)     │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      중앙 보안팀이 모든 권한을 100% 통제하고 감시해야 하는가?               │
-  │          ├──▶ [RBAC (역할 기반) + MAC (강제 접근 제어) 도입 필수]      │
-  │          │    결론: 리눅스의 SELinux나 AppArmor를 Enforcing 모드로 켜서, │
-  │          │          루트(root)조차도 파일의 ACL을 함부로 바꾸지 못하게 막음. │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 엔터프라이즈 접근 제어(Access Control) 모델 설계 플로우   |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [사내 인트라넷, DB, 클라우드 자원에 대한 직원들의 접근 권한을 설계함]          |
+  |                |                                                  |
+  |                v                                                  |
+  |      자원의 소유자(개발자)가 임의로 동료에게 권한을 넘겨주어도 무방한가?       |
+  |          +- 예 ------> [DAC 모델 (전통적 ACL / xattr) 허용]           |
+  |          |            (개발 편의성 높음. 빠르고 유연한 스타트업 문화에 적합)   |
+  |          +- 아니오 (국방망, 금융망, 망분리 환경 등 규제가 엄격한 곳이다)     |
+  |                |                                                  |
+  |                v                                                  |
+  |      중앙 보안팀이 모든 권한을 100% 통제하고 감시해야 하는가?               |
+  |          +---> [RBAC (역할 기반) + MAC (강제 접근 제어) 도입 필수]      |
+  |          |    결론: 리눅스의 SELinux나 AppArmor를 Enforcing 모드로 켜서, |
+  |          |          루트(root)조차도 파일의 ACL을 함부로 바꾸지 못하게 막음. |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "권한 꼬이면 그냥 `chmod 777` 쳐서 해결하세요"는 주니어 시절에나 용납되는 끔찍한 안티 패턴이다. 아키텍트는 777(UGO)의 몽둥이를 치우고, 정교한 [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) 매스(Scalpel)를 쥐어주어 <strong>'최소 권한의 원칙(Principle of <a href="/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/">Least Privilege</a>)'</strong>을 시스템이 강제로 지키도록 조각해야 한다.
@@ -199,12 +199,12 @@ ACL은 그저 '목록'일 뿐이다. 이 목록을 누가 통제하느냐에 따
 
 ```text
 [버퍼 캐시 파일 입출력 지연]
-    │
-    ▼
+    |
+    v
 [접근 제어 목록 (ACL)]
-    │
-    ├──▶ [보호 도메인 최소 권한 원칙]
-    └──▶ [버퍼 오버플로우 공격 스택]
+    |
+    +---> [보호 도메인 최소 권한 원칙]
+    +---> [버퍼 오버플로우 공격 스택]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -221,7 +221,7 @@ ACL은 그저 '목록'일 뿐이다. 이 목록을 누가 통제하느냐에 따
 
 **진행 상황**: 739 / 800
 
-← **이전**: [738. 버퍼 캐시 파일 입출력 지연 (Buffer Cache File I/O Delayed Write)](/knowledge-base/studynote/02_operating_system/11_exam_summary/738_buffer_cache_file_io_delayed_write/)
-**다음**: [740. 보호 도메인 최소 권한 원칙 (Protection Domain Least Privilege)](/knowledge-base/studynote/02_operating_system/11_exam_summary/740_protection_domain_least_privilege/) →
+<- **이전**: [738. 버퍼 캐시 파일 입출력 지연 (Buffer Cache File I/O Delayed Write)](/knowledge-base/studynote/02_operating_system/11_exam_summary/738_buffer_cache_file_io_delayed_write/)
+**다음**: [740. 보호 도메인 최소 권한 원칙 (Protection Domain Least Privilege)](/knowledge-base/studynote/02_operating_system/11_exam_summary/740_protection_domain_least_privilege/) ->
 
 ---

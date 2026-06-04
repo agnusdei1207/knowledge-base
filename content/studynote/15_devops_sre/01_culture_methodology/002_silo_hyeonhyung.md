@@ -28,25 +28,25 @@ tags = ["devops_sre"]
 
 ```text
 [전형적 사일로 조직 구조]
-┌──────────────┐     ┌──────────────┐     ┌──────────────┐
-│  개발팀 (Dev) │     │ 운영팀 (Ops)  │     │ 보안팀 (Sec)  │
-│              │     │              │     │              │
-│ - 기능 개발  │     │ - 시스템 안정 │     │ - 컴플라이언스│
-│ - 코드 작성  │     │ - 변경 최소화 │     │ - 접근 통제  │
-│ - 빠른 배포 │     │ - 긴 검토 기간 │     │ - 수동 승인  │
-└──────────────┘     └──────────────┘     └──────────────┘
-        │                  │                   │
-        │         [정보/의사소통 단절]           │
-        │    ┌─────────────────────────────┐   │
-        │    │  ❌ 각 부서는 다른 부서의      │   │
-        │    │     작업 내용/일정을 모름     │   │
-        │    │  ❌ 고객 가치보다 자기 부서     │   │
-        │    │     KPI 충족에 집중           │   │
-        │    │  ❌ 장애 시 '누구 잘못?'      │   │
-        │    │     책임 전가 문화             │   │
-        │    └─────────────────────────────┘   │
-        │                  │                   │
-        ▼                  ▼                   ▼
++--------------+     +--------------+     +--------------+
+|  개발팀 (Dev) |     | 운영팀 (Ops)  |     | 보안팀 (Sec)  |
+|              |     |              |     |              |
+| - 기능 개발  |     | - 시스템 안정 |     | - 컴플라이언스|
+| - 코드 작성  |     | - 변경 최소화 |     | - 접근 통제  |
+| - 빠른 배포 |     | - 긴 검토 기간 |     | - 수동 승인  |
++--------------+     +--------------+     +--------------+
+        |                  |                   |
+        |         [정보/의사소통 단절]           |
+        |    +-----------------------------+   |
+        |    |  ❌ 각 부서는 다른 부서의      |   |
+        |    |     작업 내용/일정을 모름     |   |
+        |    |  ❌ 고객 가치보다 자기 부서     |   |
+        |    |     KPI 충족에 집중           |   |
+        |    |  ❌ 장애 시 '누구 잘못?'      |   |
+        |    |     책임 전가 문화             |   |
+        |    +-----------------------------+   |
+        |                  |                   |
+        v                  v                   v
    [고객에게의 가치 전달 경로에 병목 발생]
 ```
 
@@ -70,33 +70,33 @@ tags = ["devops_sre"]
 사일로 타파를 위한 기술적 핵심 구조는 개발과 운영이 동일한 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 협업하는CI/CD 환경이다. 아래는 사일로 조직에서 통합된 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 팀으로 전환된 조직 구조를 나타낸다.
 
 ```text
-[사일로 조직 → 통합 DevOps 팀 전환]
+[사일로 조직 -> 통합 DevOps 팀 전환]
 
 전: 분리된 부서 (Silo)
-    Dev ──▶ [장벽] ──▶ Ops
-    Sec ──▶ [장벽] ──▶ Ops
+    Dev ---> [장벽] ---> Ops
+    Sec ---> [장벽] ---> Ops
 
 후: 통합 크로스펑셔널 팀 (Cross-functional)
-    ┌─────────────────────────────────────┐
-    │      📦 Product Team (One Team)     │
-    │                                     │
-    │  Dev │  Ops │  Sec │  QA │  Data   │
-    │  (개발)(운영)(보안)(품질)(데이터)      │
-    │                                     │
-    │  └── 공유된 파이프라인 ──▶ 고객 가치  │
-    └─────────────────────────────────────┘
-         │
-         ▼
-    ┌──────────────────┐
-    │ Shared CI/CD    │ ◀── 모든 부서가
-    │ Pipeline        │     동일한 도구 사용
-    └──────────────────┘
-         │
-         ▼
-    ┌──────────────────┐
-    │ Shared Dashboard │ ◀── 모든 부서가
-    │ (공유 대시보드)   │     동일한 지표 확인
-    └──────────────────┘
+    +-------------------------------------+
+    |      📦 Product Team (One Team)     |
+    |                                     |
+    |  Dev |  Ops |  Sec |  QA |  Data   |
+    |  (개발)(운영)(보안)(품질)(데이터)      |
+    |                                     |
+    |  +-- 공유된 파이프라인 ---> 고객 가치  |
+    +-------------------------------------+
+         |
+         v
+    +------------------+
+    | Shared CI/CD    | <--- 모든 부서가
+    | Pipeline        |     동일한 도구 사용
+    +------------------+
+         |
+         v
+    +------------------+
+    | Shared Dashboard | <--- 모든 부서가
+    | (공유 대시보드)   |     동일한 지표 확인
+    +------------------+
 ```
 
 이 도식의 핵심은 '팀'이라는 조직 단위의 변화에 있다. 더 이상 Dev와 Ops가 별도의 팀이 아니라,동일의 제품 팀 내 역할 분담으로 전환된다. 각 역할은 여전히 전문적이지만, 공유된 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인과 대시보드를 통해 서로의 작업 현황을 실시간으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 문제 발생 시 함께 해결책을 모색하게 된다. 이는 무비난 포스트모템 문화를 자연스럽게 촉진하고, [심리적 안전](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/036_psychological_safety/)감을 높이는 기반이 된다.
@@ -120,22 +120,22 @@ tags = ["devops_sre"]
 
 ```text
 [사일로 타파 관련 개념 맵]
-         ┌─────────────────┐
-         │  데브옵스 사상   │
-         └────────┬────────┘
-                  │
-      ┌───────────┼───────────┐
-      ▼           ▼           ▼
-┌──────────┐ ┌─────────┐ ┌──────────┐
-│ CALMS    │ │ DORA    │ │ VSM      │
-│ (문화)   │ │ 메트릭스 │ │ (가치 흐름)│
-└────┬─────┘ └────┬────┘ └────┬─────┘
-     │            │            │
-     ▼            ▼            ▼
-┌──────────┐ ┌─────────┐ ┌──────────┐
-│ 사일로    │ │ 리드 타임 │ │ 병목      │
-│ 타파     │ │ 단축     │ │ 분석     │
-└──────────┘ └─────────┘ └──────────┘
+         +-----------------+
+         |  데브옵스 사상   |
+         +--------+--------+
+                  |
+      +-----------+-----------+
+      v           v           v
++----------+ +---------+ +----------+
+| CALMS    | | DORA    | | VSM      |
+| (문화)   | | 메트릭스 | | (가치 흐름)|
++----+-----+ +----+----+ +----+-----+
+     |            |            |
+     v            v            v
++----------+ +---------+ +----------+
+| 사일로    | | 리드 타임 | | 병목      |
+| 타파     | | 단축     | | 분석     |
++----------+ +---------+ +----------+
 ```
 
 이 맵의 핵심은 사일로 타파가고립적으로 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)되는 것이 아니라, [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)스로 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 상황을 측정하고, [가치 흐름 매핑](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/224_vsm_value_stream_mapping/)으로 구체적 병목을 찾고, [CALMS](/knowledge-base/studynote/15_devops_sre/05_devsecops/281_calms/) 프레임워크로 문화적 기반을 다지는 통합적 접근이필수하다는 점이다. 하나의 측면만 추진하면단기내 효과는 있어도 장기적으로는 재발할 수 있다.
@@ -146,14 +146,14 @@ tags = ["devops_sre"]
 
 ```text
 [사일로 조직]
-    │
-    ▼
+    |
+    v
 [크로스펑셔널 팀]
-    │
-    ▼
+    |
+    v
 [공유 CI/CD]
-    │
-    ▼
+    |
+    v
 [플랫폼 팀]
 ```
 
@@ -175,11 +175,11 @@ tags = ["devops_sre"]
   - **판단**: 이는 [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) 보안 접근법으로 해결해야 한다. 보안팀의 전문가 역량을 발 빠르게 배치(deploy)하는 대신, 그들이정의한 [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/)을 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 코드화([정책 애즈 코드](/knowledge-base/studynote/15_devops_sre/05_devsecops/258_policy_as_code_opa_gatekeeper/))하여 개발자가 Self-service로 보안 점검을 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하도록 할 수 있다. 이를 통해 보안팀은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 정의 및 exceptions 처리에만 집중하고, 개발팀은 빠른 피드백을 얻을 수 있다.
 
 ```text
-[보안팀 저항 → 시프트 레프트 보안으로 해결]
-전: 보안팀 ──(수동 점검)──▶ Dev 팀 (배포 지연)
+[보안팀 저항 -> 시프트 레프트 보안으로 해결]
+전: 보안팀 --(수동 점검)---> Dev 팀 (배포 지연)
      [병목: 보안팀 검토 대기]
 
-후: Dev 팀 ──(파이프라인 내 자동 보안 스캔)──▶ 보안팀 (정책 정의만)
+후: Dev 팀 --(파이프라인 내 자동 보안 스캔)---> 보안팀 (정책 정의만)
      [병목 제거: 개발자가 셀프 서비스로 점검]
 ```
 
@@ -209,7 +209,7 @@ tags = ["devops_sre"]
 
 **진행 상황**: 2 / 373
 
-← **이전**: [1. 데브옵스 (DevOps) 사상 - 개발(Dev)과 운영(Ops) 간의 소통, 협업, 통합을 강조하여 소프트웨어 배포 속도와 안정성을](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/001_devops_saSang/)
-**다음**: [3. CALMS 프레임워크 - DevOps 5대 핵심 가치 (Culture 문화, Automation 자동화, Lean 린 IT, Measurement](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/003_calms_framework/) →
+<- **이전**: [1. 데브옵스 (DevOps) 사상 - 개발(Dev)과 운영(Ops) 간의 소통, 협업, 통합을 강조하여 소프트웨어 배포 속도와 안정성을](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/001_devops_saSang/)
+**다음**: [3. CALMS 프레임워크 - DevOps 5대 핵심 가치 (Culture 문화, Automation 자동화, Lean 린 IT, Measurement](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/003_calms_framework/) ->
 
 ---

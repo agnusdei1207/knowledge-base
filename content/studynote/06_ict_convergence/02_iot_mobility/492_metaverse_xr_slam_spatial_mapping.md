@@ -35,23 +35,23 @@ XR(Extended Reality)은 현실-디지털 융합 기술의 총칭이다.
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│               SLAM 기반 공간 인식 처리 흐름               │
-├──────────────────────────────────────────────────────────┤
-│  [입력]  카메라(RGB-D) / IMU(관성) / LiDAR 센서            │
-│     │                                                    │
-│     ▼  특징 추출(Feature Extraction)                      │
-│  [Front-End]  시각적 오도메트리(Visual Odometry)           │
-│     │  현재 위치 추정 (로컬 최적화)                          │
-│     ▼                                                    │
-│  [Back-End]   루프 클로저(Loop Closure) 검출               │
-│     │  누적 오차 보정 (글로벌 최적화, Bundle Adjustment)     │
-│     ▼                                                    │
-│  [출력]  3D 점군 지도 + 자기 위치(6DoF Pose)               │
-│     │                                                    │
-│     ▼  AR/MR 엔진                                         │
-│  디지털 객체를 현실 공간 정확한 위치에 렌더링(Anchoring)      │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|               SLAM 기반 공간 인식 처리 흐름               |
++----------------------------------------------------------+
+|  [입력]  카메라(RGB-D) / IMU(관성) / LiDAR 센서            |
+|     |                                                    |
+|     v  특징 추출(Feature Extraction)                      |
+|  [Front-End]  시각적 오도메트리(Visual Odometry)           |
+|     |  현재 위치 추정 (로컬 최적화)                          |
+|     v                                                    |
+|  [Back-End]   루프 클로저(Loop Closure) 검출               |
+|     |  누적 오차 보정 (글로벌 최적화, Bundle Adjustment)     |
+|     v                                                    |
+|  [출력]  3D 점군 지도 + 자기 위치(6DoF Pose)               |
+|     |                                                    |
+|     v  AR/MR 엔진                                         |
+|  디지털 객체를 현실 공간 정확한 위치에 렌더링(Anchoring)      |
++----------------------------------------------------------+
 ```
 
 ### XR 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 비교
@@ -99,7 +99,7 @@ XR(Extended Reality)은 현실-디지털 융합 기술의 총칭이다.
 
 **기술사 핵심 논점**
 
-1. SLAM은 계산 집약적 → 엣지 처리(온디바이스 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)/[NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)) 필수.
+1. SLAM은 계산 집약적 -> 엣지 처리(온디바이스 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)/[NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)) 필수.
 2. [메타버스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/) 가치 실현의 병목: 디스플레이 해상도, 배터리 지속시간, 콘텐츠 생태계.
 3. 공간 앵커(Spatial Anchor) 공유: 여러 사용자가 동일 AR 객체를 같은 공간에서 보기.
 
@@ -128,7 +128,7 @@ XR과 SLAM은 [메타버스](/knowledge-base/studynote/04_software_engineering/0
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[Visual SLAM · LiDAR SLAM] → [메타버스 · XR] → [Apple · Google AR]
+[Visual SLAM · LiDAR SLAM] -> [메타버스 · XR] -> [Apple · Google AR]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -143,7 +143,7 @@ XR과 SLAM은 [메타버스](/knowledge-base/studynote/04_software_engineering/0
 
 **진행 상황**: 492 / 552
 
-← **이전**: [491. 디지털 트윈 동기화와 시뮬레이션 (Digital Twin Synchronization and Simulation)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/491_digital_twin_sync_simulation/)
-**다음**: [493. 자율주행 SAE 레벨과 센서 퓨전 (Autonomous Driving SAE Levels and Sensor Fusion)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/493_autonomous_driving_lidar_sensor_fusion/) →
+<- **이전**: [491. 디지털 트윈 동기화와 시뮬레이션 (Digital Twin Synchronization and Simulation)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/491_digital_twin_sync_simulation/)
+**다음**: [493. 자율주행 SAE 레벨과 센서 퓨전 (Autonomous Driving SAE Levels and Sensor Fusion)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/493_autonomous_driving_lidar_sensor_fusion/) ->
 
 ---

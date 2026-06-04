@@ -25,24 +25,24 @@ tags = ["studynote-operating-system"]
 암묵적 스레딩을 구현하는 대표적인 기술은 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) ([Thread Pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)), OpenMP, [GCD](/knowledge-base/studynote/02_operating_system/10_security/663_macos_ios_gcd_grand_central_dispatch/) 세 가지다. 개발자의 의도를 시스템이 어떻게 받아들여 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화하는지 살펴보자.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│          암묵적 스레딩의 런타임 추상화 메커니즘              │
-├──────────────────────────────────────────────────────────────┤
-│ 1. OpenMP (데이터 병렬성 중심 / Fork-Join 모델)              │
-│    #pragma omp parallel for  ◀── (개발자는 이 지시어만 작성)│
-│    for(i=0; i<100; i++) { ... }                              │
-│                                                              │
-│      [런타임이 코어 수에 맞춰 스레드 팀 동적 Fork]           │
-│      T1(0~24)   T2(25~49)   T3(50~74)   T4(75~99)            │
-│      └───────┬─────────┬─────────┬───────┘                 │
-│                ▼ Join (암묵적 장벽 동기화 대기)              │
-│                                                              │
-│ 2. GCD / 스레드 풀 (작업 병렬성 중심 / Task Queue 모델)      │
-│    개발자: Task A, Task B를 비동기 Queue에 밀어 넣음         │
-│               │                                              │
-│               ▼  OS 런타임 (GCD) 스케줄러                    │
-│    [가용 스레드 풀 모니터링] ─▶ 노는 스레드에 Task 동적 매핑│
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|          암묵적 스레딩의 런타임 추상화 메커니즘              |
++--------------------------------------------------------------+
+| 1. OpenMP (데이터 병렬성 중심 / Fork-Join 모델)              |
+|    #pragma omp parallel for  <--- (개발자는 이 지시어만 작성)|
+|    for(i=0; i<100; i++) { ... }                              |
+|                                                              |
+|      [런타임이 코어 수에 맞춰 스레드 팀 동적 Fork]           |
+|      T1(0~24)   T2(25~49)   T3(50~74)   T4(75~99)            |
+|      +-------+---------+---------+-------+                 |
+|                v Join (암묵적 장벽 동기화 대기)              |
+|                                                              |
+| 2. GCD / 스레드 풀 (작업 병렬성 중심 / Task Queue 모델)      |
+|    개발자: Task A, Task B를 비동기 Queue에 밀어 넣음         |
+|               |                                              |
+|               v  OS 런타임 (GCD) 스케줄러                    |
+|    [가용 스레드 풀 모니터링] --> 노는 스레드에 Task 동적 매핑|
++--------------------------------------------------------------+
 ```
 
 1. **OpenMP**: C/C++ 기반에서 포크-조인 (Fork-[Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)) 모델을 쓴다. 컴파일러가 `#pragma` 지시어를 보면, 반복문을 쪼개서 내부 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)에 분배한다. 끝나는 지점에 암묵적 장벽을 세워 모두 끝날 때까지 기다린 후 단일 흐름으로 복귀한다.
@@ -95,14 +95,14 @@ tags = ["studynote-operating-system"]
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
 명시적 스레딩 (Explicit Threading, Pthreads 직접 제어)
-    │
-    ▼
+    |
+    v
 스레드 풀 (Thread Pool) 도입 (생성/소멸 오버헤드 최소화)
-    │
-    ▼
+    |
+    v
 암묵적 스레딩 프레임워크 (OpenMP 지시어, Apple GCD 큐)
-    │
-    ▼
+    |
+    v
 언어 내재화 비동기 모델 (Async/Await, Goroutine, Actor)
 ```
 
@@ -117,7 +117,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 102 / 800
 
-← **이전**: [101. 두 수준 (Two-level) 모델](/knowledge-base/studynote/02_operating_system/02_process_thread/101_two_level_model/)
-**다음**: [103. 스레드 풀 (Thread Pool)](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) →
+<- **이전**: [101. 두 수준 (Two-level) 모델](/knowledge-base/studynote/02_operating_system/02_process_thread/101_two_level_model/)
+**다음**: [103. 스레드 풀 (Thread Pool)](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) ->
 
 ---

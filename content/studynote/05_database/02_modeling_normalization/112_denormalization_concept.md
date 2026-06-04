@@ -12,7 +12,7 @@ tags = ["studynote-database"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [역정규화](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/) 개념은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 설계에서 완성한 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 스키마를 <strong>물리 설계 단계에서 의도적으로 중복·병합</strong>하여, 조인 횟수를 줄이고 읽기 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 향상시키는 <strong>설계 의사결정 프레임워크</strong>다.
 > 2. **가치**: [역정규화](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/)는 "[정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)를 모르는 사람의 실수"가 아니라, <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a>를 완료한 후 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 병목 지점에만 선별적으로 적용</strong>하는 고급 물리 설계 전략이며, 반드시 [갱신 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/) 방지 장치([트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)·배치)를 병행해야 한다.
-> 3. **판단 포인트**: 기술사 시험에서는 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) → [역정규화](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/) → <strong>"왜 이 지점에서 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/">역정규화</a>했는가?"의 판단 근거(<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> 빈도·테이블 크기·읽기/<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 비율)</strong>를 서술하는 것이 핵심이다.
+> 3. **판단 포인트**: 기술사 시험에서는 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) -> [역정규화](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/) -> <strong>"왜 이 지점에서 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/">역정규화</a>했는가?"의 판단 근거(<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> 빈도·테이블 크기·읽기/<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 비율)</strong>를 서술하는 것이 핵심이다.
 
 ---
 
@@ -21,18 +21,18 @@ tags = ["studynote-database"]
 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)된 스키마는 이론적으로 완벽하지만, 실제 [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) 시스템에서 수천만 건 테이블의 3~5중 조인은 DB CPU를 폭발시킨다. [역정규화](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/)는 이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목을 해소하되, <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> 훼손을 최소화하는 균형점</strong>을 찾는 것이 핵심이다.
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    논리 설계 → 물리 설계 흐름에서의 역정규화 위치       │
-├───────────────────────────────────────────────────────┤
-│  [요구 분석] → [개념 설계(ERD)]                       │
-│       → [논리 설계(정규화: 3NF/BCNF)] ← 무결성 확보   │
-│       → [물리 설계(역정규화)] ← 성능 최적화            │
-│            └── 중복 컬럼 추가                          │
-│            └── 테이블 병합                              │
-│            └── 파생 컬럼 추가                           │
-│            └── 테이블 분할 (수평/수직)                  │
-│       → [구현·튜닝]                                    │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    논리 설계 -> 물리 설계 흐름에서의 역정규화 위치       |
++-------------------------------------------------------+
+|  [요구 분석] -> [개념 설계(ERD)]                       |
+|       -> [논리 설계(정규화: 3NF/BCNF)] <- 무결성 확보   |
+|       -> [물리 설계(역정규화)] <- 성능 최적화            |
+|            +-- 중복 컬럼 추가                          |
+|            +-- 테이블 병합                              |
+|            +-- 파생 컬럼 추가                           |
+|            +-- 테이블 분할 (수평/수직)                  |
+|       -> [구현·튜닝]                                    |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)가 "모든 서류를 종류별 캐비닛에 정리"하는 것이라면, [역정규화](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/)는 "자주 찾는 서류 3장을 책상 위에도 복사해 두는" 실용적 타협이다.
@@ -78,11 +78,11 @@ tags = ["studynote-database"]
 
 ### 기술사 답안 작성 포인트
 1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a> 완료 근거</strong>: "[3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)/BCNF까지 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 완료 후" [역정규화](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/)를 적용함을 명시.
-2. **병목 근거**: "주문 목록 조회 API가 초당 5,000회, 3-way JOIN으로 200ms" → [역정규화](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/) 판단.
+2. **병목 근거**: "주문 목록 조회 API가 초당 5,000회, 3-way JOIN으로 200ms" -> [역정규화](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/) 판단.
 3. <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 장치</strong>: "[트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)로 원본 변경 시 복사 컬럼 자동 갱신" 등 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 방안 서술.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a> 없이 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/">역정규화</a></strong>: "그냥 다 한 테이블에 넣자" → [갱신 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/) 폭발, 이것은 [역정규화](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/)가 아니라 무설계다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a> 없이 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/">역정규화</a></strong>: "그냥 다 한 테이블에 넣자" -> [갱신 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/) 폭발, 이것은 [역정규화](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/)가 아니라 무설계다.
 
 ---
 
@@ -106,17 +106,17 @@ tags = ["studynote-database"]
 
 ```text
 [정규화 이론 (Codd, 1970s) — 무결성 중심 논리 설계]
-    │
-    ▼
+    |
+    v
 [역정규화 실무 패턴 (1990s) — 대용량 OLTP 성능 병목 해소]
-    │
-    ▼
+    |
+    v
 [DW Star/Snowflake Schema (2000s) — 분석 환경 전면 역정규화]
-    │
-    ▼
+    |
+    v
 [CQRS 패턴 (2010s) — 쓰기(정규화)와 읽기(역정규화) 완전 분리]
-    │
-    ▼
+    |
+    v
 [현재: NewSQL + Materialized View — 정규화 유지하면서 읽기 성능 확보]
 ```
 
@@ -131,7 +131,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 112 / 600
 
-← **이전**: [111. 역정규화 (Denormalization) - 정규화 vs 성능 트레이드오프와 설계 전략](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/)
-**다음**: [113. 역정규화 기법 (Denormalization Techniques) - 테이블 병합·분할·중복 컬럼](/knowledge-base/studynote/05_database/02_modeling_normalization/113_denormalization_techniques_merge_split/) →
+<- **이전**: [111. 역정규화 (Denormalization) - 정규화 vs 성능 트레이드오프와 설계 전략](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/)
+**다음**: [113. 역정규화 기법 (Denormalization Techniques) - 테이블 병합·분할·중복 컬럼](/knowledge-base/studynote/05_database/02_modeling_normalization/113_denormalization_techniques_merge_split/) ->
 
 ---

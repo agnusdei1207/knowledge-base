@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [IPv4-IPv6 전환 기술: 듀얼 스택,…]
-    │
-    ▼
+    |
+    v
 [IGMP]
-    │
-    └──▶ [IGMP Snooping]
+    |
+    +---> [IGMP Snooping]
 ```
 
 - **📢 섹션 요약 비유**: <strong> IGMP는 거대한 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a>라는 케이블 방송국망에서 소비자가 쥐고 있는 </strong>"채널 가입 및 해지 리모컨"**입니다. 내가 리모컨으로 신청([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))해야만 거실 벽의 랜선을 통해 영상이 쏟아져 들어오기 시작합니다.
@@ -55,25 +55,25 @@ IPTV 셋톱박스를 켜고 리모컨으로 11번([멀티캐스트](/knowledge-b
    - 라우터: "확실해? 아무도 안 봐? (Group-Specific Query 찔러봄) 대답 없네! 오케이 3번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 영상 송출 즉시 중단!"
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                IGMP 가입과 라우터의 멀티캐스트 복사              │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 방송국 서버 (239.1.1.1로 1개 영상만 발송) ]                 │
- │                     │                                       │
- │                     ▼                                       │
- │                 [ 라우터 ] ──── (포트 2 : 가입자 없음, 송출 ❌) │
- │                /       \                                    │
- │               ▼         ▼                                    │
- │           (포트 1)     (포트 3)                                │
- │          송출 ⭕        송출 ⭕                                 │
- │            │            │                                   │
- │       [ 셋톱 A ]    [ 셋톱 B ]                                │
- │      (IGMP Report) (IGMP Report)                            │
- │                                                             │
- │   * 핵심: 라우터는 IGMP Report(가입서)를 제출한 포트로만 영상을    │
- │          복사해서(복제기 역할) 던져주어 대역폭을 극강으로 아낀다.    │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                IGMP 가입과 라우터의 멀티캐스트 복사              |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 방송국 서버 (239.1.1.1로 1개 영상만 발송) ]                 |
+ |                     |                                       |
+ |                     v                                       |
+ |                 [ 라우터 ] ---- (포트 2 : 가입자 없음, 송출 ❌) |
+ |                /       \                                    |
+ |               v         v                                    |
+ |           (포트 1)     (포트 3)                                |
+ |          송출 ⭕        송출 ⭕                                 |
+ |            |            |                                   |
+ |       [ 셋톱 A ]    [ 셋톱 B ]                                |
+ |      (IGMP Report) (IGMP Report)                            |
+ |                                                             |
+ |   * 핵심: 라우터는 IGMP Report(가입서)를 제출한 포트로만 영상을    |
+ |          복사해서(복제기 역할) 던져주어 대역폭을 극강으로 아낀다.    |
+ +-------------------------------------------------------------+
 ```
 
 ### 2. IGMP 버전의 진화 (v1 -> v2 -> v3)
@@ -139,12 +139,12 @@ IGMP는 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아 주는 �
 
 ```text
 [선행 개념: IPv4-IPv6 전환 기술: 듀얼 스택,…]
-    │
-    ▼
+    |
+    v
 [현재 개념: IGMP]
-    │
-    ├──▶ [확장 A: IGMP Snooping]
-    └──▶ [확장 B: 대규모 주소 자동화]
+    |
+    +---> [확장 A: IGMP Snooping]
+    +---> [확장 B: 대규모 주소 자동화]
 ```
 
 IGMP는 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/)-IPv6 전환 기술: 듀얼 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/),…에서 출발해 현재 메커니즘을 정교화하고, 이후 IGMP Snooping와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -161,7 +161,7 @@ IGMP는 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4
 
 **진행 상황**: 454 / 1120
 
-← **이전**: [332. IPv4-IPv6 전환 기술: 듀얼 스택 (Dual Stack), 터널링 (ISATAP, 6to4), 주소 변환 (NAT64/DNS64)](/knowledge-base/studynote/03_network/06_network_layer_ip/332_ipv4_ipv6_transition_dual_stack_tunneling_nat64/)
-**다음**: [334. IGMP Snooping (스위치가 멀티캐스트 트래픽 불필요한 포트에 차단)](/knowledge-base/studynote/03_network/06_network_layer_ip/334_igmp_snooping_multicast_traffic_control/) →
+<- **이전**: [332. IPv4-IPv6 전환 기술: 듀얼 스택 (Dual Stack), 터널링 (ISATAP, 6to4), 주소 변환 (NAT64/DNS64)](/knowledge-base/studynote/03_network/06_network_layer_ip/332_ipv4_ipv6_transition_dual_stack_tunneling_nat64/)
+**다음**: [334. IGMP Snooping (스위치가 멀티캐스트 트래픽 불필요한 포트에 차단)](/knowledge-base/studynote/03_network/06_network_layer_ip/334_igmp_snooping_multicast_traffic_control/) ->
 
 ---

@@ -38,8 +38,8 @@ L번의 행렬-벡터 곱이 연속되면, 각 활성화 도함수의 절댓값�
 ```
 기울기 = Π_{l=1}^{L} W_l · σ'(z_l)
 
-σ'(Sigmoid) ≤ 0.25  → L층 후 기울기 ≤ (0.25)^L ≈ 0
-σ'(ReLU)    = 1(x>0), 0(x≤0) → 소실 최소화 (Dead Neuron 문제 있음)
+σ'(Sigmoid) ≤ 0.25  -> L층 후 기울기 ≤ (0.25)^L ≈ 0
+σ'(ReLU)    = 1(x>0), 0(x≤0) -> 소실 최소화 (Dead Neuron 문제 있음)
 ```
 
 ### Kaiming He [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화
@@ -53,21 +53,21 @@ Xavier 초기화 (Sigmoid/Tanh):
 W ~ N(0, 2/(nᵢₙ + nₒᵤₜ))
 
 Kaiming He 초기화 (ReLU):
-W ~ N(0, 2/nᵢₙ)    ← 분모가 2배 작음
+W ~ N(0, 2/nᵢₙ)    <- 분모가 2배 작음
 
 nᵢₙ = 현재 레이어의 입력 차원 수 (fan-in)
 ```
 
 ```
-┌──────────────────────────────────────────────────┐
-│  분산 유지 체인 (Variance Propagation)            │
-│                                                  │
-│  입력 Var=1  →  W ~ N(0, 2/n)  →  ReLU          │
-│  → 출력 Var ≈ 1  →  다음 레이어로 전달           │
-│                                                  │
-│  Kaiming 없이:  Var → 0 또는 → ∞                 │
-│  Kaiming 적용:  Var ≈ 1 안정적 유지              │
-└──────────────────────────────────────────────────┘
++--------------------------------------------------+
+|  분산 유지 체인 (Variance Propagation)            |
+|                                                  |
+|  입력 Var=1  ->  W ~ N(0, 2/n)  ->  ReLU          |
+|  -> 출력 Var ≈ 1  ->  다음 레이어로 전달           |
+|                                                  |
+|  Kaiming 없이:  Var -> 0 또는 -> ∞                 |
+|  Kaiming 적용:  Var ≈ 1 안정적 유지              |
++--------------------------------------------------+
 ```
 
 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 | [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 공식 | 비고 |
@@ -79,7 +79,7 @@ nᵢₙ = 현재 레이어의 입력 차원 수 (fan-in)
 
 ### 추가 해결책
 
-- <strong>잔차 연결 (Residual Connection, <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/">ResNet</a>)</strong>: F(x) + x → 기울기 고속도로
+- <strong>잔차 연결 (Residual Connection, <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/">ResNet</a>)</strong>: F(x) + x -> 기울기 고속도로
 - <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/">배치 정규화</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/">Batch Normalization</a>)</strong>: 중간 활성화 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)로 안정화
 - <strong>기울기 클리핑 (Gradient <a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/">Clipping</a>)</strong>: 폭발 방지, RNN에서 주로 사용
 - <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/">LSTM</a>/<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/">GRU</a></strong>: 게이트 구조로 [장기 의존성](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/) 보존
@@ -107,7 +107,7 @@ nᵢₙ = 현재 레이어의 입력 차원 수 (fan-in)
 
 깊은 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 설계 시 BatchNorm + [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) + Kaiming 삼박자가 표준이다. [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)는 LayerNorm을 사용하며 잔차 연결로 [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)을 방지한다.
 
-기술사 판단: 학습 초반 손실이 전혀 감소하지 않으면 → [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 의심 → [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 방법, [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/), 네트워크 깊이 점검.
+기술사 판단: 학습 초반 손실이 전혀 감소하지 않으면 -> [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 의심 -> [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 방법, [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/), 네트워크 깊이 점검.
 
 - **📢 섹션 요약 비유**: 기울기 클리핑은 "자동차 최고 속도 제한기"다. 폭발적으로 빠른 기울기를 제한해 안전한 학습을 보장한다.
 
@@ -135,7 +135,7 @@ Kaiming He [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [기울기 소실/폭발 (Vanishing/Exploding Gradient)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [기울기 소실/폭발 (Vanishing/Exploding Gradient)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -150,7 +150,7 @@ Kaiming He [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_
 
 **진행 상황**: 380 / 420
 
-← **이전**: [379. 앙상블 편향-분산 (Bias-Variance) 수식](/knowledge-base/studynote/10_ai/05_data_science_ml/379_ensemble_bias_variance_math/)
-**다음**: [381. 스케일드 닷 프로덕트 어텐션 (Scaled Dot-Product Attention)](/knowledge-base/studynote/10_ai/05_data_science_ml/381_scaled_dot_product_attention/) →
+<- **이전**: [379. 앙상블 편향-분산 (Bias-Variance) 수식](/knowledge-base/studynote/10_ai/05_data_science_ml/379_ensemble_bias_variance_math/)
+**다음**: [381. 스케일드 닷 프로덕트 어텐션 (Scaled Dot-Product Attention)](/knowledge-base/studynote/10_ai/05_data_science_ml/381_scaled_dot_product_attention/) ->
 
 ---

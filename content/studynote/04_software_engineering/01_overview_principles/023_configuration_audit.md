@@ -28,13 +28,13 @@ tags = ["studynote-software-engineering"]
 [형상 드리프트 발생 구조]
 
   요구사항(SRS)        설계서(SDD)         실제 코드
-  ┌──────────┐        ┌──────────┐        ┌──────────┐
-  │ 기능 A   │──────▶ │ 모듈 A   │──────▶ │ 모듈 A'  │  ← 미승인 변경 포함
-  │ 기능 B   │──────▶ │ 모듈 B   │──────▶ │ 모듈 B   │
-  │ 기능 C   │──────▶ │ 모듈 C   │──────▶ │   없음   │  ← 구현 누락
-  └──────────┘        └──────────┘        └──────────┘
-        │                   │                   │
-        └───────────────────┴───────────────────┘
+  +----------+        +----------+        +----------+
+  | 기능 A   |-------> | 모듈 A   |-------> | 모듈 A'  |  <- 미승인 변경 포함
+  | 기능 B   |-------> | 모듈 B   |-------> | 모듈 B   |
+  | 기능 C   |-------> | 모듈 C   |-------> |   없음   |  <- 구현 누락
+  +----------+        +----------+        +----------+
+        |                   |                   |
+        +-------------------+-------------------+
                       형상 감사: 세 계층의 일치 여부 검증
 ```
 
@@ -51,22 +51,22 @@ tags = ["studynote-software-engineering"]
 ### FCA와 PCA의 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 계층
 
 ```text
-  ┌─────────────────────────────────────────────────────────┐
-  │                    형상 감사 전체 구조                    │
-  ├─────────────────────────┬───────────────────────────────┤
-  │  FCA (기능적 형상 감사)  │   PCA (물리적 형상 감사)       │
-  ├─────────────────────────┼───────────────────────────────┤
-  │ 질문: 기능이 요구대로     │ 질문: 산출물이 명세서와         │
-  │       동작하는가?         │       일치하는가?               │
-  ├─────────────────────────┼───────────────────────────────┤
-  │ 검증 대상:               │ 검증 대상:                     │
-  │  · 테스트 결과서         │  · 소스코드 ↔ 설계서(SDD)      │
-  │  · RTM(추적 매트릭스)    │  · 버전 번호 일치 여부          │
-  │  · 요구사항 커버리지     │  · 사용자 매뉴얼 최신화         │
-  │  · 결함 해결 이력        │  · SBOM(소프트웨어 자재 명세서)  │
-  ├─────────────────────────┼───────────────────────────────┤
-  │ 수행 주체: QA + CM 팀    │ 수행 주체: CM + 감리원          │
-  └─────────────────────────┴───────────────────────────────┘
+  +---------------------------------------------------------+
+  |                    형상 감사 전체 구조                    |
+  +-------------------------+-------------------------------+
+  |  FCA (기능적 형상 감사)  |   PCA (물리적 형상 감사)       |
+  +-------------------------+-------------------------------+
+  | 질문: 기능이 요구대로     | 질문: 산출물이 명세서와         |
+  |       동작하는가?         |       일치하는가?               |
+  +-------------------------+-------------------------------+
+  | 검증 대상:               | 검증 대상:                     |
+  |  · 테스트 결과서         |  · 소스코드 ↔ 설계서(SDD)      |
+  |  · RTM(추적 매트릭스)    |  · 버전 번호 일치 여부          |
+  |  · 요구사항 커버리지     |  · 사용자 매뉴얼 최신화         |
+  |  · 결함 해결 이력        |  · SBOM(소프트웨어 자재 명세서)  |
+  +-------------------------+-------------------------------+
+  | 수행 주체: QA + CM 팀    | 수행 주체: CM + 감리원          |
+  +-------------------------+-------------------------------+
 ```
 
 ### [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) ([Requirements Traceability Matrix](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/), [요구사항 추적 매트릭스](/knowledge-base/studynote/04_software_engineering/03_design_architecture/157_requirements_traceability_matrix_rtm/))
@@ -99,15 +99,15 @@ FCA의 핵심 도구인 RTM은 요구사항 ID에서 설계 문서, 소스코드
 ### 형상 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) vs 소프트웨어 테스팅 vs 감리
 
 ```text
-  ┌──────────────┬─────────────────┬─────────────────┬─────────────────┐
-  │   비교 항목   │  소프트웨어 테스팅 │  형상 감사(FCA/PCA)│  감리(Inspection) │
-  ├──────────────┼─────────────────┼─────────────────┼─────────────────┤
-  │  주요 목적   │ 결함(Bug) 발견   │ 무결성·완전성 증명 │ 공정 품질 확인   │
-  │  수행 시점   │ 구현 중 반복 수행 │ 릴리즈 직전       │ 각 단계 완료 시  │
-  │  대상 산출물 │ 실행 중인 코드   │ 문서·코드·버전    │ 산출물 전체      │
-  │  결과 형태   │ 버그 리포트      │ 감사 보고서(공식)  │ 검토 의견서      │
-  │  법적 효력   │ 없음             │ 있음(계약·인증)    │ 있음             │
-  └──────────────┴─────────────────┴─────────────────┴─────────────────┘
+  +--------------+-----------------+-----------------+-----------------+
+  |   비교 항목   |  소프트웨어 테스팅 |  형상 감사(FCA/PCA)|  감리(Inspection) |
+  +--------------+-----------------+-----------------+-----------------+
+  |  주요 목적   | 결함(Bug) 발견   | 무결성·완전성 증명 | 공정 품질 확인   |
+  |  수행 시점   | 구현 중 반복 수행 | 릴리즈 직전       | 각 단계 완료 시  |
+  |  대상 산출물 | 실행 중인 코드   | 문서·코드·버전    | 산출물 전체      |
+  |  결과 형태   | 버그 리포트      | 감사 보고서(공식)  | 검토 의견서      |
+  |  법적 효력   | 없음             | 있음(계약·인증)    | 있음             |
+  +--------------+-----------------+-----------------+-----------------+
 ```
 
 ### 과목 융합 관점
@@ -128,32 +128,32 @@ FCA의 핵심 도구인 RTM은 요구사항 ID에서 설계 문서, 소스코드
 
 ```text
   [코드 병합 (Merge Request) 이벤트]
-          │
-          ▼
-  ┌───────────────────────────────────────────┐
-  │ Step 1: 정적 분석 (SonarQube, Checkstyle) │
-  └───────────────────┬───────────────────────┘
-                      │ Fail → 병합 거부 (PCA 탈락: 코드 품질 위반)
-                      │ Pass ↓
-  ┌───────────────────────────────────────────┐
-  │ Step 2: 보안 스캔 (SAST, SCA/SBOM 검사)   │
-  └───────────────────┬───────────────────────┘
-                      │ Fail → 병합 거부 (PCA 탈락: CVE/라이선스 위반)
-                      │ Pass ↓
-  ┌───────────────────────────────────────────┐
-  │ Step 3: 자동화 테스트 (Unit/E2E/RTM 체크) │
-  └───────────────────┬───────────────────────┘
-                      │ Fail → 배포 거부 (FCA 탈락: 기능 미충족)
-                      │ Pass ↓
-  ┌───────────────────────────────────────────┐
-  │ Step 4: 이슈 ID 커밋 메시지 매핑 확인     │
-  │         (Jira 티켓 ↔ Git Commit 연결)     │
-  └───────────────────┬───────────────────────┘
-                      │ Unmapped → 미승인 변경 적발 (CCB 위반)
-                      │ Pass ↓
-  ┌───────────────────────────────────────────┐
-  │ Step 5: 서명 후 배포 (Baseline 공식 확정)  │
-  └───────────────────────────────────────────┘
+          |
+          v
+  +-------------------------------------------+
+  | Step 1: 정적 분석 (SonarQube, Checkstyle) |
+  +-------------------+-----------------------+
+                      | Fail -> 병합 거부 (PCA 탈락: 코드 품질 위반)
+                      | Pass v
+  +-------------------------------------------+
+  | Step 2: 보안 스캔 (SAST, SCA/SBOM 검사)   |
+  +-------------------+-----------------------+
+                      | Fail -> 병합 거부 (PCA 탈락: CVE/라이선스 위반)
+                      | Pass v
+  +-------------------------------------------+
+  | Step 3: 자동화 테스트 (Unit/E2E/RTM 체크) |
+  +-------------------+-----------------------+
+                      | Fail -> 배포 거부 (FCA 탈락: 기능 미충족)
+                      | Pass v
+  +-------------------------------------------+
+  | Step 4: 이슈 ID 커밋 메시지 매핑 확인     |
+  |         (Jira 티켓 ↔ Git Commit 연결)     |
+  +-------------------+-----------------------+
+                      | Unmapped -> 미승인 변경 적발 (CCB 위반)
+                      | Pass v
+  +-------------------------------------------+
+  | Step 5: 서명 후 배포 (Baseline 공식 확정)  |
+  +-------------------------------------------+
 ```
 
 **핵심 포인트**: Step 4의 이슈 ID 매핑 단계가 "미승인 변경 적발"의 자동화 핵심이다. [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) 승인 없이 임의로 수정된 코드는 커밋 메시지에 티켓 ID가 없기 때문에 파이프라인에서 즉시 차단된다.
@@ -170,9 +170,9 @@ FCA의 핵심 도구인 RTM은 요구사항 ID에서 설계 문서, 소스코드
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-1. **문서-코드 영구 불일치**: 코드만 수정하고 설계 문서 업데이트를 생략. → Swagger 코드 자동 생성으로 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 강제
-2. <strong>사후 형식적 <a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a></strong>: 이미 배포된 후 감리 통과를 위해 허위 테스트 보고서 작성. → [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 근본 파괴, 법적 책임 발생
-3. <strong>자동화 없는 대규모 시스템 <a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a></strong>: 수천 개 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 수동 대조. → 오탈자·누락 불가피, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 효과 없음
+1. **문서-코드 영구 불일치**: 코드만 수정하고 설계 문서 업데이트를 생략. -> Swagger 코드 자동 생성으로 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 강제
+2. <strong>사후 형식적 <a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a></strong>: 이미 배포된 후 감리 통과를 위해 허위 테스트 보고서 작성. -> [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 근본 파괴, 법적 책임 발생
+3. <strong>자동화 없는 대규모 시스템 <a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a></strong>: 수천 개 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 수동 대조. -> 오탈자·누락 불가피, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 효과 없음
 
 > 📢 **섹션 요약 비유**: 수동 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)가 장부를 밤새워 주판으로 대조하는 것이라면, 자동화 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)는 영수증 없이는 아예 결제가 안 되도록 <strong>카드 시스템에 규칙을 내장</strong>한 현명한 방법입니다.
 
@@ -214,21 +214,21 @@ FCA의 핵심 도구인 RTM은 요구사항 ID에서 설계 문서, 소스코드
 
 ```text
 [소프트웨어 형상 관리 (SCM) 등장]
-         │  형상 식별 → 통제 → 상태 보고
-         ▼
+         |  형상 식별 -> 통제 -> 상태 보고
+         v
 [형상 감사 (FCA / PCA) 체계화]
-         │  릴리즈 전 문서-코드 일치 검증
-         ▼
+         |  릴리즈 전 문서-코드 일치 검증
+         v
 [RTM (요구사항 추적 매트릭스) 도입]
-         │  요구사항 ↔ 설계 ↔ 코드 ↔ 테스트 추적
-         ▼
+         |  요구사항 ↔ 설계 ↔ 코드 ↔ 테스트 추적
+         v
 [CI/CD 파이프라인 내 자동화 감사]
-         │  SonarQube, SCA, Policy as Code
-         ▼
+         |  SonarQube, SCA, Policy as Code
+         v
 [지속적 감사 (Continuous Audit) + AI 기반 코드 감사]
 ```
 
-형상 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)는 수동 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) → [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) 도구 지원 → [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 자동화 → [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 엔진으로 진화하며, 현대 [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) 파이프라인의 핵심 게이트가 되었다.
+형상 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)는 수동 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) -> [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) 도구 지원 -> [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 자동화 -> [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 엔진으로 진화하며, 현대 [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) 파이프라인의 핵심 게이트가 되었다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 엄마가 "숙제 다 하고, 내일 준비물 가방에 챙겨"라고 지시했어요.
@@ -241,7 +241,7 @@ FCA의 핵심 도구인 RTM은 요구사항 ID에서 설계 문서, 소스코드
 
 **진행 상황**: 23 / 973
 
-← **이전**: [22. 형상 통제 (Configuration Control) - 변경 제어 위원회(CCB)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/022_configuration_control/)
-**다음**: [24. 형상 상태 기록 (CSA, Configuration Status Accounting)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/024_configuration_status_accounting/) →
+<- **이전**: [22. 형상 통제 (Configuration Control) - 변경 제어 위원회(CCB)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/022_configuration_control/)
+**다음**: [24. 형상 상태 기록 (CSA, Configuration Status Accounting)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/024_configuration_status_accounting/) ->
 
 ---

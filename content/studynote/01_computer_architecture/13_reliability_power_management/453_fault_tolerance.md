@@ -44,23 +44,23 @@ tags = ["studynote-computer-architecture"]
 다음 그림은 고장 허용이 단순 백업이 아니라, 장애를 발견하고 즉시 우회해 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 연속성을 유지하는 흐름이라는 점을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│            고장 허용의 동작 흐름: 장애를 감추며 계속 서비스         │
-├──────────────────────────────────────────────────────────────────────┤
-│ 정상 요청                                                            │
-│    │                                                                 │
-│    ▼                                                                 │
-│ [주 경로 수행] ── 장애 발생 ──▶ [검출기: Heartbeat / ECC / Timeout]  │
-│                                      │                               │
-│                                      ▼                               │
-│                           [격리: 고장 부품 차단]                     │
-│                                      │                               │
-│                                      ▼                               │
-│                  [대체 경로: 복제본·예비 전원·다수결 결과 사용]      │
-│                                      │                               │
-│                                      ▼                               │
-│                           [서비스 지속 / 상태 보존]                 │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|            고장 허용의 동작 흐름: 장애를 감추며 계속 서비스         |
++----------------------------------------------------------------------+
+| 정상 요청                                                            |
+|    |                                                                 |
+|    v                                                                 |
+| [주 경로 수행] -- 장애 발생 ---> [검출기: Heartbeat / ECC / Timeout]  |
+|                                      |                               |
+|                                      v                               |
+|                           [격리: 고장 부품 차단]                     |
+|                                      |                               |
+|                                      v                               |
+|                  [대체 경로: 복제본·예비 전원·다수결 결과 사용]      |
+|                                      |                               |
+|                                      v                               |
+|                           [서비스 지속 / 상태 보존]                 |
++----------------------------------------------------------------------+
 ```
 
 대표 사례로 TMR은 세 개의 동일 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 같은 입력을 처리하고, 보터 (Voter)가 다수결로 결과를 선택한다. 한 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 방사선이나 열화로 오동작해도 나머지 둘이 같은 값을 내면 출력은 유지된다. 메모리에서는 ECC가 1비트 오류를 즉시 교정하고, 저장장치에서는 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 1이나 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 6이 디스크 손실 중에도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 계속 제공한다. 결국 고장 허용의 핵심은 "고장을 없애는 것"이 아니라 "고장이 결과로 드러나지 않게 만드는 것"이다.
@@ -98,18 +98,18 @@ tags = ["studynote-computer-architecture"]
 다음 판단 흐름은 실무에서 FT와 HA의 경계를 가를 때 자주 쓰는 질문들이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           FT 도입 판단: 중단 불가인가, 빠른 복구면 되는가    │
-├──────────────────────────────────────────────────────────────┤
-│ 1. 장애 시 데이터 손실 0건이 필요한가?                      │
-│ 2. 재시작/Failover 중 수 초 공백도 허용 불가인가?           │
-│ 3. 단일 장애점 제거 비용보다 장애 비용이 더 큰가?           │
-│ 4. 중복 상태를 지속적으로 동기화할 운영 역량이 있는가?      │
-├──────────────────────────────────────────────────────────────┤
-│ 대부분 Yes  ─▶ FT 중심 설계                                 │
-│ 일부만 Yes  ─▶ HA + 선택적 FT(ECC, RAID, 이중 전원 등)      │
-│ 대부분 No   ─▶ 단순화된 HA 또는 백업/복구 중심 설계         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           FT 도입 판단: 중단 불가인가, 빠른 복구면 되는가    |
++--------------------------------------------------------------+
+| 1. 장애 시 데이터 손실 0건이 필요한가?                      |
+| 2. 재시작/Failover 중 수 초 공백도 허용 불가인가?           |
+| 3. 단일 장애점 제거 비용보다 장애 비용이 더 큰가?           |
+| 4. 중복 상태를 지속적으로 동기화할 운영 역량이 있는가?      |
++--------------------------------------------------------------+
+| 대부분 Yes  --> FT 중심 설계                                 |
+| 일부만 Yes  --> HA + 선택적 FT(ECC, RAID, 이중 전원 등)      |
+| 대부분 No   --> 단순화된 HA 또는 백업/복구 중심 설계         |
++--------------------------------------------------------------+
 ```
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -156,20 +156,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 신뢰성 요구 증가
-    │
-    ▼
+    |
+    v
 단일 장애점 (SPOF, Single Point of Failure) 제거
-    │
-    ▼
+    |
+    v
 이중화 · 패리티 · ECC (Error Correcting Code)
-    │
-    ▼
+    |
+    v
 TMR (Triple Modular Redundancy) · RAID · Lockstep
-    │
-    ▼
+    |
+    v
 클러스터 복제 · 쿼럼 (Quorum) · 합의 알고리즘
-    │
-    ▼
+    |
+    v
 자가 복구 · 예지 정비 기반 고장 허용 아키텍처
 ```
 
@@ -187,7 +187,7 @@ TMR (Triple Modular Redundancy) · RAID · Lockstep
 
 **진행 상황**: 454 / 803
 
-← **이전**: [452. 가용성 (Availability)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)
-**다음**: [454. 단일 장애점 (SPOF, Single Point of Failure)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) →
+<- **이전**: [452. 가용성 (Availability)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)
+**다음**: [454. 단일 장애점 (SPOF, Single Point of Failure)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) ->
 
 ---

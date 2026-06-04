@@ -23,11 +23,11 @@ tags = ["studynote-network"]
 
 ```text
 [영역 전송]
-    │
-    ▼
+    |
+    v
 [일반 DNS 질의]
-    │
-    └──▶ [DNSSEC]
+    |
+    +---> [DNSSEC]
 ```
 
 - **📢 섹션 요약 비유**: 일반 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 질의는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -44,11 +44,11 @@ tags = ["studynote-network"]
 
 ```text
 [영역 전송]
-    │
-    ▼
+    |
+    v
 [일반 DNS 질의]
-    │
-    └──▶ [DNSSEC]
+    |
+    +---> [DNSSEC]
 ```
 
 - **📢 섹션 요약 비유**: 일반 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 질의의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -60,20 +60,20 @@ tags = ["studynote-network"]
 ```text
 [ DNS over UDP (일반 질의) ]
 Client                               DNS Server
-  │                                      │
-  ├─── 1. DNS Query (UDP 53) ───────────▶│ (단 1번의 전송)
-  │                                      │
-  │◀── 2. DNS Response (UDP 53) ─────────┤ (단 1번의 수신)
-  │                                      │
+  |                                      |
+  +--- 1. DNS Query (UDP 53) ------------>| (단 1번의 전송)
+  |                                      |
+  |<--- 2. DNS Response (UDP 53) ---------+ (단 1번의 수신)
+  |                                      |
 
 [ 만약 TCP를 쓴다면? ]
 Client                               DNS Server
-  ├─── 1. SYN ──────────────────────────▶│ \
-  │◀── 2. SYN+ACK ───────────────────────┤  > 연결 설정만 3단계
-  ├─── 3. ACK ──────────────────────────▶│ /
-  ├─── 4. DNS Query (TCP) ──────────────▶│
-  │◀── 5. DNS Response (TCP) ────────────┤
-  ├─── 6. FIN ... (종료 과정) ──────────▶│
+  +--- 1. SYN --------------------------->| \
+  |<--- 2. SYN+ACK -----------------------+  > 연결 설정만 3단계
+  +--- 3. ACK --------------------------->| /
+  +--- 4. DNS Query (TCP) --------------->|
+  |<--- 5. DNS Response (TCP) ------------+
+  +--- 6. FIN ... (종료 과정) ----------->|
 ```
 
 - **📢 섹션 요약 비유**: 일반 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 질의는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
@@ -117,12 +117,12 @@ Client                               DNS Server
 
 ```text
 [선행 개념: 영역 전송]
-    │
-    ▼
+    |
+    v
 [현재 개념: 일반 DNS 질의]
-    │
-    ├──▶ [확장 A: DNSSEC]
-    └──▶ [확장 B: 자율 운영 네트워크]
+    |
+    +---> [확장 A: DNSSEC]
+    +---> [확장 B: 자율 운영 네트워크]
 ```
 
 일반 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 질의는 [영역 전송](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/516_dns_zone_transfer_tcp_53/)에서 출발해 현재 메커니즘을 정교화하고, 이후 DNSSEC와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -139,7 +139,7 @@ Client                               DNS Server
 
 **진행 상황**: 638 / 1120
 
-← **이전**: [516. 영역 전송 (Zone Transfer)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/516_dns_zone_transfer_tcp_53/)
-**다음**: [518. DNSSEC (DNS Security Extensions)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/518_dnssec_dns_security_extensions/) →
+<- **이전**: [516. 영역 전송 (Zone Transfer)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/516_dns_zone_transfer_tcp_53/)
+**다음**: [518. DNSSEC (DNS Security Extensions)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/518_dnssec_dns_security_extensions/) ->
 
 ---

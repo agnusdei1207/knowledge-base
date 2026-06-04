@@ -36,26 +36,26 @@ tags = ["studynote-database"]
 아래 그림은 논클러스터드 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)와 클러스터드 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)의 차이를 저장 관점에서 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│      클러스터드 인덱스의 저장 구조와 범위 조회 흐름              │
-├────────────────────────────────────────────────────────────────────┤
-│ [논클러스터드 인덱스]                                             │
-│ index leaf: 10→RID A, 11→RID Z, 12→RID C                          │
-│                       │                                            │
-│                       └─ 실제 행은 흩어져 있어 추가 랜덤 접근      │
-│                                                                    │
-│ [클러스터드 인덱스]                                                │
-│ root/branch ──▶ leaf(data page)                                    │
-│                 ┌──────────────────────────────────────┐           │
-│                 │ 10 | 주문10 | ...                    │           │
-│                 │ 11 | 주문11 | ...                    │           │
-│                 │ 12 | 주문12 | ...                    │           │
-│                 └──────────────────────────────────────┘           │
-│                           │                                        │
-│                           └─ 다음 페이지도 13, 14, 15 순서로 연결   │
-│                                                                    │
-│ 결과: 범위 조회 시 "찾고 다시 점프"보다 "찾고 이어 읽기"가 쉬움   │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|      클러스터드 인덱스의 저장 구조와 범위 조회 흐름              |
++--------------------------------------------------------------------+
+| [논클러스터드 인덱스]                                             |
+| index leaf: 10->RID A, 11->RID Z, 12->RID C                          |
+|                       |                                            |
+|                       +- 실제 행은 흩어져 있어 추가 랜덤 접근      |
+|                                                                    |
+| [클러스터드 인덱스]                                                |
+| root/branch ---> leaf(data page)                                    |
+|                 +--------------------------------------+           |
+|                 | 10 | 주문10 | ...                    |           |
+|                 | 11 | 주문11 | ...                    |           |
+|                 | 12 | 주문12 | ...                    |           |
+|                 +--------------------------------------+           |
+|                           |                                        |
+|                           +- 다음 페이지도 13, 14, 15 순서로 연결   |
+|                                                                    |
+| 결과: 범위 조회 시 "찾고 다시 점프"보다 "찾고 이어 읽기"가 쉬움   |
++--------------------------------------------------------------------+
 ```
 
 이 구조 덕분에 `WHERE id BETWEEN 1000 AND 1999` 같은 질의는 첫 위치만 찾은 뒤 연속 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 따라 읽을 수 있다. 반면 중간 키에 새 행이 자주 삽입되면 빈 공간이 부족한 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에서 분할이 일어나고, 인접 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 재배치와 트리 재조정 비용이 발생한다. 그래서 클러스터드 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 읽기 효율을 얻는 대신 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 재배치 비용을 감수하는 구조다.
@@ -142,16 +142,16 @@ tags = ["studynote-database"]
 
 ```text
 Heap Table
-    │
-    ▼
+    |
+    v
 보조 인덱스 도입
-    │
-    ▼
+    |
+    v
 클러스터드 인덱스
-    │   ├─ 범위 스캔 최적화
-    │   ├─ 정렬 비용 절감
-    │   └─ 페이지 분할 · 단편화 관리 필요
-    ▼
+    |   +- 범위 스캔 최적화
+    |   +- 정렬 비용 절감
+    |   +- 페이지 분할 · 단편화 관리 필요
+    v
 기본 키 설계 · 보조 인덱스 설계 · 저장 구조 최적화
 ```
 
@@ -169,7 +169,7 @@ Heap Table
 
 **진행 상황**: 159 / 600
 
-← **이전**: [158. 비트맵 인덱스 (Bitmap Index) - 분포도(Cardinality)가 나쁜(성별 등) 컬럼에 적합, DML 성능 저하](/knowledge-base/studynote/05_database/03_relational_model/158_bitmap_index_cardinality_dml/)
-**다음**: [160. 넌클러스터드 인덱스 (Non-Clustered Index / 보조 인덱스) - 리프 노드가 실제 데이터 포인터 보유, 여러 개](/knowledge-base/studynote/05_database/03_relational_model/160_non_clustered_index_secondary/) →
+<- **이전**: [158. 비트맵 인덱스 (Bitmap Index) - 분포도(Cardinality)가 나쁜(성별 등) 컬럼에 적합, DML 성능 저하](/knowledge-base/studynote/05_database/03_relational_model/158_bitmap_index_cardinality_dml/)
+**다음**: [160. 넌클러스터드 인덱스 (Non-Clustered Index / 보조 인덱스) - 리프 노드가 실제 데이터 포인터 보유, 여러 개](/knowledge-base/studynote/05_database/03_relational_model/160_non_clustered_index_secondary/) ->
 
 ---

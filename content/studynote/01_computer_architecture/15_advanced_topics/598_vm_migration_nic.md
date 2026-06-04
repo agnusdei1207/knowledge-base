@@ -26,17 +26,17 @@ tags = ["studynote-computer-architecture"]
 이 그림은 마이그레이션이 왜 한 번 복사가 아니라 반복 복사와 짧은 정지 전환의 문제인지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│           Live migration = repeated copy + short switchover window        │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Round 1..N: while VM keeps running                                         │
-│   Source Memory ------------------------------> Target Memory              │
-│        ▲                                     │                              │
-│        └--------- pages dirtied again -------┘                              │
-│                                                                            │
-│ Final switchover: stop VM -> send last dirty set + CPU/device state       │
-│ Downtime is set by the last dirty working set.                             │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|           Live migration = repeated copy + short switchover window        |
++----------------------------------------------------------------------------+
+| Round 1..N: while VM keeps running                                         |
+|   Source Memory ------------------------------> Target Memory              |
+|        ^                                     |                              |
+|        +--------- pages dirtied again -------+                              |
+|                                                                            |
+| Final switchover: stop VM -> send last dirty set + CPU/device state       |
+| Downtime is set by the last dirty working set.                             |
++----------------------------------------------------------------------------+
 ```
 
 그래서 VM 마이그레이션 NIC의 가치는 단순한 빠른 NIC가 아니라, 이 반복 복사의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면을 더 효율적으로 처리하는 데 있다. CPU는 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 판단과 전환 제어에 집중하고, 실제 대량 전송은 NIC가 맡는 방향으로 역할을 분리하는 것이다.
@@ -60,19 +60,19 @@ VM 마이그레이션 NIC이 직접 해결하는 핵심은 메모리 [페이지]
 아래 그림은 제어 경로와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로가 어떻게 나뉘는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│          Control stays on hypervisor, bulk page movement goes to NIC      │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Hypervisor                                                                 │
-│   │ dirty bitmap / switchover decision                                     │
-│   ▼                                                                        │
-│ [Source Host Memory] --DMA--> [Migration NIC / SmartNIC] --RDMA-->        │
-│                                      │                           [Target]  │
-│                                      ├─ optional compress / encrypt        │
-│                                      └─ queue / checksum offload          │
-│                                                                            │
-│ Final step: CPU/device state handoff -> VM resumes on target              │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|          Control stays on hypervisor, bulk page movement goes to NIC      |
++----------------------------------------------------------------------------+
+| Hypervisor                                                                 |
+|   | dirty bitmap / switchover decision                                     |
+|   v                                                                        |
+| [Source Host Memory] --DMA--> [Migration NIC / SmartNIC] --RDMA-->        |
+|                                      |                           [Target]  |
+|                                      +- optional compress / encrypt        |
+|                                      +- queue / checksum offload          |
+|                                                                            |
+| Final step: CPU/device state handoff -> VM resumes on target              |
++----------------------------------------------------------------------------+
 ```
 
 여기서 중요한 점은 NIC이 마이그레이션 전체를 대체하지 않는다는 사실이다. VM 실행을 언제 멈추고 재개할지, 가상 CPU 레지스터와 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 상태를 어떻게 넘길지, 저장장치와 장치 모델을 어떻게 일치시킬지는 여전히 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 책임이다. [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) 가속은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동을 싸게 만들지, [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 문제를 없애지는 않는다.
@@ -153,17 +153,17 @@ VM 마이그레이션 NIC을 잘 적용하면 정지 시간을 줄이고, CPU �
 
 ```text
 소프트웨어 기반 VM 복사
-   │
-   ▼
+   |
+   v
 더티 페이지 추적 + pre-copy
-   │
-   ▼
+   |
+   v
 RDMA 기반 zero-copy migration
-   │
-   ▼
+   |
+   v
 SmartNIC / DPU 압축 · 암호화 · 큐 오프로딩
-   │
-   ▼
+   |
+   v
 장치 상태 이전을 포함한 migratable virtual infrastructure
 ```
 
@@ -181,7 +181,7 @@ SmartNIC / DPU 압축 · 암호화 · 큐 오프로딩
 
 **진행 상황**: 598 / 803
 
-← **이전**: [597. SLC (Single-Level Cell) 캐싱](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/597_slc_caching/)
-**다음**: [599. 데이터 중심 패브릭 (Data-Centric Fabric)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/599_data_centric_fabric/) →
+<- **이전**: [597. SLC (Single-Level Cell) 캐싱](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/597_slc_caching/)
+**다음**: [599. 데이터 중심 패브릭 (Data-Centric Fabric)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/599_data_centric_fabric/) ->
 
 ---

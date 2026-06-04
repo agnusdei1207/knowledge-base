@@ -23,11 +23,11 @@ tags = ["studynote-network"]
 
 ```text
 [HTTP 상태 비저장, 연결형/비연결형 특징]
-    │
-    ▼
+    |
+    v
 [HTTP 메서드]
-    │
-    └──▶ [HTTP 1.0]
+    |
+    +---> [HTTP 1.0]
 ```
 
 - **📢 섹션 요약 비유**: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -57,21 +57,21 @@ tags = ["studynote-network"]
 3. **캐시 가능 (Cacheable)**: 응답 결과를 브라우저나 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 캐시([CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/)) 서버에 저장해 두고 재사용할 수 있는 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)입니다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│             [ 주요 HTTP 메서드 속성 매트릭스 ]              │
-├────────┬─────────┬─────────┬──────────────┬─────────────────┤
-│ 메서드 │ Safe    │Idempotent Cacheable    │ Payload (Body)  │
-├────────┼─────────┼─────────┼──────────────┼─────────────────┤
-│ GET    │   O     │   O     │      O       │      X (권장)   │
-│ HEAD   │   O     │   O     │      O       │      X          │
-│ OPTIONS│   O     │   O     │      X       │      X          │
-├────────┼─────────┼─────────┼──────────────┼─────────────────┤
-│ PUT    │   X     │   O     │      X       │      O          │
-│ DELETE │   X     │   O     │      X       │      X (권장)   │
-├────────┼─────────┼─────────┼──────────────┼─────────────────┤
-│ POST   │   X     │   X     │  △ (제한적)  │      O          │
-│ PATCH  │   X     │   X     │      X       │      O          │
-└────────┴─────────┴─────────┴──────────────┴─────────────────┘
++-------------------------------------------------------------+
+|             [ 주요 HTTP 메서드 속성 매트릭스 ]              |
++--------+---------+---------+--------------+-----------------+
+| 메서드 | Safe    |Idempotent Cacheable    | Payload (Body)  |
++--------+---------+---------+--------------+-----------------+
+| GET    |   O     |   O     |      O       |      X (권장)   |
+| HEAD   |   O     |   O     |      O       |      X          |
+| OPTIONS|   O     |   O     |      X       |      X          |
++--------+---------+---------+--------------+-----------------+
+| PUT    |   X     |   O     |      X       |      O          |
+| DELETE |   X     |   O     |      X       |      X (권장)   |
++--------+---------+---------+--------------+-----------------+
+| POST   |   X     |   X     |  △ (제한적)  |      O          |
+| PATCH  |   X     |   X     |      X       |      O          |
++--------+---------+---------+--------------+-----------------+
 ```
 
 - **📢 섹션 요약 비유**: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드는 도서관 사서에게 건네는 "작업 지시서"와 같습니다. "책(URI)"만 건네면 사서는 읽고 싶은 건지(`GET`), 기증하는 건지(`POST`), 낡은 페이지를 수선해 달라는 건지(`PATCH`) 알 수 없습니다. 명확한 메서드(동사)가 있어야만 도서관(서버)이 안전하고 정확하게 일을 처리할 수 있습니다.
@@ -172,12 +172,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: HTTP 상태 비저장, 연결형/비연결형 특징]
-    │
-    ▼
+    |
+    v
 [현재 개념: HTTP 메서드]
-    │
-    ├──▶ [확장 A: HTTP 1.0]
-    └──▶ [확장 B: 지능형 애플리케이션 전달]
+    |
+    +---> [확장 A: HTTP 1.0]
+    +---> [확장 B: 지능형 애플리케이션 전달]
 ```
 
 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 상태 비저장, 연결형/비연결형 특징에서 출발해 현재 메커니즘을 정교화하고, 이후 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.0와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -194,7 +194,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 583 / 1120
 
-← **이전**: [461. HTTP (HyperText Transfer Protocol) 상태 비저장 (Stateless), 연결형/비연결형 특징](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)
-**다음**: [463. HTTP 1.0 (비지속 연결, 단점)](/knowledge-base/studynote/03_network/09_application_layer_web_email/463_http_status_codes_1xx_5xx/) →
+<- **이전**: [461. HTTP (HyperText Transfer Protocol) 상태 비저장 (Stateless), 연결형/비연결형 특징](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)
+**다음**: [463. HTTP 1.0 (비지속 연결, 단점)](/knowledge-base/studynote/03_network/09_application_layer_web_email/463_http_status_codes_1xx_5xx/) ->
 
 ---

@@ -25,11 +25,11 @@ tags = ["studynote-network"]
 
 ```text
 [웹쉘]
-    │
-    ▼
+    |
+    v
 [양자 난수 생성기]
-    │
-    └──▶ [다크 데이터 / Data Loss Preve…]
+    |
+    +---> [다크 데이터 / Data Loss Preve…]
 ```
 
 - **📢 섹션 요약 비유**: 양자 [난수 생성기](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -49,11 +49,11 @@ tags = ["studynote-network"]
 
 ```text
 [웹쉘]
-    │
-    ▼
+    |
+    v
 [양자 난수 생성기]
-    │
-    └──▶ [다크 데이터 / Data Loss Preve…]
+    |
+    +---> [다크 데이터 / Data Loss Preve…]
 ```
 
 - **📢 섹션 요약 비유**: 양자 [난수 생성기](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -118,12 +118,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 웹쉘]
-    │
-    ▼
+    |
+    v
 [현재 개념: 양자 난수 생성기]
-    │
-    ├──▶ [확장 A: 다크 데이터 / Data Loss Preve…]
-    └──▶ [확장 B: 예측형 위협 대응]
+    |
+    +---> [확장 A: 다크 데이터 / Data Loss Preve…]
+    +---> [확장 B: 예측형 위협 대응]
 ```
 
 양자 [난수 생성기](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/)는 [웹쉘](/knowledge-base/studynote/03_network/14_network_security_threats/747_web_shell_file_upload_vulnerability/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/) / [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Loss Preve…와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -140,7 +140,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 869 / 1120
 
-← **이전**: [747. 웹쉘 (Web Shell 모니터, 디렉토리 실행 등 권한 취약 방지 스캔)](/knowledge-base/studynote/03_network/14_network_security_threats/747_web_shell_file_upload_vulnerability/)
-**다음**: [749. 다크 데이터 / Data Loss Prevention (DLP 네트워크 기반 메일 메신저 단말 외장 유출 차단 모델 시스템 개념](/knowledge-base/studynote/03_network/14_network_security_threats/749_dlp_data_loss_prevention_dark_data/) →
+<- **이전**: [747. 웹쉘 (Web Shell 모니터, 디렉토리 실행 등 권한 취약 방지 스캔)](/knowledge-base/studynote/03_network/14_network_security_threats/747_web_shell_file_upload_vulnerability/)
+**다음**: [749. 다크 데이터 / Data Loss Prevention (DLP 네트워크 기반 메일 메신저 단말 외장 유출 차단 모델 시스템 개념](/knowledge-base/studynote/03_network/14_network_security_threats/749_dlp_data_loss_prevention_dark_data/) ->
 
 ---

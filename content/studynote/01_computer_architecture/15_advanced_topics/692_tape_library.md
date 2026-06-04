@@ -36,16 +36,16 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 기본 동작 흐름을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                   Tape library workflow                      │
-├──────────────────────────────────────────────────────────────┤
-│ Host/Backup app -> Library catalog -> Robot picker           │
-│                                          │                   │
-│                                          ▼                   │
-│                                  Tape drive mounts media     │
-│                                          │                   │
-│                                 Sequential read / write      │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                   Tape library workflow                      |
++--------------------------------------------------------------+
+| Host/Backup app -> Library catalog -> Robot picker           |
+|                                          |                   |
+|                                          v                   |
+|                                  Tape drive mounts media     |
+|                                          |                   |
+|                                 Sequential read / write      |
++--------------------------------------------------------------+
 ```
 
 핵심은 두 단계 지연이다. 첫째는 [mount](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) latency로, 원하는 테이프를 찾아 드라이브에 꽂는 데 걸리는 시간이다. 둘째는 seek latency로, 테이프를 감아 필요한 위치까지 이동하는 시간이다. 이 때문에 랜덤 접근에는 불리하지만, 한 번 흐르기 시작하면 세대에 따라 초당 수백 메가바이트 수준의 순차 처리량을 낼 수 있어 대용량 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)에는 오히려 효율적이다.
@@ -135,17 +135,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 Manual tape handling
-        │
-        ▼
+        |
+        v
 Automated tape library
-        │
-        ▼
+        |
+        v
 Barcode catalog + robotic mount
-        │
-        ▼
+        |
+        v
 LTFS / WORM enabled archive
-        │
-        ▼
+        |
+        v
 Hybrid cloud archive with deep tape tier
 ```
 
@@ -163,7 +163,7 @@ Hybrid cloud archive with deep tape tier
 
 **진행 상황**: 693 / 803
 
-← **이전**: [691. MAID (Massive Array of Idle Disks)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/691_maid_storage/)
-**다음**: [693. WORM (Write Once Read Many) 스토리지](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/693_worm_storage/) →
+<- **이전**: [691. MAID (Massive Array of Idle Disks)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/691_maid_storage/)
+**다음**: [693. WORM (Write Once Read Many) 스토리지](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/693_worm_storage/) ->
 
 ---

@@ -19,16 +19,16 @@ tags = ["studynote-enterprise-systems"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    상거래 모델 진화                                    │
-├───────────────────────────────────────────────────────┤
-│  B2C (기업→소비자) — 쇼핑몰                          │
-│  B2B (기업→기업) — 전자 조달                         │
-│  B2G (기업→정부) — 전자 입찰                         │
-│  C-Commerce — 기업 간 **협업** (수요예측·설계·재고)  │
-│                                                       │
-│  핵심: 거래가 아닌 "정보 공유 + 프로세스 협업"       │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    상거래 모델 진화                                    |
++-------------------------------------------------------+
+|  B2C (기업->소비자) — 쇼핑몰                          |
+|  B2B (기업->기업) — 전자 조달                         |
+|  B2G (기업->정부) — 전자 입찰                         |
+|  C-Commerce — 기업 간 **협업** (수요예측·설계·재고)  |
+|                                                       |
+|  핵심: 거래가 아닌 "정보 공유 + 프로세스 협업"       |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: B2B는 물건 사고파는 것이고, C-Commerce는 <strong>같이 요리하는 것(공동 설계·수요예측)</strong>이다.
@@ -71,7 +71,7 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅴ. 기대효과 및 결론
 
-C-Commerce는 <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/">공급망</a> 파트너 간 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">사일로</a>를 해소</strong>하여, 수요 예측 정확도↑·재고 비용↓·출시 기간↓을 실현하는 협업 상거래 모델이다.
+C-Commerce는 <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/">공급망</a> 파트너 간 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">사일로</a>를 해소</strong>하여, 수요 예측 정확도^·재고 비용v·출시 기간v을 실현하는 협업 상거래 모델이다.
 
 ---
 
@@ -89,17 +89,17 @@ C-Commerce는 <strong><a href="/knowledge-base/studynote/04_software_engineering
 
 ```text
 [EDI (전자문서교환, 1990s)]
-    │
-    ▼
+    |
+    v
 [B2B e-Marketplace (2000s)]
-    │
-    ▼
+    |
+    v
 [C-Commerce (CPFR·VMI, 2005~)]
-    │
-    ▼
+    |
+    v
 [디지털 공급망 (클라우드 SCM, 2015~)]
-    │
-    ▼
+    |
+    v
 [현재: 공급망 AI — 수요예측 자동화·리스크 감지]
 ```
 
@@ -114,7 +114,7 @@ C-Commerce는 <strong><a href="/knowledge-base/studynote/04_software_engineering
 
 **진행 상황**: 125 / 482
 
-← **이전**: [124. BOM (Bill of Materials) - 부품 구성 목록·제조업 데이터 핵심](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/)
-**다음**: [126. SCM·ERP·MES 수직 통합 - 계획→실행→현장의 데이터 연속성](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/126_scm_erp_mes_vertical_integration/) →
+<- **이전**: [124. BOM (Bill of Materials) - 부품 구성 목록·제조업 데이터 핵심](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/)
+**다음**: [126. SCM·ERP·MES 수직 통합 - 계획->실행->현장의 데이터 연속성](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/126_scm_erp_mes_vertical_integration/) ->
 
 ---

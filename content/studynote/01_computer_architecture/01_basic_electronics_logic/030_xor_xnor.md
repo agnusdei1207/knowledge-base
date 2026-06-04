@@ -39,10 +39,10 @@ XOR: 다를 때 1        XNOR: 같을 때 1
 ### [반가산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/033_half_adder/) ([Half Adder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/033_half_adder/)) — XOR의 핵심 응용
 
 ```text
-  A ─┬─ XOR ─── Sum (합)
-  B ─┘
-  A ─┬─ AND ─── Carry (올림)
-  B ─┘
+  A -+- XOR --- Sum (합)
+  B -+
+  A -+- AND --- Carry (올림)
+  B -+
 
 A=1, B=1: Sum=0, Carry=1 (1+1=10₂)
 A=1, B=0: Sum=1, Carry=0 (1+0=01₂)
@@ -58,7 +58,7 @@ A=1, B=0: Sum=1, Carry=0 (1+0=01₂)
   암호문: 1010 XOR 1100 = 0110
   복호화: 0110 XOR 1100 = 1010 ✓
 
-→ OTP (One-Time Pad), AES SubBytes 내부에 XOR 사용
+-> OTP (One-Time Pad), AES SubBytes 내부에 XOR 사용
 ```
 
 - **📢 섹션 요약 비유**: XOR 암호화는 자물쇠+열쇠가 같은 도구인 것이다. 열쇠(키)로 잠그고(XOR), 같은 열쇠로 다시 XOR하면 열린다. 다른 연산과 달리 잠그는 도구 = 여는 도구다.
@@ -83,14 +83,14 @@ A=1, B=0: Sum=1, Carry=0 (1+0=01₂)
 ### XOR 연산 응용 분야
 
 ```text
-1. 반가산기/전가산기 → CPU ALU 이진 덧셈
-2. CRC (Cyclic Redundancy Check) → 네트워크 오류 검출
-3. 패리티 비트 → 홀수/짝수 오류 검출
-4. XOR 암호화 → OTP, AES, ChaCha20
+1. 반가산기/전가산기 -> CPU ALU 이진 덧셈
+2. CRC (Cyclic Redundancy Check) -> 네트워크 오류 검출
+3. 패리티 비트 -> 홀수/짝수 오류 검출
+4. XOR 암호화 -> OTP, AES, ChaCha20
 5. 스왑 (임시 변수 없이):
    a = a XOR b
    b = a XOR b
-   a = a XOR b → a, b 교환 완료
+   a = a XOR b -> a, b 교환 완료
 ```
 
 - **📢 섹션 요약 비유**: XOR 스왑은 두 컵의 음료를 세 번째 컵 없이 교환하는 마법이다. 컵 A에 XOR 섞고, 컵 B에 XOR 섞고, 다시 A에 XOR 섞으면 음료가 교환된다.
@@ -125,20 +125,20 @@ A=1, B=0: Sum=1, Carry=0 (1+0=01₂)
 
 ```text
 [기본 논리 게이트 — AND, OR, NOT]
-    │
-    ▼
+    |
+    v
 [XOR/XNOR — 배타적 논리, 동치 비교]
-    │
-    ▼
+    |
+    v
 [반가산기/전가산기 — CPU ALU 이진 덧셈]
-    │
-    ▼
+    |
+    v
 [CRC·패리티 — XOR 기반 오류 검출]
-    │
-    ▼
+    |
+    v
 [암호화 — OTP·AES XOR 역연산 특성 활용]
-    │
-    ▼
+    |
+    v
 [CNOT — 양자 컴퓨팅의 XOR 확장]
 ```
 
@@ -154,7 +154,7 @@ A=1, B=0: Sum=1, Carry=0 (1+0=01₂)
 
 **진행 상황**: 30 / 803
 
-← **이전**: [29. NAND/NOR 게이트 (NAND/NOR Gates)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/029_nand_nor/)
-**다음**: [31. 범용 게이트 — NAND와 NOR으로 모든 논리를](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/031_universal_gate/) →
+<- **이전**: [29. NAND/NOR 게이트 (NAND/NOR Gates)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/029_nand_nor/)
+**다음**: [31. 범용 게이트 — NAND와 NOR으로 모든 논리를](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/031_universal_gate/) ->
 
 ---

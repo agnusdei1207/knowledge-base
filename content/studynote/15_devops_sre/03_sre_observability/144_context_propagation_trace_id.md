@@ -22,7 +22,7 @@ tags = ["studynote-devops-sre"]
 HTTP: traceparent: 00-{traceId}-{spanId}-{flags}
 gRPC: metadata에 traceparent 포함
 Kafka: message header에 traceparent 포함
-자동 전파: OTel SDK → HTTP Client 인터셉터
+자동 전파: OTel SDK -> HTTP Client 인터셉터
 ```
 
 - **📢 섹션 요약 비유**: [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Propagation은 <strong>여권</strong>이다. 각 나라([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))를 방문할 때 여권([Trace ID](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/303_trace_id/))을 찍어 <strong>방문 이력</strong>을 추적한다.
@@ -48,10 +48,10 @@ Kafka: message header에 traceparent 포함
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[수동 헤더 전달 (~2015)] → [B3 (Zipkin)]
-    → [W3C Trace Context (2020)]
-    → [OTel Auto-instrumentation (2021)]
-    → [현재: 자동 전파 + Baggage 표준화]
+[수동 헤더 전달 (~2015)] -> [B3 (Zipkin)]
+    -> [W3C Trace Context (2020)]
+    -> [OTel Auto-instrumentation (2021)]
+    -> [현재: 자동 전파 + Baggage 표준화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -65,7 +65,7 @@ Kafka: message header에 traceparent 포함
 
 **진행 상황**: 144 / 373
 
-← **이전**: [143. Span 상세 - 서비스·오퍼레이션 단위 추적](/knowledge-base/studynote/15_devops_sre/03_sre_observability/143_span_service_operation_unit/)
-**다음**: [145. Jaeger & Zipkin - 분산 트레이싱 백엔드 비교](/knowledge-base/studynote/15_devops_sre/03_sre_observability/145_jaeger_zipkin_distributed_tracing_backend/) →
+<- **이전**: [143. Span 상세 - 서비스·오퍼레이션 단위 추적](/knowledge-base/studynote/15_devops_sre/03_sre_observability/143_span_service_operation_unit/)
+**다음**: [145. Jaeger & Zipkin - 분산 트레이싱 백엔드 비교](/knowledge-base/studynote/15_devops_sre/03_sre_observability/145_jaeger_zipkin_distributed_tracing_backend/) ->
 
 ---

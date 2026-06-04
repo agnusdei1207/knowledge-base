@@ -27,40 +27,40 @@ tags = ["studynote-operating-system"]
 공유 메모리의 가상 주소-물리 주소 매핑 구조를 시각화하면, 왜 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개입 없이 직접 접근이 가능한지 이해할 수 있다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────────┐
-│          공유 메모리의 가상-물리 주소 매핑 구조                     │
-├─────────────────────────────────────────────────────────────────────┤
-│                                                                     │
-│  [프로세스 A의 가상 주소 공간]     [프로세스 B의 가상 주소 공간]    │
-│                                                                     │
-│  0x0000 ┌───────────────┐      0x0000 ┌───────────────┐             │
-│         │   Code        │             │   Code        │             │
-│         │   Data        │             │   Data        │             │
-│         │   Heap        │             │   Heap        │             │
-│  0x5000 │ ┌───────────┐ │      0x7000 │ ┌───────────┐ │             │
-│         │ │ 공유 영역  │ │             │ │ 공유 영역  │ │           │
-│         │ │ (매핑됨)  │ │             │ │ (매핑됨)  │ │             │
-│         │ └─────┬─────┘ │             │ └─────┬─────┘ │             │
-│  0x6000 │   Stack      │      0x8000 │   Stack      │               │
-│         └──────┼────────┘             └──────┼────────┘             │
-│                │                             │                      │
-│  ──────────────┼───── Page Table ────────────┼──────────            │
-│                │                             │                      │
-│                ▼                             ▼                      │
-│         ┌──────────────────────────────────────┐                    │
-│         │     물리 메모리 (Physical RAM)         │                  │
-│         │                                      │                    │
-│         │   ┌──────────────────────────────┐   │                    │
-│         │   │     공유 메모리 영역           │   │                  │
-│         │   │  (두 프로세스가 동일 페이지    │   │                  │
-│         │   │   공유함)                     │   │                   │
-│         │   └──────────────────────────────┘   │                    │
-│         └──────────────────────────────────────┘                    │
-│                                                                     │
-│  핵심: Page Table이 두 가상 주소를 동일 물리 주소로 매핑함          │
-│       → 프로세스 A의 쓰기가 프로세스 B에 즉시 반영됨                │
-│       → CPU 명령(LOAD/STORE)만으로 통신 완료 (커널 개입 없음!)      │
-└─────────────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------------+
+|          공유 메모리의 가상-물리 주소 매핑 구조                     |
++---------------------------------------------------------------------+
+|                                                                     |
+|  [프로세스 A의 가상 주소 공간]     [프로세스 B의 가상 주소 공간]    |
+|                                                                     |
+|  0x0000 +---------------+      0x0000 +---------------+             |
+|         |   Code        |             |   Code        |             |
+|         |   Data        |             |   Data        |             |
+|         |   Heap        |             |   Heap        |             |
+|  0x5000 | +-----------+ |      0x7000 | +-----------+ |             |
+|         | | 공유 영역  | |             | | 공유 영역  | |           |
+|         | | (매핑됨)  | |             | | (매핑됨)  | |             |
+|         | +-----+-----+ |             | +-----+-----+ |             |
+|  0x6000 |   Stack      |      0x8000 |   Stack      |               |
+|         +------+--------+             +------+--------+             |
+|                |                             |                      |
+|  --------------+----- Page Table ------------+----------            |
+|                |                             |                      |
+|                v                             v                      |
+|         +--------------------------------------+                    |
+|         |     물리 메모리 (Physical RAM)         |                  |
+|         |                                      |                    |
+|         |   +------------------------------+   |                    |
+|         |   |     공유 메모리 영역           |   |                  |
+|         |   |  (두 프로세스가 동일 페이지    |   |                  |
+|         |   |   공유함)                     |   |                   |
+|         |   +------------------------------+   |                    |
+|         +--------------------------------------+                    |
+|                                                                     |
+|  핵심: Page Table이 두 가상 주소를 동일 물리 주소로 매핑함          |
+|       -> 프로세스 A의 쓰기가 프로세스 B에 즉시 반영됨                |
+|       -> CPU 명령(LOAD/STORE)만으로 통신 완료 (커널 개입 없음!)      |
++---------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 구조도는 공유 메모리가 "왜 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개입 없이 동작하는가"를 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)) 관점에서 명확히 보여준다. 운영체제는 `shmget()`으로 물리 메모리에 공유 영역을 할당하고, `shmat()`를 통해 각 프로세스의 [가상 주소 공간](/knowledge-base/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/) 내에 이 물리 메모리를 매핑한다. 이 매핑은 프로세스 A의 0x5000 번지와 프로세스 B의 0x7000 번지가 동일한 물리 메모리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 가리키도록 각자의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 엔트리([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) Entry, PTE)를 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하는 방식으로 이루어진다. 매핑 완료 후에는 CPU가 일반적인 LOAD/STORE 명령으로 메모리에 접근하므로, 시스템 콜이나 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드 전환 없이 프로세스 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환이 즉각적으로 이루어진다. 이것이 공유 메모리가 가장 빠른 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 방식인 근본 이유다.
@@ -87,43 +87,43 @@ tags = ["studynote-operating-system"]
 공유 메모리를 활용한 가장 전형적 패턴은 생산자-소비자 (Producer-Consumer) 문제다. 다음은 공유 메모리 버퍼를 사용한 생산자-소비자 구조와 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 요구사항이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│     공유 메모리 기반 생산자-소비자 (Producer-Consumer) 구조        │
-├────────────────────────────────────────────────────────────────────┤
-│                                                                    │
-│  ┌────────────┐      ┌──────────────────────────────────┐          │
-│  │  생산자      │      │       공유 메모리 영역              │     │
-│  │ (Producer)  │      │                                  │         │
-│  │             │      │  ┌───────────────────────────┐   │         │
-│  │  data를 생성 │      │  │  공유 버퍼 (Buffer)       │   │        │
-│  │             │─────▶│  │  ┌─────┬─────┬─────┐    │   │           │
-│  │  buffer에   │      │  │  │ 10  │ 20  │ 30  │    │   │           │
-│  │  쓰기 (write)│      │  │  └─────┴─────┴─────┘    │   │          │
-│  └────────────┘      │  │  in=3  out=0  count=3   │   │            │
-│                       │  │                           │   │         │
-│  ┌────────────┐      │  │  ┌─────────────────────┐ │   │           │
-│  │  소비자      │      │  │  │ mutex (상호배제)     │ │   │        │
-│  │ (Consumer)  │      │  │  └─────────────────────┘ │   │          │
-│  │             │─────▶│  │  ┌─────────────────────┐ │   │          │
-│  │  buffer에서  │      │  │  │ empty(빈칸=버퍼용량) │ │   │        │
-│  │  읽기 (read) │      │  │  │ full(가득참=0)      │ │   │         │
-│  └────────────┘      │  │  └─────────────────────┘ │   │           │
-│                       │  └───────────────────────────┘   │         │
-│                       └──────────────────────────────────┘         │
-│                                                                    │
-│  동기화 규칙 (필수!):                                              │
-│  ┌─────────────────────────────────────────────────────────┐       │
-│  │ 1. mutex: 버퍼에 한 프로세스만 접근 가능 (상호배제)        │    │
-│  │ 2. empty: 버퍼가 가득 찼을 때 생산자 대기                  │    │
-│  │ 3. full:  버퍼가 비었을 때 소비자 대기                     │    │
-│  │                                                         │       │
-│  │  생산자: wait(empty) → wait(mutex) → write →              │     │
-│  │          signal(mutex) → signal(full)                     │     │
-│  │                                                         │       │
-│  │  소비자: wait(full) → wait(mutex) → read →                │     │
-│  │          signal(mutex) → signal(empty)                    │     │
-│  └─────────────────────────────────────────────────────────┘       │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|     공유 메모리 기반 생산자-소비자 (Producer-Consumer) 구조        |
++--------------------------------------------------------------------+
+|                                                                    |
+|  +------------+      +----------------------------------+          |
+|  |  생산자      |      |       공유 메모리 영역              |     |
+|  | (Producer)  |      |                                  |         |
+|  |             |      |  +---------------------------+   |         |
+|  |  data를 생성 |      |  |  공유 버퍼 (Buffer)       |   |        |
+|  |             |------>|  |  +-----+-----+-----+    |   |           |
+|  |  buffer에   |      |  |  | 10  | 20  | 30  |    |   |           |
+|  |  쓰기 (write)|      |  |  +-----+-----+-----+    |   |          |
+|  +------------+      |  |  in=3  out=0  count=3   |   |            |
+|                       |  |                           |   |         |
+|  +------------+      |  |  +---------------------+ |   |           |
+|  |  소비자      |      |  |  | mutex (상호배제)     | |   |        |
+|  | (Consumer)  |      |  |  +---------------------+ |   |          |
+|  |             |------>|  |  +---------------------+ |   |          |
+|  |  buffer에서  |      |  |  | empty(빈칸=버퍼용량) | |   |        |
+|  |  읽기 (read) |      |  |  | full(가득참=0)      | |   |         |
+|  +------------+      |  |  +---------------------+ |   |           |
+|                       |  +---------------------------+   |         |
+|                       +----------------------------------+         |
+|                                                                    |
+|  동기화 규칙 (필수!):                                              |
+|  +---------------------------------------------------------+       |
+|  | 1. mutex: 버퍼에 한 프로세스만 접근 가능 (상호배제)        |    |
+|  | 2. empty: 버퍼가 가득 찼을 때 생산자 대기                  |    |
+|  | 3. full:  버퍼가 비었을 때 소비자 대기                     |    |
+|  |                                                         |       |
+|  |  생산자: wait(empty) -> wait(mutex) -> write ->              |     |
+|  |          signal(mutex) -> signal(full)                     |     |
+|  |                                                         |       |
+|  |  소비자: wait(full) -> wait(mutex) -> read ->                |     |
+|  |          signal(mutex) -> signal(empty)                    |     |
+|  +---------------------------------------------------------+       |
++--------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 구조도는 공유 메모리를 활용한 생산자-소비자 패턴에서 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 왜 필수적인지를 명확히 보여준다. 공유 버퍼는 단일 물리 메모리 영역이므로, 생산자가 버퍼 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)(in)를 갱신하는 동시에 소비자가 같은 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 읽으면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치가 발생한다. 이를 방지하기 위해 [mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/)(뮤텍스)로 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)([Mutual Exclusion](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/))를 보장해야 한다. 또한 버퍼가 가득 찼을 때(empty=0) 생산자가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 덮어쓰는 것을 막기 위해 empty 세마포어로 대기시키고, 버퍼가 비었을 때(full=0) 소비자가 의미 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽는 것을 막기 위해 full 세마포어로 대기시킨다. 이 세 가지 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 변수([mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/), empty, full)가 공유 메모리 자체에 함께 저장되어, 모든 프로세스가 동일한 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 상태를 공유한다.
@@ -150,37 +150,37 @@ POSIX 표준은 System V API의 정수 [식별자](/knowledge-base/studynote/03_
 공유 메모리의 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 문제를 다이어그램으로 시각화하면, 경합 조건 ([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))이 어떻게 발생하는지 구체적으로 이해할 수 있다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────────┐
-│     공유 메모리 동기화 없이 두 프로세스가 동시 쓸 때의 문제         │
-├─────────────────────────────────────────────────────────────────────┤
-│                                                                     │
-│  공유 메모리: counter = 0 (초기값)                                  │
-│                                                                     │
-│  시간 ──────────────────────────────────────────▶                   │
-│                                                                     │
-│  프로세스 A:  counter값 읽기(0) ─── counter+1 계산(1) ─── 쓰기(1)   │
-│                    │                        │                       │
-│  프로세스 B:        └── counter값 읽기(0) ─── counter+1 계산 ─┤     │
-│                                                │                    │
-│                                                ▼                    │
-│                                           쓰기(1) ← 기대값 2!       │
-│                                                                     │
-│  결과: counter = 1 (기대값은 2였음!)                                │
-│       → 경합 조건 (Race Condition) 발생!                            │
-│                                                                     │
-│  해결:                                                              │
-│  ┌────────────────────────────────────────────────────────┐         │
-│  │  프로세스 A: lock(mutex) → 읽기(0) → 계산(1) → 쓰기(1)  │        │
-│  │                        → unlock(mutex)                 │         │
-│  │                                                        │         │
-│  │  프로세스 B:               lock(mutex) 대기...          │        │
-│  │                           (A의 unlock 후)               │        │
-│  │                           → 읽기(1) → 계산(2) → 쓰기(2)│         │
-│  │                           → unlock(mutex)               │        │
-│  │                                                        │         │
-│  │  결과: counter = 2 (정상!)                               │       │
-│  └────────────────────────────────────────────────────────┘         │
-└─────────────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------------+
+|     공유 메모리 동기화 없이 두 프로세스가 동시 쓸 때의 문제         |
++---------------------------------------------------------------------+
+|                                                                     |
+|  공유 메모리: counter = 0 (초기값)                                  |
+|                                                                     |
+|  시간 ------------------------------------------->                   |
+|                                                                     |
+|  프로세스 A:  counter값 읽기(0) --- counter+1 계산(1) --- 쓰기(1)   |
+|                    |                        |                       |
+|  프로세스 B:        +-- counter값 읽기(0) --- counter+1 계산 -+     |
+|                                                |                    |
+|                                                v                    |
+|                                           쓰기(1) <- 기대값 2!       |
+|                                                                     |
+|  결과: counter = 1 (기대값은 2였음!)                                |
+|       -> 경합 조건 (Race Condition) 발생!                            |
+|                                                                     |
+|  해결:                                                              |
+|  +--------------------------------------------------------+         |
+|  |  프로세스 A: lock(mutex) -> 읽기(0) -> 계산(1) -> 쓰기(1)  |        |
+|  |                        -> unlock(mutex)                 |         |
+|  |                                                        |         |
+|  |  프로세스 B:               lock(mutex) 대기...          |        |
+|  |                           (A의 unlock 후)               |        |
+|  |                           -> 읽기(1) -> 계산(2) -> 쓰기(2)|         |
+|  |                           -> unlock(mutex)               |        |
+|  |                                                        |         |
+|  |  결과: counter = 2 (정상!)                               |       |
+|  +--------------------------------------------------------+         |
++---------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 타임라인 다이어그램은 공유 메모리에서 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 없을 때 발생하는 경합 조건([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))의 전형적인 패턴을 보여준다. 두 프로세스가 동시에 `counter`의 값을 읽었을 때, 두 프로세스 모두 0을 읽고 각자 독립적으로 1을 더해 1을 쓴다. 기대값은 2이지만 실제 결과는 1이 된다. 이것이 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)([Atomicity](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/))이 보장되지 않는 읽기-수정-[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Read-Modify-Write) 연산의 근본적 문제다. 뮤텍스([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))를 사용하면 한 프로세스가 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)([Critical Section](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/))에 진입하는 동안 다른 프로세스가 대기하도록 강제하여, [counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 값이 항상 올바르게 갱신되도록 보장한다. 공유 메모리를 사용하는 모든 시스템에서 이러한 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 보장이 필수적이다.
@@ -249,12 +249,12 @@ POSIX 표준은 System V API의 정수 [식별자](/knowledge-base/studynote/03_
 
 ```text
 [프로세스 간 통신 (IPC, Inter-Process Communication)]
-    │
-    ▼
+    |
+    v
 [공유 메모리 (Shared Memory) 방식]
-    │
-    ├──▶ [메시지 전달 (Message Passing) 방식]
-    └──▶ [직접 통신 (Direct Communication)]
+    |
+    +---> [메시지 전달 (Message Passing) 방식]
+    +---> [직접 통신 (Direct Communication)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -271,7 +271,7 @@ POSIX 표준은 System V API의 정수 [식별자](/knowledge-base/studynote/03_
 
 **진행 상황**: 118 / 800
 
-← **이전**: [117. 프로세스 간 통신 (IPC, Inter-Process Communication)](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/)
-**다음**: [119. 메시지 전달 (Message Passing) 방식 - 안전, 커널 개입(시스템 콜) 오버헤드](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/) →
+<- **이전**: [117. 프로세스 간 통신 (IPC, Inter-Process Communication)](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/)
+**다음**: [119. 메시지 전달 (Message Passing) 방식 - 안전, 커널 개입(시스템 콜) 오버헤드](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/) ->
 
 ---

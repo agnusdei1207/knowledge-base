@@ -30,16 +30,16 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 메모리 계층이 왜 “한 방향으로 갈수록 좋기만 한 구조”가 아니라, 상충하는 속성과 비용을 균형화한 구조인지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│        Memory Hierarchy: latency, capacity, cost trade-off  │
-├──────────────┬───────────────┬──────────────┬───────────────┤
-│ Level        │ Typical speed │ Capacity     │ Cost per bit  │
-├──────────────┼───────────────┼──────────────┼───────────────┤
-│ Register     │ fastest       │ very tiny    │ highest       │
-│ Cache        │ very fast     │ small        │ very high     │
-│ Main Memory  │ moderate      │ medium/large │ medium        │
-│ SSD / HDD    │ slowest       │ very large   │ lowest        │
-└──────────────┴───────────────┴──────────────┴───────────────┘
++--------------------------------------------------------------+
+|        Memory Hierarchy: latency, capacity, cost trade-off  |
++--------------+---------------+--------------+---------------+
+| Level        | Typical speed | Capacity     | Cost per bit  |
++--------------+---------------+--------------+---------------+
+| Register     | fastest       | very tiny    | highest       |
+| Cache        | very fast     | small        | very high     |
+| Main Memory  | moderate      | medium/large | medium        |
+| SSD / HDD    | slowest       | very large   | lowest        |
++--------------+---------------+--------------+---------------+
 
 위로 갈수록  CPU에 가까움 / 지연시간 감소 / 비용 증가
 아래로 갈수록  CPU에서 멀어짐 / 용량 증가   / 비용 감소
@@ -67,21 +67,21 @@ tags = ["studynote-computer-architecture"]
 다음 그림은 CPU 요청이 계층을 따라 내려가고, 찾은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다시 위로 올리며 평균 접근 시간을 줄이는 흐름을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│          Read path: search upward, fetch downward            │
-├──────────────────────────────────────────────────────────────┤
-│ CPU request                                                  │
-│    │                                                         │
-│    ▼                                                         │
-│ Register / L1 Cache ? ── hit ───────────────▶ return quickly │
-│    │ miss                                                    │
-│    ▼                                                         │
-│ Lower Cache / DRAM ? ── hit ───────────────▶ copy upward     │
-│    │ miss                                                    │
-│    ▼                                                         │
-│ SSD / HDD access     ───────────────────────▶ load to DRAM   │
-│                                              then refill up  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|          Read path: search upward, fetch downward            |
++--------------------------------------------------------------+
+| CPU request                                                  |
+|    |                                                         |
+|    v                                                         |
+| Register / L1 Cache ? -- hit ----------------> return quickly |
+|    | miss                                                    |
+|    v                                                         |
+| Lower Cache / DRAM ? -- hit ----------------> copy upward     |
+|    | miss                                                    |
+|    v                                                         |
+| SSD / HDD access     ------------------------> load to DRAM   |
+|                                              then refill up  |
++--------------------------------------------------------------+
 ```
 
 이 과정에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 설명할 때 자주 쓰는 값이 [AMAT](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/265_amat/) (Average Memory Access Time)이다. 개념적으로는 `평균 접근 시간 = 히트 시간 + 미스율 × 미스 패널티`로 볼 수 있다. 즉 캐시는 단지 “빠른 저장소”가 아니라, 미스가 드물다는 전제 아래 전체 평균을 낮추는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 기반 장치다. 그래서 캐시 용량, 연관도, 교체 정책보다 더 근본적인 질문은 <strong>프로그램이 지역성을 보이느냐</strong>다.
@@ -161,25 +161,25 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 단일 기억장치 한계
-    │
-    ▼
+    |
+    v
 메모리 벽 (Memory Wall)
-    │
-    ▼
+    |
+    v
 메모리 계층 구조 (Memory Hierarchy)
-    │
-    ├─▶ 캐시 메모리 (Cache Memory)
-    │        │
-    │        ├─▶ 캐시 히트/미스 (Cache Hit/Miss)
-    │        └─▶ AMAT (Average Memory Access Time)
-    │
-    └─▶ 가상 메모리 (Virtual Memory)
-             │
-             ├─▶ 워킹셋 (Working Set)
-             └─▶ 스래싱 (Thrashing)
+    |
+    +--> 캐시 메모리 (Cache Memory)
+    |        |
+    |        +--> 캐시 히트/미스 (Cache Hit/Miss)
+    |        +--> AMAT (Average Memory Access Time)
+    |
+    +--> 가상 메모리 (Virtual Memory)
+             |
+             +--> 워킹셋 (Working Set)
+             +--> 스래싱 (Thrashing)
 ```
 
-이 흐름은 “속도 격차 인식 → 계층화 도입 → 캐시 최적화와 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 확장”으로 이어지는 사고의 확장 순서를 보여준다.
+이 흐름은 “속도 격차 인식 -> 계층화 도입 -> 캐시 최적화와 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 확장”으로 이어지는 사고의 확장 순서를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -193,7 +193,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 245 / 803
 
-← **이전**: [244. EPIC (Explicitly Parallel Instruction Computing)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/244_epic/)
-**다음**: [246. 참조의 지역성 (Locality of Reference)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/246_locality_of_reference/) →
+<- **이전**: [244. EPIC (Explicitly Parallel Instruction Computing)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/244_epic/)
+**다음**: [246. 참조의 지역성 (Locality of Reference)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/246_locality_of_reference/) ->
 
 ---

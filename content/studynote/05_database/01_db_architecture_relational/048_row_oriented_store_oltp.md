@@ -29,7 +29,7 @@ tags = ["studynote-database"]
 
 디스크 저장 순서:
   [1|김철수|5000|개발] [2|이영희|6000|마케팅] [3|박민수|4500|개발]
-  └──── 1페이지(8KB) ────┘
+  +---- 1페이지(8KB) ----+
 
 특성:
   한 행의 모든 컬럼 = 연속된 바이트
@@ -37,15 +37,15 @@ tags = ["studynote-database"]
 
 OLTP에서의 장점:
   SELECT * WHERE id = 1
-  → 행 1 포함 페이지 1개만 읽기 (빠름)
+  -> 행 1 포함 페이지 1개만 읽기 (빠름)
 
   UPDATE salary WHERE id = 1
-  → 행 1 포함 페이지 읽기 → 수정 → 쓰기
+  -> 행 1 포함 페이지 읽기 -> 수정 -> 쓰기
 
 OLAP에서의 단점:
   SELECT SUM(연봉) FROM employees
-  → 모든 행 전체 컬럼 읽기 (이름, 부서 불필요)
-  → 불필요한 컬럼 I/O 발생
+  -> 모든 행 전체 컬럼 읽기 (이름, 부서 불필요)
+  -> 불필요한 컬럼 I/O 발생
 
 페이지 구조 (MySQL InnoDB):
   페이지 크기: 16KB (기본)
@@ -54,7 +54,7 @@ OLAP에서의 단점:
   [페이지 헤더][행1][행2]...[행N][빈 공간][페이지 디렉토리][페이지 트레일러]
 
   가득 찬 페이지(Fill Factor ~87%):
-  INSERT 공간 부족 → 페이지 분할 (Page Split)
+  INSERT 공간 부족 -> 페이지 분할 (Page Split)
 ```
 
 > 📢 **섹션 요약 비유**: 행 지향 = 서랍 한 칸에 한 사람 정보 — "김철수" 서랍엔 이름+연봉+부서 한 번에. 한 명 정보 꺼낼 때([OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/)) 빠름. 전체 연봉 합산([OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/)) 땐 모든 서랍 열어야 해서 느림!
@@ -95,7 +95,7 @@ OLTP 최적화 기법:
   복합 인덱스: 자주 쓰는 WHERE 컬럼 조합
 
   쓰기 오버헤드:
-  INSERT 1건 → 인덱스 수 × 2 I/O 추가
+  INSERT 1건 -> 인덱스 수 × 2 I/O 추가
 
 3. 연결 풀 (Connection Pool):
   DB 연결 생성 비용 절감
@@ -103,11 +103,11 @@ OLTP 최적화 기법:
 
 4. 파티셔닝:
   날짜 범위 파티션
-  오래된 파티션 DROP → 빠른 삭제
+  오래된 파티션 DROP -> 빠른 삭제
 
 5. 읽기 복제본 (Read Replica):
-  Write → Primary
-  Read → Replica (SELECT 부하 분산)
+  Write -> Primary
+  Read -> Replica (SELECT 부하 분산)
 ```
 
 > 📢 **섹션 요약 비유**: [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) 최적화 = 편의점 운영 — 잘 팔리는 물건(버퍼 풀: 자주 쓰는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시), 빠른 검색([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)), 여러 계산대(연결 풀), 창고 분리([파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/))!
@@ -175,14 +175,14 @@ B+ 트리 클러스터드 인덱스:
   가변 길이 컬럼 (VARCHAR):
   데이터 앞에 실제 길이 저장
 
-  VARCHAR(255) → 최대 1바이트 오프셋
-  VARCHAR(65535) → 최대 2바이트 오프셋
+  VARCHAR(255) -> 최대 1바이트 오프셋
+  VARCHAR(65535) -> 최대 2바이트 오프셋
 
 페이지 분할 (Page Split):
-  B+ 트리 노드 가득 참 → 분할
+  B+ 트리 노드 가득 참 -> 분할
 
   순서 INSERT (PK 1, 2, 3, ...): 분할 적음
-  무작위 INSERT (UUID): 잦은 분할 → 성능 저하
+  무작위 INSERT (UUID): 잦은 분할 -> 성능 저하
 
   해결: UUID v7 (시간 순서 보장)
   또는 AUTO_INCREMENT + 순서 삽입
@@ -194,7 +194,7 @@ MVCC (Multi-Version Concurrency Control):
   읽기: 자신의 트랜잭션 시작 전 버전 읽기
 
   Undo Log: 이전 버전 저장 공간
-  장기 트랜잭션 → Undo Log 급증 → 성능 저하
+  장기 트랜잭션 -> Undo Log 급증 -> 성능 저하
 ```
 
 > 📢 **섹션 요약 비유**: InnoDB 행 저장 = [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 캐비닛 정리 — PK 순서로 서랍([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) 정렬. UUID로 랜덤 저장하면 서랍 분할([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Split) 잦아 혼란. 순서대로 넣어야 빠름!
@@ -213,15 +213,15 @@ MVCC (Multi-Version Concurrency Control):
 
   슬로우 쿼리:
   SELECT * FROM orders WHERE user_id = ? AND status = 'pending'
-  → 200ms (풀 스캔)
+  -> 200ms (풀 스캔)
 
 분석:
   orders 테이블: 5천만 행
   인덱스: PK (order_id) 만 존재
 
   쿼리 플랜:
-  → type: ALL (풀 테이블 스캔!)
-  → rows: 50,000,000 (전체 스캔)
+  -> type: ALL (풀 테이블 스캔!)
+  -> rows: 50,000,000 (전체 스캔)
 
 최적화:
 
@@ -230,27 +230,27 @@ MVCC (Multi-Version Concurrency Control):
   ON orders (user_id, status, created_at DESC);
 
   쿼리 플랜 재확인:
-  → type: ref (인덱스 사용)
-  → rows: 15 (극적 감소)
+  -> type: ref (인덱스 사용)
+  -> rows: 15 (극적 감소)
 
-  응답: 200ms → 8ms ✓
+  응답: 200ms -> 8ms ✓
 
 2. 버퍼 풀 증설:
-  innodb_buffer_pool_size = 4G → 12G
-  히트율: 92% → 99.3%
+  innodb_buffer_pool_size = 4G -> 12G
+  히트율: 92% -> 99.3%
 
 3. 읽기 복제본 추가:
-  주문 조회 API → 복제본으로 라우팅
+  주문 조회 API -> 복제본으로 라우팅
   Primary 쓰기 부하 40% 감소
 
 4. Connection Pool 최적화:
-  HikariCP maxPoolSize = 50 → 100
-  connectionTimeout = 30s → 5s
+  HikariCP maxPoolSize = 50 -> 100
+  connectionTimeout = 30s -> 5s
 
 결과:
-  평균 응답: 250ms → 35ms (7배 개선)
-  P99: 800ms → 120ms
-  TPS: 1,000 → 3,500
+  평균 응답: 250ms -> 35ms (7배 개선)
+  P99: 800ms -> 120ms
+  TPS: 1,000 -> 3,500
 
 교훈:
   인덱스 설계가 OLTP 성능의 80% 결정
@@ -332,7 +332,7 @@ Aurora, Cloud Spanner
 
 **진행 상황**: 48 / 600
 
-← **이전**: [047. 컬럼 기반 스토리지 — Columnar Store & OLAP](/knowledge-base/studynote/05_database/01_db_architecture_relational/047_columnar_store_olap/)
-**다음**: [049. 스토리지 엔진 — InnoDB vs MyISAM](/knowledge-base/studynote/05_database/01_db_architecture_relational/049_storage_engine_innodb_myisam/) →
+<- **이전**: [047. 컬럼 기반 스토리지 — Columnar Store & OLAP](/knowledge-base/studynote/05_database/01_db_architecture_relational/047_columnar_store_olap/)
+**다음**: [049. 스토리지 엔진 — InnoDB vs MyISAM](/knowledge-base/studynote/05_database/01_db_architecture_relational/049_storage_engine_innodb_myisam/) ->
 
 ---

@@ -26,16 +26,16 @@ tags = ["studynote-operating-system"]
 이 그림은 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)와 디스패처의 역할 분리를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           policy와 mechanism의 분리: scheduler vs dispatcher │
-├──────────────────────────────────────────────────────────────┤
-│ Ready Queue ─▶ Short-term Scheduler ─▶ Dispatcher           │
-│                 "누가 다음인가?"         "어떻게 바꿀까?" │
-│                                              │               │
-│                                              ├─ save old ctx │
-│                                              ├─ load new ctx │
-│                                              └─ return user  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           policy와 mechanism의 분리: scheduler vs dispatcher |
++--------------------------------------------------------------+
+| Ready Queue --> Short-term Scheduler --> Dispatcher           |
+|                 "누가 다음인가?"         "어떻게 바꿀까?" |
+|                                              |               |
+|                                              +- save old ctx |
+|                                              +- load new ctx |
+|                                              +- return user  |
++--------------------------------------------------------------+
 ```
 
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에서 응답성이 좋아 보이는 이유는 단순히 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 똑똑해서가 아니라, 디스패처가 이 전환을 매우 짧게 끝내기 때문이다. 그래서 디스패처는 눈에 잘 띄지 않지만 CPU 스케줄링의 마지막 병목이자 실감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 관문이다.
@@ -57,20 +57,20 @@ tags = ["studynote-operating-system"]
 이 그림은 디스패처가 수행하는 시간 흐름을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                dispatcher timeline during switch            │
-├──────────────────────────────────────────────────────────────┤
-│ Running P0                                                  │
-│    │                                                        │
-│    ▼ interrupt / syscall                                    │
-│ [kernel entry]                                              │
-│    │                                                        │
-│    ├─ save P0 context                                       │
-│    ├─ scheduler selects P1                                  │
-│    ├─ switch MMU / kernel stack                             │
-│    ├─ restore P1 context                                    │
-│    └─ return to user mode ───────────────▶ Running P1       │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                dispatcher timeline during switch            |
++--------------------------------------------------------------+
+| Running P0                                                  |
+|    |                                                        |
+|    v interrupt / syscall                                    |
+| [kernel entry]                                              |
+|    |                                                        |
+|    +- save P0 context                                       |
+|    +- scheduler selects P1                                  |
+|    +- switch MMU / kernel stack                             |
+|    +- restore P1 context                                    |
+|    +- return to user mode ----------------> Running P1       |
++--------------------------------------------------------------+
 ```
 
 이때 눈에 보이는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 복사보다 더 비싼 부분은 주소 공간 전환 이후의 메모리 지역성 손실이다. 같은 프로세스 안의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 전환은 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 공유하므로 상대적으로 가볍지만, 다른 프로세스로 넘어가면 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 재사용성이 떨어지고 캐시도 차가워질 수 있다. 그래서 디스패처의 비용은 "몇 개 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 복사했는가"보다 "얼마나 많은 실행 맥락을 갈아치웠는가"로 봐야 한다.
@@ -150,20 +150,20 @@ tags = ["studynote-operating-system"]
 
 ```text
 Ready Queue 선택
-    │
-    ▼
+    |
+    v
 Short-term Scheduler
-    │
-    ▼
+    |
+    v
 Dispatcher
-    │
-    ├──────────────▶ save / restore context
-    ├──────────────▶ MMU · TLB 전환
-    ├──────────────▶ user mode return
-    ▼
+    |
+    +---------------> save / restore context
+    +---------------> MMU · TLB 전환
+    +---------------> user mode return
+    v
 Dispatch Latency 최적화
-    │
-    ▼
+    |
+    v
 RTOS · ASID/PCID · Kernel Bypass
 ```
 
@@ -181,7 +181,7 @@ RTOS · ASID/PCID · Kernel Bypass
 
 **진행 상황**: 168 / 800
 
-← **이전**: [167. 비선점형 스케줄링 (Non-preemptive Scheduling)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/167_non_preemptive_scheduling/)
-**다음**: [169. 디스패치 지연 (Dispatch Latency)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/169_dispatch_latency/) →
+<- **이전**: [167. 비선점형 스케줄링 (Non-preemptive Scheduling)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/167_non_preemptive_scheduling/)
+**다음**: [169. 디스패치 지연 (Dispatch Latency)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/169_dispatch_latency/) ->
 
 ---

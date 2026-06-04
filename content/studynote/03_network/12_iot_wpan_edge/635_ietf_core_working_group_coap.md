@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [OCF IoT 통합 관리 계층 표준]
-    │
-    ▼
+    |
+    v
 [IETF 산하 IoT CoRE 워킹그룹 동향]
-    │
-    └──▶ [W3C WoT]
+    |
+    +---> [W3C WoT]
 ```
 
 - **📢 섹션 요약 비유**: IETF 산하 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) CoRE 워킹그룹 동향은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -50,11 +50,11 @@ tags = ["studynote-network"]
 
 ```text
 [OCF IoT 통합 관리 계층 표준]
-    │
-    ▼
+    |
+    v
 [IETF 산하 IoT CoRE 워킹그룹 동향]
-    │
-    └──▶ [W3C WoT]
+    |
+    +---> [W3C WoT]
 ```
 
 - **📢 섹션 요약 비유**: IETF 산하 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) CoRE 워킹그룹 동향의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -117,12 +117,12 @@ IETF 산하 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/1
 
 ```text
 [선행 개념: OCF IoT 통합 관리 계층 표준]
-    │
-    ▼
+    |
+    v
 [현재 개념: IETF 산하 IoT CoRE 워킹그룹 동향]
-    │
-    ├──▶ [확장 A: W3C WoT]
-    └──▶ [확장 B: 자율형 엣지 협업]
+    |
+    +---> [확장 A: W3C WoT]
+    +---> [확장 B: 자율형 엣지 협업]
 ```
 
 IETF 산하 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) CoRE 워킹그룹 동향는 [OCF](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/123_ocf_open_connectivity_foundation/) [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 통합 관리 계층 표준에서 출발해 현재 메커니즘을 정교화하고, 이후 W3C WoT와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -139,7 +139,7 @@ IETF 산하 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/1
 
 **진행 상황**: 756 / 1120
 
-← **이전**: [634. OCF (Open Connectivity Foundation) IoT 통합 관리 계층 표준](/knowledge-base/studynote/03_network/12_iot_wpan_edge/634_ocf_open_connectivity_foundation_iot/)
-**다음**: [636. W3C WoT (Web of Things)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/636_wot_web_of_things_w3c_thing_description/) →
+<- **이전**: [634. OCF (Open Connectivity Foundation) IoT 통합 관리 계층 표준](/knowledge-base/studynote/03_network/12_iot_wpan_edge/634_ocf_open_connectivity_foundation_iot/)
+**다음**: [636. W3C WoT (Web of Things)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/636_wot_web_of_things_w3c_thing_description/) ->
 
 ---

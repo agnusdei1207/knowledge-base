@@ -48,9 +48,9 @@ LayerNorm:  Transformer 표준 (배치 무관)
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[L1/L2 정규화 (전통)] → [Dropout (2012, Hinton)]
-    → [BatchNorm (2015)] → [LayerNorm (2016, Transformer)]
-    → [현재: RMSNorm (Llama) — 더 효율적 정규화]
+[L1/L2 정규화 (전통)] -> [Dropout (2012, Hinton)]
+    -> [BatchNorm (2015)] -> [LayerNorm (2016, Transformer)]
+    -> [현재: RMSNorm (Llama) — 더 효율적 정규화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -64,7 +64,7 @@ LayerNorm:  Transformer 표준 (배치 무관)
 
 **진행 상황**: 134 / 258
 
-← **이전**: [133. 역전파 & 연쇄 법칙 (Backpropagation & Chain Rule)](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/133_backpropagation_chain_rule/)
-**다음**: [135. CNN (Convolutional Neural Network) - 합성곱 신경망의 구조와 원리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/135_cnn_convolutional_neural_network/) →
+<- **이전**: [133. 역전파 & 연쇄 법칙 (Backpropagation & Chain Rule)](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/133_backpropagation_chain_rule/)
+**다음**: [135. CNN (Convolutional Neural Network) - 합성곱 신경망의 구조와 원리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/135_cnn_convolutional_neural_network/) ->
 
 ---

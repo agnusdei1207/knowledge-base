@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [비트 에러율]
-    │
-    ▼
+    |
+    v
 [순방향 에러 수정]
-    │
-    └──▶ [역방향 에러 수정 / 자동 재전송 요청]
+    |
+    +---> [역방향 에러 수정 / 자동 재전송 요청]
 ```
 
 - **📢 섹션 요약 비유**: 순방향 에러 수정은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -50,11 +50,11 @@ FEC를 가능하게 하는 대표적인 마법의 알고리즘이 1950년 리차
 
 ```text
 [비트 에러율]
-    │
-    ▼
+    |
+    v
 [순방향 에러 수정]
-    │
-    └──▶ [역방향 에러 수정 / 자동 재전송 요청]
+    |
+    +---> [역방향 에러 수정 / 자동 재전송 요청]
 ```
 
 - **📢 섹션 요약 비유**: 순방향 에러 수정의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -118,12 +118,12 @@ FEC를 가능하게 하는 대표적인 마법의 알고리즘이 1950년 리차
 
 ```text
 [선행 개념: 비트 에러율]
-    │
-    ▼
+    |
+    v
 [현재 개념: 순방향 에러 수정]
-    │
-    ├──▶ [확장 A: 역방향 에러 수정 / 자동 재전송 요청]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+    |
+    +---> [확장 A: 역방향 에러 수정 / 자동 재전송 요청]
+    +---> [확장 B: 고신뢰 저지연 링크 제어]
 ```
 
 순방향 에러 수정는 [비트 에러율](/knowledge-base/studynote/03_network/04_data_link_layer_error/189_ber_bit_error_rate/)에서 출발해 현재 메커니즘을 정교화하고, 이후 역방향 에러 수정 / 자동 재전송 요청와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -140,7 +140,7 @@ FEC를 가능하게 하는 대표적인 마법의 알고리즘이 1950년 리차
 
 **진행 상황**: 311 / 1120
 
-← **이전**: [189. 비트 에러율 (BER, Bit Error Rate)](/knowledge-base/studynote/03_network/04_data_link_layer_error/189_ber_bit_error_rate/)
-**다음**: [191. 역방향 에러 수정 / 자동 재전송 요청 (ARQ, Automatic Repeat reQuest)](/knowledge-base/studynote/03_network/04_data_link_layer_error/191_arq_automatic_repeat_request_types/) →
+<- **이전**: [189. 비트 에러율 (BER, Bit Error Rate)](/knowledge-base/studynote/03_network/04_data_link_layer_error/189_ber_bit_error_rate/)
+**다음**: [191. 역방향 에러 수정 / 자동 재전송 요청 (ARQ, Automatic Repeat reQuest)](/knowledge-base/studynote/03_network/04_data_link_layer_error/191_arq_automatic_repeat_request_types/) ->
 
 ---

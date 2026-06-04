@@ -26,25 +26,25 @@ tags = ["studynote-database"]
 이 그림은 실행 계획이 SQL 문장 자체가 아니라, SQL 뒤에서 움직이는 실제 처리 경로를 보여 준다는 점을 설명한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│             SQL과 실행 계획의 관계: 선언형 요청 vs 물리 경로         │
-├──────────────────────────────────────────────────────────────────────┤
-│ SQL Text                                                            │
-│   SELECT * FROM orders o JOIN customers c ON o.cust_id = c.id       │
-│   WHERE c.name = 'KIM';                                             │
-│                                                                      │
-│        "무엇을 구할까?"                                             │
-│                │                                                     │
-│                ▼                                                     │
-│ Optimizer                                                            │
-│   ├─ customer name index scan                                        │
-│   ├─ customer row fetch                                               │
-│   ├─ orders access path decision                                      │
-│   └─ join method selection                                            │
-│                │                                                     │
-│                ▼                                                     │
-│ Execution Plan = "어떤 순서와 방법으로 읽을까?"                    │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|             SQL과 실행 계획의 관계: 선언형 요청 vs 물리 경로         |
++----------------------------------------------------------------------+
+| SQL Text                                                            |
+|   SELECT * FROM orders o JOIN customers c ON o.cust_id = c.id       |
+|   WHERE c.name = 'KIM';                                             |
+|                                                                      |
+|        "무엇을 구할까?"                                             |
+|                |                                                     |
+|                v                                                     |
+| Optimizer                                                            |
+|   +- customer name index scan                                        |
+|   +- customer row fetch                                               |
+|   +- orders access path decision                                      |
+|   +- join method selection                                            |
+|                |                                                     |
+|                v                                                     |
+| Execution Plan = "어떤 순서와 방법으로 읽을까?"                    |
++----------------------------------------------------------------------+
 ```
 
 즉 실행 계획은 SQL 문법 해설서가 아니라, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 물리적 의사결정을 보여 주는 X선 사진이다. 그래서 SQL 튜닝의 시작점은 보통 SQL 문장 자체보다 실행 계획을 먼저 보는 데서 출발한다.
@@ -68,18 +68,18 @@ tags = ["studynote-database"]
 아래 그림은 실행 계획이 위에서 아래로 읽는 문서가 아니라, 아래에서 위로 결과가 합쳐지는 네비게이션 트리임을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 실행 계획 읽기: 리프에서 루트로 올라감               │
-├──────────────────────────────────────────────────────────────────────┤
-│ Id  Operation                         Object         Exec Order      │
-│  0  SELECT STATEMENT                                   ▲             │
-│  1   HASH JOIN                                         │ ④           │
-│  2    TABLE ACCESS BY INDEX ROWID       CUSTOMERS      │ ②           │
-│  3     INDEX RANGE SCAN                 IDX_CUST_NAME  │ ①           │
-│  4    TABLE ACCESS FULL                 ORDERS         │ ③           │
-│                                                                      │
-│ 흐름: IDX_CUST_NAME → CUSTOMERS → ORDERS → HASH JOIN → RESULT        │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 실행 계획 읽기: 리프에서 루트로 올라감               |
++----------------------------------------------------------------------+
+| Id  Operation                         Object         Exec Order      |
+|  0  SELECT STATEMENT                                   ^             |
+|  1   HASH JOIN                                         | ④           |
+|  2    TABLE ACCESS BY INDEX ROWID       CUSTOMERS      | ②           |
+|  3     INDEX RANGE SCAN                 IDX_CUST_NAME  | ①           |
+|  4    TABLE ACCESS FULL                 ORDERS         | ③           |
+|                                                                      |
+| 흐름: IDX_CUST_NAME -> CUSTOMERS -> ORDERS -> HASH JOIN -> RESULT        |
++----------------------------------------------------------------------+
 ```
 
 이 트리에서 `INDEX RANGE SCAN`이 먼저 고객 후보를 찾고, `TABLE ACCESS BY INDEX ROWID`가 실제 고객 행을 읽는다. 그 다음 주문 테이블 전체를 읽어 [해시 조인](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/)을 수행하고, 마지막에 최종 결과를 반환한다. 여기서 핵심은 <strong>들여쓰기와 부모-자식 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong>를 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디서 만들어지고 어디서 소비되는지를 보는 것이다.
@@ -165,18 +165,18 @@ tags = ["studynote-database"]
 
 ```text
 규칙 기반 최적화
-    │
-    ▼
+    |
+    v
 비용 기반 옵티마이저 (CBO, Cost Based Optimizer)
-    │
-    ▼
+    |
+    v
 실행 계획 (Execution Plan)
-    │
-    ├─ 접근 경로 (Access Path)
-    ├─ 조인 순서 (Join Order)
-    └─ 조인 방식 (Join Method)
-    │
-    ▼
+    |
+    +- 접근 경로 (Access Path)
+    +- 조인 순서 (Join Order)
+    +- 조인 방식 (Join Method)
+    |
+    v
 실제 실행 통계 · 적응형 최적화 · 계획 안정화
 ```
 
@@ -194,7 +194,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 166 / 600
 
-← **이전**: [165. 비용 기반 옵티마이저 (CBO, Cost Based Optimizer) - 시스템 통계 정보 기반, 디스크 I/O 등 최소 비용](/knowledge-base/studynote/05_database/03_relational_model/165_cbo_cost_based_optimizer/)
-**다음**: [167. 힌트 (Hint) - 개발자가 옵티마이저에게 접근 경로를 명시적으로 지시 (/*+ INDEX(EMP IDX_01) */ 등)](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) →
+<- **이전**: [165. 비용 기반 옵티마이저 (CBO, Cost Based Optimizer) - 시스템 통계 정보 기반, 디스크 I/O 등 최소 비용](/knowledge-base/studynote/05_database/03_relational_model/165_cbo_cost_based_optimizer/)
+**다음**: [167. 힌트 (Hint) - 개발자가 옵티마이저에게 접근 경로를 명시적으로 지시 (/*+ INDEX(EMP IDX_01) */ 등)](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) ->
 
 ---

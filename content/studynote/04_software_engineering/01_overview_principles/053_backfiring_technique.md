@@ -32,22 +32,22 @@ tags = ["studynote-software-engineering"]
 백파이어링의 핵심은 "프로그래밍 언어의 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 레벨이 다르면 동일한 기능을 구현하는 데 필요한 코드 라인 수도 다르다"는 절대 원칙에 기반한다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│           백파이어링(Backfiring) 기능 점수 역산 모델 로직     │
-├────────────────────────────────────────────────────────┤
-│   [ 공식 ]                                             │
-│   기능 점수(FP) = 소스 코드 라인 수(SLOC) / 언어별 환산 계수 │
-│                                                        │
-│   [ 프로그래밍 언어별 1 FP당 평균 라인 수 (환산 계수 통계) ]  │
-│   - 어셈블리어 (Assembly) : 320 줄 (저급 언어, 매우 김)       │
-│   - C 언어               : 128 줄                      │
-│   - 코볼 (COBOL)         : 105 줄                      │
-│   - C++ / Java           : 53 줄 (객체지향, 짧아짐)          │
-│   - 파이썬 (Python)       : 24 줄 (고급 스크립트, 매우 짧음)     │
-│                                                        │
-│ * 역산 예시: 53,000줄짜리 Java 레거시 코드를 발견했다면?      │
-│   ──▶ 53,000 / 53 (환산 계수) = 대략 "1,000 FP"의 규모!       │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|           백파이어링(Backfiring) 기능 점수 역산 모델 로직     |
++--------------------------------------------------------+
+|   [ 공식 ]                                             |
+|   기능 점수(FP) = 소스 코드 라인 수(SLOC) / 언어별 환산 계수 |
+|                                                        |
+|   [ 프로그래밍 언어별 1 FP당 평균 라인 수 (환산 계수 통계) ]  |
+|   - 어셈블리어 (Assembly) : 320 줄 (저급 언어, 매우 김)       |
+|   - C 언어               : 128 줄                      |
+|   - 코볼 (COBOL)         : 105 줄                      |
+|   - C++ / Java           : 53 줄 (객체지향, 짧아짐)          |
+|   - 파이썬 (Python)       : 24 줄 (고급 스크립트, 매우 짧음)     |
+|                                                        |
+| * 역산 예시: 53,000줄짜리 Java 레거시 코드를 발견했다면?      |
+|   ---> 53,000 / 53 (환산 계수) = 대략 "1,000 FP"의 규모!       |
++--------------------------------------------------------+
 ```
 
 이 통계적 환산표를 거치면, 개발 언어에 상관없이 이 소프트웨어가 궁극적으로 사용자에게 제공하는 '비즈니스적 가치([기능 점수](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/))'의 객관적 지표로 시스템의 덩치를 표준화할 수 있다.
@@ -109,21 +109,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 개발 전 규모 산정 지표로서의 LOC(Line of Code) 한계 (언어별 편차 심각)
-    │
-    ▼
+    |
+    v
 기능 중심의 표준 지표 FP (Function Point) 도입
-    │
-    ▼
+    |
+    v
 레거시 시스템 유지보수 시대 도래 (설계 문서 유실로 FP 산정 불가 현상)
-    │
-    ▼
+    |
+    v
 과거 통계 데이터(언어별 생산성) 기반의 백파이어링(Backfiring) 기법 창안
-    │
-    ▼
+    |
+    v
 소프트웨어 자산 관리 및 차세대 마이그레이션(Migration) 예산 산정의 표준으로 정착
 ```
 
-이 흐름도는 "코드 중심 → 설계 중심([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)) → 레거시 환경의 제약 직면 → 과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(통계)를 활용한 역방향 추정 모델의 개발"로 귀결되는 소프트웨어 규모 산정(Size Estimation) 기법의 진화사를 보여준다.
+이 흐름도는 "코드 중심 -> 설계 중심([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)) -> 레거시 환경의 제약 직면 -> 과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(통계)를 활용한 역방향 추정 모델의 개발"로 귀결되는 소프트웨어 규모 산정(Size Estimation) 기법의 진화사를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -137,7 +137,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 53 / 973
 
-← **이전**: [52. 와이드밴드 델파이 (Wideband Delphi)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/052_wideband_delphi/)
-**다음**: [54. 브룩스의 법칙 (Brooks' Law)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/054_brooks_law/) →
+<- **이전**: [52. 와이드밴드 델파이 (Wideband Delphi)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/052_wideband_delphi/)
+**다음**: [54. 브룩스의 법칙 (Brooks' Law)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/054_brooks_law/) ->
 
 ---

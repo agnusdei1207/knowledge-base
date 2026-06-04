@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [FEC 실시간 비디오 손실 은닉 기법 미디어…]
-    │
-    ▼
+    |
+    v
 [MOS]
-    │
-    └──▶ [네트워크 코딩]
+    |
+    +---> [네트워크 코딩]
 ```
 
 - **📢 섹션 요약 비유**: MOS는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -49,11 +49,11 @@ tags = ["studynote-network"]
 
 ```text
 [FEC 실시간 비디오 손실 은닉 기법 미디어…]
-    │
-    ▼
+    |
+    v
 [MOS]
-    │
-    └──▶ [네트워크 코딩]
+    |
+    +---> [네트워크 코딩]
 ```
 
 - **📢 섹션 요약 비유**: MOS의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -117,12 +117,12 @@ MOS는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 주
 
 ```text
 [선행 개념: FEC 실시간 비디오 손실 은닉 기법 미디어…]
-    │
-    ▼
+    |
+    v
 [현재 개념: MOS]
-    │
-    ├──▶ [확장 A: 네트워크 코딩]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
+    |
+    +---> [확장 A: 네트워크 코딩]
+    +---> [확장 B: 의미 기반 통신 최적화]
 ```
 
 MOS는 FEC 실시간 비디오 손실 은닉 기법 미디어…에서 출발해 현재 메커니즘을 정교화하고, 이후 [네트워크 코딩](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/910_network_coding_algebraic_packet_combination/)와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -139,7 +139,7 @@ MOS는 FEC 실시간 비디오 손실 은닉 기법 미디어…에서 출발해
 
 **진행 상황**: 1030 / 1120
 
-← **이전**: [908. FEC 실시간 비디오 손실 은닉 기법 미디어 품질 보상 (에러 패킷 무시 보간 재생 보정망 통신 대역 폭증 대비 잉여 비트 기술](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/908_fec_error_concealment_video_streaming_quality_compensation/)
-**다음**: [910. 네트워크 코딩 (Network Coding 중간 노드가 패킷 스토어 앤 포워드가 아닌 대수적 연산 병합/조합 전송 대역폭 절감](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/910_network_coding_algebraic_packet_combination/) →
+<- **이전**: [908. FEC 실시간 비디오 손실 은닉 기법 미디어 품질 보상 (에러 패킷 무시 보간 재생 보정망 통신 대역 폭증 대비 잉여 비트 기술](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/908_fec_error_concealment_video_streaming_quality_compensation/)
+**다음**: [910. 네트워크 코딩 (Network Coding 중간 노드가 패킷 스토어 앤 포워드가 아닌 대수적 연산 병합/조합 전송 대역폭 절감](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/910_network_coding_algebraic_packet_combination/) ->
 
 ---

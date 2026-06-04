@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [SMF]
-    │
-    ▼
+    |
+    v
 [PCF]
-    │
-    └──▶ [네트워크 슬라이싱]
+    |
+    +---> [네트워크 슬라이싱]
 ```
 
 - **📢 섹션 요약 비유**: PCF는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -42,11 +42,11 @@ tags = ["studynote-network"]
 
 ```text
 [SMF]
-    │
-    ▼
+    |
+    v
 [PCF]
-    │
-    └──▶ [네트워크 슬라이싱]
+    |
+    +---> [네트워크 슬라이싱]
 ```
 
 - **📢 섹션 요약 비유**: PCF는 놀이공원의 '매직패스(VIP) 운영 위원회'입니다. 놀이공원 입구(기지국)나 롤러코스터 줄 서는 곳(UPF 톨게이트)의 말단 직원들은 승객의 등급을 모릅니다. 이때 펜트하우스에 있는 운영 위원회(PCF)가 컴퓨터로 전체 직원들에게 규정집을 하달합니다. "검은색 매직패스 팔찌 찬 사람(VIP 요금제) 오면 일반 줄 세우지 말고 무조건 하이패스로 통과시키고, 빨간색 팔찌 찬 사람([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소진자)은 대기 시간 30분 늘려라!" 5G의 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 속도 조절과 우선순위 차별은 이 PCF의 도장 하나로 시작되고 끝납니다.
@@ -112,12 +112,12 @@ PCF는 차세대 통신 아키텍처를 이해할 때 핵심 축을 잡아 주�
 
 ```text
 [선행 개념: SMF]
-    │
-    ▼
+    |
+    v
 [현재 개념: PCF]
-    │
-    ├──▶ [확장 A: 네트워크 슬라이싱]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
+    |
+    +---> [확장 A: 네트워크 슬라이싱]
+    +---> [확장 B: AI 기반 네트워크 최적화]
 ```
 
 PCF는 SMF에서 출발해 현재 메커니즘을 정교화하고, 이후 [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -134,7 +134,7 @@ PCF는 SMF에서 출발해 현재 메커니즘을 정교화하고, 이후 [네�
 
 **진행 상황**: 893 / 1120
 
-← **이전**: [771. SMF (Session Management Function)](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/)
-**다음**: [773. 네트워크 슬라이싱 (Network Slicing 물리적 동일망 복수의 이종 독립 논리적 인스턴스 전용망 분할 보안, QoS 격리(eMBB/URLLC/mMTC)](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/773_network_slicing_qos_isolation_nfv/) →
+<- **이전**: [771. SMF (Session Management Function)](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/)
+**다음**: [773. 네트워크 슬라이싱 (Network Slicing 물리적 동일망 복수의 이종 독립 논리적 인스턴스 전용망 분할 보안, QoS 격리(eMBB/URLLC/mMTC)](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/773_network_slicing_qos_isolation_nfv/) ->
 
 ---

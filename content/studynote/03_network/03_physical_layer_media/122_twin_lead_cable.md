@@ -27,9 +27,9 @@ tags = ["studynote-network"]
 ```text
 [평행 2선식 케이블의 노이즈 취약성]
 
-   외부 노이즈 소스 (모터, 무선전파) ───( EMI 파동 방사 )──→
-                                        │ (강한 영향)     │ (약한 영향)
-   도선 1 (Signal)   ===================▼=================▼==== (+)
+   외부 노이즈 소스 (모터, 무선전파) ---( EMI 파동 방사 )--->
+                                        | (강한 영향)     | (약한 영향)
+   도선 1 (Signal)   ===================v=================v==== (+)
    절연체 띠 (Ribbon) ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
    도선 2 (Return)   ========================================== (-)
 
@@ -57,15 +57,15 @@ tags = ["studynote-network"]
 
 아래는 평행 도선에서 발생하는 전자기장 분포와 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 누설의 메커니즘을 보여주는 상태 비교도이다.
 ```text
-┌───────────────── [ 평행 도선의 전자기장 ] ────────────────┐
-│   (+전압) 도선 1 :  (+) ─→ 전류 방향                   │
-│                     ↑     ↓  (전기장 E 형성)           │
-│   (-전압) 도선 2 :  (-) ←─ 반대 전류 방향              │
-│                                                         │
-│   * 문제점: 자기장(B)과 전기장(E)이 도선 밖으로 넓게 퍼짐 │
-│   * 결과 1: 선로 자체가 거대한 안테나처럼 작동하여 에너지 유실 (방사 손실)
-│   * 결과 2: 주변에 철제 창틀(금속)이 있으면 임피던스 300Ω이 순식간에 깨짐 (반사 발생)
-└─────────────────────────────────────────────────────────┘
++----------------- [ 평행 도선의 전자기장 ] ----------------+
+|   (+전압) 도선 1 :  (+) --> 전류 방향                   |
+|                     ^     v  (전기장 E 형성)           |
+|   (-전압) 도선 2 :  (-) <-- 반대 전류 방향              |
+|                                                         |
+|   * 문제점: 자기장(B)과 전기장(E)이 도선 밖으로 넓게 퍼짐 |
+|   * 결과 1: 선로 자체가 거대한 안테나처럼 작동하여 에너지 유실 (방사 손실)
+|   * 결과 2: 주변에 철제 창틀(금속)이 있으면 임피던스 300Ω이 순식간에 깨짐 (반사 발생)
++---------------------------------------------------------+
 ```
 이 해설의 핵심은 고주파 교류 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 흐를 때 평행 2선은 단순히 전기를 전달하는 파이프가 아니라, 주변 공간 전체에 전자기장을 퍼뜨리는 개방된 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 되어버린다는 점이다. 선로 자체가 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 외부로 발산(Radiation)하므로 감쇠가 심하고, 빗물이 묻거나 쇠붙이 근처를 지나가기만 해도 유전율이 변하여 특성 [임피던스](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/)가 틀어진다. [임피던스](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/)가 틀어지면 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 수신단에 도달하지 못하고 반사되어 돌아오는 반사파(Reflection) 왜곡 현상이 발생한다.
 
@@ -105,15 +105,15 @@ tags = ["studynote-network"]
 
 ```text
 [임피던스 불일치 해결 의사결정 플로우]
-  (300Ω 평행 2선 수신부) ◀──(연결 시도)──▶ (75Ω 동축 케이블 송신부)
-         │
-         ▼
-[단순 물리적 직결?] ──(Yes)──> 임피던스 붕괴, 정상 동작 불가 (신호 반사율 60% 이상)
-         │
+  (300Ω 평행 2선 수신부) <---(연결 시도)---> (75Ω 동축 케이블 송신부)
+         |
+         v
+[단순 물리적 직결?] --(Yes)--> 임피던스 붕괴, 정상 동작 불가 (신호 반사율 60% 이상)
+         |
        (No)
-         │
-         ▼
-[매칭 트랜스포머(Balun) 삽입] ──> 임피던스 변환(300Ω ↔ 75Ω) 및 평형/불평형 변환 성공
+         |
+         v
+[매칭 트랜스포머(Balun) 삽입] --> 임피던스 변환(300Ω ↔ 75Ω) 및 평형/불평형 변환 성공
 ```
 이 트리의 핵심은 평행 2선식은 본질적으로 양 선이 전기적으로 대칭인 **평형(Balanced)** 선로라는 점이다. 반면 [동축 케이블](/knowledge-base/studynote/03_network/03_physical_layer_media/127_coaxial_cable/)이나 대부분의 현대 포트는 기준 접지가 있는 불평형(Unbalanced) 포트이다. 따라서 단순히 커넥터를 물리적으로 잇는 것이 아니라, 전자기적 평형 상태를 조율하는 Balun(발룬) 장비 개입이 물리 계층 인터페이스의 필수 조건이 된다.
 
@@ -154,12 +154,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 매체 구분: 유도 매체 vs 비유도 매체]
-    │
-    ▼
+    |
+    v
 [현재 개념: 평행 2선식 케이블]
-    │
-    ├──▶ [확장 A: 꼬임 쌍선 케이블]
-    └──▶ [확장 B: 고속 광전송 최적화]
+    |
+    +---> [확장 A: 꼬임 쌍선 케이블]
+    +---> [확장 B: 고속 광전송 최적화]
 ```
 
 평행 2선식 케이블는 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 구분: 유도 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) vs 비유도 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)에서 출발해 현재 메커니즘을 정교화하고, 이후 꼬임 쌍선 케이블와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -176,7 +176,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 243 / 1120
 
-← **이전**: [121. 매체(Media) 구분: 유도 매체 (Guided) vs 비유도 매체 (Unguided)](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)
-**다음**: [123. 꼬임 쌍선 케이블 (Twisted Pair Cable)](/knowledge-base/studynote/03_network/03_physical_layer_media/123_twisted_pair_cable/) →
+<- **이전**: [121. 매체(Media) 구분: 유도 매체 (Guided) vs 비유도 매체 (Unguided)](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)
+**다음**: [123. 꼬임 쌍선 케이블 (Twisted Pair Cable)](/knowledge-base/studynote/03_network/03_physical_layer_media/123_twisted_pair_cable/) ->
 
 ---

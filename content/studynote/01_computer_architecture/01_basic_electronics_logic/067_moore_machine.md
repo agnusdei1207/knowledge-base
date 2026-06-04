@@ -97,11 +97,11 @@ Moore Machine은 안정적인 출력이 필요한 제어 시스템에서 유용�
 
 ```text
 State
-  ↓
+  v
 Moore Machine
-  ↓
+  v
 Output by State
-  ↓
+  v
 Sequential Control
 ```
 
@@ -111,11 +111,11 @@ Sequential Control
 
 ```text
 FSM
-  ↓
+  v
 Moore Machine
-  ↓
+  v
 Mealy Machine
-  ↓
+  v
 Control Logic
 ```
 
@@ -133,7 +133,7 @@ Control Logic
 
 **진행 상황**: 67 / 803
 
-← **이전**: [66. 상태표 (State Table)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/066_state_table/)
-**다음**: [68. 밀리 머신 (Mealy Machine)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/068_mealy_machine/) →
+<- **이전**: [66. 상태표 (State Table)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/066_state_table/)
+**다음**: [68. 밀리 머신 (Mealy Machine)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/068_mealy_machine/) ->
 
 ---

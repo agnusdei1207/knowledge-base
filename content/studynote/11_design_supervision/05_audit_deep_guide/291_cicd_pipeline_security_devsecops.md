@@ -21,24 +21,24 @@ tags = ["studynote-design-supervision"]
 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인 보안과 [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) 감리는 [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)·배포([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD) 파이프라인과 [데브섹옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/)([DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/)) 통제 체계를 대상으로 설계 기준과 운영 결과가 같은 방향으로 움직이는지 판단하는 감리 항목이다. 클라우드와 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 중심 구조가 확대되면서 경계 보안보다 최소 권한, [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), 탐지·대응까지 포함한 보안 운영이 중요해졌다. 특히 비밀정보 스캔이 기준선으로 정리되지 않으면 산출물 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)은 사람 의존 절차로 흩어지고, 최종적으로 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 게이트가 남지 않아 의사결정이 감각에 의존하게 된다. 이를 놓치면 단일 취약점이 침해 사고, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단, 법적 책임으로 확대된다.
 
 ```text
-┌──────────────────┐
-│ 요구사항·위험 인식 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 비밀정보 스캔 기준 수립 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 산출물 무결성 설계 반영 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 정책 게이트 증적 확보 │
-└──────────────────┘
++------------------+
+| 요구사항·위험 인식 |
++--------+---------+
+         |
+         v
++------------------+
+| 비밀정보 스캔 기준 수립 |
++--------+---------+
+         |
+         v
++------------------+
+| 산출물 무결성 설계 반영 |
++--------+---------+
+         |
+         v
++------------------+
+| 정책 게이트 증적 확보 |
++------------------+
 ```
 - **📢 섹션 요약 비유**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인 보안과 [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) 감리는 설계도만 보는 검토가 아니라, 건물의 구조도와 실제 비상구 작동 여부를 함께 확인하는 점검과 같다.
 
@@ -54,14 +54,14 @@ tags = ["studynote-design-supervision"]
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 증적 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 게이트를 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 보고서, 테스트, 승인 이력으로 남긴다. | 재현 가능한 증적이 있어야 시정조치가 닫힌다. |
 
 ```text
-┌──────────────────┐      ┌──────────────────┐
-│ 정책·표준 계층    │ ───▶ │ 구현·운영 계층    │
-└────────┬─────────┘      └────────┬─────────┘
-         │                           │
-         ▼                           ▼
-┌──────────────────┐ ◀──── ┌──────────────────┐
-│ 모니터링·증적 계층 │      │ 시정조치·개선 계층 │
-└──────────────────┘      └──────────────────┘
++------------------+      +------------------+
+| 정책·표준 계층    | ----> | 구현·운영 계층    |
++--------+---------+      +--------+---------+
+         |                           |
+         v                           v
++------------------+ <----- +------------------+
+| 모니터링·증적 계층 |      | 시정조치·개선 계층 |
++------------------+      +------------------+
 ```
 - **📢 섹션 요약 비유**: 비밀정보 스캔, 산출물 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 게이트는 따로 도는 바퀴가 아니라 서로 맞물린 톱니바퀴라서 하나라도 헛돌면 전체 통제가 무너진다.
 
@@ -102,7 +102,7 @@ tags = ["studynote-design-supervision"]
 - 확장 개념: [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 운영([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) Operations)
 
 ### 📈 관련 키워드 및 발전 흐름도
-[비밀정보 스캔] → CI/CD 파이프라인 보안과 [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) 감리] → [제로 트러스트 운영([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) Operations)]
+[비밀정보 스캔] -> CI/CD 파이프라인 보안과 [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) 감리] -> [제로 트러스트 운영([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) Operations)]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 비밀정보 스캔은 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
@@ -115,7 +115,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 352 / 530
 
-← **이전**: [290. 무중단 배포 카나리 블루그린 감리 (Zero Downtime Canary Blue Green Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/290_zero_downtime_canary_bluegreen/)
-**다음**: [292. 로그 무결성과 WORM 포렌식 감리 (Log Integrity WORM Forensics Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/292_log_integrity_worm_forensics/) →
+<- **이전**: [290. 무중단 배포 카나리 블루그린 감리 (Zero Downtime Canary Blue Green Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/290_zero_downtime_canary_bluegreen/)
+**다음**: [292. 로그 무결성과 WORM 포렌식 감리 (Log Integrity WORM Forensics Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/292_log_integrity_worm_forensics/) ->
 
 ---

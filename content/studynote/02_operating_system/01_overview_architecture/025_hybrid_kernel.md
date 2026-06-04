@@ -21,18 +21,18 @@ tags = ["studynote-operating-system"]
 순수 모놀리식과 순수 [마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/)의 극단적 트레이드오프 사이에서, 하이브리드 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 실용적 중간 지점을 찾는다.
 
 ```text
-┌────────────────────────────────────────────────────────────┐
-│           커널 설계 스펙트럼                                 │
-├────────────────────────────────────────────────────────────┤
-│                                                            │
-│  모놀리식         하이브리드          마이크로커널             │
-│  (Linux)         (Windows, macOS)    (QNX, seL4)           │
-│    │                  │                  │                 │
-│  성능 ↑↑           성능 ↑              성능 ~               │
-│  안정성 ↓          안정성 ↑             안정성 ↑↑            │
-│  모듈성 ↓          모듈성 ↑             모듈성 ↑↑            │
-│                                                            │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|           커널 설계 스펙트럼                                 |
++------------------------------------------------------------+
+|                                                            |
+|  모놀리식         하이브리드          마이크로커널             |
+|  (Linux)         (Windows, macOS)    (QNX, seL4)           |
+|    |                  |                  |                 |
+|  성능 ^^           성능 ^              성능 ~               |
+|  안정성 v          안정성 ^             안정성 ^^            |
+|  모듈성 v          모듈성 ^             모듈성 ^^            |
+|                                                            |
++------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 하이브리드 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 스포츠카(모놀리식 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))와 SUV([마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/) 안정성)의 장점을 합친 크로스오버 차량이다. 완벽하지 않지만 일상과 험로 모두에서 실용적이다.
@@ -44,17 +44,17 @@ tags = ["studynote-operating-system"]
 ### macOS XNU 하이브리드 구조
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│  macOS XNU = Mach(마이크로커널) + BSD(모놀리식) 통합        │
-├──────────────────────────────────────────────────────────┤
-│                                                          │
-│  사용자 공간:  [앱] [POSIX API] [Darwin 프레임워크]        │
-│        │                                                 │
-│  커널 공간:                                               │
-│  ├─ Mach 레이어: IPC, 가상 메모리, 스레드 스케줄러          │
-│  ├─ BSD 레이어: POSIX API, 파일시스템, 네트워킹             │
-│  └─ I/O Kit: C++ 기반 드라이버 프레임워크                  │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|  macOS XNU = Mach(마이크로커널) + BSD(모놀리식) 통합        |
++----------------------------------------------------------+
+|                                                          |
+|  사용자 공간:  [앱] [POSIX API] [Darwin 프레임워크]        |
+|        |                                                 |
+|  커널 공간:                                               |
+|  +- Mach 레이어: IPC, 가상 메모리, 스레드 스케줄러          |
+|  +- BSD 레이어: POSIX API, 파일시스템, 네트워킹             |
+|  +- I/O Kit: C++ 기반 드라이버 프레임워크                  |
++----------------------------------------------------------+
 ```
 
 ### Windows NT 하이브리드 구조
@@ -128,17 +128,17 @@ tags = ["studynote-operating-system"]
 
 ```text
 [모놀리식 커널 — 단순, 고성능, 낮은 안정성]
-    │
-    ▼
+    |
+    v
 [마이크로커널 — 높은 안정성, IPC 오버헤드]
-    │
-    ▼
+    |
+    v
 [하이브리드 커널 — 실용적 절충 (Windows NT, macOS XNU)]
-    │
-    ▼
+    |
+    v
 [하이퍼바이저 통합 — VM 기반 OS 격리 (Hyper-V, KVM)]
-    │
-    ▼
+    |
+    v
 [WSL2 / 컨테이너 — 경량 VM 커널 격리]
 ```
 
@@ -154,7 +154,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 25 / 800
 
-← **이전**: [24. 마이크로커널 (Microkernel) — 최소 핵심, 최대 신뢰성](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/)
-**다음**: [26. 엑소커널 (Exokernel) — 하드웨어 추상화 최소화 아키텍처](/knowledge-base/studynote/02_operating_system/01_overview_architecture/026_exokernel/) →
+<- **이전**: [24. 마이크로커널 (Microkernel) — 최소 핵심, 최대 신뢰성](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/)
+**다음**: [26. 엑소커널 (Exokernel) — 하드웨어 추상화 최소화 아키텍처](/knowledge-base/studynote/02_operating_system/01_overview_architecture/026_exokernel/) ->
 
 ---

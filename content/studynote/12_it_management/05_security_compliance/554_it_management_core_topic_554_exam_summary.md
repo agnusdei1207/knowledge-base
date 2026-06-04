@@ -12,9 +12,9 @@ tags = ["studynote-it-management"]
 ```markdown
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 정보관리기술사 554번은 단순 IT 기술이 아닌 **COBIT 2019 · ISO/IEC 38500 · TOGAF · ITIL 4 · PMBOK 7** 등 프레임워크를 매개로 *“IT-Business Alignment → Value Delivery → Risk Optimization → Resource Governance”* 4대 축을 통합해 **전사 정보화 사업의 기획-발주-구축-운영-평가 전生命周期(PLC)**을 거버넌스하는 능력이다.
+> 1. **본질**: 정보관리기술사 554번은 단순 IT 기술이 아닌 **COBIT 2019 · ISO/IEC 38500 · TOGAF · ITIL 4 · PMBOK 7** 등 프레임워크를 매개로 *“IT-Business Alignment -> Value Delivery -> Risk Optimization -> Resource Governance”* 4대 축을 통합해 **전사 정보화 사업의 기획-발주-구축-운영-평가 전生命周期(PLC)**을 거버넌스하는 능력이다.
 > 2. **가치**: 정량적으로는 **정보화 투자 B/C(비용편익비) ≥ 1.0**, **NPV ≥ 0**, **IRR ≥ 할인율(통상 4.5~5.5%)** 기준 충족 시 **1조 원 투자 시 약 1,800억 원의 사회적 할인율 5% 기준 편익** 창출 가능. 정성적으로는 **ISO 38500 6원칙(책임·전략·취득·성과·규율·인간·환경)** 충족 시 이사회-경영진-IT 부서 간 *“Three Lines Model”* 리스크 방어선 구축.
-> 3. **판단 포인트**: ① 거버넌스 모델 선택(**Centralized vs Federated vs Hybrid**), ② EA 추진 방식(**Top-Down vs Bottom-Up vs Middle-Out**), ③ 사업 방법론(**Plan-Driven Waterfall vs Agile Scrum vs DevSecOps**), ④ 조달 모델(**Build vs Buy vs SaaS vs Hyperscaler Public Cloud**), ⑤ 재무 구조(**CapEx → OpEx 전환 시 회계처리(ASC 606 / K-IFRS 1115)** 영향 분석)이 핵심 트레이드오프.
+> 3. **판단 포인트**: ① 거버넌스 모델 선택(**Centralized vs Federated vs Hybrid**), ② EA 추진 방식(**Top-Down vs Bottom-Up vs Middle-Out**), ③ 사업 방법론(**Plan-Driven Waterfall vs Agile Scrum vs DevSecOps**), ④ 조달 모델(**Build vs Buy vs SaaS vs Hyperscaler Public Cloud**), ⑤ 재무 구조(**CapEx -> OpEx 전환 시 회계처리(ASC 606 / K-IFRS 1115)** 영향 분석)이 핵심 트레이드오프.
 ```
 
 ---
@@ -61,7 +61,7 @@ tags = ["studynote-it-management"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-IT 경영관리의 아키텍처는 크게 **① 거버넌스 레이어, ② 전략·아키텍처 레이어, ③ 서비스·운영 레이어** 3계층으로 구성되며, 각 계층은 *“전략(Strategy) → 아키텍처(Design) → 실행(Delivery) → 운영(Operation) → 측정(Measurement)”*의 Value Chain으로 연결된다. 이를 **IT 거버넌스 3-축 통합 모델**이라 한다.
+IT 경영관리의 아키텍처는 크게 **① 거버넌스 레이어, ② 전략·아키텍처 레이어, ③ 서비스·운영 레이어** 3계층으로 구성되며, 각 계층은 *“전략(Strategy) -> 아키텍처(Design) -> 실행(Delivery) -> 운영(Operation) -> 측정(Measurement)”*의 Value Chain으로 연결된다. 이를 **IT 거버넌스 3-축 통합 모델**이라 한다.
 
 ```text
 +================================================================================+
@@ -72,7 +72,7 @@ IT 경영관리의 아키텍처는 크게 **① 거버넌스 레이어, ② 전�
 |  +--------+--------+  +--------+--------+  +--------+--------+  +------+-------+
 |           |                     |                     |                |
 |           v                     v                     v                v
-|  ISO/IEC 38500 6원칙 적용: Responsibility, Strategy, Acquisition, Performance, 
+|  ISO/IEC 38500 6원칙 적용: Responsibility, Strategy, Acquisition, Performance,
 |                                              Conformance, Human Behavior
 +================================================================================+
            |                     |                     |
@@ -123,7 +123,7 @@ IT 경영관리의 아키텍처는 크게 **① 거버넌스 레이어, ② 전�
 
 **진행 상황**: 554 / 800
 
-← **이전**: [553. IT 경영 관리 핵심 토픽 553번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/553_it_management_core_topic_553_exam_summary/)
-**다음**: [555. IT 경영 관리 핵심 토픽 555번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/555_it_management_core_topic_555_exam_summary/) →
+<- **이전**: [553. IT 경영 관리 핵심 토픽 553번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/553_it_management_core_topic_553_exam_summary/)
+**다음**: [555. IT 경영 관리 핵심 토픽 555번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/555_it_management_core_topic_555_exam_summary/) ->
 
 ---

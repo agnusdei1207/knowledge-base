@@ -45,29 +45,29 @@ Anthropic이 제시한 [AI](/knowledge-base/studynote/04_software_engineering/03
 ### RLHF 3단계 파이프라인
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                    RLHF 파이프라인                           │
-│                                                             │
-│  1단계: SFT (Supervised Fine-Tuning)                       │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │  사전훈련 LLM + 인간 작성 고품질 프롬프트-응답 쌍     │   │
-│  │  → 지시사항 따르기 기초 능력 획득                     │   │
-│  └────────────────────────┬────────────────────────────┘   │
-│                            │                               │
-│  2단계: RM (Reward Model 학습)                             │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │  동일 프롬프트에 대해 여러 응답 생성                   │   │
-│  │  인간 평가자가 응답 쌍을 비교하여 선호도 레이블링       │   │
-│  │  → 보상 모델(Reward Model) 학습                      │   │
-│  └────────────────────────┬────────────────────────────┘   │
-│                            │                               │
-│  3단계: PPO (강화 학습으로 LLM 최적화)                     │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │  SFT 모델이 응답 생성 → RM이 보상 점수 부여            │   │
-│  │  PPO 알고리즘으로 보상 최대화하는 방향으로 정책 업데이트│   │
-│  │  KL Divergence 페널티로 원래 LLM과 너무 달라지지 않게  │   │
-│  └─────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                    RLHF 파이프라인                           |
+|                                                             |
+|  1단계: SFT (Supervised Fine-Tuning)                       |
+|  +-----------------------------------------------------+   |
+|  |  사전훈련 LLM + 인간 작성 고품질 프롬프트-응답 쌍     |   |
+|  |  -> 지시사항 따르기 기초 능력 획득                     |   |
+|  +------------------------+----------------------------+   |
+|                            |                               |
+|  2단계: RM (Reward Model 학습)                             |
+|  +-----------------------------------------------------+   |
+|  |  동일 프롬프트에 대해 여러 응답 생성                   |   |
+|  |  인간 평가자가 응답 쌍을 비교하여 선호도 레이블링       |   |
+|  |  -> 보상 모델(Reward Model) 학습                      |   |
+|  +------------------------+----------------------------+   |
+|                            |                               |
+|  3단계: PPO (강화 학습으로 LLM 최적화)                     |
+|  +-----------------------------------------------------+   |
+|  |  SFT 모델이 응답 생성 -> RM이 보상 점수 부여            |   |
+|  |  PPO 알고리즘으로 보상 최대화하는 방향으로 정책 업데이트|   |
+|  |  KL Divergence 페널티로 원래 LLM과 너무 달라지지 않게  |   |
+|  +-----------------------------------------------------+   |
++-------------------------------------------------------------+
 ```
 
 ### 주요 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)
@@ -87,7 +87,7 @@ maximize E[r(x,y)] - β·KL(πθ || πref)
 
 r(x,y): 보상 모델 점수
 β·KL:   원래 LLM(πref)과의 편차 페널티
-→ "사람이 좋아하는 응답"과 "기본 언어 능력 유지" 동시 달성
+-> "사람이 좋아하는 응답"과 "기본 언어 능력 유지" 동시 달성
 ```
 
 📢 **섹션 요약 비유**: RLHF는 <strong>요리 대회 피드백 시스템</strong>이다. 심사위원(인간 평가자)이 맛을 평가하고, 요리사([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))는 그 점수를 높이는 방향으로 레시피를 개선한다. 다만 너무 이상한 요리가 되지 않도록 기본 조리법(SFT 모델)과 너무 멀어지면 페널티를 준다.
@@ -116,7 +116,7 @@ L = -log σ[β·log(πθ(yw|x)/πref(yw|x))
          - β·log(πθ(yl|x)/πref(yl|x))]
 
 yw: 선호 응답, yl: 비선호 응답
-→ RM 없이 선호 쌍만으로 학습
+-> RM 없이 선호 쌍만으로 학습
 ```
 
 ### [CoT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/) ([Chain-of-Thought](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/)) 프롬프팅
@@ -126,11 +126,11 @@ RLHF와 함께 추론 능력 향상에 쓰이는 핵심 기법:
 ```
 일반 프롬프팅:
 "24 × 17 = ?"
-→ LLM: "408"
+-> LLM: "408"
 
 CoT 프롬프팅:
 "24 × 17 = ? 단계별로 생각해보자."
-→ LLM: "24 × 17 = 24 × 10 + 24 × 7
+-> LLM: "24 × 17 = 24 × 10 + 24 × 7
               = 240 + 168 = 408"
 ```
 
@@ -208,14 +208,14 @@ RLHF는 <strong>AI를 도구에서 파트너로 전환</strong>시키는 기술�
 
 ```text
 SFT (Supervised Fine-Tuning): 인간 시연 데이터 학습
-    │
-    ▼
-RLHF: Reward Model 학습 → PPO 정책 최적화
-    │
-    ▼
+    |
+    v
+RLHF: Reward Model 학습 -> PPO 정책 최적화
+    |
+    v
 DPO (Direct Preference Optimization): RM 없이 직접 정렬
-    │
-    ▼
+    |
+    v
 Constitutional AI · RLAIF: AI 자가 피드백
 ```
 2. CoT는 <strong>수학 시험에서 풀이 과정을 쓰는 것</strong>과 같아. 답만 쓰면 틀리기 쉽지만, 과정을 적으면 훨씬 정확해져.
@@ -227,7 +227,7 @@ Constitutional AI · RLAIF: AI 자가 피드백
 
 **진행 상황**: 250 / 258
 
-← **이전**: [249. 인스트럭션 파인튜닝 (Instruction Fine-Tuning) PEFT LoRA 저차원 어댑터](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/249_instruction_finetuning_peft_lora_low_rank_adapter/)
-**다음**: [251. 할루시네이션 (Hallucination) RAG (Retrieval Augmented Generation) 벡터 DB](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/) →
+<- **이전**: [249. 인스트럭션 파인튜닝 (Instruction Fine-Tuning) PEFT LoRA 저차원 어댑터](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/249_instruction_finetuning_peft_lora_low_rank_adapter/)
+**다음**: [251. 할루시네이션 (Hallucination) RAG (Retrieval Augmented Generation) 벡터 DB](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/) ->
 
 ---

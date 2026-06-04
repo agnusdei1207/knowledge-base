@@ -11,7 +11,7 @@ tags = ["studynote-bigdata"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 인과 추론(Causal Inference)은 관찰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 또는 실험 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 "X가 Y의 원인인가?" 즉 X를 변화시켰을 때 Y가 어떻게 달라지는가를 통계적으로 추정하는 방법론으로, 단순 상관관계(Correlation) 분석과 근본적으로 다르다.
-> 2. **가치**: 빅데이터 분석의 한계는 대부분 상관관계를 인과관계로 오해하는 것이다. "아이스크림 판매량 증가 → 익사 사고 증가"는 상관관계지만 인과관계가 아니다(공통 원인: 더운 날씨). 인과 추론은 이 혼동변수(Confounder)를 제어하여 실제 인과효과를 추정한다.
+> 2. **가치**: 빅데이터 분석의 한계는 대부분 상관관계를 인과관계로 오해하는 것이다. "아이스크림 판매량 증가 -> 익사 사고 증가"는 상관관계지만 인과관계가 아니다(공통 원인: 더운 날씨). 인과 추론은 이 혼동변수(Confounder)를 제어하여 실제 인과효과를 추정한다.
 > 3. **판단 포인트**: 인과 추론의 황금 기준(Gold Standard)은 무작위 대조 실험(RCT, Randomized Controlled Trial)이다. 그러나 RCT가 불가능한 경우(윤리적, 비용적 제약) 준실험 설계(Quasi-Experimental Design)인 도구 변수([IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)), 이중차분법([DiD](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/)), 회귀 불연속 설계([RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/))를 활용한다.
 
 ---
@@ -19,17 +19,17 @@ tags = ["studynote-bigdata"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│        상관관계 vs. 인과관계 비교                        │
-├────────────────────────────────────────────────────────┤
-│                                                         │
-│ 상관관계:  X ↔ Y  (함께 변한다, 방향 불명)              │
-│                                                         │
-│ 인과관계:  X → Y  (X가 Y를 변화시킨다)                  │
-│            단, Z(혼동변수)를 통제해야 함                 │
-│                                                         │
-│ 예: 광고비(X) → 매출(Y)? vs. 계절(Z) → X, Y 동시 영향?  │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|        상관관계 vs. 인과관계 비교                        |
++--------------------------------------------------------+
+|                                                         |
+| 상관관계:  X ↔ Y  (함께 변한다, 방향 불명)              |
+|                                                         |
+| 인과관계:  X -> Y  (X가 Y를 변화시킨다)                  |
+|            단, Z(혼동변수)를 통제해야 함                 |
+|                                                         |
+| 예: 광고비(X) -> 매출(Y)? vs. 계절(Z) -> X, Y 동시 영향?  |
++--------------------------------------------------------+
 ```
 
 - **�� 섹션 요약 비유**: 상관관계는 "아침에 닭이 울면 해가 뜬다"이다. 함께 발생하지만 닭이 해를 뜨게 하는 것은 아니다. 인과 추론은 닭의 울음이 없어도 해가 뜨는지 실험해보는 것이다.
@@ -45,15 +45,15 @@ tags = ["studynote-bigdata"]
 | **RCT** | 무작위 처치·통제 집단 분리 | A/B 테스트, 임상 실험 |
 | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/">DiD</a> (이중차분법)</strong> | 처치 전후 + 통제 집단 비교 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 효과 평가 |
 | <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/">RDD</a> (회귀 불연속)</strong> | 임계값 전후 집단 비교 | 장학금 vs. 학업 성취도 |
-| <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">IV</a> (도구 변수)</strong> | 외생 변수로 내생성 제거 | 군서비스 → 임금 효과 |
+| <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">IV</a> (도구 변수)</strong> | 외생 변수로 내생성 제거 | 군서비스 -> 임금 효과 |
 | **PSM (성향점수 매칭)** | 비슷한 통제·처치 집단 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 관찰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 준실험 |
 
 ### 반사실적 추론 (Counterfactual)
 
 ```text
 인과효과 추정 = (실제 관찰값) - (처치를 받지 않았다면의 값)
-                                  ↑
-                         이것이 관찰 불가능 → 추정 필요
+                                  ^
+                         이것이 관찰 불가능 -> 추정 필요
 
 RCT: 무작위 배정으로 통제 집단이 반사실적 값의 최선 추정치
 DiD: 처치 전 트렌드로 반사실적 값 외삽
@@ -67,7 +67,7 @@ DiD: 처치 전 트렌드로 반사실적 값 외삽
 
 | 비교 | 전통 ML 예측 | 인과 추론 |
 |:---|:---|:---|
-| **목적** | Y 예측 | X→Y 인과효과 추정 |
+| **목적** | Y 예측 | X->Y 인과효과 추정 |
 | **방법** | 상관관계 패턴 학습 | 혼동변수 통제 |
 | **활용** | [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 회귀 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 효과, 처치 효과 |
 | **한계** | 분포 변화 취약 | RCT 불가 시 가정 필요 |
@@ -87,7 +87,7 @@ DiD: 처치 전 트렌드로 반사실적 값 외삽
 ```text
 처치 집단: 최저임금 인상 적용 지역
 통제 집단: 인상 미적용 인접 지역
-Before/After 비교 → 고용 변화가 최저임금 인상 효과인지 분리
+Before/After 비교 -> 고용 변화가 최저임금 인상 효과인지 분리
 ```
 
 - **📢 섹션 요약 비유**: DiD는 쌍둥이 중 한 명에게만 특별 교육을 시키는 실험이다. 교육 전후 두 쌍둥이의 성적 차이 변화(이중 차이)가 교육의 순수 효과다.
@@ -122,17 +122,17 @@ Before/After 비교 → 고용 변화가 최저임금 인상 효과인지 분리
 
 ```text
 [상관관계 분석 — 패턴 발견, 인과 미규명]
-    │
-    ▼
+    |
+    v
 [인과 추론 (RCT, DiD, IV, RDD) — 혼동변수 통제]
-    │
-    ▼
+    |
+    v
 [인과 그래프 (DAG, SCM) — 인과 구조 시각화]
-    │
-    ▼
+    |
+    v
 [Causal ML — 대규모 관찰 데이터 인과 효과 추정]
-    │
-    ▼
+    |
+    v
 [개인화 정책 학습 — CATE 기반 최적 처치 결정]
 ```
 
@@ -148,7 +148,7 @@ Before/After 비교 → 고용 변화가 최저임금 인상 효과인지 분리
 
 **진행 상황**: 122 / 262
 
-← **이전**: [118. A/B 테스트 (A/B Testing) — 실험적 방법론과 통계적 유의성](/knowledge-base/studynote/16_bigdata/05_analysis/121_ab_testing/)
-**다음**: [NoSQL 아키텍처와 분산 데이터 모델링 (NoSQL Architecture)](/knowledge-base/studynote/16_bigdata/06_nosql/123_nosql_architecture/) →
+<- **이전**: [118. A/B 테스트 (A/B Testing) — 실험적 방법론과 통계적 유의성](/knowledge-base/studynote/16_bigdata/05_analysis/121_ab_testing/)
+**다음**: [NoSQL 아키텍처와 분산 데이터 모델링 (NoSQL Architecture)](/knowledge-base/studynote/16_bigdata/06_nosql/123_nosql_architecture/) ->
 
 ---

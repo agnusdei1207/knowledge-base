@@ -99,11 +99,11 @@ State A --input--> State B
 
 ```text
 State
-  ↓
+  v
 Transition
-  ↓
+  v
 State Diagram
-  ↓
+  v
 FSM / Control Logic
 ```
 
@@ -113,11 +113,11 @@ FSM / Control Logic
 
 ```text
 상태
-  ↓
+  v
 전이
-  ↓
+  v
 상태도
-  ↓
+  v
 상태표
 ```
 
@@ -135,7 +135,7 @@ FSM / Control Logic
 
 **진행 상황**: 65 / 803
 
-← **이전**: [64. 존슨 카운터 (Johnson Counter)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/064_johnson_counter/)
-**다음**: [66. 상태표 (State Table)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/066_state_table/) →
+<- **이전**: [64. 존슨 카운터 (Johnson Counter)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/064_johnson_counter/)
+**다음**: [66. 상태표 (State Table)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/066_state_table/) ->
 
 ---

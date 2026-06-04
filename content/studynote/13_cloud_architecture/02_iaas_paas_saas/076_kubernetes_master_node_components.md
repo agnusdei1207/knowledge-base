@@ -25,15 +25,15 @@ Control Plane이 없으면 배치, 재시작, 장애 [복구](/knowledge-base/st
 
 ```text
 kubectl
-  │
-  ▼
-API Server ───▶ etcd
-  │               ▲
-  ├──▶ Scheduler  │ desired state
-  └──▶ Controller Manager
-        │
-        ▼
-     kubelet ───▶ Pod
+  |
+  v
+API Server ----> etcd
+  |               ^
+  +---> Scheduler  | desired state
+  +---> Controller Manager
+        |
+        v
+     kubelet ----> Pod
 ```
 
 이 흐름의 핵심은 모든 변경이 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Server를 거쳐야 한다는 점이다. 그러면 상태가 기록되고, 다시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)할 수 있다.
@@ -123,17 +123,17 @@ Control Plane이 안정적이면 [쿠버네티스](/knowledge-base/studynote/06_
 
 ```text
 수동 서버 운영
-    │
-    ▼
+    |
+    v
 선언형 배포(YAML)
-    │
-    ▼
+    |
+    v
 API Server / etcd / Scheduler / Controller
-    │
-    ▼
+    |
+    v
 self-healing / autoscaling / HA
-    │
-    ▼
+    |
+    v
 관리형 K8s(EKS, GKE)와 Control Plane 추상화
 ```
 
@@ -151,7 +151,7 @@ self-healing / autoscaling / HA
 
 **진행 상황**: 75 / 371
 
-← **이전**: [75. K8s 클러스터 아키텍처 - 1개 이상의 컨트롤 플레인(마스터 노드)과 여러 개의 데이터 플레인(워커 노드)으로 구성](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/075_kubernetes_k8s_cluster_architecture/)
-**다음**: [77. Kube-API Server - 모든 K8s 명령(kubectl)을 REST API로 수신하고 컴포넌트 간 통신을 중계하는 허브](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/077_kube_api_server_k8s_hub/) →
+<- **이전**: [75. K8s 클러스터 아키텍처 - 1개 이상의 컨트롤 플레인(마스터 노드)과 여러 개의 데이터 플레인(워커 노드)으로 구성](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/075_kubernetes_k8s_cluster_architecture/)
+**다음**: [77. Kube-API Server - 모든 K8s 명령(kubectl)을 REST API로 수신하고 컴포넌트 간 통신을 중계하는 허브](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/077_kube_api_server_k8s_hub/) ->
 
 ---

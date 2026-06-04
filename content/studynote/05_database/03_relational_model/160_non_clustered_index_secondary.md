@@ -33,22 +33,22 @@ tags = ["studynote-database"]
 
 넌클러스터드 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)의 핵심은 리프 노드 (Leaf Node)가 실제 행 전체를 담지 않고, <strong>행 위치를 가리키는 포인터</strong>를 보관한다는 점이다. 이 포인터는 엔진에 따라 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) (RID, Row [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/))일 수도 있고, 클러스터드 키 값일 수도 있다. 따라서 검색은 보통 두 단계로 일어난다. 먼저 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)에서 후보 행을 찾고, 그다음 실제 테이블로 한 번 더 내려가 필요한 컬럼을 읽는다.
 
-아래 그림은 이 "[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 탐색 → 본문 조회" 경로를 보여준다.
+아래 그림은 이 "[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 탐색 -> 본문 조회" 경로를 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│        넌클러스터드 인덱스의 기본 조회 경로                        │
-├────────────────────────────────────────────────────────────────────┤
-│ Query: WHERE email = 'kim@example.com'                             │
-│                                                                    │
-│ [Non-Clustered Index B+Tree]                                       │
-│   root/branch -> leaf: email='kim@example.com' -> row locator      │
-│                                                    │               │
-│                                                    ▼               │
-│ [Base Table or Clustered Data] -> target row fetch -> column read  │
-│                                                                    │
-│ If needed columns are already in index: table lookup can be skipped│
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|        넌클러스터드 인덱스의 기본 조회 경로                        |
++--------------------------------------------------------------------+
+| Query: WHERE email = 'kim@example.com'                             |
+|                                                                    |
+| [Non-Clustered Index B+Tree]                                       |
+|   root/branch -> leaf: email='kim@example.com' -> row locator      |
+|                                                    |               |
+|                                                    v               |
+| [Base Table or Clustered Data] -> target row fetch -> column read  |
+|                                                                    |
+| If needed columns are already in index: table lookup can be skipped|
++--------------------------------------------------------------------+
 ```
 
 이 그림에서 중요한 부분은 마지막 줄이다. [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)에 없는 컬럼을 `SELECT`하면 테이블로 다시 가야 하므로, 랜덤 입출력 (Random I/O) 비용이 늘어난다. 반대로 필요한 컬럼이 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)에 모두 들어 있으면 커버링 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) (Covering [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))가 되어 본문 접근을 생략할 수 있다. 그래서 넌클러스터드 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 설계는 단순히 "검색 컬럼 하나 추가"가 아니라, <strong>조회 경로 전체를 얼마나 짧게 만들 것인가</strong>의 문제다.
@@ -135,15 +135,15 @@ tags = ["studynote-database"]
 
 ```text
 Full Scan 중심 조회
-    │
-    ▼
+    |
+    v
 넌클러스터드 인덱스 도입
-    │
-    ├─ 조건절 탐색 가속
-    ├─ 키 룩업 발생
-    └─ 다중 인덱스 유지 비용 증가
-    │
-    ▼
+    |
+    +- 조건절 탐색 가속
+    +- 키 룩업 발생
+    +- 다중 인덱스 유지 비용 증가
+    |
+    v
 복합 인덱스 · 커버링 인덱스 · 실행 계획 최적화
 ```
 
@@ -161,7 +161,7 @@ Full Scan 중심 조회
 
 **진행 상황**: 160 / 600
 
-← **이전**: [159. 클러스터드 인덱스 (Clustered Index) - 물리적 데이터 정렬 기준, 테이블당 1개 (보통 PK)](/knowledge-base/studynote/05_database/03_relational_model/159_clustered_index_physical_sort/)
-**다음**: [161. 결합 인덱스 (Composite Index) - 2개 이상 컬럼으로 구성 (선행 컬럼 순서 중요)](/knowledge-base/studynote/05_database/03_relational_model/161_composite_index_leading_column/) →
+<- **이전**: [159. 클러스터드 인덱스 (Clustered Index) - 물리적 데이터 정렬 기준, 테이블당 1개 (보통 PK)](/knowledge-base/studynote/05_database/03_relational_model/159_clustered_index_physical_sort/)
+**다음**: [161. 결합 인덱스 (Composite Index) - 2개 이상 컬럼으로 구성 (선행 컬럼 순서 중요)](/knowledge-base/studynote/05_database/03_relational_model/161_composite_index_leading_column/) ->
 
 ---

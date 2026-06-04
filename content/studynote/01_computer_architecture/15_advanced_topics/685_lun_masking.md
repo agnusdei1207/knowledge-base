@@ -36,18 +36,18 @@ LUN 마스킹은 보통 스토리지 컨트롤러가 호스트 [식별자](/know
 아래 그림은 같은 스토리지라도 호스트마다 다른 LUN 목록을 보게 만드는 구조를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  LUN Masking Visibility Flow                │
-├──────────────────────────────────────────────────────────────┤
-│ Host A (WWN-A) ─┐                                           │
-│ Host B (WWN-B) ─┼──▶ SAN Fabric ─▶ Storage Controller       │
-│ Host C (WWN-C) ─┘                 │                         │
-│                                   ├─ Mapping Table          │
-│                                   │   WWN-A -> LUN 10, 11   │
-│                                   │   WWN-B -> LUN 20       │
-│                                   │   WWN-C -> none         │
-│                                   └─ Filtered REPORT LUNS   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  LUN Masking Visibility Flow                |
++--------------------------------------------------------------+
+| Host A (WWN-A) -+                                           |
+| Host B (WWN-B) -+---> SAN Fabric --> Storage Controller       |
+| Host C (WWN-C) -+                 |                         |
+|                                   +- Mapping Table          |
+|                                   |   WWN-A -> LUN 10, 11   |
+|                                   |   WWN-B -> LUN 20       |
+|                                   |   WWN-C -> none         |
+|                                   +- Filtered REPORT LUNS   |
++--------------------------------------------------------------+
 ```
 
 동작 순서는 단순하지만 중요하다. 첫째, 관리자는 호스트의 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)를 등록한다. 둘째, LUN을 호스트 또는 호스트 그룹에 매핑한다. 셋째, 서버가 장치 검색 명령을 보내면 컨트롤러는 매핑된 LUN만 응답한다. 서버 입장에서는 허용되지 않은 LUN이 "없는 것처럼" 보인다.
@@ -132,17 +132,17 @@ LUN 마스킹을 잘 설계하면 첫째, [데이터](/knowledge-base/studynote/
 
 ```text
 Direct Attached Storage
-        │
-        ▼
+        |
+        v
 Shared SAN (Storage Area Network)
-        │
-        ▼
+        |
+        v
 Zoning for fabric isolation
-        │
-        ▼
+        |
+        v
 LUN Masking for volume visibility control
-        │
-        ▼
+        |
+        v
 Host-group automation / NVMe-oF access policy
 ```
 
@@ -160,7 +160,7 @@ Host-group automation / NVMe-oF access policy
 
 **진행 상황**: 686 / 803
 
-← **이전**: [684. 씬 프로비저닝 (Thin Provisioning)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/684_thin_provisioning/)
-**다음**: [686. 멀티패스 I/O (Multipath I/O)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/686_multipath_io/) →
+<- **이전**: [684. 씬 프로비저닝 (Thin Provisioning)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/684_thin_provisioning/)
+**다음**: [686. 멀티패스 I/O (Multipath I/O)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/686_multipath_io/) ->
 
 ---

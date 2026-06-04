@@ -36,25 +36,25 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 읽기 동작에서 요청과 응답이 어떻게 교환되는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│         비동기식 버스의 4단계 핸드셰이크: 시간 대신 상태로 합의          │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Master                                              Slave                  │
-│ (버스 마스터)                                       (대상 장치)            │
-│                                                                          │
-│ 1) 주소/명령 배치 + REQ (Request) asserted ───────────────▶               │
-│                                                     │                      │
-│                                                     │ 내부 접근 수행       │
-│                                                     │ (지연은 가변적)      │
-│                                                     ▼                      │
-│ 2) 데이터 배치 + ACK (Acknowledge) asserted ◀─────────────               │
-│                                                                          │
-│ 3) REQ 해제                                     ───────────────▶          │
-│                                                                          │
-│ 4) ACK 해제                                     ◀───────────────          │
-│                                                                          │
-│ 전송 종료 조건: "고정 시간 경과"가 아니라 "REQ/ACK 왕복 완료"           │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|         비동기식 버스의 4단계 핸드셰이크: 시간 대신 상태로 합의          |
++----------------------------------------------------------------------------+
+| Master                                              Slave                  |
+| (버스 마스터)                                       (대상 장치)            |
+|                                                                          |
+| 1) 주소/명령 배치 + REQ (Request) asserted ---------------->               |
+|                                                     |                      |
+|                                                     | 내부 접근 수행       |
+|                                                     | (지연은 가변적)      |
+|                                                     v                      |
+| 2) 데이터 배치 + ACK (Acknowledge) asserted <--------------               |
+|                                                                          |
+| 3) REQ 해제                                     ---------------->          |
+|                                                                          |
+| 4) ACK 해제                                     <----------------          |
+|                                                                          |
+| 전송 종료 조건: "고정 시간 경과"가 아니라 "REQ/ACK 왕복 완료"           |
++----------------------------------------------------------------------------+
 ```
 
 이 구조에서 중요한 것은 슬레이브가 내부 준비를 마칠 때까지 전체 동작이 기다린다는 점이다. 예를 들어 어떤 장치는 80ns에 응답하고, 다른 장치는 800ns가 걸려도 동일한 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 연결할 수 있다. 반면 [동기식 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/348_synchronous_bus/)처럼 주기당 1회 전송을 강제하지 않기 때문에, 매 전송마다 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 전이가 추가되고 배선·제어 논리도 복잡해진다.
@@ -140,20 +140,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 공통 버스 기반 데이터 전송
-        │
-        ▼
+        |
+        v
 동기식 버스 (Synchronous Bus)
-        │
-        ├─ 고속 근거리 경로 최적화
-        │
-        └─ 속도 차이·거리 문제 노출
-                │
-                ▼
+        |
+        +- 고속 근거리 경로 최적화
+        |
+        +- 속도 차이·거리 문제 노출
+                |
+                v
 비동기식 버스 (Asynchronous Bus)
-                │
-                ├─ 핸드셰이크 (Handshake)
-                ├─ 대기 상태 (Wait State) 절충
-                └─ 외부 I/O · 장거리 인터페이스 확장
+                |
+                +- 핸드셰이크 (Handshake)
+                +- 대기 상태 (Wait State) 절충
+                +- 외부 I/O · 장거리 인터페이스 확장
 ```
 
 이 흐름은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 설계가 "빠른 동일 박자"에서 출발해, 이후 "서로 다른 장치 속도를 어떻게 안전하게 흡수할 것인가"로 진화해 왔음을 보여 준다.
@@ -170,7 +170,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 350 / 803
 
-← **이전**: [348. 동기식 버스 (Synchronous Bus)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/348_synchronous_bus/)
-**다음**: [350. 버스 마스터 (Bus Master)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/350_bus_master/) →
+<- **이전**: [348. 동기식 버스 (Synchronous Bus)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/348_synchronous_bus/)
+**다음**: [350. 버스 마스터 (Bus Master)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/350_bus_master/) ->
 
 ---

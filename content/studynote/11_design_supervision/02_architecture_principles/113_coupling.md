@@ -24,22 +24,22 @@ tags = ["studynote-design-supervision"]
 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))의 핵심 목표 중 하나가 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)를 최소화하여 독립적 배포를 달성하는 것이다. 반대로 모놀리식(Monolithic) 시스템에서 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)가 높아지면 어느 한 부분의 배포가 전체 시스템 재시작을 필요로 하게 된다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│        결합도 6단계: 최악 → 최선                             │
-├─────────────────────────────────────────────────────────────┤
-│  1. 내용 결합도 (Content Coupling) ← 가장 나쁨              │
-│     └─ 다른 모듈의 내부 데이터·코드에 직접 접근             │
-│  2. 공통 결합도 (Common Coupling)                           │
-│     └─ 전역 변수(global variable) 공유                      │
-│  3. 외부 결합도 (External Coupling)                         │
-│     └─ 외부 데이터 형식·통신 프로토콜 공유                  │
-│  4. 제어 결합도 (Control Coupling)                          │
-│     └─ 제어 플래그(flag)를 전달하여 실행 흐름 제어          │
-│  5. 스탬프 결합도 (Stamp Coupling)                          │
-│     └─ 필요 이상의 데이터 구조(객체 전체)를 전달             │
-│  6. 데이터 결합도 (Data Coupling) ← 가장 좋음               │
-│     └─ 필요한 데이터만 매개변수로 전달                       │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|        결합도 6단계: 최악 -> 최선                             |
++-------------------------------------------------------------+
+|  1. 내용 결합도 (Content Coupling) <- 가장 나쁨              |
+|     +- 다른 모듈의 내부 데이터·코드에 직접 접근             |
+|  2. 공통 결합도 (Common Coupling)                           |
+|     +- 전역 변수(global variable) 공유                      |
+|  3. 외부 결합도 (External Coupling)                         |
+|     +- 외부 데이터 형식·통신 프로토콜 공유                  |
+|  4. 제어 결합도 (Control Coupling)                          |
+|     +- 제어 플래그(flag)를 전달하여 실행 흐름 제어          |
+|  5. 스탬프 결합도 (Stamp Coupling)                          |
+|     +- 필요 이상의 데이터 구조(객체 전체)를 전달             |
+|  6. 데이터 결합도 (Data Coupling) <- 가장 좋음               |
+|     +- 필요한 데이터만 매개변수로 전달                       |
++-------------------------------------------------------------+
 ```
 
 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 개념 없이 설계하면 "스파게티 코드(spaghetti [code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))"가 형성되어, 어디서 어디가 의존하는지 파악할 수 없는 상태가 된다. 이는 새 기능 추가 시 어디를 건드려야 할지 모르는 상황으로 이어진다.
@@ -60,19 +60,19 @@ tags = ["studynote-design-supervision"]
 | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 | 네트워크 수준 | [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/), [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) 표준 인터페이스 |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│      이벤트 기반 결합도 감소: 직접 호출 → 이벤트 발행       │
-├─────────────────────────────────────────────────────────────┤
-│ [강결합 - 직접 호출]                                        │
-│  OrderService ──▶ InventoryService (직접 의존)              │
-│  OrderService ──▶ NotificationService (직접 의존)           │
-│                                                             │
-│ [약결합 - 이벤트 발행]                                      │
-│  OrderService ──▶ EventBus ◀── InventoryService (구독)      │
-│                       ◀── NotificationService (구독)        │
-│                                                             │
-│  결과: OrderService는 다른 서비스를 전혀 알지 못함           │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|      이벤트 기반 결합도 감소: 직접 호출 -> 이벤트 발행       |
++-------------------------------------------------------------+
+| [강결합 - 직접 호출]                                        |
+|  OrderService ---> InventoryService (직접 의존)              |
+|  OrderService ---> NotificationService (직접 의존)           |
+|                                                             |
+| [약결합 - 이벤트 발행]                                      |
+|  OrderService ---> EventBus <--- InventoryService (구독)      |
+|                       <--- NotificationService (구독)        |
+|                                                             |
+|  결과: OrderService는 다른 서비스를 전혀 알지 못함           |
++-------------------------------------------------------------+
 ```
 
 측정 지표로 구심성(Afferent [Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/), [Ca](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))과 원심성(Efferent [Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/), Ce)이 있다. Ca는 해당 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 의존하는 외부 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 수, Ce는 해당 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 의존하는 외부 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 수다. 불안정도(Instability) = Ce / ([Ca](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) + Ce) 공식으로 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 변경 취약성을 정량화할 수 있다.
@@ -104,7 +104,7 @@ MSA에서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_pa
 1. [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) A를 수정할 때 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) B도 반드시 수정해야 하는 경우가 있는가?
 2. [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 시 다른 클래스나 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 실제 구현이 없으면 테스트가 안 되는가?
 3. 전역 변수(global [state](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) 또는 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스를 통한 통신이 존재하는가?
-4. 패키지 간 [순환 의존성](/knowledge-base/studynote/02_operating_system/05_deadlock/316_synchronization_bug_debugging/)(A → B → A)이 발생하는가?
+4. 패키지 간 [순환 의존성](/knowledge-base/studynote/02_operating_system/05_deadlock/316_synchronization_bug_debugging/)(A -> B -> A)이 발생하는가?
 5. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 동기 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) 호출 깊이가 3단계를 초과하는가?
 
 - **📢 섹션 요약 비유**: 전기 콘센트에 멀티탭 하나가 연결되고, 그 멀티탭에 또 멀티탭이, 그 안에 또 멀티탭이 꽂혀 있으면 하나가 차단기를 내려도 전체 가전이 꺼진다. 결합을 분산하고 독립적 회로를 구성해야 한다.
@@ -127,7 +127,7 @@ MSA에서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_pa
 
 ### 📌 관련 개념 맵
 
-[스파게티 코드] → [결합도 측정] → [인터페이스 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)·이벤트] → [낮은 결합도] → MSA 독립 배포]
+[스파게티 코드] -> [결합도 측정] -> [인터페이스 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)·이벤트] -> [낮은 결합도] -> MSA 독립 배포]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -138,7 +138,7 @@ MSA에서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_pa
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[강결합 스파게티 코드] → [결합도 6단계 정립] → [인터페이스·[DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) 도입] → [이벤트 기반 비동기 통신] → MSA [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 독립 배포] → [서비스 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 가시화]
+[강결합 스파게티 코드] -> [결합도 6단계 정립] -> [인터페이스·[DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) 도입] -> [이벤트 기반 비동기 통신] -> MSA [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 독립 배포] -> [서비스 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 가시화]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -152,7 +152,7 @@ MSA에서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_pa
 
 **진행 상황**: 168 / 530
 
-← **이전**: [112. 응집도 (Cohesion)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/112_cohesion/)
-**다음**: [113. 결합도 (Coupling)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/113_coupling/) →
+<- **이전**: [112. 응집도 (Cohesion)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/112_cohesion/)
+**다음**: [113. 결합도 (Coupling)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/113_coupling/) ->
 
 ---

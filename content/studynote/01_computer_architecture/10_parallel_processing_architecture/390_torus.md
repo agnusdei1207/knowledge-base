@@ -26,30 +26,30 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 토러스가 해결하려는 핵심을 보여준다. [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)는 가장자리가 막혀 있지만, 토러스는 끝에서 나가면 반대편으로 이어진다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Mesh vs Torus: "경계가 있느냐"가 성능 차이를 만든다         │
-├──────────────────────────────────────────────────────────────┤
-│ Mesh                                                         │
-│ [0,0]─[0,1]─[0,2]─[0,3]                                      │
-│   │     │     │     │                                        │
-│ [1,0]─[1,1]─[1,2]─[1,3]                                      │
-│   │     │     │     │                                        │
-│ [2,0]─[2,1]─[2,2]─[2,3]                                      │
-│   │     │     │     │                                        │
-│ [3,0]─[3,1]─[3,2]─[3,3]                                      │
-│  -> [0,0]에서 [0,3]으로 가려면 가로로 3 hop 이동             │
-│                                                              │
-│ Torus                                                        │
-│ [0,0]─[0,1]─[0,2]─[0,3]                                      │
-│   │     │     │     │                                        │
-│ [1,0]─[1,1]─[1,2]─[1,3]                                      │
-│   │     │     │     │                                        │
-│ [2,0]─[2,1]─[2,2]─[2,3]                                      │
-│   │     │     │     │                                        │
-│ [3,0]─[3,1]─[3,2]─[3,3]                                      │
-│   └────────────────── wrap-around ───────────────────────┘   │
-│  -> [0,0]에서 반대 방향으로 1 hop 가면 [0,3]에 도달 가능     │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Mesh vs Torus: "경계가 있느냐"가 성능 차이를 만든다         |
++--------------------------------------------------------------+
+| Mesh                                                         |
+| [0,0]-[0,1]-[0,2]-[0,3]                                      |
+|   |     |     |     |                                        |
+| [1,0]-[1,1]-[1,2]-[1,3]                                      |
+|   |     |     |     |                                        |
+| [2,0]-[2,1]-[2,2]-[2,3]                                      |
+|   |     |     |     |                                        |
+| [3,0]-[3,1]-[3,2]-[3,3]                                      |
+|  -> [0,0]에서 [0,3]으로 가려면 가로로 3 hop 이동             |
+|                                                              |
+| Torus                                                        |
+| [0,0]-[0,1]-[0,2]-[0,3]                                      |
+|   |     |     |     |                                        |
+| [1,0]-[1,1]-[1,2]-[1,3]                                      |
+|   |     |     |     |                                        |
+| [2,0]-[2,1]-[2,2]-[2,3]                                      |
+|   |     |     |     |                                        |
+| [3,0]-[3,1]-[3,2]-[3,3]                                      |
+|   +------------------ wrap-around -----------------------+   |
+|  -> [0,0]에서 반대 방향으로 1 hop 가면 [0,3]에 도달 가능     |
++--------------------------------------------------------------+
 ```
 
 이 변화는 단순한 편의 기능이 아니다. 정사각형 `k x k` [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)의 최대 거리는 `2(k-1)` 홉이지만, 같은 크기의 토러스는 각 축에서 반 바퀴까지만 가면 되므로 최대 거리가 크게 줄어든다. 그래서 토러스는 특히 이웃 간 반복 통신과 전역 동기화가 많은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 컴퓨팅에서 의미가 크다.
@@ -75,22 +75,22 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 토러스의 최단 경로 선택과 함께, 왜 순환 구조에서 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 관리가 중요한지를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Torus routing: 짧은 길은 늘 "안쪽"에만 있지 않다            │
-├──────────────────────────────────────────────────────────────┤
-│ Source = (0,0), Destination = (0,3)                         │
-│                                                              │
-│ Regular path in Mesh : (0,0) -> (0,1) -> (0,2) -> (0,3)     │
-│ Hop count            : 3                                     │
-│                                                              │
-│ Wrap path in Torus   : (0,0) -> (0,3)                        │
-│ Hop count            : 1                                     │
-│                                                              │
-│ Note                                                         │
-│ - shortest direction per dimension                           │
-│ - cyclic channels can form dependency loops                  │
-│ - VC separates flows to reduce deadlock risk                 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Torus routing: 짧은 길은 늘 "안쪽"에만 있지 않다            |
++--------------------------------------------------------------+
+| Source = (0,0), Destination = (0,3)                         |
+|                                                              |
+| Regular path in Mesh : (0,0) -> (0,1) -> (0,2) -> (0,3)     |
+| Hop count            : 3                                     |
+|                                                              |
+| Wrap path in Torus   : (0,0) -> (0,3)                        |
+| Hop count            : 1                                     |
+|                                                              |
+| Note                                                         |
+| - shortest direction per dimension                           |
+| - cyclic channels can form dependency loops                  |
+| - VC separates flows to reduce deadlock risk                 |
++--------------------------------------------------------------+
 ```
 
 문제는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 아름다운 순환 연결이 물리적으로는 긴 배선을 만들기 쉽다는 점이다. 칩 내부나 보드 위에서 양 끝을 직접 잇는 선은 길이가 길어져 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 전력 소모를 키울 수 있다. 그래서 실제 구현에서는 폴디드 토러스 (Folded Torus)처럼 노드를 접어 배치해 긴 링크를 짧게 만드는 기법이 자주 사용된다.
@@ -178,25 +178,25 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 메시 (Mesh) 토폴로지
-    │
-    ▼
+    |
+    v
 경계 문제(Edge Effect) 인식
-    │
-    ▼
+    |
+    v
 토러스 (Torus) + 랩어라운드 링크
-    │
-    ├──► 차원 우선 라우팅 (Dimension-Order Routing)
-    │
-    ├──► 가상 채널 (VC, Virtual Channel)
-    │
-    ▼
+    |
+    +--► 차원 우선 라우팅 (Dimension-Order Routing)
+    |
+    +--► 가상 채널 (VC, Virtual Channel)
+    |
+    v
 폴디드 토러스 · 3D 토러스
-    │
-    ▼
+    |
+    v
 고성능 컴퓨팅 (HPC) · AI 집단 통신 최적화
 ```
 
-이 흐름은 "[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)의 한계 보완 → 순환 연결 도입 → [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)·배선 보완 → 대규모 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 시스템 적용"의 발전 축을 보여준다.
+이 흐름은 "[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)의 한계 보완 -> 순환 연결 도입 -> [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)·배선 보완 -> 대규모 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 시스템 적용"의 발전 축을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -210,7 +210,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 391 / 803
 
-← **이전**: [389. 메시 (Mesh) 토폴로지](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)
-**다음**: [391. 하이퍼큐브 (Hypercube)](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/391_hypercube/) →
+<- **이전**: [389. 메시 (Mesh) 토폴로지](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)
+**다음**: [391. 하이퍼큐브 (Hypercube)](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/391_hypercube/) ->
 
 ---

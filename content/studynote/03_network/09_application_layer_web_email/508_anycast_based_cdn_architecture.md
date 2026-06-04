@@ -31,31 +31,31 @@ tags = ["studynote-network"]
   2. <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/507_gslb_global_server_load_balancing_dns/">GSLB</a> (<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a> 지능 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>)의 한계와 캐시 포이즈닝</strong>: 지능형 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)([GSLB](/knowledge-base/studynote/03_network/09_application_layer_web_email/507_gslb_global_server_load_balancing_dns/))가 유저 위치를 파악해 IP를 던져줘도, 유저 폰([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 캐시)에 옛날 IP가 썩어있으면([TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 꼬임) 서버가 죽었을 때 장애 대응(Fail-over)이 10분씩 밀려버리는 구조적 결함을 밑바닥(L3)에서부터 물리치료(Bypass)할 수단이 애니캐스트였다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          Unicast의 병목 vs Anycast CDN의 지구적 트래픽 블랙홀 흡수 도해 │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ 💀 [ 과거: Unicast 방식의 1:1 강결합 (DNS 핑퐁 지옥) ]                │
-│   한국 유저 ➔ (미국 GSLB DNS 질의) ➔ "넌 한국이니까 한국 엣지 IP(2.2.2.2) 줄게!"│
-│             ➔ (한국 유저가 2.2.2.2로 접속. 느림 & 캐시 꼬임 리스크 존재)       │
-│                                                             │
-│        ======= [ 🛡️ 아키텍트의 메스: L3 Anycast 물리 융합 ] ========│
-│                                                             │
-│ 🚀 [ 100개 엣지 서버의 미친 BGP(Border Gateway Protocol) 선언! ]     │
-│   - 한국 엣지 서버 왈: "내 IP 1.1.1.1 이다! 주변 라우터 다 알아둬!"           │
-│   - 미국 엣지 서버 왈: "내 IP 1.1.1.1 이다! 주변 라우터 다 알아둬!"           │
-│   - 유럽 엣지 서버 왈: "내 IP 1.1.1.1 이다! 주변 라우터 다 알아둬!"           │
-│                                                             │
-│ 🌟 [ 1.1.1.1 블랙홀 흡수 발동 (유저가 접속 클릭 쾅!) ]                 │
-│   - 👨‍💻 한국 유저: "나 1.1.1.1 로 간다!" ➔ KT 라우터(BGP): "오? 1.1.1.1?   │
-│     아까 한국 엣지 놈이 자기라 했고 미국 엣지 놈도 자기라 했는데... 미국 놈은 10번 건너야(Hop)│
-│     하고 한국 놈은 2번 건너면 되네? 무조건 젤 가까운 한국 엣지 놈한테 꽂아 박아!! 쓩!"│
-│   - 👨‍💻 미국 유저: "나 1.1.1.1 로 간다!" ➔ 미국 AT&T 라우터: "응 미국 엣지가 젤 가깝지 쓩!"│
-│                                                             │
-│ 🌟 아키텍트 극딜: 애니캐스트는 똑똑한 지능(소프트웨어 연산)이 아니다. BGP 라우터들의  │
-│   무식한 '최단 경로 홉(Hop) 찾기 본능'을 극도로 쥐어짜서 트래픽을 빨아들이는 거대한   │
-│   물리적 자석(Magnet) 융합이다. DNS 통신 랙 자체가 0%로 완전히 증발한다.         │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          Unicast의 병목 vs Anycast CDN의 지구적 트래픽 블랙홀 흡수 도해 |
++-------------------------------------------------------------+
+|                                                             |
+| 💀 [ 과거: Unicast 방식의 1:1 강결합 (DNS 핑퐁 지옥) ]                |
+|   한국 유저 ➔ (미국 GSLB DNS 질의) ➔ "넌 한국이니까 한국 엣지 IP(2.2.2.2) 줄게!"|
+|             ➔ (한국 유저가 2.2.2.2로 접속. 느림 & 캐시 꼬임 리스크 존재)       |
+|                                                             |
+|        ======= [ 🛡️ 아키텍트의 메스: L3 Anycast 물리 융합 ] ========|
+|                                                             |
+| 🚀 [ 100개 엣지 서버의 미친 BGP(Border Gateway Protocol) 선언! ]     |
+|   - 한국 엣지 서버 왈: "내 IP 1.1.1.1 이다! 주변 라우터 다 알아둬!"           |
+|   - 미국 엣지 서버 왈: "내 IP 1.1.1.1 이다! 주변 라우터 다 알아둬!"           |
+|   - 유럽 엣지 서버 왈: "내 IP 1.1.1.1 이다! 주변 라우터 다 알아둬!"           |
+|                                                             |
+| 🌟 [ 1.1.1.1 블랙홀 흡수 발동 (유저가 접속 클릭 쾅!) ]                 |
+|   - 👨‍💻 한국 유저: "나 1.1.1.1 로 간다!" ➔ KT 라우터(BGP): "오? 1.1.1.1?   |
+|     아까 한국 엣지 놈이 자기라 했고 미국 엣지 놈도 자기라 했는데... 미국 놈은 10번 건너야(Hop)|
+|     하고 한국 놈은 2번 건너면 되네? 무조건 젤 가까운 한국 엣지 놈한테 꽂아 박아!! 쓩!"|
+|   - 👨‍💻 미국 유저: "나 1.1.1.1 로 간다!" ➔ 미국 AT&T 라우터: "응 미국 엣지가 젤 가깝지 쓩!"|
+|                                                             |
+| 🌟 아키텍트 극딜: 애니캐스트는 똑똑한 지능(소프트웨어 연산)이 아니다. BGP 라우터들의  |
+|   무식한 '최단 경로 홉(Hop) 찾기 본능'을 극도로 쥐어짜서 트래픽을 빨아들이는 거대한   |
+|   물리적 자석(Magnet) 융합이다. DNS 통신 랙 자체가 0%로 완전히 증발한다.         |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "구글 DNS는 전 세계 어디서 치나 무조건 8.8.8.8 이라는데 서버가 1대임?"을 박살 내는 주니어 네트워크 지식의 종결판 도해다. [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 네트워크에서 IP가 중복되면 "IP 충돌 삐빅!" 하고 죽는 게 우리의 상식이다. 하지만 1계층 라우터(Router)들끼리 대화하는 전 세계 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)([Border Gateway Protocol](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)) 헌법 체계에선, 전 세계 100군데서 자기가 '8.8.8.8'이라고 외치고 다녀도 에러가 나지 않는다! 라우터들은 그저 패킷이 날아오면, 자기가 가진 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 테이블(지도)에서 '물리적 라우터 징검다리 개수([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-PATH 홉 카운트)'가 가장 적은 단 한 곳을 향해 패킷을 던질([Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)) 뿐이다. 100개의 분신술([Clone](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/)) 서버를 전 세계에 뿌려놓고, 라우터들의 본능(최단 거리)을 해킹(Hacking)하여 클라이언트의 위치를 강제 분류해 버리는 100억 달러짜리 L3 트래픽 분할기다.
@@ -91,11 +91,11 @@ tags = ["studynote-network"]
 
 ```text
 [GSLB]
-    │
-    ▼
+    |
+    v
 [Anycast 기반 CDN 설계]
-    │
-    └──▶ [OCAP]
+    |
+    +---> [OCAP]
 ```
 
 - **📢 섹션 요약 비유**: 애니캐스트 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 찢김(Flapping)은 <strong>'114 상담원 폭탄 돌리기'</strong>와 같습니다. 고객이 114번(Anycast IP)으로 전화 걸어 "나 철수인데, 짜장면 먹고 싶어(SYN)" 라고 <strong>1번 상담원</strong>과 얘기했습니다. 근데 고객이 10초 뒤 다시 114로 전화 걸어 "아까 그 짜장면 주문(ACK) 할게요!" 했는데, 이번엔 가장 핑이 좋은 <strong>2번 상담원(라우터 변경 됨)</strong>이 받았습니다. 2번 상담원 왈: "철수요? 짜장면요? 저랑 첨 통화하시는데 무슨 소리 하세요? 뚜뚜뚜 (전화 끊어버림 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 리셋)!" 과거의 기억([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))을 갖지 못하는 무지성 라우터 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 구조의 치명적 한계입니다.
@@ -147,37 +147,37 @@ tags = ["studynote-network"]
    한국 서버가 뻗기 직전, 자신의 물리적 거리를 일부러 멀어 보이게 조작([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 뻥튀기)하여 중국의 무식한 밀어 넣기 트래픽을 합법적으로 등 떠밀어(Traffic 엔진ering) 다른 노드로 튕겨내는(Shedding) 궁극의 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 통제 해킹술이다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │         실무 아키텍처: GSLB 뇌(L7) ➔ Anycast 방패(L3) ➔ 오리진 WAS 3단 햄버거 융합 │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │ 👨‍💻 [ 유저 브라우저 ] "www.쇼핑몰.com/결제.do 접속 엔터 쾅!"       │
-  │                                                             │
-  │        ======= [ 🛡️ 1차 방패 뇌: GSLB 지능형 DNS 핑퐁 ] ======== │
-  │                                                             │
-  │ 🧠 [ GSLB (Route 53) 왈 ]:                                    │
-  │   - "어? 너 한국 유저네? 너한테 다이렉트 서버 IP 주면 털리니까(DDoS 위험),  │
-  │      아예 우리 앞단 방패 CDN 회사 도메인으로 CNAME 꺾어치기 쏴버릴게!"     │
-  │   ➔ (응답: `d123.cloudfront.net` (Anycast CDN 껍데기) 토스 쓩!) │
-  │                                                             │
-  │        ======= [ 🌪️ 2차 방패 근육: Anycast CDN 블랙홀 흡수 ] ========│
-  │                                                             │
-  │ 🪵 [ Anycast 엣지 100군데 (클라우드플레어/CloudFront) ]           │
-  │   - 1.1.1.1 블랙홀 발동! ➔ 한국 유저는 무조건 가장 핑 빠른 강남역 엣지 노드로 흡수!│
-  │   - 엣지 노드 왈: "어? 결제(Dynamic) API네? 캐싱 안 되는 놈이구만. (방어만 쳐줌)│
-  │     자~ 내 뒤에 안전하게 숨어있는 진짜 서버(Origin L4)한테 터널링 토스 쏴줄게!" │
-  │                                                             │
-  │        ======= [ 🏢 3차 심장: 오리진(Origin) L4/L7 로드밸런서 ] ========│
-  │                                                             │
-  │ 🤖 [ AWS ALB (L7 로드밸런서) ➔ WAS 10대 ]                       │
-  │   - ALB 왈: "앞에 Anycast 방패형들이 해커 트래픽 다 막아줬네 개꿀 ㅋ.      │
-  │     난 그냥 예쁘게 정제된 진짜 고객 '결제' 트래픽만 받아서 WAS 3번한테 던져줄게 슝!"│
-  │                                                             │
-  │ 🌟 아키텍트의 극딜: 이게 넷플릭스와 삼성이 1,000만 트래픽과 디도스 앞에서도 절대   │
-  │   뻗지 않는 [3중 계층 디커플링(Decoupling) 통곡의 방벽] 뼈대다!!             │
-  │   [GSLB 뇌(머리) ➔ Anycast 블랙홀 방패(근육) ➔ ALB/WAS 심장부(내장)] 이  │
-  │   완벽한 수직 계층 십자 융합 방어가 없는 엔터프라이즈 클라우드는 무지성 사상누각이다.│
-└─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |         실무 아키텍처: GSLB 뇌(L7) ➔ Anycast 방패(L3) ➔ 오리진 WAS 3단 햄버거 융합 |
+  +-------------------------------------------------------------+
+  |                                                             |
+  | 👨‍💻 [ 유저 브라우저 ] "www.쇼핑몰.com/결제.do 접속 엔터 쾅!"       |
+  |                                                             |
+  |        ======= [ 🛡️ 1차 방패 뇌: GSLB 지능형 DNS 핑퐁 ] ======== |
+  |                                                             |
+  | 🧠 [ GSLB (Route 53) 왈 ]:                                    |
+  |   - "어? 너 한국 유저네? 너한테 다이렉트 서버 IP 주면 털리니까(DDoS 위험),  |
+  |      아예 우리 앞단 방패 CDN 회사 도메인으로 CNAME 꺾어치기 쏴버릴게!"     |
+  |   ➔ (응답: `d123.cloudfront.net` (Anycast CDN 껍데기) 토스 쓩!) |
+  |                                                             |
+  |        ======= [ 🌪️ 2차 방패 근육: Anycast CDN 블랙홀 흡수 ] ========|
+  |                                                             |
+  | 🪵 [ Anycast 엣지 100군데 (클라우드플레어/CloudFront) ]           |
+  |   - 1.1.1.1 블랙홀 발동! ➔ 한국 유저는 무조건 가장 핑 빠른 강남역 엣지 노드로 흡수!|
+  |   - 엣지 노드 왈: "어? 결제(Dynamic) API네? 캐싱 안 되는 놈이구만. (방어만 쳐줌)|
+  |     자~ 내 뒤에 안전하게 숨어있는 진짜 서버(Origin L4)한테 터널링 토스 쏴줄게!" |
+  |                                                             |
+  |        ======= [ 🏢 3차 심장: 오리진(Origin) L4/L7 로드밸런서 ] ========|
+  |                                                             |
+  | 🤖 [ AWS ALB (L7 로드밸런서) ➔ WAS 10대 ]                       |
+  |   - ALB 왈: "앞에 Anycast 방패형들이 해커 트래픽 다 막아줬네 개꿀 ㅋ.      |
+  |     난 그냥 예쁘게 정제된 진짜 고객 '결제' 트래픽만 받아서 WAS 3번한테 던져줄게 슝!"|
+  |                                                             |
+  | 🌟 아키텍트의 극딜: 이게 넷플릭스와 삼성이 1,000만 트래픽과 디도스 앞에서도 절대   |
+  |   뻗지 않는 [3중 계층 디커플링(Decoupling) 통곡의 방벽] 뼈대다!!             |
+  |   [GSLB 뇌(머리) ➔ Anycast 블랙홀 방패(근육) ➔ ALB/WAS 심장부(내장)] 이  |
+  |   완벽한 수직 계층 십자 융합 방어가 없는 엔터프라이즈 클라우드는 무지성 사상누각이다.|
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "그럼 [GSLB](/knowledge-base/studynote/03_network/09_application_layer_web_email/507_gslb_global_server_load_balancing_dns/) 쓸까요 Anycast [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 쓸까요?" 라는 바보 같은 이분법 질문을 박살 내는, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/)) 프론트 엣지 아키텍처의 절대 헌법 맵이다.
@@ -239,12 +239,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: GSLB]
-    │
-    ▼
+    |
+    v
 [현재 개념: Anycast 기반 CDN 설계]
-    │
-    ├──▶ [확장 A: OCAP]
-    └──▶ [확장 B: 지능형 애플리케이션 전달]
+    |
+    +---> [확장 A: OCAP]
+    +---> [확장 B: 지능형 애플리케이션 전달]
 ```
 
 Anycast 기반 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 설계는 GSLB에서 출발해 현재 메커니즘을 정교화하고, 이후 OCAP와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -261,7 +261,7 @@ Anycast 기반 [CDN](/knowledge-base/studynote/03_network/09_application_layer_w
 
 **진행 상황**: 629 / 1120
 
-← **이전**: [507. GSLB (Global Server Load Balancing)](/knowledge-base/studynote/03_network/09_application_layer_web_email/507_gslb_global_server_load_balancing_dns/)
-**다음**: [509. OCAP (OpenCable Application Platform)](/knowledge-base/studynote/03_network/09_application_layer_web_email/509_ocap_opencable_application_platform/) →
+<- **이전**: [507. GSLB (Global Server Load Balancing)](/knowledge-base/studynote/03_network/09_application_layer_web_email/507_gslb_global_server_load_balancing_dns/)
+**다음**: [509. OCAP (OpenCable Application Platform)](/knowledge-base/studynote/03_network/09_application_layer_web_email/509_ocap_opencable_application_platform/) ->
 
 ---

@@ -31,31 +31,31 @@ tags = ["studynote-operating-system"]
 유저가 명령을 치면 어떻게 "지도를 받아 1,000대의 노예한테 직접 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시켜 쑤셔 넣는지" 그 렌더를 까보면 다음과 같다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────────────────────┐
-  │                 "대장님은 지도만 주고 퇴장! 진짜 데이터 삽질은 노예들끼리 한다!" │
-  ├──────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                  │
-  │  🚨 [ 사용자 클라이언트 : "거대 1GB 짜리 로그파일 좀 저장해 줘 록백!" ]          │
-  │                                                                                  │
-  │  =========================▼===================================                   │
-  │                                                                                  │
-  │  ✅ [ 1단계: 대장 (NameNode) 에게 보고 및 지도 탈취 스왑! ]                      │
-  │     - 유저: "대장! 나 파일 나눠 담을 빈 창고 3개만 점지해 줘!"                   │
-  │                                                                                  │
-  │     🔥 [ NameNode (메모리에 수만 대 지도 다 외우고 있는 대빵 봇) ]               │
-  │     - 대장: "그래, 1GB니까 128MB 블록 8칸 필요하네. 자, 지도 받아가!             │
-  │             1번 블록은 (노드A, 노드B, 노드F) 에 가서 냅다 묻어 버려라!"          │
-  │                                                                                  │
-  │  =========================▼===================================                   │
-  │                                                                                  │
-  │  ✅ [ 2단계: 노예들 (DataNode) 에게 직접 직거래 분배 파이프 폭주 빔!! ]          │
-  │                                                                                  │
-  │     - 유저 ────────( 대역폭 10Gbps 직통 파이프 렌더! ) ───────▶                  │
-  │                                                                                  │
-  │        [ DataNode A (랙 1번) ]     ===(자동으로 옆으로 릴레이 복제 스루풋)===▶   │
-  │        [ DataNode B (랙 2번) ]     ===(다시 복제 3중 백업 방검복 컷)======▶      │
-  │        [ DataNode F (자빠져 자는 랙) ] => 어? F 죽었네? 대장한테 고자질!         │
-  └──────────────────────────────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------------------------------+
+  |                 "대장님은 지도만 주고 퇴장! 진짜 데이터 삽질은 노예들끼리 한다!" |
+  +----------------------------------------------------------------------------------+
+  |                                                                                  |
+  |  🚨 [ 사용자 클라이언트 : "거대 1GB 짜리 로그파일 좀 저장해 줘 록백!" ]          |
+  |                                                                                  |
+  |  =========================v===================================                   |
+  |                                                                                  |
+  |  ✅ [ 1단계: 대장 (NameNode) 에게 보고 및 지도 탈취 스왑! ]                      |
+  |     - 유저: "대장! 나 파일 나눠 담을 빈 창고 3개만 점지해 줘!"                   |
+  |                                                                                  |
+  |     🔥 [ NameNode (메모리에 수만 대 지도 다 외우고 있는 대빵 봇) ]               |
+  |     - 대장: "그래, 1GB니까 128MB 블록 8칸 필요하네. 자, 지도 받아가!             |
+  |             1번 블록은 (노드A, 노드B, 노드F) 에 가서 냅다 묻어 버려라!"          |
+  |                                                                                  |
+  |  =========================v===================================                   |
+  |                                                                                  |
+  |  ✅ [ 2단계: 노예들 (DataNode) 에게 직접 직거래 분배 파이프 폭주 빔!! ]          |
+  |                                                                                  |
+  |     - 유저 --------( 대역폭 10Gbps 직통 파이프 렌더! ) -------->                  |
+  |                                                                                  |
+  |        [ DataNode A (랙 1번) ]     ===(자동으로 옆으로 릴레이 복제 스루풋)===->   |
+  |        [ DataNode B (랙 2번) ]     ===(다시 복제 3중 백업 방검복 컷)======->      |
+  |        [ DataNode F (자빠져 자는 랙) ] => 어? F 죽었네? 대장한테 고자질!         |
+  +----------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/)([Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) Distributed [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) System)의 핵심 생존 아키텍처다. 유저는 절대로 거대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쓰레기를 중앙 대장([NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/))에게 보내지 않는다. 그렇게 하면 대장은 트래픽을 못 이기고 1초 만에 박살이 난다(Network [Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/) 파단). 대장은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 매핑 정보 보관([Metadata](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 장부)과 지도 전달 역할에만 뼈를 깎고, 실제 무거운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 트래픽(I/O 스루풋)은 <strong>유저 클라이언트 컴퓨터와 말단 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/015_datanode/">DataNode</a> 노예들 사이의 1:1 직거래 지대(<a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/">P2P</a> 릴레이 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>)</strong> 로 분리([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)/Control Path Separation 통치)시켜 클러스터 병목을 완벽히 도살해 버렸다 도출.
@@ -139,12 +139,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [B-Tree / B+Tree 기반 디렉터리 색인 (대규모 디렉터리 검색 최적화)]
-    │
-    ▼
+    |
+    v
 [분산 파일 시스템 (HDFS, Ceph, GlusterFS) 네임노드 및 데이터노드 구조]
-    │
-    ├──▶ [FUSE (Filesystem in Userspace)]
-    └──▶ [백업 (Backup) 및 복구 (Restore) / 전체 백업 vs 증분(Incremental) 백업]
+    |
+    +---> [FUSE (Filesystem in Userspace)]
+    +---> [백업 (Backup) 및 복구 (Restore) / 전체 백업 vs 증분(Incremental) 백업]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -161,7 +161,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 553 / 800
 
-← **이전**: [552. B-Tree / B+Tree 기반 디렉터리 색인 (대규모 디렉터리 검색 최적화) (Btree Directory Index)](/knowledge-base/studynote/02_operating_system/09_file_system/552_btree_directory_index/)
-**다음**: [554. FUSE (Filesystem in Userspace) - 커널 수정 없이 유저 공간에서 커스텀 파일시스템 구현 (SSHFS](/knowledge-base/studynote/02_operating_system/09_file_system/554_fuse_filesystem_in_userspace/) →
+<- **이전**: [552. B-Tree / B+Tree 기반 디렉터리 색인 (대규모 디렉터리 검색 최적화) (Btree Directory Index)](/knowledge-base/studynote/02_operating_system/09_file_system/552_btree_directory_index/)
+**다음**: [554. FUSE (Filesystem in Userspace) - 커널 수정 없이 유저 공간에서 커스텀 파일시스템 구현 (SSHFS](/knowledge-base/studynote/02_operating_system/09_file_system/554_fuse_filesystem_in_userspace/) ->
 
 ---

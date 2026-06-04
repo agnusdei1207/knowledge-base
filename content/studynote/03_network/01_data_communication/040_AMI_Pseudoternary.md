@@ -222,7 +222,7 @@ AMI + B8ZS 복합 사용
 
 **진행 상황**: 40 / 1120
 
-← **이전**: [039. 맨체스터 / 차분 맨체스터 인코딩](/knowledge-base/studynote/03_network/01_data_communication/039_맨체스터_차분맨체스터/)
-**다음**: [041. 차분 부호화 (Differential Encoding)](/knowledge-base/studynote/03_network/01_data_communication/041_차분_부호화/) →
+<- **이전**: [039. 맨체스터 / 차분 맨체스터 인코딩](/knowledge-base/studynote/03_network/01_data_communication/039_맨체스터_차분맨체스터/)
+**다음**: [041. 차분 부호화 (Differential Encoding)](/knowledge-base/studynote/03_network/01_data_communication/041_차분_부호화/) ->
 
 ---

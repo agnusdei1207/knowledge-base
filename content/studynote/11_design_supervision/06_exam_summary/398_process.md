@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 [메멘토](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/274_memento_pattern/) 패턴 ([Memento Pattern](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/274_memento_pattern/))은 객체 내부 상태를 캡슐화를 깨지 않고 저장·복원하는 행동 패턴이다. 에디터, 게임, 워크플로처럼 이전 상태로 되돌아가야 하는 기능은 상태 백업이 필요하다. 이 개념이 필요한 이유는 상태 복원 기능과 캡슐화를 함께 지키는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 복원 기능을 구현하려다 내부 필드를 외부에 노출해 캡슐화가 깨진다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│ Variation  │──▶│  Memento   │──▶│   Reuse    │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+| Variation  |--->|  Memento   |--->|   Reuse    |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Client  │──▶│ Memento  │──▶│  Object  │──▶│  Result  │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|  Client  |--->| Memento  |--->|  Object  |--->|  Result  |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | 상태 복원 | [메멘토](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/274_memento_pattern/) 패턴 ([Memento Pattern](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/274_memento_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[직접 상태 노출] → [메멘토 패턴] → [캡슐화된 복원]
+[직접 상태 노출] -> [메멘토 패턴] -> [캡슐화된 복원]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [메멘토](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/274_memento_pattern/) 패턴 ([Memento Pattern](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/274_memento_pattern/))은 게임 저장 버튼을 눌러 지금 위치를 그대로 남겨 두는 것처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 476 / 530
 
-← **이전**: [397. 이터레이터 패턴 (Iterator Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/397_process/)
-**다음**: [399. 방문자 패턴 (Visitor Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/399_architecture/) →
+<- **이전**: [397. 이터레이터 패턴 (Iterator Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/397_process/)
+**다음**: [399. 방문자 패턴 (Visitor Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/399_architecture/) ->
 
 ---

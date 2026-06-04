@@ -21,17 +21,17 @@ tags = ["studynote-software-engineering"]
 
 유저 스토리 맵은 <strong>사용자가 제품을 이용하는 순서에 따라 요구사항을 펼쳐 놓고, 그 아래에 세부 스토리를 우선순위별로 쌓는 <a href="/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a> 기법</strong>이다. 전통적인 백로그는 우선순위 정렬에는 강하지만, 사용자가 처음부터 끝까지 어떤 경험을 하는지는 잘 보여 주지 못한다. 그래서 팀은 종종 "중요한 기능"은 많이 만들었는데, 정작 사용자가 한 번의 흐름으로 제품을 완결 경험하지 못하는 상황을 맞는다.
 
-이 기법이 필요한 이유는 제품 개발이 기능 조각 모음이 아니라 <strong>사용자 여정(User Journey)의 연결성</strong>을 다뤄야 하기 때문이다. 검색 기능, 결제 기능, 알림 기능이 각각 중요하더라도, 사용자가 실제로는 "탐색 → 선택 → 결제 → [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)"이라는 흐름으로 제품을 경험한다면 그 흐름이 끊기지 않게 설계해야 한다. 유저 스토리 맵은 이 연결성을 드러내며, 릴리스 단위를 "기능 덩어리"가 아니라 <strong>끝까지 닿는 얇은 가치 <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/">슬라이스</a></strong>로 자르게 도와준다.
+이 기법이 필요한 이유는 제품 개발이 기능 조각 모음이 아니라 <strong>사용자 여정(User Journey)의 연결성</strong>을 다뤄야 하기 때문이다. 검색 기능, 결제 기능, 알림 기능이 각각 중요하더라도, 사용자가 실제로는 "탐색 -> 선택 -> 결제 -> [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)"이라는 흐름으로 제품을 경험한다면 그 흐름이 끊기지 않게 설계해야 한다. 유저 스토리 맵은 이 연결성을 드러내며, 릴리스 단위를 "기능 덩어리"가 아니라 <strong>끝까지 닿는 얇은 가치 <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/">슬라이스</a></strong>로 자르게 도와준다.
 
 즉 유저 스토리 맵은 문서를 더 예쁘게 그리는 도구가 아니라, <strong>백로그를 사용자 중심으로 다시 배열해 제품 범위와 우선순위를 동시에 설명하는 프레임</strong>이다.
 
 ```text
-┌───────────────────────────────────────────────────────────────────┐
-│ 평면 백로그의 한계                                                │
-├───────────────────────────────────────────────────────────────────┤
-│ [로그인] [검색] [필터] [결제] [알림] [환불] [리뷰] ...            │
-│   우선순위는 보여도, 사용자가 어떤 순서로 경험하는지는 흐려진다   │
-└───────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------+
+| 평면 백로그의 한계                                                |
++-------------------------------------------------------------------+
+| [로그인] [검색] [필터] [결제] [알림] [환불] [리뷰] ...            |
+|   우선순위는 보여도, 사용자가 어떤 순서로 경험하는지는 흐려진다   |
++-------------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 유저 스토리 맵은 장보기 목록을 품목 가나다순으로 적는 대신, 마트 동선대로 배열해 "어떻게 돌아다니며 장을 볼지"가 보이게 만드는 지도와 같다.
@@ -52,19 +52,19 @@ tags = ["studynote-software-engineering"]
 아래 그림은 전자상거래 예시에서 유저 스토리 맵이 어떻게 구성되는지 보여 준다.
 
 ```text
-┌───────────────────────────────────────────────────────────────────┐
-│ User Story Map Example                                            │
-├───────────────────────────────────────────────────────────────────┤
-│ Backbone     Browse        Select         Pay            Track     │
-│              상품 탐색      상품 선택       결제            주문 확인 │
-├───────────────────────────────────────────────────────────────────┤
-│ Slice 1      검색           장바구니 담기   카드 결제       주문 상태 │
-│ (MVP)                                                             │
-├───────────────────────────────────────────────────────────────────┤
-│ Slice 2      필터           수량 변경       간편 결제       알림      │
-├───────────────────────────────────────────────────────────────────┤
-│ Slice 3      추천           찜하기          쿠폰 적용       환불 조회 │
-└───────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------+
+| User Story Map Example                                            |
++-------------------------------------------------------------------+
+| Backbone     Browse        Select         Pay            Track     |
+|              상품 탐색      상품 선택       결제            주문 확인 |
++-------------------------------------------------------------------+
+| Slice 1      검색           장바구니 담기   카드 결제       주문 상태 |
+| (MVP)                                                             |
++-------------------------------------------------------------------+
+| Slice 2      필터           수량 변경       간편 결제       알림      |
++-------------------------------------------------------------------+
+| Slice 3      추천           찜하기          쿠폰 적용       환불 조회 |
++-------------------------------------------------------------------+
 ```
 
 이 구조에서 중요한 것은 세 가지다. 첫째, <strong>가로축은 시간/행동 흐름</strong>이지 조직도나 화면 목록이 아니다. 둘째, <strong>세로축은 중요도와 세부화 수준</strong>을 표현한다. 셋째, 릴리스는 세로가 아니라 **가로로 얇게 잘라야** 사용자가 처음부터 끝까지 경험 가능한 제품이 된다. 예를 들어 탐색만 완성하고 결제를 나중에 만드는 수평 분할은 기능은 많아 보여도 사용자 가치를 전달하지 못한다.
@@ -87,7 +87,7 @@ tags = ["studynote-software-engineering"]
 
 또한 스토리 맵은 [에픽](/knowledge-base/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/), [테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/) ([Theme](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/)), MVP와 자연스럽게 연결된다. [테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/)가 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 방향을 제시하고, [에픽](/knowledge-base/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/)이 큰 요구 묶음을 만들며, 유저 스토리 맵은 그 요구를 실제 사용자 흐름 안에 재배열한다. 이후 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 계획은 스토리 맵에서 잘라 낸 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)를 더 작은 작업으로 구체화하는 방식으로 이어진다.
 
-즉 유저 스토리 맵은 단순한 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)가 아니라, <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>(<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/">Theme</a>) → 큰 요구(<a href="/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/244_epic/">Epic</a>) → 사용자 흐름 → 릴리스 <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/">슬라이스</a> → <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/">스프린트</a> 실행</strong>을 잇는 중간 설계도다. 이 연결을 이해해야 스토리 맵을 "포스트잇 놀이"가 아닌 제품 기획 도구로 설명할 수 있다.
+즉 유저 스토리 맵은 단순한 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)가 아니라, <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>(<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/">Theme</a>) -> 큰 요구(<a href="/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/244_epic/">Epic</a>) -> 사용자 흐름 -> 릴리스 <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/">슬라이스</a> -> <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/">스프린트</a> 실행</strong>을 잇는 중간 설계도다. 이 연결을 이해해야 스토리 맵을 "포스트잇 놀이"가 아닌 제품 기획 도구로 설명할 수 있다.
 
 - **📢 섹션 요약 비유**: 플랫 백로그가 물건 이름만 적힌 장바구니 메모라면, 유저 저니 맵은 쇼핑하면서 느낀 기분 기록이고, 유저 스토리 맵은 실제로 어떤 코스로 돌며 무엇을 먼저 살지까지 정한 장보기 작전도에 가깝다.
 
@@ -145,17 +145,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 제품 비전 · 사용자 목표 정의
-        │
-        ▼
+        |
+        v
 사용자 활동(backbone) 배열
-        │
-        ▼
+        |
+        v
 세부 유저 스토리 적재
-        │
-        ▼
+        |
+        v
 MVP · 릴리스 슬라이스 도출
-        │
-        ▼
+        |
+        v
 스프린트 백로그 · 사용자 피드백으로 재조정
 ```
 
@@ -173,7 +173,7 @@ MVP · 릴리스 슬라이스 도출
 
 **진행 상황**: 183 / 973
 
-← **이전**: [182. 에픽 (Epic) - 거시적 스토리 집합](/knowledge-base/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/)
-**다음**: [184. 테마 (Theme) - 에픽들의 상위 카테고리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/) →
+<- **이전**: [182. 에픽 (Epic) - 거시적 스토리 집합](/knowledge-base/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/)
+**다음**: [184. 테마 (Theme) - 에픽들의 상위 카테고리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/) ->
 
 ---

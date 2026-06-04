@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)·[응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) ([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) and [Cohesion](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/))은 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 사이 의존은 낮추고 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 내부 관련성은 높게 만드는 품질 설계 기준이다. 시스템이 커질수록 무엇을 함께 묶고 무엇을 분리할지 정하지 않으면 변경 영향이 예측되지 않는다. 이 개념이 필요한 이유는 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 경계를 변화 축에 맞춰 배치하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 한쪽 수정이 여러 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에 연쇄 전파되고, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 설명도 모호해진다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│   Change   │──▶│    C/C     │──▶│   Stable   │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+|   Change   |--->|    C/C     |--->|   Stable   |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Reason  │──▶│ Boundary │──▶│   C/C    │──▶│   Test   │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|  Reason  |--->| Boundary |--->|   C/C    |--->|   Test   |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | 리팩터링 | [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)·[응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) ([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) and [Cohesion](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[기능 뒤섞인 모듈] → [결합도·[응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) 조정] → [안정적 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 경계]
+[기능 뒤섞인 모듈] -> [결합도·[응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) 조정] -> [안정적 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 경계]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)·[응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) ([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) and [Cohesion](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/))은 관련 있는 장난감만 같은 상자에 넣고 다른 상자는 분리하는 방법처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 441 / 530
 
-← **이전**: [362. 지금 필요하지 않은 기능 배제 (You Aren't Gonna Need It, YAGNI)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/362_yagni/)
-**다음**: [364. 계층형 아키텍처 (Layered Architecture)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/364_architecture/) →
+<- **이전**: [362. 지금 필요하지 않은 기능 배제 (You Aren't Gonna Need It, YAGNI)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/362_yagni/)
+**다음**: [364. 계층형 아키텍처 (Layered Architecture)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/364_architecture/) ->
 
 ---

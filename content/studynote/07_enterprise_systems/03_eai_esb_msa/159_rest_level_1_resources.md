@@ -36,22 +36,22 @@ Level 1의 핵심 원리는 "리소스를 URI로 [식별](/knowledge-base/studyn
 아래 그림은 Level 0에서 Level 1로 넘어갈 때 무엇이 달라지는지 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│            Level 0 → Level 1 전환 시 의미 변화                    │
-├────────────────────────────────────────────────────────────────────┤
-│ [Level 0]                                                         │
-│ POST /api                                                         │
-│ { action: "createOrder", customerId: 7 }                         │
-│ POST /api                                                         │
-│ { action: "cancelOrder", orderId: 1001 }                         │
-│                                                                    │
-│ [Level 1]                                                         │
-│ POST /orders                -> 주문 컬렉션에 생성 요청             │
-│ POST /orders/1001/cancel    -> 아직 메서드는 미성숙할 수 있음      │
-│ GET  /orders/1001?          -> 이상적이지만 Level 2에서 본격 정착  │
-│                                                                    │
-│ 핵심 변화: "행위 이름"보다 "대상 자원"이 URI에 드러남           │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|            Level 0 -> Level 1 전환 시 의미 변화                    |
++--------------------------------------------------------------------+
+| [Level 0]                                                         |
+| POST /api                                                         |
+| { action: "createOrder", customerId: 7 }                         |
+| POST /api                                                         |
+| { action: "cancelOrder", orderId: 1001 }                         |
+|                                                                    |
+| [Level 1]                                                         |
+| POST /orders                -> 주문 컬렉션에 생성 요청             |
+| POST /orders/1001/cancel    -> 아직 메서드는 미성숙할 수 있음      |
+| GET  /orders/1001?          -> 이상적이지만 Level 2에서 본격 정착  |
+|                                                                    |
+| 핵심 변화: "행위 이름"보다 "대상 자원"이 URI에 드러남           |
++--------------------------------------------------------------------+
 ```
 
 이 단계에서 설계자는 보통 컬렉션 URI, 개별 리소스 URI, 하위 리소스 URI를 정의한다. 예를 들어 고객과 주문 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 `/customers/7/orders`처럼 표현할 수 있다. 이 구조는 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 문서화, [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 권한 모델링, [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/)에 직접 도움이 된다. 왜냐하면 요청 경로만 보아도 시스템이 어떤 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체를 만졌는지 알 수 있기 때문이다.
@@ -139,15 +139,15 @@ Level 1의 기대효과는 인터페이스 의미가 밖으로 드러난다는 �
 ```text
 Level 0
   (단일 URI + action 중심)
-    │
-    ▼
+    |
+    v
 Level 1
   (리소스별 고유 URI)
-    │
-    ├─ 컬렉션/개별 리소스 구분
-    ├─ 도메인 경계 노출
-    └─ 문서화 · 라우팅 명확화
-    ▼
+    |
+    +- 컬렉션/개별 리소스 구분
+    +- 도메인 경계 노출
+    +- 문서화 · 라우팅 명확화
+    v
 Level 2
   (HTTP 메서드 · 상태 코드 정착)
 ```
@@ -166,7 +166,7 @@ Level 2
 
 **진행 상황**: 159 / 482
 
-← **이전**: [158. Level 0 - 단일 URI, 단일 POST 메서드만 사용 (RPC 스타일)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/158_rest_level_0_rpc_style/)
-**다음**: [160. Level 2 - HTTP 메서드의 적절한 분리 사용 (가장 대중적 단계)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/160_rest_level_2_http_verbs/) →
+<- **이전**: [158. Level 0 - 단일 URI, 단일 POST 메서드만 사용 (RPC 스타일)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/158_rest_level_0_rpc_style/)
+**다음**: [160. Level 2 - HTTP 메서드의 적절한 분리 사용 (가장 대중적 단계)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/160_rest_level_2_http_verbs/) ->
 
 ---

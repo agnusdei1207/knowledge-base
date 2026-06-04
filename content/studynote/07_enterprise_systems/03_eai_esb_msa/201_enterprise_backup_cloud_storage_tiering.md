@@ -44,16 +44,16 @@ tags = ["studynote-enterprise"]
 아래 그림은 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 시간이 지나며 더 저렴한 계층으로 이동하고, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시에는 다시 리콜되는 구조를 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                         Backup data lifecycle tiering                     │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Backup Job -> Performance Tier -> Capacity Tier -> Archive Tier          │
-│                (SSD / NAS)        (Object / HDD)     (Glacier / Tape)    │
-│                     └────────── ILM / retention policy ──────────┘        │
-│                                      │                                     │
-│                                      ▼                                     │
-│                         Recall for restore / immutable copy                │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                         Backup data lifecycle tiering                     |
++----------------------------------------------------------------------------+
+| Backup Job -> Performance Tier -> Capacity Tier -> Archive Tier          |
+|                (SSD / NAS)        (Object / HDD)     (Glacier / Tape)    |
+|                     +---------- ILM / retention policy ----------+        |
+|                                      |                                     |
+|                                      v                                     |
+|                         Recall for restore / immutable copy                |
++----------------------------------------------------------------------------+
 ```
 
 핵심 원리는 자동 이동 자체보다 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)에 있다. 예를 들어 30일 이내 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)은 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)에 유지하고, 30일 이후는 객체 스토리지로 이동하며, 1년 이후는 딥 아카이브 (Deep Archive)로 내리는 식의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 대표적이다. 여기에 객체 잠금 (Object [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))과 [WORM](/knowledge-base/studynote/02_operating_system/10_security/590_worm/) ([Write Once Read Many](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/693_worm_storage/))을 결합하면, [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 복사본이 삭제·변조되지 않는 불변 저장소 역할도 수행할 수 있다.
@@ -126,17 +126,17 @@ tags = ["studynote-enterprise"]
 
 ```text
 단일 고가 스토리지 백업
-    │
-    ▼
+    |
+    v
 성능 티어 + 용량 티어 분리
-    │
-    ▼
+    |
+    v
 객체 스토리지 활용
-    │
-    ▼
+    |
+    v
 아카이브 · 불변 백업 결합
-    │
-    ▼
+    |
+    v
 정책 기반 클라우드 티어링 백업 아키텍처
 ```
 
@@ -154,7 +154,7 @@ tags = ["studynote-enterprise"]
 
 **진행 상황**: 201 / 482
 
-← **이전**: [200. 로우코드 / 노코드 (LC/NC) 기반 엔터프라이즈 워크플로우 자동화](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/200_low_code_no_code_enterprise_workflow_automation/)
-**다음**: [202. BPM 라이프사이클 (Business Process Management Lifecycle)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/202_bpm_lifecycle_design_execution_monitoring_optimization/) →
+<- **이전**: [200. 로우코드 / 노코드 (LC/NC) 기반 엔터프라이즈 워크플로우 자동화](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/200_low_code_no_code_enterprise_workflow_automation/)
+**다음**: [202. BPM 라이프사이클 (Business Process Management Lifecycle)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/202_bpm_lifecycle_design_execution_monitoring_optimization/) ->
 
 ---

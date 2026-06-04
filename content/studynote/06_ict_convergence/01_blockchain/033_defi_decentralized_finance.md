@@ -40,19 +40,19 @@ DeFi(Decentralized Finance, [탈중앙화](/knowledge-base/studynote/06_ict_conv
 ```
 x × y = k  (상수 곱 공식)
 
-유동성 풀: ETH 100개, USDC 200,000개 → k = 20,000,000
+유동성 풀: ETH 100개, USDC 200,000개 -> k = 20,000,000
 
 ETH 1개 구매 시:
   ETH: 100 - 1 = 99
-  USDC: 20,000,000 / 99 ≈ 202,020 → 증가분 2,020 USDC 지불
-  → 실효 가격: 2,020 USDC/ETH (슬리피지 발생)
+  USDC: 20,000,000 / 99 ≈ 202,020 -> 증가분 2,020 USDC 지불
+  -> 실효 가격: 2,020 USDC/ETH (슬리피지 발생)
 ```
 
 ### 유동성 공급자 (LP, Liquidity [Provider](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/150_soa_triangle_architecture/))
 
 - LP가 두 토큰을 1:1 비율로 풀에 예치
 - 거래 수수료 0.3% 수익 (Uniswap v2 기준)
-- LP 토큰 발행 → 지분 표시 → 출금 시 반납
+- LP 토큰 발행 -> 지분 표시 -> 출금 시 반납
 
 📢 **섹션 요약 비유**: AMM 유동성 풀은 환전소 금고다 — 금고에 달러와 원화를 채워두면, 누군가 환전할 때마다 자동으로 비율이 바뀌고 수수료가 쌓인다.
 
@@ -63,16 +63,16 @@ ETH 1개 구매 시:
 | 카테고리   | [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)          | 기능                        | TVL (2024 기준) |
 |----------|-----------------|----------------------------|---------------|
 | DEX      | Uniswap, Curve  | 토큰 교환 (AMM 기반)         | $5B+          |
-| 대출     | Aave, Compound  | 담보 예치 → 대출 (초과 담보) | $10B+         |
-| 스테이블  | MakerDAO (DAI)  | [ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/) 담보 → DAI 발행          | $4B+          |
+| 대출     | Aave, Compound  | 담보 예치 -> 대출 (초과 담보) | $10B+         |
+| 스테이블  | MakerDAO (DAI)  | [ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/) 담보 -> DAI 발행          | $4B+          |
 | 수익 최적 | Yearn Finance   | DeFi [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 자동화             | $500M+        |
 | 보험     | Nexus Mutual    | [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 위험 보장     | $300M+        |
 
 ### DeFi 레고 블록 조합 (Composability)
 
 ```
-Aave에서 ETH 담보 대출 → Curve DEX에서 스왑 →
-Yearn Vault에 예치 → 복리 수익 자동 재투자
+Aave에서 ETH 담보 대출 -> Curve DEX에서 스왑 ->
+Yearn Vault에 예치 -> 복리 수익 자동 재투자
 ```
 
 **"Money Lego"**: DeFi [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)들이 API처럼 조합 가능
@@ -87,9 +87,9 @@ Yearn Vault에 예치 → 복리 수익 자동 재투자
 
 | 공격          | 원리                             | 사례                  |
 |-------------|----------------------------------|----------------------|
-| 플래시론     | 같은 TX에서 무담보 대출→조작→상환 | bZx, Euler ($197M)   |
+| 플래시론     | 같은 TX에서 무담보 대출->조작->상환 | bZx, Euler ($197M)   |
 | 재진입 공격  | 콜백 함수 악용해 반복 출금        | [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) Hack (2016, $60M)|
-| 오라클 조작  | 가격 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조작 → 청산 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)    | Mango Markets ($117M)|
+| 오라클 조작  | 가격 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조작 -> 청산 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)    | Mango Markets ($117M)|
 | 러그풀       | 개발자가 유동성 전액 인출         | Squid Game Token     |
 
 ### 비영구적 손실 (Impermanent Loss)
@@ -97,7 +97,7 @@ Yearn Vault에 예치 → 복리 수익 자동 재투자
 ```
 LP로 ETH/USDC 예치 후 ETH 가격 2배 상승 시:
   그냥 보유했을 때보다 LP 수익이 낮음
-  → "비영구적" 손실 (풀 철수 시 확정)
+  -> "비영구적" 손실 (풀 철수 시 확정)
 ```
 
 📢 **섹션 요약 비유**: 플래시론 공격은 빈 수표다 — 잠깐 빌려서 사기치고 돌려주는 건데, 은행이 같은 날 입출금을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 안 한 빈틈을 이용한다.
@@ -129,23 +129,23 @@ EU MiCA (2024 시행): 스테이블코인·가상자산 발행자 규제
 
 ```
 DeFi (Decentralized Finance)
-├── 핵심 메커니즘
-│   ├── AMM (Automated Market Maker)
-│   │   └── 상수 곱 공식 x·y=k
-│   ├── 유동성 풀 / LP 토큰
-│   └── 초과 담보 대출
-├── 주요 프로토콜
-│   ├── DEX: Uniswap, Curve
-│   ├── 대출: Aave, Compound
-│   └── 스테이블: MakerDAO
-├── 위험
-│   ├── 플래시론 공격
-│   ├── 재진입 공격
-│   └── 비영구적 손실 (IL)
-└── 발전 방향
-    ├── RWA 토큰화
-    ├── L2 DeFi
-    └── MiCA 규제 대응
++-- 핵심 메커니즘
+|   +-- AMM (Automated Market Maker)
+|   |   +-- 상수 곱 공식 x·y=k
+|   +-- 유동성 풀 / LP 토큰
+|   +-- 초과 담보 대출
++-- 주요 프로토콜
+|   +-- DEX: Uniswap, Curve
+|   +-- 대출: Aave, Compound
+|   +-- 스테이블: MakerDAO
++-- 위험
+|   +-- 플래시론 공격
+|   +-- 재진입 공격
+|   +-- 비영구적 손실 (IL)
++-- 발전 방향
+    +-- RWA 토큰화
+    +-- L2 DeFi
+    +-- MiCA 규제 대응
 ```
 
 ---
@@ -153,23 +153,23 @@ DeFi (Decentralized Finance)
 ## 📈 관련 키워드 및 발전 흐름도
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                    DeFi 발전 흐름                                │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 2017년       │ MakerDAO 등장      │ 최초 DeFi — CDP·DAI 스테이블│
-│ 2018년       │ Uniswap v1 출시    │ AMM 패러다임 시작            │
-│ 2020년       │ DeFi Summer        │ Compound·YFI·유동성 채굴 폭발│
-│ 2021년       │ TVL $100B 돌파     │ Curve·Aave·L2 DeFi 확장      │
-│ 2022년       │ 크립토 윈터·붕괴   │ Terra/LUNA·Celsius 파산      │
-│ 2024년       │ MiCA·RWA·ETF 승인  │ 기관 DeFi·규제 명확화         │
-└──────────────┴────────────────────┴─────────────────────────────┘
++-----------------------------------------------------------------+
+|                    DeFi 발전 흐름                                |
++--------------+--------------------+-----------------------------+
+| 2017년       | MakerDAO 등장      | 최초 DeFi — CDP·DAI 스테이블|
+| 2018년       | Uniswap v1 출시    | AMM 패러다임 시작            |
+| 2020년       | DeFi Summer        | Compound·YFI·유동성 채굴 폭발|
+| 2021년       | TVL $100B 돌파     | Curve·Aave·L2 DeFi 확장      |
+| 2022년       | 크립토 윈터·붕괴   | Terra/LUNA·Celsius 파산      |
+| 2024년       | MiCA·RWA·ETF 승인  | 기관 DeFi·규제 명확화         |
++--------------+--------------------+-----------------------------+
 
 핵심 키워드 연결:
-스마트 컨트랙트 → AMM → 유동성 풀 → 수익 농업
-      ↓             ↓         ↓           ↓
+스마트 컨트랙트 -> AMM -> 유동성 풀 -> 수익 농업
+      v             v         v           v
 Solidity/EVM    x·y=k    LP 토큰    Yield Farming
-      ↓
-DeFi 레고(Composability) → TVL 성장 → 규제 강화
+      v
+DeFi 레고(Composability) -> TVL 성장 -> 규제 강화
 ```
 
 ---
@@ -186,7 +186,7 @@ DeFi 레고(Composability) → TVL 성장 → 규제 강화
 
 **진행 상황**: 33 / 552
 
-← **이전**: [DApp (Decentralized Application, 분산 애플리케이션)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/)
-**다음**: [유니스왑·AMM (Automated Market Maker, 자동화 시장 조성자)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/034_uniswap_amm_automated_market_maker/) →
+<- **이전**: [DApp (Decentralized Application, 분산 애플리케이션)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/)
+**다음**: [유니스왑·AMM (Automated Market Maker, 자동화 시장 조성자)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/034_uniswap_amm_automated_market_maker/) ->
 
 ---

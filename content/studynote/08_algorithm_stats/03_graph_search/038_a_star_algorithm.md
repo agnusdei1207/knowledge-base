@@ -51,29 +51,29 @@ f(n) = g(n) + h(n)
 - **결론:** A*는 지능형 에이전트의 핵심 판단 로직으로서, 복잡한 환경 내에서 최적의 의사결정을 지원하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)적 근간임
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-- [그래프 탐색](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/613_graph_bfs_memory/) → [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) → A* → [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)
-- A* → [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) → 맨해튼 거리 / 유클리드 거리
-- A* → 변형 → IDA*, Jump Point Search (JPS)
+- [그래프 탐색](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/613_graph_bfs_memory/) -> [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) -> A* -> [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)
+- A* -> [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) -> 맨해튼 거리 / 유클리드 거리
+- A* -> 변형 -> IDA*, Jump Point Search (JPS)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
 [브루트 포스 경로 탐색 — 모든 경로 전수]
-    │
-    ▼
+    |
+    v
 [다익스트라 (Dijkstra) — g(n) 기반 최단경로]
-    │
-    ▼
+    |
+    v
 [휴리스틱 탐색 (Best-First) — h(n)으로 목표 유도]
-    │
-    ▼
+    |
+    v
 [A* 알고리즘 — g(n)+h(n) 균형 탐색]
-    │
-    ├─▶ [Weighted A* — 속도 우선 근사]
-    │
-    └─▶ [IDA* / JPS — 메모리·격자 최적화]
-                │
-                ▼
+    |
+    +--> [Weighted A* — 속도 우선 근사]
+    |
+    +--> [IDA* / JPS — 메모리·격자 최적화]
+                |
+                v
             [게임 AI / 로보틱스 / 내비게이션]
 ```
 A*는 [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)의 정확성과 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)의 방향성을 결합해, 최단 경로 보장을 유지하면서 탐색 공간을 효율적으로 줄인다.
@@ -89,7 +89,7 @@ A*는 [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_se
 
 **진행 상황**: 38 / 175
 
-← **이전**: [9. 플로이드-워샬 (Floyd-Warshall) — 전체 쌍 최단 경로, O(V³)](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/037_floyd_warshall/)
-**다음**: [11. 위상 정렬 (Topological Sort) — DAG, Kahn's / DFS 기반](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/039_topological_sort/) →
+<- **이전**: [9. 플로이드-워샬 (Floyd-Warshall) — 전체 쌍 최단 경로, O(V³)](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/037_floyd_warshall/)
+**다음**: [11. 위상 정렬 (Topological Sort) — DAG, Kahn's / DFS 기반](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/039_topological_sort/) ->
 
 ---

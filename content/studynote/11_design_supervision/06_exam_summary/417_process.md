@@ -22,12 +22,12 @@ tags = ["studynote-design-supervision"]
 감리 관점에서는 “테스트 케이스가 많다”보다 “판정 기준이 명확한가”가 더 중요하다. 같은 실행 결과라도 오라클이 모호하면 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 누락이나 오탐이 발생하고, 자동화된 테스트 역시 신뢰하기 어렵다. 따라서 오라클 유형 선택은 테스트 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 핵심 통제점이다.
 
 ```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ 입력 데이터     │──▶│ 실제 실행 결과   │──▶│ 오라클 판정     │
-└──────────────┘   └──────────────┘   └──────────────┘
-                                            │
-                                            ├─ 참/실패
-                                            └─ 재검토 필요
++--------------+   +--------------+   +--------------+
+| 입력 데이터     |--->| 실제 실행 결과   |--->| 오라클 판정     |
++--------------+   +--------------+   +--------------+
+                                            |
+                                            +- 참/실패
+                                            +- 재검토 필요
 ```
 
 - **📢 섹션 요약 비유**: 시험을 봤다면 답안지뿐 아니라 정답표가 있어야 점수를 매길 수 있는 것과 같다.
@@ -39,20 +39,20 @@ tags = ["studynote-design-supervision"]
 감리에서는 한 가지 유형만 고집하기보다, 중요 업무에는 [참 오라클](/knowledge-base/studynote/04_software_engineering/11_testing_validation/437_true_oracle/)과 샘플링을, 대규모 회귀에는 [일관성 오라클](/knowledge-base/studynote/04_software_engineering/11_testing_validation/440_consistent_oracle/)을, 탐색적 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에는 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)을 결합했는지 본다. 즉 오라클도 자산 중요도와 비용에 따라 계층화되어야 한다.
 
 ```text
-┌────────────────────┐
-│ 참 오라클            │
-│ 가장 정확, 가장 비쌈 │
-└─────────┬──────────┘
-          ▼
-┌────────────────────┐
-│ 샘플링/휴리스틱     │
-│ 대표값·경험 규칙    │
-└─────────┬──────────┘
-          ▼
-┌────────────────────┐
-│ 일관성 오라클        │
-│ 변경 전후 비교       │
-└────────────────────┘
++--------------------+
+| 참 오라클            |
+| 가장 정확, 가장 비쌈 |
++---------+----------+
+          v
++--------------------+
+| 샘플링/휴리스틱     |
+| 대표값·경험 규칙    |
++---------+----------+
+          v
++--------------------+
+| 일관성 오라클        |
+| 변경 전후 비교       |
++--------------------+
 ```
 
 | 오라클 유형 | 판단 방식 | 적합한 상황 |
@@ -114,21 +114,21 @@ tags = ["studynote-design-supervision"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 - 관련 키워드: [참 오라클](/knowledge-base/studynote/04_software_engineering/11_testing_validation/437_true_oracle/), [샘플링 오라클](/knowledge-base/studynote/04_software_engineering/11_testing_validation/438_sampling_oracle/), [휴리스틱 오라클](/knowledge-base/studynote/04_software_engineering/11_testing_validation/439_heuristic_oracle/), [일관성 오라클](/knowledge-base/studynote/04_software_engineering/11_testing_validation/440_consistent_oracle/), 골든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 회귀 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)
-- 발전 흐름: 명시적 기대값 중심 → 대표 샘플 중심 → 경험 규칙 보강 → 전후 비교 자동화 → 복합 오라클 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
+- 발전 흐름: 명시적 기대값 중심 -> 대표 샘플 중심 -> 경험 규칙 보강 -> 전후 비교 자동화 -> 복합 오라클 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 ```text
 요구사항/정답 모델
-       │
-       ▼
+       |
+       v
 참 오라클 설계
-       │
-       ├────────▶ 샘플링 오라클
-       │
-       ├────────▶ 휴리스틱 오라클
-       │
-       └────────▶ 일관성 오라클
-                       │
-                       ▼
+       |
+       +---------> 샘플링 오라클
+       |
+       +---------> 휴리스틱 오라클
+       |
+       +---------> 일관성 오라클
+                       |
+                       v
                  회귀 자동 판정
 ```
 
@@ -144,7 +144,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 495 / 530
 
-← **이전**: [416. 보안 테스트 퍼징 기반 이상 패킷 자동 주입 (Security Fuzzing for Abnormal Packet Injection)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/416_process/)
-**다음**: [418. 뮤테이션 테스트의 소스 변이 커버리지 검증 (Mutation Testing)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/418_audit/) →
+<- **이전**: [416. 보안 테스트 퍼징 기반 이상 패킷 자동 주입 (Security Fuzzing for Abnormal Packet Injection)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/416_process/)
+**다음**: [418. 뮤테이션 테스트의 소스 변이 커버리지 검증 (Mutation Testing)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/418_audit/) ->
 
 ---

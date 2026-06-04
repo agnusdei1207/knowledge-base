@@ -33,24 +33,24 @@ tags = ["studynote-ict-convergence"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                CLIP 대조 학습 구조                        │
-│                                                         │
-│  이미지 배치 (N개)         텍스트 배치 (N개)              │
-│  ┌──────┐                 ┌──────────────┐              │
-│  │img_1 │──►[이미지 인코더]─►│ v_1 (임베딩) │              │
-│  │img_2 │  (ViT)          │ v_2          │              │
-│  │ ...  │                 │ ...          │              │
-│  │img_N │                 │ v_N          │              │
-│  └──────┘                 └──────────────┘              │
-│                                   │                     │
-│  ┌──────────────────────┐          │ 코사인 유사도 행렬    │
-│  │ t_1 (텍스트 임베딩)  │◄─────────┘ (N×N)             │
-│  │ t_2                  │  대각선: 매칭 쌍 ↑ (당기기)    │
-│  │ ...                  │  비대각: 비매칭 ↓ (밀기)       │
-│  │ t_N                  │                              │
-│  └──────────────────────┘                              │
-└─────────────────────────────────────────────────────────┘
++---------------------------------------------------------+
+|                CLIP 대조 학습 구조                        |
+|                                                         |
+|  이미지 배치 (N개)         텍스트 배치 (N개)              |
+|  +------+                 +--------------+              |
+|  |img_1 |--►[이미지 인코더]-►| v_1 (임베딩) |              |
+|  |img_2 |  (ViT)          | v_2          |              |
+|  | ...  |                 | ...          |              |
+|  |img_N |                 | v_N          |              |
+|  +------+                 +--------------+              |
+|                                   |                     |
+|  +----------------------+          | 코사인 유사도 행렬    |
+|  | t_1 (텍스트 임베딩)  |◄---------+ (N×N)             |
+|  | t_2                  |  대각선: 매칭 쌍 ^ (당기기)    |
+|  | ...                  |  비대각: 비매칭 v (밀기)       |
+|  | t_N                  |                              |
+|  +----------------------+                              |
++---------------------------------------------------------+
 ```
 
 <strong>대조 학습(Contrastive <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a>) 손실 (InfoNCE)</strong>
@@ -59,7 +59,7 @@ tags = ["studynote-ict-convergence"]
 - 매칭 쌍(i, i)의 [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/) 최대화 (**당기기**)
 - 비매칭 쌍(i, j≠i)의 [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/) 최소화 (**밀기**)
 
-배치 크기가 클수록(최대 32,768) 학습 효과 향상 → CLIP은 256개 TPU로 학습.
+배치 크기가 클수록(최대 32,768) 학습 효과 향상 -> CLIP은 256개 TPU로 학습.
 
 <strong>제로샷 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> 방법</strong>
 
@@ -125,9 +125,9 @@ text_features = model.encode_text(texts)
 
 **기술사 판단 포인트**
 
-1. **의료 영상 적용**: CLIP의 일반 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 학습 → 의료 특화 BioViL, MedCLIP 파인튜닝 필요
-2. <strong>프롬프트 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/">앙상블</a></strong>: 단일 프롬프트 대신 "a photo of {cls}", "an image of {cls}" 등 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) → 정확도 향상
-3. **검색 파이프라인**: [CLIP](/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/) [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) → FAISS [HNSW](/knowledge-base/studynote/05_database/06_dw_olap_trends/351_hnsw/) 인덱싱 → 실시간 [멀티모달](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) 검색 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 구현
+1. **의료 영상 적용**: CLIP의 일반 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 학습 -> 의료 특화 BioViL, MedCLIP 파인튜닝 필요
+2. <strong>프롬프트 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/">앙상블</a></strong>: 단일 프롬프트 대신 "a photo of {cls}", "an image of {cls}" 등 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) -> 정확도 향상
+3. **검색 파이프라인**: [CLIP](/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/) [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) -> FAISS [HNSW](/knowledge-base/studynote/05_database/06_dw_olap_trends/351_hnsw/) 인덱싱 -> 실시간 [멀티모달](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) 검색 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 구현
 4. **라이선스**: OpenAI CLIP은 MIT 라이선스, 상업 사용 가능. LAION [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 학습 모델은 [저작권](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/583_ai_code_license_security_threats/) 주의
 
 - **📢 섹션 요약 비유**: CLIP은 강력하지만 인터넷의 편견을 그대로 흡수했다 — 의료·법률에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 전 반드시 편견 검사가 필요하다.
@@ -155,7 +155,7 @@ CLIP은 이미지와 언어를 통합한 [멀티모달](/knowledge-base/studynot
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[CLIP 핵심 · 매칭] → [CLIP 멀티모달 대조 학습 이미지-텍스트 정렬] → [한계 · 인터넷 데이터 편향 내재]
+[CLIP 핵심 · 매칭] -> [CLIP 멀티모달 대조 학습 이미지-텍스트 정렬] -> [한계 · 인터넷 데이터 편향 내재]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -170,7 +170,7 @@ CLIP은 이미지와 언어를 통합한 [멀티모달](/knowledge-base/studynot
 
 **진행 상황**: 534 / 552
 
-← **이전**: [533. LDM 잠재 디퓨전 모델과 생성 최적화 (LDM Latent Diffusion Model Generation Optimization)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/533_ldm_latent_diffusion_model_optimization/)
-**다음**: [535. 전문가 혼합 모델 (Mixture of Experts, MoE)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/535_moe_mixture_of_experts/) →
+<- **이전**: [533. LDM 잠재 디퓨전 모델과 생성 최적화 (LDM Latent Diffusion Model Generation Optimization)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/533_ldm_latent_diffusion_model_optimization/)
+**다음**: [535. 전문가 혼합 모델 (Mixture of Experts, MoE)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/535_moe_mixture_of_experts/) ->
 
 ---

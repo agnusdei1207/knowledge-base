@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [TIME_WAIT 상태]
-    │
-    ▼
+    |
+    v
 [CLOSE_WAIT / LAST_ACK 상태]
-    │
-    └──▶ [TCP 흐름 제어]
+    |
+    +---> [TCP 흐름 제어]
 ```
 
 - **📢 섹션 요약 비유**: ** CLOSE_WAIT은 헤어지자는 애인의 통보를 받고 일단 고개를 끄덕였지만, **"그래도 내가 사준 플스는 돌려주고 가!"라며 바짓가랑이를 붙잡고 남은 짐([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 싸주는 질척거리는 시간<strong>이며, LAST_ACK는 짐을 다 싸주고 상대가 </strong>마지막으로 "잘 살아라(최종 ACK)" 하고 뒤돌아 걸어가는 모습을 눈으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하기 전 1초의 찰나**입니다.
@@ -44,25 +44,25 @@ tags = ["studynote-network"]
 네트워크 실무에서 `TIME_WAIT` 못지않게 시스템 엔지니어의 피를 말리는 것이 바로 좀비처럼 쌓이는 `CLOSE_WAIT` 장애다.
 
 ### 1. 정상적인 흐름의 완벽한 복기
-- 클라이언트 ── `FIN` ──▶ **서버 (수신!)**
+- 클라이언트 -- `FIN` ---> **서버 (수신!)**
 - **서버 OS**: "어? 쟤가 끊재! 일단 알았다고 대답해 줘!"
-  - 서버 ── `ACK` ──▶ 클라이언트
+  - 서버 -- `ACK` ---> 클라이언트
   - <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">서버 [소켓</a> 상태: CLOSE_WAIT 진입!]</strong>
 - **서버 OS -> 서버 애플리케이션(예: Tomcat)**: "야 톰캣아! 저기 손님이 이제 그만 먹고 나가겠대! 넌 짐 빨리 다 싸고 입에 물고 있는 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 닫아(Close() [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/))!"
 - 서버 애플리케이션은 남은 파일을 싹 다 밀어낸 뒤, 마지막으로 OS에게 "그래, 나도 다 줬어. 셔터 닫아라!"라고 지시한다.
 - **서버 OS**: "오케이!"
-  - 서버 ── `FIN` ──▶ 클라이언트
+  - 서버 -- `FIN` ---> 클라이언트
   - <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">서버 [소켓</a> 상태: LAST_ACK 진입!]</strong>
-- 클라이언트 ── `ACK` (마지막 영수증) ──▶ 서버
+- 클라이언트 -- `ACK` (마지막 영수증) ---> 서버
 - <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">서버 [소켓</a> 상태: CLOSED (완전 소멸, 깔끔한 해피엔딩!)]</strong>
 
 ```text
 [TIME_WAIT 상태]
-    │
-    ▼
+    |
+    v
 [CLOSE_WAIT / LAST_ACK 상태]
-    │
-    └──▶ [TCP 흐름 제어]
+    |
+    +---> [TCP 흐름 제어]
 ```
 
 - **📢 섹션 요약 비유**: CLOSE_WAIT / LAST_ACK 상태의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -92,24 +92,24 @@ CLOSE_WAIT / LAST_ACK 상태를 볼 때는 앞뒤 개념과의 경계를 함께 
 - **결과**: 앱은 "나 아직 안 끝났어!"라고 멍때리고, OS는 "앱이 아직 안 끝났다니까 셔터 못 내리겠네..." 하고 무한정 기다려준다(CLOSE_WAIT). 상대방은 이미 퇴근한 지 오렌지인데, 내 서버 혼자서 끝도 없이 메모리에 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)을 붙잡고 있다가 결국 서버 램이 꽉 차서 죽어버린다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                CLOSE_WAIT 장애 시나리오의 완벽한 묘사              │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 1. 고객 PC ] "나 로그아웃함 ㅂㅂ" (FIN) ──▶ [ 2. 우리 회사 서버 OS ] │
- │                                              상태: CLOSE_WAIT     │
- │                                                             │
- │   [ 3. 회사 서버 OS ] "야 백엔드 프로그램아! 고객이 끊쟀어 문 닫아라!"    │
- │       │                                                     │
- │       ▼ (명령 하달)                                          │
- │                                                             │
- │   [ 4. 미친 백엔드 프로그램 ] (개발자가 버그 내서 무한 연산 도는 중)       │
- │      "...... (무응답, close() 함수 호출 안 함)"                │
- │                                                             │
- │   ▶ 결론: OS는 앱이 명령을 내릴 때까지 수동적으로 평생 CLOSE_WAIT 상태로│
- │           기다린다. 이건 네트워크나 방화벽 문제가 아니라 순전히 개발자  │
- │           가 코드를 X 같이 짜서 발생한 애플리케이션 찌꺼기 에러다!!    │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                CLOSE_WAIT 장애 시나리오의 완벽한 묘사              |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 1. 고객 PC ] "나 로그아웃함 ㅂㅂ" (FIN) ---> [ 2. 우리 회사 서버 OS ] |
+ |                                              상태: CLOSE_WAIT     |
+ |                                                             |
+ |   [ 3. 회사 서버 OS ] "야 백엔드 프로그램아! 고객이 끊쟀어 문 닫아라!"    |
+ |       |                                                     |
+ |       v (명령 하달)                                          |
+ |                                                             |
+ |   [ 4. 미친 백엔드 프로그램 ] (개발자가 버그 내서 무한 연산 도는 중)       |
+ |      "...... (무응답, close() 함수 호출 안 함)"                |
+ |                                                             |
+ |   -> 결론: OS는 앱이 명령을 내릴 때까지 수동적으로 평생 CLOSE_WAIT 상태로|
+ |           기다린다. 이건 네트워크나 방화벽 문제가 아니라 순전히 개발자  |
+ |           가 코드를 X 같이 짜서 발생한 애플리케이션 찌꺼기 에러다!!    |
+ +-------------------------------------------------------------+
 ```
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -143,12 +143,12 @@ CLOSE_WAIT / LAST_ACK 상태는 전송 계층을 이해할 때 핵심 축을 잡
 
 ```text
 [선행 개념: TIME_WAIT 상태]
-    │
-    ▼
+    |
+    v
 [현재 개념: CLOSE_WAIT / LAST_ACK 상태]
-    │
-    ├──▶ [확장 A: TCP 흐름 제어]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: TCP 흐름 제어]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 CLOSE_WAIT / LAST_ACK 상태는 TIME_WAIT 상태에서 출발해 현재 메커니즘을 정교화하고, 이후 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -165,7 +165,7 @@ CLOSE_WAIT / LAST_ACK 상태는 TIME_WAIT 상태에서 출발해 현재 메커�
 
 **진행 상황**: 541 / 1120
 
-← **이전**: [419. TIME_WAIT 상태 (기본 2MSL 대기)](/knowledge-base/studynote/03_network/08_transport_layer/419_time_wait_state_2msl_delay_handling/)
-**다음**: [421. TCP 흐름 제어 (Flow Control)](/knowledge-base/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/) →
+<- **이전**: [419. TIME_WAIT 상태 (기본 2MSL 대기)](/knowledge-base/studynote/03_network/08_transport_layer/419_time_wait_state_2msl_delay_handling/)
+**다음**: [421. TCP 흐름 제어 (Flow Control)](/knowledge-base/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/) ->
 
 ---

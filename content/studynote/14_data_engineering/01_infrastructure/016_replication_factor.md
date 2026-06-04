@@ -28,14 +28,14 @@ tags = ["data_engineering"]
 이 도식은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 상에 저장될 때 왜 3개의 복제본이 필요한지를 보여주는 단일 블록 관점의 한계 시각화입니다.
 ```text
 [문제 상황: 단일 저장 구조의 취약성]
-Client ──쓰기──> [Block A] 저장 ──> [DataNode 1 (Rack 1)]
+Client --쓰기--> [Block A] 저장 --> [DataNode 1 (Rack 1)]
                                        💥 디스크 크래시 발생!
                                        => Block A 영구 유실, 파일 전체 손상
 
 [해결 구조: 복제 계수 3 도입]
-Client ──쓰기──> Block A (원본) ──> [DataNode 1 (Rack 1)]
-           ├──> Block A (복제1) ──> [DataNode 2 (Rack 2)]
-           └──> Block A (복제2) ──> [DataNode 3 (Rack 2)]
+Client --쓰기--> Block A (원본) --> [DataNode 1 (Rack 1)]
+           +--> Block A (복제1) --> [DataNode 2 (Rack 2)]
+           +--> Block A (복제2) --> [DataNode 3 (Rack 2)]
                (하나가 죽어도 나머지 2개 노드에서 즉시 서비스 재개 가능)
 ```
 이 흐름의 핵심은 복제가 단순히 동일한 서버 내의 다른 디스크가 아니라 물리적으로 분리된 여러 노드에 걸쳐 수행된다는 점입니다. 따라서 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))을 노드 단위에서 회피하게 되며, 시스템 전체 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))에 결정적 영향을 줍니다. 실무에서는 이러한 구조 덕분에 야간에 서버 한 대가 고장 나도 엔지니어가 즉시 달려가지 않고 다음 날 교체해도 되는 운영의 여유를 제공합니다.
@@ -59,23 +59,23 @@ Client ──쓰기──> Block A (원본) ──> [DataNode 1 (Rack 1)]
 이 구조도는 클라이언트가 1개의 블록을 3개의 노드에 복제할 때 발생하는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/">데이터 파이프라인</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/">Data Pipeline</a>)</strong> [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 흐름을 보여줍니다. [네임노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/)에 부하를 주지 않고 워커 노드끼리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복사하는 것이 핵심입니다.
 
 ```text
-┌──────────────── HDFS Write Pipeline ────────────────┐
-│                                                     │
-│  [NameNode] <── 1. 복제할 노드 3개 할당 요청 ─── [Client]     │
-│       │                                          │      │
-│       │ 2. DataNode 1, 2, 3 리스트 반환           │      │
-│       ▼                                          ▼      │
-│                                           (3. 패킷 전송) │
-│  [DataNode 1] ──── 4. 릴레이 복사 ────> [DataNode 2]      │
-│  (Rack 1)                             (Rack 2)      │
-│                                            │        │
-│                                    5. 릴레이 복사     │
-│                                            ▼        │
-│                                       [DataNode 3]  │
-│                                       (Rack 2)      │
-│                                                     │
-│  <────── 6. 패킷 수신 완료 ACK 역방향 전달 ───────────      │
-└─────────────────────────────────────────────────────┘
++---------------- HDFS Write Pipeline ----------------+
+|                                                     |
+|  [NameNode] <-- 1. 복제할 노드 3개 할당 요청 --- [Client]     |
+|       |                                          |      |
+|       | 2. DataNode 1, 2, 3 리스트 반환           |      |
+|       v                                          v      |
+|                                           (3. 패킷 전송) |
+|  [DataNode 1] ---- 4. 릴레이 복사 ----> [DataNode 2]      |
+|  (Rack 1)                             (Rack 2)      |
+|                                            |        |
+|                                    5. 릴레이 복사     |
+|                                            v        |
+|                                       [DataNode 3]  |
+|                                       (Rack 2)      |
+|                                                     |
+|  <------ 6. 패킷 수신 완료 ACK 역방향 전달 -----------      |
++-----------------------------------------------------+
 ```
 이 도식에서 핵심은 클라이언트가 3대의 노드에 각각 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 통신을 하는 것(Star Topology)이 아니라, `DataNode 1 -> 2 -> 3` 순서로 [데이지 체인](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/354_daisy_chain/)([Daisy Chain](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/354_daisy_chain/)) 방식의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 형성한다는 점입니다. 이런 배치는 클라이언트의 네트워크 병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))을 막고 전체 클러스터의 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 효율적으로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문입니다. 따라서 복제 계수가 3이라도 클라이언트 입장에서는 1번 보내는 것과 유사한 송신 비용만 듭니다. 실무에서는 이 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 중 하나가 끊어지면 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 작업이 중단되는 것이 아니라, 정상 노드로 우선 완료 처리한 후 비동기로 복제본을 재구성(Under-replicated block [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))하는 유연함을 보입니다.
 
@@ -103,15 +103,15 @@ Client ──쓰기──> Block A (원본) ──> [DataNode 1 (Rack 1)]
 
 이 다이어그램은 3중 복제의 공간 낭비 문제를 해결하는 지우개 코딩과의 아키텍처 관점 비교를 보여줍니다.
 ```text
-┌── 3x Replication (비용 높음, 성능 빠름) ──┐
-│ File A -> [Block 1] [Block 1] [Block 1] │
-│           (Node 1)  (Node 2)  (Node 3)  │
-└─────────────────────────────────────────┘
++-- 3x Replication (비용 높음, 성능 빠름) --+
+| File A -> [Block 1] [Block 1] [Block 1] |
+|           (Node 1)  (Node 2)  (Node 3)  |
++-----------------------------------------+
                        VS
-┌── Erasure Coding 3+2 (비용 낮음, 복구 느림) ──┐
-│ File A -> [Data 1] [Data 2] [Data 3] [Parity 1] [Parity 2] │
-│           (분산 노드에 패리티와 함께 분리 저장)            │
-└─────────────────────────────────────────────┘
++-- Erasure Coding 3+2 (비용 낮음, 복구 느림) --+
+| File A -> [Data 1] [Data 2] [Data 3] [Parity 1] [Parity 2] |
+|           (분산 노드에 패리티와 함께 분리 저장)            |
++---------------------------------------------+
 ```
 A 방식(3x)은 디스크 용량을 3배나 먹지만, CPU 부하가 전혀 없고 어떤 노드에서든 전체 블록을 즉시 읽어 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산을 시작할 수 있습니다. 반면 B 방식(EC)은 용량 낭비를 1.5배 수준으로 대폭 줄이지만, 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시 여러 노드에서 남은 조각을 끌어와 XOR 수학 연산을 해야 하므로 CPU와 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 소모됩니다. 따라서 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경(AWS S3 등)이나 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 3.x의 [콜드 데이터](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/676_cold_data_archiving/) 영역에서는 비용 절감을 위해 EC를 쓰고, 매일 스파크(Spark)로 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 없이 집계해야 하는 [핫 데이터](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/675_hot_data_caching/) 영역에서는 여전히 3중 복제가 유리합니다.
 
@@ -138,16 +138,16 @@ A 방식(3x)은 디스크 용량을 3배나 먹지만, CPU 부하가 전혀 없�
 이 플로우 트리는 복제 계수를 실무에서 어떻게 튜닝할지 결정하는 의사결정 경로를 보여줍니다.
 ```text
 [데이터 유형 파악]
-       │
-       ├─ (휘발성/중간 연산 산출물인가?) ──YES──> Replication = 1 (성능 올인)
-       │
-       ├─ (장기 보관용 아카이빙 데이터인가?) ──YES──> HDFS 3.x EC(Erasure Coding) 적용
-       │
-       └─ (NO: 핵심 DW/Data Lake 팩트 테이블인가?)
-             │
-             └─ (동시 읽기 요청이 극도로 많은가?)
-                   ├─ YES ──> Replication = 5 이상 (읽기 로드밸런싱 극대화)
-                   └─ NO  ──> Replication = 3 (표준 안정성 유지)
+       |
+       +- (휘발성/중간 연산 산출물인가?) --YES--> Replication = 1 (성능 올인)
+       |
+       +- (장기 보관용 아카이빙 데이터인가?) --YES--> HDFS 3.x EC(Erasure Coding) 적용
+       |
+       +- (NO: 핵심 DW/Data Lake 팩트 테이블인가?)
+             |
+             +- (동시 읽기 요청이 극도로 많은가?)
+                   +- YES --> Replication = 5 이상 (읽기 로드밸런싱 극대화)
+                   +- NO  --> Replication = 3 (표준 안정성 유지)
 ```
 이 흐름의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 수명 주기(Lifecycle)와 워크로드 성격에 따라 획일적인 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 탈피한다는 점입니다. 이 때문에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 목적을 정확히 파악하고 동적 스토리지 계층화(Tiering) 전략을 취해야 클러스터 비용과 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 레이턴시라는 두 마리 토끼를 잡을 수 있습니다. 실무에서는 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 활용해 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시점 1개월 후에는 복제 계수를 3에서 2로 자동 감축하는 스크립트를 돌리기도 합니다.
 
@@ -182,17 +182,17 @@ A 방식(3x)은 디스크 용량을 3배나 먹지만, CPU 부하가 전혀 없�
 
 ```text
 [단일 스토리지 (Single Node) — 디스크 고장 시 데이터 완전 소실]
-    │
-    ▼
+    |
+    v
 [RAID — 복수 디스크에 패리티 분산, 단일 시스템 내 내결함성]
-    │
-    ▼
+    |
+    v
 [HDFS 복제 계수 3 (Replication Factor 3) — Rack-Aware 분산 복제, 노드·랙 이중 내결함성]
-    │
-    ▼
+    |
+    v
 [이레이저 코딩 (Erasure Coding) — 패리티 수학으로 스토리지 낭비를 50% 이하로 절감]
-    │
-    ▼
+    |
+    v
 [클라우드 객체 스토리지 (S3 / GCS) — 내부 투명 복제·이레이저 코딩 자동 적용, 99.999999999% 내구성]
 ```
 이 흐름은 단일 디스크의 취약성을 해결하기 위해 3중 복제 방식이 등장하고, 스토리지 비효율을 개선한 이레이저 코딩을 거쳐 클라우드 객체 스토리지가 두 기법을 투명하게 내재화하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 내구성 아키텍처의 발전을 보여준다.
@@ -208,7 +208,7 @@ A 방식(3x)은 디스크 용량을 3배나 먹지만, CPU 부하가 전혀 없�
 
 **진행 상황**: 16 / 258
 
-← **이전**: [15. 데이터노드 (DataNode) - 실제 데이터를 보관하는 수많은 워커 노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/015_datanode/)
-**다음**: [17. 랙 인지 (Rack Awareness) 알고리즘 - 데이터 복제 시 물리적으로 동일한 스위치 전원을 공유하는 랙에 전부 넣지 않고](/knowledge-base/studynote/14_data_engineering/01_infrastructure/017_rack_awareness/) →
+<- **이전**: [15. 데이터노드 (DataNode) - 실제 데이터를 보관하는 수많은 워커 노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/015_datanode/)
+**다음**: [17. 랙 인지 (Rack Awareness) 알고리즘 - 데이터 복제 시 물리적으로 동일한 스위치 전원을 공유하는 랙에 전부 넣지 않고](/knowledge-base/studynote/14_data_engineering/01_infrastructure/017_rack_awareness/) ->
 
 ---

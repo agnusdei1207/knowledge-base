@@ -49,61 +49,61 @@ L = Loss(ŷ), ŷ = σ(z), z = Wx + b
 ### 역전파 전체 흐름 (3층 신경망 기준)
 
 ```
-┌────────────────────────────────────────────────────────────────────┐
-│                  역전파 (Backpropagation) 흐름                      │
-│                                                                    │
-│  순전파 (저장된 값 활용):                                            │
-│  x → [W¹,b¹] → z¹ → [ReLU] → a¹ → [W²,b²] → z² → [σ] → ŷ → L  │
-│                                                                    │
-│  역전파 (출력→입력 방향):                                            │
-│                                                                    │
-│  ∂L/∂ŷ = -(y/ŷ) + (1-y)/(1-ŷ)    ← 손실 기울기                   │
-│      ↓                                                             │
-│  ∂L/∂z² = ∂L/∂ŷ × σ'(z²)         ← 활성화 역전파                 │
-│      ↓                                                             │
-│  ∂L/∂W² = ∂L/∂z² × (a¹)ᵀ         ← 가중치 기울기                  │
-│  ∂L/∂b² = ∂L/∂z²                  ← 편향 기울기                   │
-│      ↓                                                             │
-│  ∂L/∂a¹ = (W²)ᵀ × ∂L/∂z²         ← 이전 층으로 기울기 전달        │
-│      ↓                                                             │
-│  ∂L/∂z¹ = ∂L/∂a¹ × ReLU'(z¹)     ← 활성화 역전파                 │
-│      ↓                                                             │
-│  ∂L/∂W¹ = ∂L/∂z¹ × xᵀ            ← 가중치 기울기                  │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                  역전파 (Backpropagation) 흐름                      |
+|                                                                    |
+|  순전파 (저장된 값 활용):                                            |
+|  x -> [W¹,b¹] -> z¹ -> [ReLU] -> a¹ -> [W^,b^] -> z^ -> [σ] -> ŷ -> L  |
+|                                                                    |
+|  역전파 (출력->입력 방향):                                            |
+|                                                                    |
+|  ∂L/∂ŷ = -(y/ŷ) + (1-y)/(1-ŷ)    <- 손실 기울기                   |
+|      v                                                             |
+|  ∂L/∂z^ = ∂L/∂ŷ × σ'(z^)         <- 활성화 역전파                 |
+|      v                                                             |
+|  ∂L/∂W^ = ∂L/∂z^ × (a¹)ᵀ         <- 가중치 기울기                  |
+|  ∂L/∂b^ = ∂L/∂z^                  <- 편향 기울기                   |
+|      v                                                             |
+|  ∂L/∂a¹ = (W^)ᵀ × ∂L/∂z^         <- 이전 층으로 기울기 전달        |
+|      v                                                             |
+|  ∂L/∂z¹ = ∂L/∂a¹ × ReLU'(z¹)     <- 활성화 역전파                 |
+|      v                                                             |
+|  ∂L/∂W¹ = ∂L/∂z¹ × xᵀ            <- 가중치 기울기                  |
++--------------------------------------------------------------------+
 ```
 
 ### 연쇄 법칙의 국소 기울기 (Local Gradient)
 
 ```
-┌──────────────────────────────────────────────────────────────────┐
-│            연산 그래프에서의 국소 기울기                            │
-│                                                                  │
-│  곱셈 노드 (z = x × w):                                          │
-│    ∂z/∂x = w  (x의 국소 기울기 = w)                              │
-│    ∂z/∂w = x  (w의 국소 기울기 = x)                              │
-│                                                                  │
-│  덧셈 노드 (z = x + b):                                          │
-│    ∂z/∂x = 1  (기울기 그대로 통과)                               │
-│    ∂z/∂b = 1  (기울기 그대로 통과)                               │
-│                                                                  │
-│  ReLU 노드:                                                      │
-│    ∂a/∂z = 1  (z > 0)   → 기울기 그대로 통과                     │
-│    ∂a/∂z = 0  (z ≤ 0)   → 기울기 차단 (죽은 ReLU)               │
-│                                                                  │
-│  역전파 규칙: 위쪽에서 내려온 기울기 × 국소 기울기 = 하류 기울기   │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|            연산 그래프에서의 국소 기울기                            |
+|                                                                  |
+|  곱셈 노드 (z = x × w):                                          |
+|    ∂z/∂x = w  (x의 국소 기울기 = w)                              |
+|    ∂z/∂w = x  (w의 국소 기울기 = x)                              |
+|                                                                  |
+|  덧셈 노드 (z = x + b):                                          |
+|    ∂z/∂x = 1  (기울기 그대로 통과)                               |
+|    ∂z/∂b = 1  (기울기 그대로 통과)                               |
+|                                                                  |
+|  ReLU 노드:                                                      |
+|    ∂a/∂z = 1  (z > 0)   -> 기울기 그대로 통과                     |
+|    ∂a/∂z = 0  (z ≤ 0)   -> 기울기 차단 (죽은 ReLU)               |
+|                                                                  |
+|  역전파 규칙: 위쪽에서 내려온 기울기 × 국소 기울기 = 하류 기울기   |
++------------------------------------------------------------------+
 ```
 
 ### [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 갱신 ([경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/))
 
 ```
 가중치 갱신:
-  W ← W - η × ∂L/∂W
-  b ← b - η × ∂L/∂b
+  W <- W - η × ∂L/∂W
+  b <- b - η × ∂L/∂b
 
   η (eta): 학습률 (Learning Rate)
-         너무 크면 → 발산 (Divergence)
-         너무 작으면 → 느린 수렴 (Slow Convergence)
+         너무 크면 -> 발산 (Divergence)
+         너무 작으면 -> 느린 수렴 (Slow Convergence)
 ```
 
 ### [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) vs [기울기 폭발](/knowledge-base/studynote/10_ai/01_ai_basics/089_exploding_gradient_clipping/)
@@ -134,9 +134,9 @@ L = Loss(ŷ), ŷ = σ(z), z = Wx + b
 
 ```
 프레임워크별 구현:
-  PyTorch:     loss.backward()  → 동적 계산 그래프 (Define-by-Run)
-  TensorFlow:  tape.gradient()  → 정적 + 동적 (Eager Mode)
-  JAX:         jax.grad()       → 함수형 자동 미분
+  PyTorch:     loss.backward()  -> 동적 계산 그래프 (Define-by-Run)
+  TensorFlow:  tape.gradient()  -> 정적 + 동적 (Eager Mode)
+  JAX:         jax.grad()       -> 함수형 자동 미분
 ```
 
 - **📢 섹션 요약 비유**: 자동 미분은 GPS 네비게이션 — 수학 공식으로 직접 길을 찾는(수치 미분) 대신, 이미 저장된 지도(연산 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/))를 따라 효율적으로 최적 경로(기울기)를 계산한다.
@@ -155,9 +155,9 @@ L = Loss(ŷ), ŷ = σ(z), z = Wx + b
 ### [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 갱신 최적화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
 ```
-SGD (기본):     W ← W - η·∂L/∂W
-Momentum:       v ← βv - η·∂L/∂W,  W ← W + v
-Adam:           W ← W - η·m̂/(√v̂+ε)
+SGD (기본):     W <- W - η·∂L/∂W
+Momentum:       v <- βv - η·∂L/∂W,  W <- W + v
+Adam:           W <- W - η·m̂/(√v̂+ε)
                 m̂: 1차 모멘트 편향 보정
                 v̂: 2차 모멘트 편향 보정
 ```
@@ -169,7 +169,7 @@ Adam:           W ← W - η·m̂/(√v̂+ε)
 | <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/">Adam</a></strong> | ✅ | ✅ | NLP, [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 표준 |
 | **AdamW** | ✅ | ✅ | 대규모 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 표준 |
 
-- **📢 섹션 요약 비유**: 역전파는 골프 코치가 선수의 스윙([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))에서 "어느 관절(층)의 각도가 잘못됐는지" 분석하는 것 — 최종 샷 결과(손실)에서 역으로 허리→팔꿈치→손목 순서로 수정 포인트를 찾아간다.
+- **📢 섹션 요약 비유**: 역전파는 골프 코치가 선수의 스윙([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))에서 "어느 관절(층)의 각도가 잘못됐는지" 분석하는 것 — 최종 샷 결과(손실)에서 역으로 허리->팔꿈치->손목 순서로 수정 포인트를 찾아간다.
 
 ---
 
@@ -179,10 +179,10 @@ Adam:           W ← W - η·m̂/(√v̂+ε)
 
 | 효과 | 내용 |
 |:---|:---|
-| **다층 신경망 학습** | 은닉층을 가진 MLP 학습 가능 → 비선형 문제 해결 |
-| **효율적 기울기 계산** | O(파라미터 수) 복잡도 → 수치 미분 대비 수만 배 빠름 |
+| **다층 신경망 학습** | 은닉층을 가진 MLP 학습 가능 -> 비선형 문제 해결 |
+| **효율적 기울기 계산** | O(파라미터 수) 복잡도 -> 수치 미분 대비 수만 배 빠름 |
 | **자동 미분 토대** | PyTorch [autograd](/knowledge-base/studynote/06_ict_convergence/05_data_science/381_autograd_chain_rule/), TF tape의 수학적 기반 |
-| **딥러닝 혁명** | 1986년 재발견 → [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)·[RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/)·Transformer로 이어진 딥러닝 시대 |
+| **딥러닝 혁명** | 1986년 재발견 -> [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)·[RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/)·Transformer로 이어진 딥러닝 시대 |
 
 ### 결론
 
@@ -197,7 +197,7 @@ Adam:           W ← W - η·m̂/(√v̂+ε)
 | 개념 | 연결 포인트 |
 |:---|:---|
 | 연쇄 법칙 (Chain Rule) | 합성 함수 미분, ∂L/∂W / 역전파의 수학적 기반 |
-| [경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/) ([Gradient Descent](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/)) | W← W-η∇L, 최적화 / 역전파로 계산된 기울기를 활용 |
+| [경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/) ([Gradient Descent](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/)) | W<- W-η∇L, 최적화 / 역전파로 계산된 기울기를 활용 |
 | [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) ([Vanishing Gradient](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/)) | [Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/), 깊은 신경망 / 역전파의 핵심 병리 현상 |
 | [기울기 폭발](/knowledge-base/studynote/10_ai/01_ai_basics/089_exploding_gradient_clipping/) (Gradient Explosion) | [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/), 그래디언트 클리핑 / 역전파의 또 다른 병리 현상 |
 | [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) | 적응 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/), [모멘텀](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/) / 역전파 기울기를 효율적으로 활용 |
@@ -206,13 +206,13 @@ Adam:           W ← W - η·m̂/(√v̂+ε)
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [역전파 (Backpropagation)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [역전파 (Backpropagation)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 🎯 **"다트 연습에서 틀린 방향 찾기"**
-2. 다트를 던져서 과녁을 빗맞히면(예측 오류), 어깨→팔꿈치→손목 순서로 뭐가 잘못됐는지 거슬러 올라가 찾아요(역전파).
+2. 다트를 던져서 과녁을 빗맞히면(예측 오류), 어깨->팔꿈치->손목 순서로 뭐가 잘못됐는지 거슬러 올라가 찾아요(역전파).
 3. 각 관절(층)이 얼마나 빗나감에 기여했는지(기울기) 계산하고, 조금씩 자세를 교정해요([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 갱신).
 
 ---
@@ -221,7 +221,7 @@ Adam:           W ← W - η·m̂/(√v̂+ε)
 
 **진행 상황**: 272 / 420
 
-← **이전**: [271. 순전파 (Forward Propagation)](/knowledge-base/studynote/10_ai/03_llm_nlp/271_forward_propagation/)
-**다음**: [273. MSE / 크로스 엔트로피 (Cross-Entropy) 손실 함수](/knowledge-base/studynote/10_ai/03_llm_nlp/273_mse_cross_entropy_loss/) →
+<- **이전**: [271. 순전파 (Forward Propagation)](/knowledge-base/studynote/10_ai/03_llm_nlp/271_forward_propagation/)
+**다음**: [273. MSE / 크로스 엔트로피 (Cross-Entropy) 손실 함수](/knowledge-base/studynote/10_ai/03_llm_nlp/273_mse_cross_entropy_loss/) ->
 
 ---

@@ -28,23 +28,23 @@ tags = ["studynote-computer-architecture"]
 이 그림은 왜 마이크로코드 패치가 출하 후 보안 대응의 핵심 통로가 되는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Post-silicon flaw -> signed patch -> safer control behavior               │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Security erratum discovered                                               │
-│        │                                                                   │
-│        ▼                                                                   │
-│ Vendor creates signed microcode blob                                      │
-│        │                                                                   │
-│        ▼                                                                   │
-│ Boot firmware / operating system loader                                  │
-│        │                                                                   │
-│        ▼                                                                   │
-│ CPU changes internal control sequence for affected paths                  │
-│        │                                                                   │
-│        ▼                                                                   │
-│ Same ISA, but safer speculation / privilege / fault handling              │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| Post-silicon flaw -> signed patch -> safer control behavior               |
++----------------------------------------------------------------------------+
+| Security erratum discovered                                               |
+|        |                                                                   |
+|        v                                                                   |
+| Vendor creates signed microcode blob                                      |
+|        |                                                                   |
+|        v                                                                   |
+| Boot firmware / operating system loader                                  |
+|        |                                                                   |
+|        v                                                                   |
+| CPU changes internal control sequence for affected paths                  |
+|        |                                                                   |
+|        v                                                                   |
+| Same ISA, but safer speculation / privilege / fault handling              |
++----------------------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 마이크로코드 보안 패치는 이미 지어진 건물의 철근을 바꾸는 일은 못 해도, 출입 통제 규칙과 비상문 개폐 순서를 다시 짜서 사고 가능성을 크게 줄이는 관리 규정 개정과 같다.
@@ -68,21 +68,21 @@ tags = ["studynote-computer-architecture"]
 이 그림은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 디코드된 뒤 패치된 제어 절차로 우회되는 구조를 요약한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Decode path with patch redirect                                           │
-├────────────────────────────────────────────────────────────────────────────┤
-│ ISA instruction                                                           │
-│      │                                                                     │
-│      ▼                                                                     │
-│ Decoder -> micro-op entry lookup                                           │
-│                │                                                           │
-│                ├─ no patch  -> base control store                          │
-│                │                                                           │
-│                └─ patch hit -> patch store / new control bits              │
-│                                   │                                        │
-│                                   ▼                                        │
-│                        safer micro-op sequence or barrier behavior         │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| Decode path with patch redirect                                           |
++----------------------------------------------------------------------------+
+| ISA instruction                                                           |
+|      |                                                                     |
+|      v                                                                     |
+| Decoder -> micro-op entry lookup                                           |
+|                |                                                           |
+|                +- no patch  -> base control store                          |
+|                |                                                           |
+|                +- patch hit -> patch store / new control bits              |
+|                                   |                                        |
+|                                   v                                        |
+|                        safer micro-op sequence or barrier behavior         |
++----------------------------------------------------------------------------+
 ```
 
 보안 패치에서 자주 보이는 결과는 새 명령 의미 추가보다는, 기존 기능에 대한 "제어 손잡이" 제공이다. 예를 들어 간접 분기 예측기 장벽 ([Indirect](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) Branch Predictor Barrier, [IBPB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/579_ibpb/)) 같은 기능은 마이크로코드와 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 협력으로 현실에서 사용된다. 즉 마이크로코드는 단독 해결사가 아니라, 상위 소프트웨어가 사용할 수 있는 <strong>안전 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a></strong>를 CPU 안에 심어 주는 계층이다.
@@ -163,20 +163,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 Post-silicon errata 발견
-        │
-        ▼
+        |
+        v
 서명된 마이크로코드 패치 배포
-        │
-        ▼
+        |
+        v
 BIOS / UEFI / OS 조기 로딩
-        │
-        ▼
+        |
+        v
 IBPB · IBRS 같은 보안 제어 노출
-        │
-        ▼
+        |
+        v
 하이퍼바이저 · 커널 정책 연동
-        │
-        ▼
+        |
+        v
 차기 스테핑에서 구조적 하드웨어 수정
 ```
 
@@ -194,7 +194,7 @@ IBPB · IBRS 같은 보안 제어 노출
 
 **진행 상황**: 581 / 803
 
-← **이전**: [580. Retpoline (Return Trampoline)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/580_retpoline/)
-**다음**: [582. 하드웨어 기반 난독화 (Hardware Obfuscation)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/582_hardware_obfuscation/) →
+<- **이전**: [580. Retpoline (Return Trampoline)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/580_retpoline/)
+**다음**: [582. 하드웨어 기반 난독화 (Hardware Obfuscation)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/582_hardware_obfuscation/) ->
 
 ---

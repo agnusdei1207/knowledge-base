@@ -37,22 +37,22 @@ tags = ["database"]
 | <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/">갱신 이상</a></strong> | 중복 저장된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중 일부만 수정되어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간에 모순 발생 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치 및 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 하락 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│        정규화되지 않은 뚱뚱한 테이블에서의 3대 이상 현상     │
-├──────────────────────────────────────────────────────────────┤
-│ [ 학번(PK) │ 과목명(PK) │   이름   │  학과  │  성적 ]      │
-│ ──────────────────────────────────────────────────────────── │
-│   101      │    DB      │  김철수  │ 컴퓨터 │   A          │
-│   101      │    OS      │  김철수  │ 컴퓨터 │   B          │ ◀ 갱신 이상
-│   102      │   회계     │  이영희  │  경영  │   A          │ ◀ 삭제 이상
-│                                                              │
-│ [삽입 이상]: 신입생 '박민수(컴퓨터)' 입학 (아직 수강과목 없음) │
-│             => 과목명(PK)이 NULL이라 삽입 불가!              │
-│ [삭제 이상]: '이영희'가 회계 수강 취소 (행 삭제)             │
-│             => 이영희가 경영학과라는 학생 정보까지 영구 삭제!│
-│ [갱신 이상]: '김철수'가 수학과로 전과                        │
-│             => DB 행만 '수학과'로 바꾸면 OS 행과 데이터 불일치!│
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|        정규화되지 않은 뚱뚱한 테이블에서의 3대 이상 현상     |
++--------------------------------------------------------------+
+| [ 학번(PK) | 과목명(PK) |   이름   |  학과  |  성적 ]      |
+| ------------------------------------------------------------ |
+|   101      |    DB      |  김철수  | 컴퓨터 |   A          |
+|   101      |    OS      |  김철수  | 컴퓨터 |   B          | <- 갱신 이상
+|   102      |   회계     |  이영희  |  경영  |   A          | <- 삭제 이상
+|                                                              |
+| [삽입 이상]: 신입생 '박민수(컴퓨터)' 입학 (아직 수강과목 없음) |
+|             => 과목명(PK)이 NULL이라 삽입 불가!              |
+| [삭제 이상]: '이영희'가 회계 수강 취소 (행 삭제)             |
+|             => 이영희가 경영학과라는 학생 정보까지 영구 삭제!|
+| [갱신 이상]: '김철수'가 수학과로 전과                        |
+|             => DB 행만 '수학과'로 바꾸면 OS 행과 데이터 불일치!|
++--------------------------------------------------------------+
 ```
 
 이 다이어그램은 학생 엔티티와 수강 엔티티가 합쳐졌을 때 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 간의 함수적 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)이 꼬이면서 발생하는 구체적인 에러 상황을 보여준다.
@@ -117,17 +117,17 @@ tags = ["database"]
 
 ```text
 데이터 중복 방치 (비정규화 테이블)
-    │
-    ▼
+    |
+    v
 3대 이상 현상 발생 (삽입 / 삭제 / 갱신 이상)
-    │
-    ▼
+    |
+    v
 함수적 종속성 분석 (결정자와 종속자 파악)
-    │
-    ▼
-정규화 (Normalization: 1NF → 2NF → 3NF → BCNF)
-    │
-    ▼
+    |
+    v
+정규화 (Normalization: 1NF -> 2NF -> 3NF -> BCNF)
+    |
+    v
 성능/무결성 트레이드오프 및 반정규화 (De-normalization) 판단
 ```
 
@@ -145,7 +145,7 @@ tags = ["database"]
 
 **진행 상황**: 90 / 600
 
-← **이전**: [89. 확장 ER 모델 (EER) - 서브클래스, 슈퍼클래스, 상속(일반화/특수화) 개념 추가](/knowledge-base/studynote/05_database/02_modeling_normalization/089_eer_enhanced_er_model_specialization/)
-**다음**: [91. 삽입 이상 (Insertion Anomaly) - 불필요한 데이터까지 함께 삽입해야 하는 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/091_functional_dependency_fd/) →
+<- **이전**: [89. 확장 ER 모델 (EER) - 서브클래스, 슈퍼클래스, 상속(일반화/특수화) 개념 추가](/knowledge-base/studynote/05_database/02_modeling_normalization/089_eer_enhanced_er_model_specialization/)
+**다음**: [91. 삽입 이상 (Insertion Anomaly) - 불필요한 데이터까지 함께 삽입해야 하는 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/091_functional_dependency_fd/) ->
 
 ---

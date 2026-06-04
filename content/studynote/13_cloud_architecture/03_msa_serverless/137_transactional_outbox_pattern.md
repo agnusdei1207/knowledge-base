@@ -20,9 +20,9 @@ tags = ["studynote-cloud-architecture"]
 
 ```text
 1. 비즈니스 로직: INSERT orders + INSERT outbox (같은 트랜잭션)
-2. CDC (Debezium): outbox 테이블 변경 감지 → Kafka 발행
+2. CDC (Debezium): outbox 테이블 변경 감지 -> Kafka 발행
 3. 소비자: Kafka에서 이벤트 소비
-→ DB 트랜잭션 = 이벤트 발행 원자성 보장
+-> DB 트랜잭션 = 이벤트 발행 원자성 보장
 ```
 
 - **📢 섹션 요약 비유**: Outbox는 **보내야 할 편지를 우편함(Outbox)에 넣으면 우체부(Debezium)가 가져가는** 것이다.
@@ -49,9 +49,9 @@ Transactional Outbox는 <strong><a href="/knowledge-base/studynote/01_computer_a
 
 ```text
 [직접 Kafka 발행 (문제: 불일치)]
-    → [Outbox 패턴 (2016~)]
-    → [Debezium CDC (2017~)]
-    → [현재: Outbox + Saga + CQRS — 통합 패턴]
+    -> [Outbox 패턴 (2016~)]
+    -> [Debezium CDC (2017~)]
+    -> [현재: Outbox + Saga + CQRS — 통합 패턴]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -65,7 +65,7 @@ Transactional Outbox는 <strong><a href="/knowledge-base/studynote/01_computer_a
 
 **진행 상황**: 136 / 371
 
-← **이전**: [136. Orchestration Saga - 중앙 오케스트레이터 기반 분산 트랜잭션](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/136_orchestration_saga/)
-**다음**: [138. Event Sourcing (MSA) - 상태 대신 이벤트를 저장](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/138_event_sourcing_msa/) →
+<- **이전**: [136. Orchestration Saga - 중앙 오케스트레이터 기반 분산 트랜잭션](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/136_orchestration_saga/)
+**다음**: [138. Event Sourcing (MSA) - 상태 대신 이벤트를 저장](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/138_event_sourcing_msa/) ->
 
 ---

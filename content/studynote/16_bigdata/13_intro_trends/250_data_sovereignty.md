@@ -75,7 +75,7 @@ GDPR (유럽, 2018):
 | 러시아 | 매우 강함  | 자국 서버 강제 (차단 위협) |
 | 한국  | 중간      | 동의 기반 이전 허용       |
 
-> 📢 **섹션 요약 비유**: GDPR은 유럽 시민 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 유럽 내 창고에만 — 미국 CLOUD Act는 미국 회사가 어디 있든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제출 가능 → 두 법 충돌.
+> 📢 **섹션 요약 비유**: GDPR은 유럽 시민 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 유럽 내 창고에만 — 미국 CLOUD Act는 미국 회사가 어디 있든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제출 가능 -> 두 법 충돌.
 
 ---
 
@@ -173,7 +173,7 @@ GDPR 준수 아키텍처:
 결과:
   EU 규제 준수 달성
   클라우드 비용 30% 증가 (별도 EU 인프라)
-  하지만 EU 시장 진출 가능 → 수익화 성공
+  하지만 EU 시장 진출 가능 -> 수익화 성공
 ```
 
 > 📢 **섹션 요약 비유**: EU 진출 = EU 창고 별도 마련 비용 발생 — 하지만 EU 고객 신뢰 + 시장 확보로 장기 투자 가치가 있음.
@@ -239,7 +239,7 @@ AI 국가 경쟁 + 데이터 규제 확산
 
 **진행 상황**: 250 / 262
 
-← **이전**: [037. 국가 데이터 정책 — 데이터기본법 · 데이터 산업 진흥법](/knowledge-base/studynote/16_bigdata/13_intro_trends/249_national_data_policy/)
-**다음**: [039. 개인정보 비식별화 (Data Anonymization / k-Anonymity)](/knowledge-base/studynote/16_bigdata/13_intro_trends/251_data_anonymization/) →
+<- **이전**: [037. 국가 데이터 정책 — 데이터기본법 · 데이터 산업 진흥법](/knowledge-base/studynote/16_bigdata/13_intro_trends/249_national_data_policy/)
+**다음**: [039. 개인정보 비식별화 (Data Anonymization / k-Anonymity)](/knowledge-base/studynote/16_bigdata/13_intro_trends/251_data_anonymization/) ->
 
 ---

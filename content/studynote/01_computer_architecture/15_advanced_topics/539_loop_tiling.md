@@ -38,22 +38,22 @@ tags = ["studynote-computer-architecture"]
 | [L1 cache](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/260_l1_cache/) ([Level 1 Cache](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/260_l1_cache/)) | 가장 뜨거운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 즉시 재사용 | 벡터 폭, load/store [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 반영 |
 | [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 블록 | FMA (Fused Multiply-Add), [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (Single [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Multiple [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) lane 포화 | 언롤링과 벡터화가 함께 작동 |
 
-행렬 곱셈처럼 `A`, `B`, `C` 세 타일을 동시에 잡아야 하는 경우에는 타일 크기를 대략적으로 계산할 수도 있다. 예를 들어 [배정밀도](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/090_double_precision/) 8바이트 기준으로 `B × B` 타일 세 개가 L1 캐시의 유효 용량 안에 들어오게 하려면, 대략 `3 × B² × 8 bytes`가 L1 유효 공간을 넘지 않도록 잡는다. 실제 설계에서는 캐시 전체가 아니라 코드와 다른 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 쓸 여유를 남겨 두기 때문에 60~80% 정도만 사용하는 경우가 많다.
+행렬 곱셈처럼 `A`, `B`, `C` 세 타일을 동시에 잡아야 하는 경우에는 타일 크기를 대략적으로 계산할 수도 있다. 예를 들어 [배정밀도](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/090_double_precision/) 8바이트 기준으로 `B × B` 타일 세 개가 L1 캐시의 유효 용량 안에 들어오게 하려면, 대략 `3 × B^ × 8 bytes`가 L1 유효 공간을 넘지 않도록 잡는다. 실제 설계에서는 캐시 전체가 아니라 코드와 다른 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 쓸 여유를 남겨 두기 때문에 60~80% 정도만 사용하는 경우가 많다.
 
 이 그림은 행렬 곱셈에서 타일링이 어떻게 재사용을 만드는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ 행렬 곱셈에서 타일링이 재사용을 만드는 방식                                │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Outer loops: ii, jj, kk                                                    │
-│                                                                            │
-│   A[ii:ii+B, kk:kk+B]  ×  B[kk:kk+B, jj:jj+B]  ──▶  C[ii:ii+B, jj:jj+B]   │
-│          │                         │                         │               │
-│          └────────────── kk 블록 동안 L1/L2에 유지 ─────────┘               │
-│                                                                            │
-│ 효과: 같은 A/B 타일을 B×B개의 C 갱신에 반복 사용                           │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| 행렬 곱셈에서 타일링이 재사용을 만드는 방식                                |
++----------------------------------------------------------------------------+
+| Outer loops: ii, jj, kk                                                    |
+|                                                                            |
+|   A[ii:ii+B, kk:kk+B]  ×  B[kk:kk+B, jj:jj+B]  --->  C[ii:ii+B, jj:jj+B]   |
+|          |                         |                         |               |
+|          +-------------- kk 블록 동안 L1/L2에 유지 ---------+               |
+|                                                                            |
+| 효과: 같은 A/B 타일을 B×B개의 C 갱신에 반복 사용                           |
++----------------------------------------------------------------------------+
 ```
 
 중요한 점은 타일링이 단순히 "작게 쪼갠다"가 아니라는 것이다. 쪼개는 방식이 메모리 레이아웃과 맞지 않으면 오히려 stride가 커지고 prefetch가 깨질 수 있다. 그래서 루프 순서 교환, 벡터화, 언롤링, pack buffer 사용이 함께 따라오는 경우가 많다.
@@ -72,7 +72,7 @@ tags = ["studynote-computer-architecture"]
 | 루프 타일링 (Loop Tiling) | 큰 working set과 반복 miss | 행렬, 영상, stencil, GEMM (General Matrix Multiply) | 타일 크기 튜닝 필요 |
 | [루프 언롤링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/538_loop_unrolling/) ([Loop Unrolling](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/538_loop_unrolling/)) | 제어 오버헤드와 짧은 바디 | 단순 반복, 누산, copy loop | 지역성 자체는 개선 못 함 |
 
-실무 커널은 보통 교환 → 타일링 → 언롤링 → 벡터화 순으로 누적 최적화를 적용한다. 먼저 stride를 바로잡고, 그다음 working set을 줄이고, 그 안에서 분기 비용을 줄이고, 마지막으로 SIMD로 한 번에 여러 값을 계산하는 식이다. 즉 타일링은 메모리 계층 최적화의 중심 축이면서, 다른 최적화가 효과를 낼 수 있는 무대를 만들어 주는 역할도 한다.
+실무 커널은 보통 교환 -> 타일링 -> 언롤링 -> 벡터화 순으로 누적 최적화를 적용한다. 먼저 stride를 바로잡고, 그다음 working set을 줄이고, 그 안에서 분기 비용을 줄이고, 마지막으로 SIMD로 한 번에 여러 값을 계산하는 식이다. 즉 타일링은 메모리 계층 최적화의 중심 축이면서, 다른 최적화가 효과를 낼 수 있는 무대를 만들어 주는 역할도 한다.
 
 - **📢 섹션 요약 비유**: 루프 교환은 책상 방향을 바꾸는 일이고, 타일링은 책상 위에 올려둘 책의 양을 조절하는 일이며, 언롤링은 연필을 여러 자루 한꺼번에 꺼내 두는 일과 같다.
 
@@ -127,20 +127,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 순차적 대용량 배열 순회
-        │
-        ▼
+        |
+        v
 Memory Wall · cache miss 문제 부각
-        │
-        ▼
+        |
+        v
 Loop Interchange · stride 개선
-        │
-        ▼
+        |
+        v
 루프 타일링 (Loop Tiling) · blocking
-        │
-        ▼
+        |
+        v
 다층 타일링 (L3/L2/L1/Register)
-        │
-        ▼
+        |
+        v
 GEMM micro-kernel · polyhedral optimization · cache-oblivious 접근
 ```
 
@@ -158,7 +158,7 @@ GEMM micro-kernel · polyhedral optimization · cache-oblivious 접근
 
 **진행 상황**: 539 / 803
 
-← **이전**: [538. 루프 언롤링 (Loop Unrolling)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/538_loop_unrolling/)
-**다음**: [540. 버퍼 오버플로우 하드웨어 방어 (Intel CET 등)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/540_intel_cet/) →
+<- **이전**: [538. 루프 언롤링 (Loop Unrolling)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/538_loop_unrolling/)
+**다음**: [540. 버퍼 오버플로우 하드웨어 방어 (Intel CET 등)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/540_intel_cet/) ->
 
 ---

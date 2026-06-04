@@ -44,26 +44,26 @@ tags = ["studynote-operating-system"]
 
 ### 리눅스 i-node 아키텍처와 Link의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
-리눅스의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 `[디렉터리 (파일 이름)] ──가리킴──▶ [i-node (메타데이터)] ──가리킴──▶ [Data Blocks]` 의 3단 구조를 가진다.
+리눅스의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 `[디렉터리 (파일 이름)] --가리킴---> [i-node (메타데이터)] --가리킴---> [Data Blocks]` 의 3단 구조를 가진다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 하드 링크 vs 심볼릭 링크 내부 구조 비교                 │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [ 원본 파일 A 생성 (`echo "hello" > A`) ]                          │
-  │   - 디렉터리: 이름 `A` ──▶ [ i-node 100번 (Link Count: 1) ]         │
-  │                                └──▶ Data Block ("hello")          │
-  │                                                                   │
-  │  [ 하드 링크 B 생성 (`ln A B`) ]                                    │
-  │   - 디렉터리: 이름 `B` ──▶ [ i-node 100번 (Link Count: 2) ] ◀──     │
-  │   ★ 새로운 i-node를 만들지 않음! 기존 i-node의 래퍼런스 카운트만 +1 올림!  │
-  │                                                                   │
-  │  [ 심볼릭 링크 C 생성 (`ln -s A C`) ]                               │
-  │   - 디렉터리: 이름 `C` ──▶ [ i-node 200번 (Link Count: 1) ]         │
-  │                                └──▶ Data Block (텍스트 "A" 라는 경로) │
-  │   ★ 완전히 새로운 i-node를 생성함! 원본의 카운트(Link Count)는 오르지 않음!│
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 하드 링크 vs 심볼릭 링크 내부 구조 비교                 |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [ 원본 파일 A 생성 (`echo "hello" > A`) ]                          |
+  |   - 디렉터리: 이름 `A` ---> [ i-node 100번 (Link Count: 1) ]         |
+  |                                +---> Data Block ("hello")          |
+  |                                                                   |
+  |  [ 하드 링크 B 생성 (`ln A B`) ]                                    |
+  |   - 디렉터리: 이름 `B` ---> [ i-node 100번 (Link Count: 2) ] <---     |
+  |   ★ 새로운 i-node를 만들지 않음! 기존 i-node의 래퍼런스 카운트만 +1 올림!  |
+  |                                                                   |
+  |  [ 심볼릭 링크 C 생성 (`ln -s A C`) ]                               |
+  |   - 디렉터리: 이름 `C` ---> [ i-node 200번 (Link Count: 1) ]         |
+  |                                +---> Data Block (텍스트 "A" 라는 경로) |
+  |   ★ 완전히 새로운 i-node를 생성함! 원본의 카운트(Link Count)는 오르지 않음!|
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설 (삭제 시나리오)]**
@@ -117,33 +117,33 @@ tags = ["studynote-operating-system"]
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 파일 참조 및 백업 아키텍처 (Link 방식) 설계 플로우          │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [서버 내 동일한 파일을 여러 경로/사용자가 공유해야 하는 상황 발생]            │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      공유할 대상이 파일인가, 디렉터리(폴더)인가?                             │
-  │          ├─ 디렉터리 ─▶ [무조건 Symbolic Link 사용]                  │
-  │          │            (OS 정책상 디렉터리 하드 링크는 금지됨)              │
-  │          └─ 파일                                                  │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      공유할 파일들이 서로 다른 파티션(볼륨, 마운트 포인트)에 위치하는가?        │
-  │          ├─ 예 ─────▶ [무조건 Symbolic Link 사용]                  │
-  │          │            (하드 링크는 동일한 i-node 테이블을 써야 하므로 파티션│
-  │          │             횡단이 하드웨어적으로 불가능함)                    │
-  │          └─ 아니오 (같은 파티션 안이다)                               │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      원본 파일이 삭제되더라도 링크된 파일의 데이터는 영구 보존되어야 하는가?    │
-  │          ├─ 예 ─────▶ [Hard Link 사용 (백업, 버전 관리 아키텍처)]       │
-  │          │            (원본 이름이 지워져도 데이터 블록은 100% 생존)         │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ [Symbolic Link 사용 (버전 스위칭, 단순 바로가기)] │
-  │                         (원본을 지우면 링크도 깨져서 404 에러를 내뱉어야 함) │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 파일 참조 및 백업 아키텍처 (Link 방식) 설계 플로우          |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [서버 내 동일한 파일을 여러 경로/사용자가 공유해야 하는 상황 발생]            |
+  |                |                                                  |
+  |                v                                                  |
+  |      공유할 대상이 파일인가, 디렉터리(폴더)인가?                             |
+  |          +- 디렉터리 --> [무조건 Symbolic Link 사용]                  |
+  |          |            (OS 정책상 디렉터리 하드 링크는 금지됨)              |
+  |          +- 파일                                                  |
+  |                |                                                  |
+  |                v                                                  |
+  |      공유할 파일들이 서로 다른 파티션(볼륨, 마운트 포인트)에 위치하는가?        |
+  |          +- 예 ------> [무조건 Symbolic Link 사용]                  |
+  |          |            (하드 링크는 동일한 i-node 테이블을 써야 하므로 파티션|
+  |          |             횡단이 하드웨어적으로 불가능함)                    |
+  |          +- 아니오 (같은 파티션 안이다)                               |
+  |                |                                                  |
+  |                v                                                  |
+  |      원본 파일이 삭제되더라도 링크된 파일의 데이터는 영구 보존되어야 하는가?    |
+  |          +- 예 ------> [Hard Link 사용 (백업, 버전 관리 아키텍처)]       |
+  |          |            (원본 이름이 지워져도 데이터 블록은 100% 생존)         |
+  |          |                                                        |
+  |          +- 아니오 ---> [Symbolic Link 사용 (버전 스위칭, 단순 바로가기)] |
+  |                         (원본을 지우면 링크도 깨져서 404 에러를 내뱉어야 함) |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "리눅스 초보는 [심볼릭 링크](/knowledge-base/studynote/02_operating_system/09_file_system/512_symbolic_link/)를 쓰고, 리눅스 고수는 [하드 링크](/knowledge-base/studynote/02_operating_system/09_file_system/511_hard_link/)를 쓴다." [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 엔지니어에게 [하드 링크](/knowledge-base/studynote/02_operating_system/09_file_system/511_hard_link/)는 신이 내린 선물이다. `rm` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 하드디스크의 0과 1을 지우는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(Erase)가 아니라, 그저 i-node의 Link Count를 1 빼는 '산수 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)'에 불과하다는 뼈저린 진리를 이해할 때 비로소 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템을 지배할 수 있다.
@@ -188,12 +188,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [i-node 직접/간접 포인터 인덱스]
-    │
-    ▼
+    |
+    v
 [하드 링크 / 심볼릭 링크 차이 (Hard Link Vs Symbolic Link)]
-    │
-    ├──▶ [VFS 가상 파일 시스템]
-    └──▶ [버퍼 캐시 파일 입출력 지연]
+    |
+    +---> [VFS 가상 파일 시스템]
+    +---> [버퍼 캐시 파일 입출력 지연]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -210,7 +210,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 736 / 800
 
-← **이전**: [735. i-node 직접/간접 포인터 인덱스 (Inode Direct Indirect Pointer Index)](/knowledge-base/studynote/02_operating_system/11_exam_summary/735_inode_direct_indirect_pointer_index/)
-**다음**: [737. VFS 가상 파일 시스템 (VFS Virtual File System Abstraction)](/knowledge-base/studynote/02_operating_system/11_exam_summary/737_vfs_virtual_file_system_abstraction/) →
+<- **이전**: [735. i-node 직접/간접 포인터 인덱스 (Inode Direct Indirect Pointer Index)](/knowledge-base/studynote/02_operating_system/11_exam_summary/735_inode_direct_indirect_pointer_index/)
+**다음**: [737. VFS 가상 파일 시스템 (VFS Virtual File System Abstraction)](/knowledge-base/studynote/02_operating_system/11_exam_summary/737_vfs_virtual_file_system_abstraction/) ->
 
 ---

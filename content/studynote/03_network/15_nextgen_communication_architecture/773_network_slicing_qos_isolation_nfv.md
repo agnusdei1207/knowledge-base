@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [PCF]
-    │
-    ▼
+    |
+    v
 [네트워크 슬라이싱]
-    │
-    └──▶ [E2E 슬라이싱 보장 모델 관리]
+    |
+    +---> [E2E 슬라이싱 보장 모델 관리]
 ```
 
 - **📢 섹션 요약 비유**: [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -48,11 +48,11 @@ tags = ["studynote-network"]
 
 ```text
 [PCF]
-    │
-    ▼
+    |
+    v
 [네트워크 슬라이싱]
-    │
-    └──▶ [E2E 슬라이싱 보장 모델 관리]
+    |
+    +---> [E2E 슬라이싱 보장 모델 관리]
 ```
 
 - **📢 섹션 요약 비유**: [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -114,12 +114,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: PCF]
-    │
-    ▼
+    |
+    v
 [현재 개념: 네트워크 슬라이싱]
-    │
-    ├──▶ [확장 A: E2E 슬라이싱 보장 모델 관리]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
+    |
+    +---> [확장 A: E2E 슬라이싱 보장 모델 관리]
+    +---> [확장 B: AI 기반 네트워크 최적화]
 ```
 
 [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)는 PCF에서 출발해 현재 메커니즘을 정교화하고, 이후 [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/) 슬라이싱 보장 모델 관리와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -136,7 +136,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 894 / 1120
 
-← **이전**: [772. PCF (Policy Control Function 사용자 정책 적용 자원 대조 통제 구조 연동 통합 기능 기능망 제어 분산](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/772_pcf_policy_control_function_qos/)
-**다음**: [774. E2E 슬라이싱 보장 모델 관리 (RAN-Transport-Core 종단 통과 자원 보장 체계 통제 연동 규격 파싱 자원 논리](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/774_e2e_slicing_ran_transport_core/) →
+<- **이전**: [772. PCF (Policy Control Function 사용자 정책 적용 자원 대조 통제 구조 연동 통합 기능 기능망 제어 분산](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/772_pcf_policy_control_function_qos/)
+**다음**: [774. E2E 슬라이싱 보장 모델 관리 (RAN-Transport-Core 종단 통과 자원 보장 체계 통제 연동 규격 파싱 자원 논리](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/774_e2e_slicing_ran_transport_core/) ->
 
 ---

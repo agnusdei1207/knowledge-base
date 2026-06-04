@@ -27,12 +27,12 @@ tags = ["data_engineering"]
 [OLTP와 OLAP의 경합 및 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 분리 배경 (문제 배경도)]
 ```text
 [과거: 단일 DB의 비극]
-Client (초당 1만건 트랜잭션) ──> [ 영업 OLTP DB ] <── 분석가 (수십억 건 GROUP BY 쿼리)
+Client (초당 1만건 트랜잭션) --> [ 영업 OLTP DB ] <-- 분석가 (수십억 건 GROUP BY 쿼리)
                                 (🚨 CPU/락 경합 발생, 서비스 마비)
-                                        ↓
+                                        v
 [현재: DW 분리 아키텍처 (해결)]
-[ 영업 OLTP ] ──(ETL 새벽 복제)──> [ 전사 Data Warehouse (OLAP) ] ──> 분석가 (안전한 쿼리)
-[ 재무 OLTP ] ──(정제/포맷통일)──> (읽기 전용, 통계 최적화 구조)     ──> 대시보드(BI)
+[ 영업 OLTP ] --(ETL 새벽 복제)--> [ 전사 Data Warehouse (OLAP) ] --> 분석가 (안전한 쿼리)
+[ 재무 OLTP ] --(정제/포맷통일)--> (읽기 전용, 통계 최적화 구조)     --> 대시보드(BI)
 ```
 이 도식은 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)가 등장한 가장 큰 구조적 원인을 보여준다. 단건 쓰기에 최적화된 [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) 시스템과 대규모 집계 읽기에 최적화된 [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/)([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)) 시스템은 요구하는 하드웨어 리소스와 튜닝 방식이 완전히 다르다. [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 아키텍처를 도입함으로써 운영망은 트래픽을 안전하게 소화하고, 분석망은 정제된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반으로 자유롭게 통계를 낼 수 있는 격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)) 환경이 완성된다.
 
@@ -52,9 +52,9 @@ Client (초당 1만건 트랜잭션) ──> [ 영업 OLTP DB ] <── 분석�
 [전형적인 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 계층 아키텍처 흐름도]
 ```text
 [ Sources ]       [ Staging / ETL ]       [ Core Storage ]      [ Access / BI ]
- 운영 DB 1 ──┐                                                     ┌── 영업 마트 ──> BI
- 외부 API  ──┼─> [ ODS (임시저장) ] ──> [ EDW (전사 웨어하우스) ] ─┼── 재무 마트 ──> 분석가
- 로그 파일 ──┘     (타입/코드 통일)         (정규화, 과거이력 영구보존) └── 마케팅 마트 ─> AI 모델
+ 운영 DB 1 --+                                                     +-- 영업 마트 --> BI
+ 외부 API  --+-> [ ODS (임시저장) ] --> [ EDW (전사 웨어하우스) ] -+-- 재무 마트 --> 분석가
+ 로그 파일 --+     (타입/코드 통일)         (정규화, 과거이력 영구보존) +-- 마케팅 마트 -> AI 모델
                                           (단일 진실 공급원)       (Star 스키마, 집계)
 ```
 이 흐름도의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 가공 수준에 따른 물리적 분리다. 각기 다른 시스템(Source)에서 온 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 ODS에서 일단 임시로 모이고, 무거운 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 변환([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/), 형변환)을 거쳐 EDW라는 하나의 거대한 진실 창고에 쌓인다. 하지만 EDW는 너무 방대하여 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 느리므로, 각 부서(영업, 재무 등)가 필요로 하는 차원(시간, 지역 등) 단위로 미리 요약 집계해 놓은 [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/)([Data Mart](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/))를 최종적으로 제공하여 응답 속도를 극대화한다.
@@ -76,11 +76,11 @@ Kimball 모델의 [다차원 모델링](/knowledge-base/studynote/05_database/06
 ```text
            [차원 테이블: 시간 (Dim_Time)]         [차원 테이블: 지역 (Dim_Region)]
                  (PK: 시간_ID)                         (PK: 지역_ID)
-                       │                                   │
-                       └─────────> [팩트 테이블] <─────────┘
+                       |                                   |
+                       +---------> [팩트 테이블] <---------+
                                    (매출액, 판매수량 등 수치 중심)
-                       ┌─────────> (각 차원의 FK 모음) <───┐
-                       │                                   │
+                       +---------> (각 차원의 FK 모음) <---+
+                       |                                   |
             [차원 테이블: 고객 (Dim_Cust)]         [차원 테이블: 상품 (Dim_Prod)]
 ```
 이 구조도는 킴볼 모델의 핵심인 다차원 [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/)를 보여준다. 중앙의 '[팩트 테이블](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/210_fact_dimension_table_snowflake_schema/)([Fact Table](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/210_fact_dimension_table_snowflake_schema/))'에는 실제 비즈니스 측정값(매출 100만 원 등)과 숫자로 된 외래키(FK)만 저장되어 엄청난 용량을 압축한다. 주변의 '[차원 테이블](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/273_dimension_table_analysis_perspective/)([Dimension Table](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/273_dimension_table_analysis_perspective/))'에는 "누가, 언제, 어디서"에 해당하는 상세 설명이 비정규화된 상태로 들어간다. 분석가가 "강남구(지역)에서 5월(시간)에 팔린 사과(상품) 매출"을 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)할 때 조인 횟수를 극적으로 줄여(별 모양 1회 조인) [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 폭발적으로 높이는 구조다.
@@ -104,7 +104,7 @@ Sources => [ 별도 ETL 서버 (CPU/Mem 병목) ] => 무거운 변환 => DW 저�
 
 < 현대 ELT (Cloud Native) >
 Sources => [ 단순 추출 및 즉시 적재(Load) ] => [ Cloud DW 저장 (Snowflake 등) ]
-                                                        ↓
+                                                        v
                                             [ 클라우드 DW 내부에서 분산 SQL 연산 변환 (Transform) ]
 ```
 이 비교도는 최근 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 생태계의 가장 큰 지각변동을 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)한다. 과거에는 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 엔진이 비싸고 약해서 외부 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 서버에서 노동을 대신했다. 하지만 이제는 눈송이([Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/))나 빅쿼리처럼 스토리지와 컴퓨팅이 완전히 분리되어 연산력을 무한정 끌어다 쓸 수 있는 클라우드 DW가 등장했으므로, 밖에서 고생할 필요 없이 안에 넣고 안에서 처리([ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/))하는 것이 압도적으로 빠르고 저렴하다.
@@ -135,17 +135,17 @@ Sources => [ 단순 추출 및 즉시 적재(Load) ] => [ Cloud DW 저장 (Snowf
 
 ```text
 [OLAP (On-Line Analytical Processing)]
-    │
-    ▼
+    |
+    v
 [ETL (Extract, Transform, Load)]
-    │
-    ▼
+    |
+    v
 [데이터 마트 (Data Mart)]
-    │
-    ▼
+    |
+    v
 [스타 스키마 (Star Schema)]
-    │
-    ▼
+    |
+    v
 [데이터 레이크하우스 (Data Lakehouse)]
 ```
 
@@ -162,7 +162,7 @@ Sources => [ 단순 추출 및 즉시 적재(Load) ] => [ Cloud DW 저장 (Snowf
 
 **진행 상황**: 5 / 258
 
-← **이전**: [4. 비정형 데이터 (Unstructured Data) - 스키마가 없는 텍스트, 음성, 비디오, 이미지 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)
-**다음**: [6. 데이터 마트 (Data Mart) - 부서별(영업, 재무 등) 필요에 맞춘 소규모 분석 DB (Kimball 모델)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/006_data_mart/) →
+<- **이전**: [4. 비정형 데이터 (Unstructured Data) - 스키마가 없는 텍스트, 음성, 비디오, 이미지 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)
+**다음**: [6. 데이터 마트 (Data Mart) - 부서별(영업, 재무 등) 필요에 맞춘 소규모 분석 DB (Kimball 모델)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/006_data_mart/) ->
 
 ---

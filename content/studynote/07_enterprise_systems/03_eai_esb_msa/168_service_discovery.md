@@ -31,7 +31,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/)의 기본 흐름은 `인스턴스 기동 → 레지스트리 등록 → 헬스 체크/하트비트 → 호출 시 조회 → 종료 시 제거`다. 인스턴스는 자신이 올라온 주소를 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)에 등록하고, 주기적으로 살아 있음을 알린다. 호출자나 로드밸런서는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 이름으로 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)를 조회해 사용 가능한 대상 중 하나를 선택한다.
+[서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/)의 기본 흐름은 `인스턴스 기동 -> 레지스트리 등록 -> 헬스 체크/하트비트 -> 호출 시 조회 -> 종료 시 제거`다. 인스턴스는 자신이 올라온 주소를 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)에 등록하고, 주기적으로 살아 있음을 알린다. 호출자나 로드밸런서는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 이름으로 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)를 조회해 사용 가능한 대상 중 하나를 선택한다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -44,16 +44,16 @@ tags = ["studynote-enterprise"]
 아래 그림은 동적 환경에서 [서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/)가 어떻게 순환하는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│            Service Discovery control loop in dynamic MSA            │
-├──────────────────────────────────────────────────────────────────────┤
-│ [Instance boot] ─▶ Register ─▶ [Registry]                           │
-│      ▲                         │                                     │
-│      │                         ├─ Health check / heartbeat           │
-│      │                         ▼                                     │
-│ [Scale in / fail] ◀─ Deregister │                                    │
-│                                └─ Lookup ─▶ [Caller / LB] ─▶ Route   │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|            Service Discovery control loop in dynamic MSA            |
++----------------------------------------------------------------------+
+| [Instance boot] --> Register --> [Registry]                           |
+|      ^                         |                                     |
+|      |                         +- Health check / heartbeat           |
+|      |                         v                                     |
+| [Scale in / fail] <-- Deregister |                                    |
+|                                +- Lookup --> [Caller / LB] --> Route   |
++----------------------------------------------------------------------+
 ```
 
 이 구조의 핵심은 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)가 "정답 그 자체"가 아니라 최신 상태를 최대한 빠르게 반영하는 조정자라는 점이다. 따라서 너무 긴 캐시를 두면 죽은 인스턴스를 오래 호출하게 되고, 너무 짧게 두면 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 부하가 커진다. 또한 헬스 체크는 단순 전송 제어 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) ([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/), [Transmission Control Protocol](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)) 연결 여부만 보는지, 실제 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)까지 포함하는지에 따라 정확도와 민감도가 달라진다.
@@ -137,15 +137,15 @@ tags = ["studynote-enterprise"]
 
 ```text
 정적 IP / 설정 파일 의존
-    │
-    ▼
+    |
+    v
 서비스 레지스트리 도입
-    │
-    ├─ 등록 / 헬스 체크 / 조회
-    ├─ 클라이언트 사이드 디스커버리
-    └─ 서버 사이드 디스커버리
-    │
-    ▼
+    |
+    +- 등록 / 헬스 체크 / 조회
+    +- 클라이언트 사이드 디스커버리
+    +- 서버 사이드 디스커버리
+    |
+    v
 Kubernetes 내장 디스커버리 · 서비스 메시 · 정책 기반 라우팅
 ```
 
@@ -163,7 +163,7 @@ Kubernetes 내장 디스커버리 · 서비스 메시 · 정책 기반 라우팅
 
 **진행 상황**: 168 / 482
 
-← **이전**: [167. BFF (Backend For Frontend)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/167_bff_backend_for_frontend/)
-**다음**: [169. 클라이언트 사이드 디스커버리 (Client-side Discovery) vs 서버 사이드 디스커버리](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/169_client_side_vs_server_side_discovery/) →
+<- **이전**: [167. BFF (Backend For Frontend)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/167_bff_backend_for_frontend/)
+**다음**: [169. 클라이언트 사이드 디스커버리 (Client-side Discovery) vs 서버 사이드 디스커버리](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/169_client_side_vs_server_side_discovery/) ->
 
 ---

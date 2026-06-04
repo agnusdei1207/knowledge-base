@@ -31,23 +31,23 @@ tags = ["studynote-design-supervision"]
 | <strong>수정 용이성 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/284_modifiability_tactics/">Modifiability</a>)</strong> | [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 감소, [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) 증가 | 인터페이스 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/), 런타임 [의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)([DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/)), [단일 책임 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/355_process/) 적용 |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│       Architecture Tactics : Stimulus-Response Mechanism    │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ 자극 (Stimulus) ]                 [ 응답 (Response) ]   │
-│   - 서버 A의 전원 장애                - 서버 B로 트래픽 전환│
-│   - 해커의 비정상 패킷 유입           - 침입 차단 및 로그   │
-│          │                                   ▲              │
-│          │                                   │              │
-│          ▼                                   │              │
-│   ┌─────────────────────────────────────────────────────┐   │
-│   │               [ 아키텍처 전술 제어부 ]              │   │
-│   │                                                     │   │
-│   │  - 가용성 전술 : Heartbeat 모니터링, Redundancy     │   │
-│   │  - 보안성 전술 : IDS/IPS 침입 탐지 룰 적용          │   │
-│   └─────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|       Architecture Tactics : Stimulus-Response Mechanism    |
++-------------------------------------------------------------+
+|                                                             |
+|   [ 자극 (Stimulus) ]                 [ 응답 (Response) ]   |
+|   - 서버 A의 전원 장애                - 서버 B로 트래픽 전환|
+|   - 해커의 비정상 패킷 유입           - 침입 차단 및 로그   |
+|          |                                   ^              |
+|          |                                   |              |
+|          v                                   |              |
+|   +-----------------------------------------------------+   |
+|   |               [ 아키텍처 전술 제어부 ]              |   |
+|   |                                                     |   |
+|   |  - 가용성 전술 : Heartbeat 모니터링, Redundancy     |   |
+|   |  - 보안성 전술 : IDS/IPS 침입 탐지 룰 적용          |   |
+|   +-----------------------------------------------------+   |
++-------------------------------------------------------------+
 ```
 위 다이어그램은 외부의 자극이 시스템에 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)될 때, 아키텍처 내부에 내장된 전술들이 이를 감지하고 적절한 응답을 만들어내어 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 유지하는 메커니즘을 보여준다. 단일 전술들이 모여서 하나의 거대한 '아키텍처 패턴(예: 클러스터링 패턴)'을 이룬다.
 
@@ -90,14 +90,14 @@ tags = ["studynote-design-supervision"]
 
 ```text
 비기능 요구사항 정의 (품질 속성)
-    │
-    ▼
+    |
+    v
 아키텍처 전술 (Tactics) 선택 · 자극과 응답 메커니즘 설계
-    │
-    ▼
+    |
+    v
 아키텍처 패턴 (Patterns) 구성 · 여러 전술의 복합적 템플릿화
-    │
-    ▼
+    |
+    v
 ATAM 평가 및 상충점 (Trade-off) 조율
 ```
 
@@ -114,7 +114,7 @@ ATAM 평가 및 상충점 (Trade-off) 조율
 
 **진행 상황**: 143 / 530
 
-← **이전**: [99. ADR (Architecture Decision Record) - 아키텍처 설계 결정 기록](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/099_adr_architecture_decision_record/)
-**다음**: [101. 객체 지향 설계 원칙 (SOLID, Object-Oriented Design Principles)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/101_solid_object_oriented_design_principles/) →
+<- **이전**: [99. ADR (Architecture Decision Record) - 아키텍처 설계 결정 기록](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/099_adr_architecture_decision_record/)
+**다음**: [101. 객체 지향 설계 원칙 (SOLID, Object-Oriented Design Principles)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/101_solid_object_oriented_design_principles/) ->
 
 ---

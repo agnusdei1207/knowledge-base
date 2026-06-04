@@ -37,26 +37,26 @@ tags = ["studynote-operating-system"]
   - [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)([멀티태스킹](/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/))의 극대화로 시스템 램(RAM)의 고갈이 일상화되면서, CPU 이용률을 떨어뜨리는 가장 악질적인 질병인 '[스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))' 현상의 원인을 규명하고 이를 치료하기 위한 가장 학술적이고 수학적인 대응책으로 등장했다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │                 워킹 셋(Working Set) 관측 및 동적 추출 원리 시각화     │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │   [ 윈도우 크기(Delta, Δ) = 5 (최근 5번의 페이지 참조 기록) ]        │
-  │                                                             │
-  │   시간축 ──▶ (프로그램이 메모리를 접근하는 순서)                       │
-  │   Page 접근:  ... [ 1 ] [ 5 ] [ 1 ] [ 2 ] [ 1 ] [ 9 ] [ 9 ] ... │
-  │                                                             │
-  │   [ 시점 T1: (가운데 [1]에 있을 때 과거 5번 관측) ]                 │
-  │   관측된 5개: [ 1, 5, 1, 2, 1 ]                               │
-  │   ▶ 중복 제거 후 워킹 셋 집합 W(T1, 5) = { 1, 2, 5 }             │
-  │   ▶ OS의 조치: "현재 이 앱의 워킹 셋 크기(WSS)는 3이다!              │
-  │               물리 프레임을 최소 3개 보장하고 딴 놈한테 뺏기지 마라!"     │
-  │                                                             │
-  │   [ 시점 T2: (시간이 흘러 [9]에 있을 때 과거 5번 관측) ]              │
-  │   관측된 5개: [ 1, 2, 1, 9, 9 ]                               │
-  │   ▶ 중복 제거 후 워킹 셋 집합 W(T2, 5) = { 1, 2, 9 }             │
-  │   ▶ OS의 조치: "5번 페이지는 안 쓰니까 버리고(회수), 9번 페이지를 채워라!" │
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |                 워킹 셋(Working Set) 관측 및 동적 추출 원리 시각화     |
+  +-------------------------------------------------------------+
+  |                                                             |
+  |   [ 윈도우 크기(Delta, Δ) = 5 (최근 5번의 페이지 참조 기록) ]        |
+  |                                                             |
+  |   시간축 ---> (프로그램이 메모리를 접근하는 순서)                       |
+  |   Page 접근:  ... [ 1 ] [ 5 ] [ 1 ] [ 2 ] [ 1 ] [ 9 ] [ 9 ] ... |
+  |                                                             |
+  |   [ 시점 T1: (가운데 [1]에 있을 때 과거 5번 관측) ]                 |
+  |   관측된 5개: [ 1, 5, 1, 2, 1 ]                               |
+  |   -> 중복 제거 후 워킹 셋 집합 W(T1, 5) = { 1, 2, 5 }             |
+  |   -> OS의 조치: "현재 이 앱의 워킹 셋 크기(WSS)는 3이다!              |
+  |               물리 프레임을 최소 3개 보장하고 딴 놈한테 뺏기지 마라!"     |
+  |                                                             |
+  |   [ 시점 T2: (시간이 흘러 [9]에 있을 때 과거 5번 관측) ]              |
+  |   관측된 5개: [ 1, 2, 1, 9, 9 ]                               |
+  |   -> 중복 제거 후 워킹 셋 집합 W(T2, 5) = { 1, 2, 9 }             |
+  |   -> OS의 조치: "5번 페이지는 안 쓰니까 버리고(회수), 9번 페이지를 채워라!" |
+  +-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 그림은 지역성(Locality)이 멈춰있는 것이 아니라, 프로그램의 코드 흐름에 따라 계속 '이동'한다는 것을 보여준다(Transition). 루프 A를 돌 때는 {1, 2, 5}번 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)만 미친 듯이 보다가, 함수를 빠져나와 다른 로직 B로 넘어가면 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) 자체가 {1, 2, 9}로 물 흐르듯 바뀐다. 운영체제의 VMM([가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 관리자)은 이 변화하는 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)의 덩치(WSS, [Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) Size)를 실시간으로 측정하여, 덩치가 커지면 RAM 공간을 더 배급해 주고(고무줄 늘리기), 덩치가 작아지면 잉여 램을 즉각 빼앗아 다른 굶주린 앱에게 던져준다. 이 유동적인 밥그릇 조절이 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)을 막는 방파제다.
@@ -82,28 +82,28 @@ tags = ["studynote-operating-system"]
 실제 상용 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 "최근 1만 번의 메모리 참조를 매번 감시"하는 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) 원형을 그대로 코딩하면, 감시하느라 CPU 100%를 다 써서 서버가 죽어버린다. 그래서 리눅스와 윈도우는 이 철학을 꼼수로 가볍게 흉내 낸 <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/306_pff/">PFF</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/266_page_fault_frequency/">페이지 부재 빈도</a>)</strong> 모델을 쓴다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 PFF (Page Fault Frequency) 기반 동적 프레임 조절 메커니즘 │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ 특정 프로세스(A)의 초당 페이지 폴트(하드 디스크 긁는 횟수) 감시 ]         │
-  │                                                                   │
-  │           (스래싱 경계선) 상한 임계치 (Upper Bound) - 예: 초당 50번      │
-  │  ======================= 💥 선 넘음! 💥 ========================  │
-  │             ▲               │                                     │
-  │             │ 너무 자주 긁음   ▼ [OS 조치]                          │
-  │   폴트율(PFF) │ (RAM 부족함)   "방이 좁아서 계속 디스크 긁네! 방 2개 더 줘!"│
-  │             │               (프레임 할당량 동적 증가 📈)              │
-  │             │                                                     │
-  │   ─────────┼───────────────────────────────────────────────────   │
-  │             │ (적정 구간: 쾌적함)                                    │
-  │  ======================= 💤 선 밑으로 내려감 =====================  │
-  │             ▼ 폴트율이 너무 낮음 (RAM 남아돔)                         │
-  │                           [OS 조치]                               │
-  │                           "폴트가 거의 없네? 얘 지금 램 처남아도나 보네?" │
-  │                           "방 2개 강제로 뺏어서 딴 놈 줘버려!"           │
-  │                           (프레임 할당량 강제 회수 📉)              │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 PFF (Page Fault Frequency) 기반 동적 프레임 조절 메커니즘 |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ 특정 프로세스(A)의 초당 페이지 폴트(하드 디스크 긁는 횟수) 감시 ]         |
+  |                                                                   |
+  |           (스래싱 경계선) 상한 임계치 (Upper Bound) - 예: 초당 50번      |
+  |  ======================= 💥 선 넘음! 💥 ========================  |
+  |             ^               |                                     |
+  |             | 너무 자주 긁음   v [OS 조치]                          |
+  |   폴트율(PFF) | (RAM 부족함)   "방이 좁아서 계속 디스크 긁네! 방 2개 더 줘!"|
+  |             |               (프레임 할당량 동적 증가 📈)              |
+  |             |                                                     |
+  |   ---------+---------------------------------------------------   |
+  |             | (적정 구간: 쾌적함)                                    |
+  |  ======================= 💤 선 밑으로 내려감 =====================  |
+  |             v 폴트율이 너무 낮음 (RAM 남아돔)                         |
+  |                           [OS 조치]                               |
+  |                           "폴트가 거의 없네? 얘 지금 램 처남아도나 보네?" |
+  |                           "방 2개 강제로 뺏어서 딴 놈 줘버려!"           |
+  |                           (프레임 할당량 강제 회수 📉)              |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** PFF는 천재적인 타협안이다. 메모리에 닿는 모든 손길을 감시하는 대신, "사고가 났을 때([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))만" 체크한다. 상한선(Upper Bound)을 넘으면 이 프로세스의 밥그릇(프레임)이 너무 작아 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)이 나기 직전이라는 뜻이므로 밥그릇을 늘려준다. 하한선(Lower Bound) 밑으로 떨어지면 밥그릇이 너무 넓어서 잉여 공간을 낭비하고 있다는 뜻이므로 무자비하게 밥그릇을 빼앗아버린다. 이 고무줄 같은 할당(Dynamic Allocation) 덕분에 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 CPU 오버헤드를 극소화하면서 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) 철학을 99% 흉내 내는 성과를 거두었다.
@@ -146,27 +146,27 @@ tags = ["studynote-operating-system"]
    - **아키텍트 판단 (Max Server Memory 제한)**: DB는 자본주의의 괴물이라 놔두면 램의 99%를 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)으로 집어삼킨다. 아키텍트는 MSSQL [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에 들어가 `Max Server Memory` 파라미터를 물리 램의 80%(예: 100GB)로 강제로 깎아내려 캡([Cap](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/))을 씌워야 한다. 남은 20GB의 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) 공간을 OS와 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 데몬, 보안 에이전트들이 여유롭게 쓸 수 있게 숨통을 열어주는 것이 인프라 기본 세팅이다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 메모리 스래싱(Thrashing) 대응을 위한 아키텍트 결정 트리     │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ 서버 모니터링: `vmstat` 명령에서 `si(Swap in)` / `so(Swap out)` 폭주 중! ]│
-  │                │                                                  │
-  │                ▼                                                  │
-  │      전체 RAM 용량이 돌고 있는 프로세스들의 `워킹 셋(WSS) 총합`보다 작은가?      │
-  │          ├─ 예 ─────▶ 🚨 [ 물리적 한계 도달 (Global Thrashing) ]    │
-  │          │             ▶ 스케줄러 튜닝 불가! 하드웨어 RAM 증설 필수!        │
-  │          │             ▶ 급한 불: 트래픽을 타 노드로 돌리거나 OOM 강제 킬.  │
-  │          └─ 아니오 (RAM은 분명히 40%나 남아도는 상황임)                  │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      특정 프로세스가 Cgroups Limit이나 ulimit 한도에 부딪혀 국지적 스래싱을 치는가?│
-  │          ├─ 예 ─────▶ [ Local Thrashing (Cgroups 병목) ]           │
-  │          │             ▶ 해당 컨테이너의 Memory Limit 설정(YAML)을 증량 튜닝.│
-  │          │                                                        │
-  │          └─ 아니오 ──▶ [ 불규칙한 거대 파일 I/O에 의한 페이지 캐시 오염! ] │
-  │                        ▶ `vfs_cache_pressure` 올려서 파일 캐시 빨리 버리게 튜닝.│
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 메모리 스래싱(Thrashing) 대응을 위한 아키텍트 결정 트리     |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ 서버 모니터링: `vmstat` 명령에서 `si(Swap in)` / `so(Swap out)` 폭주 중! ]|
+  |                |                                                  |
+  |                v                                                  |
+  |      전체 RAM 용량이 돌고 있는 프로세스들의 `워킹 셋(WSS) 총합`보다 작은가?      |
+  |          +- 예 ------> 🚨 [ 물리적 한계 도달 (Global Thrashing) ]    |
+  |          |             -> 스케줄러 튜닝 불가! 하드웨어 RAM 증설 필수!        |
+  |          |             -> 급한 불: 트래픽을 타 노드로 돌리거나 OOM 강제 킬.  |
+  |          +- 아니오 (RAM은 분명히 40%나 남아도는 상황임)                  |
+  |                |                                                  |
+  |                v                                                  |
+  |      특정 프로세스가 Cgroups Limit이나 ulimit 한도에 부딪혀 국지적 스래싱을 치는가?|
+  |          +- 예 ------> [ Local Thrashing (Cgroups 병목) ]           |
+  |          |             -> 해당 컨테이너의 Memory Limit 설정(YAML)을 증량 튜닝.|
+  |          |                                                        |
+  |          +- 아니오 ---> [ 불규칙한 거대 파일 I/O에 의한 페이지 캐시 오염! ] |
+  |                        -> `vfs_cache_pressure` 올려서 파일 캐시 빨리 버리게 튜닝.|
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)의 무서운 진실은, 램 용량이 남아돌아도 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)이 터질 수 있다는 점이다. 최근의 [Cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 격리 환경에서는, 노드 램이 100GB가 남아도 특정 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))에 Limit을 2GB로 묶어두었는데 그 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)의 앱이 3GB어치 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)(자주 도는 루프의 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 크기)을 가지고 있다면, 그 좁은 감방 안에서 혼자 미친 듯이 디스크를 긁으며 스왑인/아웃을 반복한다(Local [Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)). 아키텍트는 글로벌 자원 여유도에 속지 말고, 앱의 본질적 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) 크기([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) Size)를 프로파일링하여 그 크기보다 Limit을 넉넉히(Slack) 주어야 렉을 없앨 수 있다.
@@ -215,12 +215,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [RCU 다중 독자 락 프리 고성능 기법]
-    │
-    ▼
+    |
+    v
 [워킹 셋 윈도우 사이즈 동적 조절 (Working Set Window Size Dynamic Adjustment)]
-    │
-    ├──▶ [페이지 컬러링 캐시 경합 회피 물리 할당]
-    └──▶ [틱리스 커널(Tickless) 모바일 배터리 보존]
+    |
+    +---> [페이지 컬러링 캐시 경합 회피 물리 할당]
+    +---> [틱리스 커널(Tickless) 모바일 배터리 보존]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -237,7 +237,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 793 / 800
 
-← **이전**: [792. RCU 다중 독자 락 프리 고성능 기법 (Rcu Read Copy Update Lock Free)](/knowledge-base/studynote/02_operating_system/11_exam_summary/792_rcu_read_copy_update_lock_free/)
-**다음**: [794. 페이지 컬러링 캐시 경합 회피 물리 할당 (Page Coloring Cache Conflict Avoidance)](/knowledge-base/studynote/02_operating_system/11_exam_summary/794_page_coloring_cache_conflict_avoidance/) →
+<- **이전**: [792. RCU 다중 독자 락 프리 고성능 기법 (Rcu Read Copy Update Lock Free)](/knowledge-base/studynote/02_operating_system/11_exam_summary/792_rcu_read_copy_update_lock_free/)
+**다음**: [794. 페이지 컬러링 캐시 경합 회피 물리 할당 (Page Coloring Cache Conflict Avoidance)](/knowledge-base/studynote/02_operating_system/11_exam_summary/794_page_coloring_cache_conflict_avoidance/) ->
 
 ---

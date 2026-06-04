@@ -32,16 +32,16 @@ DApp([Decentralized Application](/knowledge-base/studynote/04_software_engineeri
 
 ```
 사용자 브라우저
-   │ Web3.js / Ethers.js
-   ↓
+   | Web3.js / Ethers.js
+   v
 프론트엔드 (IPFS/Vercel)
-   │
+   |
 MetaMask (지갑 연결)
-   │
+   |
 이더리움 노드 (Infura/Alchemy)
-   │
+   |
 스마트 컨트랙트 (Solidity)
-   │
+   |
 EVM (Ethereum Virtual Machine)
 ```
 
@@ -73,8 +73,8 @@ contract SimpleStorage {
 ### [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 흐름
 
 ```
-사용자 서명 → MetaMask → 이더리움 노드 → 컨트랙트 실행
-     ↓                                          ↓
+사용자 서명 -> MetaMask -> 이더리움 노드 -> 컨트랙트 실행
+     v                                          v
   개인키 사용                            상태 변경 + 가스비 소모
 ```
 
@@ -100,19 +100,19 @@ contract SimpleStorage {
 ## Ⅳ. DApp 기술 스택과 개발 도구
 
 ```
-┌──────────────────────────────────────────────┐
-│  프론트엔드: React/Vue + Web3.js/Ethers.js   │
-├──────────────────────────────────────────────┤
-│  지갑 연결: MetaMask / WalletConnect         │
-├──────────────────────────────────────────────┤
-│  스마트 컨트랙트: Solidity / Vyper           │
-├──────────────────────────────────────────────┤
-│  개발 프레임워크: Hardhat / Foundry / Truffle│
-├──────────────────────────────────────────────┤
-│  블록체인 노드: Infura / Alchemy / 자체 노드 │
-├──────────────────────────────────────────────┤
-│  분산 스토리지: IPFS / Arweave               │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+|  프론트엔드: React/Vue + Web3.js/Ethers.js   |
++----------------------------------------------+
+|  지갑 연결: MetaMask / WalletConnect         |
++----------------------------------------------+
+|  스마트 컨트랙트: Solidity / Vyper           |
++----------------------------------------------+
+|  개발 프레임워크: Hardhat / Foundry / Truffle|
++----------------------------------------------+
+|  블록체인 노드: Infura / Alchemy / 자체 노드 |
++----------------------------------------------+
+|  분산 스토리지: IPFS / Arweave               |
++----------------------------------------------+
 ```
 
 **L2 확장 솔루션**: [Polygon](/knowledge-base/studynote/06_ict_convergence/01_blockchain/045_sidechain_bridge_polygon/)·Arbitrum·Optimism으로 가스비 절감 + 속도 개선
@@ -136,8 +136,8 @@ contract SimpleStorage {
 ### Web3 발전 방향
 
 ```
-Web1 (읽기) → Web2 (읽기+쓰기) → Web3 (읽기+쓰기+소유)
-                                     ↓
+Web1 (읽기) -> Web2 (읽기+쓰기) -> Web3 (읽기+쓰기+소유)
+                                     v
                                DApp + DID + 토큰 이코노미
 ```
 
@@ -149,23 +149,23 @@ Web1 (읽기) → Web2 (읽기+쓰기) → Web3 (읽기+쓰기+소유)
 
 ```
 DApp (Decentralized Application)
-├── 기반 기술
-│   ├── 스마트 컨트랙트 (Smart Contract)
-│   ├── EVM (Ethereum Virtual Machine)
-│   └── IPFS (분산 스토리지)
-├── 지갑 연결
-│   ├── MetaMask
-│   ├── WalletConnect
-│   └── AA (Account Abstraction)
-├── 카테고리
-│   ├── DeFi (탈중앙 금융)
-│   ├── NFT 마켓플레이스
-│   ├── DAO (탈중앙 자율 조직)
-│   └── GameFi / SocialFi
-└── 확장 솔루션 (L2)
-    ├── Polygon
-    ├── Arbitrum / Optimism (롤업)
-    └── zkSync (ZK-롤업)
++-- 기반 기술
+|   +-- 스마트 컨트랙트 (Smart Contract)
+|   +-- EVM (Ethereum Virtual Machine)
+|   +-- IPFS (분산 스토리지)
++-- 지갑 연결
+|   +-- MetaMask
+|   +-- WalletConnect
+|   +-- AA (Account Abstraction)
++-- 카테고리
+|   +-- DeFi (탈중앙 금융)
+|   +-- NFT 마켓플레이스
+|   +-- DAO (탈중앙 자율 조직)
+|   +-- GameFi / SocialFi
++-- 확장 솔루션 (L2)
+    +-- Polygon
+    +-- Arbitrum / Optimism (롤업)
+    +-- zkSync (ZK-롤업)
 ```
 
 ---
@@ -173,23 +173,23 @@ DApp (Decentralized Application)
 ## 📈 관련 키워드 및 발전 흐름도
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                   DApp 발전 흐름                                 │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 2015년       │ 이더리움 출시       │ 스마트 컨트랙트·EVM 등장     │
-│ 2017년       │ CryptoKitties      │ NFT·GameFi 원형              │
-│ 2018~19년    │ DeFi 초기 (MakerDAO) │ 탈중앙 금융 개념 확립      │
-│ 2020년       │ DeFi Summer        │ Uniswap·Compound 급성장      │
-│ 2021년       │ NFT 붐·GameFi 등장 │ OpenSea·Axie Infinity        │
-│ 2022~현재    │ L2 성장·AA         │ 확장성 개선·UX 단순화        │
-└──────────────┴────────────────────┴─────────────────────────────┘
++-----------------------------------------------------------------+
+|                   DApp 발전 흐름                                 |
++--------------+--------------------+-----------------------------+
+| 2015년       | 이더리움 출시       | 스마트 컨트랙트·EVM 등장     |
+| 2017년       | CryptoKitties      | NFT·GameFi 원형              |
+| 2018~19년    | DeFi 초기 (MakerDAO) | 탈중앙 금융 개념 확립      |
+| 2020년       | DeFi Summer        | Uniswap·Compound 급성장      |
+| 2021년       | NFT 붐·GameFi 등장 | OpenSea·Axie Infinity        |
+| 2022~현재    | L2 성장·AA         | 확장성 개선·UX 단순화        |
++--------------+--------------------+-----------------------------+
 
 핵심 키워드 연결:
-블록체인 → 스마트 컨트랙트 → DApp → DeFi/NFT/DAO
-    ↓             ↓            ↓
+블록체인 -> 스마트 컨트랙트 -> DApp -> DeFi/NFT/DAO
+    v             v            v
   EVM          Solidity     Web3.js
-    ↓
-  L2 롤업 → zkEVM → 모바일 DApp 대중화
+    v
+  L2 롤업 -> zkEVM -> 모바일 DApp 대중화
 ```
 
 ---
@@ -206,7 +206,7 @@ DApp (Decentralized Application)
 
 **진행 상황**: 32 / 552
 
-← **이전**: [31. 니모닉 시드 구문 심화 — BIP-39 보안과 파생](/knowledge-base/studynote/06_ict_convergence/01_blockchain/031_mnemonic_seed_phrase/)
-**다음**: [DeFi (Decentralized Finance, 탈중앙화 금융)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) →
+<- **이전**: [31. 니모닉 시드 구문 심화 — BIP-39 보안과 파생](/knowledge-base/studynote/06_ict_convergence/01_blockchain/031_mnemonic_seed_phrase/)
+**다음**: [DeFi (Decentralized Finance, 탈중앙화 금융)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) ->
 
 ---

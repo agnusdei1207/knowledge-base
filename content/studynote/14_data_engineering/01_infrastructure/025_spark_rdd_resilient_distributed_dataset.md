@@ -19,17 +19,17 @@ tags = ["studynote-data-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌────────────────────────────────────────────────────────────┐
-│              RDD 핵심 특성                                   │
-├────────────────────────────────────────────────────────────┤
-│                                                            │
-│  1. 분산 (Distributed): 여러 노드에 파티션으로 분산 저장     │
-│  2. 불변 (Immutable): 한번 생성 후 수정 불가, 변환만 가능    │
-│  3. 내결함성 (Resilient): 리니지 그래프로 자동 재계산 복구   │
-│  4. 지연 실행 (Lazy): Action 호출 시만 실제 계산 수행        │
-│  5. 타입 안전 (Type-safe): 컴파일 타임 타입 체크              │
-│                                                            │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|              RDD 핵심 특성                                   |
++------------------------------------------------------------+
+|                                                            |
+|  1. 분산 (Distributed): 여러 노드에 파티션으로 분산 저장     |
+|  2. 불변 (Immutable): 한번 생성 후 수정 불가, 변환만 가능    |
+|  3. 내결함성 (Resilient): 리니지 그래프로 자동 재계산 복구   |
+|  4. 지연 실행 (Lazy): Action 호출 시만 실제 계산 수행        |
+|  5. 타입 안전 (Type-safe): 컴파일 타임 타입 체크              |
+|                                                            |
++------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: RDD는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 창고의 배송 주문서 모음이다. 각 창고(노드)에 배분된 주문서([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))들을 모아 처리하고, 창고 하나가 불이 나도(노드 장애) 원본 주문서 제작 과정(리니지)을 기억하니 다시 만들 수 있다.
@@ -60,14 +60,14 @@ counts.saveAsTextFile("s3://bucket/output")  # 저장
 ### [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 및 리니지
 
 ```text
-textFile → flatMap → map → reduceByKey
-   ↓           ↓       ↓        ↓
+textFile -> flatMap -> map -> reduceByKey
+   v           v       v        v
 Stage1:    Stage2:  Stage2:  Stage3:
 읽기       변환     변환    셔플+집계
 
 리니지 (Lineage):
-rdd → words → pairs → counts
-      (만약 pairs 손실 → words부터 재계산)
+rdd -> words -> pairs -> counts
+      (만약 pairs 손실 -> words부터 재계산)
 ```
 
 ### [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) vs DataFrame [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교
@@ -87,16 +87,16 @@ rdd → words → pairs → counts
 
 ```text
 Spark API 계층:
-┌───────────────────────────────────────────────┐
-│      고수준 (High-Level)                        │
-│  Spark SQL / DataFrames / Datasets (ML, ETL)   │
-│      ↓ Catalyst Optimizer + Tungsten           │
-│      중수준 (Mid-Level)                         │
-│  Dataset[T] (Scala/Java 타입 안전 DataFrame)   │
-│      ↓ RDD 기반 실행                            │
-│      저수준 (Low-Level)                         │
-│  RDD (직접 파티션/셔플 제어 필요 시)             │
-└───────────────────────────────────────────────┘
++-----------------------------------------------+
+|      고수준 (High-Level)                        |
+|  Spark SQL / DataFrames / Datasets (ML, ETL)   |
+|      v Catalyst Optimizer + Tungsten           |
+|      중수준 (Mid-Level)                         |
+|  Dataset[T] (Scala/Java 타입 안전 DataFrame)   |
+|      v RDD 기반 실행                            |
+|      저수준 (Low-Level)                         |
+|  RDD (직접 파티션/셔플 제어 필요 시)             |
++-----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: RDD는 어셈블리어(저수준, 강력하지만 복잡)이고 DataFrame은 파이썬(고수준, 편리하고 최적화 자동)이다. 일반 작업은 파이썬, 시스템 수준 제어는 어셈블리를 쓰는 것처럼 선택한다.
@@ -158,17 +158,17 @@ Spark 3.x에서 RDD는 Adaptive Query Execution (AQE)과 직접 통합되지 않
 
 ```text
 [MapReduce — 디스크 기반 분산 처리, 느림]
-    │
-    ▼
+    |
+    v
 [Spark RDD — 인메모리 분산 처리, 리니지 기반 복구]
-    │
-    ▼
+    |
+    v
 [DataFrame/Dataset — 스키마+Catalyst 자동 최적화]
-    │
-    ▼
+    |
+    v
 [Structured Streaming — 통합 배치·스트리밍 API]
-    │
-    ▼
+    |
+    v
 [Delta Lake + Spark — ACID 트랜잭션 레이크하우스]
 ```
 
@@ -184,7 +184,7 @@ Spark 3.x에서 RDD는 Adaptive Query Execution (AQE)과 직접 통합되지 않
 
 **진행 상황**: 25 / 258
 
-← **이전**: [24. Apache Flink — 네이티브 실시간 스트림 처리 엔진](/knowledge-base/studynote/14_data_engineering/01_infrastructure/024_apache_flink_stream_processing/)
-**다음**: [26. Kafka 토픽 파티션 (Topic Partition) — 분산 스트림 병렬 처리](/knowledge-base/studynote/14_data_engineering/01_infrastructure/026_topic_partition/) →
+<- **이전**: [24. Apache Flink — 네이티브 실시간 스트림 처리 엔진](/knowledge-base/studynote/14_data_engineering/01_infrastructure/024_apache_flink_stream_processing/)
+**다음**: [26. Kafka 토픽 파티션 (Topic Partition) — 분산 스트림 병렬 처리](/knowledge-base/studynote/14_data_engineering/01_infrastructure/026_topic_partition/) ->
 
 ---

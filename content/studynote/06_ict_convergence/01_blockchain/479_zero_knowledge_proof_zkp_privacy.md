@@ -28,7 +28,7 @@ tags = ["studynote-ict-convergence"]
 - **건전성(Soundness)**: 거짓 명제는 압도적 확률로 증명 실패
 - **영지식성(Zero-knowledge)**: 증명 과정에서 비밀 외 어떤 정보도 누출 없음
 
-**고전 예제**: 알리바바 동굴 — 알리가 A→B 문을 통과하는 비밀번호를 알고 있음을 증명하되, 비밀번호 자체는 공개하지 않음
+**고전 예제**: 알리바바 동굴 — 알리가 A->B 문을 통과하는 비밀번호를 알고 있음을 증명하되, 비밀번호 자체는 공개하지 않음
 
 - **📢 섹션 요약 비유**: — "색맹인 친구에게 빨간 공과 파란 공이 다름을 공 색깔을 말하지 않고 증명하는 것 — 섞어서 다시 보여줄 때마다 '바꿨냐, 안 바꿨냐'로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
 
@@ -39,26 +39,26 @@ tags = ["studynote-ict-convergence"]
 ### 대화형 vs 비대화형 [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/)
 
 ```
-┌──────────────────────────────────────────────────────┐
-│      대화형 ZKP (Interactive ZKP)                    │
-│                                                      │
-│  증명자(Prover)      검증자(Verifier)                 │
-│       │                    │                         │
-│       │──── 커밋(Commit) ──►│                         │
-│       │◄── 챌린지(Challenge)│                         │
-│       │──── 응답(Response)──►│                         │
-│       │   (반복 수행으로 건전성 달성)                  │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|      대화형 ZKP (Interactive ZKP)                    |
+|                                                      |
+|  증명자(Prover)      검증자(Verifier)                 |
+|       |                    |                         |
+|       |---- 커밋(Commit) --►|                         |
+|       |◄-- 챌린지(Challenge)|                         |
+|       |---- 응답(Response)--►|                         |
+|       |   (반복 수행으로 건전성 달성)                  |
++------------------------------------------------------+
 
-┌──────────────────────────────────────────────────────┐
-│      비대화형 ZKP (zk-SNARKs)                        │
-│                                                      │
-│  Setup  →  증명자(Prover)  →  블록체인(Verifier)     │
-│  (CRS*)     증명(π) 생성       증명(π) 검증           │
-│             수백 바이트         수 ms 검증             │
-│                                                      │
-│  * CRS: Common Reference String (신뢰 설정 필요)     │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|      비대화형 ZKP (zk-SNARKs)                        |
+|                                                      |
+|  Setup  ->  증명자(Prover)  ->  블록체인(Verifier)     |
+|  (CRS*)     증명(π) 생성       증명(π) 검증           |
+|             수백 바이트         수 ms 검증             |
+|                                                      |
+|  * CRS: Common Reference String (신뢰 설정 필요)     |
++------------------------------------------------------+
 ```
 
 ### zk-SNARKs vs zk-STARKs 비교
@@ -90,11 +90,11 @@ tags = ["studynote-ict-convergence"]
 ### zkRollup과의 연계
 
 ```
-L2 사용자 트랜잭션 → zkRollup 시퀀서
-    → 배치(Batch) 구성 → ZK 증명 생성(Prover)
-    → L1에 증명(π) + 상태 루트 제출
-    → L1 검증자: π만 검증 (O(1) 비용)
-    → 즉시 최종화 (Validity Proof → 챌린지 기간 없음)
+L2 사용자 트랜잭션 -> zkRollup 시퀀서
+    -> 배치(Batch) 구성 -> ZK 증명 생성(Prover)
+    -> L1에 증명(π) + 상태 루트 제출
+    -> L1 검증자: π만 검증 (O(1) 비용)
+    -> 즉시 최종화 (Validity Proof -> 챌린지 기간 없음)
 ```
 
 - **📢 섹션 요약 비유**: — "[ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) 없이 100개 거래를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하려면 100번 확인해야 하지만, ZKP로 '이 100개는 모두 정상이에요'라는 증명서 하나만 확인하면 된다.
@@ -105,13 +105,13 @@ L2 사용자 트랜잭션 → zkRollup 시퀀서
 
 ### Zcash [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) 프라이버시 모델
 
-- <strong>Shielded <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">Transaction</a></strong>: z-주소 간 거래 → 금액·발신자·수신자 모두 은닉
-- <strong>Transparent <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">Transaction</a></strong>: t-주소 간 거래 → 비트코인과 동일 공개
+- <strong>Shielded <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">Transaction</a></strong>: z-주소 간 거래 -> 금액·발신자·수신자 모두 은닉
+- <strong>Transparent <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">Transaction</a></strong>: t-주소 간 거래 -> 비트코인과 동일 공개
 - <strong>선택적 공개(Viewing <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>)</strong>: 특정 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)자에게만 거래 내역 공개 가능
 
 ### 기술사 핵심 판단
-1. <strong>Trusted Setup <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong>: zk-SNARKs의 [CRS](/knowledge-base/studynote/09_security/05_web_app_security/243_owasp_core_rule_set_crs_waf_anomaly_scoring/)(Common [Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) String) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시 비밀 파라미터 파기 실패 시 위조 증명 가능 → 다자 계산(MPC) Ceremony로 완화
-2. <strong>증명 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 비용</strong>: Prover의 연산이 매우 무거움 → 전용 하드웨어([FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/), [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/)) 필요
+1. <strong>Trusted Setup <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong>: zk-SNARKs의 [CRS](/knowledge-base/studynote/09_security/05_web_app_security/243_owasp_core_rule_set_crs_waf_anomaly_scoring/)(Common [Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) String) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시 비밀 파라미터 파기 실패 시 위조 증명 가능 -> 다자 계산(MPC) Ceremony로 완화
+2. <strong>증명 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 비용</strong>: Prover의 연산이 매우 무거움 -> 전용 하드웨어([FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/), [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/)) 필요
 3. **규제 충돌**: 프라이버시 코인은 FATF(Financial Action [Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) Force) Travel Rule 준수 어려움
 4. <strong>ZK-<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/">EVM</a> 성숙도</strong>: [Polygon](/knowledge-base/studynote/06_ict_convergence/01_blockchain/045_sidechain_bridge_polygon/) [zkEVM](/knowledge-base/studynote/06_ict_convergence/01_blockchain/074_zkevm_zero_knowledge_ethereum_virtual_machine/), zkSync Era가 범용 [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 증명 지원 단계 진입
 
@@ -147,7 +147,7 @@ ZKP는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[관계 설명] → [영지식 증명 ZKP · 프라이버시 보호] → [zk-SNARKs의 초기 보안 취약점]
+[관계 설명] -> [영지식 증명 ZKP · 프라이버시 보호] -> [zk-SNARKs의 초기 보안 취약점]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -162,7 +162,7 @@ ZKP는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain
 
 **진행 상황**: 479 / 552
 
-← **이전**: [478. 토큰 이코노미: ICO, NFT, RWA (Token Economy: ICO, NFT, RWA)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/478_token_economy_ico_nft_rwa/)
-**다음**: [480. 롤업: 옵티미스틱과 ZK 사기/타당성 증명 (Rollup: Optimistic vs ZK Fraud/Validity Proof)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/480_rollup_optimistic_zk_fraud_validity_proof/) →
+<- **이전**: [478. 토큰 이코노미: ICO, NFT, RWA (Token Economy: ICO, NFT, RWA)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/478_token_economy_ico_nft_rwa/)
+**다음**: [480. 롤업: 옵티미스틱과 ZK 사기/타당성 증명 (Rollup: Optimistic vs ZK Fraud/Validity Proof)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/480_rollup_optimistic_zk_fraud_validity_proof/) ->
 
 ---

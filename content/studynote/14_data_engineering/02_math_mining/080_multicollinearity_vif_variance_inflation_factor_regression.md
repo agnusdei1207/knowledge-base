@@ -94,23 +94,23 @@ $R^2_i$가 1에 가까울수록(즉, 다른 X 변수들로 완벽히 설명될�
 
 ```text
 다중 회귀 분석 (Multiple Regression)
-    │
-    ▼
+    |
+    v
 독립변수 간 상관관계 발견 (Pearson r > 0.8)
-    │
-    ▼
+    |
+    v
 다중 공선성 진단
-    ├─► 상관계수 행렬 (Correlation Matrix) — 1차 필터링
-    └─► VIF (Variance Inflation Factor) — 정밀 진단
-         VIF > 10 → 위험 / VIF > 5 → 주의
-    │
-    ▼
+    +-► 상관계수 행렬 (Correlation Matrix) — 1차 필터링
+    +-► VIF (Variance Inflation Factor) — 정밀 진단
+         VIF > 10 -> 위험 / VIF > 5 -> 주의
+    |
+    v
 해결 전략
-    ├─► 변수 제거 (Feature Selection) — 도메인 판단 기반
-    ├─► Ridge (L2) / Lasso (L1) 정규화 — 계수 억제
-    └─► PCA (주성분 분석) — 직교 변환으로 상관성 제거
-    │
-    ▼
+    +-► 변수 제거 (Feature Selection) — 도메인 판단 기반
+    +-► Ridge (L2) / Lasso (L1) 정규화 — 계수 억제
+    +-► PCA (주성분 분석) — 직교 변환으로 상관성 제거
+    |
+    v
 XAI (설명 가능한 AI) — 투명한 변수 영향력 리포팅
 ```
 
@@ -120,7 +120,7 @@ XAI (설명 가능한 AI) — 투명한 변수 영향력 리포팅
 
 **진행 상황**: 80 / 258
 
-← **이전**: [79. 원-핫 인코딩 (One-hot Encoding) - 범주형 변수의 더미 변수화](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/)
-**다음**: [81. 차원 축소 (Dimensionality Reduction) 및 PCA](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/) →
+<- **이전**: [79. 원-핫 인코딩 (One-hot Encoding) - 범주형 변수의 더미 변수화](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/)
+**다음**: [81. 차원 축소 (Dimensionality Reduction) 및 PCA](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/) ->
 
 ---

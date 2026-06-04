@@ -36,19 +36,19 @@ tags = ["studynote-design-supervision"]
 아래 그림은 갓 클래스가 어떻게 시스템의 모든 방향으로 손을 뻗으며 구조 병목이 되는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                God Class / Blob의 구조적 병목                │
-├──────────────────────────────────────────────────────────────┤
-│                       OrderManager                           │
-│  ┌────────────────────────────────────────────────────────┐  │
-│  │ 인증 │ 주문 │ 결제 │ 메일 │ 통계 │ 캐시 │ 예외처리     │  │
-│  └────────────────────────────────────────────────────────┘  │
-│      │       │      │      │      │      │                 │
-│      ├───────┼──────┼──────┼──────┼──────┤                 │
-│      ▼       ▼      ▼      ▼      ▼      ▼                 │
-│   UserDB   PG사   Mail   Report Cache  Audit                │
-│                 Gateway Server Store  Log                   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                God Class / Blob의 구조적 병목                |
++--------------------------------------------------------------+
+|                       OrderManager                           |
+|  +--------------------------------------------------------+  |
+|  | 인증 | 주문 | 결제 | 메일 | 통계 | 캐시 | 예외처리     |  |
+|  +--------------------------------------------------------+  |
+|      |       |      |      |      |      |                 |
+|      +-------+------+------+------+------+                 |
+|      v       v      v      v      v      v                 |
+|   UserDB   PG사   Mail   Report Cache  Audit                |
+|                 Gateway Server Store  Log                   |
++--------------------------------------------------------------+
 ```
 
 이런 구조는 정량 지표로도 드러난다. 가중 메서드 수 (WMC, Weighted Methods per Class)가 높고, 객체 간 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) (CBO, [Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) Between Objects)가 크며, 메서드 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) 결여 (LCOM, Lack of [Cohesion](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) in Methods)가 커질수록 갓 클래스 가능성이 높다. 특히 외부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과다 접근 (ATFD, Access to Foreign [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 높으면 "자기 일보다 남의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 끌어와 처리하는 클래스"일 가능성이 크다.
@@ -136,21 +136,21 @@ tags = ["studynote-design-supervision"]
 
 ```text
 객체지향 설계 원칙
-    │
-    ▼
+    |
+    v
 SRP (Single Responsibility Principle)
-    │
-    ▼
+    |
+    v
 안티 패턴 (Anti-Pattern)
-    │
-    ▼
+    |
+    v
 갓 클래스 / 블랍 (God Class / Blob)
-    │
-    ├─▶ 품질 지표: CBO · LCOM · WMC · ATFD
-    │
-    └─▶ 리팩토링: Extract Class · Interface Segregation
-                 │
-                 ▼
+    |
+    +--> 품질 지표: CBO · LCOM · WMC · ATFD
+    |
+    +--> 리팩토링: Extract Class · Interface Segregation
+                 |
+                 v
          도메인 경계 재정립
 ```
 
@@ -168,7 +168,7 @@ SRP (Single Responsibility Principle)
 
 **진행 상황**: 218 / 530
 
-← **이전**: [161. 안티 패턴 (Anti-Pattern)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/)
-**다음**: [163. 싱글톤 패턴의 단점과 DI (Singleton Drawbacks & Dependency Injection)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/163_singleton_pattern_drawbacks/) →
+<- **이전**: [161. 안티 패턴 (Anti-Pattern)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/)
+**다음**: [163. 싱글톤 패턴의 단점과 DI (Singleton Drawbacks & Dependency Injection)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/163_singleton_pattern_drawbacks/) ->
 
 ---

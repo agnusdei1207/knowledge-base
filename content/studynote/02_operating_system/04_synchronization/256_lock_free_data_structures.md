@@ -26,25 +26,25 @@ tags = ["studynote-operating-system"]
 **💡 비유**: 뮤텍스는 창구 줄서기 — 앞 사람이 느리면 모두 기다려야 한다. 락-프리는 팝업 스토어 재고 선점 — 빠른 사람이 먼저 가져가고, 늦은 사람은 재시도한다.
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│       락-프리 vs 뮤텍스 기반 — 처리량 비교               │
-├──────────────────────────────────────────────────────────┤
-│                                                          │
-│  처리량                                                  │
-│     ▲                                                    │
-│     │      [락-프리]                                     │
-│     │    ··········                                      │
-│     │  ·········                                         │
-│     │ ·······                                            │
-│     │·····                                               │
-│     │    [뮤텍스]    경합이 증가하면 처리량 급락         │
-│     │   ────────\──────────────────────────────          │
-│     │            \\                                      │
-│     │             \──────────────────                    │
-│     └──────────────────────────────────────▶ 스레드 수   │
-│                                                          │
-│  락-프리는 코어 수 증가에 선형적 확장성 유지             │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|       락-프리 vs 뮤텍스 기반 — 처리량 비교               |
++----------------------------------------------------------+
+|                                                          |
+|  처리량                                                  |
+|     ^                                                    |
+|     |      [락-프리]                                     |
+|     |    ··········                                      |
+|     |  ·········                                         |
+|     | ·······                                            |
+|     |·····                                               |
+|     |    [뮤텍스]    경합이 증가하면 처리량 급락         |
+|     |   --------\------------------------------          |
+|     |            \\                                      |
+|     |             \------------------                    |
+|     +---------------------------------------> 스레드 수   |
+|                                                          |
+|  락-프리는 코어 수 증가에 선형적 확장성 유지             |
++----------------------------------------------------------+
 ```
 
 **📢 섹션 요약 비유**: 락-프리는 교통경찰 없는 회전교차로 — 누군가 막혀도 다른 방향 차량은 계속 진행합니다.
@@ -67,39 +67,39 @@ atomic_fetch_add(&counter, 1);  // counter++ 원자적
 int expected = 5;
 int desired  = 10;
 bool success = atomic_compare_exchange_strong(&counter, &expected, desired);
-// counter == 5 이면 10으로 변경 → true 반환
-// counter != 5 이면 실패, expected에 실제 값 저장 → false 반환
+// counter == 5 이면 10으로 변경 -> true 반환
+// counter != 5 이면 실패, expected에 실제 값 저장 -> false 반환
 ```
 
 ### 락-프리 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 구현
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│            락-프리 스택 Push 동작 (CAS 루프)                 │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  Push(new_node):                                             │
-│  ┌─────────────────────────────────────────────────────┐     │
-│  │  do {                                               │     │
-│  │    head = atomic_load(&stack->head);                │     │
-│  │    new_node->next = head;  // 새 노드를 head로 설정│      │
-│  │  } while (!CAS(&stack->head, head, new_node));      │     │
-│  └─────────────────────────────────────────────────────┘     │
-│                                                              │
-│  시나리오: T1과 T2 동시 Push                                 │
-│                                                              │
-│  초기: [head → A]                                            │
-│                                                              │
-│  T1: head=A, new->next=A, CAS(A, B) → 성공                   │
-│  상태: [head → B → A]                                        │
-│                                                              │
-│  T2: head=A (구 값), new->next=A, CAS(A, C) → 실패!          │
-│      (head가 이미 B로 변경됨)                                │
-│  T2 재시도: head=B, new->next=B, CAS(B, C) → 성공            │
-│  상태: [head → C → B → A]                                    │
-│                                                              │
-│  보장: 어느 시점이든 최소 1개 스레드는 Push에 성공           │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|            락-프리 스택 Push 동작 (CAS 루프)                 |
++--------------------------------------------------------------+
+|                                                              |
+|  Push(new_node):                                             |
+|  +-----------------------------------------------------+     |
+|  |  do {                                               |     |
+|  |    head = atomic_load(&stack->head);                |     |
+|  |    new_node->next = head;  // 새 노드를 head로 설정|      |
+|  |  } while (!CAS(&stack->head, head, new_node));      |     |
+|  +-----------------------------------------------------+     |
+|                                                              |
+|  시나리오: T1과 T2 동시 Push                                 |
+|                                                              |
+|  초기: [head -> A]                                            |
+|                                                              |
+|  T1: head=A, new->next=A, CAS(A, B) -> 성공                   |
+|  상태: [head -> B -> A]                                        |
+|                                                              |
+|  T2: head=A (구 값), new->next=A, CAS(A, C) -> 실패!          |
+|      (head가 이미 B로 변경됨)                                |
+|  T2 재시도: head=B, new->next=B, CAS(B, C) -> 성공            |
+|  상태: [head -> C -> B -> A]                                    |
+|                                                              |
+|  보장: 어느 시점이든 최소 1개 스레드는 Push에 성공           |
++--------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 루프의 핵심은 "내가 읽은 값이 아직도 그대로인가"를 원자적으로 확인한 후 수정하는 것이다. T2가 실패했을 때 T1은 이미 성공했으므로 시스템 전체는 전진한다 — 이것이 락-프리의 Live 보장이다. 단, T2는 재시도해야 하므로 개별 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 완료를 보장하지는 않는다 (Wait-free는 아님).
@@ -107,29 +107,29 @@ bool success = atomic_compare_exchange_strong(&counter, &expected, desired);
 ### ABA 문제 — 락-프리의 핵심 함정
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│              ABA 문제 발생 시나리오                      │
-├──────────────────────────────────────────────────────────┤
-│                                                          │
-│  초기: [head → A → B → C]                                │
-│                                                          │
-│  T1: head 읽음 = A                                       │
-│      (CAS 전에 T1이 선점당함)                            │
-│                                                          │
-│  T2: Pop A (head = B), Pop B (head = C)                  │
-│      A를 재사용해 Push: head = A → C                     │
-│      (A의 next는 이제 C, B는 해제됨!)                    │
-│                                                          │
-│  T1: CAS(A, new) 성공! (head=A이므로)                    │
-│      head = new → next는 B (이미 해제된 메모리!)         │
-│      → Use-After-Free 취약점!                            │
-│                                                          │
-│  해결: Tagged Pointer — 포인터에 카운터를 함께 저장      │
-│  (A, tag=1) → (A, tag=2): CAS가 tag까지 비교하므로 실패  │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|              ABA 문제 발생 시나리오                      |
++----------------------------------------------------------+
+|                                                          |
+|  초기: [head -> A -> B -> C]                                |
+|                                                          |
+|  T1: head 읽음 = A                                       |
+|      (CAS 전에 T1이 선점당함)                            |
+|                                                          |
+|  T2: Pop A (head = B), Pop B (head = C)                  |
+|      A를 재사용해 Push: head = A -> C                     |
+|      (A의 next는 이제 C, B는 해제됨!)                    |
+|                                                          |
+|  T1: CAS(A, new) 성공! (head=A이므로)                    |
+|      head = new -> next는 B (이미 해제된 메모리!)         |
+|      -> Use-After-Free 취약점!                            |
+|                                                          |
+|  해결: Tagged Pointer — 포인터에 카운터를 함께 저장      |
+|  (A, tag=1) -> (A, tag=2): CAS가 tag까지 비교하므로 실패  |
++----------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** ABA 문제는 값이 A→B→A로 바뀌었지만 CAS가 이 변화를 감지하지 못하는 현상이다. 해결법은 포인터와 함께 변경 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)(tag)를 유지하는 Tagged Pointer 기법으로, 포인터 하위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(정렬 보장 영역)나 128비트 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/)(`cmpxchg16b`)를 활용한다. Java의 `AtomicStampedReference`가 이 패턴의 표준 구현이다.
+**[다이어그램 해설]** ABA 문제는 값이 A->B->A로 바뀌었지만 CAS가 이 변화를 감지하지 못하는 현상이다. 해결법은 포인터와 함께 변경 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)(tag)를 유지하는 Tagged Pointer 기법으로, 포인터 하위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(정렬 보장 영역)나 128비트 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/)(`cmpxchg16b`)를 활용한다. Java의 `AtomicStampedReference`가 이 패턴의 표준 구현이다.
 
 **📢 섹션 요약 비유**: ABA 문제는 친구가 지갑을 빌렸다가 돌려줬는데, 그 사이에 내용이 바뀐 것을 모르고 "지갑이 그대로네"라고 착각하는 상황입니다.
 
@@ -140,15 +140,15 @@ bool success = atomic_compare_exchange_strong(&counter, &expected, desired);
 ### [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 보장 수준 비교
 
 ```text
-┌──────────────────┬──────────────┬──────────────┬───────────────┐
-│ 보장 수준        │ 블로킹 락    │ 락-프리      │ 웨이트-프리   │
-├──────────────────┼──────────────┼──────────────┼───────────────┤
-│ 데드락 가능성    │ 있음         │ 없음         │ 없음          │
-│ 기아 가능성      │ 있음         │ 없음         │ 없음          │
-│ 개별 완료 보장   │ 있음         │ 없음         │ 있음          │
-│ 구현 복잡도      │ 낮음         │ 높음         │ 매우 높음     │
-│ 실무 적용        │ 일반 목적    │ 고성능 큐/스택│ 하드리얼타임 │
-└──────────────────┴──────────────┴──────────────┴───────────────┘
++------------------+--------------+--------------+---------------+
+| 보장 수준        | 블로킹 락    | 락-프리      | 웨이트-프리   |
++------------------+--------------+--------------+---------------+
+| 데드락 가능성    | 있음         | 없음         | 없음          |
+| 기아 가능성      | 있음         | 없음         | 없음          |
+| 개별 완료 보장   | 있음         | 없음         | 있음          |
+| 구현 복잡도      | 낮음         | 높음         | 매우 높음     |
+| 실무 적용        | 일반 목적    | 고성능 큐/스택| 하드리얼타임 |
++------------------+--------------+--------------+---------------+
 ```
 
 ### 실무 적용 사례
@@ -167,7 +167,7 @@ bool success = atomic_compare_exchange_strong(&counter, &expected, desired);
 2. <strong>실시간 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/">로그 수집</a></strong>: 락 없는 링 버퍼로 [인터럽트 핸들러](/knowledge-base/studynote/02_operating_system/01_overview_architecture/021_interrupt_handler/)(생산자)와 [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(소비자)가 뮤텍스 없이 통신, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 보장.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **ABA 무시**: 포인터 재사용이 있는 환경에서 Tagged Pointer 없이 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 사용 → 희귀하지만 치명적 메모리 오류.
+- **ABA 무시**: 포인터 재사용이 있는 환경에서 Tagged Pointer 없이 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 사용 -> 희귀하지만 치명적 메모리 오류.
 - **과도한 재시도 스핀**: 극심한 경쟁 환경에서 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 루프가 계속 실패하면 CPU 낭비([라이브락](/knowledge-base/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/)). 백오프(Backoff) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 필요.
 
 **📢 섹션 요약 비유**: 락-프리의 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 재시도 과도함은 마치 마트에서 계산대 자리를 잡으려고 계속 뛰어다니는 것 — 가끔 잠깐 쉬어가는(backoff) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 오히려 전체 효율을 높입니다.
@@ -200,12 +200,12 @@ bool success = atomic_compare_exchange_strong(&counter, &expected, desired);
 
 ```text
 [SeqLock (순차 락)]
-    │
-    ▼
+    |
+    v
 [락-프리 (Lock-free) 자료구조]
-    │
-    ├──▶ [웨이트-프리 (Wait-free) 알고리즘]
-    └──▶ [스케줄러 일드 (sched_yield)]
+    |
+    +---> [웨이트-프리 (Wait-free) 알고리즘]
+    +---> [스케줄러 일드 (sched_yield)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -222,7 +222,7 @@ bool success = atomic_compare_exchange_strong(&counter, &expected, desired);
 
 **진행 상황**: 256 / 800
 
-← **이전**: [255. 요구 페이징 (Demand Paging)](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)
-**다음**: [257. 스래싱 (Thrashing)](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) →
+<- **이전**: [255. 요구 페이징 (Demand Paging)](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)
+**다음**: [257. 스래싱 (Thrashing)](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) ->
 
 ---

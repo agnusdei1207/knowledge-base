@@ -40,28 +40,28 @@ tags = ["studynote-enterprise"]
 | 기능적 벤치마킹 | 다른 산업의 동일 기능 우수 조직 | 고정관념을 깨는 개선 아이디어 확보 | 맥락 차이를 보정해야 함 |
 | 일반적 벤치마킹 | 산업을 넘어선 보편적 모범 사례 | 패러다임 전환 수준의 통찰 가능 | 적용 기준이 지나치게 추상적일 수 있음 |
 
-아래 다이어그램은 벤치마킹이 "방문 → 감탄 → [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)"가 아니라 측정과 적응의 사이클임을 보여준다.
+아래 다이어그램은 벤치마킹이 "방문 -> 감탄 -> [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)"가 아니라 측정과 적응의 사이클임을 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Benchmarking life-cycle                                           │
-├────────────────────────────────────────────────────────────────────┤
-│ 1. Select target   -> process / product / KPI                     │
-│          │                                                         │
-│          ▼                                                         │
-│ 2. Measure As-Is   -> current baseline                            │
-│          │                                                         │
-│          ▼                                                         │
-│ 3. Compare with Best Practice                                     │
-│          │                                                         │
-│          ▼                                                         │
-│ 4. Analyze Gap      -> cause / context / capability               │
-│          │                                                         │
-│          ▼                                                         │
-│ 5. Adapt To-Be      -> redesign / invest / standardize            │
-│          │                                                         │
-│          └────────────── feedback and re-measure ─────────────────┘
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Benchmarking life-cycle                                           |
++--------------------------------------------------------------------+
+| 1. Select target   -> process / product / KPI                     |
+|          |                                                         |
+|          v                                                         |
+| 2. Measure As-Is   -> current baseline                            |
+|          |                                                         |
+|          v                                                         |
+| 3. Compare with Best Practice                                     |
+|          |                                                         |
+|          v                                                         |
+| 4. Analyze Gap      -> cause / context / capability               |
+|          |                                                         |
+|          v                                                         |
+| 5. Adapt To-Be      -> redesign / invest / standardize            |
+|          |                                                         |
+|          +-------------- feedback and re-measure -----------------+
++--------------------------------------------------------------------+
 ```
 
 이 구조에서 가장 중요한 단계는 Gap 분석이다. 격차는 숫자로만 존재하지 않고, 그 숫자를 만드는 공정, 인력, 시스템, 문화 차이까지 포함한다. 그래서 우수 사례의 결과를 그대로 베끼면 실패하고, 우리 조건에 맞게 바꾸는 Adapt 단계가 반드시 필요하다.
@@ -133,17 +133,17 @@ tags = ["studynote-enterprise"]
 
 ```text
 Internal Performance Review
-    │
-    ▼
+    |
+    v
 External Comparison and Best Practice
-    │
-    ▼
+    |
+    v
 KPI Normalization and Gap Analysis
-    │
-    ▼
+    |
+    v
 BPR · Standardization · IT BMT
-    │
-    ▼
+    |
+    v
 Continuous Re-measurement
 ```
 
@@ -161,7 +161,7 @@ Continuous Re-measurement
 
 **진행 상황**: 219 / 482
 
-← **이전**: [218. 포터의 본원적 경쟁 전략 - 원가 우위, 차별화, 집중화](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/218_porter_generic_strategies/)
-**다음**: [220. 정보 시스템 감리 (IT Audit) 개요 - 효과성, 효율성, 안전성 검증](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/220_it_audit_overview/) →
+<- **이전**: [218. 포터의 본원적 경쟁 전략 - 원가 우위, 차별화, 집중화](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/218_porter_generic_strategies/)
+**다음**: [220. 정보 시스템 감리 (IT Audit) 개요 - 효과성, 효율성, 안전성 검증](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/220_it_audit_overview/) ->
 
 ---

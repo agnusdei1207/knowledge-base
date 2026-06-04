@@ -30,28 +30,28 @@ tags = ["studynote-network"]
   2. **라우터 하드웨어 성능의 발전**: 과거엔 멍청한 라우터가 패킷 복사(Copy) 연산을 하다 CPU가 타버렸으나, [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) 칩셋 하드웨어 가속기가 도입되며 1초에 수백만 번의 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 펌핑이 가능해졌다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          IPTV 멀티캐스트의 기적: 대역폭(Bandwidth) 1가닥의 위엄 도면           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ 📺 [ 방송국 메인 서버 ] : "손흥민 골 장면 딱 1가닥(10Mbps) 쏜다!"        │
-│          │ (단 10Mbps 백본 사용)                                 │
-│          ▼                                                  │
-│ 🔄 [ 서울 메인 라우터 ] ── (대전 방향은 10Mbps 1가닥만!) ──▶ [ 대전 라우터 ]│
-│          │                                        │         │
-│  (부산 방향도 10Mbps 1가닥만 복사!)                  (복사)     (복사)  │
-│          ▼                                        ▼         ▼ │
-│ 🔄 [ 부산 라우터 ]                              👨‍👩‍👧 시청자1   👨‍👩‍👧 시청자2│
-│  │      │       │ (부산 골목 라우터에 와서야 비로소 수십 개로 복사되어 찢어짐!) │
-│ (복사)  (복사)   (복사)                                               │
-│  ▼      ▼       ▼                                                │
-│ 👨‍👩‍👧    👨‍👩‍👧    👨‍👩‍👧 (부산 시청자 100만 명)                           │
-│                                                             │
-│ 🌟 아키텍트의 극찬: 유니캐스트였다면 서울 ➔ 부산으로 내려가는 메인 고속도로에 │
-│   [ 100만 명 * 10Mbps = 10,000 Gbps ] 라는 미친 트래픽이 쏟아져 나라망이    │
-│   터졌을 것이다. 멀티캐스트는 서울에서 부산까지 10Mbps 단 1가닥으로 통과한 뒤, │
-│   부산 아파트 단지 앞 라우터(Edge)에서 100만 개로 찢어(복제)버린다. 궁극의 압축!│
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          IPTV 멀티캐스트의 기적: 대역폭(Bandwidth) 1가닥의 위엄 도면           |
++-------------------------------------------------------------+
+|                                                             |
+| 📺 [ 방송국 메인 서버 ] : "손흥민 골 장면 딱 1가닥(10Mbps) 쏜다!"        |
+|          | (단 10Mbps 백본 사용)                                 |
+|          v                                                  |
+| 🔄 [ 서울 메인 라우터 ] -- (대전 방향은 10Mbps 1가닥만!) ---> [ 대전 라우터 ]|
+|          |                                        |         |
+|  (부산 방향도 10Mbps 1가닥만 복사!)                  (복사)     (복사)  |
+|          v                                        v         v |
+| 🔄 [ 부산 라우터 ]                              👨‍👩‍👧 시청자1   👨‍👩‍👧 시청자2|
+|  |      |       | (부산 골목 라우터에 와서야 비로소 수십 개로 복사되어 찢어짐!) |
+| (복사)  (복사)   (복사)                                               |
+|  v      v       v                                                |
+| 👨‍👩‍👧    👨‍👩‍👧    👨‍👩‍👧 (부산 시청자 100만 명)                           |
+|                                                             |
+| 🌟 아키텍트의 극찬: 유니캐스트였다면 서울 ➔ 부산으로 내려가는 메인 고속도로에 |
+|   [ 100만 명 * 10Mbps = 10,000 Gbps ] 라는 미친 트래픽이 쏟아져 나라망이    |
+|   터졌을 것이다. 멀티캐스트는 서울에서 부산까지 10Mbps 단 1가닥으로 통과한 뒤, |
+|   부산 아파트 단지 앞 라우터(Edge)에서 100만 개로 찢어(복제)버린다. 궁극의 압축!|
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "넷플릭스는 잘만 되는데 IPTV는 왜 굳이 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 써요?"라는 주니어의 좁은 시야를 깨부수는 코어 아키텍처다. 넷플릭스는 VOD(다시 보기)라서 사람마다 10초 뒤로 가기, 일시 정지를 맘대로 누른다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모양이 다 달라서 복사([Clone](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/))를 해줄 수가 없다. 철저한 1:1 유니캐스트다. 대신 넷플릭스는 돈이 썩어 넘쳐서 부산 아파트 단지 입구마다 '캐시 서버(OCA 쇳덩이)'를 수천억 주고 심어버린 거다. 반면 IPTV 실시간 9시 뉴스는 전 국민이 '동일한 시간(Sync)에 동일한 패킷'을 본다. 그래서 방송국이 1개를 던지면 라우터가 거울처럼 반사(Multicast)해서 뿌리는 이 가성비 최강의 네트워크 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 트리(Tree)가 성립할 수 있는 것이다.
@@ -80,11 +80,11 @@ tags = ["studynote-network"]
 
 ```text
 [IP PBX]
-    │
-    ▼
+    |
+    v
 [IPTV 멀티캐스트 전송]
-    │
-    └──▶ [WebRTC]
+    |
+    +---> [WebRTC]
 ```
 
 - **📢 섹션 요약 비유**: <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/">IGMP</a></strong>는 내가 잡지사에 전화해서 <strong>"이번 달부터 요리 잡지 1권 정기구독(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/">Join</a>)할게요, 재미없으면 다음 달에 구독 끊을게요(Leave)!"</strong>라고 신청하는 과정입니다. <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/">PIM</a></strong>은 잡지 배달 트럭(라우터) 기사들끼리 <strong>"강남구에는 구독자 3명 있으니까 강남 우체국으로 3권 쏴주고, 강북구는 한 명도 없으니까 강북 트럭엔 아예 싣지도 마(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">가지치기</a>)!"</strong>라고 전국의 배달 노선(Tree)을 지능적으로 짜는 물류 네트워킹 시스템입니다.
@@ -129,30 +129,30 @@ tags = ["studynote-network"]
    이 4단계 우주 방어 시스템 때문에 채널 돌아가는 데 물리적으로 2~3초가 걸릴 수밖에 없는 고통스러운 인프라의 늪이다. (최근엔 통신사가 앞부분 1초만 유니캐스트로 미리 땡겨 쏴주는 FCC 꼼수 튜닝으로 속도를 줄이고 있다).
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │         실무 아키텍처: IPTV 셋톱박스 채널 돌릴 때 일어나는 IGMP 3단계 핑퐁 극장 │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │ 🛋️ [ 거실 (11번 시청 중) ]               🏢 [ 동네 아파트 스위치 라우터 ]│
-  │  아빠: "아 뉴스 재미없네, 7번 예능 틀어!" (리모컨 딸깍)                │
-  │                                                             │
-  │        ======= [ 🚨 채널 전환 (Zapping) 발생! ] ========         │
-  │                                                             │
-  │  1️⃣ 셋톱 ──▶ IGMP Leave (나 11번 그룹 탈퇴할게!) ───▶ 라우터      │
-  │     ➔ 라우터: "ㅇㅋ 너네 아파트 다른 놈 11번 보는 놈 있나? 없네? 11번 밸브 잠금!"│
-  │                                                             │
-  │  2️⃣ 셋톱 ──▶ IGMP Join  (나 7번 그룹 가입할게!) ────▶ 라우터      │
-  │     ➔ 라우터: "어? 우리 아파트 스위치엔 7번 찌꺼기가 안 내려와 있는데?"    │
-  │                                                             │
-  │  3️⃣ 라우터 ──▶ PIM Join (서울 본사야 7번 길 좀 뚫어줘!) ──▶ 서울 본사 라우터│
-  │     ➔ 서울 본사: "ㅇㅋ 7번 영상 패킷 복사기 돌려서 부산으로 다이렉트 송출 시작!" │
-  │                                                             │
-  │  4️⃣ 7번 예능 영상(UDP RTP) 폭포수 ──────────▶ 셋톱 박스 도착 (화면 짠!)│
-  │                                                             │
-  │ 🌟 아키텍트의 피눈물: 이 1~4번 과정이 아빠가 리모컨 누르는 그 2초 안에 빛의 │
-  │   속도로 처리되어야 한다. 중간에 IGMP 패킷 1개라도 증발(Loss)하면 아빠의 TV │
-  │   화면은 5초 동안 멈춰있고 통신사 고객센터에 쌍욕 전화가 쏟아지는 살얼음판이다.│
-└─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |         실무 아키텍처: IPTV 셋톱박스 채널 돌릴 때 일어나는 IGMP 3단계 핑퐁 극장 |
+  +-------------------------------------------------------------+
+  |                                                             |
+  | 🛋️ [ 거실 (11번 시청 중) ]               🏢 [ 동네 아파트 스위치 라우터 ]|
+  |  아빠: "아 뉴스 재미없네, 7번 예능 틀어!" (리모컨 딸깍)                |
+  |                                                             |
+  |        ======= [ 🚨 채널 전환 (Zapping) 발생! ] ========         |
+  |                                                             |
+  |  1️⃣ 셋톱 ---> IGMP Leave (나 11번 그룹 탈퇴할게!) ----> 라우터      |
+  |     ➔ 라우터: "ㅇㅋ 너네 아파트 다른 놈 11번 보는 놈 있나? 없네? 11번 밸브 잠금!"|
+  |                                                             |
+  |  2️⃣ 셋톱 ---> IGMP Join  (나 7번 그룹 가입할게!) -----> 라우터      |
+  |     ➔ 라우터: "어? 우리 아파트 스위치엔 7번 찌꺼기가 안 내려와 있는데?"    |
+  |                                                             |
+  |  3️⃣ 라우터 ---> PIM Join (서울 본사야 7번 길 좀 뚫어줘!) ---> 서울 본사 라우터|
+  |     ➔ 서울 본사: "ㅇㅋ 7번 영상 패킷 복사기 돌려서 부산으로 다이렉트 송출 시작!" |
+  |                                                             |
+  |  4️⃣ 7번 예능 영상(UDP RTP) 폭포수 -----------> 셋톱 박스 도착 (화면 짠!)|
+  |                                                             |
+  | 🌟 아키텍트의 피눈물: 이 1~4번 과정이 아빠가 리모컨 누르는 그 2초 안에 빛의 |
+  |   속도로 처리되어야 한다. 중간에 IGMP 패킷 1개라도 증발(Loss)하면 아빠의 TV |
+  |   화면은 5초 동안 멈춰있고 통신사 고객센터에 쌍욕 전화가 쏟아지는 살얼음판이다.|
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "IPTV는 그냥 랜선만 꼽으면 나오는 거 아니에요?"라는 무지함을 깨부수는 L3/L4 제어(Control Plane) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 정수다. 통신사의 백본 라우터([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/)/Nokia)들은 1초에도 수백만 명이 채널을 100번씩 돌리는 미친듯한 Zapping 트래픽 폭풍 속에서, `IGMP Join/Leave` 상태 장부([State Table](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/066_state_table/))를 메모리에서 1밀리초 만에 갱신하고 [PIM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/) 나무 핏줄을 뗐다 붙였다 하는 극한의 CPU 연산 노가다를 수행하고 있다. 이 장부가 엉키면? 채널을 돌렸는데 이전 방송 소리가 나오거나, 화면이 깍두기처럼 깨져버리는 IPTV 최악의 모자이크(Macroblocking) 재앙이 고객 집 거실에 실시간으로 터지게 된다.
@@ -206,12 +206,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: IP PBX]
-    │
-    ▼
+    |
+    v
 [현재 개념: IPTV 멀티캐스트 전송]
-    │
-    ├──▶ [확장 A: WebRTC]
-    └──▶ [확장 B: 지능형 애플리케이션 전달]
+    |
+    +---> [확장 A: WebRTC]
+    +---> [확장 B: 지능형 애플리케이션 전달]
 ```
 
 IPTV [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 전송는 IP PBX에서 출발해 현재 메커니즘을 정교화하고, 이후 WebRTC와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -228,7 +228,7 @@ IPTV [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/
 
 **진행 상황**: 625 / 1120
 
-← **이전**: [503. IP PBX](/knowledge-base/studynote/03_network/09_application_layer_web_email/503_ip_pbx_private_branch_exchange/)
-**다음**: [505. WebRTC (Web Real-Time Communication)](/knowledge-base/studynote/03_network/09_application_layer_web_email/505_webrtc_web_real_time_communication/) →
+<- **이전**: [503. IP PBX](/knowledge-base/studynote/03_network/09_application_layer_web_email/503_ip_pbx_private_branch_exchange/)
+**다음**: [505. WebRTC (Web Real-Time Communication)](/knowledge-base/studynote/03_network/09_application_layer_web_email/505_webrtc_web_real_time_communication/) ->
 
 ---

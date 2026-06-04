@@ -23,8 +23,8 @@ tags = ["software_engineering"]
 WIP ([Work In Progress](/knowledge-base/studynote/04_software_engineering/uncategorized/661_kanban_wip_limit/)) 제한은 한 단계에 동시에 두는 작업 수를 제한하는 규칙이다. 제한이 없으면 사람은 시작하기 쉬운 일을 계속 벌리지만, 완료는 늦어지고 전환 비용만 늘어난다.
 
 ```text
-Backlog → Ready → Doing [WIP 3] → Review [WIP 2] → Done
-                ↑ 막히면 다음 단계가 아니라 병목을 먼저 본다
+Backlog -> Ready -> Doing [WIP 3] -> Review [WIP 2] -> Done
+                ^ 막히면 다음 단계가 아니라 병목을 먼저 본다
 ```
 
 - **📢 섹션 요약 비유**: 책상 위에 숙제가 너무 많으면 아무것도 끝나지 않으니, 펼쳐 놓는 공책 수를 줄이는 것과 같다.
@@ -45,9 +45,9 @@ Backlog → Ready → Doing [WIP 3] → Review [WIP 2] → Done
 
 ```text
 작업 흐름의 원리
-요청 유입 → 분석 → 구현 → 검토 → 완료
-      │          │        │       │
-      └────── WIP 제한이 병목을 드러낸다 ──────┘
+요청 유입 -> 분석 -> 구현 -> 검토 -> 완료
+      |          |        |       |
+      +------ WIP 제한이 병목을 드러낸다 ------+
 ```
 
 WIP를 줄이면 처음에는 불편하지만, 기다림이 줄고 사이클 타임이 짧아진다. 여기서 중요한 것은 숫자 자체보다, 숫자가 팀의 실제 병목과 맞는가이다.
@@ -119,14 +119,14 @@ WIP를 줄이면 처음에는 불편하지만, 기다림이 줄고 사이클 타
 
 ```text
 요청 유입
-  │
-  ▼
+  |
+  v
 보드에 시각화
-  │
-  ▼
+  |
+  v
 WIP 제한으로 pull
-  │
-  ▼
+  |
+  v
 완료와 측정
 ```
 
@@ -144,7 +144,7 @@ WIP 제한으로 pull
 
 **진행 상황**: 84 / 973
 
-← **이전**: [83. 플래닝 포커 (Planning Poker) - 다수 전문가 합의 기반 산정](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/083_planning_poker/)
-**다음**: [85. 리드 타임 (Lead Time) / 사이클 타임 (Cycle Time)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) →
+<- **이전**: [83. 플래닝 포커 (Planning Poker) - 다수 전문가 합의 기반 산정](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/083_planning_poker/)
+**다음**: [85. 리드 타임 (Lead Time) / 사이클 타임 (Cycle Time)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) ->
 
 ---

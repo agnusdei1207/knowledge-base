@@ -25,29 +25,29 @@ tags = ["studynote-bigdata"]
 
 | 문제 | 규모 | 빅데이터 해법 |
 |:---|:---|:---|
-| 진단 오류 | 연간 진단 오류 12만 명 (미국) | 영상 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) → 방사선 판독 보조 |
+| 진단 오류 | 연간 진단 오류 12만 명 (미국) | 영상 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) -> 방사선 판독 보조 |
 | 패혈증 사망 | ICU 사망 1위, 진단 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 결정적 | 조기 경보 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (SOFA 스코어 + ML) |
 | 신약 개발 비용 | 평균 1개 신약 = 26억 달러 | 분자 시뮬레이션 + 타겟 발굴 자동화 |
-| 의료비 낭비 | 미국 의료비 30%가 불필요 지출 | 재입원 예측 → 예방적 개입 |
+| 의료비 낭비 | 미국 의료비 30%가 불필요 지출 | 재입원 예측 -> 예방적 개입 |
 
 ### 주요 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유형
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│                 의료 데이터 레이어                         │
-├──────────────────────────────────────────────────────────┤
-│  구조화 데이터       반구조화           비구조화           │
-│  ┌────────────┐   ┌─────────────┐   ┌────────────────┐  │
-│  │ EMR 수치   │   │ HL7 FHIR    │   │ 의료 영상      │  │
-│  │ (검사결과  │   │ 메시지      │   │ (CT/MRI/X-ray) │  │
-│  │  처방 등)  │   │ JSON/XML    │   │ DICOM 포맷     │  │
-│  └────────────┘   └─────────────┘   └────────────────┘  │
-│  ┌────────────┐   ┌─────────────┐   ┌────────────────┐  │
-│  │ 유전체     │   │ 임상 노트   │   │ 웨어러블       │  │
-│  │ VCF 포맷   │   │ (자유 텍스트│   │ (심박/혈당/    │  │
-│  │ 3B BP/인   │   │  NLP 필요)  │   │  수면 패턴)    │  │
-│  └────────────┘   └─────────────┘   └────────────────┘  │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|                 의료 데이터 레이어                         |
++----------------------------------------------------------+
+|  구조화 데이터       반구조화           비구조화           |
+|  +------------+   +-------------+   +----------------+  |
+|  | EMR 수치   |   | HL7 FHIR    |   | 의료 영상      |  |
+|  | (검사결과  |   | 메시지      |   | (CT/MRI/X-ray) |  |
+|  |  처방 등)  |   | JSON/XML    |   | DICOM 포맷     |  |
+|  +------------+   +-------------+   +----------------+  |
+|  +------------+   +-------------+   +----------------+  |
+|  | 유전체     |   | 임상 노트   |   | 웨어러블       |  |
+|  | VCF 포맷   |   | (자유 텍스트|   | (심박/혈당/    |  |
+|  | 3B BP/인   |   |  NLP 필요)  |   |  수면 패턴)    |  |
+|  +------------+   +-------------+   +----------------+  |
++----------------------------------------------------------+
 ```
 
 > 📢 **섹션 요약 비유**: 의료 빅데이터는 "의사가 진찰실에서 보는 것들 외에, 환자의 DNA·수면 기록·과거 입원 내역까지 동시에 읽는 초능력 차트"다.
@@ -59,37 +59,37 @@ tags = ["studynote-bigdata"]
 ### 유전체 분석 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 (GATK, Genome Analysis Toolkit)
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                   유전체 분석 파이프라인                           │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  전혈 샘플                                                        │
-│      │                                                           │
-│      ▼                                                           │
-│  ┌──────────────┐                                                │
-│  │ NGS 시퀀싱   │  (Illumina, PacBio 등)                         │
-│  │ 원본 FASTQ   │  ~100GB/인                                     │
-│  └──────┬───────┘                                                │
-│         │                                                        │
-│         ▼                                                        │
-│  ┌──────────────┐     ┌─────────────────────────────────────┐   │
-│  │ BWA 정렬     │────▶│  GATK HaplotypeCaller               │   │
-│  │ 참조 게놈 대비│     │  SNP (단일염기다형성) 변이 발굴      │   │
-│  └──────────────┘     │  INDEL (삽입/결실) 탐지              │   │
-│                        └──────────────┬──────────────────────┘   │
-│                                       │                          │
-│                                       ▼                          │
-│                        ┌─────────────────────────┐              │
-│                        │ 변이 주석 (Annotation)   │              │
-│                        │ ClinVar · dbSNP 대조     │              │
-│                        └────────────┬────────────┘              │
-│                                     │                            │
-│                                     ▼                            │
-│                        ┌─────────────────────────┐              │
-│                        │  임상 해석 보고서         │              │
-│                        │  (유전성 질환 위험도 등)  │              │
-│                        └─────────────────────────┘              │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|                   유전체 분석 파이프라인                           |
++-----------------------------------------------------------------+
+|                                                                  |
+|  전혈 샘플                                                        |
+|      |                                                           |
+|      v                                                           |
+|  +--------------+                                                |
+|  | NGS 시퀀싱   |  (Illumina, PacBio 등)                         |
+|  | 원본 FASTQ   |  ~100GB/인                                     |
+|  +------+-------+                                                |
+|         |                                                        |
+|         v                                                        |
+|  +--------------+     +-------------------------------------+   |
+|  | BWA 정렬     |----->|  GATK HaplotypeCaller               |   |
+|  | 참조 게놈 대비|     |  SNP (단일염기다형성) 변이 발굴      |   |
+|  +--------------+     |  INDEL (삽입/결실) 탐지              |   |
+|                        +--------------+----------------------+   |
+|                                       |                          |
+|                                       v                          |
+|                        +-------------------------+              |
+|                        | 변이 주석 (Annotation)   |              |
+|                        | ClinVar · dbSNP 대조     |              |
+|                        +------------+------------+              |
+|                                     |                            |
+|                                     v                            |
+|                        +-------------------------+              |
+|                        |  임상 해석 보고서         |              |
+|                        |  (유전성 질환 위험도 등)  |              |
+|                        +-------------------------+              |
++-----------------------------------------------------------------+
 ```
 
 ### 임상 예측 모델: 패혈증 조기 경보
@@ -101,12 +101,12 @@ tags = ["studynote-bigdata"]
 | 임상 노트 키워드 | 간호 기록 NLP | [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 파인튜닝 |
 | 이전 입원 이력 | 의무기록 | [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔지니어링 |
 
-**목표**: 패혈증 발생 6시간 전 경보 → 사망률 25% 감소
+**목표**: 패혈증 발생 6시간 전 경보 -> 사망률 25% 감소
 
 ### HL7 FHIR (Fast Healthcare [Interoperability](/knowledge-base/studynote/06_ict_convergence/01_blockchain/084_blockchain_interoperability_polkadot_cosmos/) Resources)
 
 - 의료 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/) 국제 표준
-- [REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/) + [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 기반 → EHR 시스템 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환 표준화
+- [REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/) + [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 기반 -> EHR 시스템 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환 표준화
 - 자원 유형: Patient, Observation, Medication, DiagnosticReport 등
 
 > 📢 **섹션 요약 비유**: 유전체 분석은 "30억 글자로 쓰인 설계도를 오탈자 없이 교정하는 작업"이다. GATK는 그 교정 도구이며, 변이가 발견되면 임상 사전(ClinVar)에서 그게 어떤 의미인지 찾는다.
@@ -147,19 +147,19 @@ tags = ["studynote-bigdata"]
 
 ```
 EMR 데이터베이스
-      │
-      ▼
+      |
+      v
 ETL (Apache NiFi)
   - 개인정보 비식별화
   - 결측값 처리
   - 피처 엔지니어링
-      │
-      ▼
+      |
+      v
 ML 모델 (XGBoost)
   - 재입원 확률 예측
   - SHAP 기반 설명
-      │
-      ▼
+      |
+      v
 임상 의사결정 지원 시스템 (CDSS)
   - 고위험 환자 목록 제공
   - 퇴원 계획 수정 권고
@@ -169,8 +169,8 @@ ML 모델 (XGBoost)
 
 | 이슈 | 판단 포인트 |
 |:---|:---|
-| 모델 설명가능성 | 의료진은 "왜 고위험인가"를 요구 → [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/), [LIME](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/) 필수 |
-| 클래스 불균형 | 재입원 비율 15~20% → [SMOTE](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/), [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 조정 |
+| 모델 설명가능성 | 의료진은 "왜 고위험인가"를 요구 -> [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/), [LIME](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/) 필수 |
+| 클래스 불균형 | 재입원 비율 15~20% -> [SMOTE](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/), [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 조정 |
 | 시간적 누출 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Leakage) | 퇴원 후 정보가 학습에 포함되지 않도록 시간 분할 |
 | 규제 (의료기기 소프트웨어) | MFDS SaMD 가이드라인 적용 여부 검토 |
 
@@ -208,17 +208,17 @@ ML 모델 (XGBoost)
 
 ```text
 [EMR (전자의무기록)]
-    │
-    ▼
+    |
+    v
 [GATK (유전체 분석 도구)]
-    │
-    ▼
+    |
+    v
 [HIPAA]
-    │
-    ▼
+    |
+    v
 [CDSS (임상의사결정지원)]
-    │
-    ▼
+    |
+    v
 [SaMD (의료기기 소프트웨어)]
 ```
 
@@ -236,7 +236,7 @@ ML 모델 (XGBoost)
 
 **진행 상황**: 215 / 262
 
-← **이전**: [209. 금융 빅데이터 (Financial Big Data) — 신용평가/이상거래탐지/알고트레이딩](/knowledge-base/studynote/16_bigdata/11_industry/214_finance_bigdata/)
-**다음**: [211. 공공 빅데이터 (Public Sector Big Data) — 교통예측/범죄예방/도시계획](/knowledge-base/studynote/16_bigdata/11_industry/216_public_bigdata/) →
+<- **이전**: [209. 금융 빅데이터 (Financial Big Data) — 신용평가/이상거래탐지/알고트레이딩](/knowledge-base/studynote/16_bigdata/11_industry/214_finance_bigdata/)
+**다음**: [211. 공공 빅데이터 (Public Sector Big Data) — 교통예측/범죄예방/도시계획](/knowledge-base/studynote/16_bigdata/11_industry/216_public_bigdata/) ->
 
 ---

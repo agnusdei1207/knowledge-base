@@ -59,10 +59,10 @@ NFR은 <strong>아키텍처를 결정하는 핵심 동인(<a href="/knowledge-ba
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[비공식 요구 (기능만)] → [IEEE 830 (FR+NFR 분리)]
-    → [ISO 25010 품질 모델 (2011)]
-    → [QAW·ATAM (아키텍처 관점 NFR)]
-    → [현재: AI NFR 자동 도출 — 요구사항에서 품질 속성 추출]
+[비공식 요구 (기능만)] -> [IEEE 830 (FR+NFR 분리)]
+    -> [ISO 25010 품질 모델 (2011)]
+    -> [QAW·ATAM (아키텍처 관점 NFR)]
+    -> [현재: AI NFR 자동 도출 — 요구사항에서 품질 속성 추출]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -76,7 +76,7 @@ NFR은 <strong>아키텍처를 결정하는 핵심 동인(<a href="/knowledge-ba
 
 **진행 상황**: 132 / 973
 
-← **이전**: [131. 요구사항 공학 (Requirements 엔진ering) - 체계적 요구 수집·분석·관리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/131_requirements_engineering/)
-**다음**: [133. 비기능 요구사항 (NFR) - 시스템 품질 속성 정의](/knowledge-base/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/) →
+<- **이전**: [131. 요구사항 공학 (Requirements 엔진ering) - 체계적 요구 수집·분석·관리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/131_requirements_engineering/)
+**다음**: [133. 비기능 요구사항 (NFR) - 시스템 품질 속성 정의](/knowledge-base/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/) ->
 
 ---

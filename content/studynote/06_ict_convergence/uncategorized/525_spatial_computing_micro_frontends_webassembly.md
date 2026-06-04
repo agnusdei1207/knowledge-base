@@ -12,7 +12,7 @@ tags = ["studynote-ict-convergence"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/)([Spatial Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/))은 현실 공간과 디지털 정보를 융합하고, [마이크로 프론트엔드](/knowledge-base/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/)([Micro Frontends](/knowledge-base/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/))는 모노리식 SPA를 독립 배포 가능한 UI 조각으로 분해하며, [WebAssembly](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/)([WASM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/))는 브라우저와 엣지에서 C/C++/Rust를 네이티브에 가까운 속도로 실행한다.
-> 2. **가치**: 세 기술은 "디지털-물리 경계 소멸([공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/)) → 프론트엔드 조직 확장성(MFE) → 고성능 웹 실행 환경([WASM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/))"으로 차세대 사용자 경험의 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 재구성한다.
+> 2. **가치**: 세 기술은 "디지털-물리 경계 소멸([공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/)) -> 프론트엔드 조직 확장성(MFE) -> 고성능 웹 실행 환경([WASM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/))"으로 차세대 사용자 경험의 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 재구성한다.
 > 3. **판단 포인트**: 기술사 논술에서 [Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) Federation의 런타임 공유 메커니즘, WASM의 Edge Workers 배포를 통한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 온디바이스 추론, Apple Vision Pro의 visionOS [공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/) API를 구체적 근거로 활용한다.
 
 ---
@@ -31,25 +31,25 @@ tags = ["studynote-ict-convergence"]
 
 ```
   App Shell (호스트)
-       │
-       ├──[Module Federation]──► 팀 A: 결제 UI (독립 배포)
-       │                         React 18, 자체 CI/CD
-       ├──[Module Federation]──► 팀 B: 상품 UI (독립 배포)
-       │                         Vue 3, 자체 CI/CD
-       └──[Module Federation]──► 팀 C: 추천 UI (독립 배포)
+       |
+       +--[Module Federation]--► 팀 A: 결제 UI (독립 배포)
+       |                         React 18, 자체 CI/CD
+       +--[Module Federation]--► 팀 B: 상품 UI (독립 배포)
+       |                         Vue 3, 자체 CI/CD
+       +--[Module Federation]--► 팀 C: 추천 UI (독립 배포)
                                   Angular 17, 자체 CI/CD
-            │
-            ▼
-       런타임 공유 의존성 (React, lodash → 중복 제거)
+            |
+            v
+       런타임 공유 의존성 (React, lodash -> 중복 제거)
 ```
 
 | 기술 | 핵심 원리 | 주요 사례/표준 |
 |:---|:---|:---|
 | [공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/) | 3D 공간 스캔([LiDAR](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/)) + 공간 앵커 + 제스처 인식 | Apple Vision Pro(visionOS), ARKit, WebXR |
 | [마이크로 프론트엔드](/knowledge-base/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/) | 수직 분해(팀별 기능 소유), [Module Federation](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/557_webpack_module_federation/) | Webpack 5, single-spa, Nx |
-| [WebAssembly](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/) ([WASM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/)) | 이진 [명령어 형식](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/170_instruction_format/), 샌드박스 실행, WASI 표준 | [Rust](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/782_memory_safety_rust_compiler_verification/)→[WASM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/), C++→Emscripten, [WASM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/) Edge |
+| [WebAssembly](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/) ([WASM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/)) | 이진 [명령어 형식](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/170_instruction_format/), 샌드박스 실행, WASI 표준 | [Rust](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/782_memory_safety_rust_compiler_verification/)->[WASM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/), C++->Emscripten, [WASM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/) Edge |
 
-<strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/">WASM</a> 실행 흐름</strong>: C/C++/[Rust](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/782_memory_safety_rust_compiler_verification/) 소스 → LLVM 컴파일 → `.wasm` 이진 → 브라우저 [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) 컴파일 → 네이티브에 가까운 실행 (JavaScript 대비 최대 20배 빠름). <strong>WASI(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/">WebAssembly</a> System Interface)</strong>는 WASM을 서버·엣지 환경에서도 실행 가능하게 하는 표준 인터페이스다.
+<strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/">WASM</a> 실행 흐름</strong>: C/C++/[Rust](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/782_memory_safety_rust_compiler_verification/) 소스 -> LLVM 컴파일 -> `.wasm` 이진 -> 브라우저 [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) 컴파일 -> 네이티브에 가까운 실행 (JavaScript 대비 최대 20배 빠름). <strong>WASI(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/">WebAssembly</a> System Interface)</strong>는 WASM을 서버·엣지 환경에서도 실행 가능하게 하는 표준 인터페이스다.
 
 - **📢 섹션 요약 비유**: WASM은 영어 소설을 각 나라 언어로 즉시 번역하는 번역기처럼, 어떤 언어로 짠 코드도 브라우저가 이해하는 빠른 언어로 변환한다.
 
@@ -68,7 +68,7 @@ tags = ["studynote-ict-convergence"]
 - 기존 AR(Augmented Reality): 스마트폰 카메라 위에 2D 오버레이
 - [공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/): 공간 전체를 3D 스캔하여 물체와 UI가 공간에 앵커링됨, 손·눈 추적 인터랙션, 공간 오디오 포함
 
-<strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/">WASM</a> + Edge Workers</strong>: Cloudflare Workers, Fastly Compute에서 [WASM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/) 실행 → 서버 없이 엣지에서 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 추론·영상 처리 수행. 낮은 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(< 1ms [cold start](/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/))이 핵심 장점.
+<strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/">WASM</a> + Edge Workers</strong>: Cloudflare Workers, Fastly Compute에서 [WASM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/) 실행 -> 서버 없이 엣지에서 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 추론·영상 처리 수행. 낮은 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(< 1ms [cold start](/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/))이 핵심 장점.
 
 - **📢 섹션 요약 비유**: [WASM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/) Edge는 전국 편의점(엣지 서버)에서 즉석으로 요리(연산)하는 것—중앙 주방([데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/))까지 배달 오는 시간 없이 바로 서빙된다.
 
@@ -77,7 +77,7 @@ tags = ["studynote-ict-convergence"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/">공간 컴퓨팅</a> 산업 적용</strong>:
-- 제조: HoloLens 2로 조립 매뉴얼을 실물 부품 위에 오버레이 → 작업 오류율 30% 감소
+- 제조: HoloLens 2로 조립 매뉴얼을 실물 부품 위에 오버레이 -> 작업 오류율 30% 감소
 - 의료: 수술 계획 시 [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) 데이터를 3D 홀로그램으로 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
 - 교육: 가상 실험실에서 화학 반응 시뮬레이션
 
@@ -112,7 +112,7 @@ tags = ["studynote-ict-convergence"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[Apple Vision Pro · ARKit] → [공간 컴퓨팅 · 마이크로 프론트엔드] → [AR · VR]
+[Apple Vision Pro · ARKit] -> [공간 컴퓨팅 · 마이크로 프론트엔드] -> [AR · VR]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -127,7 +127,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 525 / 552
 
-← **이전**: [524. AIOps, LLMOps, 옵저버빌리티, 분산 추적 (AIOps LLMOps Observability Distributed Tracing)](/knowledge-base/studynote/06_ict_convergence/uncategorized/524_aiops_llmops_observability_distributed_tracing/)
-**다음**: [526. DPU SmartNIC 인프라 오프로딩 가속 (DPU SmartNIC Infrastructure Offloading Acceleration)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/526_dpu_smartnic_infrastructure_offloading/) →
+<- **이전**: [524. AIOps, LLMOps, 옵저버빌리티, 분산 추적 (AIOps LLMOps Observability Distributed Tracing)](/knowledge-base/studynote/06_ict_convergence/uncategorized/524_aiops_llmops_observability_distributed_tracing/)
+**다음**: [526. DPU SmartNIC 인프라 오프로딩 가속 (DPU SmartNIC Infrastructure Offloading Acceleration)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/526_dpu_smartnic_infrastructure_offloading/) ->
 
 ---

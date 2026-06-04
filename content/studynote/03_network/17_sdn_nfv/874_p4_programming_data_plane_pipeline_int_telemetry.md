@@ -25,11 +25,11 @@ tags = ["studynote-network"]
 
 ```text
 [NSH]
-    │
-    ▼
+    |
+    v
 [데이터 평면 프로그래밍 모델]
-    │
-    └──▶ [NETCONF (Network Configu…]
+    |
+    +---> [NETCONF (Network Configu…]
 ```
 
 - **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 프로그래밍 모델은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -53,11 +53,11 @@ P4가 현업(클라우드 빅테크)에서 미치도록 사랑받는 가장 실�
 
 ```text
 [NSH]
-    │
-    ▼
+    |
+    v
 [데이터 평면 프로그래밍 모델]
-    │
-    └──▶ [NETCONF (Network Configu…]
+    |
+    +---> [NETCONF (Network Configu…]
 ```
 
 - **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 프로그래밍 모델의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -122,12 +122,12 @@ P4가 현업(클라우드 빅테크)에서 미치도록 사랑받는 가장 실�
 
 ```text
 [선행 개념: NSH]
-    │
-    ▼
+    |
+    v
 [현재 개념: 데이터 평면 프로그래밍 모델]
-    │
-    ├──▶ [확장 A: NETCONF (Network Configu…]
-    └──▶ [확장 B: 프로그래머블 네트워크]
+    |
+    +---> [확장 A: NETCONF (Network Configu…]
+    +---> [확장 B: 프로그래머블 네트워크]
 ```
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 프로그래밍 모델는 NSH에서 출발해 현재 메커니즘을 정교화하고, 이후 NETCONF (Network Configu…와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -144,7 +144,7 @@ P4가 현업(클라우드 빅테크)에서 미치도록 사랑받는 가장 실�
 
 **진행 상황**: 995 / 1120
 
-← **이전**: [873. 네트워크 서비스 헤더 (NSH)](/knowledge-base/studynote/03_network/17_sdn_nfv/873_nsh_network_service_header_sfc_metadata/)
-**다음**: [875. NETCONF 프로토콜](/knowledge-base/studynote/03_network/17_sdn_nfv/875_netconf_network_configuration_protocol_xml_ssh/) →
+<- **이전**: [873. 네트워크 서비스 헤더 (NSH)](/knowledge-base/studynote/03_network/17_sdn_nfv/873_nsh_network_service_header_sfc_metadata/)
+**다음**: [875. NETCONF 프로토콜](/knowledge-base/studynote/03_network/17_sdn_nfv/875_netconf_network_configuration_protocol_xml_ssh/) ->
 
 ---

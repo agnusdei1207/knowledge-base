@@ -45,25 +45,25 @@ MSA 트래픽 하드웨어의 중심은 [서비스](/knowledge-base/studynote/13
 이 그림은 MSA 트래픽이 왜 단순 서버 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 아니라 "노드 안쪽 + 네트워크 패브릭 + [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 장치"의 협업 문제인지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                MSA 트래픽 처리: 작은 호출을 짧은 경로로 보내는 구조        │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Pod / Service A                                                            │
-│      │                                                                     │
-│      ▼                                                                     │
-│ eBPF / Sidecar / Host Queue                                                │
-│      │                                                                     │
-│      ▼                                                                     │
-│ [NIC / SmartNIC / DPU] ── mTLS · LB · Policy ──▶ [Leaf-Spine Fabric]       │
-│                                                      │                     │
-│                                                      ▼                     │
-│                                      [Remote NIC / DPU / Host Queue]       │
-│                                                      │                     │
-│                                                      ▼                     │
-│                                                Pod / Service B             │
-│                                                                            │
-│ 병목 포인트: pps 증가 · sidecar CPU tax · queue imbalance · retry storm    │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                MSA 트래픽 처리: 작은 호출을 짧은 경로로 보내는 구조        |
++----------------------------------------------------------------------------+
+| Pod / Service A                                                            |
+|      |                                                                     |
+|      v                                                                     |
+| eBPF / Sidecar / Host Queue                                                |
+|      |                                                                     |
+|      v                                                                     |
+| [NIC / SmartNIC / DPU] -- mTLS · LB · Policy ---> [Leaf-Spine Fabric]       |
+|                                                      |                     |
+|                                                      v                     |
+|                                      [Remote NIC / DPU / Host Queue]       |
+|                                                      |                     |
+|                                                      v                     |
+|                                                Pod / Service B             |
+|                                                                            |
+| 병목 포인트: pps 증가 · sidecar CPU tax · queue imbalance · retry storm    |
++----------------------------------------------------------------------------+
 ```
 
 이 구조에서 중요한 점은 MSA 트래픽이 큰 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전송보다 "작고 잦은 호출"에 가깝다는 것이다. 그래서 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 숫자만 높아도 꼬리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간이 좋다는 뜻은 아니다. 오히려 작은 요청이 몰릴 때 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), 큐 불균형, 재시도 증폭, 암호화 비용이 더 치명적으로 드러난다.
@@ -145,20 +145,20 @@ MSA 트래픽 처리 하드웨어가 잘 갖춰지면, [마이크로서비스](/
 
 ```text
 프로세스 내부 호출
-        │
-        ▼
+        |
+        v
 컨테이너 오버레이 네트워크
-        │
-        ▼
+        |
+        v
 서비스 메시 + sidecar 데이터 평면
-        │
-        ▼
+        |
+        v
 eBPF / XDP 기반 fast path 최적화
-        │
-        ▼
+        |
+        v
 SmartNIC / DPU 오프로딩
-        │
-        ▼
+        |
+        v
 프로그래머블 패브릭 · 인네트워크 telemetry
 ```
 
@@ -176,7 +176,7 @@ SmartNIC / DPU 오프로딩
 
 **진행 상황**: 619 / 803
 
-← **이전**: [618. SOA (Service Oriented Architecture) HW 고려사항](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/)
-**다음**: [620. 서버리스 컴퓨팅 컨테이너 분리 하드웨어 기술](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/620_serverless_hw_isolation/) →
+<- **이전**: [618. SOA (Service Oriented Architecture) HW 고려사항](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/)
+**다음**: [620. 서버리스 컴퓨팅 컨테이너 분리 하드웨어 기술](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/620_serverless_hw_isolation/) ->
 
 ---

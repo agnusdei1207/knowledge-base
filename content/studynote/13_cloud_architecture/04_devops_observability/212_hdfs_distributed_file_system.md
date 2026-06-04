@@ -34,29 +34,29 @@ HDFS가 최적화된 워크로드: **Write Once, Read Many(한 번 쓰고 여러
 ### [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 아키텍처
 
 ```
-  ┌─────────────────────────────────────────────────────────────┐
-  │                      HDFS 구조                               │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                              │
-  │  클라이언트                                                    │
-  │     │ ① 파일 위치 요청                                         │
-  │     ▼                                                        │
-  │  ┌──────────────────────────────┐                            │
-  │  │   NameNode (마스터)           │ ← 메타데이터 저장            │
-  │  │                              │   (파일명, 블록 위치, 권한)   │
-  │  │   Active NameNode            │                            │
-  │  │   Standby NameNode  ←─────── │                            │
-  │  │   JournalNode (로그 공유)     │                            │
-  │  └──────────┬───────────────────┘                            │
-  │             │ ② 블록 위치 응답 (DataNode 목록)                  │
-  │             ▼                                                │
-  │  클라이언트가 DataNode에 직접 읽기/쓰기                         │
-  │                                                              │
-  │  DataNode 1  DataNode 2  DataNode 3  ...  DataNode N         │
-  │  [블록 A-1]  [블록 A-2]  [블록 A-3]       [블록 B-1]         │
-  │  [블록 A-2]  [블록 B-1]  [블록 B-2]                          │
-  │  (복제본)    (복제본)    (복제본)                               │
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |                      HDFS 구조                               |
+  +-------------------------------------------------------------+
+  |                                                              |
+  |  클라이언트                                                    |
+  |     | ① 파일 위치 요청                                         |
+  |     v                                                        |
+  |  +------------------------------+                            |
+  |  |   NameNode (마스터)           | <- 메타데이터 저장            |
+  |  |                              |   (파일명, 블록 위치, 권한)   |
+  |  |   Active NameNode            |                            |
+  |  |   Standby NameNode  <-------- |                            |
+  |  |   JournalNode (로그 공유)     |                            |
+  |  +----------+-------------------+                            |
+  |             | ② 블록 위치 응답 (DataNode 목록)                  |
+  |             v                                                |
+  |  클라이언트가 DataNode에 직접 읽기/쓰기                         |
+  |                                                              |
+  |  DataNode 1  DataNode 2  DataNode 3  ...  DataNode N         |
+  |  [블록 A-1]  [블록 A-2]  [블록 A-3]       [블록 B-1]         |
+  |  [블록 A-2]  [블록 B-1]  [블록 B-2]                          |
+  |  (복제본)    (복제본)    (복제본)                               |
+  +-------------------------------------------------------------+
 ```
 
 ### 블록 분할 및 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 메커니즘
@@ -104,7 +104,7 @@ HDFS가 최적화된 워크로드: **Write Once, Read Many(한 번 쓰고 여러
 
 | 제약 | 설명 |
 |:---|:---|
-| 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 문제 | 수백만 개의 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) → [NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) 메모리 부족 |
+| 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 문제 | 수백만 개의 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) -> [NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) 메모리 부족 |
 | 랜덤 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 불가 | Append-only 모델, 랜덤 수정 불가 |
 | 낮은 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) | Batch 처리 최적화, 실시간 처리 부적합 |
 | [NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) | HA 구성 필수 ([Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 2.x에서 해결) |
@@ -135,8 +135,8 @@ hdfs dfsadmin -report
 
 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/269_small_file_problem_data_lakehouse/">Small File Problem</a> 해결 방법</strong>:
 ```
-문제: 1MB 파일 1000개 → NameNode에 1000개 메타데이터 항목
-     1GB 파일 1개 → NameNode에 8개 메타데이터 항목 (128MB 블록 8개)
+문제: 1MB 파일 1000개 -> NameNode에 1000개 메타데이터 항목
+     1GB 파일 1개 -> NameNode에 8개 메타데이터 항목 (128MB 블록 8개)
 
 해결책:
   1. HAR (Hadoop Archive): 작은 파일을 하나의 아카이브로 합침
@@ -187,10 +187,10 @@ HDFS는 현대 빅데이터 처리의 토대를 마련한 혁신이었다. 클�
 
 ```text
 HDFS: NameNode (메타데이터) + DataNode (블록 저장)
-    ├─► 복제 계수 3: 장애 시 데이터 보호
-    └─► Rack Awareness: 랙 분산 저장
-    │
-    ▼
+    +-► 복제 계수 3: 장애 시 데이터 보호
+    +-► Rack Awareness: 랙 분산 저장
+    |
+    v
 클라우드 대안: S3 · GCS · ADLS (오브젝트 스토리지)
 ```
 2. 각 조각은 3곳에 복사해두어서 한 상자가 망가져도(노드 고장) 다른 상자에서 꺼낼 수 있어.
@@ -202,7 +202,7 @@ HDFS: NameNode (메타데이터) + DataNode (블록 저장)
 
 **진행 상황**: 211 / 371
 
-← **이전**: [211. 하둡 에코시스템 (Hadoop Ecosystem)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/211_hadoop_ecosystem_mapreduce/)
-**다음**: [213. 맵리듀스 (MapReduce)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/213_mapreduce_distributed_computation/) →
+<- **이전**: [211. 하둡 에코시스템 (Hadoop Ecosystem)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/211_hadoop_ecosystem_mapreduce/)
+**다음**: [213. 맵리듀스 (MapReduce)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/213_mapreduce_distributed_computation/) ->
 
 ---

@@ -44,11 +44,11 @@ tags = ["studynote-cloud"]
 ```
 Savings Plans 유형:
   Compute Savings Plans: EC2·Lambda·Fargate 전체 적용
-  → 서비스·리전·인스턴스 패밀리 상관없이 적용
-  → 가장 유연한 RI 대체제
+  -> 서비스·리전·인스턴스 패밀리 상관없이 적용
+  -> 가장 유연한 RI 대체제
 
   EC2 Instance Savings Plans: 특정 인스턴스 패밀리 고정
-  → Standard RI와 유사한 절감율
+  -> Standard RI와 유사한 절감율
 ```
 
 �� **섹션 요약 비유**: Savings Plans는 통합 교통 정기권이다 — 특정 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 노선(EC2 RI) 대신, 지하철·[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)·따릉이(EC2·[Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)·Fargate) 모두 쓸 수 있는 정기권이다.
@@ -65,9 +65,9 @@ Savings Plans 유형:
 
 권장 아키텍처:
   Auto Scaling Group + Spot Fleet:
-    → 여러 인스턴스 타입·AZ 분산
-    → 인터럽션 시 자동 대체 인스턴스 시작
-    → 최대 1:3 (온디맨드:스팟) 비율 권장
+    -> 여러 인스턴스 타입·AZ 분산
+    -> 인터럽션 시 자동 대체 인스턴스 시작
+    -> 최대 1:3 (온디맨드:스팟) 비율 권장
 
 스팟에 적합한 워크로드:
   ✅ 배치 처리 (Spark, Hadoop)
@@ -96,10 +96,10 @@ Savings Plans 유형:
 
 ```
 권장 RI/SP 확인:
-  Cost Explorer → Savings Plans recommendations
-  → 커버리지(Coverage): 현재 온디맨드 중 RI/SP 적용 비율
-  → 활용률(Utilization): 구매한 RI/SP 실제 사용 비율
-  → 미사용 RI: 환불·재판매 (RI Marketplace)
+  Cost Explorer -> Savings Plans recommendations
+  -> 커버리지(Coverage): 현재 온디맨드 중 RI/SP 적용 비율
+  -> 활용률(Utilization): 구매한 RI/SP 실제 사용 비율
+  -> 미사용 RI: 환불·재판매 (RI Marketplace)
 ```
 
 📢 **섹션 요약 비유**: [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/) 최적화는 가정 재정 관리다 — 낭비(미사용 리소스) 없애기, 통신비 묶음(Savings Plans), 매달 나가는 구독 최적화(rightsizing)를 단계적으로 한다.
@@ -127,19 +127,19 @@ Savings Plans 유형:
 
 ```
 EC2 인스턴스 구매 옵션
-├── 온디맨드 (기준 가격, 약정 없음)
-├── 예약 인스턴스
-│   ├── Standard RI (고정, 최대 72%)
-│   ├── Convertible RI (유연, 최대 54%)
-│   └── Savings Plans (서비스 유연, 표준)
-├── 스팟 인스턴스
-│   ├── 최대 90% 할인
-│   ├── 인터럽션 위험 (2분 경고)
-│   └── Spot Fleet + Auto Scaling
-└── FinOps
-    ├── Rightsizing (크기 최적화)
-    ├── Coverage & Utilization 지표
-    └── AWS Cost Explorer
++-- 온디맨드 (기준 가격, 약정 없음)
++-- 예약 인스턴스
+|   +-- Standard RI (고정, 최대 72%)
+|   +-- Convertible RI (유연, 최대 54%)
+|   +-- Savings Plans (서비스 유연, 표준)
++-- 스팟 인스턴스
+|   +-- 최대 90% 할인
+|   +-- 인터럽션 위험 (2분 경고)
+|   +-- Spot Fleet + Auto Scaling
++-- FinOps
+    +-- Rightsizing (크기 최적화)
+    +-- Coverage & Utilization 지표
+    +-- AWS Cost Explorer
 ```
 
 ---
@@ -147,23 +147,23 @@ EC2 인스턴스 구매 옵션
 ## 📈 관련 키워드 및 발전 흐름도
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│              EC2 구매 옵션 발전 흐름                             │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 2006년       │ EC2 온디맨드 출시  │ AWS EC2 퍼블릭 베타           │
-│ 2009년       │ Reserved Instances │ 약정 할인 모델 도입           │
-│ 2009년       │ Spot Instances     │ 경매 기반 잉여 용량 제공       │
-│ 2018년       │ Spot 인터럽션 모델 │ 경매→고정가 전환, 예측 가능   │
-│ 2019년       │ Savings Plans      │ RI 대체, 서비스 간 유연성     │
-│ 2020년대     │ FinOps 체계화      │ 클라우드 비용 최적화 전문 분야 │
-└──────────────┴────────────────────┴─────────────────────────────┘
++-----------------------------------------------------------------+
+|              EC2 구매 옵션 발전 흐름                             |
++--------------+--------------------+-----------------------------+
+| 2006년       | EC2 온디맨드 출시  | AWS EC2 퍼블릭 베타           |
+| 2009년       | Reserved Instances | 약정 할인 모델 도입           |
+| 2009년       | Spot Instances     | 경매 기반 잉여 용량 제공       |
+| 2018년       | Spot 인터럽션 모델 | 경매->고정가 전환, 예측 가능   |
+| 2019년       | Savings Plans      | RI 대체, 서비스 간 유연성     |
+| 2020년대     | FinOps 체계화      | 클라우드 비용 최적화 전문 분야 |
++--------------+--------------------+-----------------------------+
 
 핵심 키워드 연결:
-온디맨드 → 예약 (약정 할인) → Savings Plans (유연)
-    ↓            ↓                    ↓
+온디맨드 -> 예약 (약정 할인) -> Savings Plans (유연)
+    v            v                    v
 기준 가격     1년 72% 절감       컴퓨팅 범위 자유
-    ↓
-스팟 인스턴스 → 인터럽션 처리 → 내결함성 아키텍처
+    v
+스팟 인스턴스 -> 인터럽션 처리 -> 내결함성 아키텍처
 ```
 
 ---
@@ -180,7 +180,7 @@ EC2 인스턴스 구매 옵션
 
 **진행 상황**: 33 / 371
 
-← **이전**: [CDN (Content Delivery Network, 콘텐츠 전달 네트워크)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/033_cdn/)
-**다음**: [035. FinOps — 오버 프로비저닝 최적화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/035_finops_over_provisioning/) →
+<- **이전**: [CDN (Content Delivery Network, 콘텐츠 전달 네트워크)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/033_cdn/)
+**다음**: [035. FinOps — 오버 프로비저닝 최적화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/035_finops_over_provisioning/) ->
 
 ---

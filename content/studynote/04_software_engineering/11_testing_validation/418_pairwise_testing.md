@@ -34,22 +34,22 @@ tags = ["studynote-software-engineering"]
 그래서 변수들이 한 쌍(Pair)으로 만나는 모든 경우의 수만 최소 단 한 번 이상만 지나가게 싹싹 쓸어 담아 엑셀 줄을 줄여버리는 최강의 가성비 커팅이 <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/">페어와이즈</a>(<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/">Pairwise</a> / 올-페어즈 All-Pairs) 테스팅</strong>입니다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  페어와이즈 압축의 무서운 매직 예시                 │
-├──────────────────────────────────────────────────────────────┤
-│ [조합 폭탄 상황]                                                │
-│  - 브라우저: Chrome, Edge, Safari  (3종)                        │
-│  - OS: Win, Mac, Linux          (3종)                        │
-│  - DB: MySQL, Oracle, DB2        (3종)                        │
-│  >> 전체 순열 조합(All-combinations): 3 x 3 x 3 = 총 27개의 TC     │
-│                                                              │
-│ [페어와이즈 매직 (직교 배열 OA 적용)]                             │
-│   (Chrome-Win), (Chrome-Mac), (Edge-MySQL), (Mac-Oracle) ... │
-│   온갖 두 개의 짝(Pair)만 한 번씩은 무조건 걸치게끔 표를 짰더니!!        │
-│                                                              │
-│   >> 단 9줄의 Test Case 만으로도 모든 두 변수 짝짓기가 100% 충족!!     │
-│   >> 27시간짜리 노가다를 9시간으로 압축하고 품질(버그 검출) 방어력은 98%!│
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  페어와이즈 압축의 무서운 매직 예시                 |
++--------------------------------------------------------------+
+| [조합 폭탄 상황]                                                |
+|  - 브라우저: Chrome, Edge, Safari  (3종)                        |
+|  - OS: Win, Mac, Linux          (3종)                        |
+|  - DB: MySQL, Oracle, DB2        (3종)                        |
+|  >> 전체 순열 조합(All-combinations): 3 x 3 x 3 = 총 27개의 TC     |
+|                                                              |
+| [페어와이즈 매직 (직교 배열 OA 적용)]                             |
+|   (Chrome-Win), (Chrome-Mac), (Edge-MySQL), (Mac-Oracle) ... |
+|   온갖 두 개의 짝(Pair)만 한 번씩은 무조건 걸치게끔 표를 짰더니!!        |
+|                                                              |
+|   >> 단 9줄의 Test Case 만으로도 모든 두 변수 짝짓기가 100% 충족!!     |
+|   >> 27시간짜리 노가다를 9시간으로 압축하고 품질(버그 검출) 방어력은 98%!|
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 수만 번 옷을 입어보는 패션쇼 모델에게 옷 갈아입히기가 지쳐서 "아 모르겠고, 적어도 노란 셔츠입고 파란 바지, 빨간 모자 쓰고 검은 구두처럼 아무 옷 2쌍씩만 최소 1번씩은 겹치게 대충 걸쳐보고 무대 나가!"라며 미친 압축효율과 핏감을 동시에 살리는 천재 코디네이션입니다.
@@ -151,21 +151,21 @@ QA 팀장은 그 시트를 주니어 테스터 3명에게 10개씩 배분하고 
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 페어와이즈 테스팅 (Pairwise Testing) 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -179,7 +179,7 @@ QA 팀장은 그 시트를 주니어 테스터 3명에게 10개씩 배분하고 
 
 **진행 상황**: 427 / 973
 
-← **이전**: [417. 유스케이스 테스팅 (Use Case Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/417_use_case_testing/)
-**다음**: [418. 페어와이즈 테스팅 (Pairwise Testing) - 변수 값들의 모든 쌍(Pair) 조합이 최소 한 번 테스트되도록 최적화](/knowledge-base/studynote/04_software_engineering/11_testing_validation/418_pairwise_testing/) →
+<- **이전**: [417. 유스케이스 테스팅 (Use Case Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/417_use_case_testing/)
+**다음**: [418. 페어와이즈 테스팅 (Pairwise Testing) - 변수 값들의 모든 쌍(Pair) 조합이 최소 한 번 테스트되도록 최적화](/knowledge-base/studynote/04_software_engineering/11_testing_validation/418_pairwise_testing/) ->
 
 ---

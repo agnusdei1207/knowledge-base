@@ -59,10 +59,10 @@ Saturation: 리소스 포화도 (CPU·메모리·디스크)
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[수백 개 메트릭 (2000s)] → [Google SRE 4 Golden Signals (2016)]
-    → [RED 방법론 (2017, Weaveworks)]
-    → [USE 방법론 (Brendan Gregg)]
-    → [현재: AI 이상 탐지 — 골든 시그널 자동 분석]
+[수백 개 메트릭 (2000s)] -> [Google SRE 4 Golden Signals (2016)]
+    -> [RED 방법론 (2017, Weaveworks)]
+    -> [USE 방법론 (Brendan Gregg)]
+    -> [현재: AI 이상 탐지 — 골든 시그널 자동 분석]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -76,7 +76,7 @@ Saturation: 리소스 포화도 (CPU·메모리·디스크)
 
 **진행 상황**: 133 / 373
 
-← **이전**: [132. Metrics & 모니터링 심화 - Prometheus·Grafana 기반 메트릭 수집·시각화](/knowledge-base/studynote/15_devops_sre/03_sre_observability/132_metrics_monitoring/)
-**다음**: [134. USE 메서드 (Utilization·Saturation·Errors) - 리소스 중심 분석](/knowledge-base/studynote/15_devops_sre/03_sre_observability/134_use_method_resource_analysis/) →
+<- **이전**: [132. Metrics & 모니터링 심화 - Prometheus·Grafana 기반 메트릭 수집·시각화](/knowledge-base/studynote/15_devops_sre/03_sre_observability/132_metrics_monitoring/)
+**다음**: [134. USE 메서드 (Utilization·Saturation·Errors) - 리소스 중심 분석](/knowledge-base/studynote/15_devops_sre/03_sre_observability/134_use_method_resource_analysis/) ->
 
 ---

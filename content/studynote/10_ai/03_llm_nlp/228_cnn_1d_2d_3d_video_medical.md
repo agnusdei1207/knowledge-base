@@ -28,12 +28,12 @@ tags = ["studynote-ai"]
 이렇게 필터의 슬라이딩 방향과 차원을 뒤틀어버림으로써, CNN은 심전도(1D), 사진(2D), 비디오 및 MRI(3D)라는 인류의 모든 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 체계를 씹어먹는 전능한 파서(Parser)로 각성하게 되었다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 2D-CNN은 '창문 청소부'다. 밀대(필터)를 들고 유리창(사진)의 가로세로를 문지르며 얼룩(고양이 귀)을 찾는다. 여기서 밀대를 얇게 잘라서 줄자처럼 '한 줄'만 길게 쭉 문지르며 심전도 선의 떨림을 찾는 게 1D-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)(줄타기 청소부)이다. 반대로 창문 수백 장을 겹쳐놓고 긴 송곳 모양의 두꺼운 브러시로 창문 전체를 앞뒤로 뚫고 지나가면서 "시간이 지날수록 얼룩이 어떻게 움직이는지(비디오)" 한 방에 긁어내는 괴물이 바로 3D-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)(관통형 청소부)이다.
@@ -45,28 +45,28 @@ tags = ["studynote-ai"]
 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 차원의 마법은 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 형태가 아니라, 도장(Filter/[Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))이 움직이는 <strong>'슬라이딩 차원(Sliding Dimension)'</strong>이 몇 개냐에 따라 아키텍처가 완전히 갈라진다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           1D, 2D, 3D CNN (합성곱)의 차원 확장 아키텍처 도해               │
-├──────────────────────────────────────────────────────────────┤
-│  [1D-CNN: 선형(Time-series) 데이터 파싱 - "시간의 흐름만 훑는다"]        │
-│   * 입력: 심전도 그래프, 주식 1년 치 차트 (길쭉한 1차원 선 데이터)           │
-│   * 커널 붓: [1 x 3] 얇은 막대기 붓.                                  │
-│   * 움직임: 가로(오른쪽)로만 쭉- 미끄러지며(Sliding) 파동의 특징을 추출!     │
-│   ─▶ 결과: RNN/LSTM보다 100배 빠르면서도 패턴(심장병 전조 증상) 기가 막히게 찾음.│
-│                                                              │
-│  [2D-CNN: 평면 공간(Spatial) 파싱 - "가로세로 면적을 훑는다"]            │
-│   * 입력: 1920x1080 일반 강아지 사진 (2차원 면 데이터)                   │
-│   * 커널 붓: [3 x 3] 정사각형 도장.                                   │
-│   * 움직임: 가로로 밀고, 세로로 내려가며 사진 전체의 면적(귀, 눈)을 훑음!     │
-│   ─▶ 결과: 우리가 아는 가장 흔하고 완벽한 이미지 분류(ResNet)의 심장.       │
-│                                                              │
-│  [3D-CNN: 시공간 및 부피(Spatiotemporal) 파싱 - "앞뒤 공간까지 뚫는다"]   │
-│   * 입력: 3초짜리 비디오(100프레임 쌓임) 또는 MRI 단층 100장 (3차원 큐브)     │
-│   * 커널 붓: [3 x 3 x 3] 입방체(큐브) 모양의 두꺼운 주사위 도장!           │
-│   * 움직임: 가로세로를 밀면서 동시에 뒤통수(시간/깊이 축) 방향으로 뚫고 들어감! │
-│   ─▶ 결과: "어? 1초 전엔 손이 여기 있었는데 3초 뒤엔 손이 저기 있네?"       │
-│            공간(모양)과 시간(움직임)을 동시에 깨우치는 궁극의 행동 인식 뇌!    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           1D, 2D, 3D CNN (합성곱)의 차원 확장 아키텍처 도해               |
++--------------------------------------------------------------+
+|  [1D-CNN: 선형(Time-series) 데이터 파싱 - "시간의 흐름만 훑는다"]        |
+|   * 입력: 심전도 그래프, 주식 1년 치 차트 (길쭉한 1차원 선 데이터)           |
+|   * 커널 붓: [1 x 3] 얇은 막대기 붓.                                  |
+|   * 움직임: 가로(오른쪽)로만 쭉- 미끄러지며(Sliding) 파동의 특징을 추출!     |
+|   --> 결과: RNN/LSTM보다 100배 빠르면서도 패턴(심장병 전조 증상) 기가 막히게 찾음.|
+|                                                              |
+|  [2D-CNN: 평면 공간(Spatial) 파싱 - "가로세로 면적을 훑는다"]            |
+|   * 입력: 1920x1080 일반 강아지 사진 (2차원 면 데이터)                   |
+|   * 커널 붓: [3 x 3] 정사각형 도장.                                   |
+|   * 움직임: 가로로 밀고, 세로로 내려가며 사진 전체의 면적(귀, 눈)을 훑음!     |
+|   --> 결과: 우리가 아는 가장 흔하고 완벽한 이미지 분류(ResNet)의 심장.       |
+|                                                              |
+|  [3D-CNN: 시공간 및 부피(Spatiotemporal) 파싱 - "앞뒤 공간까지 뚫는다"]   |
+|   * 입력: 3초짜리 비디오(100프레임 쌓임) 또는 MRI 단층 100장 (3차원 큐브)     |
+|   * 커널 붓: [3 x 3 x 3] 입방체(큐브) 모양의 두꺼운 주사위 도장!           |
+|   * 움직임: 가로세로를 밀면서 동시에 뒤통수(시간/깊이 축) 방향으로 뚫고 들어감! |
+|   --> 결과: "어? 1초 전엔 손이 여기 있었는데 3초 뒤엔 손이 저기 있네?"       |
+|            공간(모양)과 시간(움직임)을 동시에 깨우치는 궁극의 행동 인식 뇌!    |
++--------------------------------------------------------------+
 ```
 
 **핵심 원리 (공간적 차원과 시간/깊이 축의 융합)**:
@@ -139,7 +139,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[도메인 데이터 수집] → [합성곱 (CNN) 1D, 2D, 3D 구조 확장] → [현장 최적화·자동화]
+[도메인 데이터 수집] -> [합성곱 (CNN) 1D, 2D, 3D 구조 확장] -> [현장 최적화·자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -154,7 +154,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 228 / 420
 
-← **이전**: [227. 모델 스코어카드 (Model Card)](/knowledge-base/studynote/10_ai/03_llm_nlp/227_model_card_metadata_governance/)
-**다음**: [229. 자율주행 LiDAR 3D 딥러닝 (PointNet)](/knowledge-base/studynote/10_ai/03_llm_nlp/229_lidar_pointnet_autonomous_driving/) →
+<- **이전**: [227. 모델 스코어카드 (Model Card)](/knowledge-base/studynote/10_ai/03_llm_nlp/227_model_card_metadata_governance/)
+**다음**: [229. 자율주행 LiDAR 3D 딥러닝 (PointNet)](/knowledge-base/studynote/10_ai/03_llm_nlp/229_lidar_pointnet_autonomous_driving/) ->
 
 ---

@@ -19,14 +19,14 @@ tags = ["16PSK", "8PSK", "BER", "MPSK", "PSK", "QAM", "constellation", "spectral
 
 ## Ⅰ. [PSK](/knowledge-base/studynote/09_security/03_network_security/142_psk_pre_shared_key/) 기초와 M진 확장
 
-### 1.1 BPSK → QPSK → 8PSK 흐름
+### 1.1 BPSK -> QPSK -> 8PSK 흐름
 
 | 방식  | M   | [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)/심볼 | 위상 간격 | 주요 용도          |
 |-------|-----|-----------|-----------|-------------------|
-| BPSK  | 2   | 1         | 180°      | 위성, GPS          |
-| QPSK  | 4   | 2         | 90°       | [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/), DVB           |
-| 8PSK  | 8   | 3         | 45°       | 3G, DVB-S2        |
-| 16PSK | 16  | 4         | 22.5°     | (대부분 16QAM 선호) |
+| BPSK  | 2   | 1         | 180+      | 위성, GPS          |
+| QPSK  | 4   | 2         | 90+       | [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/), DVB           |
+| 8PSK  | 8   | 3         | 45+       | 3G, DVB-S2        |
+| 16PSK | 16  | 4         | 22.5+     | (대부분 16QAM 선호) |
 
 ### 1.2 [성상도](/knowledge-base/studynote/03_network/01_data_communication/053_성상도_Constellation_Diagram/) ([Constellation Diagram](/knowledge-base/studynote/03_network/01_data_communication/053_성상도_Constellation_Diagram/))
 
@@ -40,7 +40,7 @@ tags = ["16PSK", "8PSK", "BER", "MPSK", "PSK", "QAM", "constellation", "spectral
         100
 ```
 
-8개 포인트가 단위 원에 균등 배치, 인접 포인트 간격 = 45°
+8개 포인트가 단위 원에 균등 배치, 인접 포인트 간격 = 45+
 
 📢 **섹션 요약 비유**: 시계 방향으로 8개 색 표시 — M이 클수록 색 칸이 좁아져 헷갈리기 쉬워진다.
 
@@ -50,19 +50,19 @@ tags = ["16PSK", "8PSK", "BER", "MPSK", "PSK", "QAM", "constellation", "spectral
 
 ### 2.1 Gray 코딩
 
-인접 심볼이 1비트만 다르도록 배치 → 오류 시 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류 최소화.
+인접 심볼이 1비트만 다르도록 배치 -> 오류 시 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류 최소화.
 
 ```
-000 → 001 → 011 → 010 → 110 → 111 → 101 → 100 (Gray)
+000 -> 001 -> 011 -> 010 -> 110 -> 111 -> 101 -> 100 (Gray)
 ```
 
 ### 2.2 BER vs Eb/N₀
 
-8PSK의 BER ≈ (2/3) × erfc(√(3Eb/N₀ × log₂8 × sin²(π/8)))
+8PSK의 BER ≈ (2/3) × erfc(√(3Eb/N₀ × log₂8 × sin^(π/8)))
 
 M이 커지면 같은 BER을 위해 더 높은 Eb/N₀ 필요.
 
-📢 **섹션 요약 비유**: 위상 조각이 많아질수록(M↑) 슬라이스가 얇아져 조금만 흔들려도(잡음) 옆 조각으로 넘어간다.
+📢 **섹션 요약 비유**: 위상 조각이 많아질수록(M^) 슬라이스가 얇아져 조금만 흔들려도(잡음) 옆 조각으로 넘어간다.
 
 ---
 
@@ -70,8 +70,8 @@ M이 커지면 같은 BER을 위해 더 높은 Eb/N₀ 필요.
 
 ### 3.1 왜 16QAM이 선호되는가?
 
-16PSK는 16개 포인트를 단위 원에만 배치 → 포인트 간격이 매우 좁다.
-16QAM은 진폭+위상 2차원으로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 배치 → 같은 M에서 더 넓은 최소 거리.
+16PSK는 16개 포인트를 단위 원에만 배치 -> 포인트 간격이 매우 좁다.
+16QAM은 진폭+위상 2차원으로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 배치 -> 같은 M에서 더 넓은 최소 거리.
 
 ```
 16QAM 성상도:                16PSK 성상도:
@@ -103,8 +103,8 @@ M이 커지면 같은 BER을 위해 더 높은 Eb/N₀ 필요.
 ### 4.2 적응형 변조(AMC)
 
 채널 상태([SNR](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/))에 따라 변조 차수를 동적 변경:
-- 좋은 채널 → 256QAM (높은 처리율)
-- 나쁜 채널 → QPSK (높은 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/))
+- 좋은 채널 -> 256QAM (높은 처리율)
+- 나쁜 채널 -> QPSK (높은 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/))
 
 📢 **섹션 요약 비유**: AMC는 길이 좋으면 고속도로(256QAM), 비 오면 골목길(QPSK) — 도로 상태에 맞춰 속도 선택.
 
@@ -127,7 +127,7 @@ M이 커지면 같은 BER을 위해 더 높은 Eb/N₀ 필요.
 
 C = B × log₂(1 + [SNR](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/)) — 실제 변조 차수는 Shannon 한계의 70~90% 수준 설계.
 
-📢 **섹션 요약 비유**: 도로 차선([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))은 고정, 차(심볼) 하나에 더 많은 짐([비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))을 실을수록 효율 ↑ — 단, 짐이 너무 많으면 균형 잃는다.
+📢 **섹션 요약 비유**: 도로 차선([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))은 고정, 차(심볼) 하나에 더 많은 짐([비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))을 실을수록 효율 ^ — 단, 짐이 너무 많으면 균형 잃는다.
 
 ---
 
@@ -135,18 +135,18 @@ C = B × log₂(1 + [SNR](/knowledge-base/studynote/03_network/01_data_communica
 
 ```
 M진 PSK
-├── 파생 방식
-│   ├── BPSK, QPSK (저차)
-│   ├── 8PSK (3G, DVB)
-│   └── 16PSK → 16QAM으로 대체
-├── 성상도 설계
-│   ├── Gray 코딩
-│   ├── 최소 거리 최대화
-│   └── APSK (위성용)
-└── 비교 대상
-    ├── QAM (진폭+위상)
-    ├── OFDM (다중 반송파)
-    └── AMC (적응형 변조)
++-- 파생 방식
+|   +-- BPSK, QPSK (저차)
+|   +-- 8PSK (3G, DVB)
+|   +-- 16PSK -> 16QAM으로 대체
++-- 성상도 설계
+|   +-- Gray 코딩
+|   +-- 최소 거리 최대화
+|   +-- APSK (위성용)
++-- 비교 대상
+    +-- QAM (진폭+위상)
+    +-- OFDM (다중 반송파)
+    +-- AMC (적응형 변조)
 ```
 
 ---
@@ -155,17 +155,17 @@ M진 PSK
 
 ```
 BPSK/QPSK (1960s 위성 통신)
-     │  대역폭 효율 요구
-     ▼
-8PSK → EDGE(2.5G), DVB-S2
-     │  단위 원 포인트 한계
-     ▼
+     |  대역폭 효율 요구
+     v
+8PSK -> EDGE(2.5G), DVB-S2
+     |  단위 원 포인트 한계
+     v
 QAM (16QAM ~ 1024QAM) — LTE/5G
-     │  채널 변화 대응
-     ▼
+     |  채널 변화 대응
+     v
 AMC (Adaptive Modulation and Coding)
-     │  다중 반송파
-     ▼
+     |  다중 반송파
+     v
 OFDM + AMC (현대 이동통신 핵심)
 ```
 
@@ -176,7 +176,7 @@ OFDM + AMC (현대 이동통신 핵심)
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. 8PSK는 원형 피자를 8조각 낸 것 — 조각마다 다른 숫자(3비트)를 써서 한 번에 더 많은 정보를 전송해.
-2. 조각이 많아질수록(M↑) 칸이 좁아져서 흔들리면(잡음) 옆 칸 숫자로 잘못 읽혀.
+2. 조각이 많아질수록(M^) 칸이 좁아져서 흔들리면(잡음) 옆 칸 숫자로 잘못 읽혀.
 3. 그래서 신호가 좋을 때는 많이 나누고(256QAM), 나쁠 때는 크게 나누는(QPSK) 똑똑한 방식을 써.
 
 ---
@@ -185,7 +185,7 @@ OFDM + AMC (현대 이동통신 핵심)
 
 **진행 상황**: 50 / 1120
 
-← **이전**: [049. OQPSK / π/4-QPSK — 오프셋 위상 변조](/knowledge-base/studynote/03_network/01_data_communication/049_OQPSK_Pi_4_QPSK/)
-**다음**: [51. 직교 진폭 변조 (QAM, Quadrature Amplitude Modulation)](/knowledge-base/studynote/03_network/01_data_communication/051_직교_진폭_변조_QAM/) →
+<- **이전**: [049. OQPSK / π/4-QPSK — 오프셋 위상 변조](/knowledge-base/studynote/03_network/01_data_communication/049_OQPSK_Pi_4_QPSK/)
+**다음**: [51. 직교 진폭 변조 (QAM, Quadrature Amplitude Modulation)](/knowledge-base/studynote/03_network/01_data_communication/051_직교_진폭_변조_QAM/) ->
 
 ---

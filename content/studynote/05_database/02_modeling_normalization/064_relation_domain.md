@@ -30,11 +30,11 @@ tags = ["database"]
 
 ```text
 Attribute
-  ↓
+  v
 Domain
-  ↓
+  v
 Allowed Atomic Values
-  ↓
+  v
 Integrity Check
 ```
 
@@ -101,11 +101,11 @@ Integrity Check
 
 ```text
 Attribute
-  ↓
+  v
 Domain
-  ↓
+  v
 Constraint
-  ↓
+  v
 Data Integrity
 ```
 
@@ -115,11 +115,11 @@ Data Integrity
 
 ```text
 원자값
-  ↓
+  v
 도메인
-  ↓
+  v
 제약 조건
-  ↓
+  v
 데이터 무결성
 ```
 
@@ -137,7 +137,7 @@ Data Integrity
 
 **진행 상황**: 64 / 600
 
-← **이전**: [63. 튜플 (Tuple / Row / Cardinality) - 릴레이션의 행 (카디널리티)](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/)
-**다음**: [65. 릴레이션의 특징 - 튜플의 무순서, 속성의 무순서, 튜플의 유일성, 속성의 원자성](/knowledge-base/studynote/05_database/02_modeling_normalization/065_relation_characteristics/) →
+<- **이전**: [63. 튜플 (Tuple / Row / Cardinality) - 릴레이션의 행 (카디널리티)](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/)
+**다음**: [65. 릴레이션의 특징 - 튜플의 무순서, 속성의 무순서, 튜플의 유일성, 속성의 원자성](/knowledge-base/studynote/05_database/02_modeling_normalization/065_relation_characteristics/) ->
 
 ---

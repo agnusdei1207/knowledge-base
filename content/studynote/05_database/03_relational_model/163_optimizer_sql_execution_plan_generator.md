@@ -26,17 +26,17 @@ tags = ["studynote-database"]
 즉 옵티마이저가 없다면 개발자가 SQL 문장 순서에 사실상 물리 경로까지 책임져야 한다. 이는 선언형 언어의 장점을 무너뜨리고, 같은 비즈니스 로직도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)량 변화에 따라 계속 재작성해야 하는 구조를 만든다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        옵티마이저의 역할: SQL을 물리 실행 경로로 번역하는 과정       │
-├──────────────────────────────────────────────────────────────────────┤
-│ SQL Text                                                            │
-│   │                                                                  │
-│   ▼                                                                  │
-│ Parse Tree ──▶ Logical Rewrite ──▶ Candidate Plans ──▶ Best Plan     │
-│                                   ▲                 │                │
-│                                   │                 ▼                │
-│                            Statistics / Cost Model  Executor         │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|        옵티마이저의 역할: SQL을 물리 실행 경로로 번역하는 과정       |
++----------------------------------------------------------------------+
+| SQL Text                                                            |
+|   |                                                                  |
+|   v                                                                  |
+| Parse Tree ---> Logical Rewrite ---> Candidate Plans ---> Best Plan     |
+|                                   ^                 |                |
+|                                   |                 v                |
+|                            Statistics / Cost Model  Executor         |
++----------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 옵티마이저가 단순 문법 검사기가 아니라, <strong>통계와 비용 모델을 바탕으로 여러 후보 중 하나를 선택하는 계획 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>기</strong>라는 점이다. 그래서 SQL 튜닝은 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 문장만 보는 작업이 아니라, [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)이 왜 그렇게 나왔는지를 읽는 작업이 된다.
@@ -47,7 +47,7 @@ tags = ["studynote-database"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-옵티마이저는 보통 <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 변환 → 후보 계획 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> → 비용 추정 → 최종 선택</strong>의 순서로 동작한다. 먼저 파서 (Parser)가 만든 구문 트리를 받아 불필요한 조건을 정리하고, 뷰 병합이나 조건 푸시다운 같은 재작성 (Rewrite)을 수행한다. 그다음 접근 경로, [조인 순서](/knowledge-base/studynote/05_database/03_relational_model/176_join_order_optimization/), 조인 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 조합을 만들고 각 후보의 예상 비용을 계산해 가장 싼 경로를 채택한다.
+옵티마이저는 보통 <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 변환 -> 후보 계획 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> -> 비용 추정 -> 최종 선택</strong>의 순서로 동작한다. 먼저 파서 (Parser)가 만든 구문 트리를 받아 불필요한 조건을 정리하고, 뷰 병합이나 조건 푸시다운 같은 재작성 (Rewrite)을 수행한다. 그다음 접근 경로, [조인 순서](/knowledge-base/studynote/05_database/03_relational_model/176_join_order_optimization/), 조인 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 조합을 만들고 각 후보의 예상 비용을 계산해 가장 싼 경로를 채택한다.
 
 | 단계 | 하는 일 | 핵심 판단 요소 |
 | :--- | :--- | :--- |
@@ -60,23 +60,23 @@ tags = ["studynote-database"]
 아래 그림은 후보 계획이 어떻게 갈라지고 다시 하나로 수렴하는지를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 후보 계획 생성과 비용 평가의 내부 흐름              │
-├──────────────────────────────────────────────────────────────────────┤
-│ SQL                                                                  │
-│  │                                                                   │
-│  ▼                                                                   │
-│ Rewrite                                                               │
-│  │                                                                   │
-│  ├─ Plan A: Index Range Scan + Nested Loop                           │
-│  ├─ Plan B: Full Scan + Hash Join                                    │
-│  └─ Plan C: Index Scan + Sort Merge Join                             │
-│                 │        │        │                                   │
-│                 └────────┴────────┴──▶ Cost Estimation               │
-│                                         │                             │
-│                                         ▼                             │
-│                                   Lowest Cost Plan                    │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 후보 계획 생성과 비용 평가의 내부 흐름              |
++----------------------------------------------------------------------+
+| SQL                                                                  |
+|  |                                                                   |
+|  v                                                                   |
+| Rewrite                                                               |
+|  |                                                                   |
+|  +- Plan A: Index Range Scan + Nested Loop                           |
+|  +- Plan B: Full Scan + Hash Join                                    |
+|  +- Plan C: Index Scan + Sort Merge Join                             |
+|                 |        |        |                                   |
+|                 +--------+--------+---> Cost Estimation               |
+|                                         |                             |
+|                                         v                             |
+|                                   Lowest Cost Plan                    |
++----------------------------------------------------------------------+
 ```
 
 비용 계산의 핵심 재료는 통계 정보다. 테이블 건수, 특정 값의 분포, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 깊이, 히스토그램 (Histogram) 같은 정보가 있어야 "이 조건은 전체의 1%만 읽는지, 40%를 읽는지"를 가늠할 수 있다. 예를 들어 조회 대상이 전체의 1%라면 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 범위 스캔이 유리할 수 있지만, 30%를 읽는다면 순차적으로 밀어 읽는 풀 스캔이 오히려 더 저렴해질 수 있다.
@@ -157,21 +157,21 @@ tags = ["studynote-database"]
 
 ```text
 선언형 SQL
-    │
-    ▼
+    |
+    v
 논리 재작성 (Rewrite)
-    │
-    ▼
+    |
+    v
 실행 계획 (Execution Plan) 생성
-    │
-    ▼
-RBO → CBO
-    │
-    ▼
+    |
+    v
+RBO -> CBO
+    |
+    v
 통계 정보 · 히스토그램 · 적응형 최적화
 ```
 
-이 흐름은 "문장 해석 → 계획 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → 비용 기반 판단 → 지능화"로 발전하는 옵티마이저의 진화를 보여준다.
+이 흐름은 "문장 해석 -> 계획 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) -> 비용 기반 판단 -> 지능화"로 발전하는 옵티마이저의 진화를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -185,7 +185,7 @@ RBO → CBO
 
 **진행 상황**: 163 / 600
 
-← **이전**: [162. 함수 기반 인덱스 (FBI, Function Based Index) - 산술식이나 함수가 적용된 결과 기준 인덱싱](/knowledge-base/studynote/05_database/03_relational_model/162_fbi_function_based_index/)
-**다음**: [164. 규칙 기반 옵티마이저 (RBO, Rule Based Optimizer) - 정해진 우선순위 규칙에 따라 계획 수립 (구형)](/knowledge-base/studynote/05_database/03_relational_model/164_rbo_rule_based_optimizer/) →
+<- **이전**: [162. 함수 기반 인덱스 (FBI, Function Based Index) - 산술식이나 함수가 적용된 결과 기준 인덱싱](/knowledge-base/studynote/05_database/03_relational_model/162_fbi_function_based_index/)
+**다음**: [164. 규칙 기반 옵티마이저 (RBO, Rule Based Optimizer) - 정해진 우선순위 규칙에 따라 계획 수립 (구형)](/knowledge-base/studynote/05_database/03_relational_model/164_rbo_rule_based_optimizer/) ->
 
 ---

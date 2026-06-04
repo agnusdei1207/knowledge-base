@@ -24,20 +24,20 @@ Planning Poker는 사용자 스토리를 상대적으로 산정하기 위한 협
 
 ```text
 사용자 스토리 설명
-       │
-       ▼
+       |
+       v
 각자 카드 선택
-       │
-       ▼
+       |
+       v
     동시 공개
-       │
-       ▼
+       |
+       v
    차이 토론
-       │
-       ▼
+       |
+       v
     재투표
-       │
-       ▼
+       |
+       v
   합의된 점수
 ```
 
@@ -59,25 +59,25 @@ Planning Poker의 핵심은 비밀 투표와 동시 공개다. 참여자는 스�
 | ∞ | 너무 커서 쪼개야 함 |
 
 ```text
-┌──────────────┐
-│ 스토리 설명  │
-└──────┬───────┘
-       ▼
-┌──────────────┐
-│ 카드 비밀 선택│
-└──────┬───────┘
-       ▼
-┌──────────────┐
-│ 동시 공개    │
-└──────┬───────┘
-       ▼
-┌──────────────┐
-│ 근거 토론    │
-└──────┬───────┘
-       ▼
-┌──────────────┐
-│ 재투표      │
-└──────────────┘
++--------------+
+| 스토리 설명  |
++------+-------+
+       v
++--------------+
+| 카드 비밀 선택|
++------+-------+
+       v
++--------------+
+| 동시 공개    |
++------+-------+
+       v
++--------------+
+| 근거 토론    |
++------+-------+
+       v
++--------------+
+| 재투표      |
++--------------+
 ```
 
 피보나치 수열 (Fibonacci Sequence) 형태를 쓰는 이유는 작은 일은 촘촘히, 큰 일은 거칠게 구분하도록 유도하기 위해서다. 숫자 간격이 커질수록 큰 작업의 오차를 지나치게 세밀하게 나누지 않게 되어, 오히려 팀 토론이 빨라진다.
@@ -148,21 +148,21 @@ Planning Poker의 기대효과는 팀 내 이해 차이 축소, 산정 편향 �
 
 ```text
 사용자 스토리
-    │
-    ▼
+    |
+    v
 기준 스토리 설정
-    │
-    ▼
+    |
+    v
 Planning Poker
-    │
-    ▼
+    |
+    v
 Story Point 합의
-    │
-    ▼
+    |
+    v
 Velocity / Burndown Chart
 ```
 
-이 흐름은 "스토리 이해 → 상대 비교 → 팀 합의 → 반복 예측"으로 이어진다.
+이 흐름은 "스토리 이해 -> 상대 비교 -> 팀 합의 -> 반복 예측"으로 이어진다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -176,7 +176,7 @@ Velocity / Burndown Chart
 
 **진행 상황**: 83 / 973
 
-← **이전**: [82. 스토리 포인트 (Story Point) - 상대적 규모 산정](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/082_story_point_velocity/)
-**다음**: [84. 칸반 (Kanban) - 워크플로우 시각화, WIP(Work In Progress) 제한](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/) →
+<- **이전**: [82. 스토리 포인트 (Story Point) - 상대적 규모 산정](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/082_story_point_velocity/)
+**다음**: [84. 칸반 (Kanban) - 워크플로우 시각화, WIP(Work In Progress) 제한](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/) ->
 
 ---

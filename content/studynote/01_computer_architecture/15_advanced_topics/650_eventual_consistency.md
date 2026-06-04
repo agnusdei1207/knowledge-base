@@ -29,25 +29,25 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-아키텍처 관점에서 결과적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)은 <strong>로컬 승인 → 비동기 전파 → 불일치 탐지 → 수렴</strong>의 4단계로 이해하는 것이 가장 쉽다. [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청은 먼저 가까운 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본에 반영되고 즉시 응답된다. 이후 가십 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (Gossip [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)), 힌티드 핸드오프 (Hinted Handoff), 안티 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) (Anti-Entropy) 같은 메커니즘이 늦게 도착한 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본을 따라잡게 만든다. 핵심은 빠른 응답을 얻는 대신, 잠시 동안은 서로 다른 노드가 서로 다른 진실을 들고 있을 수 있다는 점이다.
+아키텍처 관점에서 결과적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)은 <strong>로컬 승인 -> 비동기 전파 -> 불일치 탐지 -> 수렴</strong>의 4단계로 이해하는 것이 가장 쉽다. [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청은 먼저 가까운 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본에 반영되고 즉시 응답된다. 이후 가십 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (Gossip [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)), 힌티드 핸드오프 (Hinted Handoff), 안티 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) (Anti-Entropy) 같은 메커니즘이 늦게 도착한 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본을 따라잡게 만든다. 핵심은 빠른 응답을 얻는 대신, 잠시 동안은 서로 다른 노드가 서로 다른 진실을 들고 있을 수 있다는 점이다.
 
 아래 그림은 결과적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)의 일반적인 전파 경로를 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                Eventual consistency replication and convergence           │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Client                                                                    │
-│   │                                                                        │
-│   ├── Write ──▶ Replica A ──▶ ACK                                          │
-│   │                    │                                                    │
-│   │                    ├── async replicate ──▶ Replica B                   │
-│   │                    └── async replicate ──▶ Replica C                   │
-│   │                                                                        │
-│ Readers may see A=new, B=old, C=old for a while                           │
-│   │                                                                        │
-│   └── repair / merge / anti-entropy ──▶ replicas converge                 │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                Eventual consistency replication and convergence           |
++----------------------------------------------------------------------------+
+| Client                                                                    |
+|   |                                                                        |
+|   +-- Write ---> Replica A ---> ACK                                          |
+|   |                    |                                                    |
+|   |                    +-- async replicate ---> Replica B                   |
+|   |                    +-- async replicate ---> Replica C                   |
+|   |                                                                        |
+| Readers may see A=new, B=old, C=old for a while                           |
+|   |                                                                        |
+|   +-- repair / merge / anti-entropy ---> replicas converge                 |
++----------------------------------------------------------------------------+
 ```
 
 | 단계 | 핵심 질문 | 대표 메커니즘 |
@@ -127,19 +127,19 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 복제 저장소 (Replication)
-    │
-    ▼
+    |
+    v
 로컬 승인 · 비동기 복제
-    │
-    ▼
+    |
+    v
 결과적 일관성 (Eventual Consistency)
 : 일시적 불일치 허용 · 최종 수렴 보장
-    │
-    ├──▶ Gossip · Hinted Handoff · Anti-Entropy
-    │
-    ├──▶ Vector Clock · CRDT · 애플리케이션 병합
-    │
-    ▼
+    |
+    +---> Gossip · Hinted Handoff · Anti-Entropy
+    |
+    +---> Vector Clock · CRDT · 애플리케이션 병합
+    |
+    v
 세션 일관성 · 정족수 조정 · 사용자 경험 보완 전략
 ```
 
@@ -155,7 +155,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 651 / 803
 
-← **이전**: [649. PACELC 정리](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/649_pacelc_theorem/)
-**다음**: [651. 서버 랙 PDU (Power Distribution Unit)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/651_server_rack_pdu/) →
+<- **이전**: [649. PACELC 정리](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/649_pacelc_theorem/)
+**다음**: [651. 서버 랙 PDU (Power Distribution Unit)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/651_server_rack_pdu/) ->
 
 ---

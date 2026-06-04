@@ -29,12 +29,12 @@ tags = ["studynote-operating-system"]
 
   [ 1. 단일 프로그래밍 (DOM = 1) ]
   P1: [██ 연산 ██] [░░ I/O 대기 ░░] [██ 연산 ██]
-  CPU: 일함       ( 🚨 CPU 놀고 있음 ) 일함      ─▶ CPU 이용률 50%
+  CPU: 일함       ( 🚨 CPU 놀고 있음 ) 일함      --> CPU 이용률 50%
 
   [ 2. 다중 프로그래밍 (DOM = 2) ]
   P1: [██ 연산 ██] [░░ I/O 대기 ░░] [██ 연산 ██]
   P2: (대기 중)     [██ 연산 ██] (P1이 쉴 때 P2가 틈새를 치고 들어옴!)
-  CPU: 일함        일함            일함      ─▶ CPU 이용률 100% 🚀
+  CPU: 일함        일함            일함      --> CPU 이용률 100% 🚀
 ```
 **[다이어그램 해설]** 이것이 운영체제가 존재하는 가장 본질적인 이유다. I/O 대기 시간이라는 어쩔 수 없는 '공백'을, 다른 프로세스를 밀어 넣음으로써([문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 메꿔버리는 것이다. DOM이 2가 되는 순간 시스템의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))은 마법처럼 2배로 뛴다.
 
@@ -53,10 +53,10 @@ CPU 이용률을 예측하는 유명한 [확률](/knowledge-base/studynote/08_al
 > **CPU 이용률 ([CPU Utilization](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/171_cpu_utilization_throughput/)) = $1 - p^N$**  *(N은 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 정도, 즉 DOM)*
 
 **[수식 시뮬레이션 ($p = 0.8$ 일 때)]**
-- **DOM ($N=1$)**: $1 - 0.8^1 = 0.2$ ─▶ **CPU 이용률 20%** (80%의 시간을 낭비함)
-- **DOM ($N=2$)**: $1 - 0.8^2 = 1 - 0.64 = 0.36$ ─▶ **CPU 이용률 36%**
-- **DOM ($N=5$)**: $1 - 0.8^5 \approx 0.67$ ─▶ **CPU 이용률 67%**
-- **DOM ($N=[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)$)**: $1 - 0.8^{[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)} \approx 0.89$ ─▶ **CPU 이용률 89%** (거의 풀가동!)
+- **DOM ($N=1$)**: $1 - 0.8^1 = 0.2$ --> **CPU 이용률 20%** (80%의 시간을 낭비함)
+- **DOM ($N=2$)**: $1 - 0.8^2 = 1 - 0.64 = 0.36$ --> **CPU 이용률 36%**
+- **DOM ($N=5$)**: $1 - 0.8^5 \approx 0.67$ --> **CPU 이용률 67%**
+- **DOM ($N=[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)$)**: $1 - 0.8^{[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)} \approx 0.89$ --> **CPU 이용률 89%** (거의 풀가동!)
 
 수학이 증명하듯, $p$가 높은(I/O가 많은) 환경에서는 메모리에 프로세스를 더 많이 우겨넣을수록(N을 늘릴수록) CPU 효율이 기하급수적으로 좋아진다.
 
@@ -87,7 +87,7 @@ DOM 수치를 마음대로 늘렸다 줄였다 하는 통제권을 가진 녀석
 
 ### DOM 상승의 함정: [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) ([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))
 이론상 DOM을 무한대로 올리면 CPU 이용률이 100%에 수렴해야 한다. 그러나 현실엔 <strong>RAM 크기라는 물리적 한계</strong>가 있다.
-DOM이 임계점을 넘어가면, 각 프로세스가 배정받는 메모리 조각(Frame)이 너무 작아져서 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 1줄 읽고 디스크 스왑 ─▶ 다음 줄 읽고 또 스왑"을 반복하는 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">스래싱</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">Thrashing</a>)</strong> 현상이 터진다. DOM이 100일 때 최고였던 시스템이, DOM이 101이 되는 순간 CPU 이용률이 0%로 수직 낙하하며 서버가 뻗어버리는 것이다.
+DOM이 임계점을 넘어가면, 각 프로세스가 배정받는 메모리 조각(Frame)이 너무 작아져서 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 1줄 읽고 디스크 스왑 --> 다음 줄 읽고 또 스왑"을 반복하는 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">스래싱</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">Thrashing</a>)</strong> 현상이 터진다. DOM이 100일 때 최고였던 시스템이, DOM이 101이 되는 순간 CPU 이용률이 0%로 수직 낙하하며 서버가 뻗어버리는 것이다.
 
 - **📢 섹션 요약 비유**: 고속도로 통행량(DOM)은 적당히 많을 때 물동량(효율)이 최고를 찍습니다. 하지만 차가 너무 많아져 도로 수용량(RAM)을 초과하는 순간 꽉 막힌 주차장([스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))이 되어 물동량은 0이 됩니다. 경찰(OS)은 통행량을 늘리되 막히기 직전에 톨게이트를 닫아 통행량(DOM)을 강제 제한해야 합니다.
 
@@ -105,26 +105,26 @@ DOM이 임계점을 넘어가면, 각 프로세스가 배정받는 메모리 조
    - **아키텍트 조치**: `application.yml`에서 `server.tomcat.threads.max=200`을 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)한다. 이는 <strong>"내 웹 서버 애플리케이션의 유효 DOM을 절대 200 이상으로 올리지 않겠다"</strong>는 선언이다. 201번째 고객은 OS 큐에서 얌전히 대기하게 하여, 앞선 200명이 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 없이 빛의 속도로 응답을 받아 나갈 수 있게 지켜주는 현대판 DOM 컨트롤 아키텍처다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────┐
-  │     부하(Load) 급증 시 아키텍트의 DOM(Degree of MP) 제어 트리    │
-  ├──────────────────────────────────────────────────────────────────┤
-  │                                                                  │
-  │   [장애 현상: 동시 접속자가 1만 명으로 폭주하여 서버 응답 지연]  │
-  │                │                                                 │
-  │                ▼ 1. 서버 메모리(RAM) 용량 확인                   │
-  │      [ 메모리가 남아돈다 (가용량 충분) ]                         │
-  │       ├─▶ 상태: CPU가 100%를 못 치고 있음. DOM이 너무 낮음.      │
-  │       └─▶ 액션: `Max Threads` 설정치를 대폭 올려서(DOM 증가)     │
-  │                 메모리를 깎아먹더라도 CPU 연산량을 극한으로 땡김!│
-  │                                                                  │
-  │      [ 메모리가 90% 이상 꽉 차서 스왑(Swap)이 돌고 있다 ]        │
-  │       ├─▶ 상태: 🚨 스래싱(Thrashing) 임계점을 돌파함!            │
-  │       │                                                          │
-  │       ▼ 2. 아키텍트의 결단 (Down-sizing)                         │
-  │       ▶ 액션: 역설적이지만 `Max Threads` 수치를 절반으로 낮춤.   │
-  │       ▶ 효과: 강제로 DOM을 낮춰 각 스레드가 쓸 메모리를 확보해줌.│
-  │               스왑이 멈추고 캐시 히트율이 오르며 서버 부활!      │
-  └──────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------+
+  |     부하(Load) 급증 시 아키텍트의 DOM(Degree of MP) 제어 트리    |
+  +------------------------------------------------------------------+
+  |                                                                  |
+  |   [장애 현상: 동시 접속자가 1만 명으로 폭주하여 서버 응답 지연]  |
+  |                |                                                 |
+  |                v 1. 서버 메모리(RAM) 용량 확인                   |
+  |      [ 메모리가 남아돈다 (가용량 충분) ]                         |
+  |       +--> 상태: CPU가 100%를 못 치고 있음. DOM이 너무 낮음.      |
+  |       +--> 액션: `Max Threads` 설정치를 대폭 올려서(DOM 증가)     |
+  |                 메모리를 깎아먹더라도 CPU 연산량을 극한으로 땡김!|
+  |                                                                  |
+  |      [ 메모리가 90% 이상 꽉 차서 스왑(Swap)이 돌고 있다 ]        |
+  |       +--> 상태: 🚨 스래싱(Thrashing) 임계점을 돌파함!            |
+  |       |                                                          |
+  |       v 2. 아키텍트의 결단 (Down-sizing)                         |
+  |       -> 액션: 역설적이지만 `Max Threads` 수치를 절반으로 낮춤.   |
+  |       -> 효과: 강제로 DOM을 낮춰 각 스레드가 쓸 메모리를 확보해줌.|
+  |               스왑이 멈추고 캐시 히트율이 오르며 서버 부활!      |
+  +------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** "접속자가 많으니 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 더 늘리자"는 하수의 발상이다. 메모리가 부족할 때 DOM을 올리는 것은 불난 집에 기름을 붓는 것이다. 시니어 엔지니어는 램(RAM)의 수용 한계를 정확히 계산하여, 시스템이 감당할 수 있는 <strong>'최적의 DOM 임계점(Sweet Spot)'</strong>을 찾아내고, 그 선을 넘는 트래픽은 가차 없이 [대기 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/)([Rate Limiting](/knowledge-base/studynote/09_security/05_web_app_security/520_rate_limiting/))로 던져버린다.
 
@@ -158,12 +158,12 @@ DOM이라는 개념은 1960년대 비싼 메인프레임을 놀리지 않기 위
 
 ```text
 [웨이트-프리 (Wait-free) 알고리즘]
-    │
-    ▼
+    |
+    v
 [다중 프로그래밍 정도 (Degree of Multiprogramming)]
-    │
-    ├──▶ [ABA 문제]
-    └──▶ [ABA 문제 해결책]
+    |
+    +---> [ABA 문제]
+    +---> [ABA 문제 해결책]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -180,7 +180,7 @@ DOM이라는 개념은 1960년대 비싼 메인프레임을 놀리지 않기 위
 
 **진행 상황**: 258 / 800
 
-← **이전**: [257. 스래싱 (Thrashing)](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)
-**다음**: [259. 페이징 (Paging)](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) →
+<- **이전**: [257. 스래싱 (Thrashing)](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)
+**다음**: [259. 페이징 (Paging)](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) ->
 
 ---

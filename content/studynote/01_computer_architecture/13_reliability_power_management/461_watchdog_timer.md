@@ -35,26 +35,26 @@ tags = ["studynote-computer-architecture"]
 
 전형적인 워치독 타이머는, 흔히 WDT (Watchdog [Timer](/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/))라고 줄여 부르는 감시 블록으로서, 독립 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), 리셋 출력선, 그리고 소프트웨어의 주기적 갱신 루틴으로 구성된다. 중요한 설계 원칙은 감시자가 피감시자와 너무 강하게 결합되지 않아야 한다는 점이다. 그래서 많은 마이크로컨트롤러인 MCU ([Microcontroller](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) Unit)나 시스템 온 칩인 [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) ([System on Chip](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/))는 메인 코어와 별도 클럭 또는 저전력 도메인에서 워치독을 구동한다.
 
-아래 그림은 워치독이 "시간 초과 감지 → [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 실행"까지 이어지는 경로를 보여준다.
+아래 그림은 워치독이 "시간 초과 감지 -> [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 실행"까지 이어지는 경로를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│               워치독 타이머의 기본 감시-복구 흐름                   │
-├──────────────────────────────────────────────────────────────────────┤
-│  정상 경로                                                           │
-│  애플리케이션 진행 ──▶ 상태 확인 ──▶ 워치독 갱신(kick) ─▶ 카운터 재시작 │
-│      ▲                                                              │
-│      └────────────── 주기 내 완료되면 반복 ──────────────────────────┘
-│                                                                      │
-│  장애 경로                                                           │
-│  무한 루프/교착/버스 정지 ──▶ 워치독 갱신 실패 ──▶ 타임아웃 만료      │
-│                                                   │                  │
-│                                                   ▼                  │
-│                                   인터럽트/로그 저장(선택)           │
-│                                                   │                  │
-│                                                   ▼                  │
-│                                        하드웨어 리셋 또는 전원 재인가 │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|               워치독 타이머의 기본 감시-복구 흐름                   |
++----------------------------------------------------------------------+
+|  정상 경로                                                           |
+|  애플리케이션 진행 ---> 상태 확인 ---> 워치독 갱신(kick) --> 카운터 재시작 |
+|      ^                                                              |
+|      +-------------- 주기 내 완료되면 반복 --------------------------+
+|                                                                      |
+|  장애 경로                                                           |
+|  무한 루프/교착/버스 정지 ---> 워치독 갱신 실패 ---> 타임아웃 만료      |
+|                                                   |                  |
+|                                                   v                  |
+|                                   인터럽트/로그 저장(선택)           |
+|                                                   |                  |
+|                                                   v                  |
+|                                        하드웨어 리셋 또는 전원 재인가 |
++----------------------------------------------------------------------+
 ```
 
 이 메커니즘의 핵심은 "단순 주기"가 아니라 "의미 있는 진전"이다. 예를 들어 메인 루프가 센서 읽기, 제어 계산, 출력 반영까지 끝냈을 때만 워치독을 갱신해야 실제 시스템 건강을 검증할 수 있다. 반대로 타이머 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 자동으로 계속 갱신해 버리면, 애플리케이션이 죽어도 워치독은 정상으로 오판한다.
@@ -147,21 +147,21 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 단순 타임아웃 감시
-    │
-    ▼
+    |
+    v
 워치독 타이머 (Watchdog Timer)
-    │
-    ├──▶ 윈도우 워치독 (Windowed Watchdog)
-    │
-    ├──▶ 리셋 원인 기록 · 프리타임아웃 인터럽트
-    │
-    ▼
+    |
+    +---> 윈도우 워치독 (Windowed Watchdog)
+    |
+    +---> 리셋 원인 기록 · 프리타임아웃 인터럽트
+    |
+    v
 보드 수준 자율 복구 · MTTR 단축
-    │
-    ▼
+    |
+    v
 소프트웨어 워치독 · 하트비트 · Liveness Probe
-    │
-    ▼
+    |
+    v
 안전 아일랜드 기반 자율주행 · 산업 제어 감시 구조
 ```
 
@@ -179,7 +179,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 462 / 803
 
-← **이전**: [460. 페일 소프트 (Fail-Soft)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/460_fail_soft/)
-**다음**: [462. 소프트 에러 (Soft Error)와 하드 에러 (Hard Error)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/462_soft_error_hard_error/) →
+<- **이전**: [460. 페일 소프트 (Fail-Soft)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/460_fail_soft/)
+**다음**: [462. 소프트 에러 (Soft Error)와 하드 에러 (Hard Error)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/462_soft_error_hard_error/) ->
 
 ---

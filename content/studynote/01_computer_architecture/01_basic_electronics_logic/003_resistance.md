@@ -33,16 +33,16 @@ tags = ["studynote-computer-architecture"]
 반면 금속 배선이 가지는 고유 저항($R$)은 주변 배선과의 [정전용량](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/006_capacitance/)($C$)과 결합하여 <strong>RC (Resistor-Capacitor) <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong>을 발생시킨다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           RC 지연에 의한 디지털 신호 붕괴 현상             │
-├──────────────────────────────────────────────────────────────┤
-│  [송신단] ──▶ [ 배선 저항 (R) ] ──┬──▶ [수신단 도달 신호]  │
-│  이상적 1 ┌─┐                   │    / 1에 도달하는       │
-│          ┘ └──                  │   /  시간이 지연됨      │
-│                            기생 C ───/                   │
-│                                  │                     │
-│                                 GND                    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           RC 지연에 의한 디지털 신호 붕괴 현상             |
++--------------------------------------------------------------+
+|  [송신단] ---> [ 배선 저항 (R) ] --+---> [수신단 도달 신호]  |
+|  이상적 1 +-+                   |    / 1에 도달하는       |
+|          + +--                  |   /  시간이 지연됨      |
+|                            기생 C ---/                   |
+|                                  |                     |
+|                                 GND                    |
++--------------------------------------------------------------+
 ```
 
 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 배선을 통과할 때 저항이 크면 기생 커패시터를 충전하는 데 시간이 오래 걸려, 사각형의 디지털 펄스가 완만한 곡선으로 눕게 된다. 이 상승 시간 (Rise Time) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 클럭 주기보다 길어지면 수신단에서 1을 0으로 오인하는 타이밍 오류가 발생한다.
@@ -108,17 +108,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 [:---]
-    │
-    ▼
+    |
+    v
 [RC 지연 (RC Delay)]
-    │
-    ▼
+    |
+    v
 [임피던스 (Impedance)]
-    │
-    ▼
+    |
+    v
 [IR Drop (전압 강하)]
-    │
-    ▼
+    |
+    v
 [BSPDN]
 ```
 
@@ -136,7 +136,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 3 / 803
 
-← **이전**: [2. 전류 (Current)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)
-**다음**: [4. 임피던스 (Impedance)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/) →
+<- **이전**: [2. 전류 (Current)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)
+**다음**: [4. 임피던스 (Impedance)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/) ->
 
 ---

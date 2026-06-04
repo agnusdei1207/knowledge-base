@@ -30,9 +30,9 @@ tags = ["studynote-data-engineering"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-Samples ↑
-  ↓
-Sample Mean → Expected Value
+Samples ^
+  v
+Sample Mean -> Expected Value
 ```
 
 | 개념 | 의미 |
@@ -102,9 +102,9 @@ LLN은 장기 평균의 안정성을 보여 준다.
 
 ```text
 Samples
-  ↓
+  v
 LLN
-  ↓
+  v
 Expected Value
 ```
 
@@ -114,9 +114,9 @@ Expected Value
 
 ```text
 Probability
-  ↓
+  v
 LLN
-  ↓
+  v
 Convergence
 ```
 
@@ -134,7 +134,7 @@ Convergence
 
 **진행 상황**: 74 / 258
 
-← **이전**: [73. 중심 극한 정리 (CLT) - 30개 표본 정규분포 마법](/knowledge-base/studynote/14_data_engineering/02_math_mining/073_central_limit_theorem_clt_sample_mean_normal_distribution/)
-**다음**: [75. 조건부 확률(Conditional Probability)과 베이즈 정리(Bayes)](/knowledge-base/studynote/14_data_engineering/02_math_mining/075_conditional_probability_bayes_theorem_posterior/) →
+<- **이전**: [73. 중심 극한 정리 (CLT) - 30개 표본 정규분포 마법](/knowledge-base/studynote/14_data_engineering/02_math_mining/073_central_limit_theorem_clt_sample_mean_normal_distribution/)
+**다음**: [75. 조건부 확률(Conditional Probability)과 베이즈 정리(Bayes)](/knowledge-base/studynote/14_data_engineering/02_math_mining/075_conditional_probability_bayes_theorem_posterior/) ->
 
 ---

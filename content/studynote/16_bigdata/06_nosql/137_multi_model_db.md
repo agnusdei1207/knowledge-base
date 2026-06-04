@@ -11,7 +11,7 @@ tags = ["studynote-bigdata"]
 
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: 다중 모델 DB는 문서·[그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)·키-값을 단일 스토리지 엔진에서 통합 지원하여 Polyglot Persistence의 운영 복잡성 없이 여러 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)을 한 플랫폼에서 처리한다.
-- **가치**: [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 하나로 문서 조회→[그래프 탐색](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/613_graph_bfs_memory/)→키-값 캐시를 오가는 크로스-모델 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 가능하여, [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 환경에서 DB 수를 줄이고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 높인다.
+- **가치**: [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 하나로 문서 조회->[그래프 탐색](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/613_graph_bfs_memory/)->키-값 캐시를 오가는 크로스-모델 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 가능하여, [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 환경에서 DB 수를 줄이고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 높인다.
 - **판단 포인트**: 단일 모델에서 극한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 필요하면 전용 DB가 유리하지만, 다양한 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)을 중간 이상의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 활용하면서 운영 단순화가 목표라면 Multi-Model DB가 올바른 선택이다.
 
 ---
@@ -24,21 +24,21 @@ tags = ["studynote-bigdata"]
 전통적 Polyglot Persistence 아키텍처:
 
   마이크로서비스
-  ┌──────────────────────────────────────────────────────┐
-  │  사용자 서비스 → MongoDB  (문서형)                    │
-  │  관계 서비스  → Neo4j    (그래프)                    │
-  │  세션 서비스  → Redis    (키-값)                     │
-  │  검색 서비스  → Elasticsearch (검색)                 │
-  └──────────────────────────────────────────────────────┘
+  +------------------------------------------------------+
+  |  사용자 서비스 -> MongoDB  (문서형)                    |
+  |  관계 서비스  -> Neo4j    (그래프)                    |
+  |  세션 서비스  -> Redis    (키-값)                     |
+  |  검색 서비스  -> Elasticsearch (검색)                 |
+  +------------------------------------------------------+
 
   문제점:
   ① 4개 DB의 별도 운영·모니터링·백업
   ② DB 간 데이터 동기화·일관성 유지
   ③ 팀원이 4개 DB 모두 숙달해야 함
-  ④ 네트워크 홉 증가 → 지연 누적
+  ④ 네트워크 홉 증가 -> 지연 누적
 
 Multi-Model DB 해결책:
-  마이크로서비스 → ArangoDB (모든 모델 통합)
+  마이크로서비스 -> ArangoDB (모든 모델 통합)
 ```
 
 ### 대표 솔루션 비교
@@ -60,24 +60,24 @@ Multi-Model DB 해결책:
 ### ArangoDB 내부 아키텍처
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│              ArangoDB 통합 아키텍처                        │
-│                                                          │
-│  ┌────────────────────────────────────────────────────┐  │
-│  │                  AQL 쿼리 엔진                       │  │
-│  │  문서 쿼리 │ 그래프 탐색 │ KV 연산 통합 처리           │  │
-│  └────────────────────────────────────────────────────┘  │
-│                           │                              │
-│  ┌─────────────────────────────────────────────────────┐ │
-│  │           단일 VelocyPack 스토리지 엔진              │ │
-│  │  ┌──────────────┐  ┌─────────────┐  ┌───────────┐  │ │
-│  │  │  Collections │  │ Edge Colls  │  │  KV 컨테이너│  │ │
-│  │  │  (문서 저장)  │  │ (그래프 관계)│  │  (키-값)   │  │ │
-│  │  └──────────────┘  └─────────────┘  └───────────┘  │ │
-│  └─────────────────────────────────────────────────────┘ │
-│                                                          │
-│  RocksDB (기본 스토리지) + MMFiles (선택)                  │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|              ArangoDB 통합 아키텍처                        |
+|                                                          |
+|  +----------------------------------------------------+  |
+|  |                  AQL 쿼리 엔진                       |  |
+|  |  문서 쿼리 | 그래프 탐색 | KV 연산 통합 처리           |  |
+|  +----------------------------------------------------+  |
+|                           |                              |
+|  +-----------------------------------------------------+ |
+|  |           단일 VelocyPack 스토리지 엔진              | |
+|  |  +--------------+  +-------------+  +-----------+  | |
+|  |  |  Collections |  | Edge Colls  |  |  KV 컨테이너|  | |
+|  |  |  (문서 저장)  |  | (그래프 관계)|  |  (키-값)   |  | |
+|  |  +--------------+  +-------------+  +-----------+  | |
+|  +-----------------------------------------------------+ |
+|                                                          |
+|  RocksDB (기본 스토리지) + MMFiles (선택)                  |
++----------------------------------------------------------+
 ```
 
 ### AQL (ArangoDB Query Language) 예시
@@ -88,7 +88,7 @@ Multi-Model DB 해결책:
 
 FOR product IN products
   FILTER product.category == "electronics"
-  // 문서 조회 ↑ + 그래프 탐색 ↓
+  // 문서 조회 ^ + 그래프 탐색 v
   FOR user, purchase IN 1..1 INBOUND product._id purchased_by
     FILTER purchase.amount > 50000
     COLLECT country = user.country WITH COUNT INTO cnt
@@ -107,7 +107,7 @@ SurrealDB (2022년 출시, 차세대 Multi-Model):
 
   2. 실시간 쿼리 (LIVE SELECT)
      LIVE SELECT * FROM orders WHERE status = 'pending'
-     → 새 주문 발생 시 자동 알림
+     -> 새 주문 발생 시 자동 알림
 
   3. 그래프 관계 표현 (SQL 내장)
      RELATE user:john->purchased->product:phone
@@ -130,8 +130,8 @@ SurrealDB (2022년 출시, 차세대 Multi-Model):
 3. 친구별 구매 목록    (Document Model)
 4. 카테고리 집계       (Analytics)
 
-→ 네트워크 홉 0 (단일 DB 내부 처리)
-→ 일관된 트랜잭션 (ACID 보장)
+-> 네트워크 홉 0 (단일 DB 내부 처리)
+-> 일관된 트랜잭션 (ACID 보장)
 ```
 
 📢 **섹션 요약 비유**
@@ -156,14 +156,14 @@ SurrealDB (2022년 출시, 차세대 Multi-Model):
 
 ```text
 Azure Cosmos DB 다중 API:
-  - Core (SQL) API  → 문서형
-  - MongoDB API     → MongoDB 호환
-  - Cassandra API   → CQL 호환
-  - Gremlin API     → 그래프 탐색
-  - Table API       → 키-값
+  - Core (SQL) API  -> 문서형
+  - MongoDB API     -> MongoDB 호환
+  - Cassandra API   -> CQL 호환
+  - Gremlin API     -> 그래프 탐색
+  - Table API       -> 키-값
 
 공통: 글로벌 분산, 5가지 일관성 수준, 99.999% SLA
-→ 기존 MongoDB/Cassandra 앱을 마이그레이션 용이
+-> 기존 MongoDB/Cassandra 앱을 마이그레이션 용이
 ```
 
 📢 **섹션 요약 비유**
@@ -243,18 +243,18 @@ Multi-Model DB는 Polyglot Persistence의 운영 복잡성을 근본적으로 �
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[폴리글롯 퍼시스턴스 (Polyglot Persistence) — 용도별 최적 DB를 따로 운영, 운영 복잡도↑]
-    │
-    ▼
+[폴리글롯 퍼시스턴스 (Polyglot Persistence) — 용도별 최적 DB를 따로 운영, 운영 복잡도^]
+    |
+    v
 [다중 모델 DB (Multi-Model DB) — 단일 엔진에서 도큐먼트·그래프·키-값 통합 처리]
-    │
-    ▼
+    |
+    v
 [ArangoDB — AQL 통합 쿼리 언어로 3가지 모델 일관성 있게 접근]
-    │
-    ▼
+    |
+    v
 [SurrealDB — SurrealQL로 레코드·그래프·스키마리스를 단일 플랫폼에서 처리]
-    │
-    ▼
+    |
+    v
 [엣지 AI + 다중 모델 DB — IoT 엣지에서 그래프+시계열+도큐먼트를 경량 DB 하나로 통합]
 ```
 
@@ -271,7 +271,7 @@ Multi-Model DB는 Polyglot Persistence의 운영 복잡성을 근본적으로 �
 
 **진행 상황**: 137 / 262
 
-← **이전**: [136. 검색 엔진 데이터베이스 (Search 엔진 DB) — Elasticsearch/OpenSearch](/knowledge-base/studynote/16_bigdata/06_nosql/136_search_engine_db/)
-**다음**: [138. NewSQL — CockroachDB/TiDB/YugabyteDB SQL+수평확장+ACID](/knowledge-base/studynote/16_bigdata/06_nosql/138_newsql/) →
+<- **이전**: [136. 검색 엔진 데이터베이스 (Search 엔진 DB) — Elasticsearch/OpenSearch](/knowledge-base/studynote/16_bigdata/06_nosql/136_search_engine_db/)
+**다음**: [138. NewSQL — CockroachDB/TiDB/YugabyteDB SQL+수평확장+ACID](/knowledge-base/studynote/16_bigdata/06_nosql/138_newsql/) ->
 
 ---

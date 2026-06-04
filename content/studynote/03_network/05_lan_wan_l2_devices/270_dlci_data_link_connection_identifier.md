@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [PVC / SVC]
-    │
-    ▼
+    |
+    v
 [DLCI]
-    │
-    └──▶ [CIR / FECN, BECN 혼잡 알림]
+    |
+    +---> [CIR / FECN, BECN 혼잡 알림]
 ```
 
 - **📢 섹션 요약 비유**: ** DLCI는 은행 콜센터 ARS 번호와 같습니다. **"1번(DLCI 101)을 누르시면 예금 조회(부산), 2번(DLCI 102)을 누르시면 대출 상담(광주)으로 연결됩니다"**라며 하나의 전화선([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))에서 논리적으로 부서를 쪼개주는 마법의 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)자입니다.
@@ -50,22 +50,22 @@ IP 주소는 서울에서 부산까지 192.168.1.1이라는 값이 평생 변하
 - 이때 부산 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 부산 라우터 사이의 계약 번호는 DLCI 200번일 수 있다. 그럼 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 DLCI를 200으로 바꿔서 부산 라우터에 던져준다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                 DLCI의 로컬 식별성 (Local Significance)       │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 서울 본사 ]                                  [ 부산 지사 ]  │
- │        │                                             ▲      │
- │        │ (여긴 DLCI 100번 길)           (여긴 DLCI 200번 길) │
- │        ▼                                             │      │
- │   ┌───────────┐    망 내부에서 번호 변환    ┌───────────┐ │
- │   │ ISP 스위치 A│ ──── (DLCI 333) ────▶ │ ISP 스위치 B│ │
- │   └───────────┘                        └───────────┘ │
- │                                                             │
- │   * 서울 입장: "난 100번 터널로 보냈어."                          │
- │   * 부산 입장: "난 200번 터널에서 튀어나온 걸 받았어."              │
- │   ▶ 즉, DLCI는 서로 연결된 놈들끼리만 통하는 '우리만의 별명'이다.    │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                 DLCI의 로컬 식별성 (Local Significance)       |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 서울 본사 ]                                  [ 부산 지사 ]  |
+ |        |                                             ^      |
+ |        | (여긴 DLCI 100번 길)           (여긴 DLCI 200번 길) |
+ |        v                                             |      |
+ |   +-----------+    망 내부에서 번호 변환    +-----------+ |
+ |   | ISP 스위치 A| ---- (DLCI 333) -----> | ISP 스위치 B| |
+ |   +-----------+                        +-----------+ |
+ |                                                             |
+ |   * 서울 입장: "난 100번 터널로 보냈어."                          |
+ |   * 부산 입장: "난 200번 터널에서 튀어나온 걸 받았어."              |
+ |   -> 즉, DLCI는 서로 연결된 놈들끼리만 통하는 '우리만의 별명'이다.    |
+ +-------------------------------------------------------------+
 ```
 
 ### 2. Inverse [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) (인버스 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/))
@@ -130,12 +130,12 @@ DLCI는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 �
 
 ```text
 [선행 개념: PVC / SVC]
-    │
-    ▼
+    |
+    v
 [현재 개념: DLCI]
-    │
-    ├──▶ [확장 A: CIR / FECN, BECN 혼잡 알림]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+    |
+    +---> [확장 A: CIR / FECN, BECN 혼잡 알림]
+    +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
 DLCI는 [PVC](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/) / SVC에서 출발해 현재 메커니즘을 정교화하고, 이후 [CIR](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/271_cir_fecn_becn_congestion_notification/) / FECN, BECN 혼잡 알림와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -152,7 +152,7 @@ DLCI는 [PVC](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/269_pvc
 
 **진행 상황**: 391 / 1120
 
-← **이전**: [269. PVC (Permanent Virtual Circuit) / SVC (Switched Virtual Circuit)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/)
-**다음**: [271. CIR (Committed Information Rate) / FECN, BECN 혼잡 알림](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/271_cir_fecn_becn_congestion_notification/) →
+<- **이전**: [269. PVC (Permanent Virtual Circuit) / SVC (Switched Virtual Circuit)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/)
+**다음**: [271. CIR (Committed Information Rate) / FECN, BECN 혼잡 알림](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/271_cir_fecn_becn_congestion_notification/) ->
 
 ---

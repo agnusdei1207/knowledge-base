@@ -25,11 +25,11 @@ tags = ["studynote-network"]
 
 ```text
 [VLAN 간 라우팅]
-    │
-    ▼
+    |
+    v
 [스위치 포트 미러링]
-    │
-    └──▶ [UTP 배선 카테고리]
+    |
+    +---> [UTP 배선 카테고리]
 ```
 
 - **📢 섹션 요약 비유**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -48,11 +48,11 @@ tags = ["studynote-network"]
 
 ```text
 [VLAN 간 라우팅]
-    │
-    ▼
+    |
+    v
 [스위치 포트 미러링]
-    │
-    └──▶ [UTP 배선 카테고리]
+    |
+    +---> [UTP 배선 카테고리]
 ```
 
 - **📢 섹션 요약 비유**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -117,12 +117,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: VLAN 간 라우팅]
-    │
-    ▼
+    |
+    v
 [현재 개념: 스위치 포트 미러링]
-    │
-    ├──▶ [확장 A: UTP 배선 카테고리]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: UTP 배선 카테고리]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)는 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 간 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 배선 카테고리와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -139,7 +139,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 210 / 1120
 
-← **이전**: [109. RTS/CTS (Request To Send / Clear To Send)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/109_RTS_CTS_은닉노드문제/)
-**다음**: [1101. UTP 배선 카테고리](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1101_utp_cable_category_cat5_cat6/) →
+<- **이전**: [109. RTS/CTS (Request To Send / Clear To Send)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/109_RTS_CTS_은닉노드문제/)
+**다음**: [1101. UTP 배선 카테고리](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1101_utp_cable_category_cat5_cat6/) ->
 
 ---

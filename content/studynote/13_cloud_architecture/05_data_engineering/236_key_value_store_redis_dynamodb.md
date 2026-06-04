@@ -22,11 +22,11 @@ tags = ["studynote-cloud-architecture"]
 
 ```
 [캐시 패턴 - Cache Aside]
-1. 앱 → Redis 조회 (Cache Hit: 1ms 응답)
-        ↓ Cache Miss
-2. 앱 → DB 조회 (100ms 응답)
-3. 앱 → Redis 저장 (TTL 설정)
-4. 다음 요청 → Redis 캐시 Hit (1ms 응답)
+1. 앱 -> Redis 조회 (Cache Hit: 1ms 응답)
+        v Cache Miss
+2. 앱 -> DB 조회 (100ms 응답)
+3. 앱 -> Redis 저장 (TTL 설정)
+4. 다음 요청 -> Redis 캐시 Hit (1ms 응답)
 
 효과: DB 부하 90%+ 감소, 응답 속도 100배 향상
 ```
@@ -49,22 +49,22 @@ tags = ["studynote-cloud-architecture"]
 
 ```
 [Redis 5가지 핵심 자료구조]
-┌────────────┬───────────────────────────────────────────────┐
-│ String     │ SET/GET, INCR/DECR, EXPIRE (TTL)              │
-│            │ 사례: 세션 토큰, 카운터, 분산 락               │
-├────────────┼───────────────────────────────────────────────┤
-│ Hash       │ HSET/HGET, HMGET, HGETALL                     │
-│            │ 사례: 사용자 프로필, 상품 정보                  │
-├────────────┼───────────────────────────────────────────────┤
-│ List       │ LPUSH/RPUSH, LPOP/RPOP, LRANGE                │
-│            │ 사례: 메시지 큐, 최근 방문 기록                 │
-├────────────┼───────────────────────────────────────────────┤
-│ Set        │ SADD/SMEMBERS, SUNION, SINTER                 │
-│            │ 사례: 유니크 방문자, 태그 교집합                │
-├────────────┼───────────────────────────────────────────────┤
-│ Sorted Set │ ZADD/ZRANGE, ZREVRANGEBYSCORE                 │
-│  (ZSet)    │ 사례: 실시간 점수 랭킹, 시간 순 이벤트          │
-└────────────┴───────────────────────────────────────────────┘
++------------+-----------------------------------------------+
+| String     | SET/GET, INCR/DECR, EXPIRE (TTL)              |
+|            | 사례: 세션 토큰, 카운터, 분산 락               |
++------------+-----------------------------------------------+
+| Hash       | HSET/HGET, HMGET, HGETALL                     |
+|            | 사례: 사용자 프로필, 상품 정보                  |
++------------+-----------------------------------------------+
+| List       | LPUSH/RPUSH, LPOP/RPOP, LRANGE                |
+|            | 사례: 메시지 큐, 최근 방문 기록                 |
++------------+-----------------------------------------------+
+| Set        | SADD/SMEMBERS, SUNION, SINTER                 |
+|            | 사례: 유니크 방문자, 태그 교집합                |
++------------+-----------------------------------------------+
+| Sorted Set | ZADD/ZRANGE, ZREVRANGEBYSCORE                 |
+|  (ZSet)    | 사례: 실시간 점수 랭킹, 시간 순 이벤트          |
++------------+-----------------------------------------------+
 ```
 
 ### [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) [영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/) 옵션
@@ -72,7 +72,7 @@ tags = ["studynote-cloud-architecture"]
 | 옵션 | 설명 | 특성 |
 |:---|:---|:---|
 | <strong>RDB (<a href="/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/">Snapshot</a>)</strong> | 주기적 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 저장 | 빠른 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 마지막 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 이후 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 |
-| <strong>AOF (Append Only <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">File</a>)</strong> | 모든 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 명령 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기록 | 높은 내구성, 디스크 비용 ↑ |
+| <strong>AOF (Append Only <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">File</a>)</strong> | 모든 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 명령 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기록 | 높은 내구성, 디스크 비용 ^ |
 | **RDB + AOF 혼합** | [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) + 이후 AOF | 균형 잡힌 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) |
 | **No Persistence** | 메모리만 (순수 캐시) | 최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 재시작 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 삭제 |
 
@@ -81,14 +81,14 @@ tags = ["studynote-cloud-architecture"]
 ```
 [DynamoDB 핵심 개념]
 테이블: users
-┌────────────────────────────────────────────────────────┐
-│ Partition Key (PK): user_id  (해시 키)                  │
-│ Sort Key (SK): created_at    (선택적 범위 키)            │
-├────────────────────────────────────────────────────────┤
-│ {PK:"U001", SK:"2024-01-01", name:"김철수", tier:"VIP"} │
-│ {PK:"U001", SK:"2024-01-15", name:"김철수", tier:"VIP"} │
-│ {PK:"U002", SK:"2024-01-10", name:"이영희", tier:"일반"} │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+| Partition Key (PK): user_id  (해시 키)                  |
+| Sort Key (SK): created_at    (선택적 범위 키)            |
++--------------------------------------------------------+
+| {PK:"U001", SK:"2024-01-01", name:"김철수", tier:"VIP"} |
+| {PK:"U001", SK:"2024-01-15", name:"김철수", tier:"VIP"} |
+| {PK:"U002", SK:"2024-01-10", name:"이영희", tier:"일반"} |
++--------------------------------------------------------+
 
 PK 기반 조회: O(1) 해시 조회
 SK 기반 범위: PK 고정 + SK 범위 쿼리
@@ -98,8 +98,8 @@ GSI (Global Secondary Index): 다른 속성으로 추가 인덱스
 ### [DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/) DAX (가속 캐시)
 
 ```
-앱 → DAX (인메모리, 마이크로초 응답)
-       ↓ Cache Miss
+앱 -> DAX (인메모리, 마이크로초 응답)
+       v Cache Miss
      DynamoDB (밀리초 응답)
 
 DAX: DynamoDB용 인메모리 캐시 클러스터
@@ -131,8 +131,8 @@ DAX: DynamoDB용 인메모리 캐시 클러스터
 | 패턴 | 설명 | 특성 |
 |:---|:---|:---|
 | <strong>Cache Aside (<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/">Lazy</a>)</strong> | 캐시 미스 시 앱이 DB 조회 후 캐시 저장 | 가장 일반적 |
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/276_write_through/">Write-Through</a></strong> | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시 캐시+DB 동시 저장 | [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) ↑, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ↑ |
-| **Write-Behind** | 캐시 먼저 쓰고 비동기로 DB 저장 | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) ↑, 손실 위험 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/276_write_through/">Write-Through</a></strong> | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시 캐시+DB 동시 저장 | [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) ^, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ^ |
+| **Write-Behind** | 캐시 먼저 쓰고 비동기로 DB 저장 | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) ^, 손실 위험 |
 | **Read-Through** | 캐시가 DB 조회를 대행 | 캐시 계층 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) |
 
 📢 **섹션 요약 비유**: Cache Aside는 편의점이 없으면 대형마트에서 가져오는 것, Write-Through는 편의점 납품할 때 창고에도 동시에 넣는 것, Write-Behind는 편의점에만 먼저 넣고 나중에 창고 정리하는 것이다.
@@ -175,9 +175,9 @@ if lock:
 
 [Single Table Design 패턴]
 RDB 여러 테이블을 DynamoDB 단일 테이블로 모델링
-PK="USER#U001", SK="PROFILE" → 사용자 정보
-PK="USER#U001", SK="ORDER#20240115" → 사용자의 주문
-PK="ORDER#O001", SK="ITEM#P001" → 주문의 상품
+PK="USER#U001", SK="PROFILE" -> 사용자 정보
+PK="USER#U001", SK="ORDER#20240115" -> 사용자의 주문
+PK="ORDER#O001", SK="ITEM#P001" -> 주문의 상품
 ```
 
 📢 **섹션 요약 비유**: [DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/) Single Table Design은 다용도 가구와 같다. 여러 서랍(PK+SK 조합)이 있어 사람 정보, 주문 정보, 상품 정보를 하나의 가구(테이블)에 넣지만, 서랍 라벨(PK/SK 네이밍 규칙)을 잘 설계해야 원하는 걸 찾을 수 있다.
@@ -226,10 +226,10 @@ PK="ORDER#O001", SK="ITEM#P001" → 주문의 상품
 
 ```text
 Key-Value: O(1) 조회 · 초저지연
-    ├─► In-Memory: Redis · Memcached (캐시)
-    └─► Persistent: DynamoDB · etcd (영속)
-    │
-    ▼
+    +-► In-Memory: Redis · Memcached (캐시)
+    +-► Persistent: DynamoDB · etcd (영속)
+    |
+    v
 활용: 세션 · 캐시 · 설정 · 분산 락
 ```
 2. Redis는 교실 앞 칠판이다. 자주 필요한 내용을 칠판(메모리)에 적어두면 교과서(DB)를 매번 찾을 필요가 없다. 단, 칠판 크기(메모리)는 정해져 있다.
@@ -241,7 +241,7 @@ Key-Value: O(1) 조회 · 초저지연
 
 **진행 상황**: 235 / 371
 
-← **이전**: [235. 분산 NoSQL 데이터베이스 종류 개요](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/235_nosql_database_types_overview/)
-**다음**: [237. 도큐먼트 저장소 (Document Store) - MongoDB / Elasticsearch](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/237_document_store_mongodb_elasticsearch/) →
+<- **이전**: [235. 분산 NoSQL 데이터베이스 종류 개요](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/235_nosql_database_types_overview/)
+**다음**: [237. 도큐먼트 저장소 (Document Store) - MongoDB / Elasticsearch](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/237_document_store_mongodb_elasticsearch/) ->
 
 ---

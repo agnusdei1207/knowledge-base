@@ -20,18 +20,18 @@ tags = ["studynote-design-supervision"]
 ## Ⅰ. 개요 및 필요성
 ```
   동기 호출:
-  Client → method() → [실행, 대기, 대기, 대기...] → 결과 반환
+  Client -> method() -> [실행, 대기, 대기, 대기...] -> 결과 반환
                        (Client는 실행이 완료될 때까지 블록됨)
 
-  예: HTTP 요청 처리 중 DB 조회 10초 → UI 10초 동안 멈춤
+  예: HTTP 요청 처리 중 DB 조회 10초 -> UI 10초 동안 멈춤
 ```
 
 ```
   Active Object 호출:
-  Client → method() → Future 즉시 반환
-                          │
-                          ▼ (별도 스레드에서 비동기 실행)
-                       Scheduler → 실행 완료 → Future에 결과 저장
+  Client -> method() -> Future 즉시 반환
+                          |
+                          v (별도 스레드에서 비동기 실행)
+                       Scheduler -> 실행 완료 -> Future에 결과 저장
   Client는 나중에 future.get() 또는 콜백으로 결과 수신
 ```
 
@@ -45,9 +45,9 @@ tags = ["studynote-design-supervision"]
 | **Future** | 비동기 실행 결과를 나중에 받을 수 있는 핸들 |
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 식당 주문 시스템 — 손님([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))이 주문서(MethodRequest)를 제출하고 주문 번호표(Future)를 받는다. 주방(Servant)은 주문 큐(ActivationQueue) 순서대로 조리한다. 손님은 음식을 기다리지 않고 앉아서 다른 일을 한다.
@@ -57,28 +57,28 @@ tags = ["studynote-design-supervision"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 ```
   Client Thread                    Active Object Thread
-  ─────────────                    ─────────────────────
-       │                                    │
-       │ proxy.doWork(args)                 │
-       ▼                                    │
-  ┌─────────────┐                           │
-  │   Proxy     │  enqueue(MethodRequest)   │
-  │  (대리자)   │──────────────────────────►│
-  └──────┬──────┘                     ┌────┴──────────────┐
-         │                            │  ActivationQueue  │
-         │ Future 즉시 반환            │  [Req1, Req2, ...] │
-         ▼                            └────┬──────────────┘
-  ┌──────────────┐                         │ dequeue()
-  │  Future<T>   │                    ┌────▼──────────────┐
-  │  (결과 수신  │                    │    Scheduler      │
-  │   핸들)      │                    │  (실행 타이밍     │
-  └──────┬───────┘                    │   제어)           │
-         │                            └────┬──────────────┘
-         │ future.get() [나중에]           │ execute()
-         │                            ┌────▼──────────────┐
-         └◄───────────────────────────│    Servant        │
-            result                   │  (실제 실행)       │
-                                      └───────────────────┘
+  -------------                    ---------------------
+       |                                    |
+       | proxy.doWork(args)                 |
+       v                                    |
+  +-------------+                           |
+  |   Proxy     |  enqueue(MethodRequest)   |
+  |  (대리자)   |--------------------------►|
+  +------+------+                     +----+--------------+
+         |                            |  ActivationQueue  |
+         | Future 즉시 반환            |  [Req1, Req2, ...] |
+         v                            +----+--------------+
+  +--------------+                         | dequeue()
+  |  Future<T>   |                    +----v--------------+
+  |  (결과 수신  |                    |    Scheduler      |
+  |   핸들)      |                    |  (실행 타이밍     |
+  +------+-------+                    |   제어)           |
+         |                            +----+--------------+
+         | future.get() [나중에]           | execute()
+         |                            +----v--------------+
+         +◄---------------------------|    Servant        |
+            result                   |  (실제 실행)       |
+                                      +-------------------+
 ```
 
 ```java
@@ -165,14 +165,14 @@ String result = future
 ```
   Android 아키텍처:
   UI Thread (Main Thread)          Worker Thread
-       │                                │
-       │ viewModel.loadData()           │
-       │ → 즉시 반환 (LiveData Future)  │
-       │                                │
-       │ [다른 UI 업데이트 계속]        │ 데이터 로딩 중...
-       │                                │
-       │◄──────────────────────────────│ liveData.postValue(result)
-       │ UI 자동 업데이트 (Observer)    │
+       |                                |
+       | viewModel.loadData()           |
+       | -> 즉시 반환 (LiveData Future)  |
+       |                                |
+       | [다른 UI 업데이트 계속]        | 데이터 로딩 중...
+       |                                |
+       |◄------------------------------| liveData.postValue(result)
+       | UI 자동 업데이트 (Observer)    |
 ```
 
 ```java
@@ -189,7 +189,7 @@ public class ReportService {
 
 // 호출자
 CompletableFuture<Report> future = reportService.generateReport(123L);
-// 호출 즉시 반환 → 다른 작업 처리 가능
+// 호출 즉시 반환 -> 다른 작업 처리 가능
 ```
 
 - [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) Object의 **6요소**: [Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/), MethodRequest, ActivationQueue, Scheduler, Servant, Future
@@ -209,14 +209,14 @@ CompletableFuture<Report> future = reportService.generateReport(123L);
 ## Ⅴ. 기대효과 및 결론
 | 효과 | 설명 |
 |:---|:---|
-| 응답성 향상 | 호출자가 즉시 반환 → UI 블록 없음 |
-| [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 증가 | 요청과 처리를 분리 → [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 가능 |
+| 응답성 향상 | 호출자가 즉시 반환 -> UI 블록 없음 |
+| [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 증가 | 요청과 처리를 분리 -> [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 가능 |
 | 실행 순서 제어 | ActivationQueue로 우선순위 관리 |
 | 부하 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) | Scheduler가 적절한 시점에 실행 조율 |
 
 - **복잡성 증가**: 6요소 구현으로 코드 복잡도 상승 (실무에서는 CompletableFuture 활용 권장)
 - **디버깅 어려움**: 비동기 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 트레이스 추적이 어려움
-- **메모리**: ActivationQueue 과부하 시 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) ([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 위험 → 큐 크기 제한 필요
+- **메모리**: ActivationQueue 과부하 시 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) ([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 위험 -> 큐 크기 제한 필요
 
 [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) Object ([액티브](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 오브젝트) 패턴은 비동기 처리의 이론적 기반이다. Java의 `ExecutorService`, `CompletableFuture`, Spring의 `@Async` 모두 이 패턴의 현대적 구현이다. 6요소의 역할을 이해하면 비동기 시스템의 설계와 디버깅 능력이 크게 향상된다.
 
@@ -237,7 +237,7 @@ CompletableFuture<Report> future = reportService.generateReport(123L);
 | 연관 개념 | [Reactor Pattern](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/212_reactor_pattern/) | 이벤트 기반 비동기의 대안 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-비동기 요청 큐 → [액티브](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 오브젝트 패턴 → Actor 모델
+비동기 요청 큐 -> [액티브](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 오브젝트 패턴 -> Actor 모델
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 레스토랑에서 주문하면 번호표(Future)를 주고, 음식이 준비되면 불러줘요.
@@ -250,7 +250,7 @@ CompletableFuture<Report> future = reportService.generateReport(123L);
 
 **진행 상황**: 272 / 530
 
-← **이전**: [210. 모니터 객체 패턴 (Monitor Object Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/210_monitor_object_pattern/)
-**다음**: [212. 리액터 패턴 (Reactor Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/212_reactor_pattern/) →
+<- **이전**: [210. 모니터 객체 패턴 (Monitor Object Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/210_monitor_object_pattern/)
+**다음**: [212. 리액터 패턴 (Reactor Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/212_reactor_pattern/) ->
 
 ---

@@ -27,12 +27,12 @@ tags = ["studynote-ai"]
 - **재연 가능성**: 복잡한 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 속에서도 수학적으로 동일한 그래디언트 계산 결과 보장
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: GPipe는 혼자서 자동차 한 대를 다 만드는 대신, 프레임을 만드는 사람, 엔진을 얹는 사람, 문을 다는 사람으로 나누어 여러 대의 차를 동시에 조립해 나가는 공장 시스템과 같다.
@@ -52,14 +52,14 @@ GPipe는 모델을 수직으로 분할하고, 입력을 수평으로 분할하�
 ```text
 [ GPipe 파이프라인 실행 흐름 ]
 
-   Time ──▶
-         ┌──────┬──────┬──────┬──────┐
-   GPU 3 │  M3  │  M2  │  M1  │  M0  │ (Backward)
-         ├──────┼──────┼──────┼──────┤
-   GPU 2 │      │      │      │      │ ...
-         ├──────┼──────┼──────┼──────┤
-   GPU 1 │  M0  │  M1  │  M2  │  M3  │ (Forward)
-         └──────┴──────┴──────┴──────┘
+   Time --->
+         +------+------+------+------+
+   GPU 3 |  M3  |  M2  |  M1  |  M0  | (Backward)
+         +------+------+------+------+
+   GPU 2 |      |      |      |      | ...
+         +------+------+------+------+
+   GPU 1 |  M0  |  M1  |  M2  |  M3  | (Forward)
+         +------+------+------+------+
            Micro-batches (M0, M1, M2, M3)
 
    * Bubble (유휴 시간): 파이프라인이 가득 차기 전후의 빈 공간
@@ -124,7 +124,7 @@ GPipe는 초거대 언어 모델 학습의 기술적 한계를 극복하고 모�
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [파이프라인 병렬화 (GPipe)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [파이프라인 병렬화 (GPipe)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -139,7 +139,7 @@ GPipe는 초거대 언어 모델 학습의 기술적 한계를 극복하고 모�
 
 **진행 상황**: 405 / 420
 
-← **이전**: [404. QLoRA (Quantized LoRA)](/knowledge-base/studynote/10_ai/05_data_science_ml/404_qlora/)
-**다음**: [406. 텐서 코어 (Tensor Core)](/knowledge-base/studynote/10_ai/05_data_science_ml/406_tensor_core_mac/) →
+<- **이전**: [404. QLoRA (Quantized LoRA)](/knowledge-base/studynote/10_ai/05_data_science_ml/404_qlora/)
+**다음**: [406. 텐서 코어 (Tensor Core)](/knowledge-base/studynote/10_ai/05_data_science_ml/406_tensor_core_mac/) ->
 
 ---

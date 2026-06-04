@@ -33,23 +33,23 @@ AEAD [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_a
 2. <strong>연관 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> (AAD, Associated <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a>)</strong>: IP 주소, 패킷 헤더처럼 암호화할 필요는 없지만(라우팅을 위해 공개되어야 함), 해커가 중간에서 조작하면 안 되는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/).
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          AEAD 알고리즘 (AES-GCM 등)의 통합 처리 구조        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ 1. [ AAD (헤더 정보) ] ────────▶ (그대로 공개 통과) ─────┐       │
-│                                            │        │       │
-│ 2. [ 평문 (비밀 데이터) ] ────▶ (암호화) ─────┼─┐      │       │
-│                                            │  │      │       │
-│ 3. [ 암호화 키 & IV ]   ──────▶ (수학적 결합 연산) ─┴─┴─┐      │
-│                                                      │      │
-│ =====================================================│=     │
-│                                                      ▼      │
-│ [최종 출력물]: { AAD (평문) + 암호문(비밀) + 128비트 인증 태그(MAC) } │
-│                                                             │
-│ * 방어 원리: 해커가 포장지(AAD)의 IP를 1비트라도 고치면,      │
-│   수신자가 인증 태그를 검증할 때 즉시 에러가 나고 폐기됨!   │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          AEAD 알고리즘 (AES-GCM 등)의 통합 처리 구조        |
++-------------------------------------------------------------+
+|                                                             |
+| 1. [ AAD (헤더 정보) ] ---------> (그대로 공개 통과) -----+       |
+|                                            |        |       |
+| 2. [ 평문 (비밀 데이터) ] -----> (암호화) -----+-+      |       |
+|                                            |  |      |       |
+| 3. [ 암호화 키 & IV ]   -------> (수학적 결합 연산) -+-+-+      |
+|                                                      |      |
+| =====================================================|=     |
+|                                                      v      |
+| [최종 출력물]: { AAD (평문) + 암호문(비밀) + 128비트 인증 태그(MAC) } |
+|                                                             |
+| * 방어 원리: 해커가 포장지(AAD)의 IP를 1비트라도 고치면,      |
+|   수신자가 인증 태그를 검증할 때 즉시 에러가 나고 폐기됨!   |
++-------------------------------------------------------------+
 ```
 이 구조의 핵심은 암호화되지 않은 껍데기(AAD)까지도 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 태그 연산에 참여시킨다는 점이다. 알맹이(암호문)를 못 건드린 해커가 껍데기의 배송지 주소를 조작하려 해도, 전체를 묶은 봉인 태그가 깨지므로 수신자는 포장을 뜯기도 전에 조작을 감지할 수 있다.
 
@@ -108,17 +108,17 @@ AEAD의 도입은 개발자의 부담을 줄이고 시스템의 안전성을 비
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
 모듈형 암호화 시대 (AES와 SHA를 각각 따로 사용)
-    │
-    ▼
+    |
+    v
 조합 방식의 취약점 발현 (MAC-then-Encrypt 등 조립 오류)
-    │
-    ▼
+    |
+    v
 패딩 오라클 공격 (Padding Oracle Attack) 발생
-    │
-    ▼
+    |
+    v
 AEAD의 탄생 (암호화와 무결성 검증을 융합한 단일 알고리즘 제공)
-    │
-    ▼
+    |
+    v
 TLS 1.3 표준 채택 (AES-GCM 등 AEAD 구조 강제화)
 ```
 
@@ -133,7 +133,7 @@ TLS 1.3 표준 채택 (AES-GCM 등 AEAD 구조 강제화)
 
 **진행 상황**: 92 / 1108
 
-← **이전**: [091. GCM (Galois/Counter Mode) — AEAD, 인증 암호화](/knowledge-base/studynote/09_security/02_crypto/091_gcm_mode/)
-**다음**: [093. CCA (Chosen Ciphertext Attack) — 암호문 공격 분류](/knowledge-base/studynote/09_security/02_crypto/093_cca/) →
+<- **이전**: [091. GCM (Galois/Counter Mode) — AEAD, 인증 암호화](/knowledge-base/studynote/09_security/02_crypto/091_gcm_mode/)
+**다음**: [093. CCA (Chosen Ciphertext Attack) — 암호문 공격 분류](/knowledge-base/studynote/09_security/02_crypto/093_cca/) ->
 
 ---

@@ -27,14 +27,14 @@ tags = ["studynote-data-engineering"]
 
 Oracle DB    PostgreSQL    MongoDB    Salesforce CRM
 (영업 데이터)  (주문 데이터)  (로그 데이터)  (고객 데이터)
-     │             │            │              │
-     └─────────────┴────────────┴──────────────┘
+     |             |            |              |
+     +-------------+------------+--------------+
                    ? 통합 분석 어떻게?
 
 문제:
-  ├─ 데이터 복사/이동 → 일관성 문제
-  ├─ ETL 파이프라인 수십 개 → 관리 부담
-  └─ 실시간 최신 데이터 접근 불가
+  +- 데이터 복사/이동 -> 일관성 문제
+  +- ETL 파이프라인 수십 개 -> 관리 부담
+  +- 실시간 최신 데이터 접근 불가
 ```
 
 ### 1.2 연방 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) (Federated Query) 정의
@@ -67,28 +67,28 @@ Oracle DB    PostgreSQL    MongoDB    Salesforce CRM
   FROM orders o JOIN customers c ON o.cid = c.id
   JOIN products p ON o.pid = p.id
 
-         │
-         ▼
-┌─────────────────────────────────────────────┐
-│           연방 쿼리 엔진 (Trino/Presto)        │
-│                                             │
-│  1. 쿼리 파싱 및 논리 플랜 생성               │
-│  2. 비용 기반 최적화기(CBO) → 실행 계획       │
-│  3. 소스별 서브쿼리 분해(Pushdown)            │
-│  4. 병렬 실행 및 결과 병합(Join)             │
-└────┬────────────┬──────────────┬────────────┘
-     │            │              │
-     ▼            ▼              ▼
+         |
+         v
++---------------------------------------------+
+|           연방 쿼리 엔진 (Trino/Presto)        |
+|                                             |
+|  1. 쿼리 파싱 및 논리 플랜 생성               |
+|  2. 비용 기반 최적화기(CBO) -> 실행 계획       |
+|  3. 소스별 서브쿼리 분해(Pushdown)            |
+|  4. 병렬 실행 및 결과 병합(Join)             |
++----+------------+--------------+------------+
+     |            |              |
+     v            v              v
 PostgreSQL     MongoDB        Salesforce API
 (orders)      (products)      (customers)
-     │            │              │
-     ▼            ▼              ▼
+     |            |              |
+     v            v              v
   서브쿼리       서브쿼리        서브쿼리
   실행 결과     실행 결과       실행 결과
-     │            │              │
-     └────────────┴──────────────┘
-                  │ Shuffle Join
-                  ▼
+     |            |              |
+     +------------+--------------+
+                  | Shuffle Join
+                  v
                최종 결과 반환
 ```
 
@@ -97,22 +97,22 @@ PostgreSQL     MongoDB        Salesforce API
 ```
 최적화 전 (비효율):
   모든 customers 데이터를 엔진으로 가져옴
-  → 엔진에서 WHERE age > 30 필터링
+  -> 엔진에서 WHERE age > 30 필터링
 
 최적화 후 (푸시다운):
   WHERE age > 30 조건을 소스에 전달
-  → 소스(Salesforce)에서 이미 필터링 후 전송
-  → 네트워크 전송량 대폭 감소
+  -> 소스(Salesforce)에서 이미 필터링 후 전송
+  -> 네트워크 전송량 대폭 감소
 
 프레디케이트 푸시다운 지원 수준:
-┌────────────────┬─────────────────────────────┐
-│ 소스 시스템     │ 푸시다운 지원 수준             │
-├────────────────┼─────────────────────────────┤
-│ PostgreSQL     │ 완전 지원 (SQL 네이티브)       │
-│ MongoDB        │ 부분 지원 (배열 연산 제외)     │
-│ REST API       │ 지원 안됨 (전체 데이터 조회)   │
-│ Iceberg 테이블 │ 파티션 프루닝 지원             │
-└────────────────┴─────────────────────────────┘
++----------------+-----------------------------+
+| 소스 시스템     | 푸시다운 지원 수준             |
++----------------+-----------------------------+
+| PostgreSQL     | 완전 지원 (SQL 네이티브)       |
+| MongoDB        | 부분 지원 (배열 연산 제외)     |
+| REST API       | 지원 안됨 (전체 데이터 조회)   |
+| Iceberg 테이블 | 파티션 프루닝 지원             |
++----------------+-----------------------------+
 ```
 
 ### 2.3 주요 연방 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 엔진 비교
@@ -129,24 +129,24 @@ PostgreSQL     MongoDB        Salesforce API
 ### 2.4 [메타데이터 관리](/knowledge-base/studynote/16_bigdata/10_governance/203_metadata_management/) 아키텍처
 
 ```
-┌──────────────────────────────────────────────────────┐
-│               메타데이터 관리 계층                      │
-│                                                      │
-│  ┌──────────────────────────────────────────────┐    │
-│  │           데이터 카탈로그 (Hive Metastore)      │    │
-│  │   테이블명, 스키마, 파티션, 통계, 위치(URI)     │    │
-│  └──────────────────────┬───────────────────────┘    │
-│                         │                            │
-│  ┌──────────────────────▼───────────────────────┐    │
-│  │            AWS Glue Data Catalog              │    │
-│  │   자동 스키마 감지, 버전 관리, IAM 연계          │    │
-│  └──────────────────────┬───────────────────────┘    │
-│                         │                            │
-│  ┌──────────────────────▼───────────────────────┐    │
-│  │              Apache Atlas                     │    │
-│  │   데이터 계보(Lineage), 태그 기반 분류, RBAC    │    │
-│  └──────────────────────────────────────────────┘    │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|               메타데이터 관리 계층                      |
+|                                                      |
+|  +----------------------------------------------+    |
+|  |           데이터 카탈로그 (Hive Metastore)      |    |
+|  |   테이블명, 스키마, 파티션, 통계, 위치(URI)     |    |
+|  +----------------------+-----------------------+    |
+|                         |                            |
+|  +----------------------v-----------------------+    |
+|  |            AWS Glue Data Catalog              |    |
+|  |   자동 스키마 감지, 버전 관리, IAM 연계          |    |
+|  +----------------------+-----------------------+    |
+|                         |                            |
+|  +----------------------v-----------------------+    |
+|  |              Apache Atlas                     |    |
+|  |   데이터 계보(Lineage), 태그 기반 분류, RBAC    |    |
+|  +----------------------------------------------+    |
++------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: 연방 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 엔진은 "여행사 코디네이터"와 같다. 고객(사용자)이 "파리와 도쿄를 모두 보고 싶다"고 하면, 코디네이터([쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 엔진)가 각 나라의 여행사([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스)에 최적의 패키지를 요청하고 결과를 조합한다.
@@ -172,21 +172,21 @@ PostgreSQL     MongoDB        Salesforce API
 성능 병목 요소 및 해결책
 
 1. 네트워크 전송량 최소화
-   ├─ Predicate Pushdown → 소스에서 필터링
-   ├─ Column Pruning → 필요한 컬럼만 조회
-   └─ Partition Pruning → 관련 파티션만 스캔
+   +- Predicate Pushdown -> 소스에서 필터링
+   +- Column Pruning -> 필요한 컬럼만 조회
+   +- Partition Pruning -> 관련 파티션만 스캔
 
 2. 조인(Join) 전략 최적화
-   ├─ Broadcast Join: 작은 테이블을 모든 워커에 복사
-   ├─ Bucket Join: 조인 키로 사전 파티셔닝
-   └─ Sort Merge Join: 대용량 테이블 조인
+   +- Broadcast Join: 작은 테이블을 모든 워커에 복사
+   +- Bucket Join: 조인 키로 사전 파티셔닝
+   +- Sort Merge Join: 대용량 테이블 조인
 
 3. 통계 정보 활용
-   ├─ 테이블 행 수, 컬럼 카디널리티 통계
-   └─ CBO(Cost-Based Optimizer)가 최적 계획 선택
+   +- 테이블 행 수, 컬럼 카디널리티 통계
+   +- CBO(Cost-Based Optimizer)가 최적 계획 선택
 
 4. 결과 캐싱
-   └─ 반복 쿼리 결과 캐시 (Alluxio, Redis)
+   +- 반복 쿼리 결과 캐시 (Alluxio, Redis)
 ```
 
 ### 3.3 Trino 연방 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 예시
@@ -237,24 +237,24 @@ LIMIT 100;
 ```
 AWS Athena Federated Query 아키텍처
 
-┌─────────────────────────────────────────────────────┐
-│  사용자 (SQL 클라이언트)                              │
-│      │                                              │
-│      ▼                                              │
-│  Amazon Athena (쿼리 엔진)                           │
-│  ├─ AWS Glue Data Catalog (메타데이터)               │
-│  └─ Lambda 커넥터 (소스별 연결)                      │
-│         │                                           │
-│    ┌────┴──────────────────────────────────┐         │
-│    │                                       │         │
-│    ▼                                       ▼         │
-│  Lambda Connector A        Lambda Connector B        │
-│  (RDS PostgreSQL)          (DynamoDB)                │
-│         │                         │                  │
-│         ▼                         ▼                  │
-│  Amazon RDS               Amazon DynamoDB            │
-│  (트랜잭션 데이터)         (사용자 세션 데이터)         │
-└─────────────────────────────────────────────────────┘
++-----------------------------------------------------+
+|  사용자 (SQL 클라이언트)                              |
+|      |                                              |
+|      v                                              |
+|  Amazon Athena (쿼리 엔진)                           |
+|  +- AWS Glue Data Catalog (메타데이터)               |
+|  +- Lambda 커넥터 (소스별 연결)                      |
+|         |                                           |
+|    +----+----------------------------------+         |
+|    |                                       |         |
+|    v                                       v         |
+|  Lambda Connector A        Lambda Connector B        |
+|  (RDS PostgreSQL)          (DynamoDB)                |
+|         |                         |                  |
+|         v                         v                  |
+|  Amazon RDS               Amazon DynamoDB            |
+|  (트랜잭션 데이터)         (사용자 세션 데이터)         |
++-----------------------------------------------------+
 ```
 
 ### 4.3 보안 및 거버넌스 고려사항
@@ -263,7 +263,7 @@ AWS Athena Federated Query 아키텍처
 |:---|:---|
 | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)/[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) | OAuth2, [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) Role, [RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/) |
 | 컬럼 레벨 보안 | 뷰([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)) 기반 마스킹, Apache Ranger |
-| [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) | Trino [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) → S3/CloudWatch |
+| [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) | Trino [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) -> S3/CloudWatch |
 | [네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) | [VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/) 격리, [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 암호화 |
 | [데이터 분류](/knowledge-base/studynote/09_security/16_data_privacy/808_data_classification/) | 민감도 태그 기반 접근 제어 |
 
@@ -300,11 +300,11 @@ AI 강화 데이터 패브릭 (미래)
   메타데이터 수동 태깅, 정책 수동 설정
 
 미래:
-  ├─ AI 자동 분류: 데이터 내용 기반 자동 태깅
-  ├─ 자동 추천: "이 데이터와 관련된 데이터셋"
-  ├─ 자율 거버넌스: 정책 자동 적용·업데이트
-  └─ 자연어 쿼리: "지난달 아시아 고객 매출 보여줘"
-                  → SQL 자동 생성 + 연방 쿼리 실행
+  +- AI 자동 분류: 데이터 내용 기반 자동 태깅
+  +- 자동 추천: "이 데이터와 관련된 데이터셋"
+  +- 자율 거버넌스: 정책 자동 적용·업데이트
+  +- 자연어 쿼리: "지난달 아시아 고객 매출 보여줘"
+                  -> SQL 자동 생성 + 연방 쿼리 실행
 ```
 
 ### 5.3 결론 요약
@@ -337,19 +337,19 @@ AI 강화 데이터 패브릭 (미래)
 
 ```text
 데이터 사일로 (시스템별 격리 저장)
-    │
-    ▼
+    |
+    v
 연방 쿼리 (Federated Query)
-    ├─► 쿼리 푸시다운: 원본 시스템에서 필터링 후 전송
-    ├─► 가상 테이블: 원격 데이터를 로컬처럼 조인
-    └─► 커넥터: Trino · Presto · BigQuery Omni
-    │
-    ▼
+    +-► 쿼리 푸시다운: 원본 시스템에서 필터링 후 전송
+    +-► 가상 테이블: 원격 데이터를 로컬처럼 조인
+    +-► 커넥터: Trino · Presto · BigQuery Omni
+    |
+    v
 데이터 패브릭 (Data Fabric)
-    ├─► 분산 메타데이터 통합 · 데이터 카탈로그
-    └─► 자동 데이터 디스커버리 · 거버넌스
-    │
-    ▼
+    +-► 분산 메타데이터 통합 · 데이터 카탈로그
+    +-► 자동 데이터 디스커버리 · 거버넌스
+    |
+    v
 데이터 메시 (Data Mesh): 도메인 소유권 분산
 ```
 2. [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)은 여러 나라를 연결하는 번역기 겸 지도예요. 어느 나라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)든 같은 언어(SQL)로 대화할 수 있게 해줘요.
@@ -361,7 +361,7 @@ AI 강화 데이터 패브릭 (미래)
 
 **진행 상황**: 195 / 258
 
-← **이전**: [194. 메달리온 아키텍처 (Medallion Architecture) Bronze/Silver/Gold 테이블 정제 적재](/knowledge-base/studynote/14_data_engineering/04_mlops/194_medallion_architecture_bronze_silver_gold/)
-**다음**: [196. 데이터옵스 (DataOps) CI/CD dbt 데이터 검증 테스트 코드](/knowledge-base/studynote/14_data_engineering/04_mlops/196_dataops_dbt_ci_cd_data_testing/) →
+<- **이전**: [194. 메달리온 아키텍처 (Medallion Architecture) Bronze/Silver/Gold 테이블 정제 적재](/knowledge-base/studynote/14_data_engineering/04_mlops/194_medallion_architecture_bronze_silver_gold/)
+**다음**: [196. 데이터옵스 (DataOps) CI/CD dbt 데이터 검증 테스트 코드](/knowledge-base/studynote/14_data_engineering/04_mlops/196_dataops_dbt_ci_cd_data_testing/) ->
 
 ---

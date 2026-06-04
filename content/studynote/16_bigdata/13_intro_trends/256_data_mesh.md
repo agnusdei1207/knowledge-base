@@ -22,25 +22,25 @@ tags = ["studynote-bigdata"]
 데이터 메시 탄생 배경:
 
 중앙집중식 데이터 아키텍처의 문제:
-  데이터 레이크/웨어하우스 → 중앙 데이터팀 관리
+  데이터 레이크/웨어하우스 -> 중앙 데이터팀 관리
 
   문제점:
   1. 병목 (Bottleneck):
-     모든 데이터 요청 → 중앙 데이터팀 경유
+     모든 데이터 요청 -> 중앙 데이터팀 경유
      우선순위 경쟁, 대기 시간 증가
 
   2. 컨텍스트 손실:
      도메인 팀이 데이터 의미를 알지만
      중앙팀은 맥락 없이 파이프라인만 구축
-     → 데이터 품질 저하, 오용 증가
+     -> 데이터 품질 저하, 오용 증가
 
   3. 확장성 한계:
-     데이터 소스/소비 증가 → 중앙팀 과부하
+     데이터 소스/소비 증가 -> 중앙팀 과부하
 
   4. 오너십 부재:
      중앙팀: "파이프라인만 책임"
      도메인팀: "데이터 품질 아웃소싱"
-     → 책임 공백
+     -> 책임 공백
 
 데이터 메시 제안:
   2019년 Zhamak Dehghani (ThoughtWorks)
@@ -55,7 +55,7 @@ MSA와 데이터 메시 비교:
   데이터 메시: 도메인별 독립 데이터 제품, 표준 인터페이스
 ```
 
-> 📢 **섹션 요약 비유**: [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 동네 빵집 → [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 베이커리 — 중앙 공장([데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/))에서 모든 빵을 굽는 대신, 각 동네([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀)가 자기 빵을 굽고 표준 진열대(플랫폼)에 올려요.
+> 📢 **섹션 요약 비유**: [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 동네 빵집 -> [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 베이커리 — 중앙 공장([데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/))에서 모든 빵을 굽는 대신, 각 동네([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀)가 자기 빵을 굽고 표준 진열대(플랫폼)에 올려요.
 
 ---
 
@@ -67,8 +67,8 @@ MSA와 데이터 메시 비교:
 1. 도메인 데이터 소유권 (Domain Ownership):
    데이터 소비에서 소스 지향적(Source-Oriented) 소유권으로
 
-   "주문 데이터" → 주문 도메인 팀이 소유·운영
-   "고객 데이터" → 고객 도메인 팀이 소유·운영
+   "주문 데이터" -> 주문 도메인 팀이 소유·운영
+   "고객 데이터" -> 고객 도메인 팀이 소유·운영
 
    도메인 팀 책임:
    - 데이터 품질 보장
@@ -140,12 +140,12 @@ Conway의 법칙:
   "시스템 설계는 그것을 만든 조직의 커뮤니케이션 구조를 반영"
 
   데이터 메시: 조직이 먼저, 기술이 다음
-  도메인 팀 역량 없이 데이터 메시 도입 → 실패
+  도메인 팀 역량 없이 데이터 메시 도입 -> 실패
 
   실패 사례:
   "데이터 메시 플랫폼 구축 완료"
-  → 도메인 팀은 여전히 중앙 데이터팀 의존
-  → 분산 데이터 카오스 발생
+  -> 도메인 팀은 여전히 중앙 데이터팀 의존
+  -> 분산 데이터 카오스 발생
 ```
 
 > 📢 **섹션 요약 비유**: [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) vs 레이크는 중앙 수돗물 vs 개인 우물 — [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)는 모든 집에 중앙 수돗물 공급, [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)는 각 집이 우물([데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/))을 파되 수질 기준(거버넌스)은 동일.
@@ -164,7 +164,7 @@ Conway의 법칙:
   Collibra (상용)
 
   역할: 데이터 제품의 "전화번호부"
-  사용자: "주문 데이터 어디 있어?" → 카탈로그 검색
+  사용자: "주문 데이터 어디 있어?" -> 카탈로그 검색
 
 데이터 제품 레지스트리:
   각 도메인이 자신의 데이터 제품 등록
@@ -218,7 +218,7 @@ Conway의 법칙:
 배경:
   5개 비즈니스 도메인: 결제, 대출, 투자, 고객, 규제
   문제: 중앙 데이터팀 9명이 400개 파이프라인 운영
-  현상: 새 파이프라인 요청 → 4주 대기
+  현상: 새 파이프라인 요청 -> 4주 대기
 
 Phase 1 — 도메인 데이터 제품 정의:
   결제 도메인:
@@ -237,10 +237,10 @@ Phase 3 — 연합 거버넌스:
   품질 기준: Great Expectations 공통 Suite
 
 결과 (1년 후):
-  새 데이터 제품 출시: 4주 → 3일
+  새 데이터 제품 출시: 4주 -> 3일
   데이터 품질 이슈: 70% 감소 (도메인 오너십)
-  중앙 데이터팀 의존도: 90% → 30%
-  데이터 제품 수: 45개 → 280개
+  중앙 데이터팀 의존도: 90% -> 30%
+  데이터 제품 수: 45개 -> 280개
 
 교훈:
   "도메인 팀 역량이 플랫폼보다 먼저"
@@ -248,10 +248,10 @@ Phase 3 — 연합 거버넌스:
   플랫폼 도구는 역량이 생긴 후 도입
 
   실패 패턴: 플랫폼 먼저, 팀 역량 나중
-  → 아무도 안 씀
+  -> 아무도 안 씀
 ```
 
-> 📢 **섹션 요약 비유**: 핀테크 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 공방 → [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 공방 전환 — 중앙 공방([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)팀) 9명이 400개 주문을 처리하다가, 각 동네 장인([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀)이 자기 제품을 만드는 구조로 변신!
+> 📢 **섹션 요약 비유**: 핀테크 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 공방 -> [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 공방 전환 — 중앙 공방([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)팀) 9명이 400개 주문을 처리하다가, 각 동네 장인([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀)이 자기 제품을 만드는 구조로 변신!
 
 ---
 
@@ -292,7 +292,7 @@ Hadoop, S3 기반 대규모 저장
       |
       v
 [MSA + 데이터 문제 (2015~)]
-서비스 분산화 → 데이터 여전히 중앙
+서비스 분산화 -> 데이터 여전히 중앙
 데이터 병목 가속화
       |
       v
@@ -320,7 +320,7 @@ Zhamak Dehghani: 4대 원칙
 
 **진행 상황**: 256 / 262
 
-← **이전**: [043. 데이터 옵저버빌리티](/knowledge-base/studynote/16_bigdata/13_intro_trends/255_data_observability/)
-**다음**: [045. 데이터 패브릭 — Data Fabric](/knowledge-base/studynote/16_bigdata/13_intro_trends/257_data_fabric/) →
+<- **이전**: [043. 데이터 옵저버빌리티](/knowledge-base/studynote/16_bigdata/13_intro_trends/255_data_observability/)
+**다음**: [045. 데이터 패브릭 — Data Fabric](/knowledge-base/studynote/16_bigdata/13_intro_trends/257_data_fabric/) ->
 
 ---

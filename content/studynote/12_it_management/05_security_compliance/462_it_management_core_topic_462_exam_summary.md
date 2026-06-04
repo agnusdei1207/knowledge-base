@@ -26,37 +26,37 @@ tags = ["studynote-it-management"]
 최근 5년간 기업 IT 환경은 **①클라우드 네이티브(SaaS·IaaS·PaaS·FaaS)**, **②AI/ML·LLM 기반 의사결정 자동화**, **③제로트러스트·SASE 보안 패러다임**, **④데이터 중심 거버넌스(Data Mesh·Data Fabric)**, **⑤ESG·디지털 윤리** 등으로 급변하여, 전통적인 "IT 운영 효율성" 중심에서 **"비즈니스 Outcomes 책임"** 중심으로 거버넌스의 무게중심이 이동하고 있다. 이에 따라 기술사 응시자는 단순히 프레임워크 이름을 나열하는 수준을 넘어, **프레임워크 간 상호운용성(Interoperability), 목표 정렬(Alignment), 성과 측정 메커니즘, 그리고 리스크 통제 구조**를 통합적으로 설계할 수 있는 역량을 입증해야 한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│              IT 경영 관리 6대 통합 거버넌스 프레임워크                  │
-├────────────────────────────────────────────────────────────────────────┤
-│                                                                        │
-│  [Stakeholders]                                                       │
-│   Board / CxO / Regulators / Customers / Shareholders                  │
-│         │                                                              │
-│         ▼  (Accountability)                                            │
-│  ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐   │
-│  │ 1. Governance    │  │ 2. Strategy      │  │ 3. Portfolio     │   │
-│  │   COBIT 2019     │◄─┤   Plan/Acquire   │◄─┤   Mgmt          │   │
-│  │   ISO 38500      │  │   TOGAF ADM      │  │   PMBOK/SAFe    │   │
-│  │   Three Lines    │  │   Strategy Map   │  │   BIM/EVM       │   │
-│  └────────┬─────────┘  └────────┬─────────┘  └────────┬─────────┘   │
-│           │                     │                     │                │
-│           ▼                     ▼                     ▼                │
-│  ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐   │
-│  │ 4. Service Mgmt  │  │ 5. Security      │  │ 6. Risk & Audit  │   │
-│  │   ITIL 4 SVS     │  │   ISO 27001/02  │  │   IIA 3 Lines    │   │
-│  │   SIAM           │  │   ISMS-P / K-  │  │   COBIT EDM      │   │
-│  │   FinOps         │  │   ISMS / NIST  │  │   KRISC/감리    │   │
-│  └────────┬─────────┘  └────────┬─────────┘  └────────┬─────────┘   │
-│           │                     │                     │                │
-│           └─────────────────────┼─────────────────────┘                │
-│                                 ▼                                      │
-│                   ┌────────────────────────────┐                       │
-│                   │  Value Realization Engine  │                       │
-│                   │  KPI/OKR/BSC/Earned Value  │                       │
-│                   │  Benefits Realization Plan │                       │
-│                   └────────────────────────────┘                       │
-└────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------+
+|              IT 경영 관리 6대 통합 거버넌스 프레임워크                  |
++------------------------------------------------------------------------+
+|                                                                        |
+|  [Stakeholders]                                                       |
+|   Board / CxO / Regulators / Customers / Shareholders                  |
+|         |                                                              |
+|         v  (Accountability)                                            |
+|  +------------------+  +------------------+  +------------------+   |
+|  | 1. Governance    |  | 2. Strategy      |  | 3. Portfolio     |   |
+|  |   COBIT 2019     |◄-+   Plan/Acquire   |◄-+   Mgmt          |   |
+|  |   ISO 38500      |  |   TOGAF ADM      |  |   PMBOK/SAFe    |   |
+|  |   Three Lines    |  |   Strategy Map   |  |   BIM/EVM       |   |
+|  +--------+---------+  +--------+---------+  +--------+---------+   |
+|           |                     |                     |                |
+|           v                     v                     v                |
+|  +------------------+  +------------------+  +------------------+   |
+|  | 4. Service Mgmt  |  | 5. Security      |  | 6. Risk & Audit  |   |
+|  |   ITIL 4 SVS     |  |   ISO 27001/02  |  |   IIA 3 Lines    |   |
+|  |   SIAM           |  |   ISMS-P / K-  |  |   COBIT EDM      |   |
+|  |   FinOps         |  |   ISMS / NIST  |  |   KRISC/감리    |   |
+|  +--------+---------+  +--------+---------+  +--------+---------+   |
+|           |                     |                     |                |
+|           +---------------------+---------------------+                |
+|                                 v                                      |
+|                   +----------------------------+                       |
+|                   |  Value Realization Engine  |                       |
+|                   |  KPI/OKR/BSC/Earned Value  |                       |
+|                   |  Benefits Realization Plan |                       |
+|                   +----------------------------+                       |
++------------------------------------------------------------------------+
 ```
 
 **전통적 IT 관리 vs. 디지털 시대 IT 경영 비교**
@@ -82,7 +82,7 @@ IT 경영 관리의 6대 축은 **"E2E Value Chain(End-to-End Value Chain)"** �
 
 ### 1) 거버넌스·전략·포트폴리오 정렬 메커니즘 (COBIT 2019 + ISO 38500)
 
-COBIT 2019는 **40개 Governance & Management Objective** 를 5개 도메인(EDM·APO·BAI·DSS·MEA)으로 구조화한다. ISO/IEC 38500:2015는 **6원칙(Responsibility·Strategy·Acquisition·Performance·Conformance·Human Behavior)** 과 **3계층 모델(Direct·Manage·Monitor)** 을 제시한다. 이 둘은 **Principle → Goal → Practice → Process → Activity → Metric** 의 6단 위계로 정렬된다.
+COBIT 2019는 **40개 Governance & Management Objective** 를 5개 도메인(EDM·APO·BAI·DSS·MEA)으로 구조화한다. ISO/IEC 38500:2015는 **6원칙(Responsibility·Strategy·Acquisition·Performance·Conformance·Human Behavior)** 과 **3계층 모델(Direct·Manage·Monitor)** 을 제시한다. 이 둘은 **Principle -> Goal -> Practice -> Process -> Activity -> Metric** 의 6단 위계로 정렬된다.
 
 ### 2) IT 투자 가치 평가 알고리즘
 
@@ -104,43 +104,43 @@ PMBOK 7th + ANSI EIA 748의 EVM은 3개 기준값 **PV(Planned Value)·EV(Earned
 - VAC = BAC − EAC, TCPI = (BAC − EV) / (BAC − AC)
 
 ```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│        IT 경영 6축 End-to-End Value Chain (E2E-VC)                      │
-└─────────────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------------+
+|        IT 경영 6축 End-to-End Value Chain (E2E-VC)                      |
++-------------------------------------------------------------------------+
 
-   ┌──────────────────────────────────────────────────────────┐
-   │  ① Stakeholder Drivers (Regulation·Market·Shareholder)    │
-   └──────────────────────────┬───────────────────────────────┘
-                              ▼
-   ┌──────────────────────────────────────────────────────────┐
-   │  ② Governance (COBIT EDM / ISO 38500 Evaluate·Direct·   │
-   │   Monitor / Board IT Steering Committee)                 │
-   │   - 책임원칙, 전략원칙, 성과원칙, 준수원칙               │
-   └──────────────────────────┬───────────────────────────────┘
-                              ▼
-   ┌──────────────────────────────────────────────────────────┐
-   │  ③ Strategy (TOGAF ADM Preliminary~Phase G·H /          │
-   │   BSC 4 관점 정렬 / OKR Cascade)                         │
-   │   Enterprise Goal ──▶ IT Goal ──▶ Enabler Goal            │
-   └──────────────────────────┬───────────────────────────────┘
-                              ▼
-   ┌──────────────────────────────────────────────────────────┐
-   │  ④ Portfolio & Program (PMBOK 7·SAFe·EVM)                │
-   │   - Idea → Charter → Roadmap → Benefit Realization        │
-   │   - KPI: NPV·IRR·SPI·CPI·Risk Score·Strategic Fit       │
-   └──────────────────────────┬───────────────────────────────┘
-                              ▼
-   ┌──────────────────────────────────────────────────────────┐
-   │  ⑤ Service & Operation (ITIL 4 SVS·SIAM·FinOps)         │
-   │   34 Practice (General·Service·Technical·Management)     │
-   │   - SLA·OLA·UC·Availability·MTTR·MTBF                    │
-   └──────────────────────────┬───────────────────────────────┘
-                              ▼
-   ┌──────────────────────────────────────────────────────────┐
-   │  ⑥ Value Realization (BSC·OKR·Benefits Realization Plan)│
-   │   - KPI/CSF/KPI Tree / VOI Tracking Dashboard            │
-   │   - Benefits Owner·Stage Gate·Post-Implementation Review │
-   └──────────────────────────────────────────────────────────┘
+   +----------------------------------------------------------+
+   |  ① Stakeholder Drivers (Regulation·Market·Shareholder)    |
+   +--------------------------+-------------------------------+
+                              v
+   +----------------------------------------------------------+
+   |  ② Governance (COBIT EDM / ISO 38500 Evaluate·Direct·   |
+   |   Monitor / Board IT Steering Committee)                 |
+   |   - 책임원칙, 전략원칙, 성과원칙, 준수원칙               |
+   +--------------------------+-------------------------------+
+                              v
+   +----------------------------------------------------------+
+   |  ③ Strategy (TOGAF ADM Preliminary~Phase G·H /          |
+   |   BSC 4 관점 정렬 / OKR Cascade)                         |
+   |   Enterprise Goal ---> IT Goal ---> Enabler Goal            |
+   +--------------------------+-------------------------------+
+                              v
+   +----------------------------------------------------------+
+   |  ④ Portfolio & Program (PMBOK 7·SAFe·EVM)                |
+   |   - Idea -> Charter -> Roadmap -> Benefit Realization        |
+   |   - KPI: NPV·IRR·SPI·CPI·Risk Score·Strategic Fit       |
+   +--------------------------+-------------------------------+
+                              v
+   +----------------------------------------------------------+
+   |  ⑤ Service & Operation (ITIL 4 SVS·SIAM·FinOps)         |
+   |   34 Practice (General·Service·Technical·Management)     |
+   |   - SLA·OLA·UC·Availability·MTTR·MTBF                    |
+   +--------------------------+-------------------------------+
+                              v
+   +----------------------------------------------------------+
+   |  ⑥ Value Realization (BSC·OKR·Benefits Realization Plan)|
+   |   - KPI/CSF/KPI Tree / VOI Tracking Dashboard            |
+   |   - Benefits Owner·Stage Gate·Post-Implementation Review |
+   +----------------------------------------------------------+
 
 [보조 통제축 — Risk·Security·Audit]
   • ISMS-P / ISO 27001/27002 / NIST CSF / Zero Trust
@@ -150,7 +150,7 @@ PMBOK 7th + ANSI EIA 748의 EVM은 3개 기준값 **PV(Planned Value)·EV(Earned
 
 **진행 상황**: 462 / 800
 
-← **이전**: [461. IT 경영 관리 핵심 토픽 461번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/461_it_management_core_topic_461_exam_summary/)
-**다음**: [463. IT 경영 관리 핵심 토픽 463번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/463_it_management_core_topic_463_exam_summary/) →
+<- **이전**: [461. IT 경영 관리 핵심 토픽 461번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/461_it_management_core_topic_461_exam_summary/)
+**다음**: [463. IT 경영 관리 핵심 토픽 463번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/463_it_management_core_topic_463_exam_summary/) ->
 
 ---

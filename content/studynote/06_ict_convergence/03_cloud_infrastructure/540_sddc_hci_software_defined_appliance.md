@@ -37,18 +37,18 @@ tags = ["studynote-ict-convergence"]
 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/631_sddc/">SDDC</a> 레이어 구조</strong>:
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│              관리 플레인 (Management Plane)                    │
-│  VMware vCenter / NSX-T / vSAN / Aria Automation             │
-├──────────────────────────────────────────────────────────────┤
-│              제어 플레인 (Control Plane)                       │
-│  SDN 컨트롤러 (OpenDaylight / NSX)                            │
-│  SDS 오케스트레이터 (Ceph Mgr / vSAN)                          │
-├──────────────────────────────────────────────────────────────┤
-│              데이터 플레인 (Data Plane)                        │
-│  x86 서버 (vSphere ESXi + vSAN + vNIC)                       │
-│  HCI 노드 (Nutanix AHV / VMware VSAN ReadyNode)              │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|              관리 플레인 (Management Plane)                    |
+|  VMware vCenter / NSX-T / vSAN / Aria Automation             |
++--------------------------------------------------------------+
+|              제어 플레인 (Control Plane)                       |
+|  SDN 컨트롤러 (OpenDaylight / NSX)                            |
+|  SDS 오케스트레이터 (Ceph Mgr / vSAN)                          |
++--------------------------------------------------------------+
+|              데이터 플레인 (Data Plane)                        |
+|  x86 서버 (vSphere ESXi + vSAN + vNIC)                       |
+|  HCI 노드 (Nutanix AHV / VMware VSAN ReadyNode)              |
++--------------------------------------------------------------+
 ```
 
 | 기술 | 역할 | 대표 솔루션 |
@@ -60,7 +60,7 @@ tags = ["studynote-ict-convergence"]
 
 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/630_hci/">HCI</a>(Hyper-Converged Infrastructure) 특징</strong>:
 - 표준 x86 서버에 컴퓨팅(CPU/RAM) + 스토리지([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)/[HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)) + 네트워킹을 단일 노드로 통합
-- 노드 추가만으로 선형 확장([Scale-Out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)): 3노드 → 6노드 → N노드
+- 노드 추가만으로 선형 확장([Scale-Out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)): 3노드 -> 6노드 -> N노드
 - 소프트웨어 정의 스토리지(vSAN, Nutanix AOS)로 노드 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)·[복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)
 
 - **📢 섹션 요약 비유**: [HCI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/630_hci/) 노드는 레고 블록이다 — 블록을 추가할수록 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 용량이 선형으로 증가하며, 모든 블록이 동일한 규격이라 관리가 단순하다.
@@ -127,7 +127,7 @@ tags = ["studynote-ict-convergence"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[제어 · 데이터 플레인 분리] → [SDDC · HCI 소프트웨어 정의 데이터센터] → [가상 스위치 오프로딩 · SDN 가속]
+[제어 · 데이터 플레인 분리] -> [SDDC · HCI 소프트웨어 정의 데이터센터] -> [가상 스위치 오프로딩 · SDN 가속]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -142,7 +142,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 540 / 552
 
-← **이전**: [539. 클라우드 마이그레이션 6R 전략 (Cloud Migration 6R Strategy)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/539_cloud_migration_6r_strategy/)
-**다음**: [541. 베어메탈 클라우드 가상화 오버헤드 없는 서비스 (Bare Metal Cloud No Hypervisor)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/541_bare_metal_cloud_no_hypervisor/) →
+<- **이전**: [539. 클라우드 마이그레이션 6R 전략 (Cloud Migration 6R Strategy)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/539_cloud_migration_6r_strategy/)
+**다음**: [541. 베어메탈 클라우드 가상화 오버헤드 없는 서비스 (Bare Metal Cloud No Hypervisor)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/541_bare_metal_cloud_no_hypervisor/) ->
 
 ---

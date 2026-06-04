@@ -12,7 +12,7 @@ tags = ["studynote-enterprise-systems"]
 > **핵심 인사이트**
 > 1. [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)([Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/))은 Eric Ries의 [린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/) 프레임워크에서 [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 결과, 현재 방향으로는 충분한 성장이 불가능하다는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 판단 하에 핵심 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 변경하지만 지금까지의 학습(Validated [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))을 보존하는 구조적 방향 전환이다.
 > 2. [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)과 방황(Flailing)의 차이는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 여부로, "숫자가 성장하지 않아서" [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)하는 것이 아니라 "가설이 틀렸음을 증명했기 때문에" [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)하는 것이 [린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/)의 핵심 원칙이다.
-> 3. Instagram(위치 공유 → 사진), Twitter(팟캐스트 → 단문), Slack(게임 내부 도구 → B2B [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)), YouTube(데이팅 → 동영상)는 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)의 역사적 성공 사례로, "포기가 아닌 진화"라는 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)의 본질을 보여준다.
+> 3. Instagram(위치 공유 -> 사진), Twitter(팟캐스트 -> 단문), Slack(게임 내부 도구 -> B2B [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)), YouTube(데이팅 -> 동영상)는 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)의 역사적 성공 사례로, "포기가 아닌 진화"라는 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)의 본질을 보여준다.
 
 ---
 
@@ -54,38 +54,38 @@ tags = ["studynote-enterprise-systems"]
 
 1. 줌인 피벗 (Zoom-in):
    하나의 기능이 전체 제품으로 성장
-   예: Instagram (체크인 기능 → 전체 앱)
+   예: Instagram (체크인 기능 -> 전체 앱)
 
 2. 줌아웃 피벗 (Zoom-out):
    단일 기능이 더 큰 제품의 일부로
-   예: 메시지 기능 → 전체 플랫폼
+   예: 메시지 기능 -> 전체 플랫폼
 
 3. 고객 세그먼트 피벗:
    동일 제품, 다른 고객군
-   예: Slack (게임 개발자 → 기업 팀)
+   예: Slack (게임 개발자 -> 기업 팀)
 
 4. 고객 니즈 피벗:
    같은 고객, 다른 문제 해결
-   예: YouTube (데이팅 → 동영상 공유)
+   예: YouTube (데이팅 -> 동영상 공유)
 
 5. 플랫폼 피벗:
-   앱 → 플랫폼 (또는 반대)
-   예: 이커머스 앱 → API 플랫폼
+   앱 -> 플랫폼 (또는 반대)
+   예: 이커머스 앱 -> API 플랫폼
 
 6. 비즈니스 아키텍처 피벗:
    B2C ↔ B2B 전환
 
 7. 가치 창출 피벗:
-   수익 모델 변경 (무료→유료, 구독→일회성)
+   수익 모델 변경 (무료->유료, 구독->일회성)
 
 8. 채널 피벗:
-   유통 채널 변경 (직접판매→채널판매)
+   유통 채널 변경 (직접판매->채널판매)
 
 9. 기술 피벗:
    동일 솔루션, 다른 기술 스택
 
 10. 엔진 피벗:
-    성장 엔진 변경 (바이럴→유료→점착성)
+    성장 엔진 변경 (바이럴->유료->점착성)
 ```
 
 > 📢 **섹션 요약 비유**: [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 유형은 요리 레시피 수정 — 재료(고객)를 바꾸거나, 조리법(기술)을 바꾸거나, 제공 방식(채널)을 바꾸는 다양한 방법.
@@ -127,7 +127,7 @@ tags = ["studynote-enterprise-systems"]
 피벗 성공 공식:
 
 1. 빠른 실행:
-   피벗 결정 → 첫 실험까지 2주 이내
+   피벗 결정 -> 첫 실험까지 2주 이내
    긴 준비 기간은 오히려 방해
 
 2. 학습 유지:
@@ -175,7 +175,7 @@ tags = ["studynote-enterprise-systems"]
   "법인 카드 관리가 너무 불편하다"
 
 피벗 결정:
-  B2C 개인 재무 → B2B 법인 카드 정산 자동화
+  B2C 개인 재무 -> B2B 법인 카드 정산 자동화
 
 피벗 실행 (6주):
   기존 코드 70% 재활용
@@ -190,7 +190,7 @@ tags = ["studynote-enterprise-systems"]
 결론: 동일 기술로 고객 세그먼트 피벗 성공
 ```
 
-> 📢 **섹션 요약 비유**: B2C→B2B [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)은 길거리 음식 포차가 기업 구내식당으로 전환 — 같은 음식(기술)으로 더 안정적인 고객(B2B 계약)을 확보.
+> 📢 **섹션 요약 비유**: B2C->B2B [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)은 길거리 음식 포차가 기업 구내식당으로 전환 — 같은 음식(기술)으로 더 안정적인 고객(B2B 계약)을 확보.
 
 ---
 
@@ -234,7 +234,7 @@ Corporate Innovation 방법론
       |
       v
 [현재: AI 시대 피벗]
-AI 도구로 빠른 프로토타입 → 빠른 피벗
+AI 도구로 빠른 프로토타입 -> 빠른 피벗
 GPT API로 제품 방향 전환 비용 급감
 ```
 
@@ -252,7 +252,7 @@ GPT API로 제품 방향 전환 비용 급감
 
 **진행 상황**: 41 / 482
 
-← **이전**: [040. MVP (Minimum Viable Product) — 최소 기능 제품](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/040_mvp_and_pivot_lean/)
-**다음**: [042. 그로스 해킹 마케팅 (Growth Hacking Marketing)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/042_growth_hacking_marketing/) →
+<- **이전**: [040. MVP (Minimum Viable Product) — 최소 기능 제품](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/040_mvp_and_pivot_lean/)
+**다음**: [042. 그로스 해킹 마케팅 (Growth Hacking Marketing)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/042_growth_hacking_marketing/) ->
 
 ---

@@ -27,16 +27,16 @@ tags = ["software_engineering"]
 아래 그림은 이해관계자 분석이 왜 설계보다 먼저 와야 하는지를 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Why stakeholder analysis comes before design                      │
-├────────────────────────────────────────────────────────────────────┤
-│ sponsor   -> funding / scope approval                            │
-│ users     -> adoption / usability                                │
-│ ops       -> deployment / support                                │
-│ security  -> compliance / release gate                           │
-│ regulator -> legal permission / external constraint              │
-│ miss one actor -> late change, delay, or project rejection       │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Why stakeholder analysis comes before design                      |
++--------------------------------------------------------------------+
+| sponsor   -> funding / scope approval                            |
+| users     -> adoption / usability                                |
+| ops       -> deployment / support                                |
+| security  -> compliance / release gate                           |
+| regulator -> legal permission / external constraint              |
+| miss one actor -> late change, delay, or project rejection       |
++--------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 이해관계자 누락이 단순 커뮤니케이션 문제가 아니라는 점이다. 누락된 한 명의 승인권자나 영향 집단은 설계 변경, 일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 범위 재정의, 릴리스 중단으로 곧바로 이어질 수 있다. 그래서 이해관계자 분석은 부드러운 사람 관리가 아니라, 사실상 프로젝트 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리의 전초전이다.
@@ -52,15 +52,15 @@ tags = ["software_engineering"]
 아래는 가장 널리 쓰이는 영향력-관심도 매트릭스의 기본 구조다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Influence / Interest matrix                                       │
-├────────────────────────────────────────────────────────────────────┤
-│                    high interest        low interest              │
-│ high influence   Manage closely         Keep satisfied            │
-│ low influence    Keep informed          Monitor                   │
-│                                                             ▲     │
-│                     influence / power                     more     │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Influence / Interest matrix                                       |
++--------------------------------------------------------------------+
+|                    high interest        low interest              |
+| high influence   Manage closely         Keep satisfied            |
+| low influence    Keep informed          Monitor                   |
+|                                                             ^     |
+|                     influence / power                     more     |
++--------------------------------------------------------------------+
 ```
 
 | 구역 | 특징 | 대표 예시 | 기본 대응 |
@@ -100,15 +100,15 @@ tags = ["software_engineering"]
 실무에서는 이해관계자 목록을 예쁘게 정리하는 것보다, 그 목록을 행동 계획으로 바꾸는 것이 더 중요하다. 예를 들어 개인정보를 다루는 고객 포털 구축 프로젝트라면 스폰서는 Manage Closely, 보안팀과 법무팀은 Keep Satisfied, 실제 상담원과 고객센터는 Keep Informed, 주변 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 부서는 [Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 대상이 될 수 있다. 이때 핵심은 "누구에게 무엇을 언제 보여 줄 것인가"를 릴리스 계획과 연결하는 것이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Engagement decision flow                                          │
-├────────────────────────────────────────────────────────────────────┤
-│ can this actor block budget, scope, or release? -> high influence │
-│ is this actor heavily affected by the change?    -> high interest │
-│ both high  -> frequent review and decision lock                   │
-│ power only -> milestone approval and risk brief                   │
-│ interest only -> demo, feedback, training                         │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Engagement decision flow                                          |
++--------------------------------------------------------------------+
+| can this actor block budget, scope, or release? -> high influence |
+| is this actor heavily affected by the change?    -> high interest |
+| both high  -> frequent review and decision lock                   |
+| power only -> milestone approval and risk brief                   |
+| interest only -> demo, feedback, training                         |
++--------------------------------------------------------------------+
 ```
 
 ### 실무 판단 기준
@@ -126,7 +126,7 @@ tags = ["software_engineering"]
 - 고위 임원에게 세부 진행을 과다 보고해 불필요한 간섭을 유발하는 것
 - 매트릭스를 한 번 만든 뒤 조직개편, 담당자 교체, 규제 변화가 생겨도 갱신하지 않는 것
 
-기술사 답안에서는 "권력-관심도 매트릭스 사용"이라고만 쓰지 말고, <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a> → 평가 → <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> → 참여 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> → 재평가</strong>의 흐름과 숨은 이해관계자·부정적 이해관계자 처리까지 설명해야 실무성이 살아난다.
+기술사 답안에서는 "권력-관심도 매트릭스 사용"이라고만 쓰지 말고, <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a> -> 평가 -> <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> -> 참여 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> -> 재평가</strong>의 흐름과 숨은 이해관계자·부정적 이해관계자 처리까지 설명해야 실무성이 살아난다.
 
 - **📢 섹션 요약 비유**: 이해관계자 관리는 동네 축제를 준비할 때 후원자, 주민대표, 안전요원, 소음에 민감한 이웃을 각자 다른 방식으로 설득해야 행사가 무사히 열리는 것과 같다.
 
@@ -159,16 +159,16 @@ tags = ["software_engineering"]
 
 ```text
 stakeholder identification
-    │
-    ▼
+    |
+    v
 influence / interest assessment
-    │
-    ▼
+    |
+    v
 impact matrix
-    │
-    ├──────────────▶ engagement strategy
-    ├──────────────▶ approval / communication plan
-    ▼
+    |
+    +---------------> engagement strategy
+    +---------------> approval / communication plan
+    v
 review and update by phase
 ```
 
@@ -186,7 +186,7 @@ review and update by phase
 
 **진행 상황**: 173 / 973
 
-← **이전**: [172. 비즈니스 케이스 (Business Case) 및 ROI 분석](/knowledge-base/studynote/04_software_engineering/03_design_architecture/172_business_case_roi_analysis/)
-**다음**: [174. 페어와이즈 (Pairwise) 우선순위 결정 기법](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) →
+<- **이전**: [172. 비즈니스 케이스 (Business Case) 및 ROI 분석](/knowledge-base/studynote/04_software_engineering/03_design_architecture/172_business_case_roi_analysis/)
+**다음**: [174. 페어와이즈 (Pairwise) 우선순위 결정 기법](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) ->
 
 ---

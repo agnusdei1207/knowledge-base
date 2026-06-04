@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 콜백 패턴 (Callback Pattern)은 처리가 끝난 뒤 호출할 함수를 미리 넘겨 비동기 완료 시점에 제어를 되돌리는 패턴이다. 입출력이나 이벤트 처리가 끝날 때까지 블로킹하면 사용자 경험과 자원 효율이 떨어져 완료 통지 방식이 필요해졌다. 이 개념이 필요한 이유는 완료 시점의 제어 흐름을 명시하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 처리 완료를 기다리며 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 묶어 두거나, 비동기 흐름이 중첩돼 이해하기 어려운 구조가 된다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│   Caller   │──▶│  Callback  │──▶│   Async    │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+|   Caller   |--->|  Callback  |--->|   Async    |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Event   │──▶│  Queue   │──▶│ Callback │──▶│   Next   │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|  Event   |--->|  Queue   |--->| Callback |--->|   Next   |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | 비동기 제어 흐름 | 콜백 패턴 (Callback Pattern)을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[블로킹 대기] → [콜백 패턴] → [프라미스/리액티브 확장]
+[블로킹 대기] -> [콜백 패턴] -> [프라미스/리액티브 확장]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 콜백 패턴 (Callback Pattern)은 숙제를 다 끝내면 엄마를 불러 달라고 미리 말해 두는 것처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 487 / 530
 
-← **이전**: [408. 디스럽터 패턴 (Disruptor Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/408_process/)
-**다음**: [410. 프로미스·퓨처 기반 비동기 처리 설계 (Promise/Future)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/410_process/) →
+<- **이전**: [408. 디스럽터 패턴 (Disruptor Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/408_process/)
+**다음**: [410. 프로미스·퓨처 기반 비동기 처리 설계 (Promise/Future)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/410_process/) ->
 
 ---

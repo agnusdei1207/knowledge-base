@@ -10,9 +10,9 @@ tags = ["studynote-it-management"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/)([Network Effect](/knowledge-base/studynote/12_it_management/01_governance_strategy/032_network_effect/))는 제품·[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 가치가 사용자 수가 증가할수록 기하급수적으로 커지는 현상이다. [메트칼프](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/) 법칙(Metcalfe's Law)은 네트워크 가치가 사용자 수(N)의 제곱(N²)에 비례한다고 주장한다.
+> 1. **본질**: [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/)([Network Effect](/knowledge-base/studynote/12_it_management/01_governance_strategy/032_network_effect/))는 제품·[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 가치가 사용자 수가 증가할수록 기하급수적으로 커지는 현상이다. [메트칼프](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/) 법칙(Metcalfe's Law)은 네트워크 가치가 사용자 수(N)의 제곱(N^)에 비례한다고 주장한다.
 > 2. **가치**: [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/)가 강한 플랫폼은 임계 질량(Critical Mass) 이후 자기 강화(Self-reinforcing) 성장을 한다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 선점이 장기 경쟁 우위가 되는 이유다(Winner-take-all/most 시장).
-> 3. **판단 포인트**: 직접 [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/)(같은 사용자끼리 가치↑)와 간접 [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/)(공급자↑ → 소비자 가치↑)를 구별해야 한다. 양면 플랫폼(카카오택시: 승객×기사)은 간접 [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/)가 핵심이다.
+> 3. **판단 포인트**: 직접 [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/)(같은 사용자끼리 가치^)와 간접 [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/)(공급자^ -> 소비자 가치^)를 구별해야 한다. 양면 플랫폼(카카오택시: 승객×기사)은 간접 [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/)가 핵심이다.
 
 ---
 
@@ -22,16 +22,16 @@ tags = ["studynote-it-management"]
 메트칼프 법칙:
 
 사용자 수  가능한 연결 수
-  N=1    → 0
-  N=2    → 1
-  N=5    → 10
-  N=10   → 45
-  N=100  → 4,950
-  N=N    → N(N-1)/2 ≈ N²/2
+  N=1    -> 0
+  N=2    -> 1
+  N=5    -> 10
+  N=10   -> 45
+  N=100  -> 4,950
+  N=N    -> N(N-1)/2 ≈ N^/2
 
-→ 사용자 10배 증가 → 네트워크 가치 100배 증가!
+-> 사용자 10배 증가 -> 네트워크 가치 100배 증가!
 
-예: 카카오톡 1억명 → 4조 9,500억개 가능한 연결
+예: 카카오톡 1억명 -> 4조 9,500억개 가능한 연결
 ```
 
 - **📢 섹션 요약 비유**: [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/)는 팩스기 가치다. 팩스가 세상에 1대만 있으면 가치 없음. 2대면 1개 연결, 100대면 4,950개 연결 가능. 사용자가 늘수록 가치가 기하급수적으로 커진다.
@@ -45,8 +45,8 @@ tags = ["studynote-it-management"]
 | 유형 | 설명 | 예시 |
 |:---|:---|:---|
 | **직접 (동일면)** | 같은 사용자 간 가치 증대 | 카카오톡, 링크드인 |
-| **간접 (양면)** | 한쪽 증가 → 반대편 가치↑ | 카카오택시, 앱스토어 |
-| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 피드백</strong> | 사용자↑ → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)↑ → [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)↑ → [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)↑ | 유튜브 추천, 네이버 |
+| **간접 (양면)** | 한쪽 증가 -> 반대편 가치^ | 카카오택시, 앱스토어 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 피드백</strong> | 사용자^ -> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)^ -> [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)^ -> [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)^ | 유튜브 추천, 네이버 |
 | **사회적** | 커뮤니티 규범·신뢰 형성 | 레딧, 나무위키 |
 
 ### 임계 질량과 팁핑 포인트
@@ -55,12 +55,12 @@ tags = ["studynote-it-management"]
 성장 곡선:
 
 사용자  가치
-  │         ╭──────── 자기 강화 성장
-  │        ╱
-  │  임계  ╱
-  │  질량 ╱
-  │─────/───────────→ 사용자 수
-        ↑
+  |         +-------- 자기 강화 성장
+  |        ╱
+  |  임계  ╱
+  |  질량 ╱
+  |-----/------------> 사용자 수
+        ^
      팁핑 포인트
      (이후 기하급수 성장)
 
@@ -76,10 +76,10 @@ tags = ["studynote-it-management"]
 
 | 비교 | 직접 네트워크 | 간접 네트워크 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 피드백 |
 |:---|:---|:---|:---|
-| 연결 방향 | 동일 사용자 | 공급자↔소비자 | 사용자→[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)→[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) |
+| 연결 방향 | 동일 사용자 | 공급자↔소비자 | 사용자->[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)->[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) |
 | 예시 | SNS | 플랫폼 | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) |
 | 전환 장벽 | 중간 | 높음 | 매우 높음 |
-| 규모 효과 | N² | 양쪽 곱 | 누적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
+| 규모 효과 | N^ | 양쪽 곱 | 누적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 
 - **📢 섹션 요약 비유**: 세 [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/)는 인맥 확장 방식이다. 직접(친구들끼리), 간접(플랫폼으로 공급자·소비자 연결), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(AI가 학습할수록 더 좋은 추천)로 각각 다른 가치 증폭 메커니즘이다.
 
@@ -131,7 +131,7 @@ NPS (Net Promoter Score): 추천 의향
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/">메트칼프</a> 법칙</strong> | 네트워크 가치 N² 이론 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/">메트칼프</a> 법칙</strong> | 네트워크 가치 N^ 이론 |
 | **임계 질량** | 자기 강화 성장의 전환점 |
 | **양면 플랫폼** | 간접 [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/) 비즈니스 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 플라이휠</strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/) |
@@ -141,17 +141,17 @@ NPS (Net Promoter Score): 추천 의향
 
 ```text
 [통신 네트워크 — 팩스·전화 직접 네트워크 효과]
-    │
-    ▼
+    |
+    v
 [인터넷 플랫폼 — SNS·마켓플레이스 양면 네트워크]
-    │
-    ▼
+    |
+    v
 [임계 질량 — 팁핑 포인트 이후 자기 강화 성장]
-    │
-    ▼
-[데이터 피드백 루프 — 사용자↑→데이터↑→AI↑]
-    │
-    ▼
+    |
+    v
+[데이터 피드백 루프 — 사용자^->데이터^->AI^]
+    |
+    v
 [AI 플라이휠 — 지속적 AI 개선 경쟁 우위]
 ```
 
@@ -167,7 +167,7 @@ NPS (Net Promoter Score): 추천 의향
 
 **진행 상황**: 54 / 587
 
-← **이전**: [31. 롱테일 법칙 (Long Tail)](/knowledge-base/studynote/12_it_management/01_governance_strategy/031_long_tail/)
-**다음**: [KEDB (Known Error Database, 기지 오류 데이터베이스)](/knowledge-base/studynote/12_it_management/01_governance_strategy/032_kedb/) →
+<- **이전**: [31. 롱테일 법칙 (Long Tail)](/knowledge-base/studynote/12_it_management/01_governance_strategy/031_long_tail/)
+**다음**: [KEDB (Known Error Database, 기지 오류 데이터베이스)](/knowledge-base/studynote/12_it_management/01_governance_strategy/032_kedb/) ->
 
 ---

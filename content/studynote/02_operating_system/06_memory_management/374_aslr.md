@@ -28,21 +28,21 @@ tags = ["studynote-operating-system"]
   3. **ASLR의 표준화**: 2001년 Linux 패치를 시작으로, 2007년 Windows Vista, 2011년 iOS/Mac까지 전 세계 모든 범용 OS가 ASLR을 기본 켜짐(Default On)으로 강제하며 메모리 해킹의 난이도를 수백 배 끌어올렸다.
 
 ```text
-┌───────────────────────────────────────────────────────────────────┐
-│        ASLR (무작위 배치) 활성화 전후의 메모리 레이아웃 비교      │
-├───────────────────────────────────────────────────────────────────┤
-│                                                                   │
-│ [ ASLR OFF (과거의 낡은 OS: 해커들의 놀이터) ]                    │
-│  실행 1차: [코드 0x400] [데이터 0x600] ...... [스택 0x7FF]        │
-│  실행 2차: [코드 0x400] [데이터 0x600] ...... [스택 0x7FF]        │
-│  ▶ 해커 왈: "야, 0x400 번지에 악성코드 점프시키면 100% 뚫림 ㅋㅋ" │
-│                                                                   │
-│ [ ASLR ON (현대의 OS: 예측 불허의 방어막) ]                       │
-│  실행 1차: [코드 0x51A] ... [데이터 0x82C] ... [스택 0x9FA]       │
-│  실행 2차: [코드 0x24B] ... [데이터 0x55D] ... [스택 0xA1C]       │
-│  ▶ 해커 왈: "어디로 점프해야 돼? 주소가 다 바뀌었어 멘붕..."      │
-│  ▶ 해커가 0x400으로 찔러봄 -> 없는 주소네? -> Segmentation Fault! │
-└───────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------+
+|        ASLR (무작위 배치) 활성화 전후의 메모리 레이아웃 비교      |
++-------------------------------------------------------------------+
+|                                                                   |
+| [ ASLR OFF (과거의 낡은 OS: 해커들의 놀이터) ]                    |
+|  실행 1차: [코드 0x400] [데이터 0x600] ...... [스택 0x7FF]        |
+|  실행 2차: [코드 0x400] [데이터 0x600] ...... [스택 0x7FF]        |
+|  -> 해커 왈: "야, 0x400 번지에 악성코드 점프시키면 100% 뚫림 ㅋㅋ" |
+|                                                                   |
+| [ ASLR ON (현대의 OS: 예측 불허의 방어막) ]                       |
+|  실행 1차: [코드 0x51A] ... [데이터 0x82C] ... [스택 0x9FA]       |
+|  실행 2차: [코드 0x24B] ... [데이터 0x55D] ... [스택 0xA1C]       |
+|  -> 해커 왈: "어디로 점프해야 돼? 주소가 다 바뀌었어 멘붕..."      |
+|  -> 해커가 0x400으로 찔러봄 -> 없는 주소네? -> Segmentation Fault! |
++-------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 가상 주소 공간이라는 광활한 사막에 텐트(세그먼트)를 무작위로 쳐버리는 기법이다. 공격자가 특정 함수(예: 쉘을 실행하는 `execve`)의 메모리 주소를 알지 못하면, 악성 코드를 심어놓고 거기로 점프시킬 타겟을 잃어버린다. 찍어서 맞출 확률은 64비트 시스템에서 수억 분의 1로 떨어지므로 사실상 찍기 해킹([Brute Force](/knowledge-base/studynote/09_security/05_web_app_security/456_brute_force/))을 물리적으로 불가능하게 만든다.
 
@@ -95,13 +95,13 @@ ASLR이 완벽하게 동작하려면 OS의 노력만으로는 안 된다. <stron
 3. **3차전**: 방어 측 멘붕. "저 [ROP](/knowledge-base/studynote/02_operating_system/10_security/596_return_oriented_programming/) 공격을 막으려면 윈도우 기본 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 주소를 해커가 아예 모르게 해야 해!" -> **이때 ASLR이 구원투수로 등판한다.** 매번 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(`dll`, `so`)를 켤 때마다 주소를 수억 개의 난수로 섞어버렸다. 해커는 `system()` 함수의 주소가 어디 있는지 몰라 [ROP](/knowledge-base/studynote/02_operating_system/10_security/596_return_oriented_programming/) 퍼즐 조각을 잃어버리고 완패했다.
 
 ```text
-┌──────────┬────────────┬────────────┬───────────────────────────┐
-│ 방어 기법  │ 오버플로우 방어│ 쉘코드 실행 차단│ ROP(퍼즐) 차단 │
-├──────────┼────────────┼────────────┼───────────────────────────┤
-│ Stack Canary│ 🟢 1차 튕김 │ ❌ 못 막음   │ ❌ 못 막음          │
-│ NX Bit   │ ❌ 못 막음   │ 🟢 하드웨어 차단│ ❌ 우회당함        │
-│ **ASLR** │ ❌ 못 막음   │ ❌ 못 막음   │ **🟢 원천 차단**      │
-└──────────┴────────────┴────────────┴───────────────────────────┘
++----------+------------+------------+---------------------------+
+| 방어 기법  | 오버플로우 방어| 쉘코드 실행 차단| ROP(퍼즐) 차단 |
++----------+------------+------------+---------------------------+
+| Stack Canary| 🟢 1차 튕김 | ❌ 못 막음   | ❌ 못 막음          |
+| NX Bit   | ❌ 못 막음   | 🟢 하드웨어 차단| ❌ 우회당함        |
+| **ASLR** | ❌ 못 막음   | ❌ 못 막음   | **🟢 원천 차단**      |
++----------+------------+------------+---------------------------+
 ```
 **[매트릭스 해설]** 어느 하나의 기술만으로는 완벽한 보안이 불가능하다. 입력 길이를 검사하는 카나리아([Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)), 실행을 금지하는 NX [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/), 주소를 숨기는 ASLR 이 세 가지 방패가 융합([Mitigation](/knowledge-base/studynote/09_security/12_identity_threat_advanced/605_golden_silver_ticket_mitigation/))되었을 때 비로소 현대의 철통같은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 샌드박스가 완성된다.
 
@@ -162,12 +162,12 @@ ASLR이 완벽하게 동작하려면 OS의 노력만으로는 안 된다. <stron
 
 ```text
 [ARM / x86의 메모리 매핑 아키텍처 차이]
-    │
-    ▼
+    |
+    v
 [주소 공간 무작위 배치 (ASLR, Address Space Layout Randomization)]
-    │
-    ├──▶ [메모리 보호 키 (Memory Protection Keys)]
-    └──▶ [캐시 인식 데이터 구조 (Cache-aware Data Structures)]
+    |
+    +---> [메모리 보호 키 (Memory Protection Keys)]
+    +---> [캐시 인식 데이터 구조 (Cache-aware Data Structures)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -184,7 +184,7 @@ ASLR이 완벽하게 동작하려면 OS의 노력만으로는 안 된다. <stron
 
 **진행 상황**: 374 / 800
 
-← **이전**: [373. ARM / x86의 메모리 매핑 아키텍처 차이 (Arm X86 Memory Mapping)](/knowledge-base/studynote/02_operating_system/06_memory_management/373_arm_x86_memory_mapping/)
-**다음**: [375. 메모리 보호 키 (Memory Protection Keys)](/knowledge-base/studynote/02_operating_system/06_memory_management/375_memory_protection_keys/) →
+<- **이전**: [373. ARM / x86의 메모리 매핑 아키텍처 차이 (Arm X86 Memory Mapping)](/knowledge-base/studynote/02_operating_system/06_memory_management/373_arm_x86_memory_mapping/)
+**다음**: [375. 메모리 보호 키 (Memory Protection Keys)](/knowledge-base/studynote/02_operating_system/06_memory_management/375_memory_protection_keys/) ->
 
 ---

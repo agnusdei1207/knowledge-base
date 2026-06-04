@@ -21,30 +21,30 @@ tags = ["studynote-network"]
 
 - **개념**: WPA (Wi-Fi Protected Access)는 2003년 Wi-Fi Alliance가 주도하여 급하게 발표한 무선 보안 표준이다. WEP과 동일한 [스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/) 엔진인 <strong><a href="/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/">RC4</a></strong>를 그대로 사용하지만, 패킷마다 키를 섞는 <strong>TKIP</strong>과 변조 방지 해시인 <strong>MIC (Michael)</strong>를 덮어씌워 WEP의 수학적 맹점([IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 재사용)을 방어했다.
 - **필요성**: 2001년 WEP의 [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 충돌 취약점이 해킹 논문으로 만천하에 까발려졌다. 대기업이나 은행의 사내 와이파이는 사실상 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 장치나 다름없는 상태가 되었다. 완벽한 군용 암호인 AES가 탑재된 802.11i([WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/)) 표준은 2004년에나 나올 예정이었고, AES를 돌리려면 칩셋(CPU) 성능이 좋아야 해서 기존 공유기들을 전부 버리고 새로 사야 했다. 통신 업계는 "기계를 안 버리고 당장 급한 불을 끌 소프트웨어 백신"이 절실했다.
-- **등장 배경**: ① [WEP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/580_wep_wired_equivalent_privacy_rc4/)([RC4](/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/))의 24비트 [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 재사용으로 인한 1분 컷 오프라인 해킹의 공포 → ② "기계(Hardware)는 냅두고 공식(Software)만 바꾸자"는 타협점 모색 → ③ 매번 암호가 바뀌는 TKIP과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위조를 막는 MIC을 결합한 WPA([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 1) 긴급 출범.
+- **등장 배경**: ① [WEP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/580_wep_wired_equivalent_privacy_rc4/)([RC4](/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/))의 24비트 [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 재사용으로 인한 1분 컷 오프라인 해킹의 공포 -> ② "기계(Hardware)는 냅두고 공식(Software)만 바꾸자"는 타협점 모색 -> ③ 매번 암호가 바뀌는 TKIP과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위조를 막는 MIC을 결합한 WPA([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 1) 긴급 출범.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│             WEP의 재앙 vs WPA(TKIP)의 구원: '키 섞기'의 철학 시각화   │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [과거: WEP 방식 - "평생 쓰는 녹슨 자물쇠"]                      │
-│   공유기: "우리 집 암호는 1234야! 평생 이걸로 암호화할게!"           │
-│   폰 ──(1번 패킷)──▶ [RC4 엔진 + 암호 1234] ──▶ (해커 수집 중) │
-│   폰 ──(10만 번 패킷)─▶ [RC4 엔진 + 암호 1234] ──▶ (해커 수집 완료!)│
-│   => 결과: 해커가 똑같은 암호로 잠긴 상자 10만 개를 수집해서 부딪히면   │
-│            공통 수학 패턴이 드러나서 마스터 암호 1234가 털림! (해킹 성공)│
-│                                                             │
-│   [혁신: WPA(TKIP) 방식 - "1분에 한 번씩 바뀌는 OTP 자물쇠"]        │
-│   공유기: "우리 집 암호는 1234지만, 통신할 땐 이걸 직접 안 써!"       │
-│   (공유기와 폰이 뒤에서 몰래 마스터 암호를 버무려 '일회용 키'를 만듦)     │
-│                                                             │
-│   폰 ──(1번 패킷)──▶ [RC4 엔진 + 일회용 키 A] ──▶ (해커 수집)  │
-│   폰 ──(1만 번 패킷)─▶ [RC4 엔진 + 일회용 키 B] ──▶ (해커 멘붕)  │
-│   폰 ──(2만 번 패킷)─▶ [RC4 엔진 + 일회용 키 C] ──▶ (해커 포기)  │
-│   => 결과: 해커가 패턴을 찾으려고 패킷을 모으는 와중에, 계속 자물쇠 모양을 │
-│            바꿔버리니(Key Mixing) 해커의 툴이 뻗어버리고 해킹이 막힘! │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|             WEP의 재앙 vs WPA(TKIP)의 구원: '키 섞기'의 철학 시각화   |
++-------------------------------------------------------------+
+|                                                             |
+|   [과거: WEP 방식 - "평생 쓰는 녹슨 자물쇠"]                      |
+|   공유기: "우리 집 암호는 1234야! 평생 이걸로 암호화할게!"           |
+|   폰 --(1번 패킷)---> [RC4 엔진 + 암호 1234] ---> (해커 수집 중) |
+|   폰 --(10만 번 패킷)--> [RC4 엔진 + 암호 1234] ---> (해커 수집 완료!)|
+|   => 결과: 해커가 똑같은 암호로 잠긴 상자 10만 개를 수집해서 부딪히면   |
+|            공통 수학 패턴이 드러나서 마스터 암호 1234가 털림! (해킹 성공)|
+|                                                             |
+|   [혁신: WPA(TKIP) 방식 - "1분에 한 번씩 바뀌는 OTP 자물쇠"]        |
+|   공유기: "우리 집 암호는 1234지만, 통신할 땐 이걸 직접 안 써!"       |
+|   (공유기와 폰이 뒤에서 몰래 마스터 암호를 버무려 '일회용 키'를 만듦)     |
+|                                                             |
+|   폰 --(1번 패킷)---> [RC4 엔진 + 일회용 키 A] ---> (해커 수집)  |
+|   폰 --(1만 번 패킷)--> [RC4 엔진 + 일회용 키 B] ---> (해커 멘붕)  |
+|   폰 --(2만 번 패킷)--> [RC4 엔진 + 일회용 키 C] ---> (해커 포기)  |
+|   => 결과: 해커가 패턴을 찾으려고 패킷을 모으는 와중에, 계속 자물쇠 모양을 |
+|            바꿔버리니(Key Mixing) 해커의 툴이 뻗어버리고 해킹이 막힘! |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** WPA의 심장인 TKIP(Temporal [Key Integrity](/knowledge-base/studynote/05_database/02_modeling_normalization/078_key_integrity/) [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))의 위대함은 "마스터 패스워드와 실제 암호화에 쓰는 키를 완벽히 분리(Decoupling)"한 것에 있다. WEP은 공유기에 입력한 `1234`가 그대로 무선 허공에 날아다니는 패킷의 암호화 공식에 대입되었다. WPA는 `1234`를 씨앗(Seed)으로만 쓴다. 통신이 시작될 때 송신자 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소와 IV를 미친 듯이 섞어 <strong>매 패킷마다 전혀 다른 128비트 임시 키(Temporal <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>)</strong>를 새로 빚어내어 [RC4](/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/) 믹서기에 넣는다. RC4라는 구형 믹서기 기계 자체는 그대로지만, 들어가는 재료(키)가 1초마다 바뀌니 해커는 도저히 겹치는 패턴을 찾을 수 없어 오프라인 크래킹이 멈추게 되었다.
@@ -79,27 +79,27 @@ WPA가 무선랜 역사에 남긴 가장 위대한 업적은 보안 강도를 �
 | **퇴사자 처리 (치명상)**| 알바생 한 명이 그만두면 가게 **공유기 비번을 바꾸고 직원 모두에게 새로 다 알려줘야 함.** | 인사팀이 [RADIUS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/) 서버에서 퇴사자 **계정 버튼만 '정지'** 누르면 끝. 나머지 직원들은 아무 영향 없음. |
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│               WPA-Enterprise (802.1X / RADIUS) 융합 인증 시각화      │
-├───────────────────────────────────────────────────────────────┤
-│   [스마트폰]                 [사내 WPA AP]             [RADIUS 서버 (본사)] │
-│       │                           │                            │        │
-│       │ 1. "나 사번 1990번 신입인데 │                            │        │
-│       │    와이파이 좀 쓰자!"      │                            │        │
-│       ├──────(EAP 요청)────────▶│ 2. "오케이, 너 잠깐 대기해."   │        │
-│                                   │ 3. "RADIUS야! 1990번이    │        │
-│                                   │    비번 0000이라는데 맞아?"│        │
-│                                   ├──────(RADIUS 요청)─────▶│        │
-│                                                                │        │
-│                                   │ 4. "어 맞네! 정상 직원이야! │        │
-│                                   │    얘 전용 암호키(PMK) 줄게!"│        │
-│       │ 5. "야 신입! 본사 승인     │◀──────(RADIUS 응답)──────┤        │
-│       │    떨어졌다. 이제 통신하자!"│                            │        │
-│       ◀──────(EAP 성공)────────┤                            │        │
-│                                                                │        │
-│   => 결과: 무선 AP(공유기)는 바보 문지기 역할만 하고, 똑똑한 중앙 서버가        │
-│            모든 인증을 통제하는 진정한 엔터프라이즈 제로 트러스트(Zero Trust)망!│
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|               WPA-Enterprise (802.1X / RADIUS) 융합 인증 시각화      |
++---------------------------------------------------------------+
+|   [스마트폰]                 [사내 WPA AP]             [RADIUS 서버 (본사)] |
+|       |                           |                            |        |
+|       | 1. "나 사번 1990번 신입인데 |                            |        |
+|       |    와이파이 좀 쓰자!"      |                            |        |
+|       +------(EAP 요청)--------->| 2. "오케이, 너 잠깐 대기해."   |        |
+|                                   | 3. "RADIUS야! 1990번이    |        |
+|                                   |    비번 0000이라는데 맞아?"|        |
+|                                   +------(RADIUS 요청)------>|        |
+|                                                                |        |
+|                                   | 4. "어 맞네! 정상 직원이야! |        |
+|                                   |    얘 전용 암호키(PMK) 줄게!"|        |
+|       | 5. "야 신입! 본사 승인     |<-------(RADIUS 응답)------+        |
+|       |    떨어졌다. 이제 통신하자!"|                            |        |
+|       <-------(EAP 성공)--------+                            |        |
+|                                                                |        |
+|   => 결과: 무선 AP(공유기)는 바보 문지기 역할만 하고, 똑똑한 중앙 서버가        |
+|            모든 인증을 통제하는 진정한 엔터프라이즈 제로 트러스트(Zero Trust)망!|
++---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** WPA1 시절부터 확립된 이 802.[1X](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/)/[EAP](/knowledge-base/studynote/03_network/04_data_link_layer_error/229_eap_extensible_authentication_protocol/) 아키텍처는 수백 대의 무선 AP를 거느린 대기업의 구세주였다. [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 기계 하나하나에 비밀번호를 세팅할 필요 없이, AP는 오직 무선 전파를 유선으로 토스해 주는 '중계기(Authenticator)' 역할만 한다. 진짜 깐깐한 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([Authentication Server](/knowledge-base/studynote/09_security/12_identity_threat_advanced/584_as/))은 사내 서버실 깊숙이 박혀있는 [RADIUS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/) 서버(또는 [Active Directory](/knowledge-base/studynote/09_security/11_iam_access_control/548_active_directory/))가 도맡아 처리한다. 중앙 통제(Centralized Control)와 무선 액세스를 완벽히 분리(Decoupling)한 걸작이다.
@@ -173,12 +173,12 @@ WPA (TKIP)는 IT 역사상 가장 드라마틱한 '땜질([Workaround](/knowledg
 
 ```text
 [선행 개념: WEP]
-    │
-    ▼
+    |
+    v
 [현재 개념: WPA]
-    │
-    ├──▶ [확장 A: WPA2 강력 암호화, 개인용/기업용]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
+    |
+    +---> [확장 A: WPA2 강력 암호화, 개인용/기업용]
+    +---> [확장 B: 지능형 무선 자원 제어]
 ```
 
 WPA는 WEP에서 출발해 현재 메커니즘을 정교화하고, 이후 [WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/) 강력 암호화, 개인용/기업용와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -195,7 +195,7 @@ WPA는 WEP에서 출발해 현재 메커니즘을 정교화하고, 이후 [WPA2]
 
 **진행 상황**: 702 / 1120
 
-← **이전**: [580. WEP (Wired Equivalent Privacy)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/580_wep_wired_equivalent_privacy_rc4/)
-**다음**: [582. WPA2 (AES-CCMP 기반) 강력 암호화, 개인용(PSK)/기업용(Enterprise/RADIUS)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/) →
+<- **이전**: [580. WEP (Wired Equivalent Privacy)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/580_wep_wired_equivalent_privacy_rc4/)
+**다음**: [582. WPA2 (AES-CCMP 기반) 강력 암호화, 개인용(PSK)/기업용(Enterprise/RADIUS)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/) ->
 
 ---

@@ -19,25 +19,25 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-3-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 하나의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 안에 <strong>목적지 1개와 소스 2개</strong>를 독립적으로 적는 형식이다. 대표 예는 `ADD R3, R1, R2`이며 의미는 `R3 ← R1 + R2`다. 즉 결과를 저장하는 자리와 입력값을 읽는 자리를 분리해, 연산 이후에도 `R1`, `R2`의 값이 그대로 남는다.
+3-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 하나의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 안에 <strong>목적지 1개와 소스 2개</strong>를 독립적으로 적는 형식이다. 대표 예는 `ADD R3, R1, R2`이며 의미는 `R3 <- R1 + R2`다. 즉 결과를 저장하는 자리와 입력값을 읽는 자리를 분리해, 연산 이후에도 `R1`, `R2`의 값이 그대로 남는다.
 
 이 형식이 중요해진 이유는 수식이 복잡해질수록 "원본을 보존한 채 다음 연산으로 연결할 수 있는가"가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우하기 때문이다. 1-주소나 2-주소 형식은 [누산기](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/)나 목적지 겸 소스에 값이 덮어써져 중간 복사나 재적재가 자주 필요하다. 반면 3-주소 형식은 수학식의 구조를 기계어에 거의 그대로 옮길 수 있어, 컴파일러가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성을 더 명확하게 추적하고 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 재배치를 더 공격적으로 수행할 수 있다.
 
 아래 그림은 3-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 왜 "원본 보존"에 강한지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│     3-주소 명령어의 핵심: 읽는 곳 2개, 쓰는 곳 1개 분리      │
-├──────────────────────────────────────────────────────────────┤
-│ 명령어: ADD R3, R1, R2                                      │
-│                                                              │
-│ 읽기 단계                 연산 단계               쓰기 단계   │
-│ R1 ───────────────┐                                   ┌─▶ R3 │
-│                   ├─▶ ALU (Arithmetic Logic Unit) ────┤      │
-│ R2 ───────────────┘                                   └──────│
-│                                                              │
-│ 결과: R1, R2는 유지되고 R3만 새 값으로 갱신된다.             │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|     3-주소 명령어의 핵심: 읽는 곳 2개, 쓰는 곳 1개 분리      |
++--------------------------------------------------------------+
+| 명령어: ADD R3, R1, R2                                      |
+|                                                              |
+| 읽기 단계                 연산 단계               쓰기 단계   |
+| R1 ---------------+                                   +--> R3 |
+|                   +--> ALU (Arithmetic Logic Unit) ----+      |
+| R2 ---------------+                                   +------|
+|                                                              |
+| 결과: R1, R2는 유지되고 R3만 새 값으로 갱신된다.             |
++--------------------------------------------------------------+
 ```
 
 핵심은 연산에 참여한 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)와 결과 저장 위치가 겹치지 않는다는 점이다. 이 구조는 "한 값을 여러 후속 명령이 동시에 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)"하는 상황에서 특히 강하다. 원본이 살아 있으니 복사 명령을 덜 넣어도 되고, 값의 생존 구간도 더 길게 활용할 수 있다.
@@ -62,16 +62,16 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 수식 `Y = (A + B) * C`를 3-주소 방식으로 처리할 때 흐름이 어떻게 단순해지는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│        수식 변환: 3-주소는 중간 결과를 새 레지스터에 둔다     │
-├──────────────────────────────────────────────────────────────┤
-│ 1) ADD T1, A, B   ──▶ T1 = A + B                            │
-│ 2) MUL Y,  T1, C  ──▶ Y  = T1 × C                           │
-│                                                              │
-│ A, B, C 보존 ──▶ 중간값 T1 생성 ──▶ 최종값 Y 생성            │
-│                                                              │
-│ 중간 단계마다 "누구를 덮어쓸지" 고민하지 않아도 된다.       │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|        수식 변환: 3-주소는 중간 결과를 새 레지스터에 둔다     |
++--------------------------------------------------------------+
+| 1) ADD T1, A, B   ---> T1 = A + B                            |
+| 2) MUL Y,  T1, C  ---> Y  = T1 × C                           |
+|                                                              |
+| A, B, C 보존 ---> 중간값 T1 생성 ---> 최종값 Y 생성            |
+|                                                              |
+| 중간 단계마다 "누구를 덮어쓸지" 고민하지 않아도 된다.       |
++--------------------------------------------------------------+
 ```
 
 이 구조는 하드웨어에도 이점이 있다. [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)는 두 소스를 읽고 한 목적지에 쓰는 규칙을 반복적으로 처리하면 되므로 제어가 단순해지고, 파이프라인의 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 단계가 규칙적으로 정렬된다. 또한 즉시값이 필요한 경우에는 `Rs2` 자리를 즉시값 필드로 바꾸는 I형 변형을 두어 같은 철학을 유지한 채 확장할 수 있다.
@@ -89,7 +89,7 @@ tags = ["studynote-computer-architecture"]
 | 항목 | [1-주소 명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/192_1_address_instruction/) | [2-주소 명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/193_2_address_instruction/) | 3-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) |
 | :-- | :-- | :-- | :-- |
 | 기본 모델 | [누산기](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/) 중심 | 한 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)와 목적지 공유 | 소스 2개와 목적지 분리 |
-| 연산 형태 | `AC ← AC + X` | `A ← A + B` | `C ← A + B` |
+| 연산 형태 | `AC <- AC + X` | `A <- A + B` | `C <- A + B` |
 | 원본 보존 | 약함 | 한쪽 파괴 | 강함 |
 | 추가 복사 필요성 | 높음 | 중간 | 낮음 |
 | [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 폭 | 비교적 작음 | 절충형 | 상대적으로 큼 |
@@ -124,19 +124,19 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 실무 판단을 위한 대표적인 균형점을 정리한 것이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│            3-주소 채택 판단: 성능과 코드 크기의 균형          │
-├──────────────────────────────────────────────────────────────┤
-│ 성능 우선 설계                                                │
-│   ├─ 원본 보존 필요 큼                                        │
-│   ├─ 파이프라인/병렬화 중요                                   │
-│   └─ 3-주소 채택에 유리                                       │
-│                                                              │
-│ 메모리 절약 우선 설계                                          │
-│   ├─ 명령어 저장 공간 제한 큼                                 │
-│   ├─ 압축 명령어 필요                                          │
-│   └─ 2-주소 또는 압축 확장 병행 고려                           │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|            3-주소 채택 판단: 성능과 코드 크기의 균형          |
++--------------------------------------------------------------+
+| 성능 우선 설계                                                |
+|   +- 원본 보존 필요 큼                                        |
+|   +- 파이프라인/병렬화 중요                                   |
+|   +- 3-주소 채택에 유리                                       |
+|                                                              |
+| 메모리 절약 우선 설계                                          |
+|   +- 명령어 저장 공간 제한 큼                                 |
+|   +- 압축 명령어 필요                                          |
+|   +- 2-주소 또는 압축 확장 병행 고려                           |
++--------------------------------------------------------------+
 ```
 
 기술사 답안에서는 "3-주소가 항상 우월하다"고 쓰면 부족하다. 정확한 판단은 <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 중심이면 3-주소가 유리하지만, 코드 밀도와 즉시값 표현력까지 고려하면 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 또는 혼합 포맷이 필요하다</strong>는 식으로 정리해야 한다. 실제 ARM Thumb, [RISC-V](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/200_riscv/) C 확장은 이 한계를 메우기 위해 등장한 사례다.
@@ -171,16 +171,16 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 누산기 중심 1-주소
-        │
-        ▼
+        |
+        v
 절충형 2-주소
-        │
-        ▼
+        |
+        v
 비파괴 3-주소 + 고정 길이 디코딩
-        │
-        ├─▶ RISC 파이프라인 최적화
-        ├─▶ 컴파일러 SSA/IR 친화성 강화
-        └─▶ 압축 명령어 · 벡터 확장으로 보완
+        |
+        +--> RISC 파이프라인 최적화
+        +--> 컴파일러 SSA/IR 친화성 강화
+        +--> 압축 명령어 · 벡터 확장으로 보완
 ```
 
 이 흐름은 "주소 수 증가" 자체보다, <strong>연산 의미를 얼마나 명시적으로 표현하느냐</strong>가 아키텍처 발전의 핵심이었음을 보여준다.
@@ -197,7 +197,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 194 / 803
 
-← **이전**: [193. 2-주소 명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/193_2_address_instruction/)
-**다음**: [195. RISC (Reduced Instruction Set Computer)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) →
+<- **이전**: [193. 2-주소 명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/193_2_address_instruction/)
+**다음**: [195. RISC (Reduced Instruction Set Computer)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) ->
 
 ---

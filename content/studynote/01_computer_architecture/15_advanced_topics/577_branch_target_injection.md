@@ -26,26 +26,26 @@ tags = ["studynote-computer-architecture"]
 이 그림은 공격이 왜 "틀린 점프 -> 흔적 남김 -> 취소 후 유출" 순서로 이해되어야 하는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Branch Target Injection attack chain                                      │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Attacker trains shared predictor / BTB alias                              │
-│                          │                                                 │
-│                          ▼                                                 │
-│ Victim reaches indirect branch                                             │
-│                          │                                                 │
-│                          ▼                                                 │
-│ transient jump to gadget                                                   │
-│                          │                                                 │
-│                          ▼                                                 │
-│ secret-dependent cache touch                                               │
-│                          │                                                 │
-│                          ▼                                                 │
-│ misprediction resolved -> architectural rollback                           │
-│                          │                                                 │
-│                          ▼                                                 │
-│ cache timing still reveals secret                                          │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| Branch Target Injection attack chain                                      |
++----------------------------------------------------------------------------+
+| Attacker trains shared predictor / BTB alias                              |
+|                          |                                                 |
+|                          v                                                 |
+| Victim reaches indirect branch                                             |
+|                          |                                                 |
+|                          v                                                 |
+| transient jump to gadget                                                   |
+|                          |                                                 |
+|                          v                                                 |
+| secret-dependent cache touch                                               |
+|                          |                                                 |
+|                          v                                                 |
+| misprediction resolved -> architectural rollback                           |
+|                          |                                                 |
+|                          v                                                 |
+| cache timing still reveals secret                                          |
++----------------------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 분기 목표 주입은 누군가 내비게이션의 최근 목적지 기록을 몰래 바꿔 놓아, 내가 잠깐 엉뚱한 골목으로 들어가게 만드는 일과 같다. 곧바로 길을 바로잡아도 타이어 자국은 남아서 내가 어디를 스쳤는지 들켜 버린다.
@@ -69,22 +69,22 @@ tags = ["studynote-computer-architecture"]
 이 그림은 공격자 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)과 피해자 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 어떻게 예측기 상태 하나로 연결되는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Shared predictor state becomes a covert cross-domain hint                 │
-├────────────────────────────────────────────────────────────────────────────┤
-│ [Attacker domain]                                                          │
-│   indirect branch training -> poison BTB entry -> target = gadget         │
-│                                   │                                        │
-│                                   ▼                                        │
-│                       predictor alias survives switch                      │
-│                                   │                                        │
-│                                   ▼                                        │
-│ [Victim domain]                                                            │
-│   indirect call / jmp -> transiently redirected to gadget                 │
-│                                   │                                        │
-│                                   ▼                                        │
-│              secret load -> cache footprint -> timing-based leak           │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| Shared predictor state becomes a covert cross-domain hint                 |
++----------------------------------------------------------------------------+
+| [Attacker domain]                                                          |
+|   indirect branch training -> poison BTB entry -> target = gadget         |
+|                                   |                                        |
+|                                   v                                        |
+|                       predictor alias survives switch                      |
+|                                   |                                        |
+|                                   v                                        |
+| [Victim domain]                                                            |
+|   indirect call / jmp -> transiently redirected to gadget                 |
+|                                   |                                        |
+|                                   v                                        |
+|              secret load -> cache footprint -> timing-based leak           |
++----------------------------------------------------------------------------+
 ```
 
 중요한 점은 공격자가 피해자 분기의 "정답 주소"를 바꾸는 것이 아니라, <strong>정답이 준비되기 전 잠깐 믿게 만들 가짜 주소</strong>를 심는다는 사실이다. 그래서 소스 코드만 보면 멀쩡한 간접 호출도, [마이크로아키텍처](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/) 수준에서는 보안 경계를 가로지르는 예측 오염 통로가 될 수 있다.
@@ -166,17 +166,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 고성능 분기 예측 · 투기 실행
-                │
-                ▼
+                |
+                v
 간접 분기 예측기 · BTB 공유
-                │
-                ▼
+                |
+                v
 분기 목표 주입 (Spectre variant 2)
-                │
-                ▼
+                |
+                v
 Retpoline · IBPB · IBRS · STIBP
-                │
-                ▼
+                |
+                v
 eIBRS · predictor domain partitioning
 ```
 
@@ -194,7 +194,7 @@ eIBRS · predictor domain partitioning
 
 **진행 상황**: 577 / 803
 
-← **이전**: [576. ASLR (Address Space Layout Randomization) 하드웨어 기반 우회 방어](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/576_aslr_hardware_defense/)
-**다음**: [578. 커널 페이지 테이블 격리 (KPTI, Kernel Page Table Isolation)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/) →
+<- **이전**: [576. ASLR (Address Space Layout Randomization) 하드웨어 기반 우회 방어](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/576_aslr_hardware_defense/)
+**다음**: [578. 커널 페이지 테이블 격리 (KPTI, Kernel Page Table Isolation)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/) ->
 
 ---

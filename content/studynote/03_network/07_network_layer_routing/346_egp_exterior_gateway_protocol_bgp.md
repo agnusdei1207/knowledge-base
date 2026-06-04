@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [IGP]
-    │
-    ▼
+    |
+    v
 [EGP]
-    │
-    └──▶ [거리 벡터 라우팅 알고리즘]
+    |
+    +---> [거리 벡터 라우팅 알고리즘]
 ```
 
 - **📢 섹션 요약 비유**: <strong> EGP(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a>)는 전 세계 통신사 대표들이 모인 </strong>"UN(국제 연합) 총회"**입니다. 각 통신사는 자기네 나라([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/))에 속한 국민(IP 대역) 명부를 뭉텅이로 던져놓고, 서로의 이익(돈, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))에 맞춰 무역로(트래픽 경로)를 협상하고 통제합니다.
@@ -53,24 +53,24 @@ BGP는 인터넷 전체(약 90만 개)의 거대한 지도를 주고받아야 �
 - 그래서 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 라우터들은 서로 완벽한 1:1 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a>(179번 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>)</strong>을 맺고, 3-Way Handshake로 손을 굳게 잡은 뒤에야 안전하게 90만 줄짜리 지도를 천천히 복사해 준다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                IGP (최단 거리) vs BGP (정책 제어) 차이             │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 상황: A(우리 회사)에서 C(목적지)로 가는 길 ]                     │
- │   경로 1: A ──▶ B(경쟁사 망) ──▶ C (물리적으로 50km, 아주 가까움)  │
- │   경로 2: A ──▶ D(우방국 망) ──▶ C (물리적으로 500km, 아주 멈)     │
- │                                                             │
- │   * IGP(OSPF)의 뇌구조:                                        │
- │     "닥치고 빠른 게 최고지! 경쟁사 망이든 뭐든 B로 가!" (경로 1 선택)  │
- │                                                             │
- │   * EGP(BGP)의 뇌구조:                                        │
- │     "속도가 무슨 상관이야? 경쟁사 B한테 1원도 줄 수 없어!           │
- │      관리자가 Local Preference 속성을 억지로 조작해서라도         │
- │      무조건 먼 우방국 D로 돌려!" (경로 2 선택)                    │
- │                                                             │
- │   ▶ 결과: BGP는 인터넷 기업들의 '돈과 권력'을 통제하는 정치 도구다.     │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                IGP (최단 거리) vs BGP (정책 제어) 차이             |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 상황: A(우리 회사)에서 C(목적지)로 가는 길 ]                     |
+ |   경로 1: A ---> B(경쟁사 망) ---> C (물리적으로 50km, 아주 가까움)  |
+ |   경로 2: A ---> D(우방국 망) ---> C (물리적으로 500km, 아주 멈)     |
+ |                                                             |
+ |   * IGP(OSPF)의 뇌구조:                                        |
+ |     "닥치고 빠른 게 최고지! 경쟁사 망이든 뭐든 B로 가!" (경로 1 선택)  |
+ |                                                             |
+ |   * EGP(BGP)의 뇌구조:                                        |
+ |     "속도가 무슨 상관이야? 경쟁사 B한테 1원도 줄 수 없어!           |
+ |      관리자가 Local Preference 속성을 억지로 조작해서라도         |
+ |      무조건 먼 우방국 D로 돌려!" (경로 2 선택)                    |
+ |                                                             |
+ |   -> 결과: BGP는 인터넷 기업들의 '돈과 권력'을 통제하는 정치 도구다.     |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. 막강한 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)([Attributes](/knowledge-base/studynote/02_operating_system/09_file_system/502_file_attributes_metadata/)) 제어
@@ -136,12 +136,12 @@ EGP는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing
 
 ```text
 [선행 개념: IGP]
-    │
-    ▼
+    |
+    v
 [현재 개념: EGP]
-    │
-    ├──▶ [확장 A: 거리 벡터 라우팅 알고리즘]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: 거리 벡터 라우팅 알고리즘]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 EGP는 IGP에서 출발해 현재 메커니즘을 정교화하고, 이후 [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -158,7 +158,7 @@ EGP는 IGP에서 출발해 현재 메커니즘을 정교화하고, 이후 [거�
 
 **진행 상황**: 467 / 1120
 
-← **이전**: [345. IGP (Interior Gateway Protocol)](/knowledge-base/studynote/03_network/07_network_layer_routing/345_igp_interior_gateway_protocol_rip_ospf/)
-**다음**: [347. 거리 벡터 (Distance Vector) 라우팅 알고리즘](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) →
+<- **이전**: [345. IGP (Interior Gateway Protocol)](/knowledge-base/studynote/03_network/07_network_layer_routing/345_igp_interior_gateway_protocol_rip_ospf/)
+**다음**: [347. 거리 벡터 (Distance Vector) 라우팅 알고리즘](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) ->
 
 ---

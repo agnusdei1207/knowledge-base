@@ -19,21 +19,21 @@ tags = ["studynote-enterprise-systems"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    PDM 핵심 기능                                      │
-├───────────────────────────────────────────────────────┤
-│  [Vault — 데이터 저장소]                              │
-│   CAD 도면, 3D 모델, 문서 → 버전 관리                │
-│                                                       │
-│  [체크인/체크아웃]                                    │
-│   수정 시 체크아웃(잠금) → 완료 후 체크인(신 버전)   │
-│                                                       │
-│  [BOM 관리]                                           │
-│   E-BOM(설계) → M-BOM(제조) 변환                     │
-│                                                       │
-│  [변경 관리]                                          │
-│   ECR(요청) → ECO(승인) → ECN(통보)                  │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    PDM 핵심 기능                                      |
++-------------------------------------------------------+
+|  [Vault — 데이터 저장소]                              |
+|   CAD 도면, 3D 모델, 문서 -> 버전 관리                |
+|                                                       |
+|  [체크인/체크아웃]                                    |
+|   수정 시 체크아웃(잠금) -> 완료 후 체크인(신 버전)   |
+|                                                       |
+|  [BOM 관리]                                           |
+|   E-BOM(설계) -> M-BOM(제조) 변환                     |
+|                                                       |
+|  [변경 관리]                                          |
+|   ECR(요청) -> ECO(승인) -> ECN(통보)                  |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: PDM은 설계팀의 <strong>Git</strong>이다. CAD 도면을 커밋(체크인)·브랜치(리비전)·[PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)(ECO 승인)로 관리한다.
@@ -93,17 +93,17 @@ PDM은 <strong>설계 협업의 기본 인프라</strong>이며, PLM으로 확�
 
 ```text
 [파일 서버 (수동 CAD 관리, 1980s)]
-    │
-    ▼
+    |
+    v
 [PDM (1990s) — CAD 버전·BOM 관리]
-    │
-    ▼
+    |
+    v
 [PLM (2000s) — 전주기 확장]
-    │
-    ▼
+    |
+    v
 [클라우드 PLM (2015~) — SaaS 기반]
-    │
-    ▼
+    |
+    v
 [현재: AI+PDM — 자동 BOM 생성·도면 유사 검색]
 ```
 
@@ -118,7 +118,7 @@ PDM은 <strong>설계 협업의 기본 인프라</strong>이며, PLM으로 확�
 
 **진행 상황**: 123 / 482
 
-← **이전**: [122. PLM (Product Lifecycle Management) - 제품 전주기 관리 시스템](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/122_plm_product_lifecycle_management/)
-**다음**: [124. BOM (Bill of Materials) - 부품 구성 목록·제조업 데이터 핵심](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/) →
+<- **이전**: [122. PLM (Product Lifecycle Management) - 제품 전주기 관리 시스템](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/122_plm_product_lifecycle_management/)
+**다음**: [124. BOM (Bill of Materials) - 부품 구성 목록·제조업 데이터 핵심](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/) ->
 
 ---

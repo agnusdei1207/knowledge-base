@@ -29,17 +29,17 @@ tags = ["studynote-operating-system"]
 
   (1) 과거 UMA (균일 접근): 거대한 병목 발생
   [코어0][코어1][코어2][코어3]
-      │   │   │                                                      │
-      ▼   ▼   ▼   ▼ ──▶ 단일 버스(Bus) 교통 체증 💥
+      |   |   |                                                      |
+      v   v   v   v ---> 단일 버스(Bus) 교통 체증 💥
    [ 거대 단일 공유 메모리 (RAM) ]
 
   (2) 현대 NUMA (불균일 접근): 지역성(Locality) 기반의 초고속망
-  ┌────── NUMA 노드 0 ──────┐          ┌────── NUMA 노드 1 ──────────┐
-  │ [코어0] [코어1] [코어2]   │  QPI 망  │ [코어3] [코어4] [코어5]   │
-  │   │ 로컬 접근 (초고속!)    │ ◀────▶ │   │ 로컬 접근 (초고속!)    │
-  │   ▼                     │ (교각) │   ▼                           │
-  │ [ 로컬 메모리 RAM 0 ]     │          │ [ 로컬 메모리 RAM 1 ]     │
-  └─────────────────────────┘          └─────────────────────────────┘
+  +------ NUMA 노드 0 ------+          +------ NUMA 노드 1 ----------+
+  | [코어0] [코어1] [코어2]   |  QPI 망  | [코어3] [코어4] [코어5]   |
+  |   | 로컬 접근 (초고속!)    | <------> |   | 로컬 접근 (초고속!)    |
+  |   v                     | (교각) |   v                           |
+  | [ 로컬 메모리 RAM 0 ]     |          | [ 로컬 메모리 RAM 1 ]     |
+  +-------------------------+          +-----------------------------+
 
   * 🚨 문제: 코어0이 옆 동네 'RAM 1'에 접근(Remote Access)하려면
              느린 QPI 교각을 건너야 하므로 성능이 30% 폭락한다.
@@ -68,21 +68,21 @@ tags = ["studynote-operating-system"]
 ### 최악의 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 붕괴 시나리오: 핑퐁 (Ping-Pong)
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────────────┐
-  │         멍청한 로드 밸런서가 유발하는 NUMA 핑퐁 장애 시나리오             │
-  ├───────────────────────────────────────────────────────────────────────────┤
-  │                                                                           │
-  │  [상황] 프로세스 P의 데이터는 '노드 0 메모리'에 10GB 저장됨.              │
-  │                                                                           │
-  │  1초: 커널 밸런서 "노드 0이 바쁘네? P를 노드 1(코어 3)로 이사!"           │
-  │       ▶ P는 코어 3에서 실행되지만, 데이터는 노드 0에 있어 느리게 원격 조회│
-  │  3초: 커널 밸런서 "노드 1이 바쁘네? P를 다시 노드 0으로 원복!"            │
-  │       ▶ P는 다시 로컬로 붙어서 초고속 연산 시작                           │
-  │  5초: 또 노드 1로 이사! ─▶ 7초: 또 노드 0으로 이사!                       │
-  │                                                                           │
-  │  🚨 재앙: 이 프로세스는 연산은 못 하고 남의 동네 교각(QPI 버스)만         │
-  │          오가며 트래픽을 폭파시키는 '버스 핑퐁'을 쳐서 서버 전체 멈춤!    │
-  └───────────────────────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------------------------+
+  |         멍청한 로드 밸런서가 유발하는 NUMA 핑퐁 장애 시나리오             |
+  +---------------------------------------------------------------------------+
+  |                                                                           |
+  |  [상황] 프로세스 P의 데이터는 '노드 0 메모리'에 10GB 저장됨.              |
+  |                                                                           |
+  |  1초: 커널 밸런서 "노드 0이 바쁘네? P를 노드 1(코어 3)로 이사!"           |
+  |       -> P는 코어 3에서 실행되지만, 데이터는 노드 0에 있어 느리게 원격 조회|
+  |  3초: 커널 밸런서 "노드 1이 바쁘네? P를 다시 노드 0으로 원복!"            |
+  |       -> P는 다시 로컬로 붙어서 초고속 연산 시작                           |
+  |  5초: 또 노드 1로 이사! --> 7초: 또 노드 0으로 이사!                       |
+  |                                                                           |
+  |  🚨 재앙: 이 프로세스는 연산은 못 하고 남의 동네 교각(QPI 버스)만         |
+  |          오가며 트래픽을 폭파시키는 '버스 핑퐁'을 쳐서 서버 전체 멈춤!    |
+  +---------------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 멀티코어 환경에서 멍청한 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 부하의 균형(Load Balance)만 맞추려다 벌어지는 대참사다. [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 환경에서는 <strong>"균형이 좀 안 맞더라도, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 있는 곳에 코어를 뼈 묻게 놔두는 것"</strong>이 전체 스루풋([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) 관점에서는 수백 배 더 이득이다.
 
@@ -120,28 +120,28 @@ tags = ["studynote-operating-system"]
    - **실무 조치**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 파라미터 `vm.zone_reclaim_mode=0`으로 세팅하여 "네 노드 메모리 다 썼으면, 느리더라도 디스크 쓰지 말고 옆 노드 1 메모리 빌려다 써라"라고 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 교정해 주어야 이 억울한 스래싱을 막을 수 있다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────┐
-  │     NUMA 아키텍처 환경의 성능 최적화(Tuning) 의사결정 트리       │
-  ├──────────────────────────────────────────────────────────────────┤
-  │                                                                  │
-  │   [ 2-Socket (NUMA 노드 2개) 물리 서버에 서비스 배포 ]           │
-  │                │                                                 │
-  │                ▼ 서비스의 성격 분석                              │
-  │   메모리를 대규모로 공유하는 단일 인메모리 시스템인가? (DB/Cache)│
-  │          ├─ [예 (Redis, Memcached, Oracle)]                      │
-  │          │      │                                                │
-  │          │      ▼ 튜닝 조치                                      │
-  │          │  - numactl --interleave=all 로 실행                   │
-  │          │  - 커널 투명적 거대 페이지(THP) 비활성화 고민         │
-  │          │                                                       │
-  │          └─ [아니오 (독립적인 Nginx, NodeJS 다수 컨테이너)]      │
-  │                 │                                                │
-  │                 ▼ 튜닝 조치                                      │
-  │             - numactl --cpunodebind=0 --membind=0                │
-  │               (A 컨테이너는 완벽히 노드 0번에 철창 격리)         │
-  │             - numactl --cpunodebind=1 --membind=1                │
-  │               (B 컨테이너는 완벽히 노드 1번에 철창 격리)         │
-  └──────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------+
+  |     NUMA 아키텍처 환경의 성능 최적화(Tuning) 의사결정 트리       |
+  +------------------------------------------------------------------+
+  |                                                                  |
+  |   [ 2-Socket (NUMA 노드 2개) 물리 서버에 서비스 배포 ]           |
+  |                |                                                 |
+  |                v 서비스의 성격 분석                              |
+  |   메모리를 대규모로 공유하는 단일 인메모리 시스템인가? (DB/Cache)|
+  |          +- [예 (Redis, Memcached, Oracle)]                      |
+  |          |      |                                                |
+  |          |      v 튜닝 조치                                      |
+  |          |  - numactl --interleave=all 로 실행                   |
+  |          |  - 커널 투명적 거대 페이지(THP) 비활성화 고민         |
+  |          |                                                       |
+  |          +- [아니오 (독립적인 Nginx, NodeJS 다수 컨테이너)]      |
+  |                 |                                                |
+  |                 v 튜닝 조치                                      |
+  |             - numactl --cpunodebind=0 --membind=0                |
+  |               (A 컨테이너는 완벽히 노드 0번에 철창 격리)         |
+  |             - numactl --cpunodebind=1 --membind=1                |
+  |               (B 컨테이너는 완벽히 노드 1번에 철창 격리)         |
+  +------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 서버 엔지니어의 핵심 역량이다. 독립적인 웹 서버 10개를 띄울 때는 절대 인터리브(Interleave)를 쓰면 안 된다. 5개는 0번 노드에, 5개는 1번 노드에 완벽하게 CPU와 메모리를 강제 고정(Pinning/Binding)시켜 서로가 옆 동네를 평생 바라보지도 않게 쪼개버리는 것([NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))이 각자의 100% 로컬 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 이끌어내는 마법이다.
 
@@ -174,12 +174,12 @@ NUMA는 과거 슈퍼컴퓨터의 전유물이었으나, 현재는 AMD Threadrip
 
 ```text
 [다중 처리기 스케줄링 (Multiprocessor Scheduling)]
-    │
-    ▼
+    |
+    v
 [비대칭 다중 처리 (ASMP) 스케줄링]
-    │
-    ├──▶ [대칭 다중 처리 (SMP) 스케줄링]
-    └──▶ [부하 균등화 (Load Balancing)]
+    |
+    +---> [대칭 다중 처리 (SMP) 스케줄링]
+    +---> [부하 균등화 (Load Balancing)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -196,7 +196,7 @@ NUMA는 과거 슈퍼컴퓨터의 전유물이었으나, 현재는 AMD Threadrip
 
 **진행 상황**: 194 / 800
 
-← **이전**: [193. 다중 처리기 스케줄링 (Multiprocessor Scheduling)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/193_smp_symmetric_multiprocessing/)
-**다음**: [195. 대칭 다중 처리 (SMP) 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) →
+<- **이전**: [193. 다중 처리기 스케줄링 (Multiprocessor Scheduling)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/193_smp_symmetric_multiprocessing/)
+**다음**: [195. 대칭 다중 처리 (SMP) 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) ->
 
 ---

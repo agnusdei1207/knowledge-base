@@ -31,25 +31,25 @@ tags = ["studynote-data-engineering"]
 수식으로는 $D_M(x) = \sqrt{(x - \mu)^T S^{-1} (x - \mu)}$ 로 표현된다. (여기서 $x$는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 벡터, $\mu$는 평균 벡터, $S$는 공분산 행렬이다.)
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│        유클리드 거리와 마할라노비스 거리의 결정적 차이              │
-├──────────────────────────────────────────────────────────────┤
-│ Y 변수                                                       │
-│  ▲                                      * B (Outlier)        │
-│  │                                                           │
-│  │                    / (타원형 데이터 분포)                    │
-│  │                  /                                        │
-│  │                /             * A (Normal)                 │
-│  │          (Center)                                         │
-│  │            /                                              │
-│  │          /                                                │
-│  └─────────────────────────────────────────────────────▶ X 변수 │
-│                                                              │
-│ [분석] 중심으로부터의 절대적인 직선 거리: B < A                │
-│ 하지만 실제 분포를 고려하면 A는 정상 범주, B는 완전한 이상치다.      │
-│ 마할라노비스 거리는 $S^{-1}$ (공분산 역행렬)을 통해 타원을 원으로   │
-│ 찌그러트려 보정(Whitening)하므로 올바르게 판단할 수 있다.           │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|        유클리드 거리와 마할라노비스 거리의 결정적 차이              |
++--------------------------------------------------------------+
+| Y 변수                                                       |
+|  ^                                      * B (Outlier)        |
+|  |                                                           |
+|  |                    / (타원형 데이터 분포)                    |
+|  |                  /                                        |
+|  |                /             * A (Normal)                 |
+|  |          (Center)                                         |
+|  |            /                                              |
+|  |          /                                                |
+|  +------------------------------------------------------> X 변수 |
+|                                                              |
+| [분석] 중심으로부터의 절대적인 직선 거리: B < A                |
+| 하지만 실제 분포를 고려하면 A는 정상 범주, B는 완전한 이상치다.      |
+| 마할라노비스 거리는 $S^{-1}$ (공분산 역행렬)을 통해 타원을 원으로   |
+| 찌그러트려 보정(Whitening)하므로 올바르게 판단할 수 있다.           |
++--------------------------------------------------------------+
 ```
 
 이 과정은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 가진 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)의 크기로 축을 나누어주는 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)(Standardization)를 수행함과 동시에, 축이 틀어져 있는(상관관계) 것을 회전시켜 독립적인 상태로 펴주는 역할을 한다. 결과적으로 타원형 분포를 완벽한 구형으로 변환한 뒤 거리를 재는 것과 같다.
@@ -109,16 +109,16 @@ tags = ["studynote-data-engineering"]
 ```text
 유클리드 거리 (Euclidean Distance)
 (직선 최단 거리, 상관성 무시)
-    │
-    ▼
+    |
+    v
 표준화 유클리드 거리 (Standardized Euclidean)
 (변수 간 단위 차이 분산 보정)
-    │
-    ▼
+    |
+    v
 마할라노비스 거리 (Mahalanobis Distance)
 (공분산 행렬 반영, 타원형 분포 보정)
-    │
-    ▼
+    |
+    v
 다차원 이상치 탐지 및 패턴 분류
 (FDS, 불량 탐지 시스템 고도화)
 ```
@@ -134,7 +134,7 @@ tags = ["studynote-data-engineering"]
 
 **진행 상황**: 106 / 258
 
-← **이전**: [TF-IDF 및 코사인 유사도 (TF-IDF & Cosine Similarity)](/knowledge-base/studynote/14_data_engineering/02_math_mining/105_tf_idf_cosine_similarity/)
-**다음**: [텐서플로우 배열 (TensorFlow Tensors: Scalar, Vector, Matrix, Tensor)](/knowledge-base/studynote/14_data_engineering/02_math_mining/107_tensorflow_array_tensor/) →
+<- **이전**: [TF-IDF 및 코사인 유사도 (TF-IDF & Cosine Similarity)](/knowledge-base/studynote/14_data_engineering/02_math_mining/105_tf_idf_cosine_similarity/)
+**다음**: [텐서플로우 배열 (TensorFlow Tensors: Scalar, Vector, Matrix, Tensor)](/knowledge-base/studynote/14_data_engineering/02_math_mining/107_tensorflow_array_tensor/) ->
 
 ---

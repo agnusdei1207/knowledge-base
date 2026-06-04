@@ -31,22 +31,22 @@ tags = ["studynote-data-engineering"]
 라쏘와 릿지 규제는 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)에 패널티 항을 더하는 방식은 같지만, 패널티의 형태(L1 Norm, L2 Norm)에 따라 제약 조건의 기하학적 형태가 달라진다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           라쏘 (L1)와 릿지 (L2)의 기하학적 제약 조건           │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│       [Lasso - 마름모 제약]          [Ridge - 원형 제약]     │
-│             |  /                           |  /              │
-│          /\ | /                        ╭───┴───╮             │
-│         /  \|/                        │    |  / │            │
-│       ─+────+────+─ β1              ─+─────+─────+─ β1       │
-│         \  /|                         │    |    │            │
-│          \/ |                          ╰───┬───╯             │
-│             |                              |                 │
-│                                                              │
-│  => 최적점이 축(Axis) 위에서       => 최적점이 축에 닿지 않고    │
-│     만나 계수가 정확히 0이 됨.        0에 가깝게 수축만 함.       │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           라쏘 (L1)와 릿지 (L2)의 기하학적 제약 조건           |
++--------------------------------------------------------------+
+|                                                              |
+|       [Lasso - 마름모 제약]          [Ridge - 원형 제약]     |
+|             |  /                           |  /              |
+|          /\ | /                        +---+---+             |
+|         /  \|/                        |    |  / |            |
+|       -+----+----+- β1              -+-----+-----+- β1       |
+|         \  /|                         |    |    |            |
+|          \/ |                          +---+---+             |
+|             |                              |                 |
+|                                                              |
+|  => 최적점이 축(Axis) 위에서       => 최적점이 축에 닿지 않고    |
+|     만나 계수가 정확히 0이 됨.        0에 가깝게 수축만 함.       |
++--------------------------------------------------------------+
 ```
 
 위 다이어그램에서 보듯, 라쏘 (L1)는 패널티가 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)의 절대값 합으로 주어지며 마름모꼴의 제약 영역을 형성한다. 이로 인해 최적점이 모서리(축)에서 발생할 확률이 높아, 덜 중요한 변수의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 0이 되는 자동 변수 선택 (Feature [Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/)) 효과를 낸다. 반면 릿지 (L2)는 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 제곱합을 사용하여 원형 제약 영역을 만들며, [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 0에 가깝게 작게 만들지만 완전히 0으로 소거하지는 않는다.
@@ -114,17 +114,17 @@ tags = ["studynote-data-engineering"]
 
 ```text
 OLS (단순 선형 회귀) · 오차 제곱합 최소화
-    │
-    ▼
+    |
+    v
 과적합 발생 · 편향-분산 트레이드오프 (Bias-Variance Tradeoff)
-    │
-    ▼
+    |
+    v
 라쏘 (Lasso, L1) · 릿지 (Ridge, L2) 규제 도입
-    │
-    ▼
+    |
+    v
 엘라스틱 넷 (Elastic Net) · 규제 혼합
-    │
-    ▼
+    |
+    v
 딥러닝의 가중치 감소 (Weight Decay, L2 규제 적용)
 ```
 
@@ -139,7 +139,7 @@ OLS (단순 선형 회귀) · 오차 제곱합 최소화
 
 **진행 상황**: 102 / 258
 
-← **이전**: [나이브 베이즈 분류와 라플라스 스무딩 (Naive Bayes Classifier & Laplace Smoothing)](/knowledge-base/studynote/14_data_engineering/02_math_mining/101_naive_bayes_classifier/)
-**다음**: [로지스틱 회귀 (Logistic Regression) 및 시그모이드 (Sigmoid) 함수](/knowledge-base/studynote/14_data_engineering/02_math_mining/103_logistic_regression_sigmoid/) →
+<- **이전**: [나이브 베이즈 분류와 라플라스 스무딩 (Naive Bayes Classifier & Laplace Smoothing)](/knowledge-base/studynote/14_data_engineering/02_math_mining/101_naive_bayes_classifier/)
+**다음**: [로지스틱 회귀 (Logistic Regression) 및 시그모이드 (Sigmoid) 함수](/knowledge-base/studynote/14_data_engineering/02_math_mining/103_logistic_regression_sigmoid/) ->
 
 ---

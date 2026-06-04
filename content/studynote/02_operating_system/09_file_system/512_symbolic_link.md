@@ -26,34 +26,34 @@ tags = ["studynote-operating-system"]
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 이 껍데기 폴더 약도를 어떻게 열어서 진짜를 찾아가는지 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 구조로 보면 다음과 같다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────────────────────┐
-  │                 파일 I/O 엔진의 우회 렌더 : 심볼릭 링크 경로 텍스트 해독         │
-  ├──────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                  │
-  │  [ 사용자 뷰 (환상 가림막) ]                       [ 물리적 관점 (OS 커널 파서) ]│
-  │                                                                                  │
-  │    $ cat app_run.sh (더블클릭!)        ▶ OS 커널: "어 앱 실행파일이니까 열자!"   │
-  │                                           (Inode 열고 데이터 볼록 뚜껑 오픈)     │
-  │                                                                                  │
-  │  ──────│────────────────────────────────────────────────────────│──
-  │        ▼ (OS 통치: "야 이거 진짜 데이터 아니고 심볼릭 껍데기잖아 멈춰!")         │
-  │                                                                                  │
-  │  1. [ 가짜 대리인 안내판 파일 껍데기 (심볼릭) ]                                  │
-  │     ┌─ (app_run.sh 의 속성표 Inode: 77번) ──┐                                    │
-  │     │ 🔹 타입: L (Link 껍데기 속성 마커!)    │         [ 내용물 까봄! ]          │
-  │     │ 🔹 찐 데이터: "/opt/real_app.sh" ====▶ 커널이 안에 텍스트를 스캔!          │
-  │     └───────────────────────────┘                                                │
-  │                                                        ▼                         │
-  │  2. [ 다시 검색 시작! 2차 트랜잭션 전개 타격 (Redirect) ]                        │
-  │                                     ╭┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈╮                   │
-  │      커널이 "/opt/real_app.sh" 란  ┊ OS가 0번부터 다시 주소를    ┊               │
-  │      문자열을 쥐고 다시 헤매며 탐색함 ╰┈▶ 파싱, 스캔, 점프 이동! ──======        │
-  │                                                        ▼                         │
-  │  3. [ 진짜 원본 파일 타격 본체 렌더 ! ]                                          │
-  │     ┌─ (real_app.sh 속성표 Inode: 900번) ──┐                                     │
-  │     │ "진짜 바이너리 코드 실행!"             │  ◀ (천신만고 끝에 도착 구동)      │
-  │     └───────────────────────────┘                                                │
-  └──────────────────────────────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------------------------------+
+  |                 파일 I/O 엔진의 우회 렌더 : 심볼릭 링크 경로 텍스트 해독         |
+  +----------------------------------------------------------------------------------+
+  |                                                                                  |
+  |  [ 사용자 뷰 (환상 가림막) ]                       [ 물리적 관점 (OS 커널 파서) ]|
+  |                                                                                  |
+  |    $ cat app_run.sh (더블클릭!)        -> OS 커널: "어 앱 실행파일이니까 열자!"   |
+  |                                           (Inode 열고 데이터 볼록 뚜껑 오픈)     |
+  |                                                                                  |
+  |  ------|--------------------------------------------------------|--
+  |        v (OS 통치: "야 이거 진짜 데이터 아니고 심볼릭 껍데기잖아 멈춰!")         |
+  |                                                                                  |
+  |  1. [ 가짜 대리인 안내판 파일 껍데기 (심볼릭) ]                                  |
+  |     +- (app_run.sh 의 속성표 Inode: 77번) --+                                    |
+  |     | 🔹 타입: L (Link 껍데기 속성 마커!)    |         [ 내용물 까봄! ]          |
+  |     | 🔹 찐 데이터: "/opt/real_app.sh" ====-> 커널이 안에 텍스트를 스캔!          |
+  |     +---------------------------+                                                |
+  |                                                        v                         |
+  |  2. [ 다시 검색 시작! 2차 트랜잭션 전개 타격 (Redirect) ]                        |
+  |                                     +┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈+                   |
+  |      커널이 "/opt/real_app.sh" 란  ┊ OS가 0번부터 다시 주소를    ┊               |
+  |      문자열을 쥐고 다시 헤매며 탐색함 +┈-> 파싱, 스캔, 점프 이동! --======        |
+  |                                                        v                         |
+  |  3. [ 진짜 원본 파일 타격 본체 렌더 ! ]                                          |
+  |     +- (real_app.sh 속성표 Inode: 900번) --+                                     |
+  |     | "진짜 바이너리 코드 실행!"             |  <- (천신만고 끝에 도착 구동)      |
+  |     +---------------------------+                                                |
+  +----------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 초보자는 심볼릭 링크 아이콘 더블 클릭이 0.001초 만에 실행되니 마법 같겠지만, 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안에서는 "지옥의 2번 왕복 I/O 서치 연산 디스크 부하" 가 작렬한다. 1차로 가짜 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(app.sh)의 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록을 읽어서 그 안에서 `"/opt/real_app"` 이라는 문자열 텍스트를 끄집어낸다. 그리고 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 함수가 아예 종료되고 다시 `open("/opt/real_app")` 이라는 치환 함수를 2차 콜([System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/)) 투하하여 새롭게 원본 서치를 다시 헤매야 비로소 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 도달한다. 즉, [하드 링크](/knowledge-base/studynote/02_operating_system/09_file_system/511_hard_link/)보다는 검색 오버헤드 CPU [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 패널티가 압도적으로 크지만 무한한 이식성 자유 공간을 보장받는 딜레마다.
@@ -146,12 +146,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [하드 링크 (Hard Link)]
-    │
-    ▼
+    |
+    v
 [심볼릭 링크 (Symbolic Link / Soft Link)]
-    │
-    ├──▶ [일반 그래프 디렉터리 (순환 허용)]
-    └──▶ [파티션 (Partition) / 슬라이스 / 볼륨 (Volume)]
+    |
+    +---> [일반 그래프 디렉터리 (순환 허용)]
+    +---> [파티션 (Partition) / 슬라이스 / 볼륨 (Volume)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -168,7 +168,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 512 / 800
 
-← **이전**: [511. 하드 링크 (Hard Link) - 동일한 물리 데이터(i-node) 가리킴, 디렉터리 링크 불가](/knowledge-base/studynote/02_operating_system/09_file_system/511_hard_link/)
-**다음**: [513. 일반 그래프 디렉터리 (순환 허용) (General Graph Directory)](/knowledge-base/studynote/02_operating_system/09_file_system/513_general_graph_directory/) →
+<- **이전**: [511. 하드 링크 (Hard Link) - 동일한 물리 데이터(i-node) 가리킴, 디렉터리 링크 불가](/knowledge-base/studynote/02_operating_system/09_file_system/511_hard_link/)
+**다음**: [513. 일반 그래프 디렉터리 (순환 허용) (General Graph Directory)](/knowledge-base/studynote/02_operating_system/09_file_system/513_general_graph_directory/) ->
 
 ---

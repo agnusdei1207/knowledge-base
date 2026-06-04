@@ -33,18 +33,18 @@ tags = ["studynote-data-engineering"]
 
 ```
 불균형 데이터 처리 전략
-├── 데이터 수준 (Data-Level)
-│   ├── 오버샘플링 (OverSampling)  ← 소수 클래스 증가
-│   │   ├── 무작위 오버샘플링 (Random OverSampling)
-│   │   └── SMOTE / ADASYN / BorderlineSMOTE
-│   └── 언더샘플링 (UnderSampling) ← 다수 클래스 감소
-│       ├── 무작위 언더샘플링 (Random UnderSampling)
-│       └── Tomek Links / ENN (Edited Nearest Neighbour)
-├── 알고리즘 수준 (Algorithm-Level)
-│   ├── 비용 민감 학습 (Cost-Sensitive Learning)
-│   └── 앙상블 (Ensemble): BalancedBagging, EasyEnsemble
-└── 평가 수준 (Evaluation-Level)
-    └── Accuracy 대신 F1 · AUC · G-Mean 사용
++-- 데이터 수준 (Data-Level)
+|   +-- 오버샘플링 (OverSampling)  <- 소수 클래스 증가
+|   |   +-- 무작위 오버샘플링 (Random OverSampling)
+|   |   +-- SMOTE / ADASYN / BorderlineSMOTE
+|   +-- 언더샘플링 (UnderSampling) <- 다수 클래스 감소
+|       +-- 무작위 언더샘플링 (Random UnderSampling)
+|       +-- Tomek Links / ENN (Edited Nearest Neighbour)
++-- 알고리즘 수준 (Algorithm-Level)
+|   +-- 비용 민감 학습 (Cost-Sensitive Learning)
+|   +-- 앙상블 (Ensemble): BalancedBagging, EasyEnsemble
++-- 평가 수준 (Evaluation-Level)
+    +-- Accuracy 대신 F1 · AUC · G-Mean 사용
 ```
 
 📢 **섹션 요약 비유**: 클래스 불균형은 마치 100명의 반 학생 중 1명만 빨간 옷을 입은 상황이다. 선생님이 "모두 파란 옷"이라 해도 99%가 맞아 보이지만, 빨간 옷을 찾는 임무는 완전히 실패한다.
@@ -71,17 +71,17 @@ x_new = x_i + λ × (x_nn - x_i)
 피처 공간 (Feature Space)
 
   F2
-   │
- 5 │    ○         ○
-   │       ○
- 4 │    ●            ○
-   │       ★
- 3 │          ●
-   │       ★
- 2 │    ○      ●
-   │
- 1 │    ○         ○
-   └────────────────── F1
+   |
+ 5 |    ○         ○
+   |       ○
+ 4 |    ●            ○
+   |       ★
+ 3 |          ●
+   |       ★
+ 2 |    ○      ●
+   |
+ 1 |    ○         ○
+   +------------------ F1
         1    2    3
 
   ● = 소수 클래스 원본 (3개)
@@ -89,7 +89,7 @@ x_new = x_i + λ × (x_nn - x_i)
   ○ = 다수 클래스 원본
 
   x_new = ● + λ × (인접● - ●)
-  → 두 ● 사이 선분 위의 임의 점을 새 샘플로 생성
+  -> 두 ● 사이 선분 위의 임의 점을 새 샘플로 생성
 ```
 
 ### SMOTE 변형 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 비교
@@ -98,25 +98,25 @@ x_new = x_i + λ × (x_nn - x_i)
 |:---|:---|:---|:---|
 | **SMOTE** | [k-NN](/knowledge-base/studynote/06_ict_convergence/05_data_science/352_knn_distance_metrics/) 이웃 간 선형 보간 | 단순·검증됨 | 경계선 근처 노이즈 샘플 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 가능 |
 | **ADASYN** (Adaptive Synthetic [Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/)) | [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 어려운 샘플에 더 많이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 어려운 경계 집중 학습 | 과도한 노이즈 증폭 위험 |
-| **Borderline-SMOTE** | 경계선 근처 소수 샘플만 선택 | 결정 경계 강화 | 경계 샘플 부족 시 효과 ↓ |
+| **Borderline-SMOTE** | 경계선 근처 소수 샘플만 선택 | 결정 경계 강화 | 경계 샘플 부족 시 효과 v |
 | <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/">SVM</a>-SMOTE</strong> | [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) 서포트 벡터 주변 샘플 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 고차원 효과적 | 계산 비용 높음 |
 | **SMOTENC** | 범주형+수치형 혼합 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 | 실무 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 적합 | 인코딩 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 복잡 |
 
 ### 언더샘플링 (UnderSampling) vs 오버샘플링 ([OverSampling](/knowledge-base/studynote/14_data_engineering/02_math_mining/096_oversampling_smote/))
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│              데이터 불균형 해소 전략 비교                       │
-├──────────────────┬───────────────────┬─────────────────────┤
-│   구분           │   언더샘플링       │    오버샘플링        │
-├──────────────────┼───────────────────┼─────────────────────┤
-│ 방향             │ 다수 클래스 ↓      │ 소수 클래스 ↑       │
-│ 데이터 크기      │ 감소 (학습 빠름)   │ 증가 (학습 느림)    │
-│ 정보 손실        │ 있음 (위험)        │ 없음                │
-│ 과적합 위험      │ 낮음              │ 높음 (단순 복제 시) │
-│ 권장 상황        │ 데이터 충분        │ 데이터 희귀         │
-│ 대표 기법        │ Tomek Links, ENN  │ SMOTE, ADASYN       │
-└──────────────────┴───────────────────┴─────────────────────┘
++-------------------------------------------------------------+
+|              데이터 불균형 해소 전략 비교                       |
++------------------+-------------------+---------------------+
+|   구분           |   언더샘플링       |    오버샘플링        |
++------------------+-------------------+---------------------+
+| 방향             | 다수 클래스 v      | 소수 클래스 ^       |
+| 데이터 크기      | 감소 (학습 빠름)   | 증가 (학습 느림)    |
+| 정보 손실        | 있음 (위험)        | 없음                |
+| 과적합 위험      | 낮음              | 높음 (단순 복제 시) |
+| 권장 상황        | 데이터 충분        | 데이터 희귀         |
+| 대표 기법        | Tomek Links, ENN  | SMOTE, ADASYN       |
++------------------+-------------------+---------------------+
 ```
 
 📢 **섹션 요약 비유**: SMOTE는 두 점 사이에 점을 찍는 것이다. 빨간 공 두 개 사이에 새 빨간 공을 놓아 "비슷하지만 완전히 같지 않은" 새 예시를 만드는 것과 같다.
@@ -141,19 +141,19 @@ x_new = x_i + λ × (x_nn - x_i)
 
 ```
 ❌ 잘못된 적용 (Data Leakage 발생):
-   전체 데이터 → SMOTE → 훈련/테스트 분할
-   (테스트 데이터에 합성 샘플 유입 → 평가 결과 부풀려짐)
+   전체 데이터 -> SMOTE -> 훈련/테스트 분할
+   (테스트 데이터에 합성 샘플 유입 -> 평가 결과 부풀려짐)
 
 ✅ 올바른 적용:
-   전체 데이터 → 훈련/테스트 분할 → 훈련 데이터에만 SMOTE
-   (테스트 데이터는 반드시 원본 유지 → 공정한 평가)
+   전체 데이터 -> 훈련/테스트 분할 -> 훈련 데이터에만 SMOTE
+   (테스트 데이터는 반드시 원본 유지 -> 공정한 평가)
 
 ✅ 파이프라인 적용 (sklearn Pipeline):
    Pipeline([
      ('smote', SMOTE()),
      ('model', XGBClassifier())
    ])
-   → cross_val_score로 CV 수행 시 각 폴드 내에서만 SMOTE 적용
+   -> cross_val_score로 CV 수행 시 각 폴드 내에서만 SMOTE 적용
 ```
 
 📢 **섹션 요약 비유**: 시험 문제를 미리 알고 공부(테스트에 SMOTE 적용)하면 점수가 높아 보이지만 실력이 아니다. 공부할 때(훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 연습 문제를 늘려야 진짜 실력이 오른다.
@@ -163,18 +163,18 @@ x_new = x_i + λ × (x_nn - x_i)
 ### 실무 불균형 처리 파이프라인
 
 ```
-┌───────────────────────────────────────────────────────────────┐
-│                  불균형 데이터 처리 파이프라인                    │
-│                                                               │
-│  원시 데이터     EDA          전처리       SMOTE    모델 학습   │
-│  [Raw Data] → [불균형    → [결측치    → [합성   → [학습]      │
-│               비율 분석]    처리·정규화]   샘플생성]            │
-│                  ↓                          ↓                 │
-│              불균형비율                 훈련 데이터만           │
-│              측정 (1%?)               (테스트 제외)            │
-│                                                               │
-│  평가: F1 · AUC · PR-AUC 중심 (Accuracy 배제)                 │
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|                  불균형 데이터 처리 파이프라인                    |
+|                                                               |
+|  원시 데이터     EDA          전처리       SMOTE    모델 학습   |
+|  [Raw Data] -> [불균형    -> [결측치    -> [합성   -> [학습]      |
+|               비율 분석]    처리·정규화]   샘플생성]            |
+|                  v                          v                 |
+|              불균형비율                 훈련 데이터만           |
+|              측정 (1%?)               (테스트 제외)            |
+|                                                               |
+|  평가: F1 · AUC · PR-AUC 중심 (Accuracy 배제)                 |
++---------------------------------------------------------------+
 ```
 
 ### 기술사 판단 포인트
@@ -226,15 +226,15 @@ SMOTE는 클래스 불균형 문제 해결의 사실상 표준 기법이지만 �
 
 ```text
 클래스 불균형 데이터 (소수 클래스 탐지 실패)
-    │
-    ▼
+    |
+    v
 오버샘플링: SMOTE · ADASYN · BorderlineSMOTE
 언더샘플링: RandomUnder · NearMiss · Tomek Links
-    │
-    ▼
+    |
+    v
 비용 민감 학습 · 임계값 조정 · Focal Loss
-    │
-    ▼
+    |
+    v
 데이터 증강 (이미지: Augmentation · 텍스트: Back Translation)
 ```
 2. SMOTE는 빨간 옷 아이 두 명 사이에 "비슷하게 생긴 새 빨간 옷 아이"를 만들어줘서 AI가 빨간 옷의 특징을 더 잘 배우게 해준다.
@@ -246,7 +246,7 @@ SMOTE는 클래스 불균형 문제 해결의 사실상 표준 기법이지만 �
 
 **진행 상황**: 231 / 258
 
-← **이전**: [230. SVD (Singular Value Decomposition) 행렬 분해 랜덤 포레스트 XGBoost 부스팅](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/)
-**다음**: [232. TF-IDF (Term Frequency-Inverse Document Frequency) 코사인 유사도 텍스트 임베딩 혼동](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/) →
+<- **이전**: [230. SVD (Singular Value Decomposition) 행렬 분해 랜덤 포레스트 XGBoost 부스팅](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/)
+**다음**: [232. TF-IDF (Term Frequency-Inverse Document Frequency) 코사인 유사도 텍스트 임베딩 혼동](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/) ->
 
 ---

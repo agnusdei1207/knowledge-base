@@ -39,19 +39,19 @@ tags = ["software_engineering"]
 | **가치 창출 전무** | 작업을 완료했을 때 시스템의 기능이 진보하지 않고 그냥 원래 상태로 복귀할 뿐인가? |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           SRE 엔지니어의 시간 포트폴리오 밸런스 조정           │
-├──────────────────────────────────────────────────────────────┤
-│  [ 나쁜 예: 운영에 함몰된 레거시 팀 ]                          │
-│   ■■■■■■■■■■■■■■■■■■ (90%) : 토일 (알람 끄기, 재부팅)     │
-│   ■■ (10%) : 엔지니어링 (새로운 스크립트 작성)                 │
-│   => 결과: 시스템 커지면 퇴사자 속출, 신뢰성 붕괴                  │
-│                                                              │
-│  [ 올바른 예: 토일 50% 캡을 강제한 구글 SRE ]                   │
-│   ■■■■■■■■■■ (50% 제한) : 최대치로 묶인 토일 처리 시간        │
-│   ■■■■■■■■■■ (50% 보장) : 토일을 자동화하는 전략적 코딩 시간  │
-│   => 결과: 내일은 자동화 덕분에 토일이 30%로 줄어드는 선순환 발생   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           SRE 엔지니어의 시간 포트폴리오 밸런스 조정           |
++--------------------------------------------------------------+
+|  [ 나쁜 예: 운영에 함몰된 레거시 팀 ]                          |
+|   ■■■■■■■■■■■■■■■■■■ (90%) : 토일 (알람 끄기, 재부팅)     |
+|   ■■ (10%) : 엔지니어링 (새로운 스크립트 작성)                 |
+|   => 결과: 시스템 커지면 퇴사자 속출, 신뢰성 붕괴                  |
+|                                                              |
+|  [ 올바른 예: 토일 50% 캡을 강제한 구글 SRE ]                   |
+|   ■■■■■■■■■■ (50% 제한) : 최대치로 묶인 토일 처리 시간        |
+|   ■■■■■■■■■■ (50% 보장) : 토일을 자동화하는 전략적 코딩 시간  |
+|   => 결과: 내일은 자동화 덕분에 토일이 30%로 줄어드는 선순환 발생   |
++--------------------------------------------------------------+
 ```
 
 이 다이어그램은 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)을 줄이는 것이 단순한 구호가 아니라, 운영자의 강제적 시간 할당 룰을 통해 실현되는 시스템 공학(엔진ering)임을 보여준다.
@@ -115,17 +115,17 @@ tags = ["software_engineering"]
 
 ```text
 레거시 시스템의 수작업 운영 (O(n) 인력 소모)
-    │
-    ▼
+    |
+    v
 토일(Toil) 6대 조건 기반의 엄격한 판별 및 측정
-    │
-    ▼
+    |
+    v
 토일 시간 50% 상한(Cap) 통제 룰 적용
-    │
-    ▼
+    |
+    v
 확보된 시간으로 자동화 스크립트/IaC (Terraform, Ansible) 개발
-    │
-    ▼
+    |
+    v
 운영 부담(선형 증대) 소멸 및 무한 확장 가능한 신뢰성 아키텍처 완성
 ```
 
@@ -141,7 +141,7 @@ tags = ["software_engineering"]
 
 **진행 상황**: 104 / 973
 
-← **이전**: [103. SLA (Service Level Agreement)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/103_sla_service_level_agreement_penalty/)
-**다음**: [105. DevSecOps - 보안의 좌측 이동 (Shift-Left Security)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/105_devsecops_shift_left_security/) →
+<- **이전**: [103. SLA (Service Level Agreement)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/103_sla_service_level_agreement_penalty/)
+**다음**: [105. DevSecOps - 보안의 좌측 이동 (Shift-Left Security)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/105_devsecops_shift_left_security/) ->
 
 ---

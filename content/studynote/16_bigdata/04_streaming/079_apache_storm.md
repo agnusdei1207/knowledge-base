@@ -32,34 +32,34 @@ tags = ["bigdata"]
 스톰 개발자는 코드를 짤 때 `if-else` 만 짜는 게 아니라, 물이 흘러갈 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)의 배관(Topology) 도면을 그려야 한다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 Apache Storm의 파이프라인(Topology) 배관도             │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ Apache Kafka 등 원본 소스 ]                                       │
-  │          │                                                        │
-  │          ▼ (데이터 튜플 1건씩 꿀꺽!)                                  │
-  │  ┌─────────────────┐                                              │
-  │  │   Spout (수도꼭지)│ ──▶ Storm의 시작점. 외부에서 데이터를 퍼 올려서      │
-  │  └─────────────────┘      파이프라인 안으로 뿜어내는 역할을 전담함.           │
-  │          │                                                        │
-  │          ▼ (단어 자르기)                                             │
-  │  ┌─────────────────┐                                              │
-  │  │ Bolt 1 (필터/변환)│ ──▶ "오늘 강남에 불 났네" 문장을 받아 단어로 쪼갬.    │
-  │  └─────────────────┘      ('오늘', '강남', '불')                     │
-  │          │                                                        │
-  │          ▼ (단어별로 길을 나눠서 던짐: Field Grouping)                    │
-  │  ┌─────────────────┐    ┌─────────────────┐                       │
-  │  │ Bolt 2-A (카운트) │    │ Bolt 2-B (카운트) │ ──▶ 쪼개진 단어를 받아서  │
-  │  └─────────────────┘    └─────────────────┘      +1씩 더하는 집계기. │
-  │          │                      │                                 │
-  │          ▼                      ▼                                 │
-  │   [ Redis / 대시보드 화면 ] (최종 뷰 출력)                               │
-  │                                                                   │
-  │  ▶ 핵심 원리: 하둡의 맵리듀스(Job)는 한 번 끝나면 프로그램이 종료된다.          │
-  │             하지만 스톰의 Топология(Topology)는 끄지 않는 이상 1년이고       │
-  │             10년이고 메모리에 둥둥 떠서 영원히 데이터가 지나가길 기다린다.      │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 Apache Storm의 파이프라인(Topology) 배관도             |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ Apache Kafka 등 원본 소스 ]                                       |
+  |          |                                                        |
+  |          v (데이터 튜플 1건씩 꿀꺽!)                                  |
+  |  +-----------------+                                              |
+  |  |   Spout (수도꼭지)| ---> Storm의 시작점. 외부에서 데이터를 퍼 올려서      |
+  |  +-----------------+      파이프라인 안으로 뿜어내는 역할을 전담함.           |
+  |          |                                                        |
+  |          v (단어 자르기)                                             |
+  |  +-----------------+                                              |
+  |  | Bolt 1 (필터/변환)| ---> "오늘 강남에 불 났네" 문장을 받아 단어로 쪼갬.    |
+  |  +-----------------+      ('오늘', '강남', '불')                     |
+  |          |                                                        |
+  |          v (단어별로 길을 나눠서 던짐: Field Grouping)                    |
+  |  +-----------------+    +-----------------+                       |
+  |  | Bolt 2-A (카운트) |    | Bolt 2-B (카운트) | ---> 쪼개진 단어를 받아서  |
+  |  +-----------------+    +-----------------+      +1씩 더하는 집계기. |
+  |          |                      |                                 |
+  |          v                      v                                 |
+  |   [ Redis / 대시보드 화면 ] (최종 뷰 출력)                               |
+  |                                                                   |
+  |  -> 핵심 원리: 하둡의 맵리듀스(Job)는 한 번 끝나면 프로그램이 종료된다.          |
+  |             하지만 스톰의 Топология(Topology)는 끄지 않는 이상 1년이고       |
+  |             10년이고 메모리에 둥둥 떠서 영원히 데이터가 지나가길 기다린다.      |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 스톰 클러스터 안에는 [마스터 노드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/075_kubernetes_k8s_cluster_architecture/)인 **Nimbus(님버스)** 가 전체를 지휘하고, 워커 노드인 **Supervisor(수퍼바이저)** 들이 Spout와 Bolt라는 일꾼([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))들을 뱃속에 품고 24시간 미친 듯이 일한다. 이 구조의 묘미는 **유연한 튜닝(Parallelism)** 이다. 만약 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 너무 많이 들어와서 Bolt 1(자르기)이 버거워하면, 개발자는 코드 수정 없이 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나만 건드려 Bolt 1을 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)해 10명으로 늘려버릴 수 있다. 병목이 생기는 배관(Bolt)만 골라서 굵기를 수백 배로 늘려주는 클라우드 확장의 미학이다.
@@ -146,20 +146,20 @@ Apache Storm은 훌륭했지만 너무 늙었다. 현재 스트리밍 시장의 
 
 ```text
 [:---]
-    │
-    ▼
+    |
+    v
 [Apache Kafka (아파치 카프카)]
-    │
-    ▼
+    |
+    v
 [Apache Flink (아파치 플링크)]
-    │
-    ▼
+    |
+    v
 [람다 아키텍처 (Lambda Architecture)]
-    │
-    ▼
+    |
+    v
 [DAG (Directed Acyclic Graph)]
-    │
-    ▼
+    |
+    v
 [Back-pressure (백프레셔 / 배압)]
 ```
 
@@ -176,7 +176,7 @@ Apache Storm은 훌륭했지만 너무 늙었다. 현재 스트리밍 시장의 
 
 **진행 상황**: 79 / 262
 
-← **이전**: [03. Kafka Hadoop Integration](/knowledge-base/studynote/16_bigdata/04_streaming/078_kafka_hadoop_integration/)
-**다음**: [05. 스트리밍 처리 필요성 — 실시간 의사결정의 한계 극복](/knowledge-base/studynote/16_bigdata/04_streaming/080_streaming_necessity/) →
+<- **이전**: [03. Kafka Hadoop Integration](/knowledge-base/studynote/16_bigdata/04_streaming/078_kafka_hadoop_integration/)
+**다음**: [05. 스트리밍 처리 필요성 — 실시간 의사결정의 한계 극복](/knowledge-base/studynote/16_bigdata/04_streaming/080_streaming_necessity/) ->
 
 ---

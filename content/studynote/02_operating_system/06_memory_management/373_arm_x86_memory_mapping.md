@@ -28,26 +28,26 @@ tags = ["studynote-operating-system"]
   3. **보안의 진화**: ARM은 스마트폰 보안을 위해 하드웨어 레벨에서 메모리를 두 쪽으로 가르는 TrustZone을 MMU에 박아넣었고, x86은 [멜트다운](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/) 등 방어를 위해 PCID와 다단계 권한 분리를 뒤늦게 고도화하며 맞서고 있다.
 
 ```text
-┌───────────────────────────────────────────────────────────────────────┐
-│        x86과 ARM의 가상 -> 물리 주소 번역 파이프라인 차이             │
-├───────────────────────────────────────────────────────────────────────┤
-│                                                                       │
-│ [ Intel x86_64 번역 회로 (역사의 찌꺼기를 안고 감) ]                  │
-│ CPU 논리 주소 발출                                                    │
-│   ↓ (하드웨어 강제: 세그멘테이션 회로 무조건 거쳐야 함)               │
-│ [ GDT / LDT 장부 거쳐서 덧셈 연산 ]                                   │
-│   ↓ (선형 주소 도출)                                                  │
-│ [ CR3 레지스터 (PTBR 역할) ] 가 4단계 페이지 테이블(PML4) 가리킴      │
-│   ↓                                                                   │
-│ RAM 4번 접근하여 물리 주소 획득!                                      │
-│                                                                       │
-│ [ ARMv8 (AArch64) 번역 회로 (깔끔함의 극치) ]                         │
-│ CPU 가상 주소 발출                                                    │
-│   ↓ (세그멘테이션? 그런 거 없음. 바로 다이렉트 패스!)                 │
-│ [ TTBR0 / TTBR1 레지스터 ] 가 페이지 테이블(Translation Table) 가리킴 │
-│   ↓ (여기서 TTBR이 두 개라 커널/유저 스위칭 속도가 미쳤음!)           │
-│ RAM 4번 접근하여 물리 주소 획득!                                      │
-└───────────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------------+
+|        x86과 ARM의 가상 -> 물리 주소 번역 파이프라인 차이             |
++-----------------------------------------------------------------------+
+|                                                                       |
+| [ Intel x86_64 번역 회로 (역사의 찌꺼기를 안고 감) ]                  |
+| CPU 논리 주소 발출                                                    |
+|   v (하드웨어 강제: 세그멘테이션 회로 무조건 거쳐야 함)               |
+| [ GDT / LDT 장부 거쳐서 덧셈 연산 ]                                   |
+|   v (선형 주소 도출)                                                  |
+| [ CR3 레지스터 (PTBR 역할) ] 가 4단계 페이지 테이블(PML4) 가리킴      |
+|   v                                                                   |
+| RAM 4번 접근하여 물리 주소 획득!                                      |
+|                                                                       |
+| [ ARMv8 (AArch64) 번역 회로 (깔끔함의 극치) ]                         |
+| CPU 가상 주소 발출                                                    |
+|   v (세그멘테이션? 그런 거 없음. 바로 다이렉트 패스!)                 |
+| [ TTBR0 / TTBR1 레지스터 ] 가 페이지 테이블(Translation Table) 가리킴 |
+|   v (여기서 TTBR이 두 개라 커널/유저 스위칭 속도가 미쳤음!)           |
+| RAM 4번 접근하여 물리 주소 획득!                                      |
++-----------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 두 아키텍처의 가장 큰 차이점은 '[세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)의 유무'와 '[베이스 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/)([PTBR](/knowledge-base/studynote/02_operating_system/06_memory_management/354_ptbr_ptlr/))의 개수'다. x86은 구시대의 잔재(GDT)를 억지로 통과하느라 한 번의 지연이 더 발생한다. 반면 ARM은 시작 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 아예 2개(TTBR0, TTBR1) 박아놓았다. 하나는 유저 앱 장부를, 하나는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 장부를 가리킨다. 덕분에 유저에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 넘어갈 때 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 교체([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))할 필요조차 없이 바로 하드웨어 포인터만 꺾어버려 스위칭 오버헤드를 안드로이드 배터리 수준으로 아껴버리는 기염을 토한다.
 
@@ -96,12 +96,12 @@ tags = ["studynote-operating-system"]
 - 해커가 안드로이드 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 박살 내고 루트(Root) 권한을 따내도, MMU의 'Non-Secure [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)'가 켜져 있으면, 아예 물리적으로 지문 정보가 있는 메모리 프레임 장부 자체를 읽을 수 없는 철통 방어망(TrustZone)을 완성했다. 이는 모바일 생태계가 x86을 꺾고 결제 시스템의 지배자가 된 결정적 무기다.
 
 ```text
-┌──────────┬────────────┬────────────┬──────────────────────────┐
-│ 아키텍처   │ 시작 레지스터 │ 세그멘테이션  │ 보안 철학 극대화 │
-├──────────┼────────────┼────────────┼──────────────────────────┤
-│ Intel x86│ CR3 (1개)   │ 강제 (잔재)   │ 가상화, PCID 튜닝    │
-│ ARM      │ TTBR0/1 (2개)│ 아예 없음    │ TrustZone 물리 격리  │
-└──────────┴────────────┴────────────┴──────────────────────────┘
++----------+------------+------------+--------------------------+
+| 아키텍처   | 시작 레지스터 | 세그멘테이션  | 보안 철학 극대화 |
++----------+------------+------------+--------------------------+
+| Intel x86| CR3 (1개)   | 강제 (잔재)   | 가상화, PCID 튜닝    |
+| ARM      | TTBR0/1 (2개)| 아예 없음    | TrustZone 물리 격리  |
++----------+------------+------------+--------------------------+
 ```
 **[매트릭스 해설]** 인텔은 수많은 클라우드 가상 머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))들을 빨리 돌리기 위해 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 캐시(PCID) 튜닝에 몰빵했다면, ARM은 내 손안의 은행(스마트폰)을 지키고 배터리를 아끼기 위해 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 분리하고 하드웨어 금고를 짓는 쪽으로 진화의 방향을 완전히 틀었다.
 
@@ -158,12 +158,12 @@ ARM과 x86의 메모리 매핑 아키텍처 대결은 "과거의 거대한 유�
 
 ```text
 [아키텍처 종속적인 MMU 인터페이스]
-    │
-    ▼
+    |
+    v
 [ARM / x86의 메모리 매핑 아키텍처 차이 (Arm X86 Memory Mapping)]
-    │
-    ├──▶ [주소 공간 무작위 배치 (ASLR, Address Space Layout Randomization)]
-    └──▶ [메모리 보호 키 (Memory Protection Keys)]
+    |
+    +---> [주소 공간 무작위 배치 (ASLR, Address Space Layout Randomization)]
+    +---> [메모리 보호 키 (Memory Protection Keys)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -180,7 +180,7 @@ ARM과 x86의 메모리 매핑 아키텍처 대결은 "과거의 거대한 유�
 
 **진행 상황**: 373 / 800
 
-← **이전**: [372. 아키텍처 종속적인 MMU 인터페이스 (Architecture Dependent MMU)](/knowledge-base/studynote/02_operating_system/06_memory_management/372_architecture_dependent_mmu/)
-**다음**: [374. 주소 공간 무작위 배치 (ASLR, Address Space Layout Randomization)](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/) →
+<- **이전**: [372. 아키텍처 종속적인 MMU 인터페이스 (Architecture Dependent MMU)](/knowledge-base/studynote/02_operating_system/06_memory_management/372_architecture_dependent_mmu/)
+**다음**: [374. 주소 공간 무작위 배치 (ASLR, Address Space Layout Randomization)](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/) ->
 
 ---

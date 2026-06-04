@@ -24,30 +24,30 @@ tags = ["studynote-it-management"]
 서비스 블루프린트는 ①To-Be(미래상) 모델을 통한 **Target Operating Model(TOM)** 수립, ② 채널별 일관된 Customer Experience(CX) 설계, ③ **Service Level Agreement(SLA)** 의 단위 프로세스 매핑, ④ Backstage 장애가 Frontstage CX로 전파되는 경로(Blast Radius) 분석에 사용된다. 기술사 출제 관점에서는 *"은행의 비대면 계좌개설 서비스를 신규 디지털 채널로 출시할 때, 어떤 Service Blueprint 구조로 To-Be를 설계하고 기존 레거시 코어뱅킹 시스템과 어떻게 통합할 것인가"* 와 같은 **현실 마이그레이션 시나리오** 가 빈번하게 등장한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│  Service Blueprint 5-Swimlane Conceptual Structure           │
-│                                                              │
-│   ┌────────────────────────────────────────────────────┐     │
-│   │ ① Customer Actions  (고객 행동)                    │ ★   │
-│   ├────────────────────────────────────────────────────┤ ─ ─ ┤
-│   │              ◀── Line of Interaction ──▶           │     │
-│   ├────────────────────────────────────────────────────┤     │
-│   │ ② Frontstage Actions  (접점 직원/시스템 행동)      │     │
-│   ├────────────────────────────────────────────────────┤ ─ ─ ┤
-│   │              ◀── Line of Visibility ──▶            │     │
-│   ├────────────────────────────────────────────────────┤     │
-│   │ ③ Backstage Actions  (내부 직원 행동)              │     │
-│   ├────────────────────────────────────────────────────┤ ─ ─ ┤
-│   │              ◀── Line of Internal Interaction ──▶  │     │
-│   ├────────────────────────────────────────────────────┤     │
-│   │ ④ Support Processes  (지원 시스템 프로세스)        │     │
-│   ├────────────────────────────────────────────────────┤     │
-│   │ ⑤ Physical Evidence  (물리적/디지털 증거)          │     │
-│   └────────────────────────────────────────────────────┘     │
-│                                                              │
-│  ★ = 직접 고객이 체감하는 Value Stream(가시 영역)            │
-│  ─ ─ = Swimlane을 구분하는 핵심 경계선(Line)                 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|  Service Blueprint 5-Swimlane Conceptual Structure           |
+|                                                              |
+|   +----------------------------------------------------+     |
+|   | ① Customer Actions  (고객 행동)                    | ★   |
+|   +----------------------------------------------------+ - - +
+|   |              <--- Line of Interaction --->           |     |
+|   +----------------------------------------------------+     |
+|   | ② Frontstage Actions  (접점 직원/시스템 행동)      |     |
+|   +----------------------------------------------------+ - - +
+|   |              <--- Line of Visibility --->            |     |
+|   +----------------------------------------------------+     |
+|   | ③ Backstage Actions  (내부 직원 행동)              |     |
+|   +----------------------------------------------------+ - - +
+|   |              <--- Line of Internal Interaction --->  |     |
+|   +----------------------------------------------------+     |
+|   | ④ Support Processes  (지원 시스템 프로세스)        |     |
+|   +----------------------------------------------------+     |
+|   | ⑤ Physical Evidence  (물리적/디지털 증거)          |     |
+|   +----------------------------------------------------+     |
+|                                                              |
+|  ★ = 직접 고객이 체감하는 Value Stream(가시 영역)            |
+|  - - = Swimlane을 구분하는 핵심 경계선(Line)                 |
++--------------------------------------------------------------+
 ```
 
 기존 UML Use Case Diagram이나 Data Flow Diagram(DFD)은 **기능 단위**의 정적 모델에 머물렀지만, 서비스 블루프린트는 **시간의 흐름(Time-Bound)** 을 가로축으로, **주체(Actor)·시스템 계층** 을 세로축으로 두어 동적 서비스 전달 과정을 시퀀스 다이어그램(Sequence Diagram) 수준으로 묘사한다. 이는 ISO 9241-210(인간 중심 설계) 및 Double Diamond 모델(Discover-Define-Develop-Deliver)의 **Define 단계** 산출물로서 정량적·정성적 데이터의 허브 역할을 수행한다.
@@ -72,26 +72,26 @@ tags = ["studynote-it-management"]
 
 - **Line of Interaction(상호작용선)**: 고객과 서비스 제공자 간 직접 접점의 경계. 이 선을 기준으로 **API 호출 지점**, **UI/UX 터치포인트**, **SLA 측정 지점(TTFB, TTI, FCP)** 이 정의된다.
 - **Line of Visibility(가시성선)**: 고객이 인지할 수 있는 영역(Frontstage)과 인지할 수 없는 영역(Backstage)의 경계. **정보 노출 원칙(Need-to-Know Basis)** 과 **개인정보보호법 제3조(개인정보의 처리 제한)** 의 기술적·관리적 보호조치 영역을 명시한다.
-- **Line of Internal Interaction(내부상호작용선)**: 서비스 제공자 내부의 **고객 접점 조직(Channel)** 과 **후방 지원 조직(Back Office)** 의 경계. **RACI Matrix** 및 **BPMN Lane** 과 직접 매핑되며, **Service Desk → 2nd Line → 3rd Line** ITIL 에스컬레이션 경로의 기점이 된다.
+- **Line of Internal Interaction(내부상호작용선)**: 서비스 제공자 내부의 **고객 접점 조직(Channel)** 과 **후방 지원 조직(Back Office)** 의 경계. **RACI Matrix** 및 **BPMN Lane** 과 직접 매핑되며, **Service Desk -> 2nd Line -> 3rd Line** ITIL 에스컬레이션 경로의 기점이 된다.
 
 ```text
-   시간축(Time) ───────────────────────────────────────────▶
+   시간축(Time) -------------------------------------------->
 
-   ①고객   [앱실행] ─▶ [본인인증] ─▶ [정보입력] ─▶ [동의] ─▶ [완료]
-              │            │            │            │          │
-   ─ ─ ─ ─ ─ ─│─ Line of  │Interaction │─ ─ ─ ─ ─ ─│─ ─ ─ ─ ─│─ ─ ─
-              │            │            │            │          │
-   ②Front     │[SDK초기화] │[FIDO인증]  │[FormValidator]│[OTP]   │[SuccessPage]
-              │            │            │            │          │
-   ─ ─ ─ ─ ─ ─│─ Line of  │Visibility  │─ ─ ─ ─ ─ ─│─ ─ ─ ─ ─│─ ─ ─
-              │            │            │            │          │
-   ③Back      │            │[신원조회]  │[AML스캔]   │[서명검증]│[계좌생성]
-              │            │            │            │          │
-   ─ ─ ─ ─ ─ ─│─ Line of  │Internal    │─ ─ ─ ─ ─ ─│─ ─ ─ ─ ─│─ ─ ─
-              │            │Interaction │            │          │
-   ④Support   │[APM]      │[KYC엔진]   │[FDS]       │[eSign]   │[CoreBanking]
-              │            │            │            │          │
-   ⑤Evidence  │[Splash]   │[인증UI]    │[ProgressBar]│[Toast]   │[알림톡+Push]
+   ①고객   [앱실행] --> [본인인증] --> [정보입력] --> [동의] --> [완료]
+              |            |            |            |          |
+   - - - - - -|- Line of  |Interaction |- - - - - -|- - - - -|- - -
+              |            |            |            |          |
+   ②Front     |[SDK초기화] |[FIDO인증]  |[FormValidator]|[OTP]   |[SuccessPage]
+              |            |            |            |          |
+   - - - - - -|- Line of  |Visibility  |- - - - - -|- - - - -|- - -
+              |            |            |            |          |
+   ③Back      |            |[신원조회]  |[AML스캔]   |[서명검증]|[계좌생성]
+              |            |            |            |          |
+   - - - - - -|- Line of  |Internal    |- - - - - -|- - - - -|- - -
+              |            |Interaction |            |          |
+   ④Support   |[APM]      |[KYC엔진]   |[FDS]       |[eSign]   |[CoreBanking]
+              |            |            |            |          |
+   ⑤Evidence  |[Splash]   |[인증UI]    |[ProgressBar]|[Toast]   |[알림톡+Push]
 ```
 
 ### 핵심 알고리즘 및 설계 고려사항
@@ -110,7 +110,7 @@ tags = ["studynote-it-management"]
 
 | 구분 | **Service Blueprint** | **Customer Journey Map(CJM)** | **BPMN 2.0 Process Model** | **Value Stream Map(VSM)** | **UML Use Case Diagram** |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **관점(Who)** | 고객 + 서비스 제공자 통합 | **고객만** (Inside-Out → Outside-In) | 서비스 제공자 내부 프로세스 | 가치 흐름(Value Flow) | 기능(Function) 단위 |
+| **관점(Who)** | 고객 + 서비스 제공자 통합 | **고객만** (Inside-Out -> Outside-In) | 서비스 제공자 내부 프로세스 | 가치 흐름(Value Flow) | 기능(Function) 단위 |
 | **시각화 차원** | 행위자·가시성·시간 | 감정·터치포인트·시간 | 프로세스·게이트웨이·이벤트 | 시간·정보·재고 흐름 | Actor·Use Case·Boundary |
 | **정량 데이터** | ◎ SLA, ART, FCR | △ 감정 곡선, NPS | ◎ 처리량, 리드타임 | ◎ Cycle Time, Takt Time | ✕ 일반적 |
 | **정성 데이터** | ◎ 페르소나, 시나리오 | ◎ 페르소나, 감정, 페인포인트 | △ 일부(BPMN 확장) | △ 일부 | △ |
@@ -121,12 +121,12 @@ tags = ["studynote-it-management"]
 
 ### 통합 아키텍처 연계 패턴
 
-- **CJM → Service Blueprint → BPMN**: 고객의 감정 곡선
+- **CJM -> Service Blueprint -> BPMN**: 고객의 감정 곡선
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 418 / 800
 
-← **이전**: [417. ITIL 4 서비스 가치 시스템 SVS](/knowledge-base/studynote/12_it_management/05_security_compliance/417_itil_4_service_value_system_svs/)
-**다음**: [419. 용량 계획 수요 예측 확장 전략](/knowledge-base/studynote/12_it_management/05_security_compliance/419_capacity_planning_demand_forecasting/) →
+<- **이전**: [417. ITIL 4 서비스 가치 시스템 SVS](/knowledge-base/studynote/12_it_management/05_security_compliance/417_itil_4_service_value_system_svs/)
+**다음**: [419. 용량 계획 수요 예측 확장 전략](/knowledge-base/studynote/12_it_management/05_security_compliance/419_capacity_planning_demand_forecasting/) ->
 
 ---

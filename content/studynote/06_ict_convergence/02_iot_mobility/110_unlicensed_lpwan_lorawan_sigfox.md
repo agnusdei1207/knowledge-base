@@ -12,7 +12,7 @@ tags = ["studynote-ict-convergence"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 비면허 대역 LPWAN은 정부가 무료 개방한 <strong>ISM 밴드(900MHz 부근)</strong>에서 통신사 인프라 없이 <strong>자가 기지국으로 도시 규모 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 사설망을 구축</strong>하는 기술이며, LoRaWAN(CSS 변조)과 [Sigfox](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/)(UNB 변조)가 양대 산맥이다.
 > 2. **가치**: LoRaWAN은 <strong>Chirp <a href="/knowledge-base/studynote/03_network/01_data_communication/068_스펙트럼_확산_Spread_Spectrum/">Spread Spectrum</a>(CSS)</strong>으로 넓게 펼쳐 노이즈를 뚫고, Sigfox는 <strong>Ultra Narrow Band(UNB)</strong>로 100Hz에 에너지를 몰빵하여 초장거리를 달성한다. 정반대 전략으로 같은 목표(원격 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/))를 해결한다.
-> 3. **판단 포인트**: LoRaWAN은 <strong>자체 GW 구축(자유도↑)</strong>이 가능하여 사설 IoT에 적합하고, Sigfox는 <strong>본사 망 독점 운영(관리 편의↑)</strong>이지만 확장에 한계가 있어 하락세다.
+> 3. **판단 포인트**: LoRaWAN은 <strong>자체 GW 구축(자유도^)</strong>이 가능하여 사설 IoT에 적합하고, Sigfox는 <strong>본사 망 독점 운영(관리 편의^)</strong>이지만 확장에 한계가 있어 하락세다.
 
 ---
 
@@ -21,22 +21,22 @@ tags = ["studynote-ict-convergence"]
 국가 전파는 한정 자원으로 통신사가 수조 원에 경매하여 독점 사용(면허 대역)하지만, 정부는 일부 주파수(ISM 밴드)를 <strong>출력 제한 하에 무료 개방</strong>하고 있다. Wi-Fi(2.4GHz)·Bluetooth가 이 무료 도로를 쓰듯, LoRa와 Sigfox도 900MHz 비면허 대역에서 자체 규칙으로 도시 규모 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 사설망을 구축한다.
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│      LoRa (CSS) vs Sigfox (UNB) 변조 방식 비교         │
-├───────────────────────────────────────────────────────┤
-│  [LoRa: Chirp Spread Spectrum]                        │
-│   주파수 ▲                                            │
-│          /  ← Chirp (낮→높으로 쭉 올라가는 패턴)      │
-│         /   넓은 대역에 에너지를 펼침                  │
-│        /    → 노이즈가 일부 깨워도 패턴으로 복원       │
-│   ────────────────→ 시간                              │
-│                                                       │
-│  [Sigfox: Ultra Narrow Band]                          │
-│   에너지 ▲  ████  ← 100Hz 초협대역에 에너지 몰빵     │
-│          │  ████    면도칼처럼 얇고 강력               │
-│          │  ████  → 하루 12바이트 한계, 초장거리       │
-│   ────────────────→ 주파수                            │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|      LoRa (CSS) vs Sigfox (UNB) 변조 방식 비교         |
++-------------------------------------------------------+
+|  [LoRa: Chirp Spread Spectrum]                        |
+|   주파수 ^                                            |
+|          /  <- Chirp (낮->높으로 쭉 올라가는 패턴)      |
+|         /   넓은 대역에 에너지를 펼침                  |
+|        /    -> 노이즈가 일부 깨워도 패턴으로 복원       |
+|   -----------------> 시간                              |
+|                                                       |
+|  [Sigfox: Ultra Narrow Band]                          |
+|   에너지 ^  ████  <- 100Hz 초협대역에 에너지 몰빵     |
+|          |  ████    면도칼처럼 얇고 강력               |
+|          |  ████  -> 하루 12바이트 한계, 초장거리       |
+|   -----------------> 주파수                            |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: LoRa는 덤프트럭(넓게 펼쳐 충격 흡수)이고, Sigfox는 오토바이(좁고 날렵하게 돌파)다.
@@ -90,8 +90,8 @@ tags = ["studynote-ict-convergence"]
 - **초장거리·초소량**: 사막/해양 자산 추적 (하루 위치 1회 전송).
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **Sigfox로 실시간 모니터링**: 하루 140건 메시지 제한 → 실시간 불가.
-- **LoRa로 영상 전송**: 50 kbps 한계 → 영상 전송 물리적 불가능.
+- **Sigfox로 실시간 모니터링**: 하루 140건 메시지 제한 -> 실시간 불가.
+- **LoRa로 영상 전송**: 50 kbps 한계 -> 영상 전송 물리적 불가능.
 
 ---
 
@@ -121,17 +121,17 @@ LoRaWAN은 비면허 LPWAN의 승자로 굳어지고 있으며, 위성 [LoRa](/k
 
 ```text
 [ISM 밴드 개방 — 비면허 주파수 무료 사용 허용]
-    │
-    ▼
+    |
+    v
 [Sigfox (2012, 프랑스) — UNB 최초 상용 LPWAN]
-    │
-    ▼
+    |
+    v
 [LoRa (2013, Semtech) — CSS 기반 개방형 LPWAN]
-    │
-    ▼
+    |
+    v
 [LoRa Alliance 표준화 (2015~) — LoRaWAN 프로토콜 확립]
-    │
-    ▼
+    |
+    v
 [현재: 위성 LoRa (Lacuna Space) — 전지구 IoT 커버리지]
 ```
 
@@ -146,7 +146,7 @@ LoRaWAN은 비면허 LPWAN의 승자로 굳어지고 있으며, 위성 [LoRa](/k
 
 **진행 상황**: 110 / 552
 
-← **이전**: [109. 저전력 광역 통신망 (LPWAN) - LoRa·Sigfox·NB-IoT 기술 비교](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/)
-**다음**: [111. 면허 대역 LPWAN - NB-IoT vs LTE-M 3GPP 표준 IoT 통신](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/111_licensed_lpwan_nb_iot_lte_m/) →
+<- **이전**: [109. 저전력 광역 통신망 (LPWAN) - LoRa·Sigfox·NB-IoT 기술 비교](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/)
+**다음**: [111. 면허 대역 LPWAN - NB-IoT vs LTE-M 3GPP 표준 IoT 통신](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/111_licensed_lpwan_nb_iot_lte_m/) ->
 
 ---

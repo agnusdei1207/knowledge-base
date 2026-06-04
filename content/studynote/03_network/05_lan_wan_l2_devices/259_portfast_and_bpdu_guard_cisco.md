@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [컨버전스 시간]
-    │
-    ▼
+    |
+    v
 [포트 패스트 / BPDU Guard]
-    │
-    └──▶ [RSTP]
+    |
+    +---> [RSTP]
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 패스트가 </strong>"묻지도 따지지도 않고 결제해 주는 하이패스 차로"<strong>라면, <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/">BPDU</a> Guard는 그 하이패스 차로에 화물차(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>)가 진입하는 순간 </strong>바닥에서 스파이크를 튀어 오르게 해 타이어를 다 터뜨려버리는(Error-disable) 무시무시한 지뢰**입니다.
@@ -52,22 +52,22 @@ PortFast가 걸린 [포트](/knowledge-base/studynote/02_operating_system/08_sto
 - [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 빨간불로 변하며 죽어버리고, 관리자가 직접 콘솔에 들어가 `shutdown` 후 `no shutdown` 명령어로 수동 복구해 주기 전까지 절대 부활하지 않는다(강력한 제재).
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │             PortFast와 BPDU Guard의 완벽한 콤보               │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 벽 랜포트 (PortFast + BPDU Guard 적용) ]                   │
- │                                                             │
- │   상황 A) 직원이 노트북(PC)을 꽂음                             │
- │   - PC는 IP 패킷만 보냄 (BPDU 안 보냄)                          │
- │   - 결과: 30초 대기 없이 즉시 인터넷 팡팡 잘 됨! (Forwarding)     │
- │                                                             │
- │   상황 B) 직원이 몰래 공유기(스위치)를 가져와 꽂음                 │
- │   - 공유기가 켜지면서 스위치 종특으로 "BPDU 엽서"를 뿜어냄           │
- │   - 포트 센서: "어? VIP 문으로 BPDU가 들어와? 이놈 스위치다 죽여!!"   │
- │   - 결과: 포트 즉시 셧다운(Err-Disable). 공유기 먹통 됨. 안전!     │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |             PortFast와 BPDU Guard의 완벽한 콤보               |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 벽 랜포트 (PortFast + BPDU Guard 적용) ]                   |
+ |                                                             |
+ |   상황 A) 직원이 노트북(PC)을 꽂음                             |
+ |   - PC는 IP 패킷만 보냄 (BPDU 안 보냄)                          |
+ |   - 결과: 30초 대기 없이 즉시 인터넷 팡팡 잘 됨! (Forwarding)     |
+ |                                                             |
+ |   상황 B) 직원이 몰래 공유기(스위치)를 가져와 꽂음                 |
+ |   - 공유기가 켜지면서 스위치 종특으로 "BPDU 엽서"를 뿜어냄           |
+ |   - 포트 센서: "어? VIP 문으로 BPDU가 들어와? 이놈 스위치다 죽여!!"   |
+ |   - 결과: 포트 즉시 셧다운(Err-Disable). 공유기 먹통 됨. 안전!     |
+ |                                                             |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: <strong> 실무 네트워크 관리자에게 PortFast와 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/">BPDU</a> Guard는 떼려야 뗄 수 없는 </strong>"가속 페달과 안전벨트"**입니다. 직원들이 아침마다 인터넷이 안 된다고 짜증 내는 것을 막아주면서도, 몰래 가져온 불법 장비로 회사 망을 날려 먹는 대형 사고를 동시에 막아주는 궁극의 방어막입니다.
@@ -128,12 +128,12 @@ PortFast가 걸린 [포트](/knowledge-base/studynote/02_operating_system/08_sto
 
 ```text
 [선행 개념: 컨버전스 시간]
-    │
-    ▼
+    |
+    v
 [현재 개념: 포트 패스트 / BPDU Guard]
-    │
-    ├──▶ [확장 A: RSTP]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+    |
+    +---> [확장 A: RSTP]
+    +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 패스트 / [BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/) Guard는 [컨버전스 시간](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/258_stp_convergence_time_30_50_seconds/)에서 출발해 현재 메커니즘을 정교화하고, 이후 RSTP와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -150,7 +150,7 @@ PortFast가 걸린 [포트](/knowledge-base/studynote/02_operating_system/08_sto
 
 **진행 상황**: 380 / 1120
 
-← **이전**: [258. 컨버전스 시간 (STP 약 30~50초 소요)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/258_stp_convergence_time_30_50_seconds/)
-**다음**: [260. RSTP (Rapid STP)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/260_rstp_rapid_spanning_tree_protocol_ieee_802_1w/) →
+<- **이전**: [258. 컨버전스 시간 (STP 약 30~50초 소요)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/258_stp_convergence_time_30_50_seconds/)
+**다음**: [260. RSTP (Rapid STP)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/260_rstp_rapid_spanning_tree_protocol_ieee_802_1w/) ->
 
 ---

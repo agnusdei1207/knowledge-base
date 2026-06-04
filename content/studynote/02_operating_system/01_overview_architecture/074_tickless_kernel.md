@@ -31,7 +31,7 @@ tags = ["studynote-operating-system"]
 
 ```text
 Periodic Tick
-  ↓ reduced
+  v reduced
 Tickless Kernel
 ```
 
@@ -103,9 +103,9 @@ Tickless Kernel
 
 ```text
 Tick
-  ↓ reduced
+  v reduced
 Tickless Kernel
-  ↓
+  v
 Power Efficiency
 ```
 
@@ -115,9 +115,9 @@ Power Efficiency
 
 ```text
 Periodic Tick
-  ↓
+  v
 Tickless Kernel
-  ↓
+  v
 NoHz
 ```
 
@@ -135,7 +135,7 @@ NoHz
 
 **진행 상황**: 74 / 800
 
-← **이전**: [73. 틱 (Tick) / 지피스 (Jiffies)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/)
-**다음**: [75. ACPI (Advanced Configuration and Power Interface)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/075_acpi/) →
+<- **이전**: [73. 틱 (Tick) / 지피스 (Jiffies)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/)
+**다음**: [75. ACPI (Advanced Configuration and Power Interface)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/075_acpi/) ->
 
 ---

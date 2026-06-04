@@ -23,23 +23,23 @@ tags = ["studynote-computer-architecture"]
 
 이 절차가 필요한 이유는 프로그램의 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/) 공간과 실제 메모리 용량 사이에 큰 차이가 있기 때문이다. 예를 들어 수 기가바이트 크기의 애플리케이션이라도 실행 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 자주 쓰는 코드와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 그중 일부에 불과하다. 모든 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 미리 올리면 시작 시간이 길어지고, 안 쓰는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 비싼 메모리를 점유한다. 반대로 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 처리가 있으면 필요한 순간에만 가져와 메모리 자원을 더 촘촘하게 나눌 수 있다.
 
-아래 그림은 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 단순 실패가 아니라 <strong>"부재 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a> → <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 개입 → 적재 → 재시작"</strong>으로 이어지는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 흐름임을 보여 준다.
+아래 그림은 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 단순 실패가 아니라 <strong>"부재 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a> -> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 개입 -> 적재 -> 재시작"</strong>으로 이어지는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 흐름임을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                   페이지 폴트 처리의 기본 의미                            │
-├────────────────────────────────────────────────────────────────────────────┤
-│ CPU가 가상 주소 참조                                                      │
-│        │                                                                  │
-│        ▼                                                                  │
-│ MMU가 페이지 테이블 확인                                                  │
-│        │                                                                  │
-│   Present/Valid = 1 ───────────────▶ 즉시 접근                            │
-│        │                                                                  │
-│   Present/Valid = 0                                                       │
-│        ▼                                                                  │
-│ 페이지 폴트 예외 발생 ─▶ OS 개입 ─▶ 페이지 적재 ─▶ 명령 재시작            │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                   페이지 폴트 처리의 기본 의미                            |
++----------------------------------------------------------------------------+
+| CPU가 가상 주소 참조                                                      |
+|        |                                                                  |
+|        v                                                                  |
+| MMU가 페이지 테이블 확인                                                  |
+|        |                                                                  |
+|   Present/Valid = 1 ----------------> 즉시 접근                            |
+|        |                                                                  |
+|   Present/Valid = 0                                                       |
+|        v                                                                  |
+| 페이지 폴트 예외 발생 --> OS 개입 --> 페이지 적재 --> 명령 재시작            |
++----------------------------------------------------------------------------+
 ```
 
 핵심은 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 "주소 변환 실패"에서 끝나는 것이 아니라, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 개입해 <strong>프로그램에게는 실패를 거의 보이지 않게 만든다</strong>는 점이다. 사용자 입장에서는 잠깐 느려질 뿐, 마치 원래 메모리에 있던 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)처럼 이어서 실행된다.
@@ -63,23 +63,23 @@ tags = ["studynote-computer-architecture"]
 이 그림은 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 처리의 실제 시퀀스를 시간 순서대로 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                    페이지 폴트 처리 시퀀스                                │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 1. CPU가 가상 주소 접근                                                   │
-│ 2. MMU가 PTE/TLB 확인 후 fault trap 발생                                  │
-│ 3. 커널이 fault 원인 확인                                                 │
-│    ├─ 불법 접근이면  → 프로세스 종료 또는 시그널 전달                     │
-│    └─ 적재 가능 부재면 → 계속 진행                                        │
-│ 4. 자유 프레임 확인                                                       │
-│    ├─ 있음        → 그 프레임 사용                                        │
-│    └─ 없음        → 희생 페이지 선택                                      │
-│                    ├─ Dirty = 1 → 디스크에 먼저 기록                      │
-│                    └─ Dirty = 0 → 즉시 회수                               │
-│ 5. 저장장치에서 누락 페이지 읽기                                          │
-│ 6. PTE 갱신 + TLB 정리                                                    │
-│ 7. 실패했던 명령 재실행                                                   │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                    페이지 폴트 처리 시퀀스                                |
++----------------------------------------------------------------------------+
+| 1. CPU가 가상 주소 접근                                                   |
+| 2. MMU가 PTE/TLB 확인 후 fault trap 발생                                  |
+| 3. 커널이 fault 원인 확인                                                 |
+|    +- 불법 접근이면  -> 프로세스 종료 또는 시그널 전달                     |
+|    +- 적재 가능 부재면 -> 계속 진행                                        |
+| 4. 자유 프레임 확인                                                       |
+|    +- 있음        -> 그 프레임 사용                                        |
+|    +- 없음        -> 희생 페이지 선택                                      |
+|                    +- Dirty = 1 -> 디스크에 먼저 기록                      |
+|                    +- Dirty = 0 -> 즉시 회수                               |
+| 5. 저장장치에서 누락 페이지 읽기                                          |
+| 6. PTE 갱신 + TLB 정리                                                    |
+| 7. 실패했던 명령 재실행                                                   |
++----------------------------------------------------------------------------+
 ```
 
 여기서 중요한 분기점은 <strong>정상적 부재</strong>와 <strong>진짜 오류</strong>를 구분하는 것이다. 같은 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 예외라도, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 확장이나 [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/) 때문에 아직 메모리에 없던 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)일 수 있고, 반대로 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 영역 침범이나 널 포인터 접근처럼 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하면 안 되는 오류일 수도 있다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 폴트 주소, 접근 유형, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 메타데이터를 보고 이 둘을 갈라야 한다.
@@ -165,21 +165,21 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 연속 적재 중심 실행
-        │
-        ▼
+        |
+        v
 가상 메모리 (Virtual Memory)
-        │
-        ▼
+        |
+        v
 요구 페이징 (Demand Paging)
-        │
-        ▼
+        |
+        v
 페이지 폴트 처리 (Page Fault Handling)
-        │
-        ├──▶ 페이지 교체 (Page Replacement)
-        │
-        ├──▶ 작업 집합 기반 제어 (Working Set Control)
-        │
-        ▼
+        |
+        +---> 페이지 교체 (Page Replacement)
+        |
+        +---> 작업 집합 기반 제어 (Working Set Control)
+        |
+        v
 스래싱 감시 · 지연 최적화 · 메모리 보호 강화
 ```
 
@@ -197,7 +197,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 299 / 803
 
-← **이전**: [298. 페이지 부재 (Page Fault)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/298_page_fault/)
-**다음**: [300. 페이지 교체 알고리즘 (Page Replacement)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/300_page_replacement/) →
+<- **이전**: [298. 페이지 부재 (Page Fault)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/298_page_fault/)
+**다음**: [300. 페이지 교체 알고리즘 (Page Replacement)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/300_page_replacement/) ->
 
 ---

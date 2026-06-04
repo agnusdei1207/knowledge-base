@@ -22,7 +22,7 @@ tags = ["studynote-enterprise"]
 스마트워크는 단순한 재택근무가 아니라 업무 프로세스와 보안, 협업 문화를 함께 바꾸는 개념이다. 모바일 오피스는 그중에서도 이동 중 업무를 가능하게 하는 실행 방식이다.
 원격이 많아질수록 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)은 높아지지만, 단말 유출과 문서 확산 위험도 같이 올라간다. 그래서 편의와 통제가 함께 설계돼야 한다.
 ```text
-직원 기기 → MFA/VPN/VDI → 협업 앱 → DLP/로그 → 관리 포털
+직원 기기 -> MFA/VPN/VDI -> 협업 앱 -> DLP/로그 -> 관리 포털
 ```
 
 - **📢 섹션 요약 비유**: 유연한 근무는 편의와 보안을 같이 설계해야 한다.
@@ -103,17 +103,17 @@ BYOD를 허용하더라도 MDM과 DLP가 없으면 사실상 통제가 없다. �
 
 ```text
 업무 방식 정의
-  │
-  ▼
+  |
+  v
 단말·신원·네트워크 통제
-  │
-  ▼
+  |
+  v
 협업 앱 연결
-  │
-  ▼
+  |
+  v
 문서 보호와 로그 수집
-  │
-  ▼
+  |
+  v
 운영 정책 개선
 ```
 
@@ -129,7 +129,7 @@ BYOD를 허용하더라도 MDM과 DLP가 없으면 사실상 통제가 없다. �
 
 **진행 상황**: 78 / 482
 
-← **이전**: [77. 엔터프라이즈 포털 (EP / EIP) - 기업 내 분산된 정보를 단일 창구로 통합 웹 제공](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/077_enterprise_portal_eip/)
-**다음**: [079. RPA (Robotic Process Automation)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/079_rpa_robotic_process_automation/) →
+<- **이전**: [77. 엔터프라이즈 포털 (EP / EIP) - 기업 내 분산된 정보를 단일 창구로 통합 웹 제공](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/077_enterprise_portal_eip/)
+**다음**: [079. RPA (Robotic Process Automation)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/079_rpa_robotic_process_automation/) ->
 
 ---

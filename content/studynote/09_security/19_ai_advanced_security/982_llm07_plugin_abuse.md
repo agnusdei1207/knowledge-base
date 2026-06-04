@@ -22,15 +22,15 @@ tags = ["studynote-security"]
 LLM07: Plugin Abuse는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·신기술 보안에서 반복적으로 등장하는 문제를 일정한 원리로 다루기 위해 정리된 개념이다. 이 주제를 이해할 때는 단순 정의보다 "왜 지금 이 개념이 필요해졌는가"를 먼저 봐야 한다. LLM07: Plugin Abuse가 등장한 배경에는 자산 가치 상승, 공격 정교화, 운영 복잡도 증가가 동시에 작용한다. 대표 세부 포인트로는 플러그인 악용가 있다. 이 개념이 없거나 잘못 적용되면 보안 통제가 단편화되어 위험이 눈에 잘 보이지 않거나, 반대로 과도한 통제가 운영 비용을 키우는 문제가 생긴다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ 왜 LLM07: Plugin Abuse가 필요한가                                 │
-├──────────────────────────────────────────────────────────────┤
-│ 자산·서비스 운영 ─► 노출/불확실성 ─► 위험 확대              │
-│                     └──── LLM07: Plugin Abus로 통제·판단 ────┘   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| 왜 LLM07: Plugin Abuse가 필요한가                                 |
++--------------------------------------------------------------+
+| 자산·서비스 운영 -► 노출/불확실성 -► 위험 확대              |
+|                     +---- LLM07: Plugin Abus로 통제·판단 ----+   |
++--------------------------------------------------------------+
 ```
 
-이 그림은 LLM07: Plugin Abuse가 등장한 배경을 "노출 증가 → 위험 확대 → 통제 필요" 흐름으로 요약한다. 핵심은 이 개념이 단독 기능이 아니라, 더 큰 보안 체계의 빈틈을 메우기 위해 등장했다는 점이다.
+이 그림은 LLM07: Plugin Abuse가 등장한 배경을 "노출 증가 -> 위험 확대 -> 통제 필요" 흐름으로 요약한다. 핵심은 이 개념이 단독 기능이 아니라, 더 큰 보안 체계의 빈틈을 메우기 위해 등장했다는 점이다.
 
 - **📢 섹션 요약 비유**: 복잡한 공구를 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 전에 어떤 작업에 왜 필요한지부터 이해하는 것과 같다.
 
@@ -47,12 +47,12 @@ LLM07: Plugin Abuse의 핵심은 입력·상태·[정책](/knowledge-base/studyn
 | 운영 포인트 | LLM07: Plugin Abuse를 장기 운영할 때 관리해야 할 관측·[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 요소 | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 자동화, 수명주기 관리가 품질을 좌우한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ 핵심 동작 구조                                               │
-├──────────────────────────────────────────────────────────────┤
-│ 입력/요청 ─► 검증·판단 ─► 적용·변환 ─► 기록·피드백          │
-│              └──────── 정책·키·상태 관리 ───────┘           │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| 핵심 동작 구조                                               |
++--------------------------------------------------------------+
+| 입력/요청 -► 검증·판단 -► 적용·변환 -► 기록·피드백          |
+|              +-------- 정책·키·상태 관리 -------+           |
++--------------------------------------------------------------+
 ```
 
 이 구조를 볼 때는 입력 조건, 핵심 처리, 결과뿐 아니라 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 상태가 어디에서 관리되는지까지 함께 봐야 한다. 그래야 LLM07: Plugin Abuse를 다른 기술과 연결해도 설명이 흔들리지 않는다.
@@ -114,12 +114,12 @@ LLM07: Plugin Abuse를 제대로 이해하면 개념 하나를 외우는 데서 
 
 ```text
 [AI·신기술 보안 운영 요구]
-    │
-    ▼
+    |
+    v
 [LLM07: Plugin Abuse]
-    │
-    ├──▶ [운영 기준 수립]
-    └──▶ [연계 통제 확대]
+    |
+    +---> [운영 기준 수립]
+    +---> [연계 통제 확대]
 ```
 
 이 흐름도는 LLM07: Plugin Abuse를 단일 용어가 아니라 선행 문제, 현재 해결 방식, 후속 확장 방향으로 기억하게 해 준다. 시험과 실무 모두에서 이 연결 구조를 함께 말할 수 있어야 개념이 살아난다.
@@ -136,7 +136,7 @@ LLM07: Plugin Abuse를 제대로 이해하면 개념 하나를 외우는 데서 
 
 **진행 상황**: 1082 / 1108
 
-← **이전**: [981. LLM06: Sensitive Information Disclosure (LLM06: Sensitive Information](/knowledge-base/studynote/09_security/19_ai_advanced_security/981_llm06_sensitive_information_disclosure/)
-**다음**: [982. SSL/TLS 핸드셰이크 (Ssl TLS Handshake Session Key Exchange Https)](/knowledge-base/studynote/09_security/uncategorized/982_ssl_tls_handshake_session_key_exchange_https/) →
+<- **이전**: [981. LLM06: Sensitive Information Disclosure (LLM06: Sensitive Information](/knowledge-base/studynote/09_security/19_ai_advanced_security/981_llm06_sensitive_information_disclosure/)
+**다음**: [982. SSL/TLS 핸드셰이크 (Ssl TLS Handshake Session Key Exchange Https)](/knowledge-base/studynote/09_security/uncategorized/982_ssl_tls_handshake_session_key_exchange_https/) ->
 
 ---

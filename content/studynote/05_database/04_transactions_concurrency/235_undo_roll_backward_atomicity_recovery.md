@@ -22,11 +22,11 @@ tags = ["studynote-database"]
 [Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) (취소)은 장애 발생 후 커밋 안된 트랜잭션을 이전 상태로 원복 ([원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/) 보장)에 초점을 맞춘 개념이다. 장애 이후에도 커밋된 내용은 살리고 미완료 작업은 되돌릴 수 있어야 DB를 신뢰할 수 있다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 체크포인트 전략이 약하면 재시작 시간이 길어진다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Change -> Log -> Current concept -> Restart                  │
-├──────────────────────────────────────────────────────────────┤
-│ Failure -> replay/undo -> consistent state                   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Change -> Log -> Current concept -> Restart                  |
++--------------------------------------------------------------+
+| Failure -> replay/undo -> consistent state                   |
++--------------------------------------------------------------+
 ```
 
 이 그림은 Undo를 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
@@ -47,11 +47,11 @@ Undo는 결국 "언제 보고, 어디에서 적용하고, 무엇을 보장할 �
 | 운영 주의 | `Redo`·`WAL 프로토콜`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 전략을 미리 준비해야 한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Log record -> checkpoint -> current concept -> restart       │
-├──────────────────────────────────────────────────────────────┤
-│ Analysis -> redo/undo -> consistent DB                       │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Log record -> checkpoint -> current concept -> restart       |
++--------------------------------------------------------------+
+| Analysis -> redo/undo -> consistent DB                       |
++--------------------------------------------------------------+
 ```
 
 핵심은 Undo를 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
@@ -115,12 +115,12 @@ Undo를 올바르게 적용하면 구조를 단순화하고, 정합성을 높이
 
 ```text
 [Redo]
-    │
-    ▼
+    |
+    v
 [Undo]
-    │
-    ├──▶ [WAL 프로토콜]
-    └──▶ [로그 기반 회복 기법]
+    |
+    +---> [WAL 프로토콜]
+    +---> [로그 기반 회복 기법]
 ```
 
 Redo에서 출발한 논점이 Undo에서 핵심 판단으로 모이고, 이후 WAL [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 기법 같은 확장 주제로 이어지는 흐름을 보여 준다.
@@ -137,7 +137,7 @@ Redo에서 출발한 논점이 Undo에서 핵심 판단으로 모이고, 이후 
 
 **진행 상황**: 235 / 600
 
-← **이전**: [234. Redo (Redo Roll Forward Durability Recovery)](/knowledge-base/studynote/05_database/04_transactions_concurrency/234_redo_roll_forward_durability_recovery/)
-**다음**: [236. WAL 프로토콜 (Write-Ahead Logging)](/knowledge-base/studynote/05_database/04_transactions_concurrency/236_wal_write_ahead_logging_protocol/) →
+<- **이전**: [234. Redo (Redo Roll Forward Durability Recovery)](/knowledge-base/studynote/05_database/04_transactions_concurrency/234_redo_roll_forward_durability_recovery/)
+**다음**: [236. WAL 프로토콜 (Write-Ahead Logging)](/knowledge-base/studynote/05_database/04_transactions_concurrency/236_wal_write_ahead_logging_protocol/) ->
 
 ---

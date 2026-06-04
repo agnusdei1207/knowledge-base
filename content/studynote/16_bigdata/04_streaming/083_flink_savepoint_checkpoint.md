@@ -23,9 +23,9 @@ tags = ["studynote-bigdata"]
 
 스트리밍 애플리케이션은 이전 이벤트의 정보를 기억해야 의미있는 결과를 낼 수 있다.
 
-- **집계**: 지난 5분간 사용자별 구매 금액 합계 → 이전 이벤트 기억 필요
-- **조인**: 클릭과 구매 이벤트를 사용자 ID로 연결 → 두 스트림 상태 유지
-- <strong><a href="/knowledge-base/studynote/16_bigdata/04_streaming/098_cep/">CEP</a></strong>: 이상 패턴([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 실패 3회 → 계정 잠금) → 이벤트 시퀀스 기억
+- **집계**: 지난 5분간 사용자별 구매 금액 합계 -> 이전 이벤트 기억 필요
+- **조인**: 클릭과 구매 이벤트를 사용자 ID로 연결 -> 두 스트림 상태 유지
+- <strong><a href="/knowledge-base/studynote/16_bigdata/04_streaming/098_cep/">CEP</a></strong>: 이상 패턴([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 실패 3회 -> 계정 잠금) -> 이벤트 시퀀스 기억
 
 이 상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))가 대용량 장기 실행 스트리밍에서 중요해지면, 장애 시 상태 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)와 운영 중 상태 보존이 핵심 과제가 된다.
 
@@ -51,24 +51,24 @@ tags = ["studynote-bigdata"]
 [Checkpoint 동작 과정]
 
 JobManager의 CheckpointCoordinator
-    │
-    │ 1. Barrier 주입 (Checkpoint ID N)
-    ▼
-Source Operator ──── [Barrier N] ────→
-                                       ┌─────────────────────────┐
-                 ──── 이벤트 ─────────→ │  Operator A             │
-                 ──── [Barrier N] ────→ │  Barrier 수신           │
-                                       │  → 현재 상태 스냅샷 저장 │
-                                       │  → Barrier 하류로 전달  │
-                                       └────────────┬────────────┘
-                                                    │ Barrier N 전달
-                                                    ▼
-                                       ┌─────────────────────────┐
-                                       │  Sink Operator          │
-                                       │  모든 입력 Barrier N 수신│
-                                       │  → 체크포인트 완료 확인  │
-                                       └─────────────────────────┘
-                                                    │
+    |
+    | 1. Barrier 주입 (Checkpoint ID N)
+    v
+Source Operator ---- [Barrier N] ----->
+                                       +-------------------------+
+                 ---- 이벤트 ----------> |  Operator A             |
+                 ---- [Barrier N] -----> |  Barrier 수신           |
+                                       |  -> 현재 상태 스냅샷 저장 |
+                                       |  -> Barrier 하류로 전달  |
+                                       +------------+------------+
+                                                    | Barrier N 전달
+                                                    v
+                                       +-------------------------+
+                                       |  Sink Operator          |
+                                       |  모든 입력 Barrier N 수신|
+                                       |  -> 체크포인트 완료 확인  |
+                                       +-------------------------+
+                                                    |
                                        JobManager에 완료 보고
 ```
 
@@ -160,10 +160,10 @@ UID 없이는 자동 [생성](/knowledge-base/studynote/02_operating_system/02_p
 | 시나리오 | 권장 도구 |
 |:---|:---|
 | 장애 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | 체크포인트 (자동) |
-| Flink [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 업그레이드 | 세이브포인트 → 업그레이드 → 세이브포인트 재시작 |
-| 비즈니스 로직 코드 변경 배포 | 세이브포인트 → 배포 → 세이브포인트 재시작 |
-| 클러스터 마이그레이션 | 세이브포인트 → 새 클러스터에서 재시작 |
-| A/B 테스트 (같은 상태로 분기) | 세이브포인트 → 두 잡에 각각 재시작 |
+| Flink [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 업그레이드 | 세이브포인트 -> 업그레이드 -> 세이브포인트 재시작 |
+| 비즈니스 로직 코드 변경 배포 | 세이브포인트 -> 배포 -> 세이브포인트 재시작 |
+| 클러스터 마이그레이션 | 세이브포인트 -> 새 클러스터에서 재시작 |
+| A/B 테스트 (같은 상태로 분기) | 세이브포인트 -> 두 잡에 각각 재시작 |
 
 ### 2. [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -204,7 +204,7 @@ Flink의 체크포인트와 세이브포인트는 <strong>상태 기반 스트�
 |:---|:---|:---|
 | Chandy-Lamport [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 구현 기반 | 배리어 기반 글로벌 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) |
 | [Exactly-Once Semantics](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_cross_validation/) | 목적 | 체크포인트가 달성하는 처리 보장 수준 |
-| [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Backend | 저장 위치 | [Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)/RocksDB → [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/)/S3 체크포인트 |
+| [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Backend | 저장 위치 | [Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)/RocksDB -> [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/)/S3 체크포인트 |
 | JobManager | 조율자 | CheckpointCoordinator가 내장 |
 | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) Offset | 연동 개념 | 체크포인트에 오프셋 함께 저장 |
 
@@ -212,17 +212,17 @@ Flink의 체크포인트와 세이브포인트는 <strong>상태 기반 스트�
 
 ```text
 [스트리밍 상태 (Streaming State) — 연산자 상태]
-    │
-    ▼
+    |
+    v
 [Chandy-Lamport 알고리즘 (글로벌 스냅샷)]
-    │
-    ▼
+    |
+    v
 [체크포인트 (Checkpoint) — 자동 장애 복구]
-    │
-    ▼
+    |
+    v
 [세이브포인트 (Savepoint) — 수동 버전 마이그레이션]
-    │
-    ▼
+    |
+    v
 [정확히 한 번 처리 (Exactly-Once Semantics)]
 ```
 
@@ -238,7 +238,7 @@ Flink의 체크포인트와 세이브포인트는 <strong>상태 기반 스트�
 
 **진행 상황**: 83 / 262
 
-← **이전**: [07. DataStream API / Table API & SQL — Flink 두 계층 처리](/knowledge-base/studynote/16_bigdata/04_streaming/082_datastream_api_table_api/)
-**다음**: [09. 이벤트 시간 vs 처리 시간 (Event Time vs Processing Time)](/knowledge-base/studynote/16_bigdata/04_streaming/084_event_time_vs_processing_time/) →
+<- **이전**: [07. DataStream API / Table API & SQL — Flink 두 계층 처리](/knowledge-base/studynote/16_bigdata/04_streaming/082_datastream_api_table_api/)
+**다음**: [09. 이벤트 시간 vs 처리 시간 (Event Time vs Processing Time)](/knowledge-base/studynote/16_bigdata/04_streaming/084_event_time_vs_processing_time/) ->
 
 ---

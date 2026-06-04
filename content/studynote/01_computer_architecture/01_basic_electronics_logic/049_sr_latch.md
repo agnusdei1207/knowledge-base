@@ -21,10 +21,10 @@ tags = ["studynote-computer-architecture"]
 ```
 NOR 게이트 SR 래치:
 
-S ──┬── NOR1 ──┬── Q
+S --+-- NOR1 --+-- Q
     |           |
-    └── NOR2 ──┘── Q'
-R ──┘
+    +-- NOR2 --+-- Q'
+R --+
 
 진리표 (NOR 기반):
   S  R  Q(t+1)  Q'(t+1)  동작
@@ -35,10 +35,10 @@ R ──┘
 
 NAND 게이트 SR 래치:
 
-S' ─┬── NAND1 ──┬── Q
+S' -+-- NAND1 --+-- Q
     |            |
-    └── NAND2 ──┘── Q'
-R' ─┘
+    +-- NAND2 --+-- Q'
+R' -+
 
 진리표 (NAND 기반, 입력 반전):
   S'  R'  Q(t+1)  동작
@@ -63,8 +63,8 @@ R' ─┘
 금지 조건 (Forbidden State):
 
 NOR SR에서 S=R=1:
-  NOR1 = NOR(S=1, Q') = 0 → Q = 0
-  NOR2 = NOR(R=1, Q) = 0 → Q' = 0
+  NOR1 = NOR(S=1, Q') = 0 -> Q = 0
+  NOR2 = NOR(R=1, Q) = 0 -> Q' = 0
 
   결과: Q=0, Q'=0 (정상적으로 Q' = NOT Q여야 하는데 위반!)
   입력이 동시에 0으로 돌아가면: 레이싱 조건(Race Condition)
@@ -77,7 +77,7 @@ NOR SR에서 S=R=1:
   (소프트웨어 제어로 보장)
 
 2. JK 플립플롭:
-  J=K=1 → 출력 반전 (Toggle)으로 정의
+  J=K=1 -> 출력 반전 (Toggle)으로 정의
   금지 조건 제거
 
   JK 진리표 추가:
@@ -90,7 +90,7 @@ NOR SR에서 S=R=1:
 3. D 플립플롭:
   입력 D 하나만 (S=D, R=NOT D)
   D=0: 리셋, D=1: 셋
-  S=R=1 절대 불가 → 금지 조건 원천 차단
+  S=R=1 절대 불가 -> 금지 조건 원천 차단
 
   가장 많이 쓰이는 플립플롭
   CPU 레지스터, 캐시의 기본 단위
@@ -100,7 +100,7 @@ NOR SR에서 S=R=1:
   카운터 회로에 유용
 ```
 
-> 📢 **섹션 요약 비유**: 금지 조건 해결 = 혼선 방지 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) — SR(둘 다 말할 수 있어 혼선), D(한 명만 말함 → 혼선 없음), JK(둘 다 말하면 역할 바꾸기로 정의). 혼선 원천 차단이 핵심!
+> 📢 **섹션 요약 비유**: 금지 조건 해결 = 혼선 방지 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) — SR(둘 다 말할 수 있어 혼선), D(한 명만 말함 -> 혼선 없음), JK(둘 다 말하면 역할 바꾸기로 정의). 혼선 원천 차단이 핵심!
 
 ---
 
@@ -129,15 +129,15 @@ NOR SR에서 S=R=1:
 문제 - 투명성 (Transparency):
   CLK=1인 동안 입력이 계속 출력에 반영
   CLK 활성화 중 여러 번 상태 변경 가능
-  → 예측 어려움
+  -> 예측 어려움
 
 해결 - 엣지 트리거 플립플롭:
-  CLK의 상승 엣지(0→1)나 하강 엣지(1→0)에서만 샘플링
+  CLK의 상승 엣지(0->1)나 하강 엣지(1->0)에서만 샘플링
 
   마스터-슬레이브 플립플롭:
   마스터: 상승 엣지에서 입력 샘플
   슬레이브: 하강 엣지에서 출력 반영
-  → 클록 사이클당 1회만 상태 변경
+  -> 클록 사이클당 1회만 상태 변경
 
   현대 CPU: 엣지 트리거 D 플립플롭 수십억 개
 ```
@@ -177,14 +177,14 @@ T 플립플롭:
   JK에서 J=K=T로 연결
   응용: 2진 카운터
 
-SR → D → JK → T 변환:
+SR -> D -> JK -> T 변환:
   모든 플립플롭은 서로 변환 가능
-  D가 가장 단순, 구현 용이 → 범용
+  D가 가장 단순, 구현 용이 -> 범용
 
 타이밍 파라미터:
   셋업 타임 (t_su): CLK 엣지 이전 입력 안정화 시간
   홀드 타임 (t_h): CLK 엣지 이후 입력 유지 시간
-  전파 지연 (t_pd): CLK → Q 출력까지 지연
+  전파 지연 (t_pd): CLK -> Q 출력까지 지연
 
   CPU 클록 속도 결정 요인:
   최대 클록 = 1 / (t_pd + t_su + 배선 지연)
@@ -213,7 +213,7 @@ SR → D → JK → T 변환:
   WE=1 + CLK 상승 엣지: 새 데이터 래치
 
 x86 CPU 레지스터:
-  RAX: 64비트 → D 플립플롭 64개
+  RAX: 64비트 -> D 플립플롭 64개
   16개 범용 레지스터: 64 × 16 = 1024 플립플롭
   (캐시, 파이프라인 레지스터 포함 시 수백만~수십억)
 
@@ -223,7 +223,7 @@ x86 CPU 레지스터:
   셋업 타임: ~30ps
 
   1nm 공정: 더 빠른 전환, 더 낮은 전압
-  5V → 0.7V (전력 절감, 속도 향상)
+  5V -> 0.7V (전력 절감, 속도 향상)
 
 메모리 계층과 래치:
   레지스터 (D 플립플롭): 0.3ns, 수십~수백 바이트
@@ -300,7 +300,7 @@ NOR/NAND 교차 결합
 
 **진행 상황**: 49 / 803
 
-← **이전**: [048. 래치 — Latch](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/048_latch/)
-**다음**: [D 래치 (D Latch)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/050_d_latch/) →
+<- **이전**: [048. 래치 — Latch](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/048_latch/)
+**다음**: [D 래치 (D Latch)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/050_d_latch/) ->
 
 ---

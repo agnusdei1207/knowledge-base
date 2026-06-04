@@ -42,49 +42,49 @@ tags = ["studynote-data-engineering"]
 [지식 그래프 + GraphRAG 구조]
 
 지식 그래프 예시:
-  삼성전자 ──[CEO]──▶ 이재용
-  삼성전자 ──[소재지]──▶ 서울
-  삼성전자 ──[제품]──▶ 갤럭시 시리즈
-  이재용 ──[학력]──▶ 하버드 대학원
-  이재용 ──[국적]──▶ 대한민국
+  삼성전자 --[CEO]---> 이재용
+  삼성전자 --[소재지]---> 서울
+  삼성전자 --[제품]---> 갤럭시 시리즈
+  이재용 --[학력]---> 하버드 대학원
+  이재용 --[국적]---> 대한민국
 
 GraphRAG 질의: "삼성전자 CEO가 다닌 학교는?"
-                    │
+                    |
         ①삼성전자 노드 검색
-                    │
+                    |
         ②CEO 관계 따라 이재용
-                    │
+                    |
         ③이재용의 학력 관계 탐색
-                    │
+                    |
         ④하버드 대학원 반환
-                    │
+                    |
         LLM이 자연어로 응답 생성
 
 [GraphRAG vs 표준 RAG 비교]
 
 표준 RAG:
-"삼성전자 CEO 학력" ─▶ 벡터 검색 ─▶ 관련 문서 반환
-→ 문서에 명시된 경우만 답변 가능
+"삼성전자 CEO 학력" --> 벡터 검색 --> 관련 문서 반환
+-> 문서에 명시된 경우만 답변 가능
 
 GraphRAG (Microsoft):
-"삼성전자 CEO 학력" ─▶ 엔티티 추출 ─▶ 그래프 탐색
-─▶ 다단계 관계 추론 ─▶ 정확한 구조적 답변
+"삼성전자 CEO 학력" --> 엔티티 추출 --> 그래프 탐색
+--> 다단계 관계 추론 --> 정확한 구조적 답변
 
 [GraphRAG 파이프라인 (Microsoft)]
 문서
-  │ 정보 추출 (LLM 활용)
-  ▼
+  | 정보 추출 (LLM 활용)
+  v
 엔티티 & 관계 추출
-  │
+  |
 그래프 구축 (Neo4j 등)
-  │ 커뮤니티 탐지 (Leiden 알고리즘)
-  ▼
+  | 커뮤니티 탐지 (Leiden 알고리즘)
+  v
 글로벌/로컬 요약 생성
-  │
+  |
 질의 처리:
-  ├── 글로벌 질의: 커뮤니티 요약 활용
-  └── 로컬 질의: 관련 서브그래프 탐색
-          │
+  +-- 글로벌 질의: 커뮤니티 요약 활용
+  +-- 로컬 질의: 관련 서브그래프 탐색
+          |
     LLM 최종 응답 생성
 ```
 
@@ -131,7 +131,7 @@ GraphRAG (Microsoft):
 ```bash
 # 설치
 pip install graphrag
-# 인덱싱 (문서 → KG 구축)
+# 인덱싱 (문서 -> KG 구축)
 python -m graphrag.index --root ./data
 # 질의
 python -m graphrag.query --root ./data \
@@ -172,22 +172,22 @@ Microsoft GraphRAG는 2024년 오픈소스로 공개되어 기업 내 문서를 
 
 ```text
 구조화 지식: 트리플 (주어, 술어, 목적어)
-    │
-    ▼
+    |
+    v
 지식 그래프 (KG) 구축
-    ├─► 수동: Wikidata · DBpedia
-    └─► 자동: LLM 기반 엔티티/관계 추출
-    │
-    ▼
+    +-► 수동: Wikidata · DBpedia
+    +-► 자동: LLM 기반 엔티티/관계 추출
+    |
+    v
 지식 그래프 임베딩 (TransE · RotatE · ComplEx)
-    │
-    ▼
+    |
+    v
 GraphRAG (Microsoft, 2024)
-    ├─► 문서 → KG 구성 → 커뮤니티 요약
-    └─► 글로벌 검색 + 로컬 검색 결합
-    │
-    ▼
-LLM + KG → 환각 감소 · 사실 기반 추론 강화
+    +-► 문서 -> KG 구성 -> 커뮤니티 요약
+    +-► 글로벌 검색 + 로컬 검색 결합
+    |
+    v
+LLM + KG -> 환각 감소 · 사실 기반 추론 강화
 ```
 
 ---
@@ -196,7 +196,7 @@ LLM + KG → 환각 감소 · 사실 기반 추론 강화
 
 **진행 상황**: 160 / 258
 
-← **이전**: [159. GNN (Graph Neural Network) 그래프 노드 메시지 패싱 네트워크](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/)
-**다음**: [161. MLOps (Machine Learning Operations) - AI 모델 개발~서빙 CI/CD 자동화](/knowledge-base/studynote/14_data_engineering/04_mlops/161_mlops_machine_learning_operations/) →
+<- **이전**: [159. GNN (Graph Neural Network) 그래프 노드 메시지 패싱 네트워크](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/)
+**다음**: [161. MLOps (Machine Learning Operations) - AI 모델 개발~서빙 CI/CD 자동화](/knowledge-base/studynote/14_data_engineering/04_mlops/161_mlops_machine_learning_operations/) ->
 
 ---

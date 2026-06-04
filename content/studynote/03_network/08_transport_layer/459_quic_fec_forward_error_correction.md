@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [TLS 1.3 기본 내장]
-    │
-    ▼
+    |
+    v
 [FEC 기능 선택적 포함]
-    │
-    └──▶ [패킷 손실 복구 메커니즘 개선]
+    |
+    +---> [패킷 손실 복구 메커니즘 개선]
 ```
 
 - **📢 섹션 요약 비유**: <strong> FEC는 택배를 보낼 때 컵 4개 세트를 시키면, 배송 중 1개가 깨질까 봐 아예 </strong>예비용 컵 1개를 박스에 더 구겨 넣어서([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비) 총 5개를 보내는 극강의 "고객 불만(재전송) 원천 차단법"**입니다. 깨지면 예비용을 쓰면 되니 클레임이 걸리지 않습니다.
@@ -61,22 +61,22 @@ tags = ["studynote-network"]
 2. **스마트폰 배터리 살살 녹는다**: [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)용 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 패킷(P)을 풀기 위해 스마트폰 CPU가 미친 듯이 XOR 수학 공식을 돌려야 한다. 영상을 1시간 봤을 뿐인데 폰이 핫팩처럼 뜨거워지고 배터리가 증발했다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                초기 QUIC의 FEC와 현대 IETF QUIC의 차이           │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 2013년 구글의 초기 QUIC (gQUIC) ]                         │
- │   "야! 재전송은 구시대의 유물이야! 무조건 XOR 갈겨서 FEC 덧붙여 쏴!"│
- │   ──▶ 배터리 광탈 + 오버헤드 낭비로 개같이 욕먹음.                  │
- │                                                             │
- │   [ 2021년 표준 IETF QUIC (RFC 9000) ]                        │
- │   "구글아, 깝치지 말고 FEC 빼라. 그냥 기존 TCP 놈들이 쓰던           │
- │    선택적 확인 응답(SACK) 업그레이드해서 재전송(Retransmit) 하는 게 │
- │    가성비 젤 좋다."                                            │
- │                                                             │
- │   ▶ "결국 현재 우리가 쓰는 HTTP/3(QUIC)에는 FEC 기능이 빠져있거나,   │
- │      아예 안 쓰는(Deprecated) 모듈로 구석에 처박혀 있다."           │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                초기 QUIC의 FEC와 현대 IETF QUIC의 차이           |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 2013년 구글의 초기 QUIC (gQUIC) ]                         |
+ |   "야! 재전송은 구시대의 유물이야! 무조건 XOR 갈겨서 FEC 덧붙여 쏴!"|
+ |   ---> 배터리 광탈 + 오버헤드 낭비로 개같이 욕먹음.                  |
+ |                                                             |
+ |   [ 2021년 표준 IETF QUIC (RFC 9000) ]                        |
+ |   "구글아, 깝치지 말고 FEC 빼라. 그냥 기존 TCP 놈들이 쓰던           |
+ |    선택적 확인 응답(SACK) 업그레이드해서 재전송(Retransmit) 하는 게 |
+ |    가성비 젤 좋다."                                            |
+ |                                                             |
+ |   -> "결국 현재 우리가 쓰는 HTTP/3(QUIC)에는 FEC 기능이 빠져있거나,   |
+ |      아예 안 쓰는(Deprecated) 모듈로 구석에 처박혀 있다."           |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: <strong> FEC 도입의 실패는 안전을 위한다고 </strong>모든 경차에 무거운 전차(탱크) 장갑판을 두르고 달리게 한 격**입니다. 가벼운 접촉 사고(패킷 유실)에는 안 다쳐서 좋지만, 굳이 안 나도 될 사고를 대비하느라 차가 무거워져서 연비([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))와 엔진(스마트폰 배터리)이 다 박살 나버렸기 때문에 폐기된 과잉 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)입니다.
@@ -137,12 +137,12 @@ FEC 기능 선택적 포함은 전송 계층을 이해할 때 핵심 축을 잡�
 
 ```text
 [선행 개념: TLS 1.3 기본 내장]
-    │
-    ▼
+    |
+    v
 [현재 개념: FEC 기능 선택적 포함]
-    │
-    ├──▶ [확장 A: 패킷 손실 복구 메커니즘 개선]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: 패킷 손실 복구 메커니즘 개선]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 FEC 기능 선택적 포함는 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3 기본 내장에서 출발해 현재 메커니즘을 정교화하고, 이후 패킷 손실 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 메커니즘 개선와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -159,7 +159,7 @@ FEC 기능 선택적 포함는 [TLS](/knowledge-base/studynote/02_operating_syst
 
 **진행 상황**: 580 / 1120
 
-← **이전**: [458. TLS 1.3 기본 내장](/knowledge-base/studynote/03_network/08_transport_layer/458_quic_tls_1_3_integration/)
-**다음**: [460. 패킷 손실 복구 메커니즘 개선](/knowledge-base/studynote/03_network/08_transport_layer/460_quic_packet_loss_recovery_unique_packet_number/) →
+<- **이전**: [458. TLS 1.3 기본 내장](/knowledge-base/studynote/03_network/08_transport_layer/458_quic_tls_1_3_integration/)
+**다음**: [460. 패킷 손실 복구 메커니즘 개선](/knowledge-base/studynote/03_network/08_transport_layer/460_quic_packet_loss_recovery_unique_packet_number/) ->
 
 ---

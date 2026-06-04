@@ -24,12 +24,12 @@ tags = ["studynote-ai"]
 이 방식 덕분에 잡음이 조금 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서도 비교적 안정적이며, 비선형 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 [커널 트릭](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/)으로 확장할 수 있다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                   ε-insensitive regression tube             │
-├──────────────────────────────────────────────────────────────┤
-│   o  o      ●●● predicted line ●●●      o  o                │
-│   within ε  → no penalty             outside ε → penalty     │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                   ε-insensitive regression tube             |
++--------------------------------------------------------------+
+|   o  o      ●●● predicted line ●●●      o  o                |
+|   within ε  -> no penalty             outside ε -> penalty     |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 종이 위에 선을 그을 때, 선에서 아주 조금 삐져나간 건 봐주고 너무 벗어난 것만 혼내는 규칙이다.
@@ -40,7 +40,7 @@ tags = ["studynote-ai"]
 
 SVR의 목표는 가능한 한 평평한 함수 `f(x)`를 찾되, 실제 값과의 차이가 `ε`를 넘는 샘플에만 벌점을 주는 것이다.
 
-`min 1/2 ||w||² + C Σ(ξ_i + ξ_i*)`
+`min 1/2 ||w||^ + C Σ(ξ_i + ξ_i*)`
 
 제약은 다음과 같다.
 
@@ -55,12 +55,12 @@ SVR의 목표는 가능한 한 평평한 함수 `f(x)`를 찾되, 실제 값과�
 | <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/">Support</a> Vectors</strong> | 튜브 경계/밖에 있는 샘플 | 모델을 실제로 정의하는 핵심 점 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                     SVR Optimization Idea                    │
-├──────────────────────────────────────────────────────────────┤
-│ Flat line + ε tube + penalty outside the tube                │
-│  -> sparse solution dominated by support vectors             │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                     SVR Optimization Idea                    |
++--------------------------------------------------------------+
+| Flat line + ε tube + penalty outside the tube                |
+|  -> sparse solution dominated by support vectors             |
++--------------------------------------------------------------+
 ```
 
 SVR은 모든 샘플이 아니라 일부 경계 샘플만 중요해지는 희소성(sparsity)을 갖는다는 점이 강점이다.
@@ -129,7 +129,7 @@ SVR을 잘 쓰면 잡음이 있는 회귀 문제에서도 안정적인 예측이
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [서포트 벡터 회귀 (SVR, Support Vector Regression)] → [최적화·운영 자동화]
+[데이터 전처리] -> [서포트 벡터 회귀 (SVR, Support Vector Regression)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -144,7 +144,7 @@ SVR을 잘 쓰면 잡음이 있는 회귀 문제에서도 안정적인 예측이
 
 **진행 상황**: 412 / 420
 
-← **이전**: [411. 편자기상관함수 (PACF, Partial Autocorrelation Function)](/knowledge-base/studynote/10_ai/05_data_science_ml/411_pacf_partial_autocorrelation/)
-**다음**: [413. 자율주행 모방 학습 (Imitation Learning / Behavior Cloning)](/knowledge-base/studynote/10_ai/05_data_science_ml/413_imitation_learning_behavior_cloning/) →
+<- **이전**: [411. 편자기상관함수 (PACF, Partial Autocorrelation Function)](/knowledge-base/studynote/10_ai/05_data_science_ml/411_pacf_partial_autocorrelation/)
+**다음**: [413. 자율주행 모방 학습 (Imitation Learning / Behavior Cloning)](/knowledge-base/studynote/10_ai/05_data_science_ml/413_imitation_learning_behavior_cloning/) ->
 
 ---

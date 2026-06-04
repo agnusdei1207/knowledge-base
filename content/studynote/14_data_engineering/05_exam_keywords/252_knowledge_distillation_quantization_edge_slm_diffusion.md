@@ -24,8 +24,8 @@ GPT-4 수준의 모델은 수백 GB 파라미터로 구성되어 [데이터](/kn
 
 | 경량화 기법 | 핵심 아이디어 | 압축률 | 정확도 손실 |
 |:---|:---|:---|:---|
-| **지식 증류(Knowledge Distillation)** | 큰 모델 → 작은 모델 지식 전달 | [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~100x | 낮음 |
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">양자화</a>(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">Quantization</a>)</strong> | FP32 → INT8/INT4 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 축소 | 2~8x | 매우 낮음 |
+| **지식 증류(Knowledge Distillation)** | 큰 모델 -> 작은 모델 지식 전달 | [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~100x | 낮음 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">양자화</a>(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">Quantization</a>)</strong> | FP32 -> INT8/INT4 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 축소 | 2~8x | 매우 낮음 |
 | <strong>프루닝(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">Pruning</a>)</strong> | 중요도 낮은 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 제거 | 2~10x | 중간 |
 | <strong>지식 증류 + <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">양자화</a></strong> | 두 기법 결합 | 20~100x | 낮음 |
 
@@ -42,31 +42,31 @@ GPT-4 수준의 모델은 수백 GB 파라미터로 구성되어 [데이터](/kn
 ### 2.1 지식 증류(Knowledge Distillation) 구조
 
 ```
-┌────────────────────────────────────────────────────────────────┐
-│               지식 증류 (Knowledge Distillation)                │
-├────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  ┌─────────────────────────────────────────┐                   │
-│  │       교사 모델 (Teacher Model)          │                   │
-│  │       GPT-4 / LLaMA-70B 수준            │                   │
-│  │                                         │                   │
-│  │  입력 → [소프트 레이블(Soft Label) 출력] │                   │
-│  │         [확률 분포: cat=0.7, dog=0.2..] │                   │
-│  └───────────────────┬─────────────────────┘                   │
-│                      │ 소프트 레이블 전달                       │
-│                      │ (온도(Temperature) T로 스무딩)           │
-│                      ▼                                         │
-│  ┌─────────────────────────────────────────┐                   │
-│  │       학생 모델 (Student Model)          │                   │
-│  │       경량 SLM / DistilBERT 수준         │                   │
-│  │                                         │                   │
-│  │  손실 = α×KL발산 + (1-α)×하드레이블손실  │                   │
-│  └─────────────────────────────────────────┘                   │
-│                                                                 │
-│  핵심: 하드 레이블(Hard Label, 0/1)이 아닌                      │
-│       소프트 레이블(Soft Label, 확률 분포)로                    │
-│       클래스 간 관계 정보를 추가로 전달                          │
-└────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------+
+|               지식 증류 (Knowledge Distillation)                |
++----------------------------------------------------------------+
+|                                                                 |
+|  +-----------------------------------------+                   |
+|  |       교사 모델 (Teacher Model)          |                   |
+|  |       GPT-4 / LLaMA-70B 수준            |                   |
+|  |                                         |                   |
+|  |  입력 -> [소프트 레이블(Soft Label) 출력] |                   |
+|  |         [확률 분포: cat=0.7, dog=0.2..] |                   |
+|  +-------------------+---------------------+                   |
+|                      | 소프트 레이블 전달                       |
+|                      | (온도(Temperature) T로 스무딩)           |
+|                      v                                         |
+|  +-----------------------------------------+                   |
+|  |       학생 모델 (Student Model)          |                   |
+|  |       경량 SLM / DistilBERT 수준         |                   |
+|  |                                         |                   |
+|  |  손실 = α×KL발산 + (1-α)×하드레이블손실  |                   |
+|  +-----------------------------------------+                   |
+|                                                                 |
+|  핵심: 하드 레이블(Hard Label, 0/1)이 아닌                      |
+|       소프트 레이블(Soft Label, 확률 분포)로                    |
+|       클래스 간 관계 정보를 추가로 전달                          |
++----------------------------------------------------------------+
 ```
 
 **소프트 레이블의 핵심 가치**: "고양이" 이미지에 대해 하드 레이블은 `[1, 0, 0]`이지만, 소프트 레이블은 `[0.7, 0.2, 0.1]`처럼 "고양이와 호랑이가 비슷하다"는 클래스 간 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 정보를 포함한다.
@@ -82,7 +82,7 @@ GPT-4 수준의 모델은 수백 GB 파라미터로 구성되어 [데이터](/kn
 | **INT2/Binary** | 2~1 | 0.25 [Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) | 극단적 경량화, 정확도 저하 큼 |
 
 ```
-FP32 (32비트)  →  양자화(Quantization)  →  INT8 (8비트)
+FP32 (32비트)  ->  양자화(Quantization)  ->  INT8 (8비트)
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■         ████████
 (정밀한 소수점 표현)                      (정수 표현, 메모리 4x 절약)
 
@@ -120,16 +120,16 @@ W_int8 = round(W_fp32 / scale)
 
 ```
 정방향 과정 (Forward Process): 노이즈 추가
-원본 이미지 → 노이즈 점진 추가 → 완전한 가우시안 노이즈
-X_0    →    X_1    →    X_2    →  ...  →  X_T
+원본 이미지 -> 노이즈 점진 추가 -> 완전한 가우시안 노이즈
+X_0    ->    X_1    ->    X_2    ->  ...  ->  X_T
 
 역방향 과정 (Reverse Process): 노이즈 제거 학습
-가우시안 노이즈 → 노이즈 예측 및 제거 반복 → 생성 이미지
-X_T    →    X_{T-1}    →  ...  →  X_0
+가우시안 노이즈 -> 노이즈 예측 및 제거 반복 -> 생성 이미지
+X_T    ->    X_{T-1}    ->  ...  ->  X_0
            U-Net/트랜스포머가 각 단계 노이즈 예측
 ```
 
-[디퓨전 모델](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/) 경량화 기법: <strong>DDIM(Denoising Diffusion Implicit Models)</strong>은 역방향 단계를 1000→50 단계로 줄여 추론 속도를 20배 향상시킨다.
+[디퓨전 모델](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/) 경량화 기법: <strong>DDIM(Denoising Diffusion Implicit Models)</strong>은 역방향 단계를 1000->50 단계로 줄여 추론 속도를 20배 향상시킨다.
 
 📢 **섹션 요약 비유**: [디퓨전 모델](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/)은 지우개로 그림을 지워가는 과정을 거꾸로 배우는 것이다. "완전히 지워진 그림에서 어떻게 원본을 복원할까?"를 학습하면, 역으로 "무작위 노이즈에서 새 그림을 만들 수 있게" 된다.
 
@@ -141,15 +141,15 @@ X_T    →    X_{T-1}    →  ...  →  X_0
 
 ```
 배포 환경 분석
-      │
-      ├─ 클라우드 서버(A100 GPU)
-      │    └─ FP16 추론 (속도·비용 최적화)
-      │
-      ├─ 엣지 서버(Jetson, NPU 탑재)
-      │    └─ INT8 양자화 + 구조적 프루닝
-      │
-      └─ 모바일/IoT (ARM 칩)
-           └─ INT4 양자화 + 지식 증류 (SLM)
+      |
+      +- 클라우드 서버(A100 GPU)
+      |    +- FP16 추론 (속도·비용 최적화)
+      |
+      +- 엣지 서버(Jetson, NPU 탑재)
+      |    +- INT8 양자화 + 구조적 프루닝
+      |
+      +- 모바일/IoT (ARM 칩)
+           +- INT4 양자화 + 지식 증류 (SLM)
 ```
 
 ### 4.2 QAT vs PTQ [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
@@ -161,7 +161,7 @@ X_T    →    X_{T-1}    →  ...  →  X_0
 
 ### 4.3 기술사 논술 핵심 포인트
 
-- **트레이드오프 명시**: 압축률 ↑ → 정확도 ↓, 이를 허용 가능 범위(1~3% 손실)로 제한
+- **트레이드오프 명시**: 압축률 ^ -> 정확도 v, 이를 허용 가능 범위(1~3% 손실)로 제한
 - **하드웨어-소프트웨어 공동 최적화**: Apple Neural 엔진, Qualcomm [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 엔진 활용
 - <strong>지속적 학습(Continual <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a>)</strong>: 경량 모델도 증분 학습으로 지식 갱신 가능
 
@@ -179,7 +179,7 @@ X_T    →    X_{T-1}    →  ...  →  X_0
 | **자동차** | [V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/) 없이도 실시간 자율주행 판단 |
 | **의료기기** | [HIPAA](/knowledge-base/studynote/09_security/17_framework_compliance/863_hipaa/) 준수 로컬 진단 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) |
 | <strong>산업 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a></strong> | 네트워크 단절 환경에서도 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 추론 |
-| **에너지 절감** | 클라우드 전송 불필요 → 탄소 감소 |
+| **에너지 절감** | 클라우드 전송 불필요 -> 탄소 감소 |
 
 ### 5.2 결론
 
@@ -194,8 +194,8 @@ X_T    →    X_{T-1}    →  ...  →  X_0
 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
 |:---|:---|:---|
 | 문제 | 대형 모델 배포 비용 | 수백 GB 모델은 엣지 배포 불가 |
-| 해결책 | 지식 증류(Knowledge Distillation) | 교사→학생 모델 소프트 레이블 전달 |
-| 해결책 | [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)) | FP32→INT8/INT4 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 감소 |
+| 해결책 | 지식 증류(Knowledge Distillation) | 교사->학생 모델 소프트 레이블 전달 |
+| 해결책 | [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)) | FP32->INT8/INT4 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 감소 |
 | 해결책 | 프루닝([Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)) | 중요도 낮은 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 제거 |
 | 결과물 | [SLM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/313_slm/)([Small Language Model](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/313_slm/)) | 경량 언어 모델 (Phi-3, Gemma 등) |
 | 관련 기술 | [디퓨전 모델](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/)([Diffusion Model](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/)) | 노이즈 제거 기반 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델 |
@@ -209,17 +209,17 @@ X_T    →    X_{T-1}    →  ...  →  X_0
 
 ```text
 대형 모델 (GPU 서버 필요)
-    │
-    ▼
+    |
+    v
 경량화 기법
-    ├─► 지식 증류: Teacher → Student (소프트 타겟)
-    ├─► 양자화: FP32 → INT8 → INT4
-    └─► 프루닝: 불필요한 가중치 제거
-    │
-    ▼
+    +-► 지식 증류: Teacher -> Student (소프트 타겟)
+    +-► 양자화: FP32 -> INT8 -> INT4
+    +-► 프루닝: 불필요한 가중치 제거
+    |
+    v
 SLM (Small Language Model): Phi · Gemma · Mistral
-    │
-    ▼
+    |
+    v
 엣지 배포 · 디퓨전 모델 최적화
 ```
 2. [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)는 그 10권 책의 글씨를 아주 작게 줄여 인쇄하는 것—내용은 같은데 공간을 4배 덜 차지해요.
@@ -231,7 +231,7 @@ SLM (Small Language Model): Phi · Gemma · Mistral
 
 **진행 상황**: 252 / 258
 
-← **이전**: [251. 할루시네이션 (Hallucination) RAG (Retrieval Augmented Generation) 벡터 DB](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)
-**다음**: [253. 강화 학습 (Reinforcement Learning) MDP 정책 가치 Q러닝 DQN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) →
+<- **이전**: [251. 할루시네이션 (Hallucination) RAG (Retrieval Augmented Generation) 벡터 DB](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)
+**다음**: [253. 강화 학습 (Reinforcement Learning) MDP 정책 가치 Q러닝 DQN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) ->
 
 ---

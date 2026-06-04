@@ -40,23 +40,23 @@ tags = ["studynote-operating-system"]
 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 시, 프로세스의 무거운 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 매핑([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 등)은 그대로 두고 이 가벼운 독립 자원 정보들만 CPU와 TCB 사이에서 교체된다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│             독립적인 스택 (Stack)을 통한 함수 실행 격리 아키텍처             │
-├────────────────────────────────────────────────────────────────────────┤
-│ [Thread A Stack]                   [Thread B Stack]                    │
-│                                                                        │
-│ │                  │               │                  │                │
-│ ├──────────────────┤ ◀ SP_A        ├──────────────────┤ ◀ SP_B         │
-│ │ func_Y 지역변수   │               │ func_Z 지역변수   │                │
-│ │ Return Addr(A)   │               │ Return Addr(B)   │                │
-│ ├──────────────────┤               ├──────────────────┤                │
-│ │ func_X 지역변수   │               │ func_W 지역변수   │                │
-│ │ Return Addr(A)   │               │ Return Addr(B)   │                │
-│ └──────────────────┘               └──────────────────┘                │
-│                                                                        │
-│ 결론: 스레드 A는 func_X → func_Y 호출 중, 스레드 B는 func_W → func_Z 호출 중 │
-│ 동일한 Code 영역 함수를 공유하지만, 복귀 주소와 지역 변수는 전혀 섞이지 않음 │
-└────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------+
+|             독립적인 스택 (Stack)을 통한 함수 실행 격리 아키텍처             |
++------------------------------------------------------------------------+
+| [Thread A Stack]                   [Thread B Stack]                    |
+|                                                                        |
+| |                  |               |                  |                |
+| +------------------+ <- SP_A        +------------------+ <- SP_B         |
+| | func_Y 지역변수   |               | func_Z 지역변수   |                |
+| | Return Addr(A)   |               | Return Addr(B)   |                |
+| +------------------+               +------------------+                |
+| | func_X 지역변수   |               | func_W 지역변수   |                |
+| | Return Addr(A)   |               | Return Addr(B)   |                |
+| +------------------+               +------------------+                |
+|                                                                        |
+| 결론: 스레드 A는 func_X -> func_Y 호출 중, 스레드 B는 func_W -> func_Z 호출 중 |
+| 동일한 Code 영역 함수를 공유하지만, 복귀 주소와 지역 변수는 전혀 섞이지 않음 |
++------------------------------------------------------------------------+
 ```
 
 다이어그램이 보여주듯, 각 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 전용 [스택 포인터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) ([SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/), [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) Pointer)를 가지며 함수를 호출한다. 이 구조 덕분에 한 함수를 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동시에 호출(Re-entrant)하더라도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 충돌 없이 안전한 처리가 가능하다.
@@ -116,17 +116,17 @@ OS [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/0
 
 ```text
 멀티 프로세싱 한계 (무거운 문맥 교환)
-    │
-    ▼
+    |
+    v
 프로세스 내 공유 자원 분리 (Code, Data, Heap 공유)
-    │
-    ▼
+    |
+    v
 스레드 독립 자원 확립 (TID, PC, Register, Stack)
-    │
-    ▼
+    |
+    v
 스레드 풀 (Thread Pool) 및 TLS 최적화 적용
-    │
-    ▼
+    |
+    v
 초경량 가상 스레드 (Virtual Thread) / 코루틴의 동적 스택 확장 진화
 ```
 
@@ -144,7 +144,7 @@ OS [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/0
 
 **진행 상황**: 94 / 800
 
-← **이전**: [93. 스레드의 자원 공유 - Code, Data, Heap, 열린 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/093_thread_shared_resources/)
-**다음**: [95. 다중 스레드 (Multithreading)의 장점 - 응답성, 자원 공유, 경제성, 다중 처리기 활용](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/) →
+<- **이전**: [93. 스레드의 자원 공유 - Code, Data, Heap, 열린 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/093_thread_shared_resources/)
+**다음**: [95. 다중 스레드 (Multithreading)의 장점 - 응답성, 자원 공유, 경제성, 다중 처리기 활용](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/) ->
 
 ---

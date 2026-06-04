@@ -28,43 +28,43 @@ tags = ["algorithm_stats"]
 ```text
 [분할 정복 (Divide and Conquer) 3단계]
 
-┌──────────────────────────────────────────────────────┐
-│                                                      │
-│    ┌─────────────────────────────────────────┐      │
-│    │           분할 정복 3단계                  │      │
-│    └─────────────────────────────────────────┘      │
-│                                                      │
-│    ┌───────────────┐                                 │
-│    │  1. DIVIDE    │ ← 큰 문제를 작게 분할           │
-│    │     분할       │   (입력을 같은 크기의            │
-│    └───────┬───────┘    부분문제로 분할)             │
-│            │                                        │
-│            ▼                                        │
-│    ┌───────────────┐                                 │
-│    │  2. CONQUER    │ ← 각 부분문제를 재귀적 해결     │
-│    │     정복       │   (부분문제 충분히 작으면       │
-│    └───────┬───────┘    직접 해결 = 기저사례)         │
-│            │                                        │
-│            ▼                                        │
-│    ┌───────────────┐                                 │
-│    │  3. COMBINE   │ ← 하위 문제의 해를 결합         │
-│    │     결합       │   (부분해들을 통합하여          │
-│    └───────────────┘    전체 해 구성)                 │
-│                                                      │
-│  [합병 정렬로 이해하기]                                │
-│  ────────────────────                                │
-│  Divide: [5, 2, 8, 1, 9] → [5, 2, 8] + [1, 9]       │
-│           더 작게 분할 → [5, 2] + [8] + [1] + [9]    │
-│                    → [5] + [2] + [8] + [1] + [9]    │
-│                                                      │
-│  Conquer: 각 조각을 정렬                               │
-│           [2, 5] + [1, 8] + [9]                     │
-│           → [1, 2, 5, 8, 9] (합병)                  │
-│                                                      │
-│  Combine: [2, 5] + [1, 8] 합병 → [1, 2, 5, 8]       │
-│           [1, 2, 5, 8] + [9] 합병 → [1, 2, 5, 8, 9] │
-│                                                      │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|                                                      |
+|    +-----------------------------------------+      |
+|    |           분할 정복 3단계                  |      |
+|    +-----------------------------------------+      |
+|                                                      |
+|    +---------------+                                 |
+|    |  1. DIVIDE    | <- 큰 문제를 작게 분할           |
+|    |     분할       |   (입력을 같은 크기의            |
+|    +-------+-------+    부분문제로 분할)             |
+|            |                                        |
+|            v                                        |
+|    +---------------+                                 |
+|    |  2. CONQUER    | <- 각 부분문제를 재귀적 해결     |
+|    |     정복       |   (부분문제 충분히 작으면       |
+|    +-------+-------+    직접 해결 = 기저사례)         |
+|            |                                        |
+|            v                                        |
+|    +---------------+                                 |
+|    |  3. COMBINE   | <- 하위 문제의 해를 결합         |
+|    |     결합       |   (부분해들을 통합하여          |
+|    +---------------+    전체 해 구성)                 |
+|                                                      |
+|  [합병 정렬로 이해하기]                                |
+|  --------------------                                |
+|  Divide: [5, 2, 8, 1, 9] -> [5, 2, 8] + [1, 9]       |
+|           더 작게 분할 -> [5, 2] + [8] + [1] + [9]    |
+|                    -> [5] + [2] + [8] + [1] + [9]    |
+|                                                      |
+|  Conquer: 각 조각을 정렬                               |
+|           [2, 5] + [1, 8] + [9]                     |
+|           -> [1, 2, 5, 8, 9] (합병)                  |
+|                                                      |
+|  Combine: [2, 5] + [1, 8] 합병 -> [1, 2, 5, 8]       |
+|           [1, 2, 5, 8] + [9] 합병 -> [1, 2, 5, 8, 9] |
+|                                                      |
++------------------------------------------------------+
 ```
 
 - **관찰**: 분할 정복의 핵심은 하위 문제들이 서로 독립적(Independent)이라는 것이다. 서로Overlap되면 비효율적이거나 중복 계산이 발생한다.
@@ -80,44 +80,44 @@ tags = ["algorithm_stats"]
 
 분할 정복 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 시간 복잡도는 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/">재귀</a> <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>(Recurrence <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/">Relation</a>)</strong>로 표현되고, 이를 해석하는 대표적 방법이 <strong>마스터 정리(Master Theorem)</strong>이다. [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)란 T(N) = aT(N/b) + f(N)에서와 같이 문제 크기 N을 b로 나누어 a개의 하위 문제로 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)적으로 풀고, 그 결과를 결합하는 데 f(N)의 비용이 드는 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)식을 말한다. 예를 들어 [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)의 경우 T(N) = 2T(N/2) + O(N)인데, 이는 두 개의 N/2 크기 하위 문제로 분할하고 결합에 O(N)이 든다는 것을 의미한다.
 
-마스터 정리에 따르면, f(N)과 N^{log_b a}를 비교하여 복잡도가 결정된다. [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)의 경우 a=2, b=2이므로 N^{log₂²} = N^1 = N이고, f(N) = N이므로 f(N) = Θ(N^{log_b a} · log⁰N) = Θ(N log⁰N) = Θ(N)이므로 T(N) = Θ(N log N)이다.
+마스터 정리에 따르면, f(N)과 N^{log_b a}를 비교하여 복잡도가 결정된다. [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)의 경우 a=2, b=2이므로 N^{log₂^} = N^1 = N이고, f(N) = N이므로 f(N) = Θ(N^{log_b a} · log⁰N) = Θ(N log⁰N) = Θ(N)이므로 T(N) = Θ(N log N)이다.
 
 ```text
 [마스터 정리 (Master Theorem) 적용]
 
-┌──────────────────────────────────────────────────────┐
-│                                                      │
-│  재귀 관계: T(N) = aT(N/b) + f(N)                    │
-│                                                      │
-│  ├── f(N) = O(N^{log_b a - ε})  → T(N) = Θ(N^{log_b a})
-│  ├── f(N) = Θ(N^{log_b a})       → T(N) = Θ(N^{log_b a} log N)
-│  └── f(N) = Ω(N^{log_b a + ε})   → T(N) = Θ(f(N))  │
-│       (증명 조건 필요)                                 │
-│                                                      │
-│  [합병 정렬 적용]                                    │
-│  ────────────────────                                │
-│  T(N) = 2T(N/2) + N                                  │
-│                                                      │
-│  a = 2, b = 2, f(N) = N                             │
-│  N^{log_b a} = N^{log_2 2} = N^1 = N                │
-│                                                      │
-│  f(N) = Θ(N^{log_b a}) = Θ(N)                      │
-│  → T(N) = Θ(N^{log_b a} log N) = Θ(N log N)        │
-│                                                      │
-│  [퀵 정렬 (평균) 적용]                                │
-│  ────────────────────                                │
-│  T(N) = 2T(N/2) + N  (피벗이 항상 중앙에 위치)        │
-│  → Θ(N log N) (합병 정렬과 동일)                      │
-│                                                      │
-│  [퀵 정렬 (최악) 적용]                                │
-│  ────────────────────                                │
-│  T(N) = T(N-1) + N  (피벗이 항상 최솟값/최댓값)       │
-│  → Θ(N²)                                            │
-│                                                      │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|                                                      |
+|  재귀 관계: T(N) = aT(N/b) + f(N)                    |
+|                                                      |
+|  +-- f(N) = O(N^{log_b a - ε})  -> T(N) = Θ(N^{log_b a})
+|  +-- f(N) = Θ(N^{log_b a})       -> T(N) = Θ(N^{log_b a} log N)
+|  +-- f(N) = Ω(N^{log_b a + ε})   -> T(N) = Θ(f(N))  |
+|       (증명 조건 필요)                                 |
+|                                                      |
+|  [합병 정렬 적용]                                    |
+|  --------------------                                |
+|  T(N) = 2T(N/2) + N                                  |
+|                                                      |
+|  a = 2, b = 2, f(N) = N                             |
+|  N^{log_b a} = N^{log_2 2} = N^1 = N                |
+|                                                      |
+|  f(N) = Θ(N^{log_b a}) = Θ(N)                      |
+|  -> T(N) = Θ(N^{log_b a} log N) = Θ(N log N)        |
+|                                                      |
+|  [퀵 정렬 (평균) 적용]                                |
+|  --------------------                                |
+|  T(N) = 2T(N/2) + N  (피벗이 항상 중앙에 위치)        |
+|  -> Θ(N log N) (합병 정렬과 동일)                      |
+|                                                      |
+|  [퀵 정렬 (최악) 적용]                                |
+|  --------------------                                |
+|  T(N) = T(N-1) + N  (피벗이 항상 최솟값/최댓값)       |
+|  -> Θ(N^)                                            |
+|                                                      |
++------------------------------------------------------+
 ```
 
-- **관찰**: 동일한 분할 정복 패러다임이라도 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 선택([퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/))에 따라 평균 O(N log N)과 최악 O(N²)이라는 극단적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이가 발생한다.
+- **관찰**: 동일한 분할 정복 패러다임이라도 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 선택([퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/))에 따라 평균 O(N log N)과 최악 O(N^)이라는 극단적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이가 발생한다.
 - **원인**: [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 선택의 운에 따라 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 트리의 깊이가 달라지기 때문이다.
 - **결과**: 따라서 분할 정복 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 구현의 세밀함에 크게 좌우된다.
 - **판단**: [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)에서 중앙값 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)(Median-of-Three)이나 3-way 파티셔닝을 사용하는 것이 이러한 이유 때문이다.
@@ -135,36 +135,36 @@ tags = ["algorithm_stats"]
 ```text
 [분할 정복 구현 패턴]
 
-┌──────────────────────────────────────────────────────┐
-│                                                      │
-│  [전형적 분할 정복 의사코드]                           │
-│  ────────────────────                                │
-│  function DAC(input, left, right):                  │
-│      if left >= right:      // 기저 사례: 원소 1개   │
-│          return                                     │
-│                                                      │
-│      mid = (left + right) // 2    // 분할           │
-│                                                      │
-│      DAC(input, left, mid)         // 정복: 좌측      │
-│      DAC(input, mid+1, right)     // 정복: 우측      │
-│                                                      │
-│      combine(input, left, mid, right) // 결합        │
-│                                                      │
-│  [고속 푸리에 변환 (FFT) - O(N log N)]               │
-│  ────────────────────                                │
-│  A(x) = A_even(x²) + x · A_odd(x²)                  │
-│  A_even: 짝수次數 계수, A_odd: 홀수次數 계수         │
-│                                                      │
-│  F(A) = F(A_even) ∪ F(A_odd)로 분할 후 결합          │
-│  → O(N log N)에 多項式乘法 가능                       │
-│                                                      │
-│  [Strassen 행렬 곱셈 - O(N^2.81)]                   │
-│  ────────────────────                                │
-│  일반: 8번의递归 + 4번의 결합 = O(N³)               │
-│  Strassen: 7번의递归 (특별한 곱셈) + 결합 = O(N^2.81)│
-│  → 상수 계수 개선 (8→7) but 복잡한 구현               │
-│                                                      │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|                                                      |
+|  [전형적 분할 정복 의사코드]                           |
+|  --------------------                                |
+|  function DAC(input, left, right):                  |
+|      if left >= right:      // 기저 사례: 원소 1개   |
+|          return                                     |
+|                                                      |
+|      mid = (left + right) // 2    // 분할           |
+|                                                      |
+|      DAC(input, left, mid)         // 정복: 좌측      |
+|      DAC(input, mid+1, right)     // 정복: 우측      |
+|                                                      |
+|      combine(input, left, mid, right) // 결합        |
+|                                                      |
+|  [고속 푸리에 변환 (FFT) - O(N log N)]               |
+|  --------------------                                |
+|  A(x) = A_even(x^) + x · A_odd(x^)                  |
+|  A_even: 짝수次數 계수, A_odd: 홀수次數 계수         |
+|                                                      |
+|  F(A) = F(A_even) ∪ F(A_odd)로 분할 후 결합          |
+|  -> O(N log N)에 多項式乘法 가능                       |
+|                                                      |
+|  [Strassen 행렬 곱셈 - O(N^2.81)]                   |
+|  --------------------                                |
+|  일반: 8번의递归 + 4번의 결합 = O(N³)               |
+|  Strassen: 7번의递归 (특별한 곱셈) + 결합 = O(N^2.81)|
+|  -> 상수 계수 개선 (8->7) but 복잡한 구현               |
+|                                                      |
++------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: 분할 정복은 물류 창고의 물품을 정리하는 것과 같습니다. 전체 창고의 물품을 한 사람이 정리하면 N의 시간이 들지만, 4개의 구역으로 나눠 각 담당에게 동시에 정리하게 하면(분할), 각 구역 정리 후 합치면(결합) 총 처리 시간이 1/4로 줄어듭니다.
@@ -196,39 +196,39 @@ tags = ["algorithm_stats"]
 ```text
 [분할 정복 (Divide and Conquer) 핵심 개념 맵]
 
-         ┌─────────────────────────────────┐
-         │      분할 정복 (Divide and Conquer) │
-         └────────────────┬────────────────┘
-                          │
-      ┌───────────────────┼───────────────────┐
-      │                   │                    │
-      ▼                   ▼                    ▼
-┌──────────────┐  ┌──────────────┐  ┌──────────────┐
-│  1. DIVIDE   │  │  2. CONQUER  │  │  3. COMBINE  │
-│     분할       │  │     정복       │  │     결합       │
-├──────────────┤  ├──────────────┤  ├──────────────┤
-│ 입력 분할     │  │ 재귀적 해결   │  │ 부분해 통합   │
-│ 입력 크기 N   │  │ T(N)=aT(N/b) │  │ f(N) 비용    │
-│ N/b sized × a│  │ 기저 사례     │  │              │
-└──────────────┘  └──────────────┘  └──────────────┘
-      │                   │                    │
-      └───────────────────┴────────────────────┘
-                          │
-                          ▼
-         ┌─────────────────────────────────┐
-         │      대표 알고리즘 (Representatives) │
-         ├─────────────────────────────────┤
-         │ 합병 정렬: T(N)=2T(N/2)+O(N)    │
-         │ 퀵 정렬: T(N)=2T(N/2)+O(N)      │
-         │ FFT: T(N)=2T(N/2)+O(N)          │
-         │ 이진 탐색: T(N)=T(N/2)+O(1)     │
-         │ Strassen: O(N^2.81)             │
-         └─────────────────────────────────┘
+         +---------------------------------+
+         |      분할 정복 (Divide and Conquer) |
+         +----------------+----------------+
+                          |
+      +-------------------+-------------------+
+      |                   |                    |
+      v                   v                    v
++--------------+  +--------------+  +--------------+
+|  1. DIVIDE   |  |  2. CONQUER  |  |  3. COMBINE  |
+|     분할       |  |     정복       |  |     결합       |
++--------------+  +--------------+  +--------------+
+| 입력 분할     |  | 재귀적 해결   |  | 부분해 통합   |
+| 입력 크기 N   |  | T(N)=aT(N/b) |  | f(N) 비용    |
+| N/b sized × a|  | 기저 사례     |  |              |
++--------------+  +--------------+  +--------------+
+      |                   |                    |
+      +-------------------+--------------------+
+                          |
+                          v
+         +---------------------------------+
+         |      대표 알고리즘 (Representatives) |
+         +---------------------------------+
+         | 합병 정렬: T(N)=2T(N/2)+O(N)    |
+         | 퀵 정렬: T(N)=2T(N/2)+O(N)      |
+         | FFT: T(N)=2T(N/2)+O(N)          |
+         | 이진 탐색: T(N)=T(N/2)+O(1)     |
+         | Strassen: O(N^2.81)             |
+         +---------------------------------+
 
 [분할 정복 vs 동적 프로그래밍]
 - 공통점: 하위 문제 분할 + 재귀
-- 차이점: DP는 하위 문제 중복(OVERLAP) → 메모이제이션
-          DC는 하위 문제 독립(INDEPENDENT) → 중복 없음
+- 차이점: DP는 하위 문제 중복(OVERLAP) -> 메모이제이션
+          DC는 하위 문제 독립(INDEPENDENT) -> 중복 없음
 ```
 
 
@@ -244,17 +244,17 @@ tags = ["algorithm_stats"]
 
 ```text
 [분할 정복 (Divide and Conquer)]
-    │
-    ▼
+    |
+    v
 [합병 정렬 (Merge Sort)]
-    │
-    ▼
+    |
+    v
 [퀵 정렬 (Quick Sort)]
-    │
-    ▼
+    |
+    v
 [이진 탐색 (Binary Search)]
-    │
-    ▼
+    |
+    v
 [점화식 (Recurrence Relation)]
 ```
 
@@ -278,7 +278,7 @@ tags = ["algorithm_stats"]
 
 **진행 상황**: 5 / 175
 
-← **이전**: [4. O(1) / O(log n) / O(n) / O(n log n) / O(n²) / O(2ⁿ) / O(n!)](/knowledge-base/studynote/08_algorithm_stats/01_basics/004_big_o_notation/)
-**다음**: [6. 탐욕 알고리즘 (Greedy Algorithm) — 지역 최적 → 전체 최적](/knowledge-base/studynote/08_algorithm_stats/01_basics/006_greedy_algorithm/) →
+<- **이전**: [4. O(1) / O(log n) / O(n) / O(n log n) / O(n^) / O(2ⁿ) / O(n!)](/knowledge-base/studynote/08_algorithm_stats/01_basics/004_big_o_notation/)
+**다음**: [6. 탐욕 알고리즘 (Greedy Algorithm) — 지역 최적 -> 전체 최적](/knowledge-base/studynote/08_algorithm_stats/01_basics/006_greedy_algorithm/) ->
 
 ---

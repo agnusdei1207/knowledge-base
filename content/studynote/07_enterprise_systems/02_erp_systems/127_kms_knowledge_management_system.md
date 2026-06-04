@@ -10,7 +10,7 @@ tags = ["studynote-enterprise-systems"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: KMS는 <strong>조직 내 암묵지(Tacit Knowledge)를 <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/129_explicit_knowledge_formalization/">형식지</a>(<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/129_explicit_knowledge_formalization/">Explicit Knowledge</a>)로 변환·저장·공유·활용</strong>하는 시스템으로, 노나카의 SECI 모델(사회화→외부화→결합화→내면화)이 이론적 기반이다.
+> 1. **본질**: KMS는 <strong>조직 내 암묵지(Tacit Knowledge)를 <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/129_explicit_knowledge_formalization/">형식지</a>(<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/129_explicit_knowledge_formalization/">Explicit Knowledge</a>)로 변환·저장·공유·활용</strong>하는 시스템으로, 노나카의 SECI 모델(사회화->외부화->결합화->내면화)이 이론적 기반이다.
 > 2. **가치**: 핵심 인력 퇴사 시 <strong>지식 유실</strong>이 발생하고, 같은 문제를 반복 해결하는 <strong>지식 중복</strong>이 생기지만, KMS는 <strong>조직 지식을 자산화</strong>하여 재사용·학습·혁신을 가속한다.
 > 3. **판단 포인트**: [CoP](/knowledge-base/studynote/09_security/04_endpoint_security/347_cop/)(Community of Practice, 실천공동체)가 KMS의 조직적 기반이며, 위키·포럼·전문가 네트워크·문서 관리가 핵심 기능이다.
 
@@ -19,16 +19,16 @@ tags = ["studynote-enterprise-systems"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    SECI 모델 (노나카)                                 │
-├───────────────────────────────────────────────────────┤
-│   암묵지 → 암묵지: 사회화 (도제, OJT)               │
-│   암묵지 → 형식지: 외부화 (매뉴얼 작성)             │
-│   형식지 → 형식지: 결합화 (DB·보고서 통합)           │
-│   형식지 → 암묵지: 내면화 (학습·체화)               │
-│                                                       │
-│   KMS: 외부화·결합화를 IT로 지원                     │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    SECI 모델 (노나카)                                 |
++-------------------------------------------------------+
+|   암묵지 -> 암묵지: 사회화 (도제, OJT)               |
+|   암묵지 -> 형식지: 외부화 (매뉴얼 작성)             |
+|   형식지 -> 형식지: 결합화 (DB·보고서 통합)           |
+|   형식지 -> 암묵지: 내면화 (학습·체화)               |
+|                                                       |
+|   KMS: 외부화·결합화를 IT로 지원                     |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 암묵지는 요리사의 <strong>손맛(경험)</strong>이고, [형식지](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/129_explicit_knowledge_formalization/)는 <strong>레시피(문서)</strong>이다. KMS는 손맛을 레시피로 바꿔서 누구나 참고할 수 있게 한다.
@@ -91,17 +91,17 @@ KMS는 <strong>조직 지식을 자산화</strong>하여 인력 유실 위험을
 
 ```text
 [개인 파일 관리 (1990s)]
-    │
-    ▼
+    |
+    v
 [KMS + CoP (노나카 SECI, 2000s)]
-    │
-    ▼
+    |
+    v
 [위키 기반 KMS (Confluence, 2010s)]
-    │
-    ▼
+    |
+    v
 [AI 검색 + 추천 (2020~)]
-    │
-    ▼
+    |
+    v
 [현재: RAG 기반 사내 지식 챗봇 — LLM + KMS]
 ```
 
@@ -116,7 +116,7 @@ KMS는 <strong>조직 지식을 자산화</strong>하여 인력 유실 위험을
 
 **진행 상황**: 127 / 482
 
-← **이전**: [126. SCM·ERP·MES 수직 통합 - 계획→실행→현장의 데이터 연속성](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/126_scm_erp_mes_vertical_integration/)
-**다음**: [128. 암묵지 vs 형식지 (Tacit vs Explicit Knowledge) - 지식 변환과 SECI 모델](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/128_tacit_vs_explicit_knowledge/) →
+<- **이전**: [126. SCM·ERP·MES 수직 통합 - 계획->실행->현장의 데이터 연속성](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/126_scm_erp_mes_vertical_integration/)
+**다음**: [128. 암묵지 vs 형식지 (Tacit vs Explicit Knowledge) - 지식 변환과 SECI 모델](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/128_tacit_vs_explicit_knowledge/) ->
 
 ---

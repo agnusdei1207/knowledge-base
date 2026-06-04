@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [MPLS]
-    │
-    ▼
+    |
+    v
 [LSR, LER]
-    │
-    └──▶ [LDP, RSVP-TE]
+    |
+    +---> [LDP, RSVP-TE]
 ```
 
 - **📢 섹션 요약 비유**: <strong> LER은 택배 접수처에서 물건을 받아 송장(Label)을 붙여주고, 도착한 택배의 송장을 뜯어 고객에게 전달해 주는 </strong>친절한 접수처 직원<strong>이며, LSR은 그 송장 바코드만 보고 밤새 물건을 상하차하는 </strong>물류 센터의 침묵하는 상하차 알바생**입니다.
@@ -60,24 +60,24 @@ tags = ["studynote-network"]
 - 그리고 속에 있던 뽀얀 순수 원래 IP 패킷만 꺼내서 최종 목적지(구글 서버)로 점잖게 배달해 준다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                MPLS Label 스위칭의 전체 여정 (Push-Swap-Pop)       │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 고객 ] ── (일반 IP 패킷) ──▶ [ Ingress LER ]               │
- │                                    │ (딱지 10번 붙임 - Push)  │
- │                                    ▼                        │
- │                                 [ LSR ]                     │
- │                                    │ (10번 떼고 20번 붙임 - Swap)│
- │                                    ▼                        │
- │                                 [ LSR ]                     │
- │                                    │ (20번 떼고 30번 붙임 - Swap)│
- │                                    ▼                        │
- │   [ 구글 ] ◀── (일반 IP 패킷) ── [ Egress LER ]                │
- │                                      (30번 딱지 다 뜯음! - Pop)│
- │                                                             │
- │   ▶ 코어 망(LSR)은 IP가 뭔지 모르고 평화롭고 미치도록 빠르게 일한다!    │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                MPLS Label 스위칭의 전체 여정 (Push-Swap-Pop)       |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 고객 ] -- (일반 IP 패킷) ---> [ Ingress LER ]               |
+ |                                    | (딱지 10번 붙임 - Push)  |
+ |                                    v                        |
+ |                                 [ LSR ]                     |
+ |                                    | (10번 떼고 20번 붙임 - Swap)|
+ |                                    v                        |
+ |                                 [ LSR ]                     |
+ |                                    | (20번 떼고 30번 붙임 - Swap)|
+ |                                    v                        |
+ |   [ 구글 ] <--- (일반 IP 패킷) -- [ Egress LER ]                |
+ |                                      (30번 딱지 다 뜯음! - Pop)|
+ |                                                             |
+ |   -> 코어 망(LSR)은 IP가 뭔지 모르고 평화롭고 미치도록 빠르게 일한다!    |
+ +-------------------------------------------------------------+
 ```
 
 ### 4. 꼼수 최적화 (PHP - Penultimate Hop Popping)
@@ -143,12 +143,12 @@ LSR, LER는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_ro
 
 ```text
 [선행 개념: MPLS]
-    │
-    ▼
+    |
+    v
 [현재 개념: LSR, LER]
-    │
-    ├──▶ [확장 A: LDP, RSVP-TE]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: LDP, RSVP-TE]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 LSR, LER는 MPLS에서 출발해 현재 메커니즘을 정교화하고, 이후 [LDP](/knowledge-base/studynote/03_network/07_network_layer_routing/375_ldp_label_distribution_protocol_rsvp_te/), RSVP-TE와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -165,7 +165,7 @@ LSR, LER는 MPLS에서 출발해 현재 메커니즘을 정교화하고, 이후 
 
 **진행 상황**: 495 / 1120
 
-← **이전**: [373. MPLS (Multiprotocol Label Switching)](/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/)
-**다음**: [375. LDP (Label Distribution Protocol), RSVP-TE](/knowledge-base/studynote/03_network/07_network_layer_routing/375_ldp_label_distribution_protocol_rsvp_te/) →
+<- **이전**: [373. MPLS (Multiprotocol Label Switching)](/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/)
+**다음**: [375. LDP (Label Distribution Protocol), RSVP-TE](/knowledge-base/studynote/03_network/07_network_layer_routing/375_ldp_label_distribution_protocol_rsvp_te/) ->
 
 ---

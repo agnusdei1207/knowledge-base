@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 [안티 코럽션 레이어](/knowledge-base/studynote/04_software_engineering/04_testing_quality/224_acl_anti_corruption_layer_legacy_integration/) (Anti-Corruption Layer, [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/))은 레거시 또는 외부 시스템의 모델 오염이 내부 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)으로 번지지 않게 번역 계층을 두는 패턴이다. 통합 시 외부 용어와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조를 그대로 들여오면 내부 모델이 점점 외부 사정에 끌려간다. 이 개념이 필요한 이유는 외부 모델의 의미 오염을 차단하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 핵심 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 언어가 외부 시스템 용어에 잠식되어 내부 규칙 설명과 변경이 어려워진다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│  Request   │──▶│    ACL     │──▶│   Stable   │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+|  Request   |--->|    ACL     |--->|   Stable   |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Client  │──▶│ Boundary │──▶│   Core   │──▶│  Infra   │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|  Client  |--->| Boundary |--->|   Core   |--->|  Infra   |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | 레거시 통합 | [안티 코럽션 레이어](/knowledge-base/studynote/04_software_engineering/04_testing_quality/224_acl_anti_corruption_layer_legacy_integration/) (Anti-Corruption Layer, [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[외부 모델 직접 침투] → ACL 적용] → [도메인 언어 보호]
+[외부 모델 직접 침투] -> ACL 적용] -> [도메인 언어 보호]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [안티 코럽션 레이어](/knowledge-base/studynote/04_software_engineering/04_testing_quality/224_acl_anti_corruption_layer_legacy_integration/) (Anti-Corruption Layer, [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/))은 다른 나라 손님 말을 통역사가 우리말로 바꿔 주는 것처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 453 / 530
 
-← **이전**: [374. DDD의 바운디드 컨텍스트와 애그리게이트 (Domain-Driven Design Bounded Context and Aggregate)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/374_ddd_bounded_context_aggregate/)
-**다음**: [376. 스트랭글러 피그 패턴 (Strangler Fig Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/) →
+<- **이전**: [374. DDD의 바운디드 컨텍스트와 애그리게이트 (Domain-Driven Design Bounded Context and Aggregate)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/374_ddd_bounded_context_aggregate/)
+**다음**: [376. 스트랭글러 피그 패턴 (Strangler Fig Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/) ->
 
 ---

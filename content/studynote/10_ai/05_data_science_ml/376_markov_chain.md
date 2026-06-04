@@ -44,26 +44,26 @@ P = s₂ [ 0.3  0.4  0.3 ]
     s₃ [ 0.2  0.3  0.5 ]
 ```
 
-n-단계 전이: P^n의 (i,j) 원소 = n번 후 sᵢ → sⱼ [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)
+n-단계 전이: P^n의 (i,j) 원소 = n번 후 sᵢ -> sⱼ [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)
 
 ### 정상 분포 (Stationary Distribution)
 
 π가 정상 분포 ⟺ **πP = π** 이고 Σπᵢ = 1
 
 ```
-┌─────────────────────────────────────────────────┐
-│  초기 분포 π₀ ──► π₀P ──► π₀P² ──► ... ──► π   │
-│                                                  │
-│  에르고딕 조건: 기약(Irreducible) +               │
-│               비주기(Aperiodic) + 양재귀          │
-│               → 정상 분포 π 유일 & 수렴 보장      │
-└─────────────────────────────────────────────────┘
++-------------------------------------------------+
+|  초기 분포 π₀ --► π₀P --► π₀P^ --► ... --► π   |
+|                                                  |
+|  에르고딕 조건: 기약(Irreducible) +               |
+|               비주기(Aperiodic) + 양재귀          |
+|               -> 정상 분포 π 유일 & 수렴 보장      |
++-------------------------------------------------+
 ```
 
 ### 세부 균형 (Detailed Balance)
 
 ```
-πᵢ · P(i→j) = πⱼ · P(j→i)   ∀i, j
+πᵢ · P(i->j) = πⱼ · P(j->i)   ∀i, j
 ```
 
 이 조건을 만족하면 π가 정상 분포임이 보장된다. Metropolis-Hastings [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 이 조건을 사용해 원하는 분포에서 샘플링한다.
@@ -95,7 +95,7 @@ n-단계 전이: P^n의 (i,j) 원소 = n번 후 sᵢ → sⱼ [확률](/knowledg
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/376_mcmc_markov_chain_monte_carlo/">MCMC</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/">Markov Chain</a> Monte Carlo) 응용</strong>:
-- 고차원 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포에서 직접 샘플링 불가 → 에르고딕 [마르코프 체인](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/) 구성 → 정상 분포 = 목표 분포
+- 고차원 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포에서 직접 샘플링 불가 -> 에르고딕 [마르코프 체인](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/) 구성 -> 정상 분포 = 목표 분포
 - Metropolis-Hastings: 세부 균형 조건으로 수락/거부 결정
 - Gibbs [Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/): 조건부 분포를 순차 샘플링
 
@@ -129,7 +129,7 @@ n-단계 전이: P^n의 (i,j) 원소 = n번 후 sᵢ → sⱼ [확률](/knowledg
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [마르코프 체인 (Markov Chain)] → [최적화·운영 자동화]
+[데이터 전처리] -> [마르코프 체인 (Markov Chain)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -144,7 +144,7 @@ n-단계 전이: P^n의 (i,j) 원소 = n번 후 sᵢ → sⱼ [확률](/knowledg
 
 **진행 상황**: 376 / 420
 
-← **이전**: [375. GAN 손실 함수 미니맥스 (Minimax Loss)](/knowledge-base/studynote/10_ai/05_data_science_ml/375_gan_loss_function/)
-**다음**: [377. 시계열 정상성 (Stationarity)](/knowledge-base/studynote/10_ai/05_data_science_ml/377_time_series_stationarity/) →
+<- **이전**: [375. GAN 손실 함수 미니맥스 (Minimax Loss)](/knowledge-base/studynote/10_ai/05_data_science_ml/375_gan_loss_function/)
+**다음**: [377. 시계열 정상성 (Stationarity)](/knowledge-base/studynote/10_ai/05_data_science_ml/377_time_series_stationarity/) ->
 
 ---

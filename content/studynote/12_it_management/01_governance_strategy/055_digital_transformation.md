@@ -32,12 +32,12 @@ tags = ["studynote-it-management"]
 디지털 전환은 [데이터 중심](/knowledge-base/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/) 운영, 플랫폼화, 자동화, 고객 접점 재설계를 포함한다. 기술은 도구이고, 목적은 가치 변화다.
 
 ```text
-Digitization → Digitalization → Transformation
+Digitization -> Digitalization -> Transformation
 ```
 
 | 단계 | 의미 | 예시 |
 | :--- | :--- | :--- |
-| Digitization | 아날로그 → 디지털 | 문서 스캔 |
+| Digitization | 아날로그 -> 디지털 | 문서 스캔 |
 | Digitalization | 업무 자동화 | 전자결재 |
 | Transformation | 비즈니스 재설계 | 플랫폼 전환 |
 
@@ -109,14 +109,14 @@ Digitization → Digitalization → Transformation
 
 ```text
 전자화
-    │
-    ▼
+    |
+    v
 자동화
-    │
-    ▼
+    |
+    v
 플랫폼/데이터 결합
-    │
-    ▼
+    |
+    v
 비즈니스 전환
 ```
 
@@ -134,7 +134,7 @@ Digitization → Digitalization → Transformation
 
 **진행 상황**: 98 / 587
 
-← **이전**: [54. IT 감사 (IT Audit)](/knowledge-base/studynote/12_it_management/01_governance_strategy/054_it_audit/)
-**다음**: [56. 옴니채널 마케팅 전략 (Omni-Channel Marketing Strategy) - 고객 중심 통합 경험](/knowledge-base/studynote/12_it_management/01_governance_strategy/056_omni_channel/) →
+<- **이전**: [54. IT 감사 (IT Audit)](/knowledge-base/studynote/12_it_management/01_governance_strategy/054_it_audit/)
+**다음**: [56. 옴니채널 마케팅 전략 (Omni-Channel Marketing Strategy) - 고객 중심 통합 경험](/knowledge-base/studynote/12_it_management/01_governance_strategy/056_omni_channel/) ->
 
 ---

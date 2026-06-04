@@ -53,9 +53,9 @@ element.addEventListener("click", () => console.log("클릭됨")); // 이벤트 
 ```
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 콜백은 식당에서 "음식 나오면 문자 주세요" 방식 — 음식이 나올 때까지 자리에 앉아 기다리지(블로킹) 않고, [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 번호표(콜백 함수)를 주고 다른 일을 하다가 호출받는 것이다.
@@ -64,27 +64,27 @@ element.addEventListener("click", () => console.log("클릭됨")); // 이벤트 
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 ```
-┌──────────────────────────────────────────────────────────────┐
-│                    Callback Pattern 흐름                     │
-│                                                              │
-│  ┌──────────┐  1. 작업 요청 + 콜백 함수 전달                  │
-│  │  Caller  │─────────────────────────────────────────┐     │
-│  │ (호출자)  │                                         │     │
-│  └──────────┘                                         ▼     │
-│                                           ┌─────────────────┐│
-│                                           │ Async Executor  ││
-│                                           │ (비동기 실행자)  ││
-│                                           │  예: Timer,     ││
-│  ┌──────────┐  2. 다른 작업 계속 수행      │  IO, Network   ││
-│  │  Caller  │                             └────────┬────────┘│
-│  │ 다른 일 중│                                      │         │
-│  └──────────┘                    3. 작업 완료       │         │
-│                                                    │         │
-│  ┌──────────┐  4. 콜백 함수 호출됨                  │         │
-│  │  Callback│◀───────────────────────────────────┘         │
-│  │  Handler │  (에러, 결과 데이터 전달)                      │
-│  └──────────┘                                              │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                    Callback Pattern 흐름                     |
+|                                                              |
+|  +----------+  1. 작업 요청 + 콜백 함수 전달                  |
+|  |  Caller  |-----------------------------------------+     |
+|  | (호출자)  |                                         |     |
+|  +----------+                                         v     |
+|                                           +-----------------+|
+|                                           | Async Executor  ||
+|                                           | (비동기 실행자)  ||
+|                                           |  예: Timer,     ||
+|  +----------+  2. 다른 작업 계속 수행      |  IO, Network   ||
+|  |  Caller  |                             +--------+--------+|
+|  | 다른 일 중|                                      |         |
+|  +----------+                    3. 작업 완료       |         |
+|                                                    |         |
+|  +----------+  4. 콜백 함수 호출됨                  |         |
+|  |  Callback|<------------------------------------+         |
+|  |  Handler |  (에러, 결과 데이터 전달)                      |
+|  +----------+                                              |
++--------------------------------------------------------------+
 ```
 
 비동기 작업이 체인처럼 연결될 때:
@@ -106,16 +106,16 @@ getUser(userId, function(err, user) {
         });
     });
 });
-// 피라미드 형태 → "Pyramid of Doom"
+// 피라미드 형태 -> "Pyramid of Doom"
 ```
 
 ```
 콜백 (Callback)
-  └→ 문제: 중첩, 에러 처리 분산
-       └→ Promise (ES6)
-            └→ 문제: .then() 체인 길어짐
-                 └→ async/await (ES2017)
-                      └→ 추가: Observable/RxJS (반응형 스트림)
+  +-> 문제: 중첩, 에러 처리 분산
+       +-> Promise (ES6)
+            +-> 문제: .then() 체인 길어짐
+                 +-> async/await (ES2017)
+                      +-> 추가: Observable/RxJS (반응형 스트림)
 ```
 
 | 항목 | 설명 | 포인트 |
@@ -139,12 +139,12 @@ getUser(userId, function(err, user) {
 
 ```
 동기 콜백 실행:
-  호출자 → sort([3,1,2], compareFn)
+  호출자 -> sort([3,1,2], compareFn)
   실행: compareFn이 sort() 내부에서 즉시, 반복 호출
   반환: 정렬 완료 후 sort()가 반환
 
 비동기 콜백 실행:
-  호출자 → setTimeout(cb, 1000)
+  호출자 -> setTimeout(cb, 1000)
   실행: 1000ms 후 Event Loop가 cb를 호출
   반환: setTimeout()은 즉시 반환 (cb 실행 전)
 ```
@@ -243,7 +243,7 @@ fs.readFile('file.txt', 'utf8', (err, data) => {
 | 연관 패턴 | [Command Pattern](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) | 콜백 함수를 [커맨드](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) 객체로 캡슐화 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-이벤트 통지 → [콜백 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/409_architecture/) → 비동기 [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)
+이벤트 통지 -> [콜백 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/409_architecture/) -> 비동기 [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 콜백은 피자 배달 주문 — "피자 다 되면 전화(콜백)해줘" 하고 전화번호(콜백 함수)를 알려주면, 완성됐을 때 전화가 온다.
@@ -256,7 +256,7 @@ fs.readFile('file.txt', 'utf8', (err, data) => {
 
 **진행 상황**: 281 / 530
 
-← **이전**: [219. 객체 풀 패턴 (Object Pool Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/219_object_pool_pattern/)
-**다음**: [221. Promise/Future 비동기 패턴 (Promise/Future Async Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/221_promise_future_async/) →
+<- **이전**: [219. 객체 풀 패턴 (Object Pool Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/219_object_pool_pattern/)
+**다음**: [221. Promise/Future 비동기 패턴 (Promise/Future Async Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/221_promise_future_async/) ->
 
 ---

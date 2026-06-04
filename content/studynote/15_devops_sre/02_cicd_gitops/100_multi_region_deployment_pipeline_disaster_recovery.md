@@ -38,20 +38,20 @@ tags = ["cicd-gitops", "studynote-devops-sre"]
 | <strong>글로벌 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a></strong> | [Aurora](/knowledge-base/studynote/05_database/06_dw_olap_trends/390_aurora_serverless_quorum_write/) Global, [DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/) Global Tables | 메인 리전의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 리전으로 비동기(Asynchronous) 방식 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│            멀티 리전 배포 파이프라인 및 트래픽 라우팅 구조          │
-├──────────────────────────────────────────────────────────────┤
-│                [ 글로벌 DNS / Anycast IP ]                    │
-│                      ↙            ↘                         │
-│   [ 아시아 사용자 ]                   [ 유럽/미주 사용자 ]        │
-│          │                                │                  │
-│   ┌──────▼──────┐                  ┌──────▼──────┐           │
-│   │ AP-Northeast│  ◀─ CD 배포 ─▶ │   US-East   │           │
-│   │ (Active)    │   순차적 롤아웃   │  (Active)   │           │
-│   └──────┬──────┘                  └──────┬──────┘           │
-│          │           비동기 복제           │                  │
-│          └─────────────▶ DB ◀─────────────┘                  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|            멀티 리전 배포 파이프라인 및 트래픽 라우팅 구조          |
++--------------------------------------------------------------+
+|                [ 글로벌 DNS / Anycast IP ]                    |
+|                      ↙            ↘                         |
+|   [ 아시아 사용자 ]                   [ 유럽/미주 사용자 ]        |
+|          |                                |                  |
+|   +------v------+                  +------v------+           |
+|   | AP-Northeast|  <-- CD 배포 --> |   US-East   |           |
+|   | (Active)    |   순차적 롤아웃   |  (Active)   |           |
+|   +------+------+                  +------+------+           |
+|          |           비동기 복제           |                  |
+|          +--------------> DB <--------------+                  |
++--------------------------------------------------------------+
 ```
 
 가장 핵심적인 원리는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 여러 리전을 통제한다는 점이다. [Spinnaker](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/093_spinnaker_multi_cloud_cd_canary_analysis/) 같은 도구는 코드 변경이 발생하면 영향도가 가장 적은 리전(예: 접속자가 적은 야간 시간대 리전)에 1차로 배포하여 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한 뒤, 이상이 없으면 메인 리전들로 물결치듯([Wave](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/)) 순차 배포를 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하여 폭탄이 전 세계로 터지는 것을 방지한다.
@@ -116,17 +116,17 @@ tags = ["cicd-gitops", "studynote-devops-sre"]
 
 ```text
 단일 리전 배포 (Single Region) · 단일 실패점(SPOF) 존재
-    │
-    ▼
+    |
+    v
 액티브-패시브 (Active-Passive) · DR 환경 구축 및 데이터 비동기 복제
-    │
-    ▼
+    |
+    v
 멀티 리전 액티브-액티브 (Multi-Region Active-Active) · 글로벌 로드밸런싱
-    │
-    ▼
+    |
+    v
 멀티 리전 롤아웃 파이프라인 (Wave Deployment) · 점진적 배포 제어
-    │
-    ▼
+    |
+    v
 셀 기반 글로벌 아키텍처 (Cell-based Architecture) 및 전역 엣지 컴퓨팅
 ```
 
@@ -142,7 +142,7 @@ tags = ["cicd-gitops", "studynote-devops-sre"]
 
 **진행 상황**: 100 / 373
 
-← **이전**: [99. 데이터베이스 마이그레이션 자동화 (Flyway, Liquibase) - CI/CD 기반 스키마 형상 관리](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/099_database_migration_automation_flyway_liquibase/)
-**다음**: [101. 엣지 디바이스 OTA 배포 (Over-The-Air) - 대규모 원격 펌웨어 업데이트 및 무결성 관리](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/101_edge_device_ota_firmware_deployment_pipeline/) →
+<- **이전**: [99. 데이터베이스 마이그레이션 자동화 (Flyway, Liquibase) - CI/CD 기반 스키마 형상 관리](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/099_database_migration_automation_flyway_liquibase/)
+**다음**: [101. 엣지 디바이스 OTA 배포 (Over-The-Air) - 대규모 원격 펌웨어 업데이트 및 무결성 관리](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/101_edge_device_ota_firmware_deployment_pipeline/) ->
 
 ---

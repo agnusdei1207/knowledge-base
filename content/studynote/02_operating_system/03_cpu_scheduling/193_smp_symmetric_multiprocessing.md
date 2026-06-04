@@ -28,18 +28,18 @@ tags = ["studynote-operating-system"]
   [비대칭(ASMP) vs 대칭형(SMP) 아키텍처 권한 비교]
 
   (1) ASMP (Asymmetric Multiprocessing) - 과거
-  [ 코어 0 (Master) ] ─────▶ OS 커널 통제, 스케줄링, I/O 전담 (병목 발생)
-                                                │
-        ├─▶ [ 코어 1 ] (단순 연산만)
-        └─▶ [ 코어 2 ] (단순 연산만)  ... "조장님(코어0) 다음 일 주세요"
+  [ 코어 0 (Master) ] ------> OS 커널 통제, 스케줄링, I/O 전담 (병목 발생)
+                                                |
+        +--> [ 코어 1 ] (단순 연산만)
+        +--> [ 코어 2 ] (단순 연산만)  ... "조장님(코어0) 다음 일 주세요"
 
   (2) SMP (Symmetric Multiprocessing) - 현대 표준
   [ 코어 0 ]    [ 코어 1 ]    [ 코어 2 ]    [ 코어 3 ]
-      │             │             │             │
-      ▼             ▼             ▼             ▼
+      |             |             |             |
+      v             v             v             v
    [ 공통의 운영체제 (OS Kernel) 및 스케줄러 동시 진입/실행 ]
-      │             │             │             │
-      ▼             ▼             ▼             ▼
+      |             |             |             |
+      v             v             v             v
    [ 공통의 메인 메모리 (Shared Memory / Ready Queue) ]
 
    >> 모든 코어가 "스스로" 큐에 접근하여 프로세스를 꺼내가고 시스템 콜을 처리한다.
@@ -68,24 +68,24 @@ tags = ["studynote-operating-system"]
 - **해결책**: 하드웨어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)) 레벨에서 스누핑(Snooping)이나 [디렉터리 기반 프로토콜](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/404_directory_based_protocol/)(MESI 등)을 통해 "야! 나 X값 바꿨으니까 너네 캐시에 있는 X값 다 지워버려(무효화)!"라고 실시간으로 통신하는 [하드웨어 보조](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/527_hardware_assisted_virtualization/) 장치가 [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) 아키텍처의 필수 부품이 되었다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │         SMP 환경에서의 캐시 스누핑(Snooping)에 의한 일관성 유지   │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │     [ 코어 0 ]                       [ 코어 1 ]                   │
-  │     L1 캐시: (X=10)                  L1 캐시: (X=10)              │
-  │        │                               │                          │
-  │        ▼ 1. 코어 0이 X를 20으로 수정함      │                     │
-  │     L1 캐시: (X=20) 💥                 │                          │
-  │        │                               │                          │
-  │        ▼ 2. 시스템 버스(Bus)에 "나 X 바꿨음!" 방송 (Snoop)        │
-  │  ==================== [ 시스템 버스 ] =====================       │
-  │                                        ▼ 3. 방송 수신             │
-  │                                   L1 캐시: (X=10 ❌ 삭제!)        │
-  │                                        │                          │
-  │                                        ▼ 4. 코어 1이 X 읽을 때    │
-  │                                  (캐시 미스! 메모리에서 20 퍼옴)  │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |         SMP 환경에서의 캐시 스누핑(Snooping)에 의한 일관성 유지   |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |     [ 코어 0 ]                       [ 코어 1 ]                   |
+  |     L1 캐시: (X=10)                  L1 캐시: (X=10)              |
+  |        |                               |                          |
+  |        v 1. 코어 0이 X를 20으로 수정함      |                     |
+  |     L1 캐시: (X=20) 💥                 |                          |
+  |        |                               |                          |
+  |        v 2. 시스템 버스(Bus)에 "나 X 바꿨음!" 방송 (Snoop)        |
+  |  ==================== [ 시스템 버스 ] =====================       |
+  |                                        v 3. 방송 수신             |
+  |                                   L1 캐시: (X=10 ❌ 삭제!)        |
+  |                                        |                          |
+  |                                        v 4. 코어 1이 X 읽을 때    |
+  |                                  (캐시 미스! 메모리에서 20 퍼옴)  |
+  +-------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) 시스템이 "대칭적"으로 하나의 완벽한 메모리 환상을 유지하려면, 백그라운드에서 하드웨어들이 미친 듯이 전보(Snoop)를 날리며 상대방의 캐시를 박살 내고(Invalidate) 복사해 주는 피눈물 나는 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 통신이 뒤따라야 한다. 이 통신 오버헤드 때문에 [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) 아키텍처는 코어 수가 64개~128개를 넘어가면 뻗어버리는 확장성(Scalability) 한계에 직면하게 된다.
 
@@ -119,27 +119,27 @@ tags = ["studynote-operating-system"]
 2. <strong>리눅스 BKL(Big <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)의 완전한 삭제 역사</strong>: 2000년대 초반 리눅스는 2코어, 4코어 시대가 오자 [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 윈도우에 밀려 끔찍하게 느려졌다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드 전체를 하나의 BKL이라는 자물쇠로 잠가버려서 코어가 4개여도 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 1놈밖에 못 썼기 때문이다. 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 해커들은 장장 10년에 걸쳐 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내의 수백만 줄 코드에 묶인 거대 자물쇠를 산산조각 내어 파일시스템 전용 락, 네트워크 전용 락, [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 전용 락으로 수천 개의 작은 자물쇠([Fine-grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))로 교체했다. 리눅스가 현재 클라우드 100코어 서버의 지배자가 된 결정적 아키텍처 혁명이 바로 이 [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) 락의 분할이었다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────┐
-  │     멀티 스레드 프로그래밍 시 SMP 환경의 함정 회피 의사결정      │
-  ├──────────────────────────────────────────────────────────────────┤
-  │                                                                  │
-  │   [ 64코어 SMP 머신에 배포될 C++/Java 멀티스레드 앱 개발 ]       │
-  │                │                                                 │
-  │                ▼ 전역 변수(공유 자원) 접근 로직 설계             │
-  │   단일 Mutex / Synchronized 블록으로 전체 변수를 잠그는가?       │
-  │          ├─ [예 (초보적 설계)]                                   │
-  │          │      │                                                │
-  │          │      ▼ 치명적 장애 발생                               │
-  │          │   63개의 코어가 1개 코어 락 해제만 기다리며 파업.     │
-  │          │   ▶ 결과: 코어가 64개여도 속도는 싱글 코어와 동일함!  │
-  │          │                                                       │
-  │          └─ [아니오 (SMP 친화적 설계)]                           │
-  │                 │                                                │
-  │                 ▼ 해결 아키텍처                                  │
-  │             1. Lock-free 자료구조 (CAS 연산) 도입                │
-  │             2. Thread-Local Storage (TLS) 활용하여 격리          │
-  │             3. Read-Write Lock으로 읽기 코어들의 병렬성 극대화   │
-  └──────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------+
+  |     멀티 스레드 프로그래밍 시 SMP 환경의 함정 회피 의사결정      |
+  +------------------------------------------------------------------+
+  |                                                                  |
+  |   [ 64코어 SMP 머신에 배포될 C++/Java 멀티스레드 앱 개발 ]       |
+  |                |                                                 |
+  |                v 전역 변수(공유 자원) 접근 로직 설계             |
+  |   단일 Mutex / Synchronized 블록으로 전체 변수를 잠그는가?       |
+  |          +- [예 (초보적 설계)]                                   |
+  |          |      |                                                |
+  |          |      v 치명적 장애 발생                               |
+  |          |   63개의 코어가 1개 코어 락 해제만 기다리며 파업.     |
+  |          |   -> 결과: 코어가 64개여도 속도는 싱글 코어와 동일함!  |
+  |          |                                                       |
+  |          +- [아니오 (SMP 친화적 설계)]                           |
+  |                 |                                                |
+  |                 v 해결 아키텍처                                  |
+  |             1. Lock-free 자료구조 (CAS 연산) 도입                |
+  |             2. Thread-Local Storage (TLS) 활용하여 격리          |
+  |             3. Read-Write Lock으로 읽기 코어들의 병렬성 극대화   |
+  +------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) 환경이 열어준 무한한 하드웨어의 가능성(64코어, 128코어)은, 소프트웨어 개발자가 전역 락(Global [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 하나를 무심코 거는 순간 완벽하게 0점으로 박살 난다. [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) 시스템에서 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성(Parallelism)의 적은 코어 수가 아니라 '[동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 병목'이다. 아키텍트는 철저하게 락 없는 설계([Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/))나 코어별 독립 메모리([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)) 할당으로 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 간섭을 격리해 주어야 [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) 서버의 돈값을 뽑아낼 수 있다.
 
@@ -172,12 +172,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [LWP 디스패치]
-    │
-    ▼
+    |
+    v
 [다중 처리기 스케줄링 (Multiprocessor Scheduling)]
-    │
-    ├──▶ [비대칭 다중 처리 (ASMP) 스케줄링]
-    └──▶ [대칭 다중 처리 (SMP) 스케줄링]
+    |
+    +---> [비대칭 다중 처리 (ASMP) 스케줄링]
+    +---> [대칭 다중 처리 (SMP) 스케줄링]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -194,7 +194,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 193 / 800
 
-← **이전**: [192. 다중 처리기 스케줄링 (Multiple-Processor Scheduling)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/192_multiple_processor_scheduling/)
-**다음**: [194. 비대칭 다중 처리 (ASMP) 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/194_numa_scheduling/) →
+<- **이전**: [192. 다중 처리기 스케줄링 (Multiple-Processor Scheduling)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/192_multiple_processor_scheduling/)
+**다음**: [194. 비대칭 다중 처리 (ASMP) 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/194_numa_scheduling/) ->
 
 ---

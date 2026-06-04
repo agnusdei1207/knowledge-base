@@ -31,11 +31,11 @@ tags = ["studynote-data-engineering"]
 
 ```text
 X, Y
-  ↓
+  v
 Covariance / Std Dev
-  ↓
+  v
 Pearson r
-  ↓
+  v
 Interpretation
 ```
 
@@ -108,11 +108,11 @@ Interpretation
 
 ```text
 Variables
-  ↓
+  v
 Pearson r
-  ↓
+  v
 Multicollinearity
-  ↓
+  v
 Regression Diagnostics
 ```
 
@@ -122,11 +122,11 @@ Regression Diagnostics
 
 ```text
 Correlation
-  ↓
+  v
 Pearson
-  ↓
+  v
 VIF
-  ↓
+  v
 Feature Selection
 ```
 
@@ -144,7 +144,7 @@ Feature Selection
 
 **진행 상황**: 65 / 258
 
-← **이전**: [64. 왜도 (Skewness)와 첨도 (Kurtosis) - 데이터 분포 분석](/knowledge-base/studynote/14_data_engineering/02_math_mining/064_skewness_kurtosis_log_transformation/)
-**다음**: [66. 스피어만 순위 상관 계수 (Spearman Rank Correlation)](/knowledge-base/studynote/14_data_engineering/02_math_mining/066_spearman_rank_correlation_nonparametric_robustness/) →
+<- **이전**: [64. 왜도 (Skewness)와 첨도 (Kurtosis) - 데이터 분포 분석](/knowledge-base/studynote/14_data_engineering/02_math_mining/064_skewness_kurtosis_log_transformation/)
+**다음**: [66. 스피어만 순위 상관 계수 (Spearman Rank Correlation)](/knowledge-base/studynote/14_data_engineering/02_math_mining/066_spearman_rank_correlation_nonparametric_robustness/) ->
 
 ---

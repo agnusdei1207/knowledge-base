@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [TCP NewReno / SACK]
-    │
-    ▼
+    |
+    v
 [TCP BIC / CUBIC]
-    │
-    └──▶ [BBR]
+    |
+    +---> [BBR]
 ```
 
 - **📢 섹션 요약 비유**: ** CUBIC은 다이어트 요요 현상의 **"체중 복귀 속도"<strong>입니다. 레노가 1년 동안 힘겹게 밥을 줄여 살을 뺐는데 치팅데이 한 번(Drop)에 요요가 와서 다시 살 빼는 데 1년이 걸린다면, CUBIC은 살이 찌자마자 극단적 단식을 통해 원래 체중(<code>W_max</code>) 근처로 </strong>단 며칠 만에 수직 하강하여 원래의 몸매(최대 속도)를 즉각 되찾는 압도적인 회복력**을 보여줍니다.
@@ -49,22 +49,22 @@ CUBIC은 이름 그대로 3차 함수 곡선 $y = x^3$ 의 S자 모양(정확히
 3. **볼록한 한계 돌파 (Convex region)**: 평평하게 가는데도 안 막히고 영수증(ACK)이 잘 온다? "헐? 통신사가 공사해서 길 더 넓혔나 보네? 그럼 나 한계 돌파한다!!" $W_{max}$를 뚫고 다시 3차 함수 곡선으로 미친 듯이 하늘을 향해 가속한다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                TCP Reno vs CUBIC의 속도 복구 그래프 차이          │
- ├─────────────────────────────────────────────────────────────┤
- │ CWND 크기                                                     │
- │ W_max |       /| (사고)         (Cubic 곡선)       /|         │
- │       |     /  |                   ___.....---* |         │
- │       |   /    |            ..---*              |         │
- │       | /      |        _.-*                    |         │
- │ 1/2   |/       └─ * ─ * ─ (Reno: 개답답한 +1)        |         │
- │       |____________________________________ 시간(RTT)        │
- │                                                             │
- │   ▶ Reno: 사고 난 뒤 1/2 지점에서 +1씩 오르다 보니 1시간 걸림.         │
- │   ▶ CUBIC: 사고 나자마자 W_max 근처로 확 치솟고(Concave), 거기서    │
- │            눈치 살짝 보다가 다시 미친듯이 돌파함(Convex).             │
- │   ▶ 결과: 우리가 쓰는 1Gbps 랜선 대역폭의 100%를 꽉 채워 쓸 수 있다!   │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                TCP Reno vs CUBIC의 속도 복구 그래프 차이          |
+ +-------------------------------------------------------------+
+ | CWND 크기                                                     |
+ | W_max |       /| (사고)         (Cubic 곡선)       /|         |
+ |       |     /  |                   ___.....---* |         |
+ |       |   /    |            ..---*              |         |
+ |       | /      |        _.-*                    |         |
+ | 1/2   |/       +- * - * - (Reno: 개답답한 +1)        |         |
+ |       |____________________________________ 시간(RTT)        |
+ |                                                             |
+ |   -> Reno: 사고 난 뒤 1/2 지점에서 +1씩 오르다 보니 1시간 걸림.         |
+ |   -> CUBIC: 사고 나자마자 W_max 근처로 확 치솟고(Concave), 거기서    |
+ |            눈치 살짝 보다가 다시 미친듯이 돌파함(Convex).             |
+ |   -> 결과: 우리가 쓰는 1Gbps 랜선 대역폭의 100%를 꽉 채워 쓸 수 있다!   |
+ +-------------------------------------------------------------+
 ```
 
 ### 2. [RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) 공평성의 파괴 (이기적인 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))
@@ -133,12 +133,12 @@ CUBIC은 기존의 룰을 파괴했다.
 
 ```text
 [선행 개념: TCP NewReno / SACK]
-    │
-    ▼
+    |
+    v
 [현재 개념: TCP BIC / CUBIC]
-    │
-    ├──▶ [확장 A: BBR]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: BBR]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) BIC / CUBIC는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) NewReno / SACK에서 출발해 현재 메커니즘을 정교화하고, 이후 BBR와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -155,7 +155,7 @@ CUBIC은 기존의 룰을 파괴했다.
 
 **진행 상황**: 559 / 1120
 
-← **이전**: [437. TCP NewReno / SACK (선택적 확인응답 옵션, 블록 다중유실 회복)](/knowledge-base/studynote/03_network/08_transport_layer/437_tcp_newreno_sack_selective_acknowledgment/)
-**다음**: [439. BBR (Bottleneck Bandwidth and Round-trip propagation time)](/knowledge-base/studynote/03_network/08_transport_layer/439_bbr_bottleneck_bandwidth_and_rtt_google_congestion_control/) →
+<- **이전**: [437. TCP NewReno / SACK (선택적 확인응답 옵션, 블록 다중유실 회복)](/knowledge-base/studynote/03_network/08_transport_layer/437_tcp_newreno_sack_selective_acknowledgment/)
+**다음**: [439. BBR (Bottleneck Bandwidth and Round-trip propagation time)](/knowledge-base/studynote/03_network/08_transport_layer/439_bbr_bottleneck_bandwidth_and_rtt_google_congestion_control/) ->
 
 ---

@@ -235,12 +235,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [RAID (Redundant Array of Independent Disks)]
-    │
-    ▼
+    |
+    v
 [RAID 0 (스트라이핑, Striping) (RAID 0 Striping)]
-    │
-    ├──▶ [RAID 1 (미러링, Mirroring)]
-    └──▶ [RAID 4 (블록 단위 스트라이핑 + 단일 패리티 디스크)]
+    |
+    +---> [RAID 1 (미러링, Mirroring)]
+    +---> [RAID 4 (블록 단위 스트라이핑 + 단일 패리티 디스크)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -257,7 +257,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 484 / 800
 
-← **이전**: [483. RAID (Redundant Array of Independent Disks) - 성능 향상 및 신뢰성(중복성) 확보](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/)
-**다음**: [485. RAID 1 (미러링, Mirroring) (RAID 1 Mirroring)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/485_raid_1_mirroring/) →
+<- **이전**: [483. RAID (Redundant Array of Independent Disks) - 성능 향상 및 신뢰성(중복성) 확보](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/)
+**다음**: [485. RAID 1 (미러링, Mirroring) (RAID 1 Mirroring)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/485_raid_1_mirroring/) ->
 
 ---

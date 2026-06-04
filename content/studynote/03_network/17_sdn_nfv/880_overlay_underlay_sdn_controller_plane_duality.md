@@ -33,11 +33,11 @@ tags = ["studynote-network"]
 
 ```text
 [텔레메트리]
-    │
-    ▼
+    |
+    v
 [오버레이 SDN vs 언더레이 SDN]
-    │
-    └──▶ [마이크로세그멘테이션 방화벽 SDN 접목 내부…]
+    |
+    +---> [마이크로세그멘테이션 방화벽 SDN 접목 내부…]
 ```
 
 - **📢 섹션 요약 비유**: 오버레이 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) vs 언더레이 SDN는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -53,11 +53,11 @@ tags = ["studynote-network"]
 
 ```text
 [텔레메트리]
-    │
-    ▼
+    |
+    v
 [오버레이 SDN vs 언더레이 SDN]
-    │
-    └──▶ [마이크로세그멘테이션 방화벽 SDN 접목 내부…]
+    |
+    +---> [마이크로세그멘테이션 방화벽 SDN 접목 내부…]
 ```
 
 - **📢 섹션 요약 비유**: [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 망 구축은 거대한 도시([데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/))의 교통 체증을 해결하는 작업입니다. <strong>언더레이(Underlay) <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a></strong> 방식은 포크레인을 가져와 '실제 땅바닥 아스팔트 도로(물리 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))'를 다 뜯어엎고, 신호등을 중앙 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 통제 체계로 싹 다 물리적으로 바꿔버리는 '무식하고 완벽한 대공사'입니다. 비용이 엄청나지만 차 병목은 완벽히 사라집니다. 반면 <strong>오버레이(Overlay) <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a></strong> 방식은 땅바닥 아스팔트가 더럽게 꼬여있든 말든 건드리지 않습니다. 대신 차들에게 '날아다니는 날개([VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 터널 캡슐화)'를 달아주고, 허공에 가상의 비행경로를 찍어주는 '하늘길 비행 통제'입니다. 아스팔트 공사비가 0원 들어서 당장 오늘 도입할 수 있지만, 하늘에 차가 몰려 충돌할 뻔할 때 땅바닥 도로 상황과 유기적인 소통이 끊겨 미세한 교통정리가 꼬이는 부작용(시야 차단)을 감수해야 하는 소프트웨어 꼼수 전술입니다.
@@ -118,12 +118,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 텔레메트리]
-    │
-    ▼
+    |
+    v
 [현재 개념: 오버레이 SDN vs 언더레이 SDN]
-    │
-    ├──▶ [확장 A: 마이크로세그멘테이션 방화벽 SDN 접목 내부…]
-    └──▶ [확장 B: 프로그래머블 네트워크]
+    |
+    +---> [확장 A: 마이크로세그멘테이션 방화벽 SDN 접목 내부…]
+    +---> [확장 B: 프로그래머블 네트워크]
 ```
 
 오버레이 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) vs 언더레이 SDN는 텔레메트리에서 출발해 현재 메커니즘을 정교화하고, 이후 [마이크로세그멘테이션 방화벽](/knowledge-base/studynote/03_network/17_sdn_nfv/881_micro_segmentation_firewall_sdn_policy_automation/) [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 접목 내부…와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -140,7 +140,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 1001 / 1120
 
-← **이전**: [879. 스트리밍 텔레메트리](/knowledge-base/studynote/03_network/17_sdn_nfv/879_streaming_telemetry_grpc_push_based_monitoring/)
-**다음**: [881. 마이크로세그멘테이션 방화벽](/knowledge-base/studynote/03_network/17_sdn_nfv/881_micro_segmentation_firewall_sdn_policy_automation/) →
+<- **이전**: [879. 스트리밍 텔레메트리](/knowledge-base/studynote/03_network/17_sdn_nfv/879_streaming_telemetry_grpc_push_based_monitoring/)
+**다음**: [881. 마이크로세그멘테이션 방화벽](/knowledge-base/studynote/03_network/17_sdn_nfv/881_micro_segmentation_firewall_sdn_policy_automation/) ->
 
 ---

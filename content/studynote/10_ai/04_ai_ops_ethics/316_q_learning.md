@@ -24,12 +24,12 @@ tags = ["studynote-ai"]
 Q(s,a)는 "상태 s에서 행동 a를 취할 때의 최적 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 하에서의 기대 누적 보상"이다. 이 표가 완성되면 에이전트는 매 상황에서 Q값이 가장 높은 행동만 선택하면 최적 행동을 보장받는다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: Q-테이블은 각 상황(행)에서 각 행동(열)을 했을 때의 예상 점수가 적힌 점수표다. 처음에는 모든 칸이 0이지만, 게임을 반복하면서 좋은 행동에는 높은 점수, 나쁜 행동에는 낮은 점수가 채워진다. 점수표가 완성되면 매 순간 그냥 가장 높은 점수 행동을 선택하면 된다.
@@ -39,35 +39,35 @@ Q(s,a)는 "상태 s에서 행동 a를 취할 때의 최적 [정책](/knowledge-b
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│         Q-러닝 (Q-Learning) 업데이트 수식 및 알고리즘                │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  Q-러닝 업데이트 규칙:                                              │
-│  Q(s,a) ← Q(s,a) + α [R + γ max_{a'} Q(s',a') - Q(s,a)]       │
-│                                                                  │
-│  구성 요소:                                                        │
-│  Q(s,a)              : 현재 Q값 (업데이트 전)                      │
-│  α (Learning Rate)   : 학습률 (0~1, 얼마나 빨리 업데이트할지)       │
-│  R                   : 즉각 보상                                   │
-│  γ (Discount Factor) : 할인 계수                                  │
-│  max_{a'} Q(s',a')   : 다음 상태 s'의 최대 Q값                    │
-│  TD 오류 (TD Error)  : R + γ max Q(s',a') - Q(s,a)              │
-│                       "예측값과 현실값의 차이 → 이만큼 보정"        │
-│                                                                  │
-│  알고리즘 흐름:                                                     │
-│  1. Q 테이블 0으로 초기화                                           │
-│  2. 상태 s 관찰                                                    │
-│  3. ε-탐욕으로 행동 a 선택 (탐험 or 활용)                           │
-│  4. 행동 수행 → 보상 r, 다음 상태 s' 관찰                           │
-│  5. Q(s,a) 업데이트 (위 수식 적용)                                 │
-│  6. s ← s' 로 갱신 후 2번으로 반복                                 │
-│  7. 에피소드 종료 시 새 에피소드 시작                                 │
-│                                                                  │
-│  오프-폴리시(Off-Policy) 특성:                                     │
-│  탐험(랜덤) 행동으로 얻은 경험도 최적 Q값(max Q(s',a')) 학습에 사용   │
-│  → 실제 선택한 행동(ε-탐욕)과 무관하게 최적 정책 학습 가능            │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|         Q-러닝 (Q-Learning) 업데이트 수식 및 알고리즘                |
++------------------------------------------------------------------+
+|                                                                  |
+|  Q-러닝 업데이트 규칙:                                              |
+|  Q(s,a) <- Q(s,a) + α [R + γ max_{a'} Q(s',a') - Q(s,a)]       |
+|                                                                  |
+|  구성 요소:                                                        |
+|  Q(s,a)              : 현재 Q값 (업데이트 전)                      |
+|  α (Learning Rate)   : 학습률 (0~1, 얼마나 빨리 업데이트할지)       |
+|  R                   : 즉각 보상                                   |
+|  γ (Discount Factor) : 할인 계수                                  |
+|  max_{a'} Q(s',a')   : 다음 상태 s'의 최대 Q값                    |
+|  TD 오류 (TD Error)  : R + γ max Q(s',a') - Q(s,a)              |
+|                       "예측값과 현실값의 차이 -> 이만큼 보정"        |
+|                                                                  |
+|  알고리즘 흐름:                                                     |
+|  1. Q 테이블 0으로 초기화                                           |
+|  2. 상태 s 관찰                                                    |
+|  3. ε-탐욕으로 행동 a 선택 (탐험 or 활용)                           |
+|  4. 행동 수행 -> 보상 r, 다음 상태 s' 관찰                           |
+|  5. Q(s,a) 업데이트 (위 수식 적용)                                 |
+|  6. s <- s' 로 갱신 후 2번으로 반복                                 |
+|  7. 에피소드 종료 시 새 에피소드 시작                                 |
+|                                                                  |
+|  오프-폴리시(Off-Policy) 특성:                                     |
+|  탐험(랜덤) 행동으로 얻은 경험도 최적 Q값(max Q(s',a')) 학습에 사용   |
+|  -> 실제 선택한 행동(ε-탐욕)과 무관하게 최적 정책 학습 가능            |
++------------------------------------------------------------------+
 ```
 
 | 용어 | 의미 | Q-러닝 예시 |
@@ -85,8 +85,8 @@ Q(s,a)는 "상태 s에서 행동 a를 취할 때의 최적 [정책](/knowledge-b
 ## Ⅲ. 비교 및 연결
 
 **Q-러닝 vs SARSA (온-폴리시)**:
-- Q-러닝: Q(s,a) ← Q(s,a) + α[R + γ **max** Q(s',**a'**) - Q(s,a)] → 다음 상태의 최대값 사용 (낙관적)
-- SARSA: Q(s,a) ← Q(s,a) + α[R + γ Q(s',**a_next**) - Q(s,a)] → 실제 선택할 다음 행동의 Q값 사용 (보수적)
+- Q-러닝: Q(s,a) <- Q(s,a) + α[R + γ **max** Q(s',**a'**) - Q(s,a)] -> 다음 상태의 최대값 사용 (낙관적)
+- SARSA: Q(s,a) <- Q(s,a) + α[R + γ Q(s',**a_next**) - Q(s,a)] -> 실제 선택할 다음 행동의 Q값 사용 (보수적)
 
 실제 cliff-walking 실험에서 Q-러닝은 더 빠르게 최적 경로를 학습하지만 [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/) 중 절벽에 빠지는 경향이 있고, SARSA는 안전한 경로를 선호한다. [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 허용 수준에 따라 선택.
 
@@ -105,11 +105,11 @@ Q(s,a)는 "상태 s에서 행동 a를 취할 때의 최적 [정책](/knowledge-b
 <strong>Q-러닝의 한계와 <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/">DQN</a> 등장 배경</strong>:
 1. **Q-테이블 크기 폭발**: 상태·행동 공간이 크면(예: 바둑의 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^170 상태) Q-테이블을 메모리에 저장 불가
 2. **연속 상태 공간**: 자율주행처럼 카메라 픽셀값이 상태인 경우 이산 표 불가능
-3. <strong>해결책: <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/">DQN</a></strong>: Q-테이블 대신 딥러닝 신경망으로 Q(s,a) 함수 근사 → 무한 상태 공간 처리
+3. <strong>해결책: <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/">DQN</a></strong>: Q-테이블 대신 딥러닝 신경망으로 Q(s,a) 함수 근사 -> 무한 상태 공간 처리
 
 **실용적 수렴 조건**:
 - 모든 (s,a) 쌍이 무한히 [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)되어야 함
-- [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) α가 적절히 감쇠해야 함 (Σα = ∞, Σα² < ∞)
+- [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) α가 적절히 감쇠해야 함 (Σα = ∞, Σα^ < ∞)
 - 유한 MDP이어야 이론적 수렴 보장
 
 - **📢 섹션 요약 비유**: Q-테이블 크기 폭발 문제는 식당 점수표 한계와 같다. 메뉴가 10개면 점수표(Q-테이블) 10칸이면 되지만, 메뉴가 10억 개(연속 상태)면 점수표가 우주만큼 커진다. DQN은 점수표 대신 "메뉴 사진을 보고 점수를 예측하는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)(신경망)"로 대체해 이 문제를 해결한다.
@@ -137,7 +137,7 @@ Q-러닝은 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exa
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [Q-러닝 (Q-Learning)] → [최적화·운영 자동화]
+[데이터 전처리] -> [Q-러닝 (Q-Learning)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -152,7 +152,7 @@ Q-러닝은 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exa
 
 **진행 상황**: 316 / 420
 
-← **이전**: [315. 탐험(Exploration) vs 활용(Exploitation) 딜레마](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)
-**다음**: [317. DQN (Deep Q-Network)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/317_dqn/) →
+<- **이전**: [315. 탐험(Exploration) vs 활용(Exploitation) 딜레마](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)
+**다음**: [317. DQN (Deep Q-Network)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/317_dqn/) ->
 
 ---

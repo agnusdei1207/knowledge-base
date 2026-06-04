@@ -31,9 +31,9 @@ tags = ["studynote-data-engineering"]
 
 ```text
 Truth
-  ↓ hypothesis test
+  v hypothesis test
 Decision
-  ↓
+  v
 Error / Power
 ```
 
@@ -59,9 +59,9 @@ Error / Power
 
 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 | :-- | :-- |
-| α ↑ | Type I ↑ |
-| 표본 수 ↑ | Power ↑ |
-| 효과 크기 ↑ | Power ↑ |
+| α ^ | Type I ^ |
+| 표본 수 ^ | Power ^ |
+| 효과 크기 ^ | Power ^ |
 
 이 개념은 통계적 판단을 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리로 보는 관점을 제공한다.
 
@@ -106,11 +106,11 @@ Error / Power
 
 ```text
 Hypothesis Test
-  ↓
+  v
 Type I / Type II
-  ↓
+  v
 Power
-  ↓
+  v
 Experimental Design
 ```
 
@@ -120,11 +120,11 @@ Experimental Design
 
 ```text
 Error Rates
-  ↓
+  v
 Power
-  ↓
+  v
 Sample Size
-  ↓
+  v
 Decision Quality
 ```
 
@@ -142,7 +142,7 @@ Decision Quality
 
 **진행 상황**: 69 / 258
 
-← **이전**: [68. 유의 수준(Alpha)과 유의 확률(p-value) - 귀무 가설 기각의 마지노선](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)
-**다음**: [70. T-검정 (t-Test) - 두 집단 간 평균 차이 통계적 검증](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/) →
+<- **이전**: [68. 유의 수준(Alpha)과 유의 확률(p-value) - 귀무 가설 기각의 마지노선](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)
+**다음**: [70. T-검정 (t-Test) - 두 집단 간 평균 차이 통계적 검증](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/) ->
 
 ---

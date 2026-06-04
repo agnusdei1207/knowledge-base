@@ -22,15 +22,15 @@ tags = ["studynote-security"]
 Discovery Document는 웹·[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 보안에서 반복적으로 등장하는 문제를 일정한 원리로 다루기 위해 정리된 개념이다. 이 주제를 이해할 때는 단순 정의보다 "왜 지금 이 개념이 필요해졌는가"를 먼저 봐야 한다. Discovery Document가 등장한 배경에는 자산 가치 상승, 공격 정교화, 운영 복잡도 증가가 동시에 작용한다. 대표 세부 포인트로는 .well-known/openid-configuration가 있다. 이 개념이 없거나 잘못 적용되면 보안 통제가 단편화되어 위험이 눈에 잘 보이지 않거나, 반대로 과도한 통제가 운영 비용을 키우는 문제가 생긴다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ 왜 Discovery Document가 필요한가                                  │
-├──────────────────────────────────────────────────────────────┤
-│ 자산·서비스 운영 ─► 노출/불확실성 ─► 위험 확대              │
-│                     └──── Discovery Document로 통제·판단 ────┘   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| 왜 Discovery Document가 필요한가                                  |
++--------------------------------------------------------------+
+| 자산·서비스 운영 -► 노출/불확실성 -► 위험 확대              |
+|                     +---- Discovery Document로 통제·판단 ----+   |
++--------------------------------------------------------------+
 ```
 
-이 그림은 Discovery Document가 등장한 배경을 "노출 증가 → 위험 확대 → 통제 필요" 흐름으로 요약한다. 핵심은 이 개념이 단독 기능이 아니라, 더 큰 보안 체계의 빈틈을 메우기 위해 등장했다는 점이다.
+이 그림은 Discovery Document가 등장한 배경을 "노출 증가 -> 위험 확대 -> 통제 필요" 흐름으로 요약한다. 핵심은 이 개념이 단독 기능이 아니라, 더 큰 보안 체계의 빈틈을 메우기 위해 등장했다는 점이다.
 
 - **📢 섹션 요약 비유**: 처음 보는 사람과 악수, 신분 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), 약속 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)을 차례로 끝내야 거래를 시작하는 절차와 비슷하다.
 
@@ -47,12 +47,12 @@ Discovery Document의 핵심은 입력·상태·[정책](/knowledge-base/studyno
 | 출력·운영 | 허용·거부·암호문·알림·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 같은 결과와 운영 정보 | [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성과 자동화 연계가 필요하다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ 핵심 동작 구조                                               │
-├──────────────────────────────────────────────────────────────┤
-│ 입력/요청 ─► 검증·판단 ─► 적용·변환 ─► 기록·피드백          │
-│              └──────── 정책·키·상태 관리 ───────┘           │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| 핵심 동작 구조                                               |
++--------------------------------------------------------------+
+| 입력/요청 -► 검증·판단 -► 적용·변환 -► 기록·피드백          |
+|              +-------- 정책·키·상태 관리 -------+           |
++--------------------------------------------------------------+
 ```
 
 이 구조를 볼 때는 입력 조건, 핵심 처리, 결과뿐 아니라 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 상태가 어디에서 관리되는지까지 함께 봐야 한다. 그래야 Discovery Document를 다른 기술과 연결해도 설명이 흔들리지 않는다.
@@ -114,12 +114,12 @@ Discovery Document를 제대로 이해하면 개념 하나를 외우는 데서 �
 
 ```text
 [상호 신뢰 필요]
-    │
-    ▼
+    |
+    v
 [Discovery Document]
-    │
-    ├──▶ [세션 보호 강화]
-    └──▶ [상호운용성 최적화]
+    |
+    +---> [세션 보호 강화]
+    +---> [상호운용성 최적화]
 ```
 
 이 흐름도는 Discovery Document를 단일 용어가 아니라 선행 문제, 현재 해결 방식, 후속 확장 방향으로 기억하게 해 준다. 시험과 실무 모두에서 이 연결 구조를 함께 말할 수 있어야 개념이 살아난다.
@@ -136,7 +136,7 @@ Discovery Document를 제대로 이해하면 개념 하나를 외우는 데서 �
 
 **진행 상황**: 573 / 1108
 
-← **이전**: [516. ID Token vs Access Token (용도 및 보안 경계 구분)](/knowledge-base/studynote/09_security/05_web_app_security/516_id_token_vs_access_token/)
-**다음**: [518. jwks_uri (JSON Web Key Set 엔드포인트)](/knowledge-base/studynote/09_security/05_web_app_security/518_jwks_uri_endpoint/) →
+<- **이전**: [516. ID Token vs Access Token (용도 및 보안 경계 구분)](/knowledge-base/studynote/09_security/05_web_app_security/516_id_token_vs_access_token/)
+**다음**: [518. jwks_uri (JSON Web Key Set 엔드포인트)](/knowledge-base/studynote/09_security/05_web_app_security/518_jwks_uri_endpoint/) ->
 
 ---

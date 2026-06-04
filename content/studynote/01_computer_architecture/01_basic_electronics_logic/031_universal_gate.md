@@ -21,16 +21,16 @@ tags = ["studynote-computer-architecture"]
 ```text
 NAND로 기본 게이트 구현:
 
-NOT A:  A ──┬──[NAND]── Ā
-            └──┘
+NOT A:  A --+--[NAND]-- Ā
+            +--+
 
-AND:    A ──[NAND]──[NAND]── A·B
-        B ──┘         └──(입력 묶음)
+AND:    A --[NAND]--[NAND]-- A·B
+        B --+         +--(입력 묶음)
 
-OR:     A ──[NAND]──┐
-        A ──┘        [NAND]── A+B
-        B ──[NAND]──┘
-        B ──┘
+OR:     A --[NAND]--+
+        A --+        [NAND]-- A+B
+        B --[NAND]--+
+        B --+
 
 NAND만으로 NOT·AND·OR 모두 구현 완료!
 ```
@@ -45,20 +45,20 @@ NAND만으로 NOT·AND·OR 모두 구현 완료!
 
 ```text
 VDD
- │
- ├─[PMOS A]─┐
- │           │
- ├─[PMOS B]─┤─── 출력
-             │
+ |
+ +-[PMOS A]-+
+ |           |
+ +-[PMOS B]-+--- 출력
+             |
             [NMOS A]
-             │
+             |
             [NMOS B]
-             │
+             |
             GND
 
-PMOS: 입력 0일 때 도통 (병렬 연결 → 하나라도 0이면 출력 1)
-NMOS: 입력 1일 때 도통 (직렬 연결 → 둘 다 1이어야 출력 0)
-→ NAND 동작: A=1,B=1일 때만 출력 0
+PMOS: 입력 0일 때 도통 (병렬 연결 -> 하나라도 0이면 출력 1)
+NMOS: 입력 1일 때 도통 (직렬 연결 -> 둘 다 1이어야 출력 0)
+-> NAND 동작: A=1,B=1일 때만 출력 0
 ```
 
 ### 드모르간 법칙과 범용성 연결
@@ -70,8 +70,8 @@ NMOS: 입력 1일 때 도통 (직렬 연결 → 둘 다 1이어야 출력 0)
          NOT(A OR B) = NOT A AND NOT B
          ∴ NOR(A,B) = Ā · B̄
 
-→ NAND = "모든 OR·AND·NOT" 구현 가능
-→ NOR  = "모든 OR·AND·NOT" 구현 가능 (동일 범용성)
+-> NAND = "모든 OR·AND·NOT" 구현 가능
+-> NOR  = "모든 OR·AND·NOT" 구현 가능 (동일 범용성)
 ```
 
 - **📢 섹션 요약 비유**: [CMOS](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/) NAND는 전기 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 2개로 만든 마법이다. PMOS(평상시 연결)와 NMOS([신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 받을 때 연결) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 조합으로, 둘 다 켜져야만 출력이 꺼지는 NAND [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)를 만든다.
@@ -97,20 +97,20 @@ NMOS: 입력 1일 때 도통 (직렬 연결 → 둘 다 1이어야 출력 0)
 
 ```text
 HDL(VHDL/Verilog) 설계
-    │
-    ▼
+    |
+    v
 논리 합성 도구 (Synopsys Design Compiler)
-    │
-    ▼
+    |
+    v
 NAND/NOR/인버터 게이트 네트리스트
-    │
-    ▼
+    |
+    v
 물리 배치·배선 (Place & Route)
-    │
-    ▼
-GDSII 마스크 파일 → 팹(TSMC/삼성)
+    |
+    v
+GDSII 마스크 파일 -> 팹(TSMC/삼성)
 
-→ 모든 설계가 최종적으로 NAND/NOR/NOT으로 변환
+-> 모든 설계가 최종적으로 NAND/NOR/NOT으로 변환
 ```
 
 ### NAND [Flash Memory](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)
@@ -123,7 +123,7 @@ NAND 게이트 이름의 플래시 메모리:
   - NAND Flash: 직렬 연결, 높은 용량 (저장용)
 ```
 
-- **📢 섹션 요약 비유**: [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 합성은 LEGO → 설계도 변환이다. 엔지니어가 고수준 언어([HDL](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/072_hdl/))로 원하는 기능을 설계하면, 합성 도구가 자동으로 NAND 블록 조합으로 변환한다.
+- **📢 섹션 요약 비유**: [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 합성은 LEGO -> 설계도 변환이다. 엔지니어가 고수준 언어([HDL](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/072_hdl/))로 원하는 기능을 설계하면, 합성 도구가 자동으로 NAND 블록 조합으로 변환한다.
 
 ---
 
@@ -147,7 +147,7 @@ NAND 게이트 이름의 플래시 메모리:
 |:---|:---|
 | **드모르간 법칙** | NAND/NOR 범용성 수학 기반 |
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/">CMOS</a></strong> | NAND 실리콘 구현 기술 |
-| <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 합성</strong> | [HDL](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/072_hdl/) → NAND 게이트 자동 변환 |
+| <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 합성</strong> | [HDL](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/072_hdl/) -> NAND 게이트 자동 변환 |
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/257_nand_flash/">NAND Flash</a></strong> | NAND 개념 응용 저장 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) |
 | **양자 범용 게이트** | H+CNOT [양자 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/) 범용성 |
 
@@ -155,17 +155,17 @@ NAND 게이트 이름의 플래시 메모리:
 
 ```text
 [기본 게이트 — AND·OR·NOT·XOR]
-    │
-    ▼
+    |
+    v
 [범용 게이트 — NAND/NOR 단독으로 모든 논리 구현]
-    │
-    ▼
+    |
+    v
 [CMOS NAND — 실리콘 효율 최적 구현]
-    │
-    ▼
-[논리 합성 — HDL → NAND 네트리스트 자동 변환]
-    │
-    ▼
+    |
+    v
+[논리 합성 — HDL -> NAND 네트리스트 자동 변환]
+    |
+    v
 [양자 범용 게이트 — H+CNOT 모든 양자 회로 구현]
 ```
 
@@ -181,7 +181,7 @@ NAND 게이트 이름의 플래시 메모리:
 
 **진행 상황**: 31 / 803
 
-← **이전**: [30. XOR·XNOR 게이트 — 동치와 배타적 논리](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/030_xor_xnor/)
-**다음**: [조합 논리 회로 (Combinational Logic Circuit)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/032_combinational_logic/) →
+<- **이전**: [30. XOR·XNOR 게이트 — 동치와 배타적 논리](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/030_xor_xnor/)
+**다음**: [조합 논리 회로 (Combinational Logic Circuit)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/032_combinational_logic/) ->
 
 ---

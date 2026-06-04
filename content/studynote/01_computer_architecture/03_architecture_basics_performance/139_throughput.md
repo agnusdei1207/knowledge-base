@@ -36,27 +36,27 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 왜 파이프라이닝이 처리량을 높이는지 보여준다. 각 작업은 여전히 세 단계를 거치지만, 서로 다른 단계가 동시에 진행되면서 출력 간격이 짧아진다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│        처리량 향상 원리: "작업을 겹쳐 완료 간격을 줄인다"       │
-├──────────────────────────────────────────────────────────────────┤
-│ 단계 표기: [가]=가져오기  [해]=해석  [실]=실행                  │
-│                                                                  │
-│ 비파이프라인                                                      │
-│ 시간 →   1     2     3     4     5     6     7     8     9       │
-│ 작업 A  [가]  [해]  [실]                                         │
-│ 작업 B                    [가]  [해]  [실]                       │
-│ 작업 C                                       [가]  [해]  [실]    │
-│ 완료 시점: 3, 6, 9                                                │
-│                                                                  │
-│ 파이프라인                                                        │
-│ 시간 →   1     2     3     4     5                               │
-│ 작업 A  [가]  [해]  [실]                                         │
-│ 작업 B        [가]  [해]  [실]                                   │
-│ 작업 C              [가]  [해]  [실]                             │
-│ 완료 시점: 3, 4, 5                                                │
-│                                                                  │
-│ 결과: 첫 완료 시점은 비슷해도 완료 결과 배출 간격은 더 짧아진다  │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|        처리량 향상 원리: "작업을 겹쳐 완료 간격을 줄인다"       |
++------------------------------------------------------------------+
+| 단계 표기: [가]=가져오기  [해]=해석  [실]=실행                  |
+|                                                                  |
+| 비파이프라인                                                      |
+| 시간 ->   1     2     3     4     5     6     7     8     9       |
+| 작업 A  [가]  [해]  [실]                                         |
+| 작업 B                    [가]  [해]  [실]                       |
+| 작업 C                                       [가]  [해]  [실]    |
+| 완료 시점: 3, 6, 9                                                |
+|                                                                  |
+| 파이프라인                                                        |
+| 시간 ->   1     2     3     4     5                               |
+| 작업 A  [가]  [해]  [실]                                         |
+| 작업 B        [가]  [해]  [실]                                   |
+| 작업 C              [가]  [해]  [실]                             |
+| 완료 시점: 3, 4, 5                                                |
+|                                                                  |
+| 결과: 첫 완료 시점은 비슷해도 완료 결과 배출 간격은 더 짧아진다  |
++------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 <strong>개별 작업의 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>은 크게 줄지 않아도, 완료 결과가 나오는 간격이 줄어든다</strong>는 점이다. CPU 파이프라인에서는 한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 실행 단계에 있을 때 다음 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 해석 단계, 그다음 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 인출 단계에 들어갈 수 있다. 이렇게 되면 파이프라인이 가득 찬 뒤에는 매 클럭마다 결과가 하나씩 나오므로 처리량이 증가한다.
@@ -157,21 +157,21 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 단일 작업 실행
-    │
-    ▼
+    |
+    v
 응답 시간 (Response Time) 중심 최적화
-    │
-    ├─► 파이프라이닝 (Pipelining)
-    │        │
-    │        ▼
-    │   CPU 내부 처리량 향상
-    │
-    └─► 멀티코어 (Multi-Core) · 병렬 처리
-             │
-             ▼
+    |
+    +-► 파이프라이닝 (Pipelining)
+    |        |
+    |        v
+    |   CPU 내부 처리량 향상
+    |
+    +-► 멀티코어 (Multi-Core) · 병렬 처리
+             |
+             v
         서버·분산 시스템 전체 처리량 확장
-             │
-             ▼
+             |
+             v
    병목 분석 · 큐 관리 · 대역폭 (Bandwidth) 균형 설계
 ```
 
@@ -189,7 +189,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 139 / 803
 
-← **이전**: [138. 응답 시간 (Response Time)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)
-**다음**: [140. 대역폭 (Bandwidth)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) →
+<- **이전**: [138. 응답 시간 (Response Time)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)
+**다음**: [140. 대역폭 (Bandwidth)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) ->
 
 ---

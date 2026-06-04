@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [브로드캐스트 주소]
-    │
-    ▼
+    |
+    v
 [클래스리스 라우팅]
-    │
-    └──▶ [서브네팅]
+    |
+    +---> [서브네팅]
 ```
 
 - **📢 섹션 요약 비유**: ** CIDR은 케이크를 조각낼 때 "무조건 4등분이나 8등분으로만 잘라라!"라는 규칙을 박살 내고, **"먹을 사람이 원하는 그램(g) 수에 맞춰서 칼을 아무 데나 들이대어 잘라도 합법"**으로 만들어준 극강의 유연성입니다.
@@ -47,7 +47,7 @@ tags = ["studynote-network"]
 
 ### 2. CIDR 슬래시 표기법 (Slash Notation)
 [서브넷 마스크](/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/)를 `255.255.255.0`처럼 길게 쓰는 게 귀찮았던 엔지니어들은, "어차피 1이 앞에서부터 연속해서 몇 개냐가 중요한 거잖아? 그럼 1의 개수만 숫자로 적자!"라고 합의했다.
-- `192.168.1.1 255.255.255.0` ──▶ 앞 24비트가 1이므로 <strong><code>192.168.1.1 /24</code></strong>로 적는다.
+- `192.168.1.1 255.255.255.0` ---> 앞 24비트가 1이므로 <strong><code>192.168.1.1 /24</code></strong>로 적는다.
 - `/24`는 동네 번호가 24칸, 집 번호가 남은 8칸($2^8=256$개)이라는 뜻이다.
 
 ### 3. [VLSM](/knowledge-base/studynote/03_network/06_network_layer_ip/306_vlsm_variable_length_subnet_mask/) (Variable Length [Subnet Mask](/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/))
@@ -58,21 +58,21 @@ CIDR의 개념을 사내 네트워크 디자인에 적용한 것이 VLSM이다. 
 이렇게 <strong>각 부서의 인원수에 딱 들어맞게 가변적(Variable)으로 서브넷을 칼질</strong>할 수 있어 사설망 안에서도 IP의 낭비를 제로(0)에 가깝게 만들었다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                CIDR 기반 서브넷 쪼개기 (VLSM) 예시              │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 통신사에서 받은 원본 땅 ] 192.168.10.0 /24 (256개 공간)         │
- │                                                             │
- │   "영업부가 100명이라고? 절반 뚝 잘라서 너네 가져라!"               │
- │   ▶ 192.168.10.0 /25 (128개) ── 영업부 할당                  │
- │                                                             │
- │   "남은 절반(128개)을 또 반으로 잘라서(64개) 인사부 줘라!"           │
- │   ▶ 192.168.10.128 /26 (64개) ── 인사부 할당                 │
- │                                                             │
- │   * 핵심: 슬래시 뒤의 숫자가 1씩 커질수록, 동네 크기(호스트 수)는     │
- │          정확히 "반의반 토막"으로 쪼개진다!                        │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                CIDR 기반 서브넷 쪼개기 (VLSM) 예시              |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 통신사에서 받은 원본 땅 ] 192.168.10.0 /24 (256개 공간)         |
+ |                                                             |
+ |   "영업부가 100명이라고? 절반 뚝 잘라서 너네 가져라!"               |
+ |   -> 192.168.10.0 /25 (128개) -- 영업부 할당                  |
+ |                                                             |
+ |   "남은 절반(128개)을 또 반으로 잘라서(64개) 인사부 줘라!"           |
+ |   -> 192.168.10.128 /26 (64개) -- 인사부 할당                 |
+ |                                                             |
+ |   * 핵심: 슬래시 뒤의 숫자가 1씩 커질수록, 동네 크기(호스트 수)는     |
+ |          정확히 "반의반 토막"으로 쪼개진다!                        |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: <strong> CIDR 표기법(<code>/24, /26</code>)은 </strong>"피자 커팅 지시서"**와 같습니다. 숫자가 커진다는 것은 칼질을 그만큼 많이 했다는 뜻이므로, 내가 먹을 수 있는 한 조각(네트워크 크기)의 양은 정확히 반씩 작아집니다.
@@ -133,12 +133,12 @@ CIDR의 개념을 사내 네트워크 디자인에 적용한 것이 VLSM이다. 
 
 ```text
 [선행 개념: 브로드캐스트 주소]
-    │
-    ▼
+    |
+    v
 [현재 개념: 클래스리스 라우팅]
-    │
-    ├──▶ [확장 A: 서브네팅]
-    └──▶ [확장 B: 대규모 주소 자동화]
+    |
+    +---> [확장 A: 서브네팅]
+    +---> [확장 B: 대규모 주소 자동화]
 ```
 
 클래스리스 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)는 [브로드캐스트 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/302_broadcast_address_network_limited_255_255_255_255/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [서브네팅](/knowledge-base/studynote/03_network/06_network_layer_ip/304_subnetting_network_division_and_operation/)와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -155,7 +155,7 @@ CIDR의 개념을 사내 네트워크 디자인에 적용한 것이 VLSM이다. 
 
 **진행 상황**: 424 / 1120
 
-← **이전**: [302. 브로드캐스트 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/302_broadcast_address_network_limited_255_255_255_255/)
-**다음**: [304. 서브네팅 (Subnetting)](/knowledge-base/studynote/03_network/06_network_layer_ip/304_subnetting_network_division_and_operation/) →
+<- **이전**: [302. 브로드캐스트 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/302_broadcast_address_network_limited_255_255_255_255/)
+**다음**: [304. 서브네팅 (Subnetting)](/knowledge-base/studynote/03_network/06_network_layer_ip/304_subnetting_network_division_and_operation/) ->
 
 ---

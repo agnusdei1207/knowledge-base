@@ -13,7 +13,7 @@ tags = ["studynote-cloud-architecture"]
 
 > 1. **본질**: 운영 환경에 의도적 장애를 주입하여 시스템의 실제 복원력을 *선제적*으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 실험 과학이다.
 > 2. **가치**: "장애는 반드시 발생한다"는 전제 하에, 취약점을 고객보다 먼저 발견하여 [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)·이중화가 실전에서 작동함을 증명한다.
-> 3. **판단 포인트**: [Steady State Hypothesis](/knowledge-base/studynote/15_devops_sre/03_sre_observability/151_steady_state_hypothesis_validation/)(안정 상태 가설) 정의 → 최소 폭발 반경 실험 → 자동화된 지속 실험으로 신뢰 누적이 핵심 순서다.
+> 3. **판단 포인트**: [Steady State Hypothesis](/knowledge-base/studynote/15_devops_sre/03_sre_observability/151_steady_state_hypothesis_validation/)(안정 상태 가설) 정의 -> 최소 폭발 반경 실험 -> 자동화된 지속 실험으로 신뢰 누적이 핵심 순서다.
 
 ---
 
@@ -45,36 +45,36 @@ tags = ["studynote-cloud-architecture"]
 ### 장애 주입 유형
 
 ```
-┌──────────────────────────────────────────────────────────────────┐
-│                   카오스 실험 장애 주입 유형                       │
-├──────────────────┬───────────────────────────────────────────────┤
-│ 인프라 장애       │ EC2 인스턴스 종료, Pod Kill, 노드 격리          │
-│ 네트워크 장애     │ 지연(Latency) 주입, 패킷 손실, DNS 실패         │
-│ 리소스 고갈      │ CPU 포화(100%), 메모리 소진, 디스크 가득 채움    │
-│ 의존성 장애      │ DB 연결 차단, 외부 API 타임아웃, 캐시 비우기     │
-│ 애플리케이션     │ 예외(Exception) 주입, 프로세스 스로틀링          │
-└──────────────────┴───────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|                   카오스 실험 장애 주입 유형                       |
++------------------+-----------------------------------------------+
+| 인프라 장애       | EC2 인스턴스 종료, Pod Kill, 노드 격리          |
+| 네트워크 장애     | 지연(Latency) 주입, 패킷 손실, DNS 실패         |
+| 리소스 고갈      | CPU 포화(100%), 메모리 소진, 디스크 가득 채움    |
+| 의존성 장애      | DB 연결 차단, 외부 API 타임아웃, 캐시 비우기     |
+| 애플리케이션     | 예외(Exception) 주입, 프로세스 스로틀링          |
++------------------+-----------------------------------------------+
 ```
 
 ### 넷플릭스 Simian Army 구조
 
 ```
   [프로덕션 클러스터]
-        │
-        ▼
-  ┌────────────────────────────────────────────┐
-  │            Chaos Monkey (인스턴스 Kill)     │
-  │            Chaos Gorilla (AZ 비활성화)      │
-  │            Chaos Kong (리전 Failover)       │
-  │            Latency Monkey (지연 주입)       │
-  │            Doctor Monkey (성능 이상 감지)   │
-  └────────────────────────────────────────────┘
-        │
-        ▼
-  [결과 → Steady State 유지 여부 자동 판정]
-        │
-  유지 ─┼─ 이탈 → 취약점 리포트 → 개선
-        ▼
+        |
+        v
+  +--------------------------------------------+
+  |            Chaos Monkey (인스턴스 Kill)     |
+  |            Chaos Gorilla (AZ 비활성화)      |
+  |            Chaos Kong (리전 Failover)       |
+  |            Latency Monkey (지연 주입)       |
+  |            Doctor Monkey (성능 이상 감지)   |
+  +--------------------------------------------+
+        |
+        v
+  [결과 -> Steady State 유지 여부 자동 판정]
+        |
+  유지 -+- 이탈 -> 취약점 리포트 -> 개선
+        v
   [신뢰도 누적 및 실험 자동화 반복]
 ```
 
@@ -110,7 +110,7 @@ tags = ["studynote-cloud-architecture"]
 **게임 데이(Game Day)**: 팀 전체가 함께 카오스 실험을 수행하는 이벤트. 엔지니어링·[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)·비즈니스가 함께 참여해 인식을 일치시키고 학습한다.
 
 **점진적 확대 원칙**:
-1. 단일 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) Kill → 2. 특정 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 전체 종료 → 3. 가용 영역(AZ) 장애 → 4. 리전 전체 [Failover](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/)
+1. 단일 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) Kill -> 2. 특정 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 전체 종료 -> 3. 가용 영역(AZ) 장애 -> 4. 리전 전체 [Failover](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/)
 
 **K8s 환경 카오스 실험 예시 (LitmusChaos)**:
 ```yaml
@@ -129,7 +129,7 @@ spec:
 ```
 
 **기술사 판단 포인트**:
-- 카오스 실험은 반드시 <strong>Steady <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a> 정의 → 가설 → 실험 → <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong> 순서를 지켜야 한다.
+- 카오스 실험은 반드시 <strong>Steady <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a> 정의 -> 가설 -> 실험 -> <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong> 순서를 지켜야 한다.
 - 폭발 반경(Blast [Radius](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/))을 최소화하고 단계적으로 확대한다.
 - [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/), 리트라이 로직, 그레이스풀 디그레이드션이 없으면 카오스 실험 전에 먼저 구현해야 한다.
 
@@ -173,15 +173,15 @@ spec:
 
 ```text
 장애 대응: 사후 대응 (Reactive)
-    │
-    ▼
+    |
+    v
 Chaos Engineering: 사전 실험 (Proactive)
-    ├─► Chaos Monkey: Netflix 오리진
-    ├─► Litmus · Chaos Mesh: K8s 네이티브
-    └─► GameDay: 조직 차원 모의 훈련
-    │
-    ▼
-Steady State 가설 → 실험 → 관찰 → 개선
+    +-► Chaos Monkey: Netflix 오리진
+    +-► Litmus · Chaos Mesh: K8s 네이티브
+    +-► GameDay: 조직 차원 모의 훈련
+    |
+    v
+Steady State 가설 -> 실험 -> 관찰 -> 개선
 ```
 2. 만약 한 조각 없어도 탑이 안 무너지면 "이 탑은 튼튼해!"라고 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 거야.
 3. 이렇게 미리미리 약한 곳을 찾아서 고치면, 갑자기 진짜 고장 났을 때도 괜찮아.
@@ -192,7 +192,7 @@ Steady State 가설 → 실험 → 관찰 → 개선
 
 **진행 상황**: 190 / 371
 
-← **이전**: [190. 오픈텔레메트리 (OpenTelemetry, CNCF 옵저버빌리티 표준)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/190_opentelemetry_cncf_observability_standard/)
-**다음**: [192. 무중단 배포 전략 3총사 (Zero Downtime Deployment Strategies)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/192_zero_downtime_deployment_strategies/) →
+<- **이전**: [190. 오픈텔레메트리 (OpenTelemetry, CNCF 옵저버빌리티 표준)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/190_opentelemetry_cncf_observability_standard/)
+**다음**: [192. 무중단 배포 전략 3총사 (Zero Downtime Deployment Strategies)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/192_zero_downtime_deployment_strategies/) ->
 
 ---

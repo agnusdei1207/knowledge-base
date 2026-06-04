@@ -26,17 +26,17 @@ tags = ["studynote-ai"]
 아래 그림은 같은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 시간에 따라 전혀 다른 의미를 갖게 되는 상황을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Same signal, different answer over time                             │
-├──────────────────────────────────────────────────────────────────────┤
-│ Time T1                                                             │
-│   frequent late-night foreign payment -> likely fraud               │
-│                                                                      │
-│ Time T2                                                             │
-│   global subscription launch      -> often normal                   │
-│                                                                      │
-│ Input pattern looks similar, but label meaning has changed          │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Same signal, different answer over time                             |
++----------------------------------------------------------------------+
+| Time T1                                                             |
+|   frequent late-night foreign payment -> likely fraud               |
+|                                                                      |
+| Time T2                                                             |
+|   global subscription launch      -> often normal                   |
+|                                                                      |
+| Input pattern looks similar, but label meaning has changed          |
++----------------------------------------------------------------------+
 ```
 
 즉 [컨셉 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/)의 위험은 "모델이 낡았다"가 아니라 "세상의 채점 기준이 바뀌었다"는 데 있다. 그래서 이 문제는 단순 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝이 아니라 운영 중인 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 시스템의 생존 문제로 이어진다.
@@ -61,22 +61,22 @@ tags = ["studynote-ai"]
 아래 그림은 [컨셉 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/) 탐지와 대응의 기본 루프를 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Concept drift monitoring loop                                        │
-├──────────────────────────────────────────────────────────────────────┤
-│ Live features + predictions                                          │
-│        │                                                             │
-│        ├─ delayed labels / outcomes                                  │
-│        ▼                                                             │
-│ Drift detector                                                       │
-│   ├─ DDM (Drift Detection Method)                                    │
-│   ├─ ADWIN (Adaptive Windowing)                                      │
-│   └─ error / calibration trend monitor                               │
-│        │                                                             │
-│        ├─ gradual  -> windowed retraining                            │
-│        ├─ abrupt   -> fast rollback or rule fallback                 │
-│        └─ recurring-> seasonal model switching                       │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Concept drift monitoring loop                                        |
++----------------------------------------------------------------------+
+| Live features + predictions                                          |
+|        |                                                             |
+|        +- delayed labels / outcomes                                  |
+|        v                                                             |
+| Drift detector                                                       |
+|   +- DDM (Drift Detection Method)                                    |
+|   +- ADWIN (Adaptive Windowing)                                      |
+|   +- error / calibration trend monitor                               |
+|        |                                                             |
+|        +- gradual  -> windowed retraining                            |
+|        +- abrupt   -> fast rollback or rule fallback                 |
+|        +- recurring-> seasonal model switching                       |
++----------------------------------------------------------------------+
 ```
 
 여기서 중요한 실무 포인트는 <strong>오래된 정답의 독성</strong>이다. [데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)라면 과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보완 자료로 쓸 수 있지만, [컨셉 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/)에서는 과거 라벨이 오히려 새로운 규칙 학습을 방해할 수 있다. 그래서 슬라이딩 윈도우, 샘플 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 감소, 최근 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 우선 학습이 핵심 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 된다.
@@ -161,23 +161,23 @@ tags = ["studynote-ai"]
 
 ```text
 정적 학습 가정
-    │
-    ▼
+    |
+    v
 운영 데이터 + 지연 라벨 수집
-    │
-    ▼
+    |
+    v
 관계 변화 탐지
-    ├─ 급격한 변화
-    ├─ 점진적 변화
-    └─ 반복적 변화
-    │
-    ▼
+    +- 급격한 변화
+    +- 점진적 변화
+    +- 반복적 변화
+    |
+    v
 슬라이딩 윈도우 · 재라벨링 · fallback 설계
-    │
-    ▼
+    |
+    v
 재학습 / 모델 교체 / 피처 재설계
-    │
-    ▼
+    |
+    v
 지속형 MLOps 운영 거버넌스
 ```
 
@@ -195,7 +195,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 176 / 420
 
-← **이전**: [175. 데이터 드리프트 (Data Drift)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/175_data_drift/)
-**다음**: [177. MLOps 파이프라인 구성 요소 (MLOps Pipeline Components)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/177_mlops_pipeline_components/) →
+<- **이전**: [175. 데이터 드리프트 (Data Drift)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/175_data_drift/)
+**다음**: [177. MLOps 파이프라인 구성 요소 (MLOps Pipeline Components)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/177_mlops_pipeline_components/) ->
 
 ---

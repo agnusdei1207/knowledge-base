@@ -22,15 +22,15 @@ tags = ["studynote-security"]
 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) ([Arp Spoofing](/knowledge-base/studynote/03_network/19_frequent_topics_terms/991_arp_spoofing/) Man In The Middle [Cache Poisoning](/knowledge-base/studynote/15_devops_sre/05_devsecops/272_ci_cache_poisoning_runner_ephemeral/))는 보안 확장 개념에서 반복적으로 등장하는 문제를 일정한 원리로 다루기 위해 정리된 개념이다. 이 주제를 이해할 때는 단순 정의보다 "왜 지금 이 개념이 필요해졌는가"를 먼저 봐야 한다. [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) ([Arp Spoofing](/knowledge-base/studynote/03_network/19_frequent_topics_terms/991_arp_spoofing/) Man In The Middle [Cache Poisoning](/knowledge-base/studynote/15_devops_sre/05_devsecops/272_ci_cache_poisoning_runner_ephemeral/))가 등장한 배경에는 자산 가치 상승, 공격 정교화, 운영 복잡도 증가가 동시에 작용한다. 대표 세부 포인트로는 근거리 통신망 L2 계층 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 위조 [중간자 공격](/knowledge-base/studynote/03_network/14_network_security_threats/706_mitm_man_in_the_middle_hsts/) [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 변조 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 캐시 오염 방어 기법 정적 테이블 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 통계망 구조가 있다. 이 개념이 없거나 잘못 적용되면 보안 통제가 단편화되어 위험이 눈에 잘 보이지 않거나, 반대로 과도한 통제가 운영 비용을 키우는 문제가 생긴다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ 왜 ARP 스푸핑가 필요한가                                             │
-├──────────────────────────────────────────────────────────────┤
-│ 자산·서비스 운영 ─► 노출/불확실성 ─► 위험 확대              │
-│                     └──── ARP 스푸핑로 통제·판단 ────┘              │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| 왜 ARP 스푸핑가 필요한가                                             |
++--------------------------------------------------------------+
+| 자산·서비스 운영 -► 노출/불확실성 -► 위험 확대              |
+|                     +---- ARP 스푸핑로 통제·판단 ----+              |
++--------------------------------------------------------------+
 ```
 
-이 그림은 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) ([Arp Spoofing](/knowledge-base/studynote/03_network/19_frequent_topics_terms/991_arp_spoofing/) Man In The Middle [Cache Poisoning](/knowledge-base/studynote/15_devops_sre/05_devsecops/272_ci_cache_poisoning_runner_ephemeral/))가 등장한 배경을 "노출 증가 → 위험 확대 → 통제 필요" 흐름으로 요약한다. 핵심은 이 개념이 단독 기능이 아니라, 더 큰 보안 체계의 빈틈을 메우기 위해 등장했다는 점이다.
+이 그림은 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) ([Arp Spoofing](/knowledge-base/studynote/03_network/19_frequent_topics_terms/991_arp_spoofing/) Man In The Middle [Cache Poisoning](/knowledge-base/studynote/15_devops_sre/05_devsecops/272_ci_cache_poisoning_runner_ephemeral/))가 등장한 배경을 "노출 증가 -> 위험 확대 -> 통제 필요" 흐름으로 요약한다. 핵심은 이 개념이 단독 기능이 아니라, 더 큰 보안 체계의 빈틈을 메우기 위해 등장했다는 점이다.
 
 - **📢 섹션 요약 비유**: 규칙 없이 각자 공부하는 반을 공통 시간표와 평가표로 정리하는 학사 운영 체계와 같다.
 
@@ -47,12 +47,12 @@ tags = ["studynote-security"]
 | 운영 포인트 | [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) ([Arp Spoofing](/knowledge-base/studynote/03_network/19_frequent_topics_terms/991_arp_spoofing/) Man In The Middle [Cache Poisoning](/knowledge-base/studynote/15_devops_sre/05_devsecops/272_ci_cache_poisoning_runner_ephemeral/))를 장기 운영할 때 관리해야 할 관측·[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 요소 | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 자동화, 수명주기 관리가 품질을 좌우한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ 운영 사이클                                                  │
-├──────────────────────────────────────────────────────────────┤
-│ 기준 수립 ─► 통제 적용 ─► 증적 수집 ─► 점검·개선            │
-│              └──────── 책임·보고 체계 ────────┘             │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| 운영 사이클                                                  |
++--------------------------------------------------------------+
+| 기준 수립 -► 통제 적용 -► 증적 수집 -► 점검·개선            |
+|              +-------- 책임·보고 체계 --------+             |
++--------------------------------------------------------------+
 ```
 
 이 구조를 볼 때는 입력 조건, 핵심 처리, 결과뿐 아니라 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 상태가 어디에서 관리되는지까지 함께 봐야 한다. 그래야 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) ([Arp Spoofing](/knowledge-base/studynote/03_network/19_frequent_topics_terms/991_arp_spoofing/) Man In The Middle [Cache Poisoning](/knowledge-base/studynote/15_devops_sre/05_devsecops/272_ci_cache_poisoning_runner_ephemeral/))를 다른 기술과 연결해도 설명이 흔들리지 않는다.
@@ -114,12 +114,12 @@ tags = ["studynote-security"]
 
 ```text
 [규정·책임 요구]
-    │
-    ▼
+    |
+    v
 [ARP 스푸핑 (Arp Spoofing Man In The Middle Cache Poisoning)]
-    │
-    ├──▶ [감사 자동화]
-    └──▶ [성숙도 향상]
+    |
+    +---> [감사 자동화]
+    +---> [성숙도 향상]
 ```
 
 이 흐름도는 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) ([Arp Spoofing](/knowledge-base/studynote/03_network/19_frequent_topics_terms/991_arp_spoofing/) Man In The Middle [Cache Poisoning](/knowledge-base/studynote/15_devops_sre/05_devsecops/272_ci_cache_poisoning_runner_ephemeral/))를 단일 용어가 아니라 선행 문제, 현재 해결 방식, 후속 확장 방향으로 기억하게 해 준다. 시험과 실무 모두에서 이 연결 구조를 함께 말할 수 있어야 개념이 살아난다.
@@ -136,7 +136,7 @@ tags = ["studynote-security"]
 
 **진행 상황**: 1100 / 1108
 
-← **이전**: [990. Reentrancy 공격 (Smart Contract)](/knowledge-base/studynote/09_security/19_ai_advanced_security/990_reentrancy_attack/)
-**다음**: [992. 방화벽 (Stateful Inspection)](/knowledge-base/studynote/09_security/uncategorized/992_stateful_inspection_firewall_session_state_table/) →
+<- **이전**: [990. Reentrancy 공격 (Smart Contract)](/knowledge-base/studynote/09_security/19_ai_advanced_security/990_reentrancy_attack/)
+**다음**: [992. 방화벽 (Stateful Inspection)](/knowledge-base/studynote/09_security/uncategorized/992_stateful_inspection_firewall_session_state_table/) ->
 
 ---

@@ -26,17 +26,17 @@ tags = ["studynote-cloud-architecture"]
 아래 그림은 [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)이 왜 단순 통계가 아니라 "변경 허용 한도"인지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Reliability target and change budget                              │
-├────────────────────────────────────────────────────────────────────┤
-│ User requests -> SLI measurement -> SLO 99.9%                     │
-│                                   │                                │
-│                                   ├─ 99.9% good service required  │
-│                                   └─ 0.1% failure budget allowed  │
-│                                                │                   │
-│                           budget remains ------┼-> release faster  │
-│                           budget exhausted ----└-> stabilize first │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Reliability target and change budget                              |
++--------------------------------------------------------------------+
+| User requests -> SLI measurement -> SLO 99.9%                     |
+|                                   |                                |
+|                                   +- 99.9% good service required  |
+|                                   +- 0.1% failure budget allowed  |
+|                                                |                   |
+|                           budget remains ------+-> release faster  |
+|                           budget exhausted ----+-> stabilize first |
++--------------------------------------------------------------------+
 ```
 
 핵심은 [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)이 "조금 고장 나도 괜찮다"는 선언이 아니라, 고객이 받아들일 수 있는 품질 범위 안에서만 혁신 속도를 쓰게 만드는 가드레일이라는 점이다. 그래서 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 조직은 예산을 통해 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 비용이 아닌 투자 한도로 관리한다.
@@ -64,15 +64,15 @@ tags = ["studynote-cloud-architecture"]
 아래 제어 루프는 [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)이 관측에서 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 바뀌는 과정을 요약한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Error Budget control loop                                          │
-├────────────────────────────────────────────────────────────────────┤
-│ Telemetry -> SLI calc -> SLO window -> budget remain              │
-│                                │                                   │
-│                                ├-> burn rate alert                │
-│                                ├-> canary / release gate          │
-│                                └-> postmortem / SLO review        │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Error Budget control loop                                          |
++--------------------------------------------------------------------+
+| Telemetry -> SLI calc -> SLO window -> budget remain              |
+|                                |                                   |
+|                                +-> burn rate alert                |
+|                                +-> canary / release gate          |
+|                                +-> postmortem / SLO review        |
++--------------------------------------------------------------------+
 ```
 
 실무에서는 잔여량만큼이나 Burn Rate가 중요하다. 잔여 예산이 많아 보여도 1시간 동안 평소의 10배 속도로 소진되면 즉시 배포를 멈추고 원인 분석을 시작해야 한다. 그래서 보통 1시간·6시간·3일 같은 복수 창을 함께 보며 "급성 장애"와 "만성 악화"를 따로 다룬다.
@@ -168,21 +168,21 @@ tags = ["studynote-cloud-architecture"]
 
 ```text
 서비스 품질 측정
-    │
-    ▼
+    |
+    v
 SLI (Service Level Indicator)
-    │
-    ▼
+    |
+    v
 SLO (Service Level Objective) 설정
-    │
-    ▼
+    |
+    v
 Error Budget 계산
-    │
-    ├─ Burn Rate alert
-    ├─ release / canary gate
-    └─ postmortem / SLO tuning
-    │
-    ▼
+    |
+    +- Burn Rate alert
+    +- release / canary gate
+    +- postmortem / SLO tuning
+    |
+    v
 신뢰성과 혁신 속도의 운영 균형
 ```
 
@@ -200,7 +200,7 @@ Error Budget 계산
 
 **진행 상황**: 182 / 371
 
-← **이전**: [182. SLA (Service Level Agreement, 서비스 수준 협약)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/182_sla_service_level_agreement/)
-**다음**: [184. 옵저버빌리티 3대 기둥 (Observability Three Pillars)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/184_observability_three_pillars/) →
+<- **이전**: [182. SLA (Service Level Agreement, 서비스 수준 협약)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/182_sla_service_level_agreement/)
+**다음**: [184. 옵저버빌리티 3대 기둥 (Observability Three Pillars)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/184_observability_three_pillars/) ->
 
 ---

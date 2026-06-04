@@ -21,33 +21,33 @@ tags = ["studynote-network"]
 
 - **개념**: 기지국 철탑에 부착된 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)([Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) [Antenna](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)) 시스템을 지능화하는 두 가지 접근법이다. 스위칭 빔은 미리 방향이 정해진(예: 30도, 60도, 90도) 여러 개의 좁은 빔 패턴(Macro-sector) 라이브러리를 갖고 있다가 수신 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 가장 강한 쪽으로 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)만 변경한다. 반면 적응형 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)은 정해진 패턴이 없이, 들어오는 전파의 채널 정보([CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/))를 행렬 수학으로 0.001초마다 계산하여, 폰을 향해서는 '증폭(Main Lobe)'을 만들고 방해 전파가 오는 쪽으로는 완벽한 '무음(Null Lobe)' 지대를 실시간으로 빚어낸다.
 - **필요성**: 만약 무식한 옴니 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 120도짜리 섹터 3개로 쪼개는 것(섹터링)만으로 충분했다면 [스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/)는 필요 없었을 것이다. 하지만 가입자가 수십 배 늘어나면서 같은 120도 안에 있는 A 단말기와 B 단말기의 전파가 서로 뒤섞여 통화가 박살 나기 시작했다. 120도를 더 미세하게 쪼개서(스위칭 빔), 나아가 아예 상대방의 전파를 수학적으로 삭제해버리는(적응형 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)) 극단의 정밀 간섭 타파 기술이 설계 아키텍트들에게 요구되었다.
-- **등장 배경**: ① 도심지 무선 채널의 심각한 다중경로 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) 및 [동일 채널 간섭](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/555_co_channel_adjacent_interference/)(CCI) 심화 → ② [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 빔의 방향을 제어하는 아날로그 버틀러 매트릭스(Butler Matrix) 기반의 스위칭 빔 과도기 도래 → ③ DSP(디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리기) 칩셋의 연산력이 무어의 법칙에 따라 폭증하며 실시간 위상 연산이 가능한 적응형 어레이의 상용화 달성.
+- **등장 배경**: ① 도심지 무선 채널의 심각한 다중경로 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) 및 [동일 채널 간섭](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/555_co_channel_adjacent_interference/)(CCI) 심화 -> ② [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 빔의 방향을 제어하는 아날로그 버틀러 매트릭스(Butler Matrix) 기반의 스위칭 빔 과도기 도래 -> ③ DSP(디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리기) 칩셋의 연산력이 무어의 법칙에 따라 폭증하며 실시간 위상 연산이 가능한 적응형 어레이의 상용화 달성.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│             스위칭 빔 vs 적응형 배열의 빔 형성(Beamforming) 차이 시각화 │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [1. 스위칭 빔 (Switched Beam) - "미리 만들어둔 조명 켜기"]         │
-│   (방해전파 💥)           📱(사용자)                           │
-│        \                 / (사용자가 45도 사이에 서 있다면?)       │
-│      ╭───╮             ╭───╮  ╭───╮ (미리 정해진 빔 1, 2, 3)    │
-│     / 빔 1 \           / 빔 2 \ / 빔 3 \                      │
-│     \ 30도 /           \ 60도 / \ 90도 /                      │
-│      ╰───╯             ╰───╯  ╰───╯                       │
-│       * 한계 1: 사용자가 빔과 빔 사이(45도)에 끼면 신호가 골짜기에 빠짐 (Scalloping)│
-│       * 한계 2: 방해전파 쪽으로 빔1이 켜지면 노이즈도 같이 빨아들임 (방어 불가)│
-│                                                             │
-│   [2. 적응형 배열 (Adaptive Array) - "수학이 빚어내는 맞춤 조명"]      │
-│   (방해전파 💥)           📱(사용자)                           │
-│        \                 / (사용자 각도 45도 정밀 타격!)          │
-│       ╳ (Null: 0)       ╭─────╮ (Main Lobe)                 │
-│                        / 45도 \                             │
-│                        \      /                             │
-│                         ╰─────╯                             │
-│       * 장점 1: 사용자가 어디로 도망가도 0.1도 단위로 빔이 고개 돌려 쫓아감!   │
-│       * 장점 2: 방해전파(간섭)가 날아오는 방향은 '파워=0'으로 귀를 닫음(Nulling)!│
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|             스위칭 빔 vs 적응형 배열의 빔 형성(Beamforming) 차이 시각화 |
++-------------------------------------------------------------+
+|                                                             |
+|   [1. 스위칭 빔 (Switched Beam) - "미리 만들어둔 조명 켜기"]         |
+|   (방해전파 💥)           📱(사용자)                           |
+|        \                 / (사용자가 45도 사이에 서 있다면?)       |
+|      +---+             +---+  +---+ (미리 정해진 빔 1, 2, 3)    |
+|     / 빔 1 \           / 빔 2 \ / 빔 3 \                      |
+|     \ 30도 /           \ 60도 / \ 90도 /                      |
+|      +---+             +---+  +---+                       |
+|       * 한계 1: 사용자가 빔과 빔 사이(45도)에 끼면 신호가 골짜기에 빠짐 (Scalloping)|
+|       * 한계 2: 방해전파 쪽으로 빔1이 켜지면 노이즈도 같이 빨아들임 (방어 불가)|
+|                                                             |
+|   [2. 적응형 배열 (Adaptive Array) - "수학이 빚어내는 맞춤 조명"]      |
+|   (방해전파 💥)           📱(사용자)                           |
+|        \                 / (사용자 각도 45도 정밀 타격!)          |
+|       ╳ (Null: 0)       +-----+ (Main Lobe)                 |
+|                        / 45도 \                             |
+|                        \      /                             |
+|                         +-----+                             |
+|       * 장점 1: 사용자가 어디로 도망가도 0.1도 단위로 빔이 고개 돌려 쫓아감!   |
+|       * 장점 2: 방해전파(간섭)가 날아오는 방향은 '파워=0'으로 귀를 닫음(Nulling)!|
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 두 아키텍처의 가장 치명적인 차이는 '방해 전파(Interference)를 대하는 태도'다. 스위칭 빔은 미리 짜여진 플라스틱 틀(아날로그 회로)에서 빔이 나간다. 운 좋게 사용자가 빔 정중앙에 서 있으면 아주 멀리까지 터지지만, 방해 전파가 하필 그 빔의 부채꼴 안으로 날아오면 속수무책으로 당한다. 반면 적응형 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)은 뒤에 거대한 수학 컴퓨터(DSP)가 버티고 있다. 사용자의 방향으로는 진폭을 키우고, 해커나 다른 기지국의 간섭 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 날아오는 방향으로는 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 파동을 정확히 반대(-180도)로 꺾어 더해버린다. 결과적으로 방해 전파는 수학적으로 증발(Null)해버린다. 인류가 만들어낸 가장 지능적인 무선 방어막이다.
@@ -60,7 +60,7 @@ tags = ["studynote-network"]
 
 스위칭 빔 시스템은 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 하드웨어 단에 <strong>버틀러 매트릭스 (Butler Matrix)</strong>라 불리는 위상 변환 아날로그 네트워크가 뼈대를 이룬다.
 
-- **작동 원리**: 기지국은 특정 각도(예: -40°, -20°, 0°, +20°, +40°)를 지향하는 좁은 빔 패턴 N개를 상시로 만들어둔다. 수신기가 이 N개의 빔 중 어떤 빔으로 들어오는 단말기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(RSSI)가 가장 강한지 측정([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))한 뒤, 송신할 때도 그 방향의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 올려 전파를 쏜다.
+- **작동 원리**: 기지국은 특정 각도(예: -40+, -20+, 0+, +20+, +40+)를 지향하는 좁은 빔 패턴 N개를 상시로 만들어둔다. 수신기가 이 N개의 빔 중 어떤 빔으로 들어오는 단말기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(RSSI)가 가장 강한지 측정([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))한 뒤, 송신할 때도 그 방향의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 올려 전파를 쏜다.
 - **아키텍처 특성**: 복잡한 실시간 행렬 수학 계산(역행렬 등)이 아예 필요 없다. 오직 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 부품(RF [Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))만 있으면 되므로 기지국 장비 가격이 매우 저렴하고 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/)가 적다.
 - **치명적 약점 (Scalloping Effect)**: 빔과 빔이 교차하는 경계 지역(가장자리)은 전파가 깊게 푹 파이는 골짜기(Null)가 된다. 만약 폰이 30도 빔과 60도 빔 사이인 45도에 서 있으면, 폰은 기지국 코앞에 있어도 전파가 지독하게 안 터지는 사각지대(Scalloping Loss)의 희생양이 된다.
 
@@ -71,23 +71,23 @@ tags = ["studynote-network"]
 - **아키텍처 특성**: 단말기가 1m만 움직여도 기지국은 빔의 모양을 찰흙 주무르듯 실시간으로 다시 빚어서(Adaptive) 폰의 코앞에 딱 맞춰 쏴준다. 사각지대(Scalloping)가 존재할 수 없다.
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│               적응형 배열 안테나의 수학적 가중치(Weight) 연산 블록도   │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [안테나 1 수신 신호] ──(가중치 W1 곱함)──┐                     │
-│   [안테나 2 수신 신호] ──(가중치 W2 곱함)──┼─▶ [ 합산기 (Σ) ] ─▶ 100점! │
-│   [안테나 3 수신 신호] ──(가중치 W3 곱함)──┘                     │
-│         ▲                                                     │
-│         │                                                     │
-│   ┌─────┴────────────────────────────┐                     │
-│   │ [ 적응형 알고리즘 (DSP 칩셋) ]         │ ◀── [에러 계산 피드백]   │
-│   │ "W1, W2, W3 값을 어떻게 조합해야 방해 전파가 0이 될까?"        │
-│   └──────────────────────────────────────┘                     │
-│                                                               │
-│   => 즉, 기계 모터를 돌려 안테나를 꺾는 게 아니다!                      │
-│      DSP가 뽑아낸 곱셈(가중치) 숫자 3개가 허공의 전파 파도를 꺾어버린다!    │
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|               적응형 배열 안테나의 수학적 가중치(Weight) 연산 블록도   |
++---------------------------------------------------------------+
+|                                                               |
+|   [안테나 1 수신 신호] --(가중치 W1 곱함)--+                     |
+|   [안테나 2 수신 신호] --(가중치 W2 곱함)--+--> [ 합산기 (Σ) ] --> 100점! |
+|   [안테나 3 수신 신호] --(가중치 W3 곱함)--+                     |
+|         ^                                                     |
+|         |                                                     |
+|   +-----+----------------------------+                     |
+|   | [ 적응형 알고리즘 (DSP 칩셋) ]         | <--- [에러 계산 피드백]   |
+|   | "W1, W2, W3 값을 어떻게 조합해야 방해 전파가 0이 될까?"        |
+|   +--------------------------------------+                     |
+|                                                               |
+|   => 즉, 기계 모터를 돌려 안테나를 꺾는 게 아니다!                      |
+|      DSP가 뽑아낸 곱셈(가중치) 숫자 3개가 허공의 전파 파도를 꺾어버린다!    |
++---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 블록도는 적응형 [스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/)가 "기계"가 아니라 "소프트웨어 수학"임을 증명한다. [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 3개가 전파를 받을 때, 그냥 다이렉트로 더하면 방해 전파도 같이 커진다. 하지만 밑의 DSP 칩셋이 미적분 방정식(LMS 등 최소 오차 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))을 빛의 속도로 풀어 "W1=0.8, W2=-0.5, W3=1.2"라는 최적의 해답 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 던져준다. 이 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)대로 전파를 곱해서 더하면, 신기하게도 방해 전파만 쏙 빠진 채 단말기의 진짜 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)만 영롱하게 살아남는다. [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국(AAU)이 에어컨만 한 크기에 수백만 원짜리 비싼 이유가 바로 이 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 초당 수억 번 계산하는 거대한 컴퓨터 뇌가 들어있기 때문이다.
@@ -106,21 +106,21 @@ tags = ["studynote-network"]
 스위칭 빔의 패배 원인은 '모바일 환경의 불규칙성'이다. 차를 타고 고속도로를 달리는 단말기가 빔1 구역에서 빔2 구역으로 넘어가는 순간, 기지국은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 "딸깍" 전환해야 한다. 이 찰나의 전환 타이밍이 어긋나면 단말기는 심각한 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)(단절) 폭탄을 맞는다. 통신망이 넓은 시골 커버리지가 중요할 때는 스위칭 빔이 가성비가 좋았지만, 좁은 도심(핫스팟)에서 1,000명의 단말기가 뿜어대는 노이즈(간섭) 지옥에서 살아남으려면 무식한 파워([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))가 아니라 정교한 간섭 회피(Nulling)가 가능한 적응형 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 수학적 두뇌가 필수 불가결했다.
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│               적응형 배열 알고리즘의 진화 (훈련 신호 vs 블라인드)    │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [1. 훈련 신호 기반 (Training Sequence) - 빠르고 정확함]         │
-│   기지국: "단말기야, 내가 아는 암호코드(Pilot)를 한 번 쏴봐라."         │
-│   단말기: "[0 1 0 1] 발사!"                                      │
-│   DSP: "어? 파동이 [0.8 1.2 0.1 0.9]로 찌그러져서 왔네? 역함수 톱 징징!" │
-│   => LTE/5G에서 사용하는 완벽하고 대중적인 방식. 단, 암호 쏘느라 대역폭 약간 낭비.│
-│                                                               │
-│   [2. 블라인드 알고리즘 (Blind Adaptive) - 어렵고 느림]            │
-│   기지국: "훈련 신호 쏠 대역폭 아까워. 그냥 네가 보내는 유튜브 데이터만 보고, │
-│            내가 확률 통계학(CMA 등)을 갈아 넣어서 빔 각도를 때려 맞춰볼게!"│
-│   => 대역폭 낭비는 0%지만, 계산이 너무 느리고 복잡해서 수렴(Tracking) 실패 위험 큼.│
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|               적응형 배열 알고리즘의 진화 (훈련 신호 vs 블라인드)    |
++---------------------------------------------------------------+
+|                                                               |
+|   [1. 훈련 신호 기반 (Training Sequence) - 빠르고 정확함]         |
+|   기지국: "단말기야, 내가 아는 암호코드(Pilot)를 한 번 쏴봐라."         |
+|   단말기: "[0 1 0 1] 발사!"                                      |
+|   DSP: "어? 파동이 [0.8 1.2 0.1 0.9]로 찌그러져서 왔네? 역함수 톱 징징!" |
+|   => LTE/5G에서 사용하는 완벽하고 대중적인 방식. 단, 암호 쏘느라 대역폭 약간 낭비.|
+|                                                               |
+|   [2. 블라인드 알고리즘 (Blind Adaptive) - 어렵고 느림]            |
+|   기지국: "훈련 신호 쏠 대역폭 아까워. 그냥 네가 보내는 유튜브 데이터만 보고, |
+|            내가 확률 통계학(CMA 등)을 갈아 넣어서 빔 각도를 때려 맞춰볼게!"|
+|   => 대역폭 낭비는 0%지만, 계산이 너무 느리고 복잡해서 수렴(Tracking) 실패 위험 큼.|
++---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 적응형 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)의 DSP 컴퓨터가 마법의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)(W)를 뽑아내려면 "정답지"가 필요하다. 가장 많이 쓰이는 방식은 정답지([Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/) Sequence / [Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))를 기지국과 단말기가 미리 약속해 두고 계속 주고받는 것이다. 이 정답지가 찌그러진 정도(오차)를 미분 계산(LMS, 최소 평균 제곱 오차 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))하여 빔을 깎는다. 엔지니어들은 이 훈련 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 쏘는 오버헤드조차 아까워서 아예 정답지 없이 통계학으로 빔을 맞추는 블라인드(Blind) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)도 연구했지만, 고속도로에서 시속 100km로 달리는 폰을 블라인드 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 쫓아가는 건 연산 속도가 도저히 못 따라가 포기했다. 결국 5G에서는 훈련 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(SRS, [CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/)-RS)를 미친 듯이 촘촘히 박아서 쏘는 정공법을 택했다.
@@ -196,12 +196,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 스마트 안테나]
-    │
-    ▼
+    |
+    v
 [현재 개념: 스위칭 빔 vs 적응형 어레이]
-    │
-    ├──▶ [확장 A: MIMO 기반 공간 다중화 체계]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
+    |
+    +---> [확장 A: MIMO 기반 공간 다중화 체계]
+    +---> [확장 B: 지능형 무선 자원 제어]
 ```
 
 스위칭 빔 vs 적응형 어레이는 [스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) 기반 [공간 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/) 체계와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -218,7 +218,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 689 / 1120
 
-← **이전**: [567. 스마트 안테나 (Smart Antenna)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/567_smart_antenna_beamforming_concept/)
-**다음**: [569. MIMO 기반 공간 다중화 체계 (V-BLAST 구조 등)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/569_mimo_spatial_multiplexing_v_blast/) →
+<- **이전**: [567. 스마트 안테나 (Smart Antenna)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/567_smart_antenna_beamforming_concept/)
+**다음**: [569. MIMO 기반 공간 다중화 체계 (V-BLAST 구조 등)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/569_mimo_spatial_multiplexing_v_blast/) ->
 
 ---

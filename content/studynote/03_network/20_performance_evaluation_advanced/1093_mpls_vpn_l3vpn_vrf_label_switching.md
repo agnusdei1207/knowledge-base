@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [DMVPN 동적 라우팅 결합형 지점]
-    │
-    ▼
+    |
+    v
 [MPLS VPN L3 경로 격리 라벨 스위치]
-    │
-    └──▶ [OSPF ABR / ASBR Area 위계…]
+    |
+    +---> [OSPF ABR / ASBR Area 위계…]
 ```
 
 - **📢 섹션 요약 비유**: [MPLS VPN](/knowledge-base/studynote/03_network/07_network_layer_routing/376_mpls_vpn_l3_vrf_bgp/) L3 경로 격리 라벨 스위치는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -42,11 +42,11 @@ tags = ["studynote-network"]
 
 ```text
 [DMVPN 동적 라우팅 결합형 지점]
-    │
-    ▼
+    |
+    v
 [MPLS VPN L3 경로 격리 라벨 스위치]
-    │
-    └──▶ [OSPF ABR / ASBR Area 위계…]
+    |
+    +---> [OSPF ABR / ASBR Area 위계…]
 ```
 
 - **📢 섹션 요약 비유**: [MPLS VPN](/knowledge-base/studynote/03_network/07_network_layer_routing/376_mpls_vpn_l3_vrf_bgp/) L3 경로 격리 라벨 스위치의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -121,12 +121,12 @@ KT 라우터가 어떻게 삼성과 LG 패킷을 안 섞이게 나를까요?
 
 ```text
 [선행 개념: DMVPN 동적 라우팅 결합형 지점]
-    │
-    ▼
+    |
+    v
 [현재 개념: MPLS VPN L3 경로 격리 라벨 스위치]
-    │
-    ├──▶ [확장 A: OSPF ABR / ASBR Area 위계…]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: OSPF ABR / ASBR Area 위계…]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 [MPLS VPN](/knowledge-base/studynote/03_network/07_network_layer_routing/376_mpls_vpn_l3_vrf_bgp/) L3 경로 격리 라벨 스위치는 [DMVPN](/knowledge-base/studynote/03_network/07_network_layer_routing/386_dmvpn_dynamic_multipoint_vpn_gre_ipsec_nhrp/) [동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/) 결합형 지점에서 출발해 현재 메커니즘을 정교화하고, 이후 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) ABR / ASBR Area 위계…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -143,7 +143,7 @@ KT 라우터가 어떻게 삼성과 LG 패킷을 안 섞이게 나를까요?
 
 **진행 상황**: 202 / 1120
 
-← **이전**: [1092. DMVPN 동적 라우팅 결합형 지점](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1092_dmvpn_dynamic_multipoint_vpn_nhrp_ipsec/)
-**다음**: [1094. OSPF ABR / ASBR Area 위계 분산망](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1094_ospf_abr_asbr_area_hierarchy_routing/) →
+<- **이전**: [1092. DMVPN 동적 라우팅 결합형 지점](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1092_dmvpn_dynamic_multipoint_vpn_nhrp_ipsec/)
+**다음**: [1094. OSPF ABR / ASBR Area 위계 분산망](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1094_ospf_abr_asbr_area_hierarchy_routing/) ->
 
 ---

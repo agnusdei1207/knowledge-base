@@ -41,14 +41,14 @@ tags = ["studynote-enterprise"]
 아래 그림은 데스크톱 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 단순 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 아니라, 자동화 후보로 정제되는 과정을 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────┐
-│              작업 마이닝 흐름: 데스크톱 행동에서 후보 발굴      │
-├────────────────────────────────────────────────────────────────┤
-│ 사용자 PC 이벤트 ─▶ 수집·마스킹 ─▶ 패턴 군집화 ─▶ ROI 평가      │
-│  클릭·입력·창전환        │               │            │         │
-│                          ▼               ▼            ▼         │
-│                     개인정보 보호     반복 작업 묶음   RPA 후보 │
-└────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------+
+|              작업 마이닝 흐름: 데스크톱 행동에서 후보 발굴      |
++----------------------------------------------------------------+
+| 사용자 PC 이벤트 --> 수집·마스킹 --> 패턴 군집화 --> ROI 평가      |
+|  클릭·입력·창전환        |               |            |         |
+|                          v               v            v         |
+|                     개인정보 보호     반복 작업 묶음   RPA 후보 |
++----------------------------------------------------------------+
 ```
 
 핵심 원리는 세 가지다. 첫째, 의미 없는 개인 활동과 실제 업무를 구분해야 한다. 둘째, 한 사람의 예외 행동보다 다수 사용자에게 반복되는 패턴을 찾는 것이 중요하다. 셋째, 발견된 작업은 자동화 가능성과 업무 중요도를 함께 따져야 한다. 많이 반복된다고 해서 모두 자동화 가치가 높은 것은 아니다.
@@ -123,18 +123,18 @@ tags = ["studynote-enterprise"]
 
 ```text
 데스크톱 이벤트 수집
-        │
-        ▼
+        |
+        v
 데스크톱 애널리틱스 (Desktop Analytics)
-        │
-        ▼
+        |
+        v
 작업 마이닝 (Task Mining)
-        │
-        ├─ 반복 패턴 군집화
-        ├─ ROI 분석
-        └─ PDD 생성
-        │
-        ▼
+        |
+        +- 반복 패턴 군집화
+        +- ROI 분석
+        +- PDD 생성
+        |
+        v
 RPA 발굴 · 프로세스 개선 · 하이퍼오토메이션
 ```
 
@@ -152,7 +152,7 @@ RPA 발굴 · 프로세스 개선 · 하이퍼오토메이션
 
 **진행 상황**: 211 / 482
 
-← **이전**: [210. RPA (Robotic Process Automation) - Attended Bot과 Unattended Bot](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/210_rpa_robotic_process_automation_attended_unattended/)
-**다음**: [212. BIA (Business Impact Analysis) 평가 지표 분석 기법](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/212_bia_business_impact_analysis_rto_rpo_dr/) →
+<- **이전**: [210. RPA (Robotic Process Automation) - Attended Bot과 Unattended Bot](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/210_rpa_robotic_process_automation_attended_unattended/)
+**다음**: [212. BIA (Business Impact Analysis) 평가 지표 분석 기법](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/212_bia_business_impact_analysis_rto_rpo_dr/) ->
 
 ---

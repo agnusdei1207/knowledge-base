@@ -26,9 +26,9 @@ tags = ["studynote-devops-sre"]
 ```text
 Deployment / Control / Feedback Flow
 
-┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
-│ Principle            │──▶│ Metric               │──▶│ Feedback             │──▶│ Platform Support     │
-└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
++----------------------+   +----------------------+   +----------------------+   +----------------------+
+| Principle            |--->| Metric               |--->| Feedback             |--->| Platform Support     |
++----------------------+   +----------------------+   +----------------------+   +----------------------+
 ```
 
 이 그림은 클라우드 비용 효율 [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/) 프레임워크 최적화가 입력, 실행, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 환류를 한 흐름으로 묶는다는 점을 보여준다. 즉 기술 자체보다도 제어 루프와 피드백 구조가 본질이다.
@@ -51,9 +51,9 @@ Deployment / Control / Feedback Flow
 ```text
 Reference Architecture
 
-┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
-│ Principle            │──▶│ Metric               │──▶│ Feedback             │──▶│ Platform Support     │
-└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
++----------------------+   +----------------------+   +----------------------+   +----------------------+
+| Principle            |--->| Metric               |--->| Feedback             |--->| Platform Support     |
++----------------------+   +----------------------+   +----------------------+   +----------------------+
 ```
 
 위 구조에서 중요한 것은 각 계층의 책임을 분리하면서도, 마지막에 반드시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 다시 제어 계층으로 돌아오게 만드는 것이다. 그래야 변경 실패가 누적되지 않고, 재현성과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성을 함께 확보할 수 있다.
@@ -123,13 +123,13 @@ Reference Architecture
 
 ```text
 [RI]
-    │
-    ▼
+    |
+    v
 [클라우드 비용 효율 FinOps 프레임워크 최적화]
-    │
-    ├──▶ [Spot]
-    ├──▶ [Unit Economics]
-    └──▶ [기능 사일로 중심 운영]
+    |
+    +---> [Spot]
+    +---> [Unit Economics]
+    +---> [기능 사일로 중심 운영]
 ```
 
 이 흐름도는 클라우드 비용 효율 [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/) 프레임워크 최적화가 선행 개념 위에 서서 운영 자동화, 보안, 확장, 가시성 중 어떤 축으로 확장되는지를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 보여준다.
@@ -145,7 +145,7 @@ Reference Architecture
 
 **진행 상황**: 230 / 373
 
-← **이전**: [229. 인텐트 기반 네트워킹 (IBN)](/knowledge-base/studynote/15_devops_sre/05_devsecops/229_ibn_sdn/)
-**다음**: [231. 엣지 네이티브 (Edge Native) 설계망 분산 지연 단축](/knowledge-base/studynote/15_devops_sre/05_devsecops/231_edge_native/) →
+<- **이전**: [229. 인텐트 기반 네트워킹 (IBN)](/knowledge-base/studynote/15_devops_sre/05_devsecops/229_ibn_sdn/)
+**다음**: [231. 엣지 네이티브 (Edge Native) 설계망 분산 지연 단축](/knowledge-base/studynote/15_devops_sre/05_devsecops/231_edge_native/) ->
 
 ---

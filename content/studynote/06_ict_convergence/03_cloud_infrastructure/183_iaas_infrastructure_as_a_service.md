@@ -28,15 +28,15 @@ IaaS는 CSP가 운영하는 [데이터센터](/knowledge-base/studynote/03_netwo
 아래 그림은 왜 IaaS가 기존 조달 방식을 바꾸었는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ From hardware procurement to API provisioning                     │
-├────────────────────────────────────────────────────────────────────┤
-│ On-prem : plan -> buy -> rack -> cable -> install -> operate      │
-│ IaaS    : request VM -> attach volume -> open network -> start    │
-│                                                                    │
-│ Physical assets stay in the data center                           │
-│ Logical resources are carved out on demand                        │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| From hardware procurement to API provisioning                     |
++--------------------------------------------------------------------+
+| On-prem : plan -> buy -> rack -> cable -> install -> operate      |
+| IaaS    : request VM -> attach volume -> open network -> start    |
+|                                                                    |
+| Physical assets stay in the data center                           |
+| Logical resources are carved out on demand                        |
++--------------------------------------------------------------------+
 ```
 
 이 변화의 본질은 속도만이 아니다. 인프라가 물리 장비 단위에서 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 자원 단위로 바뀌면서, 규모 확장과 장애 대응, 테스트 환경 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)까지 모두 코드와 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 다룰 수 있게 되었다.
@@ -50,21 +50,21 @@ IaaS는 CSP가 운영하는 [데이터센터](/knowledge-base/studynote/03_netwo
 IaaS의 핵심 원리는 제어 평면과 실행 평면의 분리다. 사용자는 콘솔이나 API로 자원을 요청하고, 제어 평면은 이미지·권한·[할당량](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/)·네트워크 규칙을 확인한 뒤, 실행 평면에서 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)·스토리지·가상 네트워크를 실제로 붙여 준다. 이 과정이 표준화되어 있기 때문에 사람이 장비를 설치하지 않아도 몇 분 안에 새 서버를 만들 수 있다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ IaaS control flow                                                 │
-├────────────────────────────────────────────────────────────────────┤
-│ User / IaC template                                               │
-│        │ API call                                                 │
-│        ▼                                                          │
-│ Control plane                                                     │
-│   ├─ image catalog                                                │
-│   ├─ scheduler / quota                                            │
-│   ├─ Virtual Private Cloud (VPC) policy                           │
-│   └─ monitoring / auto scaling                                    │
-│        │                                                          │
-│        ├─▶ Hypervisor cluster ─▶ Virtual Machine (VM)             │
-│        └─▶ Storage service   ─▶ block / object data               │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| IaaS control flow                                                 |
++--------------------------------------------------------------------+
+| User / IaC template                                               |
+|        | API call                                                 |
+|        v                                                          |
+| Control plane                                                     |
+|   +- image catalog                                                |
+|   +- scheduler / quota                                            |
+|   +- Virtual Private Cloud (VPC) policy                           |
+|   +- monitoring / auto scaling                                    |
+|        |                                                          |
+|        +--> Hypervisor cluster --> Virtual Machine (VM)             |
+|        +--> Storage service   --> block / object data               |
++--------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 설계 포인트 |
@@ -113,23 +113,23 @@ IaaS를 정확히 이해하려면 [온프레미스](/knowledge-base/studynote/07
 아래 의사결정 흐름은 IaaS가 적합한지 빠르게 가르는 기준을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ When IaaS is the right fit                                        │
-├────────────────────────────────────────────────────────────────────┤
-│ Need OS / kernel / network appliance level control?               │
-│        ├─ Yes ─▶ IaaS first                                        │
-│        └─ No                                                      │
-│             │                                                     │
-│             ▼                                                     │
-│ Need only code deployment on managed runtime?                     │
-│        ├─ Yes ─▶ PaaS / managed container                         │
-│        └─ No                                                      │
-│             │                                                     │
-│             ▼                                                     │
-│ Is the workload mostly a finished business application?           │
-│        ├─ Yes ─▶ SaaS                                             │
-│        └─ No  ─▶ reconsider hybrid or IaaS + automation           │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| When IaaS is the right fit                                        |
++--------------------------------------------------------------------+
+| Need OS / kernel / network appliance level control?               |
+|        +- Yes --> IaaS first                                        |
+|        +- No                                                      |
+|             |                                                     |
+|             v                                                     |
+| Need only code deployment on managed runtime?                     |
+|        +- Yes --> PaaS / managed container                         |
+|        +- No                                                      |
+|             |                                                     |
+|             v                                                     |
+| Is the workload mostly a finished business application?           |
+|        +- Yes --> SaaS                                             |
+|        +- No  --> reconsider hybrid or IaaS + automation           |
++--------------------------------------------------------------------+
 ```
 
 ### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -182,17 +182,17 @@ IaaS가 잘 도입되면 인프라 조달 속도가 빨라지고, 환경 [복제
 
 ```text
 물리 데이터센터 자원
-        │
-        ▼
+        |
+        v
 가상화 · 자원 풀링
-        │
-        ▼
+        |
+        v
 IaaS (Infrastructure as a Service)
-        │
-        ├──────────────► VM · VPC · Block Storage
-        ├──────────────► IaC · Auto Scaling
-        ├──────────────► DR · Multi-region 운영
-        └──────────────► PaaS · Kubernetes 기반 인프라
+        |
+        +--------------► VM · VPC · Block Storage
+        +--------------► IaC · Auto Scaling
+        +--------------► DR · Multi-region 운영
+        +--------------► PaaS · Kubernetes 기반 인프라
 ```
 
 이 흐름은 하드웨어 중심 사고가 소프트웨어 정의 인프라로 넘어가고, 다시 상위 플랫폼 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 확장되는 경로를 보여 준다.
@@ -209,7 +209,7 @@ IaaS (Infrastructure as a Service)
 
 **진행 상황**: 183 / 552
 
-← **이전**: [182. 클라우드 서비스 모델 (Cloud Service Models) 개요](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/182_cloud_service_models_overview/)
-**다음**: [184. PaaS (Platform as a Service) - 애플리케이션 실행 플랫폼 제공](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/) →
+<- **이전**: [182. 클라우드 서비스 모델 (Cloud Service Models) 개요](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/182_cloud_service_models_overview/)
+**다음**: [184. PaaS (Platform as a Service) - 애플리케이션 실행 플랫폼 제공](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/) ->
 
 ---

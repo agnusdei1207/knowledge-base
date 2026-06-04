@@ -19,10 +19,10 @@ tags = ["studynote-devops-sre"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-Prometheus → Pull → 서비스 /metrics 엔드포인트
-  → TSDB 저장 → PromQL 조회
-  → Alertmanager → PagerDuty/Slack
-  → Grafana 대시보드 시각화
+Prometheus -> Pull -> 서비스 /metrics 엔드포인트
+  -> TSDB 저장 -> PromQL 조회
+  -> Alertmanager -> PagerDuty/Slack
+  -> Grafana 대시보드 시각화
 ```
 
 - **📢 섹션 요약 비유**: Prometheus는 **체온계(수집)**, Grafana는 <strong>진료 차트(<a href="/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a>)</strong>, Alertmanager는 <strong>비상벨(알림)</strong>이다.
@@ -59,9 +59,9 @@ Prometheus → Pull → 서비스 /metrics 엔드포인트
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[Nagios/Zabbix (2000s)] → [Prometheus (2012, SoundCloud)]
-    → [CNCF 졸업 (2018)] → [Grafana LGTM Stack (2020~)]
-    → [현재: Mimir (장기 메트릭 저장) + Thanos (HA)]
+[Nagios/Zabbix (2000s)] -> [Prometheus (2012, SoundCloud)]
+    -> [CNCF 졸업 (2018)] -> [Grafana LGTM Stack (2020~)]
+    -> [현재: Mimir (장기 메트릭 저장) + Thanos (HA)]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -75,7 +75,7 @@ Prometheus → Pull → 서비스 /metrics 엔드포인트
 
 **진행 상황**: 132 / 373
 
-← **이전**: [131. 관측 가능성 Three Pillars - Metrics·Logs·Traces 심층 분석](/knowledge-base/studynote/15_devops_sre/03_sre_observability/131_observability_three_pillars/)
-**다음**: [133. 4대 골든 시그널 (Four Golden Signals) - SRE 핵심 모니터링 지표](/knowledge-base/studynote/15_devops_sre/03_sre_observability/133_four_golden_signals/) →
+<- **이전**: [131. 관측 가능성 Three Pillars - Metrics·Logs·Traces 심층 분석](/knowledge-base/studynote/15_devops_sre/03_sre_observability/131_observability_three_pillars/)
+**다음**: [133. 4대 골든 시그널 (Four Golden Signals) - SRE 핵심 모니터링 지표](/knowledge-base/studynote/15_devops_sre/03_sre_observability/133_four_golden_signals/) ->
 
 ---

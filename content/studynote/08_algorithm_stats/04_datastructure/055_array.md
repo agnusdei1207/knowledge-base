@@ -45,14 +45,14 @@ tags = ["studynote-algorithm"]
 ```
 base address = 0x1000, sizeof(int) = 4
 
-┌──────┬──────┬──────┬──────┬──────┐
-│  10  │  20  │  30  │  40  │  50  │  ← 원소 값
-├──────┼──────┼──────┼──────┼──────┤
-│0x1000│0x1004│0x1008│0x100C│0x1010│  ← 주소
-└──────┴──────┴──────┴──────┴──────┘
++------+------+------+------+------+
+|  10  |  20  |  30  |  40  |  50  |  <- 원소 값
++------+------+------+------+------+
+|0x1000|0x1004|0x1008|0x100C|0x1010|  <- 주소
++------+------+------+------+------+
    [0]    [1]    [2]    [3]    [4]
 
-접근: arr[3] = *(base + 3×4) = *(0x100C) = 40   →  O(1)
+접근: arr[3] = *(base + 3×4) = *(0x100C) = 40   ->  O(1)
 ```
 
 ### 다차원 배열: 행 우선 vs 열 우선
@@ -74,10 +74,10 @@ base address = 0x1000, sizeof(int) = 4
 초기 capacity = 1
 삽입마다 size 초과 시 capacity × 2 재할당
 
-[1]→[1,2]→[1,2,3,4]→[1..8]→...
+[1]->[1,2]->[1,2,3,4]->[1..8]->...
 
 분할상환 분석:
-  n번 삽입 총 복사 횟수 = 1+2+4+...+n < 2n  →  O(1) amortized
+  n번 삽입 총 복사 횟수 = 1+2+4+...+n < 2n  ->  O(1) amortized
 ```
 
 📢 **섹션 요약 비유**: 동적 배열은 방이 꽉 차면 두 배 큰 집으로 이사하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)—이삿짐이 가끔 많지만, 평균적으로는 한 번에 조금씩 옮기는 셈이다.
@@ -113,10 +113,10 @@ base address = 0x1000, sizeof(int) = 4
 ### 기술사 판단 기준
 
 ```
-읽기/순회 위주 + 크기 예측 가능  →  정적 배열 또는 ArrayList
-삽입/삭제 빈번 + 순서 중요        →  연결 리스트
-키-값 매핑 + 순서 불필요           →  해시 테이블
-정렬된 범위 쿼리                   →  트리맵 or 세그먼트 트리
+읽기/순회 위주 + 크기 예측 가능  ->  정적 배열 또는 ArrayList
+삽입/삭제 빈번 + 순서 중요        ->  연결 리스트
+키-값 매핑 + 순서 불필요           ->  해시 테이블
+정렬된 범위 쿼리                   ->  트리맵 or 세그먼트 트리
 ```
 
 📢 **섹션 요약 비유**: 도서관 책장에 번호로 꽂힌 책(배열)은 "23번 책"을 바로 꺼낼 수 있지만, 중간에 새 책을 끼우려면 나머지를 한 칸씩 밀어야 한다.
@@ -148,14 +148,14 @@ base address = 0x1000, sizeof(int) = 4
 
 ```text
 [동적 배열 (Dynamic Array)]
-    │
-    ▼
+    |
+    v
 [연결 리스트 (Linked List)]
-    │
-    ▼
+    |
+    v
 [힙 (Heap)]
-    │
-    ▼
+    |
+    v
 [해시 테이블 (Hash Table)]
 ```
 
@@ -173,7 +173,7 @@ base address = 0x1000, sizeof(int) = 4
 
 **진행 상황**: 55 / 175
 
-← **이전**: [24. LIS (Longest Increasing Subsequence) — 최장 증가 부분 수열](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/054_longest_increasing_subsequence/)
-**다음**: [2. 연결 리스트 (Linked List) — 단일/이중/순환](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) →
+<- **이전**: [24. LIS (Longest Increasing Subsequence) — 최장 증가 부분 수열](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/054_longest_increasing_subsequence/)
+**다음**: [2. 연결 리스트 (Linked List) — 단일/이중/순환](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) ->
 
 ---

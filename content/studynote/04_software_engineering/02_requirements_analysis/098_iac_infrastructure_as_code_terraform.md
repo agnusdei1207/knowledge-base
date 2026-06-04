@@ -31,20 +31,20 @@ tags = ["software_engineering"]
 IaC는 주로 명령형 (Imperative) 방식과 선언형 ([Declarative](/knowledge-base/studynote/15_devops_sre/05_devsecops/219_declarative_yaml/)) 방식으로 나뉘지만, [테라폼](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) ([Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)) 같은 현대적 도구는 선언형 철학을 따른다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│              명령형 vs 선언형 방식의 차이점 (IaC 핵심 철학)             │
-├──────────────────────────────────────────────────────────────┤
-│ 1. 명령형 (Imperative, 셸 스크립트 방식)                       │
-│    "AWS에 접속해라 ─▶ EC2 생성 명령어를 3번 실행해라"              │
-│    (이미 서버가 3대 있는데 또 실행하면 6대가 되어버리는 참사 발생)      │
-│                                                              │
-│ 2. 선언형 (Declarative, Terraform 방식) ★ 멱등성 보장           │
-│    "최종 상태(State)가 'EC2 3대 구동 중'이 되게 만들어라"             │
-│    (현재 1대가 있다면 2대만 추가하고, 4대가 있다면 1대를 삭제함)       │
-│                                                              │
-│ [IaC 엔진 동작 파이프라인]                                      │
-│  [Code(설계도)] ─▶ [IaC Engine (상태 파일 검사)] ─▶ [클라우드 API 통신] │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|              명령형 vs 선언형 방식의 차이점 (IaC 핵심 철학)             |
++--------------------------------------------------------------+
+| 1. 명령형 (Imperative, 셸 스크립트 방식)                       |
+|    "AWS에 접속해라 --> EC2 생성 명령어를 3번 실행해라"              |
+|    (이미 서버가 3대 있는데 또 실행하면 6대가 되어버리는 참사 발생)      |
+|                                                              |
+| 2. 선언형 (Declarative, Terraform 방식) ★ 멱등성 보장           |
+|    "최종 상태(State)가 'EC2 3대 구동 중'이 되게 만들어라"             |
+|    (현재 1대가 있다면 2대만 추가하고, 4대가 있다면 1대를 삭제함)       |
+|                                                              |
+| [IaC 엔진 동작 파이프라인]                                      |
+|  [Code(설계도)] --> [IaC Engine (상태 파일 검사)] --> [클라우드 API 통신] |
++--------------------------------------------------------------+
 ```
 
 엔지니어는 "어떻게 (How) 만들 것인가"를 고민하지 않고, "무엇이 (What) 필요한가"라는 최종 목표 상태만 코드에 선언한다. [테라폼](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) 등의 [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) 엔진은 자신이 기록해 둔 상태 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) ([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))과 실제 클라우드 환경을 비교(Diff)한 뒤, 누락되거나 변경된 부분만을 API를 통해 정확히 맞춰낸다. 이것이 동일한 코드를 백 번 실행해도 결과가 똑같은 [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/) (Idempotence)의 원리이다.
@@ -110,17 +110,17 @@ IaC는 주로 명령형 (Imperative) 방식과 선언형 ([Declarative](/knowled
 
 ```text
 수동 인프라 프로비저닝 (마우스 클릭, 눈송이 서버 발생)
-    │
-    ▼
+    |
+    v
 셸 스크립트 기반 자동화 (명령형, 멱등성 보장 불가)
-    │
-    ▼
+    |
+    v
 선언형 IaC 도입 (Terraform, CloudFormation / 멱등성 및 상태 관리)
-    │
-    ▼
+    |
+    v
 형상 관리와 결합 (인프라 버전 관리 및 롤백 가능)
-    │
-    ▼
+    |
+    v
 GitOps 및 DevSecOps (인프라 CI/CD 파이프라인 자동화 및 코드 보안 점검)
 ```
 
@@ -136,7 +136,7 @@ GitOps 및 DevSecOps (인프라 CI/CD 파이프라인 자동화 및 코드 보�
 
 **진행 상황**: 98 / 973
 
-← **이전**: [97. DevOps (Development + Operations) - 문화, 자동화, 측정, 공유](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/097_devops_culture_calms/)
-**다음**: [99. 지속적 배포 (CD, Continuous Deployment / Delivery)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/099_continuous_deployment_cd/) →
+<- **이전**: [97. DevOps (Development + Operations) - 문화, 자동화, 측정, 공유](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/097_devops_culture_calms/)
+**다음**: [99. 지속적 배포 (CD, Continuous Deployment / Delivery)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/099_continuous_deployment_cd/) ->
 
 ---

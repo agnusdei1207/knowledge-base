@@ -40,29 +40,29 @@ GraphQL은 클라이언트가 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops
 | 복잡도 | 낮음 | 중간 | 높음 |
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                  BFF + GraphQL 아키텍처                              │
-│                                                                      │
-│  클라이언트                BFF 레이어              마이크로서비스    │
-│                                                                      │
-│  [모바일 앱]  ─────►  [Mobile BFF]  ──────►  [주문 서비스]         │
-│                            │         ──────►  [상품 서비스]         │
-│                            │         ──────►  [사용자 서비스]       │
-│                            │                                        │
-│  [웹 앱]      ─────►  [Web BFF]     ──────►  [주문 서비스]         │
-│                            │         ──────►  [리뷰 서비스]         │
-│                                                                      │
-│  ─────────── 또는 GraphQL Federation 방식 ─────────────────────── │
-│                                                                      │
-│  [모든 클라이언트] ─►  [GraphQL Gateway]  ──►  [주문 서브그래프]   │
-│                            │               ──►  [상품 서브그래프]   │
-│     query {                │               ──►  [사용자 서브그래프] │
-│       user(id: "1") {      │                                        │
-│         name               │   DataLoader: N+1 쿼리 → 배치 최적화  │
-│         orders { total }   │                                        │
-│       }                    │                                        │
-│     }                      │                                        │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                  BFF + GraphQL 아키텍처                              |
+|                                                                      |
+|  클라이언트                BFF 레이어              마이크로서비스    |
+|                                                                      |
+|  [모바일 앱]  -----►  [Mobile BFF]  ------►  [주문 서비스]         |
+|                            |         ------►  [상품 서비스]         |
+|                            |         ------►  [사용자 서비스]       |
+|                            |                                        |
+|  [웹 앱]      -----►  [Web BFF]     ------►  [주문 서비스]         |
+|                            |         ------►  [리뷰 서비스]         |
+|                                                                      |
+|  ----------- 또는 GraphQL Federation 방식 ----------------------- |
+|                                                                      |
+|  [모든 클라이언트] -►  [GraphQL Gateway]  --►  [주문 서브그래프]   |
+|                            |               --►  [상품 서브그래프]   |
+|     query {                |               --►  [사용자 서브그래프] |
+|       user(id: "1") {      |                                        |
+|         name               |   DataLoader: N+1 쿼리 -> 배치 최적화  |
+|         orders { total }   |                                        |
+|       }                    |                                        |
+|     }                      |                                        |
++----------------------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: GraphQL은 뷔페 주문 시스템 — 원하는 음식(필드)만 직접 골라 가져올 수 있어 먹지 않을 음식(불필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 담지 않아도 된다.
@@ -100,7 +100,7 @@ GraphQL은 클라이언트가 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops
 3. 프론트엔드 팀이 백엔드 의존 없이 빠르게 개발해야 할 때
 
 **주의사항**
-- GraphQL은 GET이 아닌 POST 기반으로 기본 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 캐시가 안 됨 → [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 캐시 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 별도 설계
+- GraphQL은 GET이 아닌 POST 기반으로 기본 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 캐시가 안 됨 -> [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 캐시 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 별도 설계
 - DataLoader로 N+1 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 반드시 해결
 - 무제한 중첩 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 방지를 위한 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 깊이 제한(Depth Limit) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 필수
 
@@ -135,15 +135,15 @@ GraphQL은 클라이언트가 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops
 
 ```text
 클라이언트 직접 호출 (Over-fetching · Under-fetching)
-    │
-    ▼
+    |
+    v
 BFF (Backend for Frontend): 프론트엔드별 전용 API 게이트웨이
-    │
-    ▼
+    |
+    v
 GraphQL: 클라이언트가 필요한 필드만 선언적 요청
-    │
-    ▼
-API Gateway + BFF + GraphQL Federation → 통합 API 레이어
+    |
+    v
+API Gateway + BFF + GraphQL Federation -> 통합 API 레이어
 ```
 2. GraphQL은 직접 선택하는 뷔페 — 내가 먹고 싶은 것만 골라 담을 수 있어 남기는 음식이 없어요.
 3. 두 방법 모두 여러 주방([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))을 직접 돌아다니지 않아도 되게 해줘서 훨씬 편리해요.
@@ -154,7 +154,7 @@ API Gateway + BFF + GraphQL Federation → 통합 API 레이어
 
 **진행 상황**: 156 / 371
 
-← **이전**: [156. 서버리스 벤더 락인과 Knative (Vendor Lock-in / Knative)](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/156_serverless_vendor_lockin_knative/)
-**다음**: [158. gRPC와 프로토콜 버퍼 (gRPC / Protocol Buffers / HTTP2)](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/158_grpc_protocol_buffers_http2/) →
+<- **이전**: [156. 서버리스 벤더 락인과 Knative (Vendor Lock-in / Knative)](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/156_serverless_vendor_lockin_knative/)
+**다음**: [158. gRPC와 프로토콜 버퍼 (gRPC / Protocol Buffers / HTTP2)](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/158_grpc_protocol_buffers_http2/) ->
 
 ---

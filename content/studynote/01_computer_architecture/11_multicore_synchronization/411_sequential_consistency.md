@@ -26,18 +26,18 @@ tags = ["studynote-computer-architecture"]
 다음 그림은 SC가 보장하려는 두 층의 질서를 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Sequential Consistency: local order + single global order         │
-├────────────────────────────────────────────────────────────────────┤
-│ Core 0 program order :   W(X=1) ───────────────▶ W(Y=1)           │
-│ Core 1 program order :   R(Y)   ───────────────▶ R(X)             │
-│                                                                    │
-│ Global observation order example                                   │
-│   W(X=1) ─▶ W(Y=1) ─▶ R(Y=1) ─▶ R(X=1)                             │
-│                                                                    │
-│ Rule 1: each core keeps its own order                              │
-│ Rule 2: every core agrees on the same merged order                 │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Sequential Consistency: local order + single global order         |
++--------------------------------------------------------------------+
+| Core 0 program order :   W(X=1) ----------------> W(Y=1)           |
+| Core 1 program order :   R(Y)   ----------------> R(X)             |
+|                                                                    |
+| Global observation order example                                   |
+|   W(X=1) --> W(Y=1) --> R(Y=1) --> R(X=1)                             |
+|                                                                    |
+| Rule 1: each core keeps its own order                              |
+| Rule 2: every core agrees on the same merged order                 |
++--------------------------------------------------------------------+
 ```
 
 핵심은 "각 코어 내부 순서"와 "시스템 전체가 합의한 순서"를 동시에 만족해야 한다는 점이다. SC가 있으면 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 설계자는 숨은 재배치나 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 노출을 먼저 의심하지 않아도 되므로, [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)의 논리적 정당성을 훨씬 단순하게 설명할 수 있다.
@@ -60,20 +60,20 @@ SC의 핵심 원리는 간단하지만 구현은 어렵다. 모든 메모리 연
 다음 그림은 왜 SC가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화와 충돌하는지를 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Why SC is expensive                                                │
-├────────────────────────────────────────────────────────────────────┤
-│ Program order:   Store A ─────▶ Store Flag ─────▶ Load B           │
-│                     │              │                │              │
-│ Under SC:           ▼              ▼                ▼              │
-│                 globally visible before next step may proceed       │
-│                                                                    │
-│ Optimized hardware wants:                                          │
-│   Store A ─▶ [Store Buffer keep]                                   │
-│   Load B  ─▶ execute early                                          │
-│                                                                    │
-│ SC says: do not expose a later-visible history that breaks order   │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Why SC is expensive                                                |
++--------------------------------------------------------------------+
+| Program order:   Store A ------> Store Flag ------> Load B           |
+|                     |              |                |              |
+| Under SC:           v              v                v              |
+|                 globally visible before next step may proceed       |
+|                                                                    |
+| Optimized hardware wants:                                          |
+|   Store A --> [Store Buffer keep]                                   |
+|   Load B  --> execute early                                          |
+|                                                                    |
+| SC says: do not expose a later-visible history that breaks order   |
++--------------------------------------------------------------------+
 ```
 
 실제로 SC를 엄격히 기본값으로 두면, 오래 걸리는 저장 연산이 끝날 때까지 뒤의 독립적인 읽기나 계산을 충분히 겹쳐 실행하기 어렵다. 그래서 많은 프로세서는 아키텍처 수준에서 더 약한 메모리 모델을 채택하고, 특정 원자 연산이나 [메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/) ([Memory Barrier](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/))에서만 SC에 가까운 질서를 복원한다. 다시 말해 SC는 단순한 실행 규칙이 아니라, 하드웨어 최적화가 어디까지 허용될지 가늠하는 상한선 역할도 한다.
@@ -88,7 +88,7 @@ SC의 경계는 [완화된 일관성](/knowledge-base/studynote/01_computer_arch
 
 | 비교 항목 | 순차적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) (SC) | 총 저장 순서 (TSO) | [완화된 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/412_relaxed_consistency/) |
 | :-- | :-- | :-- | :-- |
-| 기본 관점 | 가장 직관적인 전역 순서 | 주로 `Store → Load` 완화 | 더 넓은 재배치 허용 |
+| 기본 관점 | 가장 직관적인 전역 순서 | 주로 `Store -> Load` 완화 | 더 넓은 재배치 허용 |
 | 프로그래밍 난이도 | 낮음 | 중간 | 높음 |
 | 하드웨어 자유도 | 낮음 | 중간 | 높음 |
 | 대표 쓰임 | 기준 모델, 강한 원자 연산 | x86 계열 설명에 자주 사용 | ARM 계열 포함 현대 다수 아키텍처 |
@@ -157,18 +157,18 @@ SC의 가장 큰 효과는 [병렬](/knowledge-base/studynote/05_database/07_exa
 
 ```text
 순차 실행 직관
-      │
-      ▼
+      |
+      v
 순차적 일관성 (Sequential Consistency)
-      │
-      ├──▶ 캐시 일관성 (Cache Coherence)
-      │        └── 값의 최신성 보장과 순서 보장 구분
-      │
-      ├──▶ 총 저장 순서 (Total Store Order)
-      │
-      └──▶ 완화된 일관성 (Relaxed Consistency)
-                 │
-                 ▼
+      |
+      +---> 캐시 일관성 (Cache Coherence)
+      |        +-- 값의 최신성 보장과 순서 보장 구분
+      |
+      +---> 총 저장 순서 (Total Store Order)
+      |
+      +---> 완화된 일관성 (Relaxed Consistency)
+                 |
+                 v
 메모리 배리어 · 원자 연산 · 언어 메모리 모델
 ```
 
@@ -186,7 +186,7 @@ SC의 가장 큰 효과는 [병렬](/knowledge-base/studynote/05_database/07_exa
 
 **진행 상황**: 412 / 803
 
-← **이전**: [410. 메모리 일관성 모델 (Memory Consistency Model)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/410_memory_consistency_model/)
-**다음**: [412. 완화된 일관성 (Relaxed Consistency)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/412_relaxed_consistency/) →
+<- **이전**: [410. 메모리 일관성 모델 (Memory Consistency Model)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/410_memory_consistency_model/)
+**다음**: [412. 완화된 일관성 (Relaxed Consistency)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/412_relaxed_consistency/) ->
 
 ---

@@ -26,23 +26,23 @@ IBPB는 "[분기 예측](/knowledge-base/studynote/01_computer_architecture/05_c
 이 그림은 왜 [context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) switch만으로는 충분하지 않고, predictor state를 별도로 끊어 줘야 하는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Why IBPB exists: predictor memory can survive domain switch               │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Domain A runs -> predictor learns indirect targets                         │
-│                    │                                                       │
-│                    ▼                                                       │
-│ context switch only                                                        │
-│                    │                                                       │
-│                    ▼                                                       │
-│ Domain B runs on same core                                                 │
-│                    │                                                       │
-│                    ▼                                                       │
-│ old predictor state may still bias transient path                          │
-│                    │                                                       │
-│                    ▼                                                       │
-│ IBPB inserts a hard cut between A and B                                    │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| Why IBPB exists: predictor memory can survive domain switch               |
++----------------------------------------------------------------------------+
+| Domain A runs -> predictor learns indirect targets                         |
+|                    |                                                       |
+|                    v                                                       |
+| context switch only                                                        |
+|                    |                                                       |
+|                    v                                                       |
+| Domain B runs on same core                                                 |
+|                    |                                                       |
+|                    v                                                       |
+| old predictor state may still bias transient path                          |
+|                    |                                                       |
+|                    v                                                       |
+| IBPB inserts a hard cut between A and B                                    |
++----------------------------------------------------------------------------+
 ```
 
 그래서 IBPB는 특히 신뢰 수준이 다른 프로세스, 사용자와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/), 서로 다른 가상 머신처럼 "이전 문맥의 분기 습관이 남아 있으면 안 되는 경계"에서 의미가 크다. 반대로 같은 신뢰 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 안에서 계속 실행되는 작업이라면, 매번 predictor를 지우는 것은 보안 이득보다 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 손실이 더 클 수 있다.
@@ -67,22 +67,22 @@ IBPB는 소프트웨어가 일반 [명령어](/knowledge-base/studynote/01_compu
 이 그림은 IBPB가 실제 운영 흐름에서 어떻게 개입하는지 요약한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ IBPB execution point                                                       │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Task A / guest domain A / user domain                                      │
-│        │                                                                   │
-│        ├─ indirect branch history accumulated                              │
-│        ▼                                                                   │
-│ security-domain switch                                                     │
-│        │                                                                   │
-│        ├─ write IA32_PRED_CMD (IBPB)                                       │
-│        ▼                                                                   │
-│ predictor state discarded                                                  │
-│        │                                                                   │
-│        ▼                                                                   │
-│ Task B / guest domain B / kernel starts with cold indirect predictor       │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| IBPB execution point                                                       |
++----------------------------------------------------------------------------+
+| Task A / guest domain A / user domain                                      |
+|        |                                                                   |
+|        +- indirect branch history accumulated                              |
+|        v                                                                   |
+| security-domain switch                                                     |
+|        |                                                                   |
+|        +- write IA32_PRED_CMD (IBPB)                                       |
+|        v                                                                   |
+| predictor state discarded                                                  |
+|        |                                                                   |
+|        v                                                                   |
+| Task B / guest domain B / kernel starts with cold indirect predictor       |
++----------------------------------------------------------------------------+
 ```
 
 이처럼 IBPB는 예측 자체를 막는 것이 아니라, <strong>이전 문맥의 예측 기억이 새 문맥으로 건너가는 길을 끊는 기술</strong>이다. 그래서 공격 코드를 덜 믿는 환경일수록, 그리고 코어 재사용 폭이 넓을수록 의미가 커진다.
@@ -164,17 +164,17 @@ IBPB를 적절히 사용하면 [분기 목표 주입](/knowledge-base/studynote/
 
 ```text
 공유 predictor state 기반 고성능 분기 예측
-                    │
-                    ▼
+                    |
+                    v
 Spectre variant 2 / Branch Target Injection
-                    │
-                    ▼
+                    |
+                    v
 IBPB · IBRS microcode 완화
-                    │
-                    ▼
+                    |
+                    v
 STIBP · 코어 스케줄링 · Retpoline 조합
-                    │
-                    ▼
+                    |
+                    v
 eIBRS · predictor partitioning
 ```
 
@@ -192,7 +192,7 @@ eIBRS · predictor partitioning
 
 **진행 상황**: 579 / 803
 
-← **이전**: [578. 커널 페이지 테이블 격리 (KPTI, Kernel Page Table Isolation)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/)
-**다음**: [580. Retpoline (Return Trampoline)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/580_retpoline/) →
+<- **이전**: [578. 커널 페이지 테이블 격리 (KPTI, Kernel Page Table Isolation)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/)
+**다음**: [580. Retpoline (Return Trampoline)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/580_retpoline/) ->
 
 ---

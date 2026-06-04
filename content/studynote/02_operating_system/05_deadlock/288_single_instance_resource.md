@@ -26,25 +26,25 @@ tags = ["studynote-operating-system"]
 **💡 비유**: 화장실 변기가 단 한 칸뿐인 식당. 내가 안에 들어가 문을 잠그면, 밖에서 기다리는 사람은 내가 나오기 전까진 지구상 어떤 방법을 써도 절대 볼일을 볼 수 없는 완벽히 꽉 막힌(결정적) 외나무다리.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│         단일 인스턴스 환경에서의 완벽한 교착 증명            │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [시나리오] 프린터 1대(R1), 스캐너 1대(R2)                   │
-│                                                              │
-│        (점유)                   (요청, 0개 남음)             │
-│  P1 ──────────▶ [ R1 (•) ] ──────────┐                       │
-│   ▲                                    │                     │
-│   │                                    ▼                     │
-│   │ (요청, 0개 남음)               (점유)                    │
-│   └────────── [ R2 (•) ] ◀────────── P2                      │
-│                                                              │
-│  결과 해석:                                                  │
-│  1. P1이 R2를 기다리나, R2는 단 1개뿐이고 P2가 쥐고 있음.    │
-│  2. P2 역시 R1을 기다리나, R1도 1개뿐이고 P1이 쥐고 있음.    │
-│  → 바깥에서 지원군(여분 자원)이 투입될 가능성 0% !           │
-│  → 사이클 = 교착상태 (절대적 공식)                           │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|         단일 인스턴스 환경에서의 완벽한 교착 증명            |
++--------------------------------------------------------------+
+|                                                              |
+|  [시나리오] 프린터 1대(R1), 스캐너 1대(R2)                   |
+|                                                              |
+|        (점유)                   (요청, 0개 남음)             |
+|  P1 -----------> [ R1 (•) ] ----------+                       |
+|   ^                                    |                     |
+|   |                                    v                     |
+|   | (요청, 0개 남음)               (점유)                    |
+|   +---------- [ R2 (•) ] <----------- P2                      |
+|                                                              |
+|  결과 해석:                                                  |
+|  1. P1이 R2를 기다리나, R2는 단 1개뿐이고 P2가 쥐고 있음.    |
+|  2. P2 역시 R1을 기다리나, R1도 1개뿐이고 P1이 쥐고 있음.    |
+|  -> 바깥에서 지원군(여분 자원)이 투입될 가능성 0% !           |
+|  -> 사이클 = 교착상태 (절대적 공식)                           |
++--------------------------------------------------------------+
 ```
 
 **📢 섹션 요약 비유**: 단일 인스턴스 사이클은 여분 열쇠가 없는 밀실 탈출 게임 — 서로 방 열쇠를 상대방 방에 숨겨둔 채 문을 잠갔다면, 외부 도우미가 없는 한 절대 나올 수 없는 상태입니다.
@@ -57,10 +57,10 @@ tags = ["studynote-operating-system"]
 
 단일 인스턴스 환경에서는 자원(R) 노드를 그릴 필요마저도 없다. 자원이 1개뿐이므로 "A가 자원 1개를 대기 중인데, 그걸 B가 가지고 있다"는 말은 결국 <strong>"A가 B를 대기 중이다"</strong>라는 말과 완전히 동치다.
 
-- 원래 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 모델: `P1 → R1 → P2`
-- <strong>강등된 <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/">대기 그래프</a> (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/">Wait-for Graph</a>)</strong>: `P1 → P2` (P1은 P2가 끝날 때까지 블록)
+- 원래 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 모델: `P1 -> R1 -> P2`
+- <strong>강등된 <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/">대기 그래프</a> (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/">Wait-for Graph</a>)</strong>: `P1 -> P2` (P1은 P2가 끝날 때까지 블록)
 
-이 [대기 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/)에서 사이클(예: `P1 → P2 → P3 → P1`)이 검출되는 순간 무조건 데드락 징표가 된다. OS는 이 [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 탐색을 매우 빠른 속도(`O(V+E)`)로 돌려 범인을 찾을 수 있다.
+이 [대기 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/)에서 사이클(예: `P1 -> P2 -> P3 -> P1`)이 검출되는 순간 무조건 데드락 징표가 된다. OS는 이 [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 탐색을 매우 빠른 속도(`O(V+E)`)로 돌려 범인을 찾을 수 있다.
 
 **📢 섹션 요약 비유**: 자원 네모칸 빼고 스레드끼리 직접 손가락질하는 지도 — "쟤(P1)가 안 비켜서 못 가요!" "난 쟈(P2) 땜에 못 가요!" 서로 손가락질(방향 간선)이 원을 그리면 무조건 멱살 잡힌 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)입니다.
 
@@ -116,12 +116,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [자원 할당 그래프 (Resource-Allocation Graph)]
-    │
-    ▼
+    |
+    v
 [단일 인스턴스 자원 환경 (Single Instance Resource)]
-    │
-    ├──▶ [다중 인스턴스 자원 환경]
-    └──▶ [교착 상태 처리 방법 3가지]
+    |
+    +---> [다중 인스턴스 자원 환경]
+    +---> [교착 상태 처리 방법 3가지]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -138,7 +138,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 288 / 800
 
-← **이전**: [287. 자원 할당 그래프 (Resource-Allocation Graph) - 정점(프로세스, 자원)과 간선(요청, 할당)](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)
-**다음**: [289. 다중 인스턴스 자원 환경 (Multiple Instance Resource)](/knowledge-base/studynote/02_operating_system/05_deadlock/289_multiple_instance_resource/) →
+<- **이전**: [287. 자원 할당 그래프 (Resource-Allocation Graph) - 정점(프로세스, 자원)과 간선(요청, 할당)](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)
+**다음**: [289. 다중 인스턴스 자원 환경 (Multiple Instance Resource)](/knowledge-base/studynote/02_operating_system/05_deadlock/289_multiple_instance_resource/) ->
 
 ---

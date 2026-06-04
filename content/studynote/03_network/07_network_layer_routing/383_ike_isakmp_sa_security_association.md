@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [ESP]
-    │
-    ▼
+    |
+    v
 [IKE, ISAKMP, SA]
-    │
-    └──▶ [NAT-T]
+    |
+    +---> [NAT-T]
 ```
 
 - **📢 섹션 요약 비유**: ** ESP가 적진을 돌파하는 "방탄 트럭"이라면, IKE와 SA는 그 트럭이 출발하기 전에 정비공과 군인들이 모여 **"차문 비밀번호는 뭐로 하고, 타이어는 방탄으로 끼울지 합의하고 서류에 싸인하는 엄격한 출정 준비 과정"**입니다.
@@ -59,22 +59,22 @@ tags = ["studynote-network"]
 - **결과물**: 실제로 패킷이 날아다닐 2개의 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 터널(가는 터널 1개, 오는 터널 1개)이 완성된다. 드디어 핑(Ping)이 나간다!
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                IPsec IKE 협상 (Phase 1 & 2) 2중 터널 도식       │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 서울 방화벽 ] ══════════════════════════════▶ [ 부산 방화벽 ] │
- │                                                             │
- │   ================== [ Phase 1 보안 텐트 (ISAKMP SA) ] =========== │
- │   ║                                                         ┃ │
- │   ║  ───────── [ Phase 2 (서울->부산 IPsec SA 터널) ] ──────▶  ┃ │
- │   ║  ◀───────── [ Phase 2 (부산->서울 IPsec SA 터널) ] ──────  ┃ │
- │   ║                                                         ┃ │
- │   =========================================================== │
- │                                                             │
- │   * 만약 Phase 1 텐트가 안 쳐지면? -> Phase 2는 시작조차 못 하고 터짐. │
- │   * T/S: "IKE 1단계 실패? 비번(PSK) 틀렸네! 2단계 실패? 서브넷 틀렸네!"│
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                IPsec IKE 협상 (Phase 1 & 2) 2중 터널 도식       |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 서울 방화벽 ] -------------------------------> [ 부산 방화벽 ] |
+ |                                                             |
+ |   ================== [ Phase 1 보안 텐트 (ISAKMP SA) ] =========== |
+ |   |                                                         ┃ |
+ |   |  --------- [ Phase 2 (서울->부산 IPsec SA 터널) ] ------->  ┃ |
+ |   |  <---------- [ Phase 2 (부산->서울 IPsec SA 터널) ] ------  ┃ |
+ |   |                                                         ┃ |
+ |   =========================================================== |
+ |                                                             |
+ |   * 만약 Phase 1 텐트가 안 쳐지면? -> Phase 2는 시작조차 못 하고 터짐. |
+ |   * T/S: "IKE 1단계 실패? 비번(PSK) 틀렸네! 2단계 실패? 서브넷 틀렸네!"|
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: IKE, ISAKMP, SA의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -133,12 +133,12 @@ IKE, ISAKMP, SA는 [라우팅](/knowledge-base/studynote/03_network/07_network_l
 
 ```text
 [선행 개념: ESP]
-    │
-    ▼
+    |
+    v
 [현재 개념: IKE, ISAKMP, SA]
-    │
-    ├──▶ [확장 A: NAT-T]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: NAT-T]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 IKE, ISAKMP, SA는 ESP에서 출발해 현재 메커니즘을 정교화하고, 이후 NAT-T와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -155,7 +155,7 @@ IKE, ISAKMP, SA는 ESP에서 출발해 현재 메커니즘을 정교화하고, �
 
 **진행 상황**: 504 / 1120
 
-← **이전**: [382. ESP (Encapsulating Security Payload)](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/)
-**다음**: [384. NAT-T (NAT Traversal)](/knowledge-base/studynote/03_network/07_network_layer_routing/384_nat_t_ipsec_nat_traversal_udp_4500/) →
+<- **이전**: [382. ESP (Encapsulating Security Payload)](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/)
+**다음**: [384. NAT-T (NAT Traversal)](/knowledge-base/studynote/03_network/07_network_layer_routing/384_nat_t_ipsec_nat_traversal_udp_4500/) ->
 
 ---

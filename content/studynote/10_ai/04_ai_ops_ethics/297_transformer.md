@@ -19,17 +19,17 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-[RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/)/LSTM의 근본적 한계는 <strong>순차 처리(Sequential Processing)</strong>다. "나는 학교에 간다"를 처리할 때 t=1→2→3→4로 순서대로 처리해야 하므로 GPU의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 코어를 100% 활용할 수 없다. 긴 시퀀스에서 [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)도 여전히 위협이다.
+[RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/)/LSTM의 근본적 한계는 <strong>순차 처리(Sequential Processing)</strong>다. "나는 학교에 간다"를 처리할 때 t=1->2->3->4로 순서대로 처리해야 하므로 GPU의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 코어를 100% 활용할 수 없다. 긴 시퀀스에서 [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)도 여전히 위협이다.
 
 2017년 구글 브레인의 "Attention Is All You Need" 논문은 RNN을 완전히 제거하고, 시퀀스 전체를 한꺼번에 행렬 연산으로 처리하는 Transformer를 제안했다. 셀프 어텐션이 시퀀스 내 모든 위치를 동시에 연결하므로, 위치 1과 위치 1000의 의존성을 거리 1홉(Hop)으로 처리한다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: RNN은 책을 한 글자씩 소리 내어 읽는 학생이고, Transformer는 책 전체를 카메라로 한 번에 찍어 사진에서 동시에 모든 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 파악하는 AI다. 한 글자씩 읽는 건 느리고 앞 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 잊지만, 사진 한 장은 빠르고 전체를 동시에 기억한다.
@@ -39,29 +39,29 @@ tags = ["studynote-ai"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│            트랜스포머 (Transformer) 전체 아키텍처                      │
-├──────────────────────┬─────────────────────────────────────────────┤
-│  인코더 스택           │   디코더 스택                                  │
-│  (N=6 레이어 반복)     │   (N=6 레이어 반복)                            │
-│                      │                                             │
-│  ┌────────────────┐   │   ┌─────────────────────────────────────┐   │
-│  │ Add & Norm     │   │   │ Add & Norm                          │   │
-│  │                │   │   │                                     │   │
-│  │ Feed-Forward   │   │   │ Feed-Forward Network                │   │
-│  │ Network        │   │   │                                     │   │
-│  ├────────────────┤   │   ├─────────────────────────────────────┤   │
-│  │ Add & Norm     │   │   │ Add & Norm                          │   │
-│  │                │   │   │                                     │   │
-│  │ Multi-Head     │   │   │ Cross-Attention (인코더↔디코더)        │   │
-│  │ Self-Attention │   │   │                                     │   │
-│  ├────────────────┤   │   ├─────────────────────────────────────┤   │
-│  │ Positional     │   │   │ Add & Norm                          │   │
-│  │ Encoding +     │   │   │                                     │   │
-│  │ Input Embed    │   │   │ Masked Multi-Head Self-Attention     │   │
-│  └────────────────┘   │   │ (미래 토큰 마스킹)                      │   │
-│                      │   └─────────────────────────────────────┘   │
-└──────────────────────┴─────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|            트랜스포머 (Transformer) 전체 아키텍처                      |
++----------------------+---------------------------------------------+
+|  인코더 스택           |   디코더 스택                                  |
+|  (N=6 레이어 반복)     |   (N=6 레이어 반복)                            |
+|                      |                                             |
+|  +----------------+   |   +-------------------------------------+   |
+|  | Add & Norm     |   |   | Add & Norm                          |   |
+|  |                |   |   |                                     |   |
+|  | Feed-Forward   |   |   | Feed-Forward Network                |   |
+|  | Network        |   |   |                                     |   |
+|  +----------------+   |   +-------------------------------------+   |
+|  | Add & Norm     |   |   | Add & Norm                          |   |
+|  |                |   |   |                                     |   |
+|  | Multi-Head     |   |   | Cross-Attention (인코더↔디코더)        |   |
+|  | Self-Attention |   |   |                                     |   |
+|  +----------------+   |   +-------------------------------------+   |
+|  | Positional     |   |   | Add & Norm                          |   |
+|  | Encoding +     |   |   |                                     |   |
+|  | Input Embed    |   |   | Masked Multi-Head Self-Attention     |   |
+|  +----------------+   |   | (미래 토큰 마스킹)                      |   |
+|                      |   +-------------------------------------+   |
++----------------------+---------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 핵심 설명 |
@@ -83,7 +83,7 @@ tags = ["studynote-ai"]
 | 처리 방식 | 순차 (Sequential) | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) (Parallel) |
 | 장거리 의존성 | 경로 O(T), [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 위험 | 경로 O(1), 직접 연결 |
 | [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 활용도 | 낮음 (순서 의존) | 높음 (전체 동시 처리) |
-| 메모리 복잡도 | O(T) | O(T²) |
+| 메모리 복잡도 | O(T) | O(T^) |
 | 학습 속도 | 느림 | 빠름 |
 | 대표 모델 | [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/), [GRU](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/) | [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/), [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/), T5, LLaMA |
 
@@ -127,7 +127,7 @@ Transformer는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[입력 표현·특징 추출] → [트랜스포머 (Transformer)] → [경량화·멀티모달·서비스 적용]
+[입력 표현·특징 추출] -> [트랜스포머 (Transformer)] -> [경량화·멀티모달·서비스 적용]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -142,7 +142,7 @@ Transformer는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_
 
 **진행 상황**: 297 / 420
 
-← **이전**: [296. 어텐션 메커니즘 (Attention Mechanism)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/296_attention_mechanism/)
-**다음**: [298. 쿼리(Q) / 키(K) / 밸류(V)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) →
+<- **이전**: [296. 어텐션 메커니즘 (Attention Mechanism)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/296_attention_mechanism/)
+**다음**: [298. 쿼리(Q) / 키(K) / 밸류(V)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) ->
 
 ---

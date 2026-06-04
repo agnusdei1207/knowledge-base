@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [RDMA / RoCE 스토리지 서버 네트워킹]
-    │
-    ▼
+    |
+    v
 [VXLAN 오버레이 VTEP 터널링 연결기법]
-    │
-    └──▶ [EVPN-VXLAN BGP 컨트롤 플레인 전…]
+    |
+    +---> [EVPN-VXLAN BGP 컨트롤 플레인 전…]
 ```
 
 - **📢 섹션 요약 비유**: [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 오버레이 VTEP [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 연결기법은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -47,11 +47,11 @@ tags = ["studynote-network"]
 
 ```text
 [RDMA / RoCE 스토리지 서버 네트워킹]
-    │
-    ▼
+    |
+    v
 [VXLAN 오버레이 VTEP 터널링 연결기법]
-    │
-    └──▶ [EVPN-VXLAN BGP 컨트롤 플레인 전…]
+    |
+    +---> [EVPN-VXLAN BGP 컨트롤 플레인 전…]
 ```
 
 - **📢 섹션 요약 비유**: [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 오버레이 VTEP [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 연결기법의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -116,12 +116,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: RDMA / RoCE 스토리지 서버 네트워킹]
-    │
-    ▼
+    |
+    v
 [현재 개념: VXLAN 오버레이 VTEP 터널링 연결기법]
-    │
-    ├──▶ [확장 A: EVPN-VXLAN BGP 컨트롤 플레인 전…]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: EVPN-VXLAN BGP 컨트롤 플레인 전…]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 오버레이 VTEP [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 연결기법는 [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) / [RoCE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/) 스토리지 서버 네트워킹에서 출발해 현재 메커니즘을 정교화하고, 이후 EVPN-[VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 컨트롤 플레인 전…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -138,7 +138,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 156 / 1120
 
-← **이전**: [1050. RDMA / RoCE 스토리지 서버 네트워킹](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1050_rdma_roce_remote_direct_memory_access_storage/)
-**다음**: [1052. EVPN-VXLAN BGP 컨트롤 플레인 전이](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1052_evpn_vxlan_bgp_control_plane_routing/) →
+<- **이전**: [1050. RDMA / RoCE 스토리지 서버 네트워킹](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1050_rdma_roce_remote_direct_memory_access_storage/)
+**다음**: [1052. EVPN-VXLAN BGP 컨트롤 플레인 전이](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1052_evpn_vxlan_bgp_control_plane_routing/) ->
 
 ---

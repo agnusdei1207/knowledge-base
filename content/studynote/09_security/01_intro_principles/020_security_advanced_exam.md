@@ -26,17 +26,17 @@ tags = ["security"]
 **[데이터 상태별 보안 사각지대 및 하드웨어 우회 공격 도식]**
 이 도식은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 저장-전송-사용되는 3가지 상태 중, 왜 '사용 중(In-Use)' 상태가 가장 취약한 지점(Blind Spot)이 되는지를 보여준다.
 ```text
-┌────────────────────────────────────────────────────────┐
-│               Data State & Security Blind Spot         │
-├───────────────┬───────────────────┬────────────────────┤
-│ Data-at-Rest  │ Data-in-Transit   │ Data-in-Use (RAM)  │
-│ (디스크 저장) │ (네트워크 전송)   │ (CPU 연산 중)      │
-├───────────────┼───────────────────┼────────────────────┤
-│ 보호: AES/TDE │ 보호: TLS/IPsec   │ 보호: 없음 (평문)  │
-│ 위협: 도난    │ 위협: 스니핑/MITM │ 위협: 메모리 덤프  │
-│               │                   │       (Cold Boot)  │
-└───────────────┴───────────────────┴──────────▲─────────┘
-                                               │ (OS 우회 직접 접근)
++--------------------------------------------------------+
+|               Data State & Security Blind Spot         |
++---------------+-------------------+--------------------+
+| Data-at-Rest  | Data-in-Transit   | Data-in-Use (RAM)  |
+| (디스크 저장) | (네트워크 전송)   | (CPU 연산 중)      |
++---------------+-------------------+--------------------+
+| 보호: AES/TDE | 보호: TLS/IPsec   | 보호: 없음 (평문)  |
+| 위협: 도난    | 위협: 스니핑/MITM | 위협: 메모리 덤프  |
+|               |                   |       (Cold Boot)  |
++---------------+-------------------+----------^---------+
+                                               | (OS 우회 직접 접근)
                                       [ DMA Attack (Thunderbolt) ]
 ```
 이 흐름의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 연산을 위해 디스크(암호화 상태)에서 메모리(RAM)로 올라오는 순간 평문(Plaintext)으로 노출된다는 점이다. 이 찰나의 순간을 노려, 공격자는 악의적으로 조작된 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/)([Rubber Ducky](/knowledge-base/studynote/09_security/20_extra_exam_prep/0997_rubber_ducky_hid_attack/))를 꽂아 키보드를 에뮬레이션하거나, 썬더볼트 포트를 통해 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/)([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)) 권한을 획득하여 OS의 권한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 없이 RAM 전체를 통째로 읽어 들인다([Evil Maid Attack](/knowledge-base/studynote/09_security/20_extra_exam_prep/0991_evil_maid_attack/)). 이로 인해 디스크 암호화 키([BitLocker](/knowledge-base/studynote/09_security/04_endpoint_security/397_bitlocker_windows_fde/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))나 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 토큰이 유출되는 치명적인 결과가 발생한다.
@@ -60,17 +60,17 @@ tags = ["security"]
 <strong>ARM TrustZone 기반 <a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/">TEE</a> 시스템 아키텍처 도식]</strong>
 이 도식은 하나의 물리적 CPU와 메모리가 어떻게 '일반 세계(Normal World)'와 '보안 세계(Secure World)'로 하드웨어 레벨에서 격리되는지를 보여준다.
 ```text
-┌───────────────────────────┐      ┌───────────────────────────┐
-│       일반 영역 (REE)       │      │       보안 영역 (TEE)       │
-├──────────────┬────────────┤      ├─────────────┬─────────────┤
-│  사용자 앱   │  악성코드  │      │  키 저장소  │ DRM / 결제  │
-├──────────────┴────────────┤      ├─────────────┴─────────────┤
-│일반 운영체제(Linux/Android)│      │신뢰 운영체제(Trusted OS)  │
-├───────────────────────────┤      ├───────────────────────────┤
-│     [ 일반 RAM 영역 ]      │      │  [ 보안 RAM (Enclave) ]   │
-└─────────────┬─────────────┘      └─────────────┬─────────────┘
-              │                  (SMC)           │
-              └─────────▶ [ CPU 모니터 ] ◀────────┘
++---------------------------+      +---------------------------+
+|       일반 영역 (REE)       |      |       보안 영역 (TEE)       |
++--------------+------------+      +-------------+-------------+
+|  사용자 앱   |  악성코드  |      |  키 저장소  | DRM / 결제  |
++--------------+------------+      +-------------+-------------+
+|일반 운영체제(Linux/Android)|      |신뢰 운영체제(Trusted OS)  |
++---------------------------+      +---------------------------+
+|     [ 일반 RAM 영역 ]      |      |  [ 보안 RAM (Enclave) ]   |
++-------------+-------------+      +-------------+-------------+
+              |                  (SMC)           |
+              +----------> [ CPU 모니터 ] <---------+
 ```
 이 구조의 핵심은 <strong>하드웨어적 격리(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/">Isolation</a>)</strong>다. Normal World의 OS가 루트(Root) 권한을 탈취당해 완전히 장악되더라도, 악성코드는 결코 Secure World의 메모리 영역에 접근할 수 없다. 사용자가 지문 인식이나 간편 결제를 수행할 때, 핵심 암호화 연산은 CPU Monitor를 통해 상태가 전환([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching)된 [TEE](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/) 내부에서만 이루어지고, REE로는 오직 '성공/실패'라는 결과값(Boolean)만 반환된다. 이 때문에 스마트폰이 해킹당해도 금융 앱의 [생체 인증](/knowledge-base/studynote/09_security/uncategorized/702_biometric_authentication/) 정보가 털리지 않는 것이다.
 
@@ -96,11 +96,11 @@ tags = ["security"]
 ```text
 [ Client (고객) ]                         [ Cloud Server (처리자) ]
 1. M1, M2 데이터 생성
-2. E(M1), E(M2) 암호화 ─────(전송)─────▶ 3. 수신: E(M1), E(M2)
+2. E(M1), E(M2) 암호화 -----(전송)------> 3. 수신: E(M1), E(M2)
                                               (※ 복호화 키 없음!)
                                          4. 암호문 상태로 연산 (Add/Mul)
                                               E(M1) ⊕ E(M2) = E(M1+M2)
-5. 결과값 E(M1+M2) 수신 ◀───(반환)───── 6. 결과 반환
+5. 결과값 E(M1+M2) 수신 <----(반환)----- 6. 결과 반환
 6. 개인키로 복호화
 7. 결과: M1+M2 확인!
 ```
@@ -162,20 +162,20 @@ tags = ["security"]
 
 ```text
 [Data-in-Rest (저장 데이터) — AES/TDE 암호화 보호]
-    │
-    ▼
+    |
+    v
 [Data-in-Transit (전송 데이터) — TLS/IPsec 보호]
-    │
-    ▼
+    |
+    v
 [Data-in-Use (사용 중 데이터) — RAM 평문 노출 취약점]
-    │
-    ▼
+    |
+    v
 [TEE (Trusted Execution Environment) — 하드웨어 Enclave 격리 (ARM TrustZone / Intel SGX)]
-    │
-    ▼
+    |
+    v
 [FHE (Fully Homomorphic Encryption) — 복호화 없이 암호문 상태 연산]
-    │
-    ▼
+    |
+    v
 [기밀 컴퓨팅 (Confidential Computing) — TEE + FHE 하이브리드, 제로 트러스트 완성]
 ```
 저장·전송 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 넘어 '사용 중 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'의 메모리 취약점을 [TEE](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/)(하드웨어 격리)와 [동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/)([FHE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/617_fhe_modular_multiplier/))로 해결하는 [기밀 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/)으로 진화하고 있다.
@@ -192,7 +192,7 @@ tags = ["security"]
 
 **진행 상황**: 20 / 1108
 
-← **이전**: [19. 완전한 통제 원칙 (Open Platform for Security) — 분리 보호](/knowledge-base/studynote/09_security/01_intro_principles/019_ai_emerging_tech/)
-**다음**: [21. 심리적 사용성 원칙 (Psychological Acceptability) — 보안이 사용성을 해치면 안 됨](/knowledge-base/studynote/09_security/01_intro_principles/021_psychological_acceptability_principle/) →
+<- **이전**: [19. 완전한 통제 원칙 (Open Platform for Security) — 분리 보호](/knowledge-base/studynote/09_security/01_intro_principles/019_ai_emerging_tech/)
+**다음**: [21. 심리적 사용성 원칙 (Psychological Acceptability) — 보안이 사용성을 해치면 안 됨](/knowledge-base/studynote/09_security/01_intro_principles/021_psychological_acceptability_principle/) ->
 
 ---

@@ -32,11 +32,11 @@ tags = ["studynote-enterprise"]
 
 ```text
 [초기 상태]
-원본 DB 메타데이터 ───▶ [물리 데이터 블록 A, B, C] ◀─── 클론 DB 메타데이터
+원본 DB 메타데이터 ----> [물리 데이터 블록 A, B, C] <---- 클론 DB 메타데이터
 
 [클론 수정 발생 (블록 B를 B-1로 수정)]
-원본 DB 메타데이터 ───▶ [물리 데이터 블록 A, B, C]
-클론 DB 메타데이터 ───▶ [블록 A] ──▶ [블록 B-1] ──▶ [블록 C]
+원본 DB 메타데이터 ----> [물리 데이터 블록 A, B, C]
+클론 DB 메타데이터 ----> [블록 A] ---> [블록 B-1] ---> [블록 C]
                                       (수정된 부분만 생성)
 ```
 
@@ -104,17 +104,17 @@ tags = ["studynote-enterprise"]
 
 ```
 전통 DW 데이터 복사 - 시간·비용 비효율
-    │
-    ▼
+    |
+    v
 백업/스냅샷 방식 (물리적 복사 오버헤드)
-    │
-    ▼
+    |
+    v
 Copy-on-Write 메타데이터 포인터 기법 등장
-    │
-    ▼
+    |
+    v
 Snowflake Zero-Copy Clone - 즉각·비용 제로
-    │
-    ▼
+    |
+    v
 개발/테스트/프로덕션 격리 환경 즉시 생성
 ```
 
@@ -131,7 +131,7 @@ Snowflake Zero-Copy Clone - 즉각·비용 제로
 
 **진행 상황**: 294 / 482
 
-← **이전**: [293. 스토리지와 컴퓨팅의 분리 (Separation of Compute and Storage)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/293_storage_compute_separation/)
-**다음**: [295. 데이터 메시 (Data Mesh)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/295_data_mesh/) →
+<- **이전**: [293. 스토리지와 컴퓨팅의 분리 (Separation of Compute and Storage)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/293_storage_compute_separation/)
+**다음**: [295. 데이터 메시 (Data Mesh)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/295_data_mesh/) ->
 
 ---

@@ -32,20 +32,20 @@ NP-Hard는 NP에 속하지 않아도 됨:
   NP-Hard ⊇ NP-Complete
 
 집합 포함 관계:
-              ┌─────────────────────┐
-              │      NP-Hard        │
-              │  ┌───────────────┐  │
-              │  │  NP-Complete  │  │
-              │  │  (NP ∩ NP-Hard) │
-              │  └───────────────┘  │
-              │                     │
-  ┌───────────┴──────────┐          │
-  │          NP          │          │
-  │   ┌────────────┐     │          │
-  │   │     P      │     │          │
-  │   └────────────┘     │          │
-  └──────────────────────┘          │
-              └─────────────────────┘
+              +---------------------+
+              |      NP-Hard        |
+              |  +---------------+  |
+              |  |  NP-Complete  |  |
+              |  |  (NP ∩ NP-Hard) |
+              |  +---------------+  |
+              |                     |
+  +-----------+----------+          |
+  |          NP          |          |
+  |   +------------+     |          |
+  |   |     P      |     |          |
+  |   +------------+     |          |
+  +----------------------+          |
+              +---------------------+
 
 P ⊆ NP ⊆ NP-Complete? : 미증명
 NP-Complete ⊆ NP-Hard : 정의상 참
@@ -69,20 +69,20 @@ NP-Hard 소속:  O (정의상)    O (정의상)
 
 예시:
   TSP 결정 버전 (경로 비용 ≤ k 존재?):
-    → NP-Complete (답 확인 가능)
+    -> NP-Complete (답 확인 가능)
 
   TSP 최적화 버전 (최소 비용 경로 찾기):
-    → NP-Hard (NP 아님, 최적값 검증 불가)
+    -> NP-Hard (NP 아님, 최적값 검증 불가)
     (어떤 경로가 최적인지 다항시간에 검증 불가)
 
 Halt 문제 (Halting Problem):
-  → NP-Hard 이지만 NP도 아님
-  → 결정 불가능 (Undecidable)
-  → NP-Hard에서 가장 어려운 부류
+  -> NP-Hard 이지만 NP도 아님
+  -> 결정 불가능 (Undecidable)
+  -> NP-Hard에서 가장 어려운 부류
 
 PSPACE-Hard:
-  → NP-Hard보다 더 넓은 어려움
-  → NP-Hard ⊆ PSPACE-Hard
+  -> NP-Hard보다 더 넓은 어려움
+  -> NP-Hard ⊆ PSPACE-Hard
 ```
 
 > 📢 **섹션 요약 비유**: NP-Complete는 "어렵지만 답이 맞는지 빠르게 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 가능", NP-Hard는 "어렵고 답 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)도 어려울 수 있음" — 더 넓은 범위.
@@ -186,7 +186,7 @@ NP-Complete와 공통 방법 + 추가:
 
 1단계: 휴리스틱 초기 해 생성
   LPT (Longest Processing Time First):
-  가장 긴 작업 먼저 배정 → 빠른 근사
+  가장 긴 작업 먼저 배정 -> 빠른 근사
 
 2단계: 국소 탐색 개선
   Tabu Search로 1000회 반복
@@ -275,7 +275,7 @@ Graph Neural Network으로 TSP 근사
 
 **진행 상황**: 109 / 175
 
-← **이전**: [003. NP-완전 (NP-Complete)](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/108_np_complete/)
-**다음**: [005. P = NP 문제](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/110_p_equals_np/) →
+<- **이전**: [003. NP-완전 (NP-Complete)](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/108_np_complete/)
+**다음**: [005. P = NP 문제](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/110_p_equals_np/) ->
 
 ---

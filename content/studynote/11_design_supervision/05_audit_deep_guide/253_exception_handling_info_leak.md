@@ -33,9 +33,9 @@ tags = ["studynote-design-supervision"]
 - `catch (Exception e) { e.printStackTrace(); }` 패턴 남용
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 오류 메시지를 그대로 노출하는 것은 "고장난 자판기가 내부 회로도를 유리창에 붙여두는 것"이다. 수리 직원만 볼 수 있어야 할 정보가 모든 사람에게 공개된다.
@@ -44,32 +44,32 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 ```
-┌────────────────────────────────────────────────────────────┐
-│              예외 처리 2-Channel 아키텍처                    │
-│                                                            │
-│  예외 발생                                                  │
-│       │                                                    │
-│       ▼                                                    │
-│  ┌──────────────────────────────────────────────┐          │
-│  │         전역 예외 처리기 (Global Handler)      │          │
-│  │   @ControllerAdvice / web.xml error-page      │          │
-│  └────────────────────┬─────────────────────────┘          │
-│                       │                                    │
-│           ┌───────────┴──────────────┐                     │
-│           │                          │                     │
-│           ▼                          ▼                     │
-│  ┌──────────────────┐   ┌─────────────────────────┐        │
-│  │  사용자 응답      │   │  서버 내부 로그           │        │
-│  │  (Public)        │   │  (Private)               │        │
-│  │                  │   │                          │        │
-│  │ "서비스 오류가    │   │ [ERROR] 2026-04-21       │        │
-│  │  발생했습니다.    │   │ NullPointerException     │        │
-│  │  관리자에게       │   │ at UserDAO.java:45       │        │
-│  │  문의하세요."     │   │ SQL: SELECT * FROM...   │        │
-│  │                  │   │ Stack: ...               │        │
-│  └──────────────────┘   └─────────────────────────┘        │
-│    브라우저에 표시           로그 파일/SIEM에만 기록          │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|              예외 처리 2-Channel 아키텍처                    |
+|                                                            |
+|  예외 발생                                                  |
+|       |                                                    |
+|       v                                                    |
+|  +----------------------------------------------+          |
+|  |         전역 예외 처리기 (Global Handler)      |          |
+|  |   @ControllerAdvice / web.xml error-page      |          |
+|  +--------------------+-------------------------+          |
+|                       |                                    |
+|           +-----------+--------------+                     |
+|           |                          |                     |
+|           v                          v                     |
+|  +------------------+   +-------------------------+        |
+|  |  사용자 응답      |   |  서버 내부 로그           |        |
+|  |  (Public)        |   |  (Private)               |        |
+|  |                  |   |                          |        |
+|  | "서비스 오류가    |   | [ERROR] 2026-04-21       |        |
+|  |  발생했습니다.    |   | NullPointerException     |        |
+|  |  관리자에게       |   | at UserDAO.java:45       |        |
+|  |  문의하세요."     |   | SQL: SELECT * FROM...   |        |
+|  |                  |   | Stack: ...               |        |
+|  +------------------+   +-------------------------+        |
+|    브라우저에 표시           로그 파일/SIEM에만 기록          |
++------------------------------------------------------------+
 ```
 
 ```java
@@ -80,7 +80,7 @@ public User getUser(@PathVariable Long id) {
         return userService.findById(id);
     } catch (Exception e) {
         e.printStackTrace();  // 스택 트레이스가 로그에 노출
-        throw e;              // 예외를 그대로 전파 → HTTP 500 + 스택 트레이스
+        throw e;              // 예외를 그대로 전파 -> HTTP 500 + 스택 트레이스
     }
 }
 
@@ -126,18 +126,18 @@ public class GlobalExceptionHandler {
 | `spring.mvc.log-request-details` | `true` | `false` |
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│          개발 vs 운영 오류 응답 차이                          │
-│                                                             │
-│  [개발 환경 응답]          [운영 환경 응답]                   │
-│  {                         {                               │
-│    "error": "500",           "error": "서비스 오류",         │
-│    "message": "NullPointer", "code": "ERR_500",            │
-│    "trace": "at com.app...", "message": "관리자 문의"        │
-│    "path": "/api/user/1"   }                               │
-│  }                                                          │
-│       ↑ 공격자에게 노출 금지      ↑ 안전한 응답              │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          개발 vs 운영 오류 응답 차이                          |
+|                                                             |
+|  [개발 환경 응답]          [운영 환경 응답]                   |
+|  {                         {                               |
+|    "error": "500",           "error": "서비스 오류",         |
+|    "message": "NullPointer", "code": "ERR_500",            |
+|    "trace": "at com.app...", "message": "관리자 문의"        |
+|    "path": "/api/user/1"   }                               |
+|  }                                                          |
+|       ^ 공격자에게 노출 금지      ^ 안전한 응답              |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 개발 환경과 운영 환경의 오류 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 차이는 "연습장과 공연장의 차이"다. 연습 중엔 감독이 큰 소리로 지시를 외치지만, 공연 중엔 관객에게는 들리지 않게 귓속말로만 한다.
@@ -201,7 +201,7 @@ X-Frame-Options: DENY
 | 연관 개념 | [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 보안 헤더 | Server, X-Powered-By 제거 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-오류 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) → 예외 처리 정보 노출 감리 → [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)·보안 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)
+오류 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) -> 예외 처리 정보 노출 감리 -> [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)·보안 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 프로그램이 오류 났을 때 내부 메시지를 그대로 보여주는 건 "넘어진 다음에 엑스레이 사진을 모두에게 보여주는 것"이야.
@@ -214,7 +214,7 @@ X-Frame-Options: DENY
 
 **진행 상황**: 314 / 530
 
-← **이전**: [252. 암호화 해시 솔트 감리 (Encryption Hash Salt Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/252_encryption_hash_salt_audit/)
-**다음**: [254. 난독화 리버스 엔지니어링 방어 (Obfuscation & Reverse 엔진ering Defense)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/254_obfuscation_reverse_engineering/) →
+<- **이전**: [252. 암호화 해시 솔트 감리 (Encryption Hash Salt Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/252_encryption_hash_salt_audit/)
+**다음**: [254. 난독화 리버스 엔지니어링 방어 (Obfuscation & Reverse 엔진ering Defense)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/254_obfuscation_reverse_engineering/) ->
 
 ---

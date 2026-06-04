@@ -35,18 +35,18 @@ tags = ["studynote-cloud-architecture"]
 
 ```
 배포 시작:
-  ┌──────────────┐    95%    ┌──────────────┐
-  │   LB / Proxy │──────────→│  v1 (Stable) │
-  │              │     5%    └──────────────┘
-  │              │──────────→│  v2 (Canary) │  ← 에러율 모니터링
-  └──────────────┘           └──────────────┘
+  +--------------+    95%    +--------------+
+  |   LB / Proxy |----------->|  v1 (Stable) |
+  |              |     5%    +--------------+
+  |              |----------->|  v2 (Canary) |  <- 에러율 모니터링
+  +--------------+           +--------------+
 
 관찰 기간 (에러율 < 임계치):
-  → 가중치 5% → 20% → 50% → 100% 순차 증가
+  -> 가중치 5% -> 20% -> 50% -> 100% 순차 증가
 
 에러율 초과 감지:
-  → 카나리 가중치 즉시 0% 설정 (롤백 완료)
-  → 알림 발송 및 장애 리포트
+  -> 카나리 가중치 즉시 0% 설정 (롤백 완료)
+  -> 알림 발송 및 장애 리포트
 ```
 
 ### [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 성공/실패 판정 지표
@@ -112,7 +112,7 @@ spec:
 | 특정 지역 | 특정 리전/[CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 엣지에만 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 적용 |
 | [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) 기반 | 특정 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) 보유자에게 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) |
 
-📢 **섹션 요약 비유**: [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 사용자 선택은 마치 제약회사의 임상시험 참가자 모집 방식이다. 자원자(내부 직원) → 소규모 그룹(베타) → 대규모 그룹(전체)으로 단계적으로 확대한다.
+📢 **섹션 요약 비유**: [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 사용자 선택은 마치 제약회사의 임상시험 참가자 모집 방식이다. 자원자(내부 직원) -> 소규모 그룹(베타) -> 대규모 그룹(전체)으로 단계적으로 확대한다.
 
 ---
 
@@ -123,11 +123,11 @@ spec:
 
 ```
 [Argo Rollouts + Prometheus 통합]
-배포 시작 → 5% 카나리 설정
-    → Prometheus 에러율 쿼리 실행
-    → rate(http_errors[5m]) < 0.01  ← 판정
-       Pass → 20% 증가
-       Fail → 자동 롤백 + PagerDuty 알림
+배포 시작 -> 5% 카나리 설정
+    -> Prometheus 에러율 쿼리 실행
+    -> rate(http_errors[5m]) < 0.01  <- 판정
+       Pass -> 20% 증가
+       Fail -> 자동 롤백 + PagerDuty 알림
 ```
 
 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">Istio</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">서비스 메시</a> 활용</strong>:
@@ -167,7 +167,7 @@ spec:
 
 [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)는 "빠르게 자주 배포"하는 현대 DevOps의 가장 성숙한 구현이다. 단순 배포 기법을 넘어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 의사결정과 자동화된 품질 게이트를 결합하면, 조직의 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 지표(배포 빈도·변경 실패율)를 동시에 개선하는 강력한 도구가 된다.
 
-📢 **섹션 요약 비유**: [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)는 새 항공기 기종의 첫 상업 비행과 같다. 테스트 파일럿 → 선택된 전문가 승객 → 일반 승객 순으로 단계적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하며, 각 단계에서 문제가 없을 때만 다음 단계로 나아간다.
+📢 **섹션 요약 비유**: [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)는 새 항공기 기종의 첫 상업 비행과 같다. 테스트 파일럿 -> 선택된 전문가 승객 -> 일반 승객 순으로 단계적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하며, 각 단계에서 문제가 없을 때만 다음 단계로 나아간다.
 
 ---
 
@@ -189,15 +189,15 @@ spec:
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-전체 배포 (All-or-Nothing, 위험 ↑)
-    │
-    ▼
-Canary: 1% → 5% → 25% → 100% 점진 확대
-    ├─► 판단 기준: 에러율 · 지연시간 · 비즈니스 메트릭
-    └─► 자동 롤백: 임계치 초과 시 즉시 복원
-    │
-    ▼
-Argo Rollouts · Flagger → 자동 카나리 분석
+전체 배포 (All-or-Nothing, 위험 ^)
+    |
+    v
+Canary: 1% -> 5% -> 25% -> 100% 점진 확대
+    +-► 판단 기준: 에러율 · 지연시간 · 비즈니스 메트릭
+    +-► 자동 롤백: 임계치 초과 시 즉시 복원
+    |
+    v
+Argo Rollouts · Flagger -> 자동 카나리 분석
 ```
 2. 몇 명이 타봐서 안전하면 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 높여서 점점 더 많은 친구가 탈 수 있게 해.
 3. 만약 그 친구들이 다쳤다면? 즉시 멈추고 고치면 돼. 5명이 다친 것과 500명이 다친 것은 엄청 다르니까!
@@ -208,7 +208,7 @@ Argo Rollouts · Flagger → 자동 카나리 분석
 
 **진행 상황**: 194 / 371
 
-← **이전**: [194. 블루-그린 배포 (Blue-Green Deployment)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/194_blue_green_deployment_strategy/)
-**다음**: [196. 피처 플래그 / 피처 토글 (Feature Flag / Toggle)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/196_feature_flag_toggle_ab_testing/) →
+<- **이전**: [194. 블루-그린 배포 (Blue-Green Deployment)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/194_blue_green_deployment_strategy/)
+**다음**: [196. 피처 플래그 / 피처 토글 (Feature Flag / Toggle)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/196_feature_flag_toggle_ab_testing/) ->
 
 ---

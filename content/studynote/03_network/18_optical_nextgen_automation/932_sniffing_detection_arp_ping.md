@@ -27,11 +27,11 @@ tags = ["studynote-network"]
 
 ```text
 [EMP]
-    │
-    ▼
+    |
+    v
 [스니핑 탐지]
-    │
-    └──▶ [패킷 단편화 오프셋 중첩 검증 룰 방화벽 모…]
+    |
+    +---> [패킷 단편화 오프셋 중첩 검증 룰 방화벽 모…]
 ```
 
 - **📢 섹션 요약 비유**: 우체국에서 정상적인 사람은 자기 이름이 적힌 편지만 가져갑니다. 하지만 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)자(Promiscuous Mode)는 남의 이름이 적힌 편지까지 다 뜯어봅니다. 경비원(탐지기)은 이 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)자를 잡기 위해 "가짜 이름"이 적힌 함정 편지를 던져보고, 누가 그 가짜 편지에 반응하는지 몰래 지켜봅니다.
@@ -52,11 +52,11 @@ tags = ["studynote-network"]
 
 ```text
 [EMP]
-    │
-    ▼
+    |
+    v
 [스니핑 탐지]
-    │
-    └──▶ [패킷 단편화 오프셋 중첩 검증 룰 방화벽 모…]
+    |
+    +---> [패킷 단편화 오프셋 중첩 검증 룰 방화벽 모…]
 ```
 
 - **📢 섹션 요약 비유**: 스니핑 탐지의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -70,23 +70,23 @@ tags = ["studynote-network"]
 - 관리자가 엄청난 양의 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Ping)를 해당 대역에 쏟아부은 뒤, 각 PC에 Ping을 때려본다. 유독 <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/">응답 시간</a>(응답성 시간차)이 심각하게 느려지거나 패킷을 흘리는(Drop) <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a></strong>가 있다면, 그 PC가 지금 남의 패킷을 엿듣느라 헥헥대고 있다는 증거다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────────────────────┐
-│           스니핑(Promiscuous Mode) 탐지 - ARP 핑 함정 시각화                    │
-├─────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                 │
-│ [ 탐지기 (보안 담당자) ] : "가짜 MAC 주소(FF:FF...FE)로 ARP 핑 쏜다!"           │
-│     │                                                                           │
-│     ▼                                                                           │
-│  일반 PC A (정상)                               해커 PC B (도청 중!)            │
-│  (랜카드 설정: 정상 모드)                  (랜카드: Promiscuous 모드)           │
-│                                                                                 │
-│ "어? 내 MAC 주소 아니네? 휙 버려~"     "MAC이 뭐든 일단 OS로 다 올려!"          │
-│  (랜카드 칩에서 조용히 버려짐)               (OS: 어? IP는 내꺼네? 대답해야지)  │
-│                                                                                 │
-│   ❌ (침묵, 대답 없음)                    🚨 "저 여기 있습니다!!" (응답함)      │
-│                                                                                 │
-│             [ 탐지기: "잡았다 요놈! B가 도청하고 있구나!" ]                     │
-└─────────────────────────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------------------------+
+|           스니핑(Promiscuous Mode) 탐지 - ARP 핑 함정 시각화                    |
++---------------------------------------------------------------------------------+
+|                                                                                 |
+| [ 탐지기 (보안 담당자) ] : "가짜 MAC 주소(FF:FF...FE)로 ARP 핑 쏜다!"           |
+|     |                                                                           |
+|     v                                                                           |
+|  일반 PC A (정상)                               해커 PC B (도청 중!)            |
+|  (랜카드 설정: 정상 모드)                  (랜카드: Promiscuous 모드)           |
+|                                                                                 |
+| "어? 내 MAC 주소 아니네? 휙 버려~"     "MAC이 뭐든 일단 OS로 다 올려!"          |
+|  (랜카드 칩에서 조용히 버려짐)               (OS: 어? IP는 내꺼네? 대답해야지)  |
+|                                                                                 |
+|   ❌ (침묵, 대답 없음)                    🚨 "저 여기 있습니다!!" (응답함)      |
+|                                                                                 |
+|             [ 탐지기: "잡았다 요놈! B가 도청하고 있구나!" ]                     |
++---------------------------------------------------------------------------------+
 ```
 
 탐지 이전에 아예 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 자체를 어렵게 만드는 인프라 설계가 필수적이다.
@@ -139,12 +139,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: EMP]
-    │
-    ▼
+    |
+    v
 [현재 개념: 스니핑 탐지]
-    │
-    ├──▶ [확장 A: 패킷 단편화 오프셋 중첩 검증 룰 방화벽 모…]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
+    |
+    +---> [확장 A: 패킷 단편화 오프셋 중첩 검증 룰 방화벽 모…]
+    +---> [확장 B: 의미 기반 통신 최적화]
 ```
 
 스니핑 탐지는 EMP에서 출발해 현재 메커니즘을 정교화하고, 이후 패킷 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 오프셋 중첩 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 룰 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 모…와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -161,7 +161,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 1053 / 1120
 
-← **이전**: [931. EMP (전자기 펄스 방호 케이블 광망 쉴딩)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/931_emp_shielding/)
-**다음**: [933. 패킷 단편화 오프셋 중첩 검증 룰 방화벽 모니터 (비정상 IDS 시그니처)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/933_fragmentation_overlap_ids_evasion/) →
+<- **이전**: [931. EMP (전자기 펄스 방호 케이블 광망 쉴딩)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/931_emp_shielding/)
+**다음**: [933. 패킷 단편화 오프셋 중첩 검증 룰 방화벽 모니터 (비정상 IDS 시그니처)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/933_fragmentation_overlap_ids_evasion/) ->
 
 ---

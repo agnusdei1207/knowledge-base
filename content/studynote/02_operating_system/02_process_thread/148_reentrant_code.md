@@ -31,24 +31,24 @@ tags = ["studynote-operating-system"]
 재진입성을 보장하려면 코드 내부의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어떻게 관리되는지가 가장 중요하다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          비재진입 함수 vs 재진입 가능 함수 메모리 동작 원리       │
-├─────────────────────────────────────────────────────────────┤
-│ [ 비재진입 함수 (Non-Reentrant) ]                           │
-│ int sum() { static int count=0; return ++count; }           │
-│                                                             │
-│ Thread A 호출 ─▶ count=1 ─▶ [인터럽트 발생!] ─┐               │
-│                                           │                 │
-│ Thread B 재진입 ─▶ count=2 반환 (정상) ◀───┘                 │
-│                                                             │
-│ Thread A 복귀 ─▶ 이미 count가 2로 오염됨 ─▶ 엉뚱한 값 반환 💥  │
-│                                                             │
-│ [ 재진입 가능 함수 (Reentrant) ]                            │
-│ int sum(int *count) { return ++(*count); }                  │
-│                                                             │
-│ 각 호출마다 자신의 Stack(지역 변수/매개변수)만 사용           │
-│ ─▶ Thread A와 Thread B의 메모리 공간이 완전히 분리됨! 🛡️     │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          비재진입 함수 vs 재진입 가능 함수 메모리 동작 원리       |
++-------------------------------------------------------------+
+| [ 비재진입 함수 (Non-Reentrant) ]                           |
+| int sum() { static int count=0; return ++count; }           |
+|                                                             |
+| Thread A 호출 --> count=1 --> [인터럽트 발생!] -+               |
+|                                           |                 |
+| Thread B 재진입 --> count=2 반환 (정상) <----+                 |
+|                                                             |
+| Thread A 복귀 --> 이미 count가 2로 오염됨 --> 엉뚱한 값 반환 💥  |
+|                                                             |
+| [ 재진입 가능 함수 (Reentrant) ]                            |
+| int sum(int *count) { return ++(*count); }                  |
+|                                                             |
+| 각 호출마다 자신의 Stack(지역 변수/매개변수)만 사용           |
+| --> Thread A와 Thread B의 메모리 공간이 완전히 분리됨! 🛡️     |
++-------------------------------------------------------------+
 ```
 
 재진입 가능 코드가 되기 위한 절대 조건은 다음과 같다.
@@ -116,17 +116,17 @@ tags = ["studynote-operating-system"]
 
 ```text
 절차적 단일 실행 (순차 처리)
-    │
-    ▼
+    |
+    v
 하드웨어 인터럽트 · 시그널 (Signal) 등장 / 흐름의 비동기적 중단 발생
-    │
-    ▼
+    |
+    v
 재진입 가능 코드 (Reentrant Code) 도입 / 정적 변수 제거 및 _r 라이브러리
-    │
-    ▼
+    |
+    v
 멀티스레드 (Multi-Thread) 환경 도래 / 스레드 안전성 (Thread-Safety) 요구
-    │
-    ▼
+    |
+    v
 함수형 프로그래밍 (Functional Programming) · 순수 함수 (Pure Function) 패러다임 확산
 ```
 
@@ -142,7 +142,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 148 / 800
 
-← **이전**: [147. 스레드 안전 (Thread-safe) 함수 및 라이브러리](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/)
-**다음**: [149. 클론 (clone) 시스템 콜 - 리눅스 프로세스와 스레드 생성의 통합 API](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/) →
+<- **이전**: [147. 스레드 안전 (Thread-safe) 함수 및 라이브러리](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/)
+**다음**: [149. 클론 (clone) 시스템 콜 - 리눅스 프로세스와 스레드 생성의 통합 API](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/) ->
 
 ---
