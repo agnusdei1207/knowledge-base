@@ -1,5 +1,5 @@
 ---
-title: "✍️ Decap CMS는 정확히 무엇인가"
+title: "Decap CMS는 정확히 무엇인가"
 tags:
   - "work"
 ---

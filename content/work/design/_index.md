@@ -1,5 +1,5 @@
 ---
-title: "🎨 디자인 허브 (Design)"
+title: "디자인 허브 (Design)"
 tags:
   - "work"
   - "design"

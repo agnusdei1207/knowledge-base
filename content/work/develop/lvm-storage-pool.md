@@ -1,5 +1,5 @@
 ---
-title: "🗄️ Ubuntu LVM — 외장 하드 여러 개를 하나의 스토리지 풀로 묶기"
+title: "Ubuntu LVM — 외장 하드 여러 개를 하나의 스토리지 풀로 묶기"
 tags:
   - "work"
   - "lvm"

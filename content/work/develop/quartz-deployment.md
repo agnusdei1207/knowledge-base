@@ -1,5 +1,5 @@
 ---
-title: "🌐 Quartz를 이용한 사내 위키 웹 사이트 배포 가이드"
+title: "Quartz를 이용한 사내 위키 웹 사이트 배포 가이드"
 tags:
   - "work"
 ---

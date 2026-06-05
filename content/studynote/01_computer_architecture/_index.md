@@ -1,5 +1,5 @@
 ---
-title: "🏛️ 01: 컴퓨터 구조 (Computer Architecture)"
+title: "01: 컴퓨터 구조 (Computer Architecture)"
 tags:
   - "studynote-computer-architecture"
 ---

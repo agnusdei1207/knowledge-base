@@ -1,5 +1,5 @@
 ---
-title: "17. 아파치 스쿱 (Apache Sqoop) - RDBMS ↔ 하둡 데이터 전송"
+title: "17. 아파치 스쿱 (Apache Sqoop) - RDBMS 하둡 데이터 전송"
 date: "2026-03-04"
 tags:
   - "hadoop"

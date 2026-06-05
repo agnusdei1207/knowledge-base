@@ -1,5 +1,5 @@
 ---
-title: "⚙️ 운영 허브"
+title: "운영 허브"
 tags:
   - "work"
 ---

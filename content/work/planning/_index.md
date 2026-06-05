@@ -1,5 +1,5 @@
 ---
-title: "🗂️ 기획 허브 (Planning)"
+title: "기획 허브 (Planning)"
 tags:
   - "work"
   - "planning"

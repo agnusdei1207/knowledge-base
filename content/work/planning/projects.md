@@ -1,5 +1,5 @@
 ---
-title: "💡 프로젝트 목록 (Projects)"
+title: "프로젝트 목록 (Projects)"
 tags:
   - "work"
 ---

@@ -1,5 +1,5 @@
 ---
-title: "🚀 N-gram 해시 링커 알고리즘 설명서"
+title: "N-gram 해시 링커 알고리즘 설명서"
 tags:
   - "research-and-development"
 ---

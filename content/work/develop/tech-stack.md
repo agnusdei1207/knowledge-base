@@ -1,5 +1,5 @@
 ---
-title: "🛠️ 사내 표준 기술 스택 (Tech Stack)"
+title: "사내 표준 기술 스택 (Tech Stack)"
 tags:
   - "work"
 ---

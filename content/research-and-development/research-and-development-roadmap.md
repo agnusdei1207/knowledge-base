@@ -1,5 +1,5 @@
 ---
-title: "🛠️ R&D 로드맵 초안"
+title: "R&D 로드맵 초안"
 tags:
   - "research-and-development"
 ---

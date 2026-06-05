@@ -1,5 +1,5 @@
 ---
-title: "🤖 Claude Code + MCP 운영안"
+title: "Claude Code + MCP 운영안"
 tags:
   - "work"
 ---

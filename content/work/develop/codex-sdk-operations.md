@@ -1,5 +1,5 @@
 ---
-title: "🧩 Codex SDK 문서 업무 운영안"
+title: "Codex SDK 문서 업무 운영안"
 tags:
   - "work"
 ---

@@ -1,5 +1,5 @@
 ---
-title: "🤝 영업 허브"
+title: "영업 허브"
 tags:
   - "work"
 ---

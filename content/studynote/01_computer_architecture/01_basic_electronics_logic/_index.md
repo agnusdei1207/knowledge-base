@@ -1,5 +1,5 @@
 ---
-title: "🔌 01. 디지털 논리 회로 및 컴퓨터 기초"
+title: "01. 디지털 논리 회로 및 컴퓨터 기초"
 tags:
   - "computer_architecture"
 ---

@@ -1,5 +1,5 @@
 ---
-title: "📦 tarball이 뭔지 1분 만에 이해하기"
+title: "tarball이 뭔지 1분 만에 이해하기"
 tags:
   - "work"
 ---

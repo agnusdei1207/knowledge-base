@@ -1,5 +1,5 @@
 ---
-title: "🔌 MCP 클라이언트 설정 규격"
+title: "MCP 클라이언트 설정 규격"
 tags:
   - "work"
 ---
