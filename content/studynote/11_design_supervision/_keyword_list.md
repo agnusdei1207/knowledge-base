@@ -23,7 +23,7 @@ tags:
 8. [감리 관점](/studynote/11_design_supervision/01_audit_framework/008_audit_perspective/) ([Audit Perspective](/studynote/11_design_supervision/01_audit_framework/008_audit_perspective/)) - 절차(Procedure), 산출물(Deliverable), 성과([Performance](/studynote/11_design_supervision/01_audit_framework/008_audit_perspective/)) 관점 점검
 9. [감리 단계](/studynote/11_design_supervision/01_audit_framework/009_audit_phase/) ([Audit Phase](/studynote/11_design_supervision/01_audit_framework/009_audit_phase/)) - 사업의 [진행](/studynote/11_design_supervision/01_audit_framework/009_audit_phase/) 단계 (요구사항 정의, 설계, 종료/구현)
 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [예방 감리](/studynote/11_design_supervision/01_audit_framework/010_preventive_resident_audit/) ([Preventive Audit](/studynote/11_design_supervision/01_audit_framework/010_preventive_resident_audit/)) / 상주 감리 (Resident [Audit](/studynote/12_it_management/05_security_compliance/363_audit/)) - 사업 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중 상주하며 상시 조언
-[11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). [3단계 감리](/studynote/11_design_supervision/06_exam_summary/322_audit/) - 요구사항 정의 단계 감리, 설계 단계 감리, 종료 단계 감리
+[11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). [3단계 감리](/exam/11_design_supervision/322_audit/) - 요구사항 정의 단계 감리, 설계 단계 감리, 종료 단계 감리
 12. 2단계 감리 - 설계 단계 감리, 종료 단계 감리 (요구사항 정의 감리 생략 조건 사업)
 13. 추가 감리 / 시정조치 [확인](/studynote/11_design_supervision/01_audit_framework/601_follow_up_audit/) ([Follow-up Audit](/studynote/11_design_supervision/01_audit_framework/601_follow_up_audit/)) - 감리 지적 사항(조치 권고) 이행 여부 최종 점검
 14. [감리 계획 수립](/studynote/11_design_supervision/01_audit_framework/014_audit_planning/) ([Audit Planning](/studynote/11_design_supervision/01_audit_framework/014_audit_planning/)) - 예비조사, 감리 일정 및 인력 배치, 감리 계획서 작성
@@ -343,136 +343,136 @@ tags:
 320. [소프트웨어 공학](/studynote/11_design_supervision/05_audit_deep_guide/320_exam_essay_structure_map/) 기술사 IT 감리 평가 논술 대비 필수 구조 맵 구성 완료망
 
 ## 6. 시험 빈출 요약 및 기술사 아키텍처 융합 토픽 (280개)
-321. [정보시스템 감리](/studynote/11_design_supervision/06_exam_summary/321_audit/) 목적 3대 [속성](/studynote/11_design_supervision/06_exam_summary/321_audit/) (효과성, 효율성, 안전성)
-322. [3단계 감리](/studynote/11_design_supervision/06_exam_summary/322_audit/) (요구, 설계, 종료)
+321. [정보시스템 감리](/exam/11_design_supervision/321_audit/) 목적 3대 [속성](/exam/11_design_supervision/321_audit/) (효과성, 효율성, 안전성)
+322. [3단계 감리](/exam/11_design_supervision/322_audit/) (요구, 설계, 종료)
 323. 상주 감리 예방적 통제
-324. [감리 프레임워크 관점](/studynote/11_design_supervision/06_exam_summary/324_audit/) (절차, 산출물, 성과)
+324. [감리 프레임워크 관점](/exam/11_design_supervision/324_audit/) (절차, 산출물, 성과)
 325. 과업 대비표 요건 추적성
-326. [PMO](/studynote/11_design_supervision/06_exam_summary/326_audit/) 감리 주관 차이점
-327. [객관적 증거 수집](/studynote/11_design_supervision/06_exam_summary/327_process/) 인터뷰 문서 테스트
-328. 샘플링 감리 [신뢰 구간](/studynote/11_design_supervision/06_exam_summary/328_audit/)
-329. [전자정부법 의무 대상](/studynote/11_design_supervision/06_exam_summary/329_process/)
-330. [기능점수 정산 증빙](/studynote/11_design_supervision/06_exam_summary/330_process/)
-331. 웹 [접근성](/studynote/11_design_supervision/06_exam_summary/331_kwcag/) [KWCAG](/studynote/11_design_supervision/06_exam_summary/331_kwcag/) 장애인
-332. [시큐어 코딩](/studynote/11_design_supervision/06_exam_summary/332_process/) [47개 보안 약점](/studynote/11_design_supervision/06_exam_summary/332_process/)
-333. [데이터](/studynote/11_design_supervision/06_exam_summary/333_metric/) 품질 6대 지표
-334. 마이그레이션 [무결성](/studynote/11_design_supervision/06_exam_summary/334_process/) 100%
-335. 형상 [베이스라인](/studynote/11_design_supervision/06_exam_summary/335_process/) 변경 심의
+326. [PMO](/exam/11_design_supervision/326_audit/) 감리 주관 차이점
+327. [객관적 증거 수집](/exam/11_design_supervision/327_process/) 인터뷰 문서 테스트
+328. 샘플링 감리 [신뢰 구간](/exam/11_design_supervision/328_audit/)
+329. [전자정부법 의무 대상](/exam/11_design_supervision/329_process/)
+330. [기능점수 정산 증빙](/exam/11_design_supervision/330_process/)
+331. 웹 [접근성](/exam/11_design_supervision/331_kwcag/) [KWCAG](/exam/11_design_supervision/331_kwcag/) 장애인
+332. [시큐어 코딩](/exam/11_design_supervision/332_process/) [47개 보안 약점](/exam/11_design_supervision/332_process/)
+333. [데이터](/exam/11_design_supervision/333_metric/) 품질 6대 지표
+334. 마이그레이션 [무결성](/exam/11_design_supervision/334_process/) 100%
+335. 형상 [베이스라인](/exam/11_design_supervision/335_process/) 변경 심의
 336. 고가용성 모의 페일오버 테스트
-337. [DR RTO RPO](/studynote/11_design_supervision/06_exam_summary/337_dr_rto_rpo/) 모의 훈련 참관
-338. [성능](/studynote/11_design_supervision/06_exam_summary/338_apm_tps/) [APM TPS](/studynote/11_design_supervision/06_exam_summary/338_apm_tps/) 튜닝 지적
-339. [개인정보](/studynote/11_design_supervision/06_exam_summary/339_process/) 암호화 [단방향](/studynote/11_design_supervision/06_exam_summary/339_process/) 양방향 조치
-340. [오픈소스](/studynote/11_design_supervision/06_exam_summary/340_process/) 컴플라이언스 GPL 배포
+337. [DR RTO RPO](/exam/11_design_supervision/337_dr_rto_rpo/) 모의 훈련 참관
+338. [성능](/exam/11_design_supervision/338_apm_tps/) [APM TPS](/exam/11_design_supervision/338_apm_tps/) 튜닝 지적
+339. [개인정보](/exam/11_design_supervision/339_process/) 암호화 [단방향](/exam/11_design_supervision/339_process/) 양방향 조치
+340. [오픈소스](/exam/11_design_supervision/340_process/) 컴플라이언스 GPL 배포
 341. 감리 독립성 지배 구조
 342. 시정 조치 조율 위원회
-343. [공공데이터 개방](/studynote/11_design_supervision/06_exam_summary/343_json/) 규격 [JSON](/studynote/11_design_supervision/06_exam_summary/343_json/)
+343. [공공데이터 개방](/exam/11_design_supervision/343_json/) 규격 [JSON](/exam/11_design_supervision/343_json/)
 344. 모바일 위변조 방지 감리
-345. 클라우드 [종속성](/studynote/11_design_supervision/06_exam_summary/345_audit/) 이식성 진단
-346. [애자일](/studynote/11_design_supervision/06_exam_summary/346_audit/) [스프린트](/studynote/11_design_supervision/06_exam_summary/346_audit/) 마일스톤 평가
-347. [CISA IT](/studynote/11_design_supervision/06_exam_summary/347_cisa_it/) 통제 프로세스
-348. 4+1 [View](/studynote/11_design_supervision/06_exam_summary/348_4_1_view/) ([논리](/studynote/11_design_supervision/06_exam_summary/348_4_1_view/) 프로세스 구현 배포 유스케이스)
-349. [ATAM](/studynote/11_design_supervision/06_exam_summary/349_atam/) 아키텍처 트레이드오프 평가
-350. [CBAM](/studynote/11_design_supervision/06_exam_summary/350_cbam/) 경제성 관점 확장
-351. [민감도 상충점 리스크](/studynote/11_design_supervision/06_exam_summary/351_process/)
-352. [품질 속성 시나리오](/studynote/11_design_supervision/06_exam_summary/352_process/) ([가용성](/studynote/11_design_supervision/06_exam_summary/352_process/), 보안, [성능](/studynote/11_design_supervision/06_exam_summary/352_process/))
-353. [ADR](/studynote/11_design_supervision/06_exam_summary/353_architecture/) 아키텍처 결정 기록 마크다운
-354. 객체지향 [SOLID](/studynote/11_design_supervision/06_exam_summary/354_solid_5/) 5원칙
-355. 단일 책임 [응집도](/studynote/11_design_supervision/06_exam_summary/355_process/) 극대
+345. 클라우드 [종속성](/exam/11_design_supervision/345_audit/) 이식성 진단
+346. [애자일](/exam/11_design_supervision/346_audit/) [스프린트](/exam/11_design_supervision/346_audit/) 마일스톤 평가
+347. [CISA IT](/exam/11_design_supervision/347_cisa_it/) 통제 프로세스
+348. 4+1 [View](/exam/11_design_supervision/348_4_1_view/) ([논리](/exam/11_design_supervision/348_4_1_view/) 프로세스 구현 배포 유스케이스)
+349. [ATAM](/exam/11_design_supervision/349_atam/) 아키텍처 트레이드오프 평가
+350. [CBAM](/exam/11_design_supervision/350_cbam/) 경제성 관점 확장
+351. [민감도 상충점 리스크](/exam/11_design_supervision/351_process/)
+352. [품질 속성 시나리오](/exam/11_design_supervision/352_process/) ([가용성](/exam/11_design_supervision/352_process/), 보안, [성능](/exam/11_design_supervision/352_process/))
+353. [ADR](/exam/11_design_supervision/353_architecture/) 아키텍처 결정 기록 마크다운
+354. 객체지향 [SOLID](/exam/11_design_supervision/354_solid_5/) 5원칙
+355. 단일 책임 [응집도](/exam/11_design_supervision/355_process/) 극대
 356. 개방 폐쇄 확장에 유연
 357. 리스코프 치환 부모 자식 호환
 358. 인터페이스 분리 인터페이스 비대 방지
-359. 의존 역전 [추상화](/studynote/11_design_supervision/06_exam_summary/359_process/)
-360. [데메테르 법칙](/studynote/11_design_supervision/06_exam_summary/360_process/) 최소 지식
+359. 의존 역전 [추상화](/exam/11_design_supervision/359_process/)
+360. [데메테르 법칙](/exam/11_design_supervision/360_process/) 최소 지식
 361. DRY 코드 중복 제거
-362. [YAGNI](/studynote/11_design_supervision/06_exam_summary/362_yagni/) 오버엔지니어링 금지
-363. [결합도](/studynote/11_design_supervision/06_exam_summary/363_process/) (낮게) [응집도](/studynote/11_design_supervision/06_exam_summary/363_process/) (높게)
-364. [계층형 아키텍처](/studynote/11_design_supervision/06_exam_summary/364_architecture/) [수직 분할](/studynote/11_design_supervision/06_exam_summary/364_architecture/)
-365. [클린 아키텍처](/studynote/11_design_supervision/06_exam_summary/365_architecture/) 외부 종속 차단
-366. 헥사고날 [포트](/studynote/11_design_supervision/06_exam_summary/366_process/) [어댑터](/studynote/11_design_supervision/06_exam_summary/366_process/)
-367. [이벤트 주도 아키텍처](/studynote/11_design_supervision/06_exam_summary/367_architecture/) 비동기 디커플링
-368. [CQRS](/studynote/11_design_supervision/06_exam_summary/368_cqrs/) 명령 조회 모델 분리망
-369. [이벤트 소싱](/studynote/11_design_supervision/06_exam_summary/369_process/) 불변 [로그](/studynote/11_design_supervision/06_exam_summary/369_process/) 스트림
-370. [MSA](/studynote/11_design_supervision/06_exam_summary/370_process/) [마이크로서비스](/studynote/11_design_supervision/06_exam_summary/370_process/) 독립 배포
-371. [API](/studynote/11_design_supervision/06_exam_summary/371_api_gateway_summary/) 게이트웨이 [인증](/studynote/11_design_supervision/06_exam_summary/371_api_gateway_summary/) [라우팅](/studynote/11_design_supervision/06_exam_summary/371_api_gateway_summary/)
-372. [서비스 메시](/studynote/11_design_supervision/06_exam_summary/372_service_mesh_summary/) [사이드카](/studynote/11_design_supervision/06_exam_summary/372_service_mesh_summary/) [프록시](/studynote/11_design_supervision/06_exam_summary/372_service_mesh_summary/) 통신 보안망
-373. [사가 패턴](/studynote/11_design_supervision/06_exam_summary/373_saga_pattern_compensation/) [보상 트랜잭션](/studynote/11_design_supervision/06_exam_summary/373_saga_pattern_compensation/)
-374. [DDD](/studynote/11_design_supervision/06_exam_summary/374_ddd_bounded_context_aggregate/) [바운디드 컨텍스트](/studynote/11_design_supervision/06_exam_summary/374_ddd_bounded_context_aggregate/) [애그리게이트](/studynote/11_design_supervision/06_exam_summary/374_ddd_bounded_context_aggregate/)
-375. [안티 코럽션 레이어](/studynote/11_design_supervision/06_exam_summary/375_acl_legacy_buffer/) ([ACL](/studynote/11_design_supervision/06_exam_summary/375_acl_legacy_buffer/)) 레거시 완충
-376. [스트랭글러 피그 패턴](/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/) 점진 교체
-377. [서버리스](/studynote/11_design_supervision/06_exam_summary/377_serverless_cold_start/) [FaaS](/studynote/11_design_supervision/06_exam_summary/377_serverless_cold_start/) [콜드 스타트](/studynote/11_design_supervision/06_exam_summary/377_serverless_cold_start/)
-378. [팩토리 메서드](/studynote/11_design_supervision/06_exam_summary/378_factory_method_summary/) 객체 [생성](/studynote/11_design_supervision/06_exam_summary/378_factory_method_summary/) 위임
-379. [추상 팩토리](/studynote/11_design_supervision/06_exam_summary/379_abstract_factory_summary/) 객체 군 [생성](/studynote/11_design_supervision/06_exam_summary/379_abstract_factory_summary/)망
-380. [빌더](/studynote/11_design_supervision/06_exam_summary/380_builder_pattern_summary/) 단계별 복잡 객체 조립
-381. [프로토타입](/studynote/11_design_supervision/06_exam_summary/381_prototype_pattern_summary/) 객체 [복제](/studynote/11_design_supervision/06_exam_summary/381_prototype_pattern_summary/) 메모리
-382. [싱글톤](/studynote/11_design_supervision/06_exam_summary/382_singleton_summary/) 유일 인스턴스 전역
-383. [어댑터](/studynote/11_design_supervision/06_exam_summary/383_adapter_pattern_summary/) 인터페이스 래핑 호환
-384. [브리지](/studynote/11_design_supervision/06_exam_summary/384_bridge_pattern_summary/) 추상 구현 분리 독립 확장
-385. [컴포지트](/studynote/11_design_supervision/06_exam_summary/385_composite_pattern_summary/) 부분 전체 트리 구조
-386. [데코레이터](/studynote/11_design_supervision/06_exam_summary/386_decorator_pattern_summary/) 동적 책임 기능 포장
-387. [퍼사드](/studynote/11_design_supervision/06_exam_summary/387_facade_pattern_summary/) 서브시스템 단일 통합 뷰
-388. [플라이웨이트](/studynote/11_design_supervision/06_exam_summary/388_flyweight_pattern_summary/) 고유 상태 공유 [캐싱](/studynote/11_design_supervision/06_exam_summary/388_flyweight_pattern_summary/)
-389. [프록시](/studynote/11_design_supervision/06_exam_summary/389_proxy_pattern_summary/) 접근 제어 대리인 [지연 로딩](/studynote/11_design_supervision/06_exam_summary/389_proxy_pattern_summary/)
-390. [옵저버](/studynote/11_design_supervision/06_exam_summary/390_observer_pattern_summary/) 1:N 상태 구독 알림
-391. [전략](/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/) [알고리즘](/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/) 교체 캡슐화
-392. [템플릿 메서드](/studynote/11_design_supervision/06_exam_summary/392_process/) 뼈대 공통화 [상속](/studynote/11_design_supervision/06_exam_summary/392_process/)
-393. [커맨드](/studynote/11_design_supervision/06_exam_summary/393_undo/) 요청 객체화 [Undo](/studynote/11_design_supervision/06_exam_summary/393_undo/) 지원
+362. [YAGNI](/exam/11_design_supervision/362_yagni/) 오버엔지니어링 금지
+363. [결합도](/exam/11_design_supervision/363_process/) (낮게) [응집도](/exam/11_design_supervision/363_process/) (높게)
+364. [계층형 아키텍처](/exam/11_design_supervision/364_architecture/) [수직 분할](/exam/11_design_supervision/364_architecture/)
+365. [클린 아키텍처](/exam/11_design_supervision/365_architecture/) 외부 종속 차단
+366. 헥사고날 [포트](/exam/11_design_supervision/366_process/) [어댑터](/exam/11_design_supervision/366_process/)
+367. [이벤트 주도 아키텍처](/exam/11_design_supervision/367_architecture/) 비동기 디커플링
+368. [CQRS](/exam/11_design_supervision/368_cqrs/) 명령 조회 모델 분리망
+369. [이벤트 소싱](/exam/11_design_supervision/369_process/) 불변 [로그](/exam/11_design_supervision/369_process/) 스트림
+370. [MSA](/exam/11_design_supervision/370_process/) [마이크로서비스](/exam/11_design_supervision/370_process/) 독립 배포
+371. [API](/exam/11_design_supervision/371_api_gateway_summary/) 게이트웨이 [인증](/exam/11_design_supervision/371_api_gateway_summary/) [라우팅](/exam/11_design_supervision/371_api_gateway_summary/)
+372. [서비스 메시](/exam/11_design_supervision/372_service_mesh_summary/) [사이드카](/exam/11_design_supervision/372_service_mesh_summary/) [프록시](/exam/11_design_supervision/372_service_mesh_summary/) 통신 보안망
+373. [사가 패턴](/exam/11_design_supervision/373_saga_pattern_compensation/) [보상 트랜잭션](/exam/11_design_supervision/373_saga_pattern_compensation/)
+374. [DDD](/exam/11_design_supervision/374_ddd_bounded_context_aggregate/) [바운디드 컨텍스트](/exam/11_design_supervision/374_ddd_bounded_context_aggregate/) [애그리게이트](/exam/11_design_supervision/374_ddd_bounded_context_aggregate/)
+375. [안티 코럽션 레이어](/exam/11_design_supervision/375_acl_legacy_buffer/) ([ACL](/exam/11_design_supervision/375_acl_legacy_buffer/)) 레거시 완충
+376. [스트랭글러 피그 패턴](/exam/11_design_supervision/376_strangler_fig_summary/) 점진 교체
+377. [서버리스](/exam/11_design_supervision/377_serverless_cold_start/) [FaaS](/exam/11_design_supervision/377_serverless_cold_start/) [콜드 스타트](/exam/11_design_supervision/377_serverless_cold_start/)
+378. [팩토리 메서드](/exam/11_design_supervision/378_factory_method_summary/) 객체 [생성](/exam/11_design_supervision/378_factory_method_summary/) 위임
+379. [추상 팩토리](/exam/11_design_supervision/379_abstract_factory_summary/) 객체 군 [생성](/exam/11_design_supervision/379_abstract_factory_summary/)망
+380. [빌더](/exam/11_design_supervision/380_builder_pattern_summary/) 단계별 복잡 객체 조립
+381. [프로토타입](/exam/11_design_supervision/381_prototype_pattern_summary/) 객체 [복제](/exam/11_design_supervision/381_prototype_pattern_summary/) 메모리
+382. [싱글톤](/exam/11_design_supervision/382_singleton_summary/) 유일 인스턴스 전역
+383. [어댑터](/exam/11_design_supervision/383_adapter_pattern_summary/) 인터페이스 래핑 호환
+384. [브리지](/exam/11_design_supervision/384_bridge_pattern_summary/) 추상 구현 분리 독립 확장
+385. [컴포지트](/exam/11_design_supervision/385_composite_pattern_summary/) 부분 전체 트리 구조
+386. [데코레이터](/exam/11_design_supervision/386_decorator_pattern_summary/) 동적 책임 기능 포장
+387. [퍼사드](/exam/11_design_supervision/387_facade_pattern_summary/) 서브시스템 단일 통합 뷰
+388. [플라이웨이트](/exam/11_design_supervision/388_flyweight_pattern_summary/) 고유 상태 공유 [캐싱](/exam/11_design_supervision/388_flyweight_pattern_summary/)
+389. [프록시](/exam/11_design_supervision/389_proxy_pattern_summary/) 접근 제어 대리인 [지연 로딩](/exam/11_design_supervision/389_proxy_pattern_summary/)
+390. [옵저버](/exam/11_design_supervision/390_observer_pattern_summary/) 1:N 상태 구독 알림
+391. [전략](/exam/11_design_supervision/391_strategy_pattern_summary/) [알고리즘](/exam/11_design_supervision/391_strategy_pattern_summary/) 교체 캡슐화
+392. [템플릿 메서드](/exam/11_design_supervision/392_process/) 뼈대 공통화 [상속](/exam/11_design_supervision/392_process/)
+393. [커맨드](/exam/11_design_supervision/393_undo/) 요청 객체화 [Undo](/exam/11_design_supervision/393_undo/) 지원
 394. 상태 상태별 행동 위임
-395. [책임 연쇄](/studynote/11_design_supervision/06_exam_summary/395_process/) 동적 처리 [파이프](/studynote/11_design_supervision/06_exam_summary/395_process/)라인
-396. [중재자](/studynote/11_design_supervision/06_exam_summary/396_process/) 객체 통신 중앙 캡슐 집중망
-397. [이터레이터](/studynote/11_design_supervision/06_exam_summary/397_process/) 내부 은닉 순차 컬렉션 탐색
-398. [메멘토](/studynote/11_design_supervision/06_exam_summary/398_process/) 상태 저장 복원 캡슐 보존
-399. [방문자](/studynote/11_design_supervision/06_exam_summary/399_architecture/) 구조 변경 없이 새 기능 이중 디스패치
-400. [해석자](/studynote/11_design_supervision/06_exam_summary/400_process/) 문법 트리 구문 파싱
-401. DTO 계층 [데이터](/studynote/11_design_supervision/06_exam_summary/401_process/) 운반 객체
-402. [DAO](/studynote/11_design_supervision/06_exam_summary/402_process/) 디비 접근 비즈니스 격리망
-403. [안티 패턴](/studynote/11_design_supervision/06_exam_summary/403_architecture/) 스파게티 갓 클래스 [피처](/studynote/11_design_supervision/06_exam_summary/403_architecture/) 엔비
-404. [테스트 더블](/studynote/11_design_supervision/06_exam_summary/404_process/) [스텁](/studynote/11_design_supervision/06_exam_summary/404_process/) 모의 [페이크](/studynote/11_design_supervision/06_exam_summary/404_process/) [스파이](/studynote/11_design_supervision/06_exam_summary/404_process/)
+395. [책임 연쇄](/exam/11_design_supervision/395_process/) 동적 처리 [파이프](/exam/11_design_supervision/395_process/)라인
+396. [중재자](/exam/11_design_supervision/396_process/) 객체 통신 중앙 캡슐 집중망
+397. [이터레이터](/exam/11_design_supervision/397_process/) 내부 은닉 순차 컬렉션 탐색
+398. [메멘토](/exam/11_design_supervision/398_process/) 상태 저장 복원 캡슐 보존
+399. [방문자](/exam/11_design_supervision/399_architecture/) 구조 변경 없이 새 기능 이중 디스패치
+400. [해석자](/exam/11_design_supervision/400_process/) 문법 트리 구문 파싱
+401. DTO 계층 [데이터](/exam/11_design_supervision/401_process/) 운반 객체
+402. [DAO](/exam/11_design_supervision/402_process/) 디비 접근 비즈니스 격리망
+403. [안티 패턴](/exam/11_design_supervision/403_architecture/) 스파게티 갓 클래스 [피처](/exam/11_design_supervision/403_architecture/) 엔비
+404. [테스트 더블](/exam/11_design_supervision/404_process/) [스텁](/exam/11_design_supervision/404_process/) 모의 [페이크](/exam/11_design_supervision/404_process/) [스파이](/exam/11_design_supervision/404_process/)
 405. MVC M V C 관심사 완벽 분할
-406. [MVP MVVM](/studynote/11_design_supervision/06_exam_summary/406_mvp_mvvm/) [데이터](/studynote/11_design_supervision/06_exam_summary/406_mvp_mvvm/) 바인딩
+406. [MVP MVVM](/exam/11_design_supervision/406_mvp_mvvm/) [데이터](/exam/11_design_supervision/406_mvp_mvvm/) 바인딩
 407. 백오프 리트라이 재시도 서킷 융합망
-408. 디스럽터 락프리 고속 [동시성](/studynote/11_design_supervision/06_exam_summary/408_process/) 큐
-409. [콜백 패턴](/studynote/11_design_supervision/06_exam_summary/409_architecture/) 비동기 블록 방어 반환 구조
-410. 프로미스 퓨처 [지연](/studynote/11_design_supervision/06_exam_summary/410_process/) 연산망 체인
-411. [테스트 주도 개발](/studynote/11_design_supervision/06_exam_summary/411_process/) [TDD](/studynote/11_design_supervision/06_exam_summary/411_process/) 레드 그린 [리팩토링](/studynote/11_design_supervision/06_exam_summary/411_process/)
-412. [행위 주도 개발](/studynote/11_design_supervision/06_exam_summary/412_process/) [BDD](/studynote/11_design_supervision/06_exam_summary/412_process/) 유비쿼터스 용어
-413. [서드파티 락인](/studynote/11_design_supervision/06_exam_summary/413_management/) 종속 통제
-414. 리틀의 법칙 [스레드 풀](/studynote/11_design_supervision/06_exam_summary/414_audit/) [성능](/studynote/11_design_supervision/06_exam_summary/414_audit/) 진단망
-415. [OAT](/studynote/11_design_supervision/06_exam_summary/415_oat_opertional_uat_user/) Opertional UAT User 감리 시점 망
+408. 디스럽터 락프리 고속 [동시성](/exam/11_design_supervision/408_process/) 큐
+409. [콜백 패턴](/exam/11_design_supervision/409_architecture/) 비동기 블록 방어 반환 구조
+410. 프로미스 퓨처 [지연](/exam/11_design_supervision/410_process/) 연산망 체인
+411. [테스트 주도 개발](/exam/11_design_supervision/411_process/) [TDD](/exam/11_design_supervision/411_process/) 레드 그린 [리팩토링](/exam/11_design_supervision/411_process/)
+412. [행위 주도 개발](/exam/11_design_supervision/412_process/) [BDD](/exam/11_design_supervision/412_process/) 유비쿼터스 용어
+413. [서드파티 락인](/exam/11_design_supervision/413_management/) 종속 통제
+414. 리틀의 법칙 [스레드 풀](/exam/11_design_supervision/414_audit/) [성능](/exam/11_design_supervision/414_audit/) 진단망
+415. [OAT](/exam/11_design_supervision/415_oat_opertional_uat_user/) Opertional UAT User 감리 시점 망
 416. 보안 테스트 퍼징 이상 패킷 자동 주입
-417. [테스트 오라클](/studynote/11_design_supervision/06_exam_summary/417_process/) 참 샘플 [휴리스틱](/studynote/11_design_supervision/06_exam_summary/417_process/) 일관
-418. [뮤테이션 테스트](/studynote/11_design_supervision/06_exam_summary/418_audit/) 소스 변이 커버리지 [검증](/studynote/11_design_supervision/06_exam_summary/418_audit/)
+417. [테스트 오라클](/exam/11_design_supervision/417_process/) 참 샘플 [휴리스틱](/exam/11_design_supervision/417_process/) 일관
+418. [뮤테이션 테스트](/exam/11_design_supervision/418_audit/) 소스 변이 커버리지 [검증](/exam/11_design_supervision/418_audit/)
 419. 화이트박스 MC/DC 조건 결정 독립 분기 커버
-420. 블랙박스 [페어와이즈](/studynote/11_design_supervision/06_exam_summary/420_process/) 직교 [배열](/studynote/11_design_supervision/06_exam_summary/420_process/) 조합 축소
-421. [정적 분석](/studynote/11_design_supervision/06_exam_summary/421_process/) 사이클로매틱 복잡도 한계 제어
-422. 동적 [성능](/studynote/11_design_supervision/06_exam_summary/422_audit/) 메모리 릭 진단기
+420. 블랙박스 [페어와이즈](/exam/11_design_supervision/420_process/) 직교 [배열](/exam/11_design_supervision/420_process/) 조합 축소
+421. [정적 분석](/exam/11_design_supervision/421_process/) 사이클로매틱 복잡도 한계 제어
+422. 동적 [성능](/exam/11_design_supervision/422_audit/) 메모리 릭 진단기
 423. 모킹 프레임워크 격리 테스트
-424. [결함 허용](/studynote/11_design_supervision/06_exam_summary/424_process/) [페일 세이프](/studynote/11_design_supervision/06_exam_summary/424_process/) [페일 오버](/studynote/11_design_supervision/06_exam_summary/424_process/) [이중화](/studynote/11_design_supervision/06_exam_summary/424_process/)
-425. 아키텍처 [개념 무결성](/studynote/11_design_supervision/06_exam_summary/425_architecture/) 통일 프레임워크
-426. [LISS MECE](/studynote/11_design_supervision/06_exam_summary/426_liss_mece/) [로직 트리](/studynote/11_design_supervision/06_exam_summary/426_liss_mece/) 컨설팅 기법
-427. SW 개발 비용 산정 간이법 상세법 [기능점수](/studynote/11_design_supervision/06_exam_summary/427_metric/)
-428. 델타 암호 해시 [키 스트레칭](/studynote/11_design_supervision/06_exam_summary/428_process/) 난독
-429. [세그멘테이션](/studynote/11_design_supervision/06_exam_summary/429_process/) [제로 트러스트](/studynote/11_design_supervision/06_exam_summary/429_process/)
-430. [서버리스](/studynote/11_design_supervision/06_exam_summary/430_process/) [컨테이너 보안](/studynote/11_design_supervision/06_exam_summary/430_process/) 이미지 스캔
-431. [마이크로 커널](/studynote/11_design_supervision/06_exam_summary/431_architecture/) 플러그인 확장 구조망
-432. [블랙보드 패턴](/studynote/11_design_supervision/06_exam_summary/432_architecture/) 전문가 [모듈](/studynote/11_design_supervision/06_exam_summary/432_architecture/) [AI](/studynote/11_design_supervision/06_exam_summary/432_architecture/) [초기](/studynote/11_design_supervision/06_exam_summary/432_architecture/) 구조망
-433. [파이프](/studynote/11_design_supervision/06_exam_summary/433_process/) 필터 쉘 [데이터](/studynote/11_design_supervision/06_exam_summary/433_process/) 스트리밍 변환
-434. 컴포저블 아키텍처 [PBS API](/studynote/11_design_supervision/06_exam_summary/434_pbs_api/) 조합 유연 [모듈](/studynote/11_design_supervision/06_exam_summary/434_pbs_api/)
-435. [DORA](/studynote/11_design_supervision/06_exam_summary/435_dora/) 메트릭스 [리드 타임](/studynote/11_design_supervision/06_exam_summary/435_dora/) 배포 빈도 지표
+424. [결함 허용](/exam/11_design_supervision/424_process/) [페일 세이프](/exam/11_design_supervision/424_process/) [페일 오버](/exam/11_design_supervision/424_process/) [이중화](/exam/11_design_supervision/424_process/)
+425. 아키텍처 [개념 무결성](/exam/11_design_supervision/425_architecture/) 통일 프레임워크
+426. [LISS MECE](/exam/11_design_supervision/426_liss_mece/) [로직 트리](/exam/11_design_supervision/426_liss_mece/) 컨설팅 기법
+427. SW 개발 비용 산정 간이법 상세법 [기능점수](/exam/11_design_supervision/427_metric/)
+428. 델타 암호 해시 [키 스트레칭](/exam/11_design_supervision/428_process/) 난독
+429. [세그멘테이션](/exam/11_design_supervision/429_process/) [제로 트러스트](/exam/11_design_supervision/429_process/)
+430. [서버리스](/exam/11_design_supervision/430_process/) [컨테이너 보안](/exam/11_design_supervision/430_process/) 이미지 스캔
+431. [마이크로 커널](/exam/11_design_supervision/431_architecture/) 플러그인 확장 구조망
+432. [블랙보드 패턴](/exam/11_design_supervision/432_architecture/) 전문가 [모듈](/exam/11_design_supervision/432_architecture/) [AI](/exam/11_design_supervision/432_architecture/) [초기](/exam/11_design_supervision/432_architecture/) 구조망
+433. [파이프](/exam/11_design_supervision/433_process/) 필터 쉘 [데이터](/exam/11_design_supervision/433_process/) 스트리밍 변환
+434. 컴포저블 아키텍처 [PBS API](/exam/11_design_supervision/434_pbs_api/) 조합 유연 [모듈](/exam/11_design_supervision/434_pbs_api/)
+435. [DORA](/exam/11_design_supervision/435_dora/) 메트릭스 [리드 타임](/exam/11_design_supervision/435_dora/) 배포 빈도 지표
 436. 클라우드 랜딩 존 하이브리드 거버넌스
-437. [엣지 네이티브](/studynote/11_design_supervision/06_exam_summary/437_process/) [지연](/studynote/11_design_supervision/06_exam_summary/437_process/)시간 단축 [캐싱](/studynote/11_design_supervision/06_exam_summary/437_process/) [분산](/studynote/11_design_supervision/06_exam_summary/437_process/)
-438. [PWA](/studynote/11_design_supervision/06_exam_summary/438_architecture/) [오프라인 우선](/studynote/11_design_supervision/06_exam_summary/438_architecture/) [서비스](/studynote/11_design_supervision/06_exam_summary/438_architecture/) 워커망 설계
-439. [웹어셈블리](/studynote/11_design_supervision/06_exam_summary/439_process/) 브라우저 프론트 가속 [모듈](/studynote/11_design_supervision/06_exam_summary/439_process/)
-440. [블록체인](/studynote/11_design_supervision/06_exam_summary/440_dapp/) [스마트 컨트랙트](/studynote/11_design_supervision/06_exam_summary/440_dapp/) [DApp](/studynote/11_design_supervision/06_exam_summary/440_dapp/) 보안
-441. [MLOps](/studynote/11_design_supervision/06_exam_summary/441_mlops/) 드리프트 [파이프](/studynote/11_design_supervision/06_exam_summary/441_mlops/)라인 [모니터](/studynote/11_design_supervision/06_exam_summary/441_mlops/)
-442. 인텐트 기반 [IBN](/studynote/11_design_supervision/06_exam_summary/442_architecture/) 아키텍처 자동 변환망
-443. [지식 그래프](/studynote/11_design_supervision/06_exam_summary/443_process/) [시맨틱 웹](/studynote/11_design_supervision/06_exam_summary/443_process/) 온톨로지망
-444. [SBOM](/studynote/11_design_supervision/06_exam_summary/444_sbom/) 소프트웨어 구성 명세 취약 방어
-445. 레거시 현대화 [스트랭글러 피그](/studynote/11_design_supervision/06_exam_summary/445_audit/) 변환 감리
-446. 공공 클라우드 [CSAP](/studynote/11_design_supervision/06_exam_summary/446_csap/) 보안 [인증](/studynote/11_design_supervision/06_exam_summary/446_csap/) 점검 통제
-447. [데이터 레이크하우스](/studynote/11_design_supervision/06_exam_summary/447_process/) [스키마 온 리드](/studynote/11_design_supervision/06_exam_summary/447_process/) 융합망
-448. [AI](/studynote/11_design_supervision/06_exam_summary/448_ai_rag/) [환각](/studynote/11_design_supervision/06_exam_summary/448_ai_rag/) 방지 [RAG](/studynote/11_design_supervision/06_exam_summary/448_ai_rag/) [벡터 인덱싱](/studynote/11_design_supervision/06_exam_summary/448_ai_rag/) [파이프](/studynote/11_design_supervision/06_exam_summary/448_ai_rag/)
-449. [동시성](/studynote/11_design_supervision/06_exam_summary/449_mvcc/) 제어 [MVCC](/studynote/11_design_supervision/06_exam_summary/449_mvcc/) 낙관 비관 락킹 패턴
-450. [가비지 컬렉션](/studynote/11_design_supervision/06_exam_summary/450_process/) 스톱 더 월드 메모리 튜닝
+437. [엣지 네이티브](/exam/11_design_supervision/437_process/) [지연](/exam/11_design_supervision/437_process/)시간 단축 [캐싱](/exam/11_design_supervision/437_process/) [분산](/exam/11_design_supervision/437_process/)
+438. [PWA](/exam/11_design_supervision/438_architecture/) [오프라인 우선](/exam/11_design_supervision/438_architecture/) [서비스](/exam/11_design_supervision/438_architecture/) 워커망 설계
+439. [웹어셈블리](/exam/11_design_supervision/439_process/) 브라우저 프론트 가속 [모듈](/exam/11_design_supervision/439_process/)
+440. [블록체인](/exam/11_design_supervision/440_dapp/) [스마트 컨트랙트](/exam/11_design_supervision/440_dapp/) [DApp](/exam/11_design_supervision/440_dapp/) 보안
+441. [MLOps](/exam/11_design_supervision/441_mlops/) 드리프트 [파이프](/exam/11_design_supervision/441_mlops/)라인 [모니터](/exam/11_design_supervision/441_mlops/)
+442. 인텐트 기반 [IBN](/exam/11_design_supervision/442_architecture/) 아키텍처 자동 변환망
+443. [지식 그래프](/exam/11_design_supervision/443_process/) [시맨틱 웹](/exam/11_design_supervision/443_process/) 온톨로지망
+444. [SBOM](/exam/11_design_supervision/444_sbom/) 소프트웨어 구성 명세 취약 방어
+445. 레거시 현대화 [스트랭글러 피그](/exam/11_design_supervision/445_audit/) 변환 감리
+446. 공공 클라우드 [CSAP](/exam/11_design_supervision/446_csap/) 보안 [인증](/exam/11_design_supervision/446_csap/) 점검 통제
+447. [데이터 레이크하우스](/exam/11_design_supervision/447_process/) [스키마 온 리드](/exam/11_design_supervision/447_process/) 융합망
+448. [AI](/exam/11_design_supervision/448_ai_rag/) [환각](/exam/11_design_supervision/448_ai_rag/) 방지 [RAG](/exam/11_design_supervision/448_ai_rag/) [벡터 인덱싱](/exam/11_design_supervision/448_ai_rag/) [파이프](/exam/11_design_supervision/448_ai_rag/)
+449. [동시성](/exam/11_design_supervision/449_mvcc/) 제어 [MVCC](/exam/11_design_supervision/449_mvcc/) 낙관 비관 락킹 패턴
+450. [가비지 컬렉션](/exam/11_design_supervision/450_process/) 스톱 더 월드 메모리 튜닝
 451. (정보관리, 시스템 감리 평가 빈출 키워드 100% 매핑 요약 연결망)
 ... (아키텍처 및 디자인패턴 150+ 핵심 파생 토픽 포함 완료망)
 600. 기술사 합격 최종 아키텍처 및 감리 설계 요약 집대성.

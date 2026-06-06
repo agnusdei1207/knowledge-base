@@ -706,135 +706,135 @@ tags:
 
 ## [11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). 시험 빈출 / 핵심 요약 노트 및 추가 토픽 (130개)
 671. 시스템 프로그램과 응용 프로그램의 차이
-672. [일괄 처리 시스템](/studynote/02_operating_system/11_exam_summary/672_batch_processing_system_metrics/) ([Batch Processing System](/studynote/02_operating_system/11_exam_summary/672_batch_processing_system_metrics/)) [성능](/studynote/02_operating_system/11_exam_summary/672_batch_processing_system_metrics/) 지표
-673. [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) ([Multiprogramming](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)) 한계 자원
-674. [시분할 시스템](/studynote/02_operating_system/11_exam_summary/674_time_sharing_response_time_optimization/) [응답 시간](/studynote/02_operating_system/11_exam_summary/674_time_sharing_response_time_optimization/) 최적화
-675. [멀티태스킹](/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/) ([Multitasking](/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/)) 용어
-676. [인터럽트 벡터](/studynote/02_operating_system/11_exam_summary/676_interrupt_vector_table_architecture/) 테이블 구조화
-677. [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) ([Trap](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)) 기반 시스템 콜 구현
-678. [커널](/studynote/02_operating_system/11_exam_summary/678_kernel_mode_entry_mechanism/) 모드 진입 메커니즘
-679. 시스템 콜 [API](/studynote/02_operating_system/11_exam_summary/679_system_call_api_wrapper/) 래퍼
-680. 모놀리식 vs [마이크로 커널](/studynote/02_operating_system/11_exam_summary/680_monolithic_vs_microkernel_performance/) [성능](/studynote/02_operating_system/11_exam_summary/680_monolithic_vs_microkernel_performance/) 비교
-681. [IPC](/studynote/02_operating_system/11_exam_summary/681_ipc_performance_overhead/) 기법 [성능](/studynote/02_operating_system/11_exam_summary/681_ipc_performance_overhead/) 오버헤드
+672. [일괄 처리 시스템](/exam/02_operating_system/672_batch_processing_system_metrics/) ([Batch Processing System](/exam/02_operating_system/672_batch_processing_system_metrics/)) [성능](/exam/02_operating_system/672_batch_processing_system_metrics/) 지표
+673. [다중 프로그래밍](/exam/02_operating_system/673_multiprogramming_bottleneck_resource/) ([Multiprogramming](/exam/02_operating_system/673_multiprogramming_bottleneck_resource/)) 한계 자원
+674. [시분할 시스템](/exam/02_operating_system/674_time_sharing_response_time_optimization/) [응답 시간](/exam/02_operating_system/674_time_sharing_response_time_optimization/) 최적화
+675. [멀티태스킹](/exam/02_operating_system/675_multitasking_terminology_preemptive/) ([Multitasking](/exam/02_operating_system/675_multitasking_terminology_preemptive/)) 용어
+676. [인터럽트 벡터](/exam/02_operating_system/676_interrupt_vector_table_architecture/) 테이블 구조화
+677. [트랩](/exam/02_operating_system/677_trap_based_system_call_implementation/) ([Trap](/exam/02_operating_system/677_trap_based_system_call_implementation/)) 기반 시스템 콜 구현
+678. [커널](/exam/02_operating_system/678_kernel_mode_entry_mechanism/) 모드 진입 메커니즘
+679. 시스템 콜 [API](/exam/02_operating_system/679_system_call_api_wrapper/) 래퍼
+680. 모놀리식 vs [마이크로 커널](/exam/02_operating_system/680_monolithic_vs_microkernel_performance/) [성능](/exam/02_operating_system/680_monolithic_vs_microkernel_performance/) 비교
+681. [IPC](/exam/02_operating_system/681_ipc_performance_overhead/) 기법 [성능](/exam/02_operating_system/681_ipc_performance_overhead/) 오버헤드
 682. 프로세스 주소 공간 분리
 683. PCB 구성 요소 필수 암기
-684. [문맥 교환](/studynote/02_operating_system/11_exam_summary/684_context_switch_tlb_flush_asid/) [TLB](/studynote/02_operating_system/11_exam_summary/684_context_switch_tlb_flush_asid/) 플러시
-685. [단기 스케줄러 디스패치](/studynote/02_operating_system/11_exam_summary/685_short_term_scheduler_dispatcher/)
+684. [문맥 교환](/exam/02_operating_system/684_context_switch_tlb_flush_asid/) [TLB](/exam/02_operating_system/684_context_switch_tlb_flush_asid/) 플러시
+685. [단기 스케줄러 디스패치](/exam/02_operating_system/685_short_term_scheduler_dispatcher/)
 686. CPU 바운드 vs I/O 바운드
-687. 선점 / [비선점](/studynote/02_operating_system/11_exam_summary/687_preemptive_vs_non_preemptive_scheduling/) 스케줄링 차이
-688. [FCFS](/studynote/02_operating_system/11_exam_summary/688_fcfs_convoy_effect_bottleneck/) [호위 효과](/studynote/02_operating_system/11_exam_summary/688_fcfs_convoy_effect_bottleneck/) ([Convoy Effect](/studynote/02_operating_system/11_exam_summary/688_fcfs_convoy_effect_bottleneck/))
-689. [SJF](/studynote/02_operating_system/11_exam_summary/689_sjf_starvation_and_aging/) 기아 ([Starvation](/studynote/02_operating_system/11_exam_summary/689_sjf_starvation_and_aging/)) 발생
-690. [라운드 로빈](/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) [시간 할당량](/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) ([Quantum](/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/))
-691. [다단계 피드백 큐](/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) ([MLFQ](/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/)) 천이
-692. [HRN](/studynote/02_operating_system/11_exam_summary/692_hrn_highest_response_ratio_next/) 대기 시간 공식
-693. [멀티스레드 유저모드 커널모드](/studynote/02_operating_system/11_exam_summary/693_multithread_user_mode_kernel_mode/)
-694. [스레드 로컬 스토리지](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) ([TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/))
-695. [스레드](/studynote/02_operating_system/11_exam_summary/695_thread_synchronization_mutual_exclusion/) [동기화](/studynote/02_operating_system/11_exam_summary/695_thread_synchronization_mutual_exclusion/) [상호 배제](/studynote/02_operating_system/11_exam_summary/695_thread_synchronization_mutual_exclusion/)
-696. [경쟁 조건](/studynote/02_operating_system/11_exam_summary/696_race_condition_concurrency_bug/) ([Race Condition](/studynote/02_operating_system/11_exam_summary/696_race_condition_concurrency_bug/))
-697. [임계 구역](/studynote/02_operating_system/11_exam_summary/697_critical_section_three_requirements/) 3가지 요구조건
+687. 선점 / [비선점](/exam/02_operating_system/687_preemptive_vs_non_preemptive_scheduling/) 스케줄링 차이
+688. [FCFS](/exam/02_operating_system/688_fcfs_convoy_effect_bottleneck/) [호위 효과](/exam/02_operating_system/688_fcfs_convoy_effect_bottleneck/) ([Convoy Effect](/exam/02_operating_system/688_fcfs_convoy_effect_bottleneck/))
+689. [SJF](/exam/02_operating_system/689_sjf_starvation_and_aging/) 기아 ([Starvation](/exam/02_operating_system/689_sjf_starvation_and_aging/)) 발생
+690. [라운드 로빈](/exam/02_operating_system/690_round_robin_time_quantum/) [시간 할당량](/exam/02_operating_system/690_round_robin_time_quantum/) ([Quantum](/exam/02_operating_system/690_round_robin_time_quantum/))
+691. [다단계 피드백 큐](/exam/02_operating_system/691_mlfq_multi_level_feedback_queue/) ([MLFQ](/exam/02_operating_system/691_mlfq_multi_level_feedback_queue/)) 천이
+692. [HRN](/exam/02_operating_system/692_hrn_highest_response_ratio_next/) 대기 시간 공식
+693. [멀티스레드 유저모드 커널모드](/exam/02_operating_system/693_multithread_user_mode_kernel_mode/)
+694. [스레드 로컬 스토리지](/exam/02_operating_system/694_thread_local_storage_tls/) ([TLS](/exam/02_operating_system/694_thread_local_storage_tls/))
+695. [스레드](/exam/02_operating_system/695_thread_synchronization_mutual_exclusion/) [동기화](/exam/02_operating_system/695_thread_synchronization_mutual_exclusion/) [상호 배제](/exam/02_operating_system/695_thread_synchronization_mutual_exclusion/)
+696. [경쟁 조건](/exam/02_operating_system/696_race_condition_concurrency_bug/) ([Race Condition](/exam/02_operating_system/696_race_condition_concurrency_bug/))
+697. [임계 구역](/exam/02_operating_system/697_critical_section_three_requirements/) 3가지 요구조건
 698. Test-and-Set 연산 하드웨어
-699. [뮤텍스 락](/studynote/02_operating_system/11_exam_summary/699_mutex_lock_sleep_wait/) ([Mutex Lock](/studynote/02_operating_system/11_exam_summary/699_mutex_lock_sleep_wait/))
-700. [스핀락 바쁜 대기](/studynote/02_operating_system/11_exam_summary/700_spinlock_busy_waiting/) ([Busy Wait](/studynote/02_operating_system/11_exam_summary/700_spinlock_busy_waiting/))
-701. [세마포어](/studynote/02_operating_system/11_exam_summary/701_semaphore_p_v_operations/) P, V 연산
-702. [모니터](/studynote/02_operating_system/11_exam_summary/702_monitor_synchronization_abstraction/) ([Monitor](/studynote/02_operating_system/11_exam_summary/702_monitor_synchronization_abstraction/)) [동기화](/studynote/02_operating_system/11_exam_summary/702_monitor_synchronization_abstraction/) [추상화](/studynote/02_operating_system/11_exam_summary/702_monitor_synchronization_abstraction/)
+699. [뮤텍스 락](/exam/02_operating_system/699_mutex_lock_sleep_wait/) ([Mutex Lock](/exam/02_operating_system/699_mutex_lock_sleep_wait/))
+700. [스핀락 바쁜 대기](/exam/02_operating_system/700_spinlock_busy_waiting/) ([Busy Wait](/exam/02_operating_system/700_spinlock_busy_waiting/))
+701. [세마포어](/exam/02_operating_system/701_semaphore_p_v_operations/) P, V 연산
+702. [모니터](/exam/02_operating_system/702_monitor_synchronization_abstraction/) ([Monitor](/exam/02_operating_system/702_monitor_synchronization_abstraction/)) [동기화](/exam/02_operating_system/702_monitor_synchronization_abstraction/) [추상화](/exam/02_operating_system/702_monitor_synchronization_abstraction/)
 703. 생산자 소비자 유한 버퍼
 704. 식사하는 철학자 교착 문제
-705. [교착 상태](/studynote/02_operating_system/11_exam_summary/705_deadlock_four_necessary_conditions/) 4가지 조건
-706. [자원 할당 그래프](/studynote/02_operating_system/11_exam_summary/706_resource_allocation_graph_cycle/) 사이클
-707. 은행원 [알고리즘](/studynote/02_operating_system/11_exam_summary/707_bankers_algorithm_safe_state/) [안전 상태](/studynote/02_operating_system/11_exam_summary/707_bankers_algorithm_safe_state/)
-708. [교착 상태 무시](/studynote/02_operating_system/11_exam_summary/708_deadlock_ignorance_ostrich_algorithm/) ([타조 알고리즘](/studynote/02_operating_system/11_exam_summary/708_deadlock_ignorance_ostrich_algorithm/))
-709. [교착 상태 복구](/studynote/02_operating_system/11_exam_summary/709_deadlock_recovery_process_kill/) ([프로세스 킬](/studynote/02_operating_system/11_exam_summary/709_deadlock_recovery_process_kill/))
-710. [주소 바인딩](/studynote/02_operating_system/11_exam_summary/710_address_binding_compile_load_execution/) 컴파일/로드/실행
-711. [논리 주소](/studynote/02_operating_system/11_exam_summary/711_logical_physical_address_translation_mmu/) [물리 주소](/studynote/02_operating_system/11_exam_summary/711_logical_physical_address_translation_mmu/) 변환 [MMU](/studynote/02_operating_system/11_exam_summary/711_logical_physical_address_translation_mmu/)
-712. [외부 단편화](/studynote/02_operating_system/11_exam_summary/712_external_fragmentation_variable_partition/) 가변 분할
-713. [내부 단편화](/studynote/02_operating_system/11_exam_summary/713_internal_fragmentation_fixed_paging/) 고정/[페이징](/studynote/02_operating_system/11_exam_summary/713_internal_fragmentation_fixed_paging/)
-714. 동적 할당 First/Best/[Worst Fit](/studynote/02_operating_system/11_exam_summary/714_dynamic_allocation_first_best_worst_fit/)
-715. [페이징](/studynote/02_operating_system/11_exam_summary/715_paging_system_frame_table/) 시스템 프레임 테이블
-716. [TLB](/studynote/02_operating_system/11_exam_summary/716_tlb_hit_ratio_cache_speed/) [적중률](/studynote/02_operating_system/11_exam_summary/716_tlb_hit_ratio_cache_speed/) 캐시 속도
-717. [다단계 페이지 테이블](/studynote/02_operating_system/11_exam_summary/717_hierarchical_paging_multi_level/) 사이즈 줄이기
-718. [세그멘테이션](/studynote/02_operating_system/11_exam_summary/718_segmentation_external_fragmentation/) [외부 단편화](/studynote/02_operating_system/11_exam_summary/718_segmentation_external_fragmentation/) 재발
-719. [요구 페이징](/studynote/02_operating_system/11_exam_summary/719_demand_paging_lazy_loading/) ([Demand Paging](/studynote/02_operating_system/11_exam_summary/719_demand_paging_lazy_loading/))
-720. [페이지 폴트](/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) ([Page Fault](/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)) [ISR](/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)
-721. 유효/무효 [비트](/studynote/02_operating_system/11_exam_summary/721_valid_invalid_bit_page_table/) (Valid/Invalid)
-722. [페이지 교체](/studynote/02_operating_system/11_exam_summary/722_page_replacement_lru_principle/) [LRU](/studynote/02_operating_system/11_exam_summary/722_page_replacement_lru_principle/) 원리
-723. [FIFO](/studynote/02_operating_system/11_exam_summary/723_fifo_beladys_anomaly/) 벨라디의 모순
-724. [최적 알고리즘](/studynote/02_operating_system/11_exam_summary/724_optimal_page_replacement_unrealizable/) ([OPT](/studynote/02_operating_system/11_exam_summary/724_optimal_page_replacement_unrealizable/)) 구현 불가
-725. [스래싱](/studynote/02_operating_system/11_exam_summary/725_thrashing_cpu_utilization/) ([Thrashing](/studynote/02_operating_system/11_exam_summary/725_thrashing_cpu_utilization/)) CPU 이용률 저하
-726. [워킹 셋](/studynote/02_operating_system/11_exam_summary/726_working_set_memory_locality/) ([Working Set](/studynote/02_operating_system/11_exam_summary/726_working_set_memory_locality/)) 메모리
-727. [디스크 스케줄링](/studynote/02_operating_system/11_exam_summary/727_disk_scheduling_scan_elevator/) SCAN 엘리베이터
-728. [C-SCAN](/studynote/02_operating_system/11_exam_summary/728_c_scan_circular_elevator/) [단방향](/studynote/02_operating_system/11_exam_summary/728_c_scan_circular_elevator/) 회전
-729. [SSTF](/studynote/02_operating_system/11_exam_summary/729_sstf_starvation_middle_bias/) 기아 현상 ([가운데 편중](/studynote/02_operating_system/11_exam_summary/729_sstf_starvation_middle_bias/))
-730. [RAID 0](/studynote/02_operating_system/11_exam_summary/730_raid_levels_performance_reliability/), 1, 5, 6 [성능](/studynote/02_operating_system/11_exam_summary/730_raid_levels_performance_reliability/) [신뢰성](/studynote/02_operating_system/11_exam_summary/730_raid_levels_performance_reliability/)
-731. [SSD FTL](/studynote/02_operating_system/11_exam_summary/731_ssd_ftl_flash_translation_layer/) ([Flash Translation Layer](/studynote/02_operating_system/11_exam_summary/731_ssd_ftl_flash_translation_layer/))
-732. [가비지 컬렉션](/studynote/02_operating_system/11_exam_summary/732_garbage_collection_block_erase/) 블록 지우기
-733. [파일](/studynote/02_operating_system/11_exam_summary/733_file_system_allocation_contiguous_linked_indexed/) 시스템 연속, 연결, [색인 할당](/studynote/02_operating_system/11_exam_summary/733_file_system_allocation_contiguous_linked_indexed/)
-734. [FAT](/studynote/02_operating_system/11_exam_summary/734_fat_file_allocation_table_optimization/) 방식 [연결 할당](/studynote/02_operating_system/11_exam_summary/734_fat_file_allocation_table_optimization/) 최적화
-735. i-node 직접/간접 포인터 [인덱스](/studynote/02_operating_system/11_exam_summary/735_inode_direct_indirect_pointer_index/)
-736. [하드 링크](/studynote/02_operating_system/11_exam_summary/736_hard_link_vs_symbolic_link/) / [심볼릭 링크](/studynote/02_operating_system/11_exam_summary/736_hard_link_vs_symbolic_link/) 차이
-737. [VFS](/studynote/02_operating_system/11_exam_summary/737_vfs_virtual_file_system_abstraction/) 가상 [파일](/studynote/02_operating_system/11_exam_summary/737_vfs_virtual_file_system_abstraction/) 시스템
-738. [버퍼 캐시](/studynote/02_operating_system/11_exam_summary/738_buffer_cache_file_io_delayed_write/) [파일](/studynote/02_operating_system/11_exam_summary/738_buffer_cache_file_io_delayed_write/) 입출력 [지연](/studynote/02_operating_system/11_exam_summary/738_buffer_cache_file_io_delayed_write/)
-739. [접근 제어 목록](/studynote/02_operating_system/11_exam_summary/739_access_control_list_acl/) ([ACL](/studynote/02_operating_system/11_exam_summary/739_access_control_list_acl/))
-740. [보호 도메인](/studynote/02_operating_system/11_exam_summary/740_protection_domain_least_privilege/) [최소 권한 원칙](/studynote/02_operating_system/11_exam_summary/740_protection_domain_least_privilege/)
-741. [버퍼 오버플로우 공격](/studynote/02_operating_system/11_exam_summary/741_buffer_overflow_attack_stack/) [스택](/studynote/02_operating_system/11_exam_summary/741_buffer_overflow_attack_stack/)
-742. [스푸핑](/studynote/02_operating_system/11_exam_summary/742_spoofing_backdoor_malware/), [백도어](/studynote/02_operating_system/11_exam_summary/742_spoofing_backdoor_malware/) 악성코드
-743. [가상화 하이퍼바이저](/studynote/02_operating_system/11_exam_summary/743_virtualization_hypervisor/)
-744. [컨테이너 네임스페이스 격리](/studynote/02_operating_system/11_exam_summary/744_container_namespace_isolation/)
+705. [교착 상태](/exam/02_operating_system/705_deadlock_four_necessary_conditions/) 4가지 조건
+706. [자원 할당 그래프](/exam/02_operating_system/706_resource_allocation_graph_cycle/) 사이클
+707. 은행원 [알고리즘](/exam/02_operating_system/707_bankers_algorithm_safe_state/) [안전 상태](/exam/02_operating_system/707_bankers_algorithm_safe_state/)
+708. [교착 상태 무시](/exam/02_operating_system/708_deadlock_ignorance_ostrich_algorithm/) ([타조 알고리즘](/exam/02_operating_system/708_deadlock_ignorance_ostrich_algorithm/))
+709. [교착 상태 복구](/exam/02_operating_system/709_deadlock_recovery_process_kill/) ([프로세스 킬](/exam/02_operating_system/709_deadlock_recovery_process_kill/))
+710. [주소 바인딩](/exam/02_operating_system/710_address_binding_compile_load_execution/) 컴파일/로드/실행
+711. [논리 주소](/exam/02_operating_system/711_logical_physical_address_translation_mmu/) [물리 주소](/exam/02_operating_system/711_logical_physical_address_translation_mmu/) 변환 [MMU](/exam/02_operating_system/711_logical_physical_address_translation_mmu/)
+712. [외부 단편화](/exam/02_operating_system/712_external_fragmentation_variable_partition/) 가변 분할
+713. [내부 단편화](/exam/02_operating_system/713_internal_fragmentation_fixed_paging/) 고정/[페이징](/exam/02_operating_system/713_internal_fragmentation_fixed_paging/)
+714. 동적 할당 First/Best/[Worst Fit](/exam/02_operating_system/714_dynamic_allocation_first_best_worst_fit/)
+715. [페이징](/exam/02_operating_system/715_paging_system_frame_table/) 시스템 프레임 테이블
+716. [TLB](/exam/02_operating_system/716_tlb_hit_ratio_cache_speed/) [적중률](/exam/02_operating_system/716_tlb_hit_ratio_cache_speed/) 캐시 속도
+717. [다단계 페이지 테이블](/exam/02_operating_system/717_hierarchical_paging_multi_level/) 사이즈 줄이기
+718. [세그멘테이션](/exam/02_operating_system/718_segmentation_external_fragmentation/) [외부 단편화](/exam/02_operating_system/718_segmentation_external_fragmentation/) 재발
+719. [요구 페이징](/exam/02_operating_system/719_demand_paging_lazy_loading/) ([Demand Paging](/exam/02_operating_system/719_demand_paging_lazy_loading/))
+720. [페이지 폴트](/exam/02_operating_system/720_page_fault_isr/) ([Page Fault](/exam/02_operating_system/720_page_fault_isr/)) [ISR](/exam/02_operating_system/720_page_fault_isr/)
+721. 유효/무효 [비트](/exam/02_operating_system/721_valid_invalid_bit_page_table/) (Valid/Invalid)
+722. [페이지 교체](/exam/02_operating_system/722_page_replacement_lru_principle/) [LRU](/exam/02_operating_system/722_page_replacement_lru_principle/) 원리
+723. [FIFO](/exam/02_operating_system/723_fifo_beladys_anomaly/) 벨라디의 모순
+724. [최적 알고리즘](/exam/02_operating_system/724_optimal_page_replacement_unrealizable/) ([OPT](/exam/02_operating_system/724_optimal_page_replacement_unrealizable/)) 구현 불가
+725. [스래싱](/exam/02_operating_system/725_thrashing_cpu_utilization/) ([Thrashing](/exam/02_operating_system/725_thrashing_cpu_utilization/)) CPU 이용률 저하
+726. [워킹 셋](/exam/02_operating_system/726_working_set_memory_locality/) ([Working Set](/exam/02_operating_system/726_working_set_memory_locality/)) 메모리
+727. [디스크 스케줄링](/exam/02_operating_system/727_disk_scheduling_scan_elevator/) SCAN 엘리베이터
+728. [C-SCAN](/exam/02_operating_system/728_c_scan_circular_elevator/) [단방향](/exam/02_operating_system/728_c_scan_circular_elevator/) 회전
+729. [SSTF](/exam/02_operating_system/729_sstf_starvation_middle_bias/) 기아 현상 ([가운데 편중](/exam/02_operating_system/729_sstf_starvation_middle_bias/))
+730. [RAID 0](/exam/02_operating_system/730_raid_levels_performance_reliability/), 1, 5, 6 [성능](/exam/02_operating_system/730_raid_levels_performance_reliability/) [신뢰성](/exam/02_operating_system/730_raid_levels_performance_reliability/)
+731. [SSD FTL](/exam/02_operating_system/731_ssd_ftl_flash_translation_layer/) ([Flash Translation Layer](/exam/02_operating_system/731_ssd_ftl_flash_translation_layer/))
+732. [가비지 컬렉션](/exam/02_operating_system/732_garbage_collection_block_erase/) 블록 지우기
+733. [파일](/exam/02_operating_system/733_file_system_allocation_contiguous_linked_indexed/) 시스템 연속, 연결, [색인 할당](/exam/02_operating_system/733_file_system_allocation_contiguous_linked_indexed/)
+734. [FAT](/exam/02_operating_system/734_fat_file_allocation_table_optimization/) 방식 [연결 할당](/exam/02_operating_system/734_fat_file_allocation_table_optimization/) 최적화
+735. i-node 직접/간접 포인터 [인덱스](/exam/02_operating_system/735_inode_direct_indirect_pointer_index/)
+736. [하드 링크](/exam/02_operating_system/736_hard_link_vs_symbolic_link/) / [심볼릭 링크](/exam/02_operating_system/736_hard_link_vs_symbolic_link/) 차이
+737. [VFS](/exam/02_operating_system/737_vfs_virtual_file_system_abstraction/) 가상 [파일](/exam/02_operating_system/737_vfs_virtual_file_system_abstraction/) 시스템
+738. [버퍼 캐시](/exam/02_operating_system/738_buffer_cache_file_io_delayed_write/) [파일](/exam/02_operating_system/738_buffer_cache_file_io_delayed_write/) 입출력 [지연](/exam/02_operating_system/738_buffer_cache_file_io_delayed_write/)
+739. [접근 제어 목록](/exam/02_operating_system/739_access_control_list_acl/) ([ACL](/exam/02_operating_system/739_access_control_list_acl/))
+740. [보호 도메인](/exam/02_operating_system/740_protection_domain_least_privilege/) [최소 권한 원칙](/exam/02_operating_system/740_protection_domain_least_privilege/)
+741. [버퍼 오버플로우 공격](/exam/02_operating_system/741_buffer_overflow_attack_stack/) [스택](/exam/02_operating_system/741_buffer_overflow_attack_stack/)
+742. [스푸핑](/exam/02_operating_system/742_spoofing_backdoor_malware/), [백도어](/exam/02_operating_system/742_spoofing_backdoor_malware/) 악성코드
+743. [가상화 하이퍼바이저](/exam/02_operating_system/743_virtualization_hypervisor/)
+744. [컨테이너 네임스페이스 격리](/exam/02_operating_system/744_container_namespace_isolation/)
 745. 시스템 클럭 타이머 틱
-746. I/O [직접 메모리 접근](/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([DMA](/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/))
-747. I/O [풀링](/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/) ([Polling](/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) 오버헤드
-748. [스풀링](/studynote/02_operating_system/11_exam_summary/748_spooling_buffer/) ([Spooling](/studynote/02_operating_system/11_exam_summary/748_spooling_buffer/)) 버퍼
-749. [메모리 매핑 파일](/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/) ([mmap](/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/))
-750. [쓰기 시 복사](/studynote/02_operating_system/11_exam_summary/750_copy_on_write_cow/) ([COW](/studynote/02_operating_system/11_exam_summary/750_copy_on_write_cow/))
-751. [SMP](/studynote/02_operating_system/11_exam_summary/751_smp_cache_coherence_false_sharing/) [캐시 일관성](/studynote/02_operating_system/11_exam_summary/751_smp_cache_coherence_false_sharing/) 폴스 셰어링
-752. [인터럽트 구동 입출력](/studynote/02_operating_system/11_exam_summary/752_interrupt_driven_io/)
-753. [우선순위 역전](/studynote/02_operating_system/11_exam_summary/753_priority_inversion_prevention/) ([Priority Inversion](/studynote/02_operating_system/11_exam_summary/753_priority_inversion_prevention/)) 방지
-754. [문맥 교환 비용](/studynote/02_operating_system/11_exam_summary/754_context_switch_cost/) ([레지스터 저장 복원](/studynote/02_operating_system/11_exam_summary/754_context_switch_cost/))
-755. 고아 [좀비 프로세스](/studynote/02_operating_system/11_exam_summary/755_orphan_zombie_process_init/) init 처리
+746. I/O [직접 메모리 접근](/exam/02_operating_system/746_io_direct_memory_access_dma/) ([DMA](/exam/02_operating_system/746_io_direct_memory_access_dma/))
+747. I/O [풀링](/exam/02_operating_system/747_io_polling_overhead/) ([Polling](/exam/02_operating_system/747_io_polling_overhead/)) 오버헤드
+748. [스풀링](/exam/02_operating_system/748_spooling_buffer/) ([Spooling](/exam/02_operating_system/748_spooling_buffer/)) 버퍼
+749. [메모리 매핑 파일](/exam/02_operating_system/749_memory_mapped_file_mmap/) ([mmap](/exam/02_operating_system/749_memory_mapped_file_mmap/))
+750. [쓰기 시 복사](/exam/02_operating_system/750_copy_on_write_cow/) ([COW](/exam/02_operating_system/750_copy_on_write_cow/))
+751. [SMP](/exam/02_operating_system/751_smp_cache_coherence_false_sharing/) [캐시 일관성](/exam/02_operating_system/751_smp_cache_coherence_false_sharing/) 폴스 셰어링
+752. [인터럽트 구동 입출력](/exam/02_operating_system/752_interrupt_driven_io/)
+753. [우선순위 역전](/exam/02_operating_system/753_priority_inversion_prevention/) ([Priority Inversion](/exam/02_operating_system/753_priority_inversion_prevention/)) 방지
+754. [문맥 교환 비용](/exam/02_operating_system/754_context_switch_cost/) ([레지스터 저장 복원](/exam/02_operating_system/754_context_switch_cost/))
+755. 고아 [좀비 프로세스](/exam/02_operating_system/755_orphan_zombie_process_init/) init 처리
 756. 시스템 콜 오버헤드 이유
-757. [파일 지연 쓰기](/studynote/02_operating_system/11_exam_summary/757_delayed_write_write_behind/) ([Delayed Write](/studynote/02_operating_system/11_exam_summary/757_delayed_write_write_behind/))
-758. [저널링 파일 시스템](/studynote/02_operating_system/11_exam_summary/758_journaling_file_system_transaction_log/) [트랜잭션](/studynote/02_operating_system/11_exam_summary/758_journaling_file_system_transaction_log/) [로그](/studynote/02_operating_system/11_exam_summary/758_journaling_file_system_transaction_log/)
+757. [파일 지연 쓰기](/exam/02_operating_system/757_delayed_write_write_behind/) ([Delayed Write](/exam/02_operating_system/757_delayed_write_write_behind/))
+758. [저널링 파일 시스템](/exam/02_operating_system/758_journaling_file_system_transaction_log/) [트랜잭션](/exam/02_operating_system/758_journaling_file_system_transaction_log/) [로그](/exam/02_operating_system/758_journaling_file_system_transaction_log/)
 759. 블로킹 / 논블로킹 / 비동기 I/O
-760. [슬랩](/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) ([Slab](/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/)) 할당기 객체 [캐싱](/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/)
-761. 디바이스 드라이버 [모듈](/studynote/02_operating_system/11_exam_summary/761_device_driver_module_interface/) 인터페이스
-762. [인터럽트](/studynote/02_operating_system/11_exam_summary/762_interrupt_top_bottom_half/) 처리 상프/하프 메커니즘
-763. [루트킷](/studynote/02_operating_system/11_exam_summary/763_rootkit_detection_integrity_scan/) 탐지 [무결성](/studynote/02_operating_system/11_exam_summary/763_rootkit_detection_integrity_scan/) 스캔
-764. [ASLR](/studynote/02_operating_system/11_exam_summary/764_aslr_memory_layout_randomization/) 메모리 레이아웃 난수화
-765. [SELinux](/studynote/02_operating_system/11_exam_summary/765_selinux_mac_mandatory_access_control/) 보안 강제 [접근 통제](/studynote/02_operating_system/11_exam_summary/765_selinux_mac_mandatory_access_control/)
-766. 실시간 스케줄링 마감 시간 ([Deadline](/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/))
-767. [스핀락](/studynote/02_operating_system/11_exam_summary/767_spinlock_smp_multiprocessor/) 멀티 프로세서 전용 활용
-768. [CAS](/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) ([Compare And Swap](/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/)) [명령어](/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 기초
-769. 데드락 희생자 [롤백](/studynote/02_operating_system/11_exam_summary/769_deadlock_victim_rollback_recovery/) [복구](/studynote/02_operating_system/11_exam_summary/769_deadlock_victim_rollback_recovery/)망
-770. [역 페이지 테이블](/studynote/02_operating_system/11_exam_summary/770_inverted_page_table_hash/) 전역 해시 매핑
-771. [플래시 메모리](/studynote/02_operating_system/11_exam_summary/771_flash_memory_wear_leveling/) [마모 평준화](/studynote/02_operating_system/11_exam_summary/771_flash_memory_wear_leveling/) ([Wear Leveling](/studynote/02_operating_system/11_exam_summary/771_flash_memory_wear_leveling/))
-772. 다중 큐 [SSD](/studynote/02_operating_system/11_exam_summary/772_multi_queue_ssd_nvme_protocol/) [NVMe](/studynote/02_operating_system/11_exam_summary/772_multi_queue_ssd_nvme_protocol/) [프로토콜](/studynote/02_operating_system/11_exam_summary/772_multi_queue_ssd_nvme_protocol/) 장점
-773. [오브젝트 스토리지](/studynote/02_operating_system/11_exam_summary/773_object_storage_metadata_decoupling/) [메타데이터](/studynote/02_operating_system/11_exam_summary/773_object_storage_metadata_decoupling/) 분리
-774. [네트워크 파일 시스템](/studynote/02_operating_system/11_exam_summary/774_nfs_stateless_network_file_system/) ([NFS](/studynote/02_operating_system/11_exam_summary/774_nfs_stateless_network_file_system/)) 무상태 ([Stateless](/studynote/02_operating_system/11_exam_summary/774_nfs_stateless_network_file_system/))
-775. [파티션](/studynote/02_operating_system/11_exam_summary/775_partition_mbr_gpt_size_limit/) [MBR](/studynote/02_operating_system/11_exam_summary/775_partition_mbr_gpt_size_limit/) [GPT](/studynote/02_operating_system/11_exam_summary/775_partition_mbr_gpt_size_limit/) 크기 제한
-776. [클라우드 컴퓨팅](/studynote/02_operating_system/11_exam_summary/776_cloud_computing_resource_pooling/) OS [자원 풀링](/studynote/02_operating_system/11_exam_summary/776_cloud_computing_resource_pooling/)
-777. [OOM](/studynote/02_operating_system/11_exam_summary/777_oom_killer_memory_protection/) 킬러 [메모리 보호](/studynote/02_operating_system/11_exam_summary/777_oom_killer_memory_protection/) [정책](/studynote/02_operating_system/11_exam_summary/777_oom_killer_memory_protection/)
-778. [프로세스 친화성](/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/) ([Affinity](/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/)) 스케줄링
-779. [부하 균등화](/studynote/02_operating_system/11_exam_summary/779_load_balancing_queue_migration/) ([Load Balancing](/studynote/02_operating_system/11_exam_summary/779_load_balancing_queue_migration/)) 큐 이주
-780. [eBPF](/studynote/02_operating_system/11_exam_summary/780_ebpf_dynamic_kernel_tracing_performance/) 동적 [커널](/studynote/02_operating_system/11_exam_summary/780_ebpf_dynamic_kernel_tracing_performance/) 트레이싱 프레임워크 [성능](/studynote/02_operating_system/11_exam_summary/780_ebpf_dynamic_kernel_tracing_performance/)
-781. ZFS [Copy-on-Write](/studynote/02_operating_system/11_exam_summary/781_zfs_cow_volume_management/) 볼륨 관리 통합
-782. [LFS](/studynote/02_operating_system/11_exam_summary/782_lfs_log_structured_file_system/) ([Log-structured File System](/studynote/02_operating_system/11_exam_summary/782_lfs_log_structured_file_system/)) 랜덤 [쓰기](/studynote/02_operating_system/11_exam_summary/782_lfs_log_structured_file_system/) 순차화
-783. 모바일 환경 에너지 인지 [스케줄러](/studynote/02_operating_system/11_exam_summary/783_mobile_energy_aware_scheduler_eas/)
-784. [하이퍼스레딩](/studynote/02_operating_system/11_exam_summary/784_hyperthreading_smt_logical_core/) 물리 코어 [논리](/studynote/02_operating_system/11_exam_summary/784_hyperthreading_smt_logical_core/) 코어 분할 구조
-785. [클론](/studynote/02_operating_system/11_exam_summary/785_clone_system_call_thread_sharing/)([clone](/studynote/02_operating_system/11_exam_summary/785_clone_system_call_thread_sharing/)) 시스템 콜 [스레드](/studynote/02_operating_system/11_exam_summary/785_clone_system_call_thread_sharing/) 공유 [플래그](/studynote/02_operating_system/11_exam_summary/785_clone_system_call_thread_sharing/)
-786. [cgroups](/studynote/02_operating_system/11_exam_summary/786_cgroups_memory_cpu_isolation_container/) 메모리, CPU 자원 제한 격리 [컨테이너](/studynote/02_operating_system/11_exam_summary/786_cgroups_memory_cpu_isolation_container/)
-787. 안드로이드 LMK ([Low Memory Killer](/studynote/02_operating_system/11_exam_summary/787_android_lmk_low_memory_killer/)) 작동
-788. iOS 앱 [샌드박싱](/studynote/02_operating_system/11_exam_summary/788_ios_app_sandboxing_architecture/) 구조
-789. [라이브 패칭](/studynote/02_operating_system/11_exam_summary/789_live_patching_kpatch_no_downtime/) ([Kpatch](/studynote/02_operating_system/11_exam_summary/789_live_patching_kpatch_no_downtime/)) [커널](/studynote/02_operating_system/11_exam_summary/789_live_patching_kpatch_no_downtime/) 정지 없는 보안
-790. POSIX [스레드](/studynote/02_operating_system/11_exam_summary/790_posix_threads_pthreads_standard_api/) ([pthreads](/studynote/02_operating_system/11_exam_summary/790_posix_threads_pthreads_standard_api/)) 표준 [API](/studynote/02_operating_system/11_exam_summary/790_posix_threads_pthreads_standard_api/)
-791. [락 엘리전](/studynote/02_operating_system/11_exam_summary/791_lock_elision_hardware_transactional_memory/) 하드웨어 [트랜잭션](/studynote/02_operating_system/11_exam_summary/791_lock_elision_hardware_transactional_memory/) 메모리 활용
-792. [RCU](/studynote/02_operating_system/11_exam_summary/792_rcu_read_copy_update_lock_free/) 다중 독자 락 프리 고성능 기법
-793. [워킹 셋](/studynote/02_operating_system/11_exam_summary/793_working_set_window_size_dynamic_adjustment/) 윈도우 사이즈 동적 조절
-794. [페이지](/studynote/02_operating_system/11_exam_summary/794_page_coloring_cache_conflict_avoidance/) 컬러링 캐시 경합 회피 물리 할당
-795. [틱리스 커널](/studynote/02_operating_system/11_exam_summary/795_tickless_kernel_mobile_battery_preservation/)([Tickless](/studynote/02_operating_system/11_exam_summary/795_tickless_kernel_mobile_battery_preservation/)) 모바일 배터리 보존
-796. [NUMA](/studynote/02_operating_system/11_exam_summary/796_numa_local_remote_memory_latency/) 로컬 메모리 원격 메모리 [지연](/studynote/02_operating_system/11_exam_summary/796_numa_local_remote_memory_latency/)차
-797. [유니커널](/studynote/02_operating_system/11_exam_summary/797_unikernel_security_fast_boot_edge/) 보안과 가벼운 부팅 특성 망 적용
-798. [분산 락 주키퍼](/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/)([ZooKeeper](/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/)) 합의 [동기화](/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/)
-799. 람포트 타임스탬프 인과 [관계](/studynote/02_operating_system/11_exam_summary/799_lamport_timestamp_happens_before_causality/) 정렬
-800. 시스템 아키텍처 [결함 허용](/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/) ([Fault Tolerance](/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/)) 듀얼 구성
+760. [슬랩](/exam/02_operating_system/760_slab_allocator_object_caching/) ([Slab](/exam/02_operating_system/760_slab_allocator_object_caching/)) 할당기 객체 [캐싱](/exam/02_operating_system/760_slab_allocator_object_caching/)
+761. 디바이스 드라이버 [모듈](/exam/02_operating_system/761_device_driver_module_interface/) 인터페이스
+762. [인터럽트](/exam/02_operating_system/762_interrupt_top_bottom_half/) 처리 상프/하프 메커니즘
+763. [루트킷](/exam/02_operating_system/763_rootkit_detection_integrity_scan/) 탐지 [무결성](/exam/02_operating_system/763_rootkit_detection_integrity_scan/) 스캔
+764. [ASLR](/exam/02_operating_system/764_aslr_memory_layout_randomization/) 메모리 레이아웃 난수화
+765. [SELinux](/exam/02_operating_system/765_selinux_mac_mandatory_access_control/) 보안 강제 [접근 통제](/exam/02_operating_system/765_selinux_mac_mandatory_access_control/)
+766. 실시간 스케줄링 마감 시간 ([Deadline](/exam/02_operating_system/766_realtime_scheduling_deadline/))
+767. [스핀락](/exam/02_operating_system/767_spinlock_smp_multiprocessor/) 멀티 프로세서 전용 활용
+768. [CAS](/exam/02_operating_system/768_cas_compare_and_swap_lock_free/) ([Compare And Swap](/exam/02_operating_system/768_cas_compare_and_swap_lock_free/)) [명령어](/exam/02_operating_system/768_cas_compare_and_swap_lock_free/) 기초
+769. 데드락 희생자 [롤백](/exam/02_operating_system/769_deadlock_victim_rollback_recovery/) [복구](/exam/02_operating_system/769_deadlock_victim_rollback_recovery/)망
+770. [역 페이지 테이블](/exam/02_operating_system/770_inverted_page_table_hash/) 전역 해시 매핑
+771. [플래시 메모리](/exam/02_operating_system/771_flash_memory_wear_leveling/) [마모 평준화](/exam/02_operating_system/771_flash_memory_wear_leveling/) ([Wear Leveling](/exam/02_operating_system/771_flash_memory_wear_leveling/))
+772. 다중 큐 [SSD](/exam/02_operating_system/772_multi_queue_ssd_nvme_protocol/) [NVMe](/exam/02_operating_system/772_multi_queue_ssd_nvme_protocol/) [프로토콜](/exam/02_operating_system/772_multi_queue_ssd_nvme_protocol/) 장점
+773. [오브젝트 스토리지](/exam/02_operating_system/773_object_storage_metadata_decoupling/) [메타데이터](/exam/02_operating_system/773_object_storage_metadata_decoupling/) 분리
+774. [네트워크 파일 시스템](/exam/02_operating_system/774_nfs_stateless_network_file_system/) ([NFS](/exam/02_operating_system/774_nfs_stateless_network_file_system/)) 무상태 ([Stateless](/exam/02_operating_system/774_nfs_stateless_network_file_system/))
+775. [파티션](/exam/02_operating_system/775_partition_mbr_gpt_size_limit/) [MBR](/exam/02_operating_system/775_partition_mbr_gpt_size_limit/) [GPT](/exam/02_operating_system/775_partition_mbr_gpt_size_limit/) 크기 제한
+776. [클라우드 컴퓨팅](/exam/02_operating_system/776_cloud_computing_resource_pooling/) OS [자원 풀링](/exam/02_operating_system/776_cloud_computing_resource_pooling/)
+777. [OOM](/exam/02_operating_system/777_oom_killer_memory_protection/) 킬러 [메모리 보호](/exam/02_operating_system/777_oom_killer_memory_protection/) [정책](/exam/02_operating_system/777_oom_killer_memory_protection/)
+778. [프로세스 친화성](/exam/02_operating_system/778_process_affinity_scheduling_pinning/) ([Affinity](/exam/02_operating_system/778_process_affinity_scheduling_pinning/)) 스케줄링
+779. [부하 균등화](/exam/02_operating_system/779_load_balancing_queue_migration/) ([Load Balancing](/exam/02_operating_system/779_load_balancing_queue_migration/)) 큐 이주
+780. [eBPF](/exam/02_operating_system/780_ebpf_dynamic_kernel_tracing_performance/) 동적 [커널](/exam/02_operating_system/780_ebpf_dynamic_kernel_tracing_performance/) 트레이싱 프레임워크 [성능](/exam/02_operating_system/780_ebpf_dynamic_kernel_tracing_performance/)
+781. ZFS [Copy-on-Write](/exam/02_operating_system/781_zfs_cow_volume_management/) 볼륨 관리 통합
+782. [LFS](/exam/02_operating_system/782_lfs_log_structured_file_system/) ([Log-structured File System](/exam/02_operating_system/782_lfs_log_structured_file_system/)) 랜덤 [쓰기](/exam/02_operating_system/782_lfs_log_structured_file_system/) 순차화
+783. 모바일 환경 에너지 인지 [스케줄러](/exam/02_operating_system/783_mobile_energy_aware_scheduler_eas/)
+784. [하이퍼스레딩](/exam/02_operating_system/784_hyperthreading_smt_logical_core/) 물리 코어 [논리](/exam/02_operating_system/784_hyperthreading_smt_logical_core/) 코어 분할 구조
+785. [클론](/exam/02_operating_system/785_clone_system_call_thread_sharing/)([clone](/exam/02_operating_system/785_clone_system_call_thread_sharing/)) 시스템 콜 [스레드](/exam/02_operating_system/785_clone_system_call_thread_sharing/) 공유 [플래그](/exam/02_operating_system/785_clone_system_call_thread_sharing/)
+786. [cgroups](/exam/02_operating_system/786_cgroups_memory_cpu_isolation_container/) 메모리, CPU 자원 제한 격리 [컨테이너](/exam/02_operating_system/786_cgroups_memory_cpu_isolation_container/)
+787. 안드로이드 LMK ([Low Memory Killer](/exam/02_operating_system/787_android_lmk_low_memory_killer/)) 작동
+788. iOS 앱 [샌드박싱](/exam/02_operating_system/788_ios_app_sandboxing_architecture/) 구조
+789. [라이브 패칭](/exam/02_operating_system/789_live_patching_kpatch_no_downtime/) ([Kpatch](/exam/02_operating_system/789_live_patching_kpatch_no_downtime/)) [커널](/exam/02_operating_system/789_live_patching_kpatch_no_downtime/) 정지 없는 보안
+790. POSIX [스레드](/exam/02_operating_system/790_posix_threads_pthreads_standard_api/) ([pthreads](/exam/02_operating_system/790_posix_threads_pthreads_standard_api/)) 표준 [API](/exam/02_operating_system/790_posix_threads_pthreads_standard_api/)
+791. [락 엘리전](/exam/02_operating_system/791_lock_elision_hardware_transactional_memory/) 하드웨어 [트랜잭션](/exam/02_operating_system/791_lock_elision_hardware_transactional_memory/) 메모리 활용
+792. [RCU](/exam/02_operating_system/792_rcu_read_copy_update_lock_free/) 다중 독자 락 프리 고성능 기법
+793. [워킹 셋](/exam/02_operating_system/793_working_set_window_size_dynamic_adjustment/) 윈도우 사이즈 동적 조절
+794. [페이지](/exam/02_operating_system/794_page_coloring_cache_conflict_avoidance/) 컬러링 캐시 경합 회피 물리 할당
+795. [틱리스 커널](/exam/02_operating_system/795_tickless_kernel_mobile_battery_preservation/)([Tickless](/exam/02_operating_system/795_tickless_kernel_mobile_battery_preservation/)) 모바일 배터리 보존
+796. [NUMA](/exam/02_operating_system/796_numa_local_remote_memory_latency/) 로컬 메모리 원격 메모리 [지연](/exam/02_operating_system/796_numa_local_remote_memory_latency/)차
+797. [유니커널](/exam/02_operating_system/797_unikernel_security_fast_boot_edge/) 보안과 가벼운 부팅 특성 망 적용
+798. [분산 락 주키퍼](/exam/02_operating_system/798_distributed_lock_zookeeper_consensus/)([ZooKeeper](/exam/02_operating_system/798_distributed_lock_zookeeper_consensus/)) 합의 [동기화](/exam/02_operating_system/798_distributed_lock_zookeeper_consensus/)
+799. 람포트 타임스탬프 인과 [관계](/exam/02_operating_system/799_lamport_timestamp_happens_before_causality/) 정렬
+800. 시스템 아키텍처 [결함 허용](/exam/02_operating_system/800_system_architecture_fault_tolerance_dual/) ([Fault Tolerance](/exam/02_operating_system/800_system_architecture_fault_tolerance_dual/)) 듀얼 구성
 
 ---
 **총합 요약 : 총 800개 핵심 키워드 수록**

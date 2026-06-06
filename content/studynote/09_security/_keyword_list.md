@@ -1110,26 +1110,26 @@ tags:
 998. [Bash Bunny](/studynote/09_security/uncategorized/1094_openflow_protocol_sdn_southbound_flow_table/) — 다목적 [USB](/studynote/09_security/uncategorized/1094_openflow_protocol_sdn_southbound_flow_table/) 공격 도구
 999. [OMG Cable](/studynote/09_security/uncategorized/1095_mec_mobile_edge_computing_local_breakout_5g/) — 변형된 [USB](/studynote/09_security/uncategorized/1095_mec_mobile_edge_computing_local_breakout_5g/) 케이블
 1000. _entropy — 난수 [생성](/studynote/09_security/uncategorized/1096_cloud_native_network_cni_kubernetes_pod_overlay/) 품질
-1001. [CSPRNG](/studynote/09_security/20_extra_exam_prep/1001_csprng_random_generator/) (Cryptographically Secure PRNG) — [암호학](/studynote/09_security/20_extra_exam_prep/1001_csprng_random_generator/)적으로 안전한 난수
-1002. [RDRAND](/studynote/09_security/20_extra_exam_prep/1002_rdrand_intel_hardware_rng/) (Intel) — 하드웨어 난수 [생성](/studynote/09_security/20_extra_exam_prep/1002_rdrand_intel_hardware_rng/)
+1001. [CSPRNG](/exam/09_security/1001_csprng_random_generator/) (Cryptographically Secure PRNG) — [암호학](/exam/09_security/1001_csprng_random_generator/)적으로 안전한 난수
+1002. [RDRAND](/exam/09_security/1002_rdrand_intel_hardware_rng/) (Intel) — 하드웨어 난수 [생성](/exam/09_security/1002_rdrand_intel_hardware_rng/)
 1003. /dev/urandom — Linux 난수 장치
-1004. [hardware RNG](/studynote/09_security/20_extra_exam_prep/1004_hardware_rng_trng/) — [물리적 난수 발생기](/studynote/09_security/20_extra_exam_prep/1004_hardware_rng_trng/)
-1005. [entropy source](/studynote/09_security/20_extra_exam_prep/1005_entropy_source/) — [난수 생성 원천](/studynote/09_security/20_extra_exam_prep/1005_entropy_source/)
-1006. [Perfect Security](/studynote/09_security/20_extra_exam_prep/1006_perfect_security_otp/) — 정보 이론적 안전 ([One-Time Pad](/studynote/09_security/20_extra_exam_prep/1006_perfect_security_otp/))
-1007. [Semantic Security](/studynote/09_security/20_extra_exam_prep/1007_semantic_security/) — [암호학](/studynote/09_security/20_extra_exam_prep/1007_semantic_security/)적으로 관찰 가능한 차이 없음
-1008. [IND-CPA](/studynote/09_security/20_extra_exam_prep/1008_ind_cpa_ind_cca2/) / IND-CCA2 — [암호학 안전성](/studynote/09_security/20_extra_exam_prep/1008_ind_cpa_ind_cca2/) 정의
-1009. [AEAD](/studynote/09_security/20_extra_exam_prep/1009_aead_authenticated_encryption/) — Authenticated Encryption with Associated [Data](/studynote/09_security/20_extra_exam_prep/1009_aead_authenticated_encryption/)
-1010. [Key Wrapping](/studynote/09_security/20_extra_exam_prep/1010_key_wrapping_kek/) — KEK 활용
-1011. [Envelope Encryption](/studynote/09_security/20_extra_exam_prep/1011_envelope_encryption/) — Digital Envelope
-1012. [CloudHSM](/studynote/09_security/20_extra_exam_prep/1012_cloud_hsm/) — 클라우드 전용 [HSM](/studynote/09_security/20_extra_exam_prep/1012_cloud_hsm/)
-1013. [AWS KMS](/studynote/09_security/20_extra_exam_prep/1013_aws_kms/) — [Key](/studynote/09_security/20_extra_exam_prep/1013_aws_kms/) [Management](/studynote/09_security/20_extra_exam_prep/1013_aws_kms/) [Service](/studynote/09_security/20_extra_exam_prep/1013_aws_kms/)
-1014. Bring Your Own [Key](/studynote/09_security/20_extra_exam_prep/1014_byok_bring_your_own_key/) ([BYOK](/studynote/09_security/20_extra_exam_prep/1014_byok_bring_your_own_key/)) — 고객 관리 키
-1015. Hold Your Own [Key](/studynote/09_security/20_extra_exam_prep/1015_hyok_hold_your_own_key/) ([HYOK](/studynote/09_security/20_extra_exam_prep/1015_hyok_hold_your_own_key/)) — 외부 키 보관
+1004. [hardware RNG](/exam/09_security/1004_hardware_rng_trng/) — [물리적 난수 발생기](/exam/09_security/1004_hardware_rng_trng/)
+1005. [entropy source](/exam/09_security/1005_entropy_source/) — [난수 생성 원천](/exam/09_security/1005_entropy_source/)
+1006. [Perfect Security](/exam/09_security/1006_perfect_security_otp/) — 정보 이론적 안전 ([One-Time Pad](/exam/09_security/1006_perfect_security_otp/))
+1007. [Semantic Security](/exam/09_security/1007_semantic_security/) — [암호학](/exam/09_security/1007_semantic_security/)적으로 관찰 가능한 차이 없음
+1008. [IND-CPA](/exam/09_security/1008_ind_cpa_ind_cca2/) / IND-CCA2 — [암호학 안전성](/exam/09_security/1008_ind_cpa_ind_cca2/) 정의
+1009. [AEAD](/exam/09_security/1009_aead_authenticated_encryption/) — Authenticated Encryption with Associated [Data](/exam/09_security/1009_aead_authenticated_encryption/)
+1010. [Key Wrapping](/exam/09_security/1010_key_wrapping_kek/) — KEK 활용
+1011. [Envelope Encryption](/exam/09_security/1011_envelope_encryption/) — Digital Envelope
+1012. [CloudHSM](/exam/09_security/1012_cloud_hsm/) — 클라우드 전용 [HSM](/exam/09_security/1012_cloud_hsm/)
+1013. [AWS KMS](/exam/09_security/1013_aws_kms/) — [Key](/exam/09_security/1013_aws_kms/) [Management](/exam/09_security/1013_aws_kms/) [Service](/exam/09_security/1013_aws_kms/)
+1014. Bring Your Own [Key](/exam/09_security/1014_byok_bring_your_own_key/) ([BYOK](/exam/09_security/1014_byok_bring_your_own_key/)) — 고객 관리 키
+1015. Hold Your Own [Key](/exam/09_security/1015_hyok_hold_your_own_key/) ([HYOK](/exam/09_security/1015_hyok_hold_your_own_key/)) — 외부 키 보관
 1016. [Zero Knowledge Proof](/studynote/09_security/02_crypto/1016_zero_knowledge_proof/) ([ZKP](/studynote/09_security/02_crypto/1016_zero_knowledge_proof/)) — [영지식 증명](/studynote/09_security/02_crypto/1016_zero_knowledge_proof/)
-1017. [Commitment Scheme](/studynote/09_security/20_extra_exam_prep/1017_commitment_scheme/) — [약속 기법](/studynote/09_security/20_extra_exam_prep/1017_commitment_scheme/)
-1018. [Secure Multi-Party Computation](/studynote/09_security/20_extra_exam_prep/1018_secure_multi_party_computation/) ([SMPC](/studynote/09_security/20_extra_exam_prep/1018_secure_multi_party_computation/)) — 안전한 다자간 계산
+1017. [Commitment Scheme](/exam/09_security/1017_commitment_scheme/) — [약속 기법](/exam/09_security/1017_commitment_scheme/)
+1018. [Secure Multi-Party Computation](/exam/09_security/1018_secure_multi_party_computation/) ([SMPC](/exam/09_security/1018_secure_multi_party_computation/)) — 안전한 다자간 계산
 1019. [동형 암호](/studynote/09_security/02_crypto/1019_homomorphic_encryption/) ([Homomorphic Encryption](/studynote/09_security/02_crypto/1019_homomorphic_encryption/)) — 암호문 상태 연산
-1020. [Functional Encryption](/studynote/09_security/20_extra_exam_prep/1020_functional_encryption/) — [함수 암호](/studynote/09_security/20_extra_exam_prep/1020_functional_encryption/)
+1020. [Functional Encryption](/exam/09_security/1020_functional_encryption/) — [함수 암호](/exam/09_security/1020_functional_encryption/)
 1021. [Searchable Encryption](/studynote/09_security/uncategorized/1099_vlc_visible_light_communication_lifi_modulation/) — [검색 가능 암호](/studynote/09_security/uncategorized/1099_vlc_visible_light_communication_lifi_modulation/)
 1022. [방변조 하드웨어](/studynote/09_security/uncategorized/1100_leo_satellite_starlink_mega_constellation_6g/) — [Anti-tamper](/studynote/09_security/uncategorized/1100_leo_satellite_starlink_mega_constellation_6g/) Hardware ([TPM](/studynote/09_security/uncategorized/1100_leo_satellite_starlink_mega_constellation_6g/)/[HSM](/studynote/09_security/uncategorized/1100_leo_satellite_starlink_mega_constellation_6g/))
 1023. [Secure Enclave](/studynote/09_security/uncategorized/1101_isl_inter_satellite_link_low_earth_orbit_routing/) — TrustZone/[SGX](/studynote/09_security/uncategorized/1101_isl_inter_satellite_link_low_earth_orbit_routing/) 격리 영역

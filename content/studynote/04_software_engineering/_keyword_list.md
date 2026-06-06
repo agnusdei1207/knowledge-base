@@ -832,7 +832,7 @@ tags:
 797. [XP](/studynote/04_software_engineering/10_trends_pm_quality/797_xp_tdd/) 실천 방법 [TDD](/studynote/04_software_engineering/10_trends_pm_quality/797_xp_tdd/) 페어 지속 통합 코드 공동 소유
 798. [형상 통제](/studynote/04_software_engineering/10_trends_pm_quality/798_audit/) [베이스라인](/studynote/04_software_engineering/10_trends_pm_quality/798_audit/) 변경 심의 이력 추적
 799. [COCOMO](/studynote/04_software_engineering/10_trends_pm_quality/799_cocomo_organic_semi_embedded/) 비용 산정 모드 (Organic, Semi, Embedded)
-800. [소프트웨어 공학](/studynote/04_software_engineering/10_trends_pm_quality/800_software_engineering_pe_exam_summary/) 기술사 10개년 기출 핵심 융합 토픽 결론 정리
+800. [소프트웨어 공학](/exam/04_software_engineering/800_software_engineering_pe_exam_summary/) 기술사 10개년 기출 핵심 융합 토픽 결론 정리
 
 ---
 **총합 요약 : 총 800개 핵심 키워드 수록**

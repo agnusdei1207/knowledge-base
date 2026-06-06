@@ -343,86 +343,86 @@ tags:
 320. [그래프 신경망](/studynote/07_enterprise_systems/05_data_bi/320_gnn_vector_db_recommendation/) ([GNN](/studynote/07_enterprise_systems/05_data_bi/320_gnn_vector_db_recommendation/)) [임베딩](/studynote/07_enterprise_systems/05_data_bi/320_gnn_vector_db_recommendation/) [벡터 데이터베이스](/studynote/07_enterprise_systems/05_data_bi/320_gnn_vector_db_recommendation/) ([Milvus](/studynote/07_enterprise_systems/05_data_bi/320_gnn_vector_db_recommendation/)) [추천 시스템](/studynote/07_enterprise_systems/05_data_bi/320_gnn_vector_db_recommendation/) 적용 아키텍처
 
 ## 6. 시험 빈출 핵심 토픽 융합 [마스](/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 (180개 심화 요약)
-321. [정보화 전략 계획](/studynote/07_enterprise_systems/06_exam_summary/321_isp_as_is_to_be/) ([ISP](/studynote/07_enterprise_systems/06_exam_summary/321_isp_as_is_to_be/)) [AS-IS](/studynote/07_enterprise_systems/06_exam_summary/321_isp_as_is_to_be/) / TO-BE
-322. [전사 아키텍처](/studynote/07_enterprise_systems/06_exam_summary/322_ea_zachman_framework/) ([EA](/studynote/07_enterprise_systems/06_exam_summary/322_ea_zachman_framework/)) 프레임워크 잭맨
-323. [BPR](/studynote/07_enterprise_systems/06_exam_summary/323_bpr_pi_difference/) / [PI](/studynote/07_enterprise_systems/06_exam_summary/323_bpr_pi_difference/) ([Business Process Reengineering](/studynote/07_enterprise_systems/06_exam_summary/323_bpr_pi_difference/) / Innovation) 차이점
-324. [KPI](/studynote/07_enterprise_systems/06_exam_summary/324_kpi_csf_relationship/) 와 [CSF](/studynote/07_enterprise_systems/06_exam_summary/324_kpi_csf_relationship/) 연관 [관계](/studynote/07_enterprise_systems/06_exam_summary/324_kpi_csf_relationship/)
-325. [BSC](/studynote/07_enterprise_systems/06_exam_summary/325_bsc_four_perspectives/) 균형 성과 4관점 (재무, 고객, 프로세스, 성장)
-326. [OKR](/studynote/07_enterprise_systems/06_exam_summary/326_okr_vs_mbo/) [MBO](/studynote/07_enterprise_systems/06_exam_summary/326_okr_vs_mbo/) 성과 평가 패러다임 차이
-327. [가치 사슬](/studynote/07_enterprise_systems/06_exam_summary/327_value_chain_porter/) ([Value Chain](/studynote/07_enterprise_systems/06_exam_summary/327_value_chain_porter/)) 마이클 포터
+321. [정보화 전략 계획](/exam/07_enterprise_systems/321_isp_as_is_to_be/) ([ISP](/exam/07_enterprise_systems/321_isp_as_is_to_be/)) [AS-IS](/exam/07_enterprise_systems/321_isp_as_is_to_be/) / TO-BE
+322. [전사 아키텍처](/exam/07_enterprise_systems/322_ea_zachman_framework/) ([EA](/exam/07_enterprise_systems/322_ea_zachman_framework/)) 프레임워크 잭맨
+323. [BPR](/exam/07_enterprise_systems/323_bpr_pi_difference/) / [PI](/exam/07_enterprise_systems/323_bpr_pi_difference/) ([Business Process Reengineering](/exam/07_enterprise_systems/323_bpr_pi_difference/) / Innovation) 차이점
+324. [KPI](/exam/07_enterprise_systems/324_kpi_csf_relationship/) 와 [CSF](/exam/07_enterprise_systems/324_kpi_csf_relationship/) 연관 [관계](/exam/07_enterprise_systems/324_kpi_csf_relationship/)
+325. [BSC](/exam/07_enterprise_systems/325_bsc_four_perspectives/) 균형 성과 4관점 (재무, 고객, 프로세스, 성장)
+326. [OKR](/exam/07_enterprise_systems/326_okr_vs_mbo/) [MBO](/exam/07_enterprise_systems/326_okr_vs_mbo/) 성과 평가 패러다임 차이
+327. [가치 사슬](/exam/07_enterprise_systems/327_value_chain_porter/) ([Value Chain](/exam/07_enterprise_systems/327_value_chain_porter/)) 마이클 포터
 328. 5 Forces 산업 구조 경쟁 요인
-329. SWOT 교차 분석 [전략](/studynote/07_enterprise_systems/06_exam_summary/329_swot_cross_analysis/) 도출
-330. [롱테일 법칙](/studynote/07_enterprise_systems/06_exam_summary/330_long_tail_vs_pareto/) 파레토 80:20 비교
-331. [린 스타트업](/studynote/07_enterprise_systems/06_exam_summary/331_lean_startup_mvp_bml/) [MVP](/studynote/07_enterprise_systems/06_exam_summary/331_lean_startup_mvp_bml/) 배포 실험
-332. [그로스 해킹](/studynote/07_enterprise_systems/06_exam_summary/332_growth_hacking_aarrr/) AARRR 퍼널
-333. IT 거버넌스 [COBIT](/studynote/07_enterprise_systems/06_exam_summary/333_cobit_it_governance/) [도메인](/studynote/07_enterprise_systems/06_exam_summary/333_cobit_it_governance/)
-334. [ITSM](/studynote/07_enterprise_systems/06_exam_summary/334_itsm_itil_service_catalog/) [ITIL](/studynote/07_enterprise_systems/06_exam_summary/334_itsm_itil_service_catalog/) [서비스 카탈로그](/studynote/07_enterprise_systems/06_exam_summary/334_itsm_itil_service_catalog/)
-335. [SLA](/studynote/07_enterprise_systems/06_exam_summary/335_sla_service_level_agreement/) ([서비스](/studynote/07_enterprise_systems/06_exam_summary/335_sla_service_level_agreement/) 수준 협약) 지표 관리
-336. [CMDB](/studynote/07_enterprise_systems/06_exam_summary/336_cmdb_configuration_management/) 자산 [형상 통제](/studynote/07_enterprise_systems/06_exam_summary/336_cmdb_configuration_management/) [베이스라인](/studynote/07_enterprise_systems/06_exam_summary/336_cmdb_configuration_management/)
-337. [인시던트 관리 vs 문제 관리 근본 원인](/studynote/07_enterprise_systems/06_exam_summary/337_incident_vs_problem_management/)
+329. SWOT 교차 분석 [전략](/exam/07_enterprise_systems/329_swot_cross_analysis/) 도출
+330. [롱테일 법칙](/exam/07_enterprise_systems/330_long_tail_vs_pareto/) 파레토 80:20 비교
+331. [린 스타트업](/exam/07_enterprise_systems/331_lean_startup_mvp_bml/) [MVP](/exam/07_enterprise_systems/331_lean_startup_mvp_bml/) 배포 실험
+332. [그로스 해킹](/exam/07_enterprise_systems/332_growth_hacking_aarrr/) AARRR 퍼널
+333. IT 거버넌스 [COBIT](/exam/07_enterprise_systems/333_cobit_it_governance/) [도메인](/exam/07_enterprise_systems/333_cobit_it_governance/)
+334. [ITSM](/exam/07_enterprise_systems/334_itsm_itil_service_catalog/) [ITIL](/exam/07_enterprise_systems/334_itsm_itil_service_catalog/) [서비스 카탈로그](/exam/07_enterprise_systems/334_itsm_itil_service_catalog/)
+335. [SLA](/exam/07_enterprise_systems/335_sla_service_level_agreement/) ([서비스](/exam/07_enterprise_systems/335_sla_service_level_agreement/) 수준 협약) 지표 관리
+336. [CMDB](/exam/07_enterprise_systems/336_cmdb_configuration_management/) 자산 [형상 통제](/exam/07_enterprise_systems/336_cmdb_configuration_management/) [베이스라인](/exam/07_enterprise_systems/336_cmdb_configuration_management/)
+337. [인시던트 관리 vs 문제 관리 근본 원인](/exam/07_enterprise_systems/337_incident_vs_problem_management/)
 338. BCP 업무 연속성 [복구](/studynote/07_enterprise_systems/10_enterprise_security_governance/338_bcp_bia_business_continuity/) [BIA](/studynote/07_enterprise_systems/10_enterprise_security_governance/338_bcp_bia_business_continuity/)
 339. 클라우드 마이그레이션 6R (Rehost, [Refactor](/studynote/07_enterprise_systems/08_cloud_finops/339_cloud_migration_6r/))
-340. 섀도우 IT [CASB](/studynote/07_enterprise_systems/06_exam_summary/340_shadow_it_casb/) 솔루션
-341. [데이터 스튜어드 품질 오너십](/studynote/07_enterprise_systems/06_exam_summary/341_data_steward_quality_ownership/)
-342. [MDM](/studynote/07_enterprise_systems/06_exam_summary/342_mdm_master_data_golden_record/) [마스터 데이터](/studynote/07_enterprise_systems/06_exam_summary/342_mdm_master_data_golden_record/) 골든 레코드
-343. [플랫폼 비즈니스 양면 시장](/studynote/07_enterprise_systems/06_exam_summary/343_platform_business_two_sided_market/) 모델
-344. [옴니채널](/studynote/07_enterprise_systems/06_exam_summary/344_omnichannel_customer_experience/) 고객 경험 [일관성](/studynote/07_enterprise_systems/06_exam_summary/344_omnichannel_customer_experience/)
-345. [RPA](/studynote/07_enterprise_systems/06_exam_summary/345_rpa_hyperautomation/) 화면 스크래핑 [초자동화](/studynote/07_enterprise_systems/06_exam_summary/345_rpa_hyperautomation/)
-346. [프로세스 마이닝 이벤트 로그 분석](/studynote/07_enterprise_systems/06_exam_summary/346_process_mining_event_log/)
-347. [CMMI](/studynote/07_enterprise_systems/06_exam_summary/347_cmmi_maturity_spice/) 성숙도 5단계 [SPICE](/studynote/07_enterprise_systems/06_exam_summary/347_cmmi_maturity_spice/)
-348. [PMO](/studynote/07_enterprise_systems/06_exam_summary/348_pmo_project_management_office/) 역할 범위 자원 조달 통제
-349. [델파이 기법 블라인드 합의](/studynote/07_enterprise_systems/06_exam_summary/349_delphi_method_expert_forecast/)
-350. [MECE](/studynote/07_enterprise_systems/06_exam_summary/350_mece_issue_tree/) 원칙 누락 중복 배제
+340. 섀도우 IT [CASB](/exam/07_enterprise_systems/340_shadow_it_casb/) 솔루션
+341. [데이터 스튜어드 품질 오너십](/exam/07_enterprise_systems/341_data_steward_quality_ownership/)
+342. [MDM](/exam/07_enterprise_systems/342_mdm_master_data_golden_record/) [마스터 데이터](/exam/07_enterprise_systems/342_mdm_master_data_golden_record/) 골든 레코드
+343. [플랫폼 비즈니스 양면 시장](/exam/07_enterprise_systems/343_platform_business_two_sided_market/) 모델
+344. [옴니채널](/exam/07_enterprise_systems/344_omnichannel_customer_experience/) 고객 경험 [일관성](/exam/07_enterprise_systems/344_omnichannel_customer_experience/)
+345. [RPA](/exam/07_enterprise_systems/345_rpa_hyperautomation/) 화면 스크래핑 [초자동화](/exam/07_enterprise_systems/345_rpa_hyperautomation/)
+346. [프로세스 마이닝 이벤트 로그 분석](/exam/07_enterprise_systems/346_process_mining_event_log/)
+347. [CMMI](/exam/07_enterprise_systems/347_cmmi_maturity_spice/) 성숙도 5단계 [SPICE](/exam/07_enterprise_systems/347_cmmi_maturity_spice/)
+348. [PMO](/exam/07_enterprise_systems/348_pmo_project_management_office/) 역할 범위 자원 조달 통제
+349. [델파이 기법 블라인드 합의](/exam/07_enterprise_systems/349_delphi_method_expert_forecast/)
+350. [MECE](/exam/07_enterprise_systems/350_mece_issue_tree/) 원칙 누락 중복 배제
 351. [FinOps](/studynote/07_enterprise_systems/08_cloud_finops/351_finops_cloud_financial_optimization/) 클라우드 재무 최적화
-352. [ERP](/studynote/07_enterprise_systems/06_exam_summary/352_erp_integrated_database_architecture/) 자원 통합 [데이터베이스](/studynote/07_enterprise_systems/06_exam_summary/352_erp_integrated_database_architecture/)
-353. [SCM](/studynote/07_enterprise_systems/06_exam_summary/353_scm_bullwhip_effect/) 불황/채찍 효과 정보 공유
-354. [S&OP](/studynote/07_enterprise_systems/06_exam_summary/354_sop_sales_operations_planning/) 영업 생산 계획 조정
-355. [3PL](/studynote/07_enterprise_systems/06_exam_summary/355_3pl_4pl_logistics/) 4PL 물류 아웃소싱
-356. [CRM LTV](/studynote/07_enterprise_systems/06_exam_summary/356_crm_customer_lifetime_value/) ([고객 생애 가치](/studynote/07_enterprise_systems/06_exam_summary/356_crm_customer_lifetime_value/))
-357. [CDP](/studynote/07_enterprise_systems/06_exam_summary/357_cdp_first_party_data/) 퍼스트파티 고객 통합
-358. [MES](/studynote/07_enterprise_systems/06_exam_summary/358_mes_pop_manufacturing/) 공장 실행 [POP](/studynote/07_enterprise_systems/06_exam_summary/358_mes_pop_manufacturing/) [데이터](/studynote/07_enterprise_systems/06_exam_summary/358_mes_pop_manufacturing/)
-359. [PLM](/studynote/07_enterprise_systems/06_exam_summary/359_plm_bom_product_lifecycle/) [BOM](/studynote/07_enterprise_systems/06_exam_summary/359_plm_bom_product_lifecycle/) 도면 수명 주기
+352. [ERP](/exam/07_enterprise_systems/352_erp_integrated_database_architecture/) 자원 통합 [데이터베이스](/exam/07_enterprise_systems/352_erp_integrated_database_architecture/)
+353. [SCM](/exam/07_enterprise_systems/353_scm_bullwhip_effect/) 불황/채찍 효과 정보 공유
+354. [S&OP](/exam/07_enterprise_systems/354_sop_sales_operations_planning/) 영업 생산 계획 조정
+355. [3PL](/exam/07_enterprise_systems/355_3pl_4pl_logistics/) 4PL 물류 아웃소싱
+356. [CRM LTV](/exam/07_enterprise_systems/356_crm_customer_lifetime_value/) ([고객 생애 가치](/exam/07_enterprise_systems/356_crm_customer_lifetime_value/))
+357. [CDP](/exam/07_enterprise_systems/357_cdp_first_party_data/) 퍼스트파티 고객 통합
+358. [MES](/exam/07_enterprise_systems/358_mes_pop_manufacturing/) 공장 실행 [POP](/exam/07_enterprise_systems/358_mes_pop_manufacturing/) [데이터](/exam/07_enterprise_systems/358_mes_pop_manufacturing/)
+359. [PLM](/exam/07_enterprise_systems/359_plm_bom_product_lifecycle/) [BOM](/exam/07_enterprise_systems/359_plm_bom_product_lifecycle/) 도면 수명 주기
 360. 지식 관리 SECI 모델 내면화
-361. [EAI](/studynote/07_enterprise_systems/06_exam_summary/361_eai_hub_spoke_bus/) [허브](/studynote/07_enterprise_systems/06_exam_summary/361_eai_hub_spoke_bus/) 앤 스포크 [버스](/studynote/07_enterprise_systems/06_exam_summary/361_eai_hub_spoke_bus/)
-362. [SOA WSDL UDDI SOAP](/studynote/07_enterprise_systems/06_exam_summary/362_soa_wsdl_uddi_soap/)
-363. [ESB](/studynote/07_enterprise_systems/06_exam_summary/363_esb_message_bus_routing/) [메시](/studynote/07_enterprise_systems/06_exam_summary/363_esb_message_bus_routing/)지 [버스](/studynote/07_enterprise_systems/06_exam_summary/363_esb_message_bus_routing/) [라우팅](/studynote/07_enterprise_systems/06_exam_summary/363_esb_message_bus_routing/)
-364. [REST API](/studynote/07_enterprise_systems/06_exam_summary/364_rest_api_hateoas_maturity/) HATEOAS 성숙도
-365. [마이크로서비스](/studynote/07_enterprise_systems/06_exam_summary/365_msa_microservice_architecture/) [MSA](/studynote/07_enterprise_systems/06_exam_summary/365_msa_microservice_architecture/) 독립 배포
-366. [API](/studynote/07_enterprise_systems/06_exam_summary/366_api_gateway_auth_throttling/) 게이트웨이 [인증](/studynote/07_enterprise_systems/06_exam_summary/366_api_gateway_auth_throttling/) 스로틀링
-367. [서비스 디스커버리](/studynote/07_enterprise_systems/06_exam_summary/367_service_discovery_eureka_consul/) Eureka
-368. [서킷 브레이커](/studynote/07_enterprise_systems/06_exam_summary/368_circuit_breaker_pattern/) 장애 연쇄 차단
-369. [데이터베이스 퍼 서비스](/studynote/07_enterprise_systems/06_exam_summary/369_database_per_service/) 고립
-370. [사가 패턴](/studynote/07_enterprise_systems/06_exam_summary/370_saga_pattern_distributed_transaction/) [보상 트랜잭션](/studynote/07_enterprise_systems/06_exam_summary/370_saga_pattern_distributed_transaction/)
-371. [CQRS](/studynote/07_enterprise_systems/06_exam_summary/371_cqrs_command_query_separation/) 명령 조회 모델 분리
-372. [이벤트 소싱 상태 이력 불변 저장](/studynote/07_enterprise_systems/06_exam_summary/372_event_sourcing_immutable_history/)
-373. [트랜잭셔널 아웃박스](/studynote/07_enterprise_systems/06_exam_summary/373_transactional_outbox_pattern/) 비동기 보장
-374. [사이드카 패턴](/studynote/07_enterprise_systems/06_exam_summary/374_sidecar_pattern_cross_cutting/) 메인 로직 횡단 분리
-375. [서비스 메시](/studynote/07_enterprise_systems/06_exam_summary/375_service_mesh_istio/) [Istio](/studynote/07_enterprise_systems/06_exam_summary/375_service_mesh_istio/) 트래픽 통제
-376. [스트랭글러 패턴 레거시 분할](/studynote/07_enterprise_systems/06_exam_summary/376_strangler_fig_pattern/) 이관
-377. [멀티 테넌트](/studynote/07_enterprise_systems/06_exam_summary/377_multi_tenant_saas/) [SaaS](/studynote/07_enterprise_systems/06_exam_summary/377_multi_tenant_saas/) 인스턴스 공유망
-378. [gRPC](/studynote/07_enterprise_systems/06_exam_summary/378_grpc_protocol_buffers/) [프로토콜](/studynote/07_enterprise_systems/06_exam_summary/378_grpc_protocol_buffers/) 버퍼 [직렬](/studynote/07_enterprise_systems/06_exam_summary/378_grpc_protocol_buffers/)화
-379. [데이터 웨어하우스](/studynote/07_enterprise_systems/06_exam_summary/379_data_warehouse_inmon/) [Inmon](/studynote/07_enterprise_systems/06_exam_summary/379_data_warehouse_inmon/) 주제 통합
-380. [데이터 마트](/studynote/07_enterprise_systems/06_exam_summary/380_data_mart_kimball_dimensional/) [Kimball](/studynote/07_enterprise_systems/06_exam_summary/380_data_mart_kimball_dimensional/) 차원
-381. [ETL](/studynote/07_enterprise_systems/06_exam_summary/381_etl_pipeline_bottleneck_analysis/) 변환 적재 병목
-382. [ELT](/studynote/07_enterprise_systems/06_exam_summary/382_elt_cloud_transform_architecture/) 클라우드 내부 변환
-383. [스타 스키마 중심 팩트 방사 차원](/studynote/07_enterprise_systems/06_exam_summary/383_star_schema_fact_dimension/)
-384. [스노우플레이크 차원 정규화 계층](/studynote/07_enterprise_systems/06_exam_summary/384_snowflake_schema_normalized_dimension/)
-385. [서로게이트 키](/studynote/07_enterprise_systems/06_exam_summary/385_surrogate_key_artificial_identifier/) 인조 [식별자](/studynote/07_enterprise_systems/06_exam_summary/385_surrogate_key_artificial_identifier/)
-386. [SCD](/studynote/07_enterprise_systems/06_exam_summary/386_scd_slowly_changing_dimension_type2/) 서서히 변하는 차원 이력 관리 타입 2
-387. [데이터 레이크 스키마 온 리드 비정형](/studynote/07_enterprise_systems/06_exam_summary/387_data_lake_schema_on_read/)
-388. [데이터 레이크하우스 트랜잭션 융합](/studynote/07_enterprise_systems/06_exam_summary/388_data_lakehouse_transaction_fusion/)
-389. [데이터 카탈로그 검색 메타 태깅](/studynote/07_enterprise_systems/06_exam_summary/389_data_catalog_metadata_tagging/)
-390. [데이터 리니지 흐름 변환 추적 계보](/studynote/07_enterprise_systems/06_exam_summary/390_data_lineage_flow_tracking/)
-391. [스토리지 컴퓨팅 분리 클라우드 확장](/studynote/07_enterprise_systems/06_exam_summary/391_storage_compute_separation/)
-392. [데이터 메시 분산 도메인 프로덕트](/studynote/07_enterprise_systems/06_exam_summary/392_data_mesh_distributed_domain/)
-393. [데이터 패브릭 가상화 메타 지능 연결](/studynote/07_enterprise_systems/06_exam_summary/393_data_fabric_virtual_metadata_intelligence/)
-394. [데이터 가상화 물리 통합 불필요 연방 쿼리](/studynote/07_enterprise_systems/06_exam_summary/394_data_virtualization_federated_query/)
-395. [하둡](/studynote/07_enterprise_systems/06_exam_summary/395_hadoop_mapreduce_disk_bottleneck/) [맵리듀스](/studynote/07_enterprise_systems/06_exam_summary/395_hadoop_mapreduce_disk_bottleneck/) 디스크 병목
-396. 스파크 인메모리 [RDD](/studynote/07_enterprise_systems/06_exam_summary/396_spark_in_memory_rdd_parallel/) [병렬](/studynote/07_enterprise_systems/06_exam_summary/396_spark_in_memory_rdd_parallel/)
-397. [카프카](/studynote/07_enterprise_systems/06_exam_summary/397_kafka_distributed_streaming_cdc/) [분산](/studynote/07_enterprise_systems/06_exam_summary/397_kafka_distributed_streaming_cdc/) 큐 [메시](/studynote/07_enterprise_systems/06_exam_summary/397_kafka_distributed_streaming_cdc/)지 스트리밍
-398. [데이터옵스](/studynote/07_enterprise_systems/06_exam_summary/398_dataops_cicd_pipeline_automation/) [CI CD](/studynote/07_enterprise_systems/06_exam_summary/398_dataops_cicd_pipeline_automation/) [파이프](/studynote/07_enterprise_systems/06_exam_summary/398_dataops_cicd_pipeline_automation/)라인 자동 테스팅
-399. [피처 스토어](/studynote/07_enterprise_systems/06_exam_summary/399_feature_store_ml_cache_mlops/) [머신러닝](/studynote/07_enterprise_systems/06_exam_summary/399_feature_store_ml_cache_mlops/) 변수 캐시
-400. [프라이버시 클린 룸 데이터 안전 공유](/studynote/07_enterprise_systems/06_exam_summary/400_privacy_clean_room_data_sharing/)
+361. [EAI](/exam/07_enterprise_systems/361_eai_hub_spoke_bus/) [허브](/exam/07_enterprise_systems/361_eai_hub_spoke_bus/) 앤 스포크 [버스](/exam/07_enterprise_systems/361_eai_hub_spoke_bus/)
+362. [SOA WSDL UDDI SOAP](/exam/07_enterprise_systems/362_soa_wsdl_uddi_soap/)
+363. [ESB](/exam/07_enterprise_systems/363_esb_message_bus_routing/) [메시](/exam/07_enterprise_systems/363_esb_message_bus_routing/)지 [버스](/exam/07_enterprise_systems/363_esb_message_bus_routing/) [라우팅](/exam/07_enterprise_systems/363_esb_message_bus_routing/)
+364. [REST API](/exam/07_enterprise_systems/364_rest_api_hateoas_maturity/) HATEOAS 성숙도
+365. [마이크로서비스](/exam/07_enterprise_systems/365_msa_microservice_architecture/) [MSA](/exam/07_enterprise_systems/365_msa_microservice_architecture/) 독립 배포
+366. [API](/exam/07_enterprise_systems/366_api_gateway_auth_throttling/) 게이트웨이 [인증](/exam/07_enterprise_systems/366_api_gateway_auth_throttling/) 스로틀링
+367. [서비스 디스커버리](/exam/07_enterprise_systems/367_service_discovery_eureka_consul/) Eureka
+368. [서킷 브레이커](/exam/07_enterprise_systems/368_circuit_breaker_pattern/) 장애 연쇄 차단
+369. [데이터베이스 퍼 서비스](/exam/07_enterprise_systems/369_database_per_service/) 고립
+370. [사가 패턴](/exam/07_enterprise_systems/370_saga_pattern_distributed_transaction/) [보상 트랜잭션](/exam/07_enterprise_systems/370_saga_pattern_distributed_transaction/)
+371. [CQRS](/exam/07_enterprise_systems/371_cqrs_command_query_separation/) 명령 조회 모델 분리
+372. [이벤트 소싱 상태 이력 불변 저장](/exam/07_enterprise_systems/372_event_sourcing_immutable_history/)
+373. [트랜잭셔널 아웃박스](/exam/07_enterprise_systems/373_transactional_outbox_pattern/) 비동기 보장
+374. [사이드카 패턴](/exam/07_enterprise_systems/374_sidecar_pattern_cross_cutting/) 메인 로직 횡단 분리
+375. [서비스 메시](/exam/07_enterprise_systems/375_service_mesh_istio/) [Istio](/exam/07_enterprise_systems/375_service_mesh_istio/) 트래픽 통제
+376. [스트랭글러 패턴 레거시 분할](/exam/07_enterprise_systems/376_strangler_fig_pattern/) 이관
+377. [멀티 테넌트](/exam/07_enterprise_systems/377_multi_tenant_saas/) [SaaS](/exam/07_enterprise_systems/377_multi_tenant_saas/) 인스턴스 공유망
+378. [gRPC](/exam/07_enterprise_systems/378_grpc_protocol_buffers/) [프로토콜](/exam/07_enterprise_systems/378_grpc_protocol_buffers/) 버퍼 [직렬](/exam/07_enterprise_systems/378_grpc_protocol_buffers/)화
+379. [데이터 웨어하우스](/exam/07_enterprise_systems/379_data_warehouse_inmon/) [Inmon](/exam/07_enterprise_systems/379_data_warehouse_inmon/) 주제 통합
+380. [데이터 마트](/exam/07_enterprise_systems/380_data_mart_kimball_dimensional/) [Kimball](/exam/07_enterprise_systems/380_data_mart_kimball_dimensional/) 차원
+381. [ETL](/exam/07_enterprise_systems/381_etl_pipeline_bottleneck_analysis/) 변환 적재 병목
+382. [ELT](/exam/07_enterprise_systems/382_elt_cloud_transform_architecture/) 클라우드 내부 변환
+383. [스타 스키마 중심 팩트 방사 차원](/exam/07_enterprise_systems/383_star_schema_fact_dimension/)
+384. [스노우플레이크 차원 정규화 계층](/exam/07_enterprise_systems/384_snowflake_schema_normalized_dimension/)
+385. [서로게이트 키](/exam/07_enterprise_systems/385_surrogate_key_artificial_identifier/) 인조 [식별자](/exam/07_enterprise_systems/385_surrogate_key_artificial_identifier/)
+386. [SCD](/exam/07_enterprise_systems/386_scd_slowly_changing_dimension_type2/) 서서히 변하는 차원 이력 관리 타입 2
+387. [데이터 레이크 스키마 온 리드 비정형](/exam/07_enterprise_systems/387_data_lake_schema_on_read/)
+388. [데이터 레이크하우스 트랜잭션 융합](/exam/07_enterprise_systems/388_data_lakehouse_transaction_fusion/)
+389. [데이터 카탈로그 검색 메타 태깅](/exam/07_enterprise_systems/389_data_catalog_metadata_tagging/)
+390. [데이터 리니지 흐름 변환 추적 계보](/exam/07_enterprise_systems/390_data_lineage_flow_tracking/)
+391. [스토리지 컴퓨팅 분리 클라우드 확장](/exam/07_enterprise_systems/391_storage_compute_separation/)
+392. [데이터 메시 분산 도메인 프로덕트](/exam/07_enterprise_systems/392_data_mesh_distributed_domain/)
+393. [데이터 패브릭 가상화 메타 지능 연결](/exam/07_enterprise_systems/393_data_fabric_virtual_metadata_intelligence/)
+394. [데이터 가상화 물리 통합 불필요 연방 쿼리](/exam/07_enterprise_systems/394_data_virtualization_federated_query/)
+395. [하둡](/exam/07_enterprise_systems/395_hadoop_mapreduce_disk_bottleneck/) [맵리듀스](/exam/07_enterprise_systems/395_hadoop_mapreduce_disk_bottleneck/) 디스크 병목
+396. 스파크 인메모리 [RDD](/exam/07_enterprise_systems/396_spark_in_memory_rdd_parallel/) [병렬](/exam/07_enterprise_systems/396_spark_in_memory_rdd_parallel/)
+397. [카프카](/exam/07_enterprise_systems/397_kafka_distributed_streaming_cdc/) [분산](/exam/07_enterprise_systems/397_kafka_distributed_streaming_cdc/) 큐 [메시](/exam/07_enterprise_systems/397_kafka_distributed_streaming_cdc/)지 스트리밍
+398. [데이터옵스](/exam/07_enterprise_systems/398_dataops_cicd_pipeline_automation/) [CI CD](/exam/07_enterprise_systems/398_dataops_cicd_pipeline_automation/) [파이프](/exam/07_enterprise_systems/398_dataops_cicd_pipeline_automation/)라인 자동 테스팅
+399. [피처 스토어](/exam/07_enterprise_systems/399_feature_store_ml_cache_mlops/) [머신러닝](/exam/07_enterprise_systems/399_feature_store_ml_cache_mlops/) 변수 캐시
+400. [프라이버시 클린 룸 데이터 안전 공유](/exam/07_enterprise_systems/400_privacy_clean_room_data_sharing/)
 401. Web 3.0 [탈중앙화](/studynote/07_enterprise_systems/09_digital_transformation/401_web3_decentralized_ownership/) 소유권 경제
 402. [블록체인](/studynote/07_enterprise_systems/09_digital_transformation/402_blockchain_dlt_merkle_tree/) [DLT](/studynote/07_enterprise_systems/09_digital_transformation/402_blockchain_dlt_merkle_tree/) [머클 트리](/studynote/07_enterprise_systems/09_digital_transformation/402_blockchain_dlt_merkle_tree/)
 403. [분산](/studynote/07_enterprise_systems/09_digital_transformation/403_consensus_pow_pos_bft/) 합의 PoW PoS [BFT](/studynote/07_enterprise_systems/09_digital_transformation/403_consensus_pow_pos_bft/)
@@ -493,9 +493,9 @@ tags:
 468. [동형 암호](/studynote/07_enterprise_systems/10_enterprise_security_governance/468_fhe_fully_homomorphic_encryption/) [데이터](/studynote/07_enterprise_systems/10_enterprise_security_governance/468_fhe_fully_homomorphic_encryption/) 연산 암호문 통계 처리 망 시스템
 469. [액침 냉각](/studynote/07_enterprise_systems/01_strategy_governance/469_carbon_aware_computing/) [PUE](/studynote/07_enterprise_systems/01_strategy_governance/469_carbon_aware_computing/) [탄소 인지 컴퓨팅](/studynote/07_enterprise_systems/01_strategy_governance/469_carbon_aware_computing/) 그린 IT 망
 470. [메타 러닝](/studynote/07_enterprise_systems/09_digital_transformation/470_meta_learning_maml/) (MAML) 소량 샷 미세 튜닝 파라미터망
-471. 정보 공학 방법론 (IE) [데이터 모델](/studynote/07_enterprise_systems/06_exam_summary/471_ie_information_engineering/) 주도 시스템망
-472. IT 프로젝트 관리 [PERT](/studynote/07_enterprise_systems/06_exam_summary/472_pert_cpm_critical_path/) [CPM](/studynote/07_enterprise_systems/06_exam_summary/472_pert_cpm_critical_path/) 주경로 여유망 계산
-473. [EVM](/studynote/07_enterprise_systems/06_exam_summary/473_evm_spi_cpi_earned_value/) 획득 가치 [SPI](/studynote/07_enterprise_systems/06_exam_summary/473_evm_spi_cpi_earned_value/) [CPI](/studynote/07_enterprise_systems/06_exam_summary/473_evm_spi_cpi_earned_value/) 예산 일정 진척 통계
+471. 정보 공학 방법론 (IE) [데이터 모델](/exam/07_enterprise_systems/471_ie_information_engineering/) 주도 시스템망
+472. IT 프로젝트 관리 [PERT](/exam/07_enterprise_systems/472_pert_cpm_critical_path/) [CPM](/exam/07_enterprise_systems/472_pert_cpm_critical_path/) 주경로 여유망 계산
+473. [EVM](/exam/07_enterprise_systems/473_evm_spi_cpi_earned_value/) 획득 가치 [SPI](/exam/07_enterprise_systems/473_evm_spi_cpi_earned_value/) [CPI](/exam/07_enterprise_systems/473_evm_spi_cpi_earned_value/) 예산 일정 진척 통계
 474. [ISO 27001 ISMS](/studynote/07_enterprise_systems/10_enterprise_security_governance/474_iso27001_isms_p_certification/)-P [인증](/studynote/07_enterprise_systems/10_enterprise_security_governance/474_iso27001_isms_p_certification/) 위험 통제 보안 규격
 475. [개인정보](/studynote/07_enterprise_systems/10_enterprise_security_governance/475_mydata_did_zero_knowledge/) [마이데이터](/studynote/07_enterprise_systems/10_enterprise_security_governance/475_mydata_did_zero_knowledge/) [블록체인](/studynote/07_enterprise_systems/10_enterprise_security_governance/475_mydata_did_zero_knowledge/) [DID](/studynote/07_enterprise_systems/10_enterprise_security_governance/475_mydata_did_zero_knowledge/) 영지식 신원망
 476. 다자간 연산 (MPC) 암호 가비지 회로 [분산](/studynote/07_enterprise_systems/10_enterprise_security_governance/476_multi_party_computation_mpc/)망 증명
@@ -505,7 +505,7 @@ tags:
 480. 텔레메트리 스트리밍 ([gRPC](/studynote/07_enterprise_systems/09_digital_transformation/480_telemetry_streaming_grpc_active/) [폴링](/studynote/07_enterprise_systems/09_digital_transformation/480_telemetry_streaming_grpc_active/) 탈피) 능동 감시망
 481. (엔터프라이즈 시스템 / 아키텍처 기술사 기출 종합 등 800+ 심화 파생 키워드 연결 체계 완성)
 ... (반복 심화 전용)
-800. [차세대 전사 비즈니스 디지털 혁신](/studynote/07_enterprise_systems/06_exam_summary/800_dt_dx_it/)(DT/[DX](/studynote/07_enterprise_systems/06_exam_summary/800_dt_dx_it/)) 및 IT [전략](/studynote/07_enterprise_systems/06_exam_summary/800_dt_dx_it/) 총론 포괄 구조 프레임워크 맵
+800. [차세대 전사 비즈니스 디지털 혁신](/exam/07_enterprise_systems/800_dt_dx_it/)(DT/[DX](/exam/07_enterprise_systems/800_dt_dx_it/)) 및 IT [전략](/exam/07_enterprise_systems/800_dt_dx_it/) 총론 포괄 구조 프레임워크 맵
 
 ---
 <strong>총정리 엔터프라이즈 / 신기술 비즈니스 <a href="/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 키워드 : 총 800개 수록</strong> (+관련 지식망 1,200개 규모)

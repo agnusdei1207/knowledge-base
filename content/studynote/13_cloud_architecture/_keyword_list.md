@@ -397,7 +397,7 @@ tags:
 370. 웹 3.0 토큰 [DID](/studynote/13_cloud_architecture/05_data_engineering/370_3_0_did/) 탈중앙 시스템 생태계 통합 인프라
 371. (클라우드 아키텍트 최고 난이도 기출 핵심 키워드망 요약 결론)
 ... (아키텍처 토픽 연결 파생)
-800. 클라우드 / [데이터](/studynote/13_cloud_architecture/06_exam_summary/800_cloud_computing/) / [DevOps](/studynote/13_cloud_architecture/06_exam_summary/800_cloud_computing/) 융합 아키텍처 마스터 맵 종결
+800. 클라우드 / [데이터](/exam/13_cloud_architecture/800_cloud_computing/) / [DevOps](/exam/13_cloud_architecture/800_cloud_computing/) 융합 아키텍처 마스터 맵 종결
 
 ---
 <strong>총합 요약 : 총 800+ 클라우드/<a href="/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/">DevOps</a>/<a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 핵심 키워드 수록</strong>

@@ -25,7 +25,7 @@ tags:
 8. [개념 스키마](/studynote/05_database/01_db_architecture_relational/008_conceptual_schema/) ([Conceptual Schema](/studynote/05_database/01_db_architecture_relational/008_conceptual_schema/)) - 조직 전체 관점, [논리](/studynote/05_database/01_db_architecture_relational/008_conceptual_schema/)적 구조
 9. [내부 스키마](/studynote/05_database/01_db_architecture_relational/009_internal_schema/) ([Internal Schema](/studynote/05_database/01_db_architecture_relational/009_internal_schema/)) - 물리적 저장 장치 관점
 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [스키마 매핑](/studynote/05_database/01_db_architecture_relational/010_schema_mapping/) ([Mapping](/studynote/05_database/01_db_architecture_relational/010_schema_mapping/)) - 외부/개념 사상, 개념/내부 사상
-[11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). [시스템 카탈로그](/studynote/05_database/01_db_architecture_relational/011_system_catalog/) ([System Catalog](/studynote/05_database/01_db_architecture_relational/011_system_catalog/)) / [데이터 사전](/studynote/05_database/07_exam_summary/393_data_dictionary/) ([Data Dictionary](/studynote/05_database/04_transactions_concurrency/509_data_dictionary/)) - [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)([Metadata](/studynote/05_database/01_db_architecture_relational/012_metadata/)) 저장소
+[11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). [시스템 카탈로그](/studynote/05_database/01_db_architecture_relational/011_system_catalog/) ([System Catalog](/studynote/05_database/01_db_architecture_relational/011_system_catalog/)) / [데이터 사전](/exam/05_database/393_data_dictionary/) ([Data Dictionary](/studynote/05_database/04_transactions_concurrency/509_data_dictionary/)) - [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)([Metadata](/studynote/05_database/01_db_architecture_relational/012_metadata/)) 저장소
 12. [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) ([Metadata](/studynote/05_database/01_db_architecture_relational/012_metadata/)) - [데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)에 대한 [데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)
 13. [데이터 디렉터리](/studynote/05_database/01_db_architecture_relational/013_data_directory/) ([Data Directory](/studynote/05_database/01_db_architecture_relational/013_data_directory/)) - 시스템만 접근 가능한 [카탈로그](/studynote/05_database/01_db_architecture_relational/013_data_directory/) 부분
 14. [데이터 모델](/studynote/05_database/01_db_architecture_relational/014_data_model_components/) ([Data Model](/studynote/05_database/01_db_architecture_relational/014_data_model_components/)) 구성 요소 - 구조(Structure), 연산([Operation](/studynote/05_database/01_db_architecture_relational/014_data_model_components/)), 제약조건(Constraint)
@@ -417,116 +417,116 @@ tags:
 390. [서버리스](/studynote/05_database/06_dw_olap_trends/390_aurora_serverless_quorum_write/) DB 오로라 ([Aurora](/studynote/05_database/06_dw_olap_trends/390_aurora_serverless_quorum_write/)) 스토리지 로깅 [분산](/studynote/05_database/06_dw_olap_trends/390_aurora_serverless_quorum_write/) 쿼럼 [쓰기](/studynote/05_database/06_dw_olap_trends/390_aurora_serverless_quorum_write/) (6개 [복제](/studynote/05_database/06_dw_olap_trends/390_aurora_serverless_quorum_write/)본 중 4개 이상 [확인](/studynote/05_database/06_dw_olap_trends/390_aurora_serverless_quorum_write/) 시 완료) 아키텍처 특장점
 
 ## 7. 시험 빈출 핵심 요약 및 실무 용어 확장 (210개)
-391. [릴레이션 스키마](/studynote/05_database/07_exam_summary/391_relation_schema_intension/) (내포 / Intension) 구조
-392. [릴레이션 인스턴스](/studynote/05_database/07_exam_summary/392_relation_instance_extension/) (외연 / Extension) 값
-393. [데이터 사전](/studynote/05_database/07_exam_summary/393_data_dictionary/) ([Data Dictionary](/studynote/05_database/07_exam_summary/393_data_dictionary/)) 질의
-394. [카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/) ([Catalog](/studynote/05_database/07_exam_summary/394_catalog_metadata/)) [메타데이터](/studynote/05_database/07_exam_summary/394_catalog_metadata/)
-395. [데이터 독립성 2단계](/studynote/05_database/07_exam_summary/395_data_independence_logical_physical/) ([논리](/studynote/05_database/07_exam_summary/395_data_independence_logical_physical/), 물리)
-396. [Mapping](/studynote/05_database/07_exam_summary/396_mapping_rule_entity_to_table/) 규칙 개체->테이블
-397. [부분 함수 종속 제2정규형](/studynote/05_database/07_exam_summary/397_partial_functional_dependency_2nf/)
-398. [이행 함수 종속 제3정규형](/studynote/05_database/07_exam_summary/398_transitive_functional_dependency_3nf/)
-399. [BCNF](/studynote/05_database/07_exam_summary/399_bcnf_determinant_candidate_key/) 모든 [결정자](/studynote/05_database/07_exam_summary/399_bcnf_determinant_candidate_key/) 후보키
-400. [MVD](/studynote/05_database/07_exam_summary/400_mvd_4nf/) ([다치 종속](/studynote/05_database/07_exam_summary/400_mvd_4nf/)) [제4정규형](/studynote/05_database/07_exam_summary/400_mvd_4nf/)
-401. [조인 종속 제5정규형](/studynote/05_database/07_exam_summary/401_join_dependency_5nf/)
-402. [삽입 이상](/studynote/05_database/07_exam_summary/402_insertion_anomaly/) ([Insertion Anomaly](/studynote/05_database/07_exam_summary/402_insertion_anomaly/))
-403. [삭제 이상](/studynote/05_database/07_exam_summary/403_deletion_anomaly/) ([Deletion Anomaly](/studynote/05_database/07_exam_summary/403_deletion_anomaly/))
-404. [갱신 이상](/studynote/05_database/07_exam_summary/404_update_anomaly/) ([Update Anomaly](/studynote/05_database/07_exam_summary/404_update_anomaly/))
-405. [개체 무결성](/studynote/05_database/07_exam_summary/405_entity_integrity_primary_key/) ([Entity Integrity](/studynote/05_database/07_exam_summary/405_entity_integrity_primary_key/)) 기본키 NULL 불가
-406. [참조 무결성](/studynote/05_database/07_exam_summary/406_referential_integrity_foreign_key/) ([Referential](/studynote/05_database/07_exam_summary/406_referential_integrity_foreign_key/)) 외래키
-407. [슈퍼 키 최소성 부재](/studynote/05_database/07_exam_summary/407_super_key_minimality/)
-408. [대체 키 후보키 중 탈락키](/studynote/05_database/07_exam_summary/408_alternate_key/)
-409. [관계 대수](/studynote/05_database/07_exam_summary/409_relational_algebra/) ([절차적 연산](/studynote/05_database/07_exam_summary/409_relational_algebra/))
-410. [관계 해석](/studynote/05_database/07_exam_summary/410_relational_calculus/) (비절차적 연산, 술어)
-411. [디비전](/studynote/05_database/07_exam_summary/411_division_operation/) ([Division](/studynote/05_database/07_exam_summary/411_division_operation/)) 연산
-412. [카티션 프로덕트](/studynote/05_database/07_exam_summary/412_cartesian_product/) ([조인 조건 누락](/studynote/05_database/07_exam_summary/412_cartesian_product/))
-413. [자연 조인](/studynote/05_database/07_exam_summary/413_natural_join/) (동등 [속성](/studynote/05_database/07_exam_summary/413_natural_join/) 자동 조인/중복 제거)
-414. [외부 조인](/studynote/05_database/07_exam_summary/414_outer_join/) ([Outer Join](/studynote/05_database/07_exam_summary/414_outer_join/) + 표시 / 기준 [릴레이션](/studynote/05_database/07_exam_summary/414_outer_join/) 보존)
-415. [DDL](/studynote/05_database/07_exam_summary/415_ddl_create_alter_drop/) (CREATE, ALTER, DROP, TRUNCATE [롤백](/studynote/05_database/07_exam_summary/415_ddl_create_alter_drop/) 불가)
-416. [DML](/studynote/05_database/07_exam_summary/416_dml_insert_update_delete/) (INSERT, UPDATE, DELETE [롤백](/studynote/05_database/07_exam_summary/416_dml_insert_update_delete/) 가능)
-417. [DCL](/studynote/05_database/07_exam_summary/417_dcl_grant_revoke/) (GRANT, REVOKE 권한 통제)
-418. [TCL](/studynote/05_database/07_exam_summary/418_tcl_commit_rollback/) (COMMIT, [ROLLBACK](/studynote/05_database/07_exam_summary/418_tcl_commit_rollback/), [SAVEPOINT](/studynote/05_database/07_exam_summary/418_tcl_commit_rollback/))
-419. 뷰 ([VIEW](/studynote/05_database/07_exam_summary/419_view_virtual_table/)) [생성](/studynote/05_database/07_exam_summary/419_view_virtual_table/) 가상 테이블
-420. [옵티마이저](/studynote/05_database/07_exam_summary/420_optimizer_cbo_statistics/) CBO 시스템 통계
-421. [실행 계획](/studynote/05_database/07_exam_summary/421_execution_plan_full_vs_index_scan/) ([Execution Plan](/studynote/05_database/07_exam_summary/421_execution_plan_full_vs_index_scan/) 풀 스캔 vs [인덱스](/studynote/05_database/07_exam_summary/421_execution_plan_full_vs_index_scan/) 스캔)
-422. [인덱스](/studynote/05_database/07_exam_summary/422_index_btree_leaf_node/) B+Tree 리프 노드 순차 연결
-423. [넌클러스터드 인덱스](/studynote/05_database/07_exam_summary/423_non_clustered_index/) ([포인터 배열](/studynote/05_database/07_exam_summary/423_non_clustered_index/))
-424. [클러스터드 인덱스](/studynote/05_database/07_exam_summary/424_clustered_index/) ([물리적 레코드 정렬](/studynote/05_database/07_exam_summary/424_clustered_index/))
-425. [해시 인덱스](/studynote/05_database/07_exam_summary/425_hash_index_bucket_chaining/) ([버킷 충돌 체이닝](/studynote/05_database/07_exam_summary/425_hash_index_bucket_chaining/))
-426. [비트맵 인덱스 분포도 낮음 특화](/studynote/05_database/07_exam_summary/426_bitmap_index_low_cardinality/)
-427. [결합 인덱스](/studynote/05_database/07_exam_summary/427_composite_index_column_order/) ([Composite](/studynote/05_database/07_exam_summary/427_composite_index_column_order/)) 순서 중요
-428. [테이블 풀 스캔](/studynote/05_database/07_exam_summary/428_table_full_scan/) ([Table Full Scan](/studynote/05_database/07_exam_summary/428_table_full_scan/) / FTS)
-429. [인덱스 레인지 스캔](/studynote/05_database/07_exam_summary/429_index_range_scan/) ([Index Range Scan](/studynote/05_database/07_exam_summary/429_index_range_scan/))
-430. [인덱스 패스트 풀 스캔](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) ([병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/))
-431. [중첩 루프 조인](/studynote/05_database/07_exam_summary/431_nested_loop_join/) ([Nested Loop](/studynote/05_database/07_exam_summary/431_nested_loop_join/))
-432. [소트 머지 조인](/studynote/05_database/07_exam_summary/432_sort_merge_join/) ([정렬 후 병합](/studynote/05_database/07_exam_summary/432_sort_merge_join/))
-433. [해시 조인](/studynote/05_database/07_exam_summary/433_hash_join_build_probe/) ([메모리 해시 영역 빌드 프로브](/studynote/05_database/07_exam_summary/433_hash_join_build_probe/))
+391. [릴레이션 스키마](/exam/05_database/391_relation_schema_intension/) (내포 / Intension) 구조
+392. [릴레이션 인스턴스](/exam/05_database/392_relation_instance_extension/) (외연 / Extension) 값
+393. [데이터 사전](/exam/05_database/393_data_dictionary/) ([Data Dictionary](/exam/05_database/393_data_dictionary/)) 질의
+394. [카탈로그](/exam/05_database/394_catalog_metadata/) ([Catalog](/exam/05_database/394_catalog_metadata/)) [메타데이터](/exam/05_database/394_catalog_metadata/)
+395. [데이터 독립성 2단계](/exam/05_database/395_data_independence_logical_physical/) ([논리](/exam/05_database/395_data_independence_logical_physical/), 물리)
+396. [Mapping](/exam/05_database/396_mapping_rule_entity_to_table/) 규칙 개체->테이블
+397. [부분 함수 종속 제2정규형](/exam/05_database/397_partial_functional_dependency_2nf/)
+398. [이행 함수 종속 제3정규형](/exam/05_database/398_transitive_functional_dependency_3nf/)
+399. [BCNF](/exam/05_database/399_bcnf_determinant_candidate_key/) 모든 [결정자](/exam/05_database/399_bcnf_determinant_candidate_key/) 후보키
+400. [MVD](/exam/05_database/400_mvd_4nf/) ([다치 종속](/exam/05_database/400_mvd_4nf/)) [제4정규형](/exam/05_database/400_mvd_4nf/)
+401. [조인 종속 제5정규형](/exam/05_database/401_join_dependency_5nf/)
+402. [삽입 이상](/exam/05_database/402_insertion_anomaly/) ([Insertion Anomaly](/exam/05_database/402_insertion_anomaly/))
+403. [삭제 이상](/exam/05_database/403_deletion_anomaly/) ([Deletion Anomaly](/exam/05_database/403_deletion_anomaly/))
+404. [갱신 이상](/exam/05_database/404_update_anomaly/) ([Update Anomaly](/exam/05_database/404_update_anomaly/))
+405. [개체 무결성](/exam/05_database/405_entity_integrity_primary_key/) ([Entity Integrity](/exam/05_database/405_entity_integrity_primary_key/)) 기본키 NULL 불가
+406. [참조 무결성](/exam/05_database/406_referential_integrity_foreign_key/) ([Referential](/exam/05_database/406_referential_integrity_foreign_key/)) 외래키
+407. [슈퍼 키 최소성 부재](/exam/05_database/407_super_key_minimality/)
+408. [대체 키 후보키 중 탈락키](/exam/05_database/408_alternate_key/)
+409. [관계 대수](/exam/05_database/409_relational_algebra/) ([절차적 연산](/exam/05_database/409_relational_algebra/))
+410. [관계 해석](/exam/05_database/410_relational_calculus/) (비절차적 연산, 술어)
+411. [디비전](/exam/05_database/411_division_operation/) ([Division](/exam/05_database/411_division_operation/)) 연산
+412. [카티션 프로덕트](/exam/05_database/412_cartesian_product/) ([조인 조건 누락](/exam/05_database/412_cartesian_product/))
+413. [자연 조인](/exam/05_database/413_natural_join/) (동등 [속성](/exam/05_database/413_natural_join/) 자동 조인/중복 제거)
+414. [외부 조인](/exam/05_database/414_outer_join/) ([Outer Join](/exam/05_database/414_outer_join/) + 표시 / 기준 [릴레이션](/exam/05_database/414_outer_join/) 보존)
+415. [DDL](/exam/05_database/415_ddl_create_alter_drop/) (CREATE, ALTER, DROP, TRUNCATE [롤백](/exam/05_database/415_ddl_create_alter_drop/) 불가)
+416. [DML](/exam/05_database/416_dml_insert_update_delete/) (INSERT, UPDATE, DELETE [롤백](/exam/05_database/416_dml_insert_update_delete/) 가능)
+417. [DCL](/exam/05_database/417_dcl_grant_revoke/) (GRANT, REVOKE 권한 통제)
+418. [TCL](/exam/05_database/418_tcl_commit_rollback/) (COMMIT, [ROLLBACK](/exam/05_database/418_tcl_commit_rollback/), [SAVEPOINT](/exam/05_database/418_tcl_commit_rollback/))
+419. 뷰 ([VIEW](/exam/05_database/419_view_virtual_table/)) [생성](/exam/05_database/419_view_virtual_table/) 가상 테이블
+420. [옵티마이저](/exam/05_database/420_optimizer_cbo_statistics/) CBO 시스템 통계
+421. [실행 계획](/exam/05_database/421_execution_plan_full_vs_index_scan/) ([Execution Plan](/exam/05_database/421_execution_plan_full_vs_index_scan/) 풀 스캔 vs [인덱스](/exam/05_database/421_execution_plan_full_vs_index_scan/) 스캔)
+422. [인덱스](/exam/05_database/422_index_btree_leaf_node/) B+Tree 리프 노드 순차 연결
+423. [넌클러스터드 인덱스](/exam/05_database/423_non_clustered_index/) ([포인터 배열](/exam/05_database/423_non_clustered_index/))
+424. [클러스터드 인덱스](/exam/05_database/424_clustered_index/) ([물리적 레코드 정렬](/exam/05_database/424_clustered_index/))
+425. [해시 인덱스](/exam/05_database/425_hash_index_bucket_chaining/) ([버킷 충돌 체이닝](/exam/05_database/425_hash_index_bucket_chaining/))
+426. [비트맵 인덱스 분포도 낮음 특화](/exam/05_database/426_bitmap_index_low_cardinality/)
+427. [결합 인덱스](/exam/05_database/427_composite_index_column_order/) ([Composite](/exam/05_database/427_composite_index_column_order/)) 순서 중요
+428. [테이블 풀 스캔](/exam/05_database/428_table_full_scan/) ([Table Full Scan](/exam/05_database/428_table_full_scan/) / FTS)
+429. [인덱스 레인지 스캔](/exam/05_database/429_index_range_scan/) ([Index Range Scan](/exam/05_database/429_index_range_scan/))
+430. [인덱스 패스트 풀 스캔](/exam/05_database/430_index_fast_full_scan/) ([병렬](/exam/05_database/430_index_fast_full_scan/))
+431. [중첩 루프 조인](/exam/05_database/431_nested_loop_join/) ([Nested Loop](/exam/05_database/431_nested_loop_join/))
+432. [소트 머지 조인](/exam/05_database/432_sort_merge_join/) ([정렬 후 병합](/exam/05_database/432_sort_merge_join/))
+433. [해시 조인](/exam/05_database/433_hash_join_build_probe/) ([메모리 해시 영역 빌드 프로브](/exam/05_database/433_hash_join_build_probe/))
 434. 서브쿼리 IN 연산자
-435. [EXISTS](/studynote/05_database/07_exam_summary/435_exists_boolean_fast_search/) ([존재 여부 불린 반환 고속 탐색](/studynote/05_database/07_exam_summary/435_exists_boolean_fast_search/))
-436. 윈도우 함수 OVER ([PARTITION BY](/studynote/05_database/07_exam_summary/436_window_function_over/))
+435. [EXISTS](/exam/05_database/435_exists_boolean_fast_search/) ([존재 여부 불린 반환 고속 탐색](/exam/05_database/435_exists_boolean_fast_search/))
+436. 윈도우 함수 OVER ([PARTITION BY](/exam/05_database/436_window_function_over/))
 437. RANK() 동점 점프 / DENSE_RANK() 비점프
-438. [GROUP BY](/studynote/05_database/07_exam_summary/438_group_by_rollup_cube/) 다차원 [ROLLUP](/studynote/05_database/07_exam_summary/438_group_by_rollup_cube/), CUBE
-439. [힌트 구문 적용](/studynote/05_database/07_exam_summary/439_optimizer_hint_index/) (/*+ [INDEX](/studynote/05_database/07_exam_summary/439_optimizer_hint_index/)() */)
-440. [트랜잭션](/studynote/05_database/07_exam_summary/440_transaction_acid_properties/) ACID 특성
-441. [원자성](/studynote/05_database/07_exam_summary/441_atomicity_recovery/) ([회복 보장](/studynote/05_database/07_exam_summary/441_atomicity_recovery/))
-442. [일관성](/studynote/05_database/07_exam_summary/442_consistency_integrity/) ([무결성 보장](/studynote/05_database/07_exam_summary/442_consistency_integrity/))
-443. [고립성](/studynote/05_database/07_exam_summary/443_isolation_concurrency_control/) ([병행제어 보장](/studynote/05_database/07_exam_summary/443_isolation_concurrency_control/))
-444. [영속성](/studynote/05_database/07_exam_summary/444_durability_logging/) ([로그](/studynote/05_database/07_exam_summary/444_durability_logging/)/[회복 보장](/studynote/05_database/07_exam_summary/444_durability_logging/))
-445. [갱신 손실](/studynote/05_database/07_exam_summary/445_lost_update/) ([Lost Update](/studynote/05_database/07_exam_summary/445_lost_update/))
-446. [오손 읽기](/studynote/05_database/07_exam_summary/446_dirty_read/) ([Dirty Read](/studynote/05_database/07_exam_summary/446_dirty_read/) 미커밋 읽기)
-447. [반복 불가능 읽기](/studynote/05_database/07_exam_summary/447_non_repeatable_read/) (Non-Repeatable Update 변경)
-448. [유령 읽기](/studynote/05_database/07_exam_summary/448_phantom_read/) ([Phantom Read](/studynote/05_database/07_exam_summary/448_phantom_read/) Insert 추가)
-449. [동시성 제어 잠금](/studynote/05_database/07_exam_summary/449_locking_s_x_lock/) ([Locking](/studynote/05_database/07_exam_summary/449_locking_s_x_lock/)) S-락 / X-락
-450. [2단계 잠금](/studynote/05_database/07_exam_summary/450_two_phase_locking_2pl/) ([2PL](/studynote/05_database/07_exam_summary/450_two_phase_locking_2pl/)) 확장/축소
-451. [교착 상태](/studynote/05_database/07_exam_summary/451_deadlock_wait_die/) ([Deadlock Wait-Die](/studynote/05_database/07_exam_summary/451_deadlock_wait_die/))
-452. [타임스탬프 순서](/studynote/05_database/07_exam_summary/452_timestamp_ordering/) ([Timestamp Ordering](/studynote/05_database/07_exam_summary/452_timestamp_ordering/))
-453. [MVCC](/studynote/05_database/07_exam_summary/453_mvcc_multi_version/) 다중 [버전](/studynote/05_database/07_exam_summary/453_mvcc_multi_version/) 읽기 [일관성](/studynote/05_database/07_exam_summary/453_mvcc_multi_version/)
-454. [언두](/studynote/05_database/07_exam_summary/454_undo_segment_rollback/) ([Undo](/studynote/05_database/07_exam_summary/454_undo_segment_rollback/) [롤백](/studynote/05_database/07_exam_summary/454_undo_segment_rollback/)/읽기 [일관성](/studynote/05_database/07_exam_summary/454_undo_segment_rollback/) 세그먼트)
-455. [리두](/studynote/05_database/07_exam_summary/455_redo_log_archive/) ([Redo](/studynote/05_database/07_exam_summary/455_redo_log_archive/) [복구](/studynote/05_database/07_exam_summary/455_redo_log_archive/) [로그](/studynote/05_database/07_exam_summary/455_redo_log_archive/) 아카이브)
-456. WAL [프로토콜](/studynote/05_database/07_exam_summary/456_wal_protocol_write_ahead/) ([먼저 로그 기록](/studynote/05_database/07_exam_summary/456_wal_protocol_write_ahead/))
-457. [체크포인트 회복 범위 단축](/studynote/05_database/07_exam_summary/457_checkpoint_recovery_optimization/)
-458. [고립화 수준](/studynote/05_database/07_exam_summary/458_isolation_levels_read_uncommitted_to_serializable/) ([Read Uncommitted](/studynote/05_database/07_exam_summary/458_isolation_levels_read_uncommitted_to_serializable/)~[Serializable](/studynote/05_database/07_exam_summary/458_isolation_levels_read_uncommitted_to_serializable/))
-459. [분산](/studynote/05_database/07_exam_summary/459_distributed_db_location_transparency/) DB [위치 투명성](/studynote/05_database/07_exam_summary/459_distributed_db_location_transparency/)
-460. [단편화 수평 분할](/studynote/05_database/07_exam_summary/460_data_fragmentation_horizontal_vertical/) (행) / [수직 분할](/studynote/05_database/07_exam_summary/460_data_fragmentation_horizontal_vertical/) (열 PK포함)
-461. [복제 마스터-슬레이브](/studynote/05_database/07_exam_summary/461_replication_master_slave/)
-462. [2단계 커밋](/studynote/05_database/07_exam_summary/462_two_phase_commit_2pc/) ([2PC](/studynote/05_database/07_exam_summary/462_two_phase_commit_2pc/) Prepare -> Commit)
-463. [CAP](/studynote/05_database/07_exam_summary/463_cap_theorem_consistency_availability/) 이론 정합성 [가용성](/studynote/05_database/07_exam_summary/463_cap_theorem_consistency_availability/) [파티션](/studynote/05_database/07_exam_summary/463_cap_theorem_consistency_availability/) [분산](/studynote/05_database/07_exam_summary/463_cap_theorem_consistency_availability/) 특성
-464. BASE [속성](/studynote/05_database/07_exam_summary/464_base_properties_nosql/) [NoSQL](/studynote/05_database/07_exam_summary/464_base_properties_nosql/) [결과적 일관성](/studynote/05_database/07_exam_summary/464_base_properties_nosql/)
-465. 키-값 DB [레디스](/studynote/05_database/07_exam_summary/465_key_value_db_redis/) 인메모리
-466. 도큐먼트 DB 몽고DB [JSON](/studynote/05_database/07_exam_summary/466_document_db_mongodb/) BSON
-467. 컬럼 패밀리 [HBASE](/studynote/05_database/07_exam_summary/467_column_family_hbase/) [카산드라](/studynote/05_database/07_exam_summary/467_column_family_hbase/) 와이드 컬럼
-468. [그래프](/studynote/05_database/07_exam_summary/468_graph_db_neo4j/) DB 노드 엣지 프로퍼티 [관계](/studynote/05_database/07_exam_summary/468_graph_db_neo4j/) 탐색 Neo4j
-469. [샤딩 파티셔닝 수평 스케일 아웃](/studynote/05_database/07_exam_summary/469_sharding_horizontal_partitioning/)
-470. [해시 샤딩 분산 해시 함수](/studynote/05_database/07_exam_summary/470_hash_sharding_distribution/)
-471. [컨시스턴트 해싱 링 토폴로지](/studynote/05_database/07_exam_summary/471_consistent_hashing_ring/)
-472. [NewSQL](/studynote/05_database/07_exam_summary/472_newsql_google_spanner/) [구글 스패너](/studynote/05_database/07_exam_summary/472_newsql_google_spanner/) 글로벌 [일관성](/studynote/05_database/07_exam_summary/472_newsql_google_spanner/)
-473. [데이터 웨어하우스](/studynote/05_database/07_exam_summary/473_data_warehouse_inmon/) [Inmon](/studynote/05_database/07_exam_summary/473_data_warehouse_inmon/) 전사 통합
-474. [데이터 마트](/studynote/05_database/07_exam_summary/474_data_mart_kimball/) 부서용 [Kimball](/studynote/05_database/07_exam_summary/474_data_mart_kimball/) 상향식
-475. [OLTP](/studynote/05_database/07_exam_summary/475_oltp_normalization/) [정규화](/studynote/05_database/07_exam_summary/475_oltp_normalization/) [쓰기](/studynote/05_database/07_exam_summary/475_oltp_normalization/) 위주
-476. [OLAP](/studynote/05_database/07_exam_summary/476_olap_denormalization/) 비정규화 읽기 다차원
-477. [스타 스키마 중심 팩트 방사 차원 단일 계층](/studynote/05_database/07_exam_summary/477_star_schema_fact_dimension/)
-478. [스노우플레이크 차원 정규화 계층 트리](/studynote/05_database/07_exam_summary/478_snowflake_schema_normalization/)
+438. [GROUP BY](/exam/05_database/438_group_by_rollup_cube/) 다차원 [ROLLUP](/exam/05_database/438_group_by_rollup_cube/), CUBE
+439. [힌트 구문 적용](/exam/05_database/439_optimizer_hint_index/) (/*+ [INDEX](/exam/05_database/439_optimizer_hint_index/)() */)
+440. [트랜잭션](/exam/05_database/440_transaction_acid_properties/) ACID 특성
+441. [원자성](/exam/05_database/441_atomicity_recovery/) ([회복 보장](/exam/05_database/441_atomicity_recovery/))
+442. [일관성](/exam/05_database/442_consistency_integrity/) ([무결성 보장](/exam/05_database/442_consistency_integrity/))
+443. [고립성](/exam/05_database/443_isolation_concurrency_control/) ([병행제어 보장](/exam/05_database/443_isolation_concurrency_control/))
+444. [영속성](/exam/05_database/444_durability_logging/) ([로그](/exam/05_database/444_durability_logging/)/[회복 보장](/exam/05_database/444_durability_logging/))
+445. [갱신 손실](/exam/05_database/445_lost_update/) ([Lost Update](/exam/05_database/445_lost_update/))
+446. [오손 읽기](/exam/05_database/446_dirty_read/) ([Dirty Read](/exam/05_database/446_dirty_read/) 미커밋 읽기)
+447. [반복 불가능 읽기](/exam/05_database/447_non_repeatable_read/) (Non-Repeatable Update 변경)
+448. [유령 읽기](/exam/05_database/448_phantom_read/) ([Phantom Read](/exam/05_database/448_phantom_read/) Insert 추가)
+449. [동시성 제어 잠금](/exam/05_database/449_locking_s_x_lock/) ([Locking](/exam/05_database/449_locking_s_x_lock/)) S-락 / X-락
+450. [2단계 잠금](/exam/05_database/450_two_phase_locking_2pl/) ([2PL](/exam/05_database/450_two_phase_locking_2pl/)) 확장/축소
+451. [교착 상태](/exam/05_database/451_deadlock_wait_die/) ([Deadlock Wait-Die](/exam/05_database/451_deadlock_wait_die/))
+452. [타임스탬프 순서](/exam/05_database/452_timestamp_ordering/) ([Timestamp Ordering](/exam/05_database/452_timestamp_ordering/))
+453. [MVCC](/exam/05_database/453_mvcc_multi_version/) 다중 [버전](/exam/05_database/453_mvcc_multi_version/) 읽기 [일관성](/exam/05_database/453_mvcc_multi_version/)
+454. [언두](/exam/05_database/454_undo_segment_rollback/) ([Undo](/exam/05_database/454_undo_segment_rollback/) [롤백](/exam/05_database/454_undo_segment_rollback/)/읽기 [일관성](/exam/05_database/454_undo_segment_rollback/) 세그먼트)
+455. [리두](/exam/05_database/455_redo_log_archive/) ([Redo](/exam/05_database/455_redo_log_archive/) [복구](/exam/05_database/455_redo_log_archive/) [로그](/exam/05_database/455_redo_log_archive/) 아카이브)
+456. WAL [프로토콜](/exam/05_database/456_wal_protocol_write_ahead/) ([먼저 로그 기록](/exam/05_database/456_wal_protocol_write_ahead/))
+457. [체크포인트 회복 범위 단축](/exam/05_database/457_checkpoint_recovery_optimization/)
+458. [고립화 수준](/exam/05_database/458_isolation_levels_read_uncommitted_to_serializable/) ([Read Uncommitted](/exam/05_database/458_isolation_levels_read_uncommitted_to_serializable/)~[Serializable](/exam/05_database/458_isolation_levels_read_uncommitted_to_serializable/))
+459. [분산](/exam/05_database/459_distributed_db_location_transparency/) DB [위치 투명성](/exam/05_database/459_distributed_db_location_transparency/)
+460. [단편화 수평 분할](/exam/05_database/460_data_fragmentation_horizontal_vertical/) (행) / [수직 분할](/exam/05_database/460_data_fragmentation_horizontal_vertical/) (열 PK포함)
+461. [복제 마스터-슬레이브](/exam/05_database/461_replication_master_slave/)
+462. [2단계 커밋](/exam/05_database/462_two_phase_commit_2pc/) ([2PC](/exam/05_database/462_two_phase_commit_2pc/) Prepare -> Commit)
+463. [CAP](/exam/05_database/463_cap_theorem_consistency_availability/) 이론 정합성 [가용성](/exam/05_database/463_cap_theorem_consistency_availability/) [파티션](/exam/05_database/463_cap_theorem_consistency_availability/) [분산](/exam/05_database/463_cap_theorem_consistency_availability/) 특성
+464. BASE [속성](/exam/05_database/464_base_properties_nosql/) [NoSQL](/exam/05_database/464_base_properties_nosql/) [결과적 일관성](/exam/05_database/464_base_properties_nosql/)
+465. 키-값 DB [레디스](/exam/05_database/465_key_value_db_redis/) 인메모리
+466. 도큐먼트 DB 몽고DB [JSON](/exam/05_database/466_document_db_mongodb/) BSON
+467. 컬럼 패밀리 [HBASE](/exam/05_database/467_column_family_hbase/) [카산드라](/exam/05_database/467_column_family_hbase/) 와이드 컬럼
+468. [그래프](/exam/05_database/468_graph_db_neo4j/) DB 노드 엣지 프로퍼티 [관계](/exam/05_database/468_graph_db_neo4j/) 탐색 Neo4j
+469. [샤딩 파티셔닝 수평 스케일 아웃](/exam/05_database/469_sharding_horizontal_partitioning/)
+470. [해시 샤딩 분산 해시 함수](/exam/05_database/470_hash_sharding_distribution/)
+471. [컨시스턴트 해싱 링 토폴로지](/exam/05_database/471_consistent_hashing_ring/)
+472. [NewSQL](/exam/05_database/472_newsql_google_spanner/) [구글 스패너](/exam/05_database/472_newsql_google_spanner/) 글로벌 [일관성](/exam/05_database/472_newsql_google_spanner/)
+473. [데이터 웨어하우스](/exam/05_database/473_data_warehouse_inmon/) [Inmon](/exam/05_database/473_data_warehouse_inmon/) 전사 통합
+474. [데이터 마트](/exam/05_database/474_data_mart_kimball/) 부서용 [Kimball](/exam/05_database/474_data_mart_kimball/) 상향식
+475. [OLTP](/exam/05_database/475_oltp_normalization/) [정규화](/exam/05_database/475_oltp_normalization/) [쓰기](/exam/05_database/475_oltp_normalization/) 위주
+476. [OLAP](/exam/05_database/476_olap_denormalization/) 비정규화 읽기 다차원
+477. [스타 스키마 중심 팩트 방사 차원 단일 계층](/exam/05_database/477_star_schema_fact_dimension/)
+478. [스노우플레이크 차원 정규화 계층 트리](/exam/05_database/478_snowflake_schema_normalization/)
 479. 드릴 다운 / 롤 업 계층 분석
-480. [슬라이스 다이스 차원 절단](/studynote/05_database/07_exam_summary/480_slicing_dicing_olap/)
-481. [피벗 크로스탭 보고서](/studynote/05_database/07_exam_summary/481_pivoting_crosstab_report/)
-482. [데이터 레이크 스키마 온 리드 원시 형태 저장](/studynote/05_database/07_exam_summary/482_data_lake_schema_on_read/)
-483. [ETL](/studynote/05_database/07_exam_summary/483_etl_extract_transform_load/) 병목 적재 전 변환
-484. [ELT](/studynote/05_database/07_exam_summary/484_elt_extract_load_transform/) 클라우드 [DW](/studynote/05_database/07_exam_summary/484_elt_extract_load_transform/) 적재 후 변환 ([성능 우수](/studynote/05_database/07_exam_summary/484_elt_extract_load_transform/))
-485. [벡터 데이터베이스 임베딩 검색 구조](/studynote/05_database/07_exam_summary/485_vector_database_embedding/)
-486. [코사인 유사도 각도 유사 탐색 엔진망 연계](/studynote/05_database/07_exam_summary/486_cosine_similarity_search/)
-487. [ANN](/studynote/05_database/07_exam_summary/487_ann_hnsw_index/) [HNSW](/studynote/05_database/07_exam_summary/487_ann_hnsw_index/) [인덱스](/studynote/05_database/07_exam_summary/487_ann_hnsw_index/) 근사 탐색 구조망 적용
-488. [RAG](/studynote/05_database/07_exam_summary/488_rag_framework_db/) ([검색 증강 생성](/studynote/05_database/07_exam_summary/488_rag_framework_db/)) 프레임워크 DB 매핑
-489. [데이터 메시 도메인 기반 오너십 분산](/studynote/05_database/07_exam_summary/489_data_mesh_domain_ownership/)
-490. [CDC](/studynote/05_database/07_exam_summary/490_cdc_change_data_capture/) 캡처 변경 [로그](/studynote/05_database/07_exam_summary/490_cdc_change_data_capture/) 추출 스트림
-491. [데이터](/studynote/05_database/07_exam_summary/491_tde_transparent_data_encryption/) 암호화 [TDE](/studynote/05_database/07_exam_summary/491_tde_transparent_data_encryption/) 디스크 [파일](/studynote/05_database/07_exam_summary/491_tde_transparent_data_encryption/) 암호망 설계
-492. [블록체인](/studynote/05_database/07_exam_summary/492_blockchain_smart_contract_ledger_db/) [스마트 컨트랙트](/studynote/05_database/07_exam_summary/492_blockchain_smart_contract_ledger_db/) 원장 DB 융합
-493. [NoSQL](/studynote/05_database/07_exam_summary/493_nosql_lsm_tree_write_optimization/) LSM 트리 [쓰기](/studynote/05_database/07_exam_summary/493_nosql_lsm_tree_write_optimization/) 병합 엔진 구조 분석
-494. [멤테이블](/studynote/05_database/07_exam_summary/494_memtable_sstable_flush/) ([MemTable](/studynote/05_database/07_exam_summary/494_memtable_sstable_flush/)) 디스크 SStable 플러시
-495. [카산드라 가십 프로토콜 노드 상태 전파](/studynote/05_database/07_exam_summary/495_cassandra_gossip_protocol/)
-496. Quorum 읽기 [쓰기](/studynote/05_database/07_exam_summary/496_quorum_consistency_read_write/) [일관성](/studynote/05_database/07_exam_summary/496_quorum_consistency_read_write/) 보정 정족수 합의 구조
-497. [툼스톤](/studynote/05_database/07_exam_summary/497_tombstone_delayed_deletion_nosql/) 마킹 [지연](/studynote/05_database/07_exam_summary/497_tombstone_delayed_deletion_nosql/) 삭제 [NoSQL](/studynote/05_database/07_exam_summary/497_tombstone_delayed_deletion_nosql/) 설계
-498. [데이터 옵스](/studynote/05_database/07_exam_summary/498_dataops_automation_pipeline/) ([DataOps](/studynote/05_database/07_exam_summary/498_dataops_automation_pipeline/)) 자동화 [파이프](/studynote/05_database/07_exam_summary/498_dataops_automation_pipeline/)라인
+480. [슬라이스 다이스 차원 절단](/exam/05_database/480_slicing_dicing_olap/)
+481. [피벗 크로스탭 보고서](/exam/05_database/481_pivoting_crosstab_report/)
+482. [데이터 레이크 스키마 온 리드 원시 형태 저장](/exam/05_database/482_data_lake_schema_on_read/)
+483. [ETL](/exam/05_database/483_etl_extract_transform_load/) 병목 적재 전 변환
+484. [ELT](/exam/05_database/484_elt_extract_load_transform/) 클라우드 [DW](/exam/05_database/484_elt_extract_load_transform/) 적재 후 변환 ([성능 우수](/exam/05_database/484_elt_extract_load_transform/))
+485. [벡터 데이터베이스 임베딩 검색 구조](/exam/05_database/485_vector_database_embedding/)
+486. [코사인 유사도 각도 유사 탐색 엔진망 연계](/exam/05_database/486_cosine_similarity_search/)
+487. [ANN](/exam/05_database/487_ann_hnsw_index/) [HNSW](/exam/05_database/487_ann_hnsw_index/) [인덱스](/exam/05_database/487_ann_hnsw_index/) 근사 탐색 구조망 적용
+488. [RAG](/exam/05_database/488_rag_framework_db/) ([검색 증강 생성](/exam/05_database/488_rag_framework_db/)) 프레임워크 DB 매핑
+489. [데이터 메시 도메인 기반 오너십 분산](/exam/05_database/489_data_mesh_domain_ownership/)
+490. [CDC](/exam/05_database/490_cdc_change_data_capture/) 캡처 변경 [로그](/exam/05_database/490_cdc_change_data_capture/) 추출 스트림
+491. [데이터](/exam/05_database/491_tde_transparent_data_encryption/) 암호화 [TDE](/exam/05_database/491_tde_transparent_data_encryption/) 디스크 [파일](/exam/05_database/491_tde_transparent_data_encryption/) 암호망 설계
+492. [블록체인](/exam/05_database/492_blockchain_smart_contract_ledger_db/) [스마트 컨트랙트](/exam/05_database/492_blockchain_smart_contract_ledger_db/) 원장 DB 융합
+493. [NoSQL](/exam/05_database/493_nosql_lsm_tree_write_optimization/) LSM 트리 [쓰기](/exam/05_database/493_nosql_lsm_tree_write_optimization/) 병합 엔진 구조 분석
+494. [멤테이블](/exam/05_database/494_memtable_sstable_flush/) ([MemTable](/exam/05_database/494_memtable_sstable_flush/)) 디스크 SStable 플러시
+495. [카산드라 가십 프로토콜 노드 상태 전파](/exam/05_database/495_cassandra_gossip_protocol/)
+496. Quorum 읽기 [쓰기](/exam/05_database/496_quorum_consistency_read_write/) [일관성](/exam/05_database/496_quorum_consistency_read_write/) 보정 정족수 합의 구조
+497. [툼스톤](/exam/05_database/497_tombstone_delayed_deletion_nosql/) 마킹 [지연](/exam/05_database/497_tombstone_delayed_deletion_nosql/) 삭제 [NoSQL](/exam/05_database/497_tombstone_delayed_deletion_nosql/) 설계
+498. [데이터 옵스](/exam/05_database/498_dataops_automation_pipeline/) ([DataOps](/exam/05_database/498_dataops_automation_pipeline/)) 자동화 [파이프](/exam/05_database/498_dataops_automation_pipeline/)라인
 499. ORM 객체 매핑 JPA N+1 질의 문제
-500. [역색인](/studynote/05_database/07_exam_summary/500_inverted_index_elasticsearch/) ([Inverted Index](/studynote/05_database/07_exam_summary/500_inverted_index_elasticsearch/)) 엘라스틱 서치 단어 포인터
+500. [역색인](/exam/05_database/500_inverted_index_elasticsearch/) ([Inverted Index](/exam/05_database/500_inverted_index_elasticsearch/)) 엘라스틱 서치 단어 포인터
 501. 스토리지 컴퓨팅 분리 [클라우드 네이티브](/studynote/05_database/04_transactions_concurrency/501_database/) [DW](/studynote/05_database/04_transactions_concurrency/501_database/) 특장점
 502. [데이터 리니지 흐름 추적 무결성 감사 구조](/studynote/05_database/04_transactions_concurrency/502_dbms/)
 503. [데이터 거버넌스 품질 메타 카탈로그 통제 관리](/studynote/05_database/04_transactions_concurrency/503_database_vs_dbms/)
@@ -539,13 +539,13 @@ tags:
 510. [바인드 변수 적용 하드 파싱 회피](/studynote/05_database/04_transactions_concurrency/510_lock/)
 511. [옵티마이저 힌트 사용 인덱스 강제 접근](/studynote/05_database/04_transactions_concurrency/511_two_phase_locking/)
 512. [반정규화 성능 트레이드오프 파생 컬럼 설계](/studynote/05_database/04_transactions_concurrency/512_deadlock/)
-513. 트리 구조 CTE ([Common Table Expression](/studynote/05_database/07_exam_summary/513_cte_with_recursive_tree/)) WITH 절 [재귀](/studynote/05_database/07_exam_summary/513_cte_with_recursive_tree/)
+513. 트리 구조 CTE ([Common Table Expression](/exam/05_database/513_cte_with_recursive_tree/)) WITH 절 [재귀](/exam/05_database/513_cte_with_recursive_tree/)
 514. [팩트 테이블 차원 모델 비즈니스 수치 저장](/studynote/05_database/04_transactions_concurrency/514_optimistic_cc/)
 515. 시계열 DB 보존 [정책](/studynote/05_database/04_transactions_concurrency/515_mvcc/) ([Retention](/studynote/05_database/04_transactions_concurrency/515_mvcc/)) [데이터](/studynote/05_database/04_transactions_concurrency/515_mvcc/) 라이프사이클
 516. [GNN](/studynote/05_database/04_transactions_concurrency/516_isolation_level/) [그래프](/studynote/05_database/04_transactions_concurrency/516_isolation_level/) 모델 연계 [추천 시스템](/studynote/05_database/04_transactions_concurrency/516_isolation_level/) 설계망 적용
-517. [데이터베이스 보안 다크 데이터 노출 방지 통제](/studynote/05_database/07_exam_summary/517_dark_data_security_control/)
-518. [클린 룸 데이터 공유 샌드박싱 연동](/studynote/05_database/07_exam_summary/518_data_clean_room_sandboxing/)
-519. [서버리스 오로라 스토리지 분산 복제 쿼럼](/studynote/05_database/07_exam_summary/519_aurora_serverless_quorum_replication/)
+517. [데이터베이스 보안 다크 데이터 노출 방지 통제](/exam/05_database/517_dark_data_security_control/)
+518. [클린 룸 데이터 공유 샌드박싱 연동](/exam/05_database/518_data_clean_room_sandboxing/)
+519. [서버리스 오로라 스토리지 분산 복제 쿼럼](/exam/05_database/519_aurora_serverless_quorum_replication/)
 520. [PACELC](/studynote/05_database/04_transactions_concurrency/520_select/) [분산](/studynote/05_database/04_transactions_concurrency/520_select/) DB 장애 평시 트레이드 오프 이론
 521. 동적 SQL 조립 런타임 질의 파서
 522. [데이터 거버넌스 3요소](/studynote/05_database/04_transactions_concurrency/522_group_by/) (원칙, 조직, 프로세스)
@@ -557,30 +557,30 @@ tags:
 528. [동시성](/studynote/05_database/04_transactions_concurrency/528_third_normal_form/) [오손 읽기](/studynote/05_database/04_transactions_concurrency/528_third_normal_form/) ([Dirty Read](/studynote/05_database/04_transactions_concurrency/528_third_normal_form/)) 고립 수준 회피
 529. [Repeatable Read](/studynote/05_database/04_transactions_concurrency/529_bcnf/) 의 팬텀 현상 [MVCC](/studynote/05_database/04_transactions_concurrency/529_bcnf/) 해결 유무
 530. [Serializable](/studynote/05_database/04_transactions_concurrency/530_anomaly/) [성능](/studynote/05_database/04_transactions_concurrency/530_anomaly/) 저하 임계 영역 데드락 방어
-531. [분산](/studynote/05_database/07_exam_summary/531_distributed_2pc_blocking_coordinator/) 환경 [2PC](/studynote/05_database/07_exam_summary/531_distributed_2pc_blocking_coordinator/) 블로킹 한계 코디네이터 다운
-532. 3PC [타임아웃](/studynote/05_database/07_exam_summary/532_3pc_timeout_non_blocking/) 우회 비블로킹 [프로토콜](/studynote/05_database/07_exam_summary/532_3pc_timeout_non_blocking/) 통신 구조
-533. [이벤트 소싱 상태 변경 스트림 영속 저장망 구성](/studynote/05_database/07_exam_summary/533_event_sourcing_state_stream/)
-534. [Saga](/studynote/05_database/07_exam_summary/534_saga_pattern_compensating_transaction/) 패턴 [보상 트랜잭션](/studynote/05_database/07_exam_summary/534_saga_pattern_compensating_transaction/) 비즈니스 실패 [롤백](/studynote/05_database/07_exam_summary/534_saga_pattern_compensating_transaction/) 모사
-535. [NoSQL BASE](/studynote/05_database/07_exam_summary/535_base_soft_state_eventual_consistency/) 특성 소프트 [스테이트](/studynote/05_database/07_exam_summary/535_base_soft_state_eventual_consistency/) 결국 일관 [상태 전이](/studynote/05_database/07_exam_summary/535_base_soft_state_eventual_consistency/)
-536. [샤드 키 불균형 데이터 핫스팟 현상 대처](/studynote/05_database/07_exam_summary/536_shard_key_hotspot_imbalance/)
-537. 시계열 DB [롤업](/studynote/05_database/07_exam_summary/537_timeseries_rollup_downsampling/) 다운샘플링 [쿼리](/studynote/05_database/07_exam_summary/537_timeseries_rollup_downsampling/) 효율화
-538. [다중 모델 데이터베이스 융합 조회 연동성](/studynote/05_database/07_exam_summary/538_multi_model_database/)
-539. [마스터 데이터](/studynote/05_database/07_exam_summary/539_mdm_master_data_management/)([MDM](/studynote/05_database/07_exam_summary/539_mdm_master_data_management/)) 중복 배제 통합 기준 관리 체계
+531. [분산](/exam/05_database/531_distributed_2pc_blocking_coordinator/) 환경 [2PC](/exam/05_database/531_distributed_2pc_blocking_coordinator/) 블로킹 한계 코디네이터 다운
+532. 3PC [타임아웃](/exam/05_database/532_3pc_timeout_non_blocking/) 우회 비블로킹 [프로토콜](/exam/05_database/532_3pc_timeout_non_blocking/) 통신 구조
+533. [이벤트 소싱 상태 변경 스트림 영속 저장망 구성](/exam/05_database/533_event_sourcing_state_stream/)
+534. [Saga](/exam/05_database/534_saga_pattern_compensating_transaction/) 패턴 [보상 트랜잭션](/exam/05_database/534_saga_pattern_compensating_transaction/) 비즈니스 실패 [롤백](/exam/05_database/534_saga_pattern_compensating_transaction/) 모사
+535. [NoSQL BASE](/exam/05_database/535_base_soft_state_eventual_consistency/) 특성 소프트 [스테이트](/exam/05_database/535_base_soft_state_eventual_consistency/) 결국 일관 [상태 전이](/exam/05_database/535_base_soft_state_eventual_consistency/)
+536. [샤드 키 불균형 데이터 핫스팟 현상 대처](/exam/05_database/536_shard_key_hotspot_imbalance/)
+537. 시계열 DB [롤업](/exam/05_database/537_timeseries_rollup_downsampling/) 다운샘플링 [쿼리](/exam/05_database/537_timeseries_rollup_downsampling/) 효율화
+538. [다중 모델 데이터베이스 융합 조회 연동성](/exam/05_database/538_multi_model_database/)
+539. [마스터 데이터](/exam/05_database/539_mdm_master_data_management/)([MDM](/exam/05_database/539_mdm_master_data_management/)) 중복 배제 통합 기준 관리 체계
 540. [데이터 가상화 연방 쿼리](/studynote/05_database/04_transactions_concurrency/540_mongodb/) ([Federated Query](/studynote/05_database/04_transactions_concurrency/540_mongodb/)) 실행 엔진
 541. 클라우드 [DW](/studynote/05_database/04_transactions_concurrency/541_cassandra/) 스노우플레이크([Snowflake](/studynote/05_database/04_transactions_concurrency/541_cassandra/)) 구조적 특징
 542. [데이터 마스킹 부분 비식별화 암호화 비교 체계](/studynote/05_database/04_transactions_concurrency/542_redis/)
 543. DB [방화벽](/studynote/05_database/04_transactions_concurrency/543_hbase/) [프록시](/studynote/05_database/04_transactions_concurrency/543_hbase/) 스니핑 방식 [모니터](/studynote/05_database/04_transactions_concurrency/543_hbase/)링 [감사](/studynote/05_database/04_transactions_concurrency/543_hbase/) 통제
 544. SQL [인젝션](/studynote/05_database/04_transactions_concurrency/544_hive/) [논리](/studynote/05_database/04_transactions_concurrency/544_hive/) 에러/타임베이스 블라인드 주입 체계망
 545. [시큐어 코딩](/studynote/05_database/04_transactions_concurrency/545_dynamodb/) 파라 파라미터 매핑 ORM 보안 내재화 방식
-546. 공간 [데이터](/studynote/05_database/07_exam_summary/546_spatial_data_query_mbr_analysis/) [쿼리](/studynote/05_database/07_exam_summary/546_spatial_data_query_mbr_analysis/) 기하 연산 [MBR](/studynote/05_database/07_exam_summary/546_spatial_data_query_mbr_analysis/) 근접 분석 기술 구조
-547. [그래프 데이터 최단 경로](/studynote/05_database/07_exam_summary/547_graph_shortest_path_db_mapping/)([Shortest Path](/studynote/05_database/07_exam_summary/547_graph_shortest_path_db_mapping/)) [알고리즘](/studynote/05_database/07_exam_summary/547_graph_shortest_path_db_mapping/) DB 매핑
-548. [데이터 레이크하우스 스키마 온 리드 융합 엔진 구성 기초 분석](/studynote/05_database/07_exam_summary/548_data_lakehouse_schema_on_read_fusion/)
-549. [AI](/studynote/05_database/07_exam_summary/549_ai_rag_vector_db_architecture/) [파운데이션 모델](/studynote/05_database/07_exam_summary/549_ai_rag_vector_db_architecture/) [RAG](/studynote/05_database/07_exam_summary/549_ai_rag_vector_db_architecture/) 패턴 융합 벡터 DB 핵심 아키텍처
-550. [HTAP](/studynote/05_database/07_exam_summary/550_htap_oltp_olap_realtime_architecture/) 기술 [OLTP](/studynote/05_database/07_exam_summary/550_htap_oltp_olap_realtime_architecture/), [OLAP](/studynote/05_database/07_exam_summary/550_htap_oltp_olap_realtime_architecture/) 메모리 [복제](/studynote/05_database/07_exam_summary/550_htap_oltp_olap_realtime_architecture/)/공유 실시간 아키텍처
-551. [맵리듀스](/studynote/05_database/07_exam_summary/551_mapreduce_shuffle_sort_phase/) [분산](/studynote/05_database/07_exam_summary/551_mapreduce_shuffle_sort_phase/) 처리 노드 작업 셔플/소트 단계
-552. [일관된 해싱 노드 이탈 데이터 리밸런싱 극소화 원리](/studynote/05_database/07_exam_summary/552_consistent_hashing_rebalancing/)
+546. 공간 [데이터](/exam/05_database/546_spatial_data_query_mbr_analysis/) [쿼리](/exam/05_database/546_spatial_data_query_mbr_analysis/) 기하 연산 [MBR](/exam/05_database/546_spatial_data_query_mbr_analysis/) 근접 분석 기술 구조
+547. [그래프 데이터 최단 경로](/exam/05_database/547_graph_shortest_path_db_mapping/)([Shortest Path](/exam/05_database/547_graph_shortest_path_db_mapping/)) [알고리즘](/exam/05_database/547_graph_shortest_path_db_mapping/) DB 매핑
+548. [데이터 레이크하우스 스키마 온 리드 융합 엔진 구성 기초 분석](/exam/05_database/548_data_lakehouse_schema_on_read_fusion/)
+549. [AI](/exam/05_database/549_ai_rag_vector_db_architecture/) [파운데이션 모델](/exam/05_database/549_ai_rag_vector_db_architecture/) [RAG](/exam/05_database/549_ai_rag_vector_db_architecture/) 패턴 융합 벡터 DB 핵심 아키텍처
+550. [HTAP](/exam/05_database/550_htap_oltp_olap_realtime_architecture/) 기술 [OLTP](/exam/05_database/550_htap_oltp_olap_realtime_architecture/), [OLAP](/exam/05_database/550_htap_oltp_olap_realtime_architecture/) 메모리 [복제](/exam/05_database/550_htap_oltp_olap_realtime_architecture/)/공유 실시간 아키텍처
+551. [맵리듀스](/exam/05_database/551_mapreduce_shuffle_sort_phase/) [분산](/exam/05_database/551_mapreduce_shuffle_sort_phase/) 처리 노드 작업 셔플/소트 단계
+552. [일관된 해싱 노드 이탈 데이터 리밸런싱 극소화 원리](/exam/05_database/552_consistent_hashing_rebalancing/)
 553. [동형 암호](/studynote/05_database/04_transactions_concurrency/553_homomorphic_encryption_db_query/) DB 질의 [성능](/studynote/05_database/04_transactions_concurrency/553_homomorphic_encryption_db_query/) 한계 극복 가속화 연구망 설계
-554. 트리 구조 매핑 Nested Set [성능](/studynote/05_database/07_exam_summary/554_tree_mapping_nested_set_vs_path/) 검색 비교 Nested Path 모델
+554. 트리 구조 매핑 Nested Set [성능](/exam/05_database/554_tree_mapping_nested_set_vs_path/) 검색 비교 Nested Path 모델
 555. 다차원 [인덱스](/studynote/05_database/04_transactions_concurrency/555_multidimensional_index_k_d_tree/) K-d 트리 공간/다변량 질의 처리망 [데이터](/studynote/05_database/04_transactions_concurrency/555_multidimensional_index_k_d_tree/) 구조 분석
 556. [마스터 슬레이브 지연](/studynote/05_database/04_transactions_concurrency/556_master_slave_replication_lag_inconsistency/)([Replication Lag](/studynote/05_database/04_transactions_concurrency/556_master_slave_replication_lag_inconsistency/)) 읽기 불일치 이슈 극복망
 557. [멀티 마스터 충돌 해결 라스트 라이트 윈](/studynote/05_database/04_transactions_concurrency/557_multi_master_conflict_last_writer_wins/)([Last Writer Wins](/studynote/05_database/04_transactions_concurrency/557_multi_master_conflict_last_writer_wins/)) 메커니즘
