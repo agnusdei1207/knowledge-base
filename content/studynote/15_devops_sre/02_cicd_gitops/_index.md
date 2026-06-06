@@ -1,5 +1,5 @@
 ---
-title: "Cicd Gitops"
+title: "CI/CD & GitOps"
 tags:
   - "devops_sre"
 weight: 2

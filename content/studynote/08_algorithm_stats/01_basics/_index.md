@@ -1,5 +1,5 @@
 ---
-title: "Basics"
+title: "Algorithm Basics"
 tags:
   - "algorithm_stats"
 weight: 1

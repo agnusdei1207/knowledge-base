@@ -1,5 +1,5 @@
 ---
-title: "Datastructure"
+title: "Data Structures"
 tags:
   - "algorithm_stats"
 weight: 4

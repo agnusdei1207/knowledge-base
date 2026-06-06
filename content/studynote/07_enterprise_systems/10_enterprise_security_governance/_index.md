@@ -1,5 +1,5 @@
 ---
-title: "Enterprise Security Governance"
+title: "Enterprise Security & Governance"
 tags:
   - "enterprise_systems"
 weight: 10

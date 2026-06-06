@@ -1,5 +1,5 @@
 ---
-title: "Sdlc Testing"
+title: "SDLC & Testing"
 tags:
   - "it_management"
 weight: 4

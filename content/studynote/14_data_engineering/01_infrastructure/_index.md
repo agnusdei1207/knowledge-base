@@ -1,5 +1,5 @@
 ---
-title: "Infrastructure"
+title: "Data Infrastructure"
 tags:
   - "data_engineering"
 weight: 1

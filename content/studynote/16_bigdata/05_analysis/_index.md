@@ -1,5 +1,5 @@
 ---
-title: "Analysis"
+title: "Data Analysis"
 tags:
   - "bigdata"
 weight: 5

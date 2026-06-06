@@ -1,5 +1,5 @@
 ---
-title: "Framework Compliance"
+title: "Frameworks & Compliance"
 tags:
   - "studynote-security"
 weight: 17

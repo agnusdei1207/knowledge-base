@@ -1,5 +1,5 @@
 ---
-title: "Testing Validation"
+title: "Testing & Validation"
 tags:
   - "software_engineering"
 weight: 11

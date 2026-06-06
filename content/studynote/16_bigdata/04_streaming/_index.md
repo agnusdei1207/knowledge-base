@@ -1,5 +1,5 @@
 ---
-title: "Streaming"
+title: "Stream Processing"
 tags:
   - "bigdata"
 weight: 4

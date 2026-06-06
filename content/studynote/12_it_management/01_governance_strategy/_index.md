@@ -1,5 +1,5 @@
 ---
-title: "Governance Strategy"
+title: "Governance & Strategy"
 tags:
   - "it_management"
 weight: 1

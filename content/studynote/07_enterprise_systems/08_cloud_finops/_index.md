@@ -1,5 +1,5 @@
 ---
-title: "Cloud Finops"
+title: "Cloud & FinOps"
 tags:
   - "enterprise_systems"
 weight: 8

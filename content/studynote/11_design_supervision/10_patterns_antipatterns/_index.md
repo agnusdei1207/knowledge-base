@@ -1,5 +1,5 @@
 ---
-title: "Patterns Antipatterns"
+title: "Patterns & Anti-Patterns"
 tags:
   - "design_supervision"
 weight: 10

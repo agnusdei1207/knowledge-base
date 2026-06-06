@@ -1,5 +1,5 @@
 ---
-title: "IOT Ot Physical"
+title: "IoT, OT & Physical Security"
 tags:
   - "studynote-security"
 weight: 18

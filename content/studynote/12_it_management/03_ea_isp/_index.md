@@ -1,5 +1,5 @@
 ---
-title: "Ea Isp"
+title: "EA & ISP"
 tags:
   - "it_management"
 weight: 3

@@ -1,5 +1,5 @@
 ---
-title: "Db Architecture Relational"
+title: "DB Architecture & Relational"
 tags:
   - "database"
 weight: 1

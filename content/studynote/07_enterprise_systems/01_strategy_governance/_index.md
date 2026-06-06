@@ -1,5 +1,5 @@
 ---
-title: "Strategy Governance"
+title: "Strategy & Governance"
 tags:
   - "enterprise_systems"
 weight: 1

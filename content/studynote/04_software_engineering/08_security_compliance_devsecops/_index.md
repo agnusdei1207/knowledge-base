@@ -1,5 +1,5 @@
 ---
-title: "Security Compliance Devsecops"
+title: "Security & DevSecOps"
 tags:
   - "software_engineering"
 weight: 8

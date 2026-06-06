@@ -1,5 +1,5 @@
 ---
-title: "Msa Serverless"
+title: "MSA & Serverless"
 tags:
   - "cloud_architecture"
 weight: 3

@@ -1,5 +1,5 @@
 ---
-title: "Container K8s"
+title: "Container & Kubernetes"
 tags:
   - "studynote-cloud-architecture"
 weight: 7

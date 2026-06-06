@@ -1,5 +1,5 @@
 ---
-title: "Ml Dl Llm"
+title: "ML, DL & LLM"
 tags:
   - "data_engineering"
 weight: 3

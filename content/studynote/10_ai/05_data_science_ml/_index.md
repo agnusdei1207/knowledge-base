@@ -1,5 +1,5 @@
 ---
-title: "Data Science Ml"
+title: "Data Science & ML"
 tags:
   - "studynote-ai"
 weight: 5

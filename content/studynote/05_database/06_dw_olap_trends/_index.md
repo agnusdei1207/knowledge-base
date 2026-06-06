@@ -1,5 +1,5 @@
 ---
-title: "Dw Olap Trends"
+title: "DW, OLAP & Trends"
 tags:
   - "database"
 weight: 6

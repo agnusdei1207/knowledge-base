@@ -1,5 +1,5 @@
 ---
-title: "Numerical"
+title: "Numerical Methods"
 tags:
   - "algorithm_stats"
 weight: 7

@@ -1,5 +1,5 @@
 ---
-title: "Gof Behavioral"
+title: "GoF – Behavioral"
 tags:
   - "design_supervision"
 weight: 4

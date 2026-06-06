@@ -1,5 +1,5 @@
 ---
-title: "Secops Ir Forensics"
+title: "SecOps, IR & Forensics"
 tags:
   - "studynote-security"
 weight: 13

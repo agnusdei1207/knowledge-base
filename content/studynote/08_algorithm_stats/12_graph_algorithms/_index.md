@@ -1,5 +1,5 @@
 ---
-title: "Graph Algorithms"
+title: "Graph Algorithms (Advanced)"
 tags:
   - "algorithm_stats"
 weight: 12

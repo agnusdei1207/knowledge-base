@@ -1,5 +1,5 @@
 ---
-title: "Eai Esb Msa"
+title: "EAI, ESB & MSA"
 tags:
   - "enterprise_systems"
 weight: 3

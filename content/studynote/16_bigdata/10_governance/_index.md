@@ -1,5 +1,5 @@
 ---
-title: "Governance"
+title: "Data Governance"
 tags:
   - "bigdata"
 weight: 10

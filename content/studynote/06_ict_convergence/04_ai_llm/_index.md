@@ -1,5 +1,5 @@
 ---
-title: "AI Llm"
+title: "AI & LLM"
 tags:
   - "ict_convergence"
 weight: 4

@@ -1,5 +1,5 @@
 ---
-title: "Industry"
+title: "Industry Applications"
 tags:
   - "studynote-bigdata"
 weight: 11

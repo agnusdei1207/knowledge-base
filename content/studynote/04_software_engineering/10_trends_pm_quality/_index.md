@@ -1,5 +1,5 @@
 ---
-title: "Trends Pm Quality"
+title: "Trends, PM & Quality"
 tags:
   - "software_engineering"
 weight: 10

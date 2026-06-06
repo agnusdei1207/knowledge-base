@@ -1,5 +1,5 @@
 ---
-title: "Identity Threat Advanced"
+title: "Identity & Threat (Advanced)"
 tags:
   - "studynote-security"
 weight: 12

@@ -1,5 +1,5 @@
 ---
-title: "String"
+title: "String Algorithms"
 tags:
   - "algorithm_stats"
 weight: 5

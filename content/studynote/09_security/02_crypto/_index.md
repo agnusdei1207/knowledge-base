@@ -1,5 +1,5 @@
 ---
-title: "Crypto"
+title: "Cryptography"
 tags:
   - "security"
 weight: 2

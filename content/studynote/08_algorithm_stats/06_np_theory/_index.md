@@ -1,5 +1,5 @@
 ---
-title: "Np Theory"
+title: "NP Theory"
 tags:
   - "algorithm_stats"
 weight: 6

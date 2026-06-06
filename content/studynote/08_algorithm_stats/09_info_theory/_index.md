@@ -1,5 +1,5 @@
 ---
-title: "Info Theory"
+title: "Information Theory"
 tags:
   - "studynote-algorithm-stats"
 weight: 9

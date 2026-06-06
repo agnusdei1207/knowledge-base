@@ -1,5 +1,5 @@
 ---
-title: "IOT Mobility"
+title: "IoT & Mobility"
 tags:
   - "ict_convergence"
 weight: 2

@@ -1,5 +1,5 @@
 ---
-title: "Erp Systems"
+title: "ERP Systems"
 tags:
   - "enterprise_systems"
 weight: 2

@@ -1,5 +1,5 @@
 ---
-title: "DEVOPS Observability"
+title: "DevOps & Observability"
 tags:
   - "cloud_architecture"
 weight: 4
