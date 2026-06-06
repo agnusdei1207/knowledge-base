@@ -1,8 +1,40 @@
+// =============================================================================
+// custom.scss
+//
+// Site-specific overrides for the Quartz base theme.
+// Load order: variables → base (engine layout) → custom (this file).
+//
+// Sections:
+//   1. Design tokens & global typography
+//   2. Page & layout
+//   3. Links & inline text
+//   4. Content elements (blockquote, code, table, media)
+//   5. Components (explorer, search, toolbar buttons)
+//   6. Responsive – tablet (800 – 1200 px)
+//   7. Responsive – mobile (≤ 800 px)
+// =============================================================================
+
 @use "./variables.scss" as *;
+
+// =============================================================================
+// 1. Design tokens & global typography
+// =============================================================================
 
 body {
   letter-spacing: 0;
 }
+
+// Component card background shared token
+.explorer,
+.graph,
+.backlinks,
+.toc {
+  --card-bg: color-mix(in srgb, var(--light) 92%, var(--lightgray));
+}
+
+// =============================================================================
+// 2. Page & layout
+// =============================================================================
 
 .page {
   background:
@@ -14,11 +46,28 @@ body {
     var(--light);
 }
 
+// =============================================================================
+// 3. Links & inline text
+// =============================================================================
+
 a {
   text-decoration-thickness: 0.08em;
   text-underline-offset: 0.18em;
 }
 
+// =============================================================================
+// 4. Content elements
+// =============================================================================
+
+// --- Blockquote ---------------------------------------------------------------
+// Override base.scss default (solid left border only) with card style
+blockquote {
+  border-left: 3px solid var(--secondary);
+  background: color-mix(in srgb, var(--secondary) 7%, transparent);
+  border-radius: 0 6px 6px 0;
+}
+
+// --- Code & pre ---------------------------------------------------------------
 pre,
 code {
   border-radius: 6px;
@@ -34,6 +83,7 @@ pre {
   }
 }
 
+// --- Copy button (injected by copy-code plugin) --------------------------------
 .skill-copy-button {
   align-items: center;
   background: color-mix(in srgb, var(--light) 88%, var(--darkgray));
@@ -62,135 +112,105 @@ pre {
   }
 }
 
-blockquote {
-  border-left: 3px solid var(--secondary);
-  background: color-mix(in srgb, var(--secondary) 7%, transparent);
-  border-radius: 0 6px 6px 0;
-}
+// =============================================================================
+// 5. Components
+// =============================================================================
 
-.explorer,
-.graph,
-.backlinks,
-.toc {
-  --card-bg: color-mix(in srgb, var(--light) 92%, var(--lightgray));
-}
-
+// --- Form controls ------------------------------------------------------------
 .search,
 button,
 input {
   border-radius: 6px;
 }
 
-/* ====== Mobile explorer overflow fix (2026-06-06) ======
- * On viewports ≤800px the explorer is pinned to 34px wide as a
- * hamburger toggle. The .explorer-content overlay is position:absolute
- * width:100vw, but the parent .explorer has no overflow:hidden, so
- * long folder/file titles bleed out of the 34px column and only the
- * last character remains visible at the left edge (e.g. "e)" from
- * "01_computer_architecture"). Force the explorer column itself to
- * clip its contents so only the toggle button is visible — BUT ONLY
- * while the drawer is collapsed. When the user taps the hamburger,
- * the .explorer gets the `:not(.collapsed)` state and the drawer
- * overlay (100vw × 100dvh, z-index 100) must extend OUT of the 34px
- * column. Without this exception, the overlay gets clipped to 34px
- * and the body content stays in place covering it.
- */
-@media all and (max-width: 800px) {
-  .sidebar.left {
-    overflow: hidden;
+// =============================================================================
+// 6. Responsive – tablet  (800 px – 1200 px)
+// =============================================================================
+
+@media all and ($tablet) {
+  .page > #quartz-body > .sidebar.left {
+    padding-left: 1.5rem;
+    padding-right: 1rem;
+  }
+}
+
+// =============================================================================
+// 7. Responsive – mobile  (≤ 800 px)
+// =============================================================================
+
+@media all and ($mobile) {
+  // --- Grid padding -----------------------------------------------------------
+  // Override base.scss `padding: 0 1rem` with tighter value for more reading width
+  .page > #quartz-body {
+    padding: 0 0.75rem;
+    row-gap: 0;
   }
 
+  // --- Left sidebar: sticky toolbar bar at the top ----------------------------
+  .page > #quartz-body > .sidebar.left {
+    padding: 0.75rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: var(--light);
+    border-bottom: 1px solid var(--lightgray);
+  }
+
+  // --- Explorer drawer --------------------------------------------------------
+  // Collapsed: clip overflowing tree labels (only the hamburger is visible)
   .explorer.collapsed {
     overflow: hidden;
   }
-
-  // Drawer is open: let the overlay escape the 34px column.
+  // Open: let the full-screen overlay escape the 34 px column
   .explorer:not(.collapsed) {
     overflow: visible;
   }
-}
 
-/* ====== Mobile drawer: push body off-screen when open (2026-06-06) ======
- * The Explorer plugin's CSS expects the `#quartz-body` to get a
- * `.lock-scroll` class while the drawer is open, which translates
- * the body children (`.center`, `.sidebar.right`) off-screen via
- * `transform: translateX(100dvw)`. The plugin's inline JS only
- * toggles `.mobile-no-scroll` on `documentElement` — it never adds
- * `.lock-scroll` to `#quartz-body`. Net effect: the body stays
- * visible under the drawer overlay, so users see no drawer at all
- * on tap. Patch in CSS using `:has()` so we don't need to fork the
- * plugin. When the explorer is open (`:not(.collapsed)`), push
- * every body child except the left sidebar off-screen.
- */
-@media all and (max-width: 800px) {
-  .page > #quartz-body > :not(.sidebar.left) {
-    transition: transform 300ms ease-in-out;
-  }
-
-  .page > #quartz-body:has(.explorer:not(.collapsed)) > :not(.sidebar.left) {
-    transform: translateX(100dvw);
-  }
-
-  // Belt-and-braces: lift the open drawer above any z-index conflict
-  // with `.sidebar.left` (which has z-index:1 on desktop, dropping
-  // to position:initial on mobile and losing its stacking context).
-  .explorer:not(.collapsed) > .explorer-content {
-    z-index: 9999;
-  }
-}
-
-/* ====== Right sidebar overflow fix (2026-06-06) ======
- * Same pattern as the left explorer: on narrow viewports the right
- * column (TOC + backlinks + graph) bleeds labels out of its grid
- * cell. Clip the column. Page-level heading nav is still reachable
- * via the in-article TOC; the article width is unchanged.
- */
-@media all and (max-width: 800px) {
+  // --- Right sidebar ----------------------------------------------------------
+  // TOC + backlinks are useful on desktop; on mobile they clutter the bottom
   .sidebar.right {
     overflow: hidden;
   }
-}
 
-/* ====== Mobile toolbar: icons only, no text (2026-06-06) ======
- * On viewports ≤800px the page-title h2 ("Study"), the search button
- * label ("검색"), and other toolbar item <p> tags render inline text
- * alongside their icons. This crowds the top toolbar and bleeds into
- * the explorer column. Hide all toolbar text on mobile; the icons
- * and the search panel itself still work.
- *
- * The page-title h2 wraps a link to the home baseDir, so we keep the
- * <a> but strip the visible text. The link is still keyboard-tabbable
- * for accessibility; visual users get just the home icon.
- */
-@media all and (max-width: 800px) {
-  // Page title: keep the link, hide the text node inside.
+  // --- Content area -----------------------------------------------------------
+  .page > #quartz-body > .center > .page-header {
+    margin-top: 1.25rem;
+  }
+
+  // Slightly smaller h1 on narrow viewports
+  .page article > h1 {
+    font-size: 1.55rem;
+  }
+
+  // --- Toolbar: icon-only mode ------------------------------------------------
+  // Page title: keep the <a> (and its home-icon background) but hide the text
   h2.page-title a {
     font-size: 0;
     color: transparent;
-    text-indent: -9999px;
     overflow: hidden;
     display: inline-block;
     width: 1.5rem;
     height: 1.5rem;
   }
 
-  // Search button: hide the <p> label, keep the magnifying-glass SVG.
+  // Search: hide text label, keep SVG icon
   .search > .search-button > p {
     display: none;
   }
   .search > .search-button {
-    padding: 0 0.5rem;
+    padding: 0 0.4rem;
     justify-content: center;
+    min-width: 0;
   }
-  // Compensate the now-empty space so the button doesn't dominate.
   .search {
     flex-grow: 0;
     min-width: auto;
   }
 
-  // Dark mode / reader mode / sidebar toggle buttons: same pattern.
-  // The community plugins render an <svg> + a <p> (or <span>) inside
-  // the button. Hide the text node; keep the icon.
+  // Generic toolbar buttons (dark-mode, reader-mode, …)
   button > p,
   button > span:not([class]) {
     display: none;

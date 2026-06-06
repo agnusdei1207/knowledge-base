@@ -211,9 +211,6 @@ a {
       grid-template-areas: #{map.get($mobileGrid, templateAreas)};
     }
 
-    @media all and not ($desktop) {
-      padding: 0 1rem;
-    }
     @media all and ($mobile) {
       margin: 0 auto;
     }
@@ -240,7 +237,6 @@ a {
         height: unset;
         flex-direction: row;
         padding: 0;
-        padding-top: 2rem;
       }
     }
 
@@ -390,9 +386,7 @@ input[type="checkbox"] {
 
 blockquote {
   margin: 1rem 0;
-  border-left: 3px solid var(--secondary);
   padding-left: 1rem;
-  transition: border-color 0.2s ease;
 }
 
 h1,
