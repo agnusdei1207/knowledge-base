@@ -5,7 +5,7 @@ tags:
   - "studynote-security"
 weight: 50
 ---
-# 정보보안 (Information [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 키워드 목록
+# 정보보안 (Information [Security](/studynote/09_security/03_network_security/283_ssl_vpn/)) 키워드 목록
 
 정보통신기술사·컴퓨터응용시스템기술사 대비 보안 전 영역 기술사 수준 핵심 키워드
 > ⚡ 기술사 보안 문제는 단순 지식이 아닌 <strong><a href="/studynote/09_security/uncategorized/1041_threat_modeling/">위협 모델링</a> -> 아키텍처 설계 -> 법적·제도적 대응</strong>까지 통합 서술을 요구함
@@ -23,8 +23,8 @@ weight: 50
 7. 책임추적성 (Accountability) — [감사](/studynote/09_security/01_intro_principles/007_security_policy/) [로그](/studynote/09_security/01_intro_principles/007_security_policy/), [감사](/studynote/09_security/01_intro_principles/007_security_policy/) 기록, 사용자 행동 추적
 8. [개인정보보호](/studynote/09_security/01_intro_principles/008_security_awareness/) 3요소 — [기밀성](/studynote/09_security/01_intro_principles/008_security_awareness/)·[무결성](/studynote/09_security/01_intro_principles/008_security_awareness/)·[접근성](/studynote/09_security/01_intro_principles/008_security_awareness/) ([ISO 27701](/studynote/09_security/01_intro_principles/008_security_awareness/))
 9. 정보보안 6요소 — CIA + [인증성](/studynote/09_security/01_intro_principles/009_incident_response/) + 부인방지 + 책임추적성
-[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [최소 권한 원칙](/studynote/09_security/01_intro_principles/010_least_privilege/) (Principle of [Least Privilege](/studynote/09_security/01_intro_principles/010_least_privilege/)) — 필요 알 권리
-[11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). [직무 분리 원칙](/studynote/09_security/01_intro_principles/011_separation_of_duties/) ([Separation of Duties](/studynote/09_security/01_intro_principles/011_separation_of_duties/)) — 4눈 원칙, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 통제
+[10](/studynote/09_security/05_web_app_security/489_httpoxy/). [최소 권한 원칙](/studynote/09_security/01_intro_principles/010_least_privilege/) (Principle of [Least Privilege](/studynote/09_security/01_intro_principles/010_least_privilege/)) — 필요 알 권리
+[11](/studynote/09_security/03_network_security/308_ssh_key_auth/). [직무 분리 원칙](/studynote/09_security/01_intro_principles/011_separation_of_duties/) ([Separation of Duties](/studynote/09_security/01_intro_principles/011_separation_of_duties/)) — 4눈 원칙, [분산](/studynote/09_security/03_network_security/136_hkdf/) 통제
 12. [다단계 인증 원칙](/studynote/09_security/01_intro_principles/012_defense_in_depth/) ([Defense in Depth](/studynote/09_security/01_intro_principles/012_defense_in_depth/)) — 심층 방어
 13. [알 필요성 원칙](/studynote/09_security/01_intro_principles/013_need_to_know/) ([Need-to-Know](/studynote/09_security/01_intro_principles/013_need_to_know/)) — 정보 접근 제한
 14. [단순 보안 원칙](/studynote/09_security/01_intro_principles/014_simplicity/) ([Simplicity](/studynote/09_security/01_intro_principles/014_simplicity/)) — 불필요한 복잡성 제거
@@ -77,19 +77,19 @@ weight: 50
 61. [Secure by Default](/studynote/09_security/01_intro_principles/061_secure_by_default/) — 기본적으로 안전한 기본값
 62. [Secure Coding](/studynote/09_security/01_intro_principles/062_secure_coding/) — 안전한 소프트웨어 개발
 63. [Threat Modeling](/studynote/09_security/01_intro_principles/063_threat_modeling/) — [STRIDE](/studynote/09_security/01_intro_principles/063_threat_modeling/), DREAD, [MITRE ATT&CK](/studynote/09_security/01_intro_principles/063_threat_modeling/) 맵핑
-64. [DREAD 모델 — Damage/Reproducibility/Exploitability/Affected Users discoverability](/studynote/09_security/01_intro_principles/064_dread_모델_damage_reproducibilit/)
+64. [DREAD 모델 — Damage/Reproducibility/Exploitability/Affected Users discoverability](/studynote/09_security/01_intro_principles/064_dread_damage_reproducibilit/)
 65. [STRIDE](/studynote/09_security/01_intro_principles/065_stride_model/) 모델 — [Spoofing](/studynote/09_security/01_intro_principles/065_stride_model/)/Tampering/Repudiation/Information Disclosure/[DoS](/studynote/09_security/01_intro_principles/065_stride_model/)/Elevation
 66. [PASTA](/studynote/09_security/01_intro_principles/066_pasta_threat_modeling/) ([Process](/studynote/09_security/01_intro_principles/066_pasta_threat_modeling/) for Attack Simulation and Threat Analysis) — 7단계 [위협 모델링](/studynote/09_security/01_intro_principles/066_pasta_threat_modeling/)
 67. [Attack Surface Analysis](/studynote/09_security/01_intro_principles/067_attack_surface_analysis/) — 공격 표면 관리
 
 ---
 
-## 2. [암호학](/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/) 기초 — 42개
+## 2. [암호학](/studynote/09_security/13_secops_ir_forensics/652_incident_response_nist_800_61/) 기초 — 42개
 
 68. [암호학](/studynote/09_security/02_crypto/068_cryptography/) ([Cryptography](/studynote/09_security/02_crypto/068_cryptography/)) — [기밀성](/studynote/09_security/02_crypto/068_cryptography/)·[무결성](/studynote/09_security/02_crypto/068_cryptography/)·[인증](/studynote/09_security/02_crypto/068_cryptography/)·부인방지 제공
-69. [고전 암호 — 치환 암호, 전치 암호](/studynote/09_security/02_crypto/069_고전_암호_치환_암호_전치_암호/)
+69. [고전 암호 — 치환 암호, 전치 암호](/studynote/09_security/02_crypto/069_topic_069/)
 70. 개살 암호 ([Caesar Cipher](/studynote/09_security/02_crypto/070_caesar_cipher/)) — 알파벳 3자리 이동
-71. [단일 치환 암호 — 하나의 알파벳을 하나의 문자로 치환](/studynote/09_security/02_crypto/071_단일_치환_암호_하나의_알파벳을_하나의_문자로_치환/)
+71. [단일 치환 암호 — 하나의 알파벳을 하나의 문자로 치환](/studynote/09_security/02_crypto/071_topic_071/)
 72. [다중 치환 암호](/studynote/09_security/02_crypto/072_vigenere_cipher/) (Vigenère Cipher) — 키워드 기반 복수 치환
 73. [Enigma](/studynote/09_security/02_crypto/073_enigma/) — 독일 제2차 세계대전 기계식 암호
 74. 일다음성밀마본 ([One-Time Pad](/studynote/09_security/02_crypto/074_one_time_pad/)) — 정보 이론적으로 완벽한 안전성
@@ -131,7 +131,7 @@ weight: 50
 
 ---
 
-## 3. [암호학](/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/) 심화 / [PKI](/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) — 52개
+## 3. [암호학](/studynote/09_security/13_secops_ir_forensics/652_incident_response_nist_800_61/) 심화 / [PKI](/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) — 52개
 
 110. [RSA](/studynote/09_security/03_network_security/110_rsa/) — 소인수분해 문제 기반, 1977년 Rivest/Shamir/Adleman
 111. [RSA](/studynote/09_security/03_network_security/111_rsa_key_generation/) 키 [생성](/studynote/09_security/03_network_security/111_rsa_key_generation/) — 두 소수의 곱, 오일러 파이 함수
@@ -188,7 +188,7 @@ weight: 50
 
 ---
 
-## 4. [PKI](/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) 심화 / [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) — 49개
+## 4. [PKI](/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) 심화 / [인증](/studynote/09_security/03_network_security/303_tls_1_3_vs_1_2/) [프로토콜](/studynote/09_security/03_network_security/295_beast/) — 49개
 
 162. [CRL](/studynote/09_security/04_endpoint_security/162_crl_certificate_revocation_list/) ([Certificate Revocation List](/studynote/09_security/04_endpoint_security/162_crl_certificate_revocation_list/)) — 폐지 [인증](/studynote/09_security/04_endpoint_security/162_crl_certificate_revocation_list/)서 목록
 163. [OCSP](/studynote/09_security/04_endpoint_security/163_ocsp_online_certificate_status_protocol/) (Online Certificate Status [Protocol](/studynote/09_security/04_endpoint_security/163_ocsp_online_certificate_status_protocol/)) — 실시간 [인증](/studynote/09_security/04_endpoint_security/163_ocsp_online_certificate_status_protocol/)서 상태 질의
@@ -532,7 +532,7 @@ weight: 50
 
 ---
 
-## [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). 웹 보안 심화 / [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 보안 — 50개
+## [10](/studynote/09_security/05_web_app_security/489_httpoxy/). 웹 보안 심화 / [API](/studynote/09_security/01_intro_principles/014_simplicity/) 보안 — 50개
 
 476. [CSRF](/studynote/09_security/05_web_app_security/476_csrf_deep/) ([Cross-Site Request Forgery](/studynote/09_security/05_web_app_security/476_csrf_deep/)) — 사용자의 의지와 무관한 요청
 477. SameSite [쿠키](/studynote/09_security/05_web_app_security/477_samesite_cookie/) — [CSRF](/studynote/09_security/05_web_app_security/477_samesite_cookie/) 방어
@@ -587,7 +587,7 @@ weight: 50
 
 ---
 
-## [11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). [신원 관리](/studynote/09_security/11_iam_access_control/527_identity_management/) / 접근 제어 — 55개
+## [11](/studynote/09_security/03_network_security/308_ssh_key_auth/). [신원 관리](/studynote/09_security/11_iam_access_control/527_identity_management/) / 접근 제어 — 55개
 
 526. [IAM](/studynote/09_security/11_iam_access_control/526_iam/) (Identity and Access [Management](/studynote/09_security/11_iam_access_control/526_iam/)) — 신원+접근 통합 관리
 527. [신원 관리](/studynote/09_security/11_iam_access_control/527_identity_management/) — 사용자 lifecycle ([프로비저닝](/studynote/09_security/11_iam_access_control/527_identity_management/)/수정/비활성화/삭제)
@@ -867,7 +867,7 @@ weight: 50
 
 ---
 
-## 16. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) / [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) — 55개
+## 16. [데이터](/studynote/09_security/01_intro_principles/001_cia_triad/) / [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/studynote/09_security/11_iam_access_control/571_role_hierarchy/) — 55개
 
 781. [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) ([Personal Information](/studynote/09_security/16_data_privacy/781_personal_information/)) — 재식별 가능 정보
 782. [민감정보](/studynote/09_security/16_data_privacy/782_sensitive_information/) — 건강/범죄기록/유전정보/ biometric
@@ -987,7 +987,7 @@ weight: 50
 
 ---
 
-## 18. [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) / [OT](/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) / [ICS](/studynote/09_security/18_iot_ot_physical/893_ics_industrial_control_system/) / 물리 보안 — 50개
+## 18. [IoT](/studynote/09_security/02_crypto/101_sha_3/) / [OT](/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) / [ICS](/studynote/09_security/18_iot_ot_physical/893_ics_industrial_control_system/) / 물리 보안 — 50개
 
 891. [OT](/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) ([Operational Technology](/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/)) — 운영기술, 산업공제시스템
 892. [OT vs IT](/studynote/09_security/18_iot_ot_physical/892_ot_vs_it/) — [reliability](/studynote/09_security/18_iot_ot_physical/892_ot_vs_it/)/[availability](/studynote/09_security/18_iot_ot_physical/892_ot_vs_it/)/real-time 차이
@@ -1042,7 +1042,7 @@ weight: 50
 
 ---
 
-## 19. [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) / 신기술 보안 — 50개
+## 19. [AI](/studynote/09_security/04_endpoint_security/190_apple_developer_id_code_signing_notarization/) / 신기술 보안 — 50개
 
 941. [AI](/studynote/09_security/19_ai_advanced_security/941_ai_security/) 보안 — [AI](/studynote/09_security/19_ai_advanced_security/941_ai_security/) 시스템의 안전+[AI](/studynote/09_security/19_ai_advanced_security/941_ai_security/) 활용 보안
 942. [적대적 예제](/studynote/09_security/19_ai_advanced_security/942_adversarial_example/) ([Adversarial Example](/studynote/09_security/19_ai_advanced_security/942_adversarial_example/)) — 미세한 perturbation로 오분류
@@ -1111,7 +1111,7 @@ weight: 50
 1000. _entropy — 난수 [생성](/studynote/09_security/uncategorized/1096_cloud_native_network_cni_kubernetes_pod_overlay/) 품질
 1001. [CSPRNG](/exam/09_security/1001_csprng_random_generator/) (Cryptographically Secure PRNG) — [암호학](/exam/09_security/1001_csprng_random_generator/)적으로 안전한 난수
 1002. [RDRAND](/exam/09_security/1002_rdrand_intel_hardware_rng/) (Intel) — 하드웨어 난수 [생성](/exam/09_security/1002_rdrand_intel_hardware_rng/)
-1003. [/dev/urandom — Linux 난수 장치](/studynote/09_security/uncategorized/1003_dev_urandom_linux_난수_장치/)
+1003. [/dev/urandom — Linux 난수 장치](/studynote/09_security/uncategorized/1003_dev_urandom_linux/)
 1004. [hardware RNG](/exam/09_security/1004_hardware_rng_trng/) — [물리적 난수 발생기](/exam/09_security/1004_hardware_rng_trng/)
 1005. [entropy source](/exam/09_security/1005_entropy_source/) — [난수 생성 원천](/exam/09_security/1005_entropy_source/)
 1006. [Perfect Security](/exam/09_security/1006_perfect_security_otp/) — 정보 이론적 안전 ([One-Time Pad](/exam/09_security/1006_perfect_security_otp/))

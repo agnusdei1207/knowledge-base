@@ -143,7 +143,7 @@ weight: 50
 7. [SAT](/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/) ([Satisfiability](/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/)) — 최초 NP-완전 증명 (Cook-Levin)
 8. [클리크 문제](/studynote/08_algorithm_stats/01_basics/008_memoization/) ([Clique Problem](/studynote/08_algorithm_stats/01_basics/008_memoization/)) — NP-완전
 9. 정점 커버 ([Vertex Cover](/studynote/08_algorithm_stats/01_basics/009_information_theory/)) — NP-완전
-[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [외판원 문제](/studynote/12_it_management/03_ea_isp/106_fenwick_tree/) ([TSP](/studynote/12_it_management/03_ea_isp/106_fenwick_tree/)) — [NP-hard](/studynote/08_algorithm_stats/06_np_theory/109_np_hard/)
+[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [외판원 문제](/studynote/08_algorithm_stats/06_np_theory/106_p_class/) ([TSP](/studynote/08_algorithm_stats/06_np_theory/106_p_class/)) — [NP-hard](/studynote/08_algorithm_stats/06_np_theory/109_np_hard/)
 [11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). 배낭 문제 ([Knapsack](/studynote/08_algorithm_stats/06_np_theory/116_knapsack/) Problem) — NP-완전 (결정 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/))
 12. [근사 알고리즘](/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/) — ρ-근사, FPTAS, PTAS
 13. 지수 시간 가설 ([ETH](/studynote/08_algorithm_stats/01_basics/013_randomized_algorithm/)) — [알고리즘](/studynote/08_algorithm_stats/01_basics/013_randomized_algorithm/) 하한 도구

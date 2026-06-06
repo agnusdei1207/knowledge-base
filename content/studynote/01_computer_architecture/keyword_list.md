@@ -13,7 +13,7 @@ weight: 50
 
 ---
 
-## 1. 기초 전기전자 및 디지털 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)회로 (Basic Electronics & Logic)
+## 1. 기초 전기전자 및 디지털 [논리](/studynote/01_computer_architecture/10_parallel_processing_architecture/369_sisd/)회로 (Basic Electronics & Logic)
 1. [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) ([Voltage](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/))
 2. [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) ([Current](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/))
 3. [저항](/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) ([Resistance](/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/))
@@ -23,8 +23,8 @@ weight: 50
 7. [인덕터](/studynote/01_computer_architecture/01_basic_electronics_logic/007_inductor/) ([Inductor](/studynote/01_computer_architecture/01_basic_electronics_logic/007_inductor/))
 8. [도체](/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/) ([Conductor](/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/))
 9. [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) ([Semiconductor](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/))
-[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [절연체](/studynote/01_computer_architecture/01_basic_electronics_logic/010_insulator/) ([Insulator](/studynote/01_computer_architecture/01_basic_electronics_logic/010_insulator/))
-[11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). [다이오드](/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/) ([Diode](/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/))
+[10](/studynote/01_computer_architecture/14_hardware_security_trends/489_fhe_accelerator/). [절연체](/studynote/01_computer_architecture/01_basic_electronics_logic/010_insulator/) ([Insulator](/studynote/01_computer_architecture/01_basic_electronics_logic/010_insulator/))
+[11](/studynote/01_computer_architecture/07_virtual_memory_os_integration/308_memory_mapped_file/). [다이오드](/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/) ([Diode](/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/))
 12. [정류 회로](/studynote/01_computer_architecture/01_basic_electronics_logic/012_rectifier/) ([Rectifier](/studynote/01_computer_architecture/01_basic_electronics_logic/012_rectifier/))
 13. [발광 다이오드](/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) ([LED](/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/))
 14. [트랜지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) ([Transistor](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/))
@@ -87,7 +87,7 @@ weight: 50
 71. [CPLD](/studynote/01_computer_architecture/01_basic_electronics_logic/071_cpld/)
 72. [하드웨어 기술 언어](/studynote/01_computer_architecture/01_basic_electronics_logic/072_hdl/) (VHDL, Verilog)
 
-## 2. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표현과 연산 ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Representation & Arithmetic)
+## 2. [데이터](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 표현과 연산 ([Data](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) Representation & Arithmetic)
 73. [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) ([Bit](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))
 74. [바이트](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) ([Byte](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/))
 75. [워드](/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) ([Word](/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/))
@@ -139,7 +139,7 @@ weight: 50
 121. [산술 시프트](/studynote/01_computer_architecture/02_data_representation_arithmetic/121_arithmetic_shift/) ([Arithmetic Shift](/studynote/01_computer_architecture/02_data_representation_arithmetic/121_arithmetic_shift/))
 122. [순환 시프트](/studynote/01_computer_architecture/02_data_representation_arithmetic/122_circular_shift/) (Rotate)
 
-## 3. 컴퓨터 구조 개론 및 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가 ([Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/) Basics & [Performance](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))
+## 3. 컴퓨터 구조 개론 및 [성능](/studynote/01_computer_architecture/07_virtual_memory_os_integration/282_virtual_memory/) 평가 ([Architecture](/studynote/01_computer_architecture/08_io_storage_systems/319_cycle_stealing/) Basics & [Performance](/studynote/01_computer_architecture/07_virtual_memory_os_integration/282_virtual_memory/))
 123. [컴퓨터의 4대 구성요소 (연산, 제어, 기억, 입출력)](/studynote/01_computer_architecture/03_architecture_basics_performance/123_4_core_components/)
 124. [폰 노이만 아키텍처](/studynote/01_computer_architecture/03_architecture_basics_performance/124_von_neumann/) ([Von Neumann Architecture](/studynote/01_computer_architecture/03_architecture_basics_performance/124_von_neumann/))
 125. 프로그램 내장 방식 ([Stored Program](/studynote/01_computer_architecture/03_architecture_basics_performance/125_stored_program/) [Concept](/studynote/01_computer_architecture/03_architecture_basics_performance/125_stored_program/))
@@ -267,7 +267,7 @@ weight: 50
 243. [VLIW](/studynote/01_computer_architecture/05_control_unit_pipelining/243_vliw/) (Very Long [Instruction](/studynote/01_computer_architecture/05_control_unit_pipelining/243_vliw/) [Word](/studynote/01_computer_architecture/05_control_unit_pipelining/243_vliw/))
 244. [EPIC](/studynote/01_computer_architecture/05_control_unit_pipelining/244_epic/) (Explicitly Parallel [Instruction](/studynote/01_computer_architecture/05_control_unit_pipelining/244_epic/) Computing)
 
-## 6. [메모리 계층 구조](/studynote/02_operating_system/04_synchronization/252_memory_hierarchy/) 및 캐시 ([Memory Hierarchy](/studynote/02_operating_system/04_synchronization/252_memory_hierarchy/) & Cache)
+## 6. [메모리 계층 구조](/studynote/01_computer_architecture/06_memory_hierarchy_cache/252_sdram/) 및 캐시 ([Memory Hierarchy](/studynote/01_computer_architecture/06_memory_hierarchy_cache/252_sdram/) & Cache)
 245. [메모리 계층 구조](/studynote/01_computer_architecture/06_memory_hierarchy_cache/245_memory_hierarchy/) ([Memory Hierarchy](/studynote/01_computer_architecture/06_memory_hierarchy_cache/245_memory_hierarchy/))
 246. [참조의 지역성](/studynote/01_computer_architecture/06_memory_hierarchy_cache/246_locality_of_reference/) ([Locality of Reference](/studynote/01_computer_architecture/06_memory_hierarchy_cache/246_locality_of_reference/))
 247. [시간적 지역성](/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/) ([Temporal Locality](/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/))
@@ -306,7 +306,7 @@ weight: 50
 280. 프리패칭 ([Prefetching](/studynote/01_computer_architecture/06_memory_hierarchy_cache/280_prefetching/))
 281. 희생 캐시 ([Victim Cache](/studynote/01_computer_architecture/06_memory_hierarchy_cache/281_victim_cache/))
 
-## 7. [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 및 OS 메모리 관리 ([Virtual Memory](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) & OS Integration)
+## 7. [가상 메모리](/studynote/01_computer_architecture/10_parallel_processing_architecture/381_coma/) 및 OS 메모리 관리 ([Virtual Memory](/studynote/01_computer_architecture/10_parallel_processing_architecture/381_coma/) & OS Integration)
 282. [가상 메모리](/studynote/01_computer_architecture/07_virtual_memory_os_integration/282_virtual_memory/) ([Virtual Memory](/studynote/01_computer_architecture/07_virtual_memory_os_integration/282_virtual_memory/))
 283. [물리 주소](/studynote/01_computer_architecture/07_virtual_memory_os_integration/283_physical_logical_address/) ([Physical Address](/studynote/01_computer_architecture/07_virtual_memory_os_integration/283_physical_logical_address/))와 [논리 주소](/studynote/01_computer_architecture/07_virtual_memory_os_integration/283_physical_logical_address/) (Logical Address)
 284. [MMU](/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/) ([Memory Management Unit](/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/))
@@ -398,7 +398,7 @@ weight: 50
 366. [온칩 버스](/studynote/01_computer_architecture/09_system_bus_interconnects/366_on_chip_bus/) (AMBA, AXI, AHB, APB)
 367. [NoC](/studynote/01_computer_architecture/09_system_bus_interconnects/367_noc/) ([Network on Chip](/studynote/01_computer_architecture/09_system_bus_interconnects/367_noc/))
 
-## [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 아키텍처 (Parallel Processing [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/))
+## [10](/studynote/01_computer_architecture/14_hardware_security_trends/489_fhe_accelerator/). [병렬](/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/) 처리 아키텍처 (Parallel Processing [Architecture](/studynote/01_computer_architecture/08_io_storage_systems/319_cycle_stealing/))
 368. 플린의 [분류](/studynote/01_computer_architecture/10_parallel_processing_architecture/368_flynns_taxonomy/)법 (Flynn's Taxonomy)
 369. [SISD](/studynote/01_computer_architecture/10_parallel_processing_architecture/369_sisd/) (단일 [명령어](/studynote/01_computer_architecture/10_parallel_processing_architecture/369_sisd/) 단일 [데이터](/studynote/01_computer_architecture/10_parallel_processing_architecture/369_sisd/))
 370. [SIMD](/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (단일 [명령어](/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) 다중 [데이터](/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/))
@@ -425,7 +425,7 @@ weight: 50
 391. [하이퍼큐브](/studynote/01_computer_architecture/10_parallel_processing_architecture/391_hypercube/) ([Hypercube](/studynote/01_computer_architecture/10_parallel_processing_architecture/391_hypercube/))
 392. [다단 연결망](/studynote/01_computer_architecture/10_parallel_processing_architecture/392_multistage_interconnection_network/) (MIN, [Multistage Interconnection Network](/studynote/01_computer_architecture/10_parallel_processing_architecture/392_multistage_interconnection_network/))
 
-## [11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). 멀티코어 및 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) (Multi-core & [Synchronization](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/))
+## [11](/studynote/01_computer_architecture/07_virtual_memory_os_integration/308_memory_mapped_file/). 멀티코어 및 [동기화](/studynote/01_computer_architecture/05_control_unit_pipelining/212_interrupt_cycle/) (Multi-core & [Synchronization](/studynote/01_computer_architecture/05_control_unit_pipelining/212_interrupt_cycle/))
 393. [멀티코어 프로세서](/studynote/01_computer_architecture/11_multicore_synchronization/393_multicore_processor/) ([Multi-core Processor](/studynote/01_computer_architecture/11_multicore_synchronization/393_multicore_processor/))
 394. [CMP](/studynote/01_computer_architecture/11_multicore_synchronization/394_cmp/) ([Chip Multi-Processor](/studynote/01_computer_architecture/11_multicore_synchronization/394_cmp/))
 395. [이기종 멀티코어](/studynote/01_computer_architecture/11_multicore_synchronization/395_heterogeneous_multicore/) ([Heterogeneous Multi-core](/studynote/01_computer_architecture/11_multicore_synchronization/395_heterogeneous_multicore/))
@@ -451,7 +451,7 @@ weight: 50
 415. [Compare-and-Swap](/studynote/01_computer_architecture/11_multicore_synchronization/415_compare_and_swap/) ([CAS](/studynote/01_computer_architecture/11_multicore_synchronization/415_compare_and_swap/)) 연산
 416. [메모리 배리어](/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/) ([Memory Barrier](/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/) / Fence)
 
-## 12. 차세대 가속기 및 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) (Accelerators & [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Hardware)
+## 12. 차세대 가속기 및 [AI](/studynote/01_computer_architecture/04_instruction_set_architecture/190_stack_machine/) [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) (Accelerators & [AI](/studynote/01_computer_architecture/04_instruction_set_architecture/190_stack_machine/) Hardware)
 417. [하드웨어 가속기](/studynote/01_computer_architecture/12_accelerators_ai_hardware/417_hardware_accelerator/) ([Hardware Accelerator](/studynote/01_computer_architecture/12_accelerators_ai_hardware/417_hardware_accelerator/))
 418. [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))
 419. [GPGPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/419_gpgpu/) ([General-Purpose GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/419_gpgpu/))
@@ -485,7 +485,7 @@ weight: 50
 447. [양자 컴퓨터](/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/) ([Quantum Computer](/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)) 기초
 448. [큐비트](/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) ([Qubit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/))
 
-## 13. 고신뢰성 보장 및 전력 관리 ([Reliability](/studynote/04_software_engineering/06_software_architecture/345_reliability_security/) & [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/))
+## 13. 고신뢰성 보장 및 전력 관리 ([Reliability](/studynote/01_computer_architecture/09_system_bus_interconnects/345_data_bus/) & [Power](/studynote/01_computer_architecture/01_basic_electronics_logic/069_fpga/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/))
 449. [RAS](/studynote/01_computer_architecture/13_reliability_power_management/449_ras/) ([Reliability](/studynote/01_computer_architecture/13_reliability_power_management/449_ras/), [Availability](/studynote/01_computer_architecture/13_reliability_power_management/449_ras/), Serviceability)
 450. [MTBF](/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) ([평균 무고장 시간](/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/))
 451. [MTTR](/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) ([평균 수리 시간](/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/))
@@ -513,7 +513,7 @@ weight: 50
 473. [서멀 스로틀링](/studynote/01_computer_architecture/13_reliability_power_management/473_thermal_throttling/) ([Thermal Throttling](/studynote/01_computer_architecture/13_reliability_power_management/473_thermal_throttling/))
 474. [에너지 비례 컴퓨팅](/studynote/01_computer_architecture/13_reliability_power_management/474_energy_proportional_computing/) ([Energy Proportional Computing](/studynote/01_computer_architecture/13_reliability_power_management/474_energy_proportional_computing/))
 
-## 14. 최신 하드웨어 보안 및 트렌드 (Hardware [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) & Trends)
+## 14. 최신 하드웨어 보안 및 트렌드 (Hardware [Security](/studynote/01_computer_architecture/07_virtual_memory_os_integration/283_physical_logical_address/) & Trends)
 475. [하드웨어 보안 모듈](/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/) ([HSM](/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/))
 476. [TPM](/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/) ([Trusted Platform Module](/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/))
 477. [보안 부팅](/studynote/01_computer_architecture/14_hardware_security_trends/477_secure_boot/) ([Secure Boot](/studynote/01_computer_architecture/14_hardware_security_trends/477_secure_boot/))

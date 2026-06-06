@@ -5,7 +5,7 @@ tags:
   - "studynote-bigdata"
 weight: 50
 ---
-# 빅데이터 (Big [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 키워드 목록
+# 빅데이터 (Big [Data](/studynote/16_bigdata/01_intro/001_bigdata_definition/)) 키워드 목록
 
 정보통신기술사·컴퓨터응용시스템기술사 대비 빅데이터 전 영역 기술사 수준 핵심 키워드
 > ⚡ 빅데이터 기술사 문제: 단순 플랫폼 나열이 아닌 **아키텍처 선택 근거 + 법·제도 + 비즈니스 가치 + 미래 전망** 통합 서술 요구
@@ -23,8 +23,8 @@ weight: 50
 7. 빅데이터 생태계 — 수집->저장->처리->분석->[시각화](/studynote/16_bigdata/01_intro/007_big_data_ecosystem/)->활용
 8. 빅데이터 vs 전통적 [데이터](/studynote/16_bigdata/01_intro/008_big_data_vs_traditional_data/) — RDBMS 한계(수평 확장 불가, 고정 [스키마](/studynote/16_bigdata/01_intro/008_big_data_vs_traditional_data/))
 9. [데이터](/studynote/16_bigdata/01_intro/009_data_explosion_factors/) 폭증 요인 — [IoT](/studynote/16_bigdata/01_intro/009_data_explosion_factors/)/SNS/모바일/센서/영상 [CCTV](/studynote/16_bigdata/01_intro/009_data_explosion_factors/)
-[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [데이터 민주화](/studynote/16_bigdata/01_intro/010_data_democratization/) ([Data Democratization](/studynote/16_bigdata/01_intro/010_data_democratization/)) — 셀프서비스 분석, 시민 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자
-[11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). [데이터 경제](/studynote/16_bigdata/01_intro/011_data_economy/) ([Data Economy](/studynote/16_bigdata/01_intro/011_data_economy/)) — [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산화, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 거래소
+[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [데이터 민주화](/studynote/16_bigdata/01_intro/010_data_democratization/) ([Data Democratization](/studynote/16_bigdata/01_intro/010_data_democratization/)) — 셀프서비스 분석, 시민 [데이터](/studynote/16_bigdata/01_intro/001_bigdata_definition/) 과학자
+[11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). [데이터 경제](/studynote/16_bigdata/01_intro/011_data_economy/) ([Data Economy](/studynote/16_bigdata/01_intro/011_data_economy/)) — [데이터](/studynote/16_bigdata/01_intro/001_bigdata_definition/) 자산화, [데이터](/studynote/16_bigdata/01_intro/001_bigdata_definition/) 거래소
 12. [마이데이터](/studynote/16_bigdata/01_intro/012_mydata/) ([MyData](/studynote/16_bigdata/01_intro/012_mydata/)) — [개인정보](/studynote/16_bigdata/01_intro/012_mydata/) 자기결정권, 금융 [마이데이터](/studynote/16_bigdata/01_intro/012_mydata/)
 13. [공공 빅데이터](/studynote/16_bigdata/01_intro/013_public_bigdata/) — 공공데이터포털, 행정안전부, [데이터](/studynote/16_bigdata/01_intro/013_public_bigdata/) 개방 [정책](/studynote/16_bigdata/01_intro/013_public_bigdata/)
 14. [데이터바우처 사업](/studynote/16_bigdata/01_intro/014_data_voucher/) — 중소기업 [데이터](/studynote/16_bigdata/01_intro/014_data_voucher/) 구매·가공 지원
@@ -39,7 +39,7 @@ weight: 50
 
 ---
 
-## 2. [Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) [에코](/studynote/03_network/01_data_communication/031_에코_반향/)시스템 심화 — 28개
+## 2. [Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) [에코](/studynote/16_bigdata/02_hadoop/031_mapreduce_programming_model_parallel_processing/)시스템 심화 — 28개
 
 1. [Apache Hadoop](/studynote/16_bigdata/01_intro/001_bigdata_definition/) — [분산](/studynote/16_bigdata/01_intro/001_bigdata_definition/) 스토리지([HDFS](/studynote/16_bigdata/01_intro/001_bigdata_definition/)) + [분산](/studynote/16_bigdata/01_intro/001_bigdata_definition/) 처리([MapReduce](/studynote/16_bigdata/01_intro/001_bigdata_definition/)) + 자원 관리([YARN](/studynote/16_bigdata/01_intro/001_bigdata_definition/))
 2. [HDFS](/studynote/16_bigdata/01_intro/002_bigdata_5v/) ([Hadoop Distributed File System](/studynote/16_bigdata/01_intro/002_bigdata_5v/)) — 블록 128MB, 3중 [복제](/studynote/16_bigdata/01_intro/002_bigdata_5v/), [NameNode](/studynote/16_bigdata/01_intro/002_bigdata_5v/)/[DataNode](/studynote/16_bigdata/01_intro/002_bigdata_5v/)
@@ -50,8 +50,8 @@ weight: 50
 7. Map 함수 — 입력 -> ([Key](/studynote/16_bigdata/01_intro/007_big_data_ecosystem/), Value) 쌍 출력
 8. [Reduce 함수 — 동일 Key의 Value 집계, 최종 결과 출력](/studynote/16_bigdata/01_intro/008_big_data_vs_traditional_data/)
 9. [Shuffle & Sort](/studynote/16_bigdata/01_intro/009_data_explosion_factors/) — Map 출력을 Reduce로 분배 (네트워크 병목)
-[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [YARN](/studynote/14_data_engineering/01_infrastructure/020_yarn/) ([Yet Another Resource Negotiator](/studynote/14_data_engineering/01_infrastructure/020_yarn/)) — 자원 관리, Application Master / [Container](/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/)
-[11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). [Apache Hive](/studynote/14_data_engineering/01_infrastructure/028_apache_hive/) — SQL on [Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/), HQL, 메타스토어(MySQL/PostgreSQL), 배치형
+[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [YARN](/studynote/16_bigdata/01_intro/020_data_structure_ratio/) ([Yet Another Resource Negotiator](/studynote/16_bigdata/01_intro/020_data_structure_ratio/)) — 자원 관리, Application Master / [Container](/studynote/16_bigdata/10_governance/194_datalineage/)
+[11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). [Apache Hive](/studynote/16_bigdata/02_hadoop/028_apache_tez/) — SQL on [Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/), HQL, 메타스토어(MySQL/PostgreSQL), 배치형
 12. Apache [HBase](/studynote/16_bigdata/01_intro/012_mydata/) — [NoSQL](/studynote/16_bigdata/01_intro/012_mydata/) on [HDFS](/studynote/16_bigdata/01_intro/012_mydata/), 열 지향, 실시간 랜덤 R/W, [ZooKeeper](/studynote/16_bigdata/01_intro/012_mydata/) 의존
 13. [Apache Pig](/studynote/16_bigdata/01_intro/013_public_bigdata/) — [데이터](/studynote/16_bigdata/01_intro/013_public_bigdata/) 흐름 스크립트 언어 (Pig Latin), 복잡한 [ETL](/studynote/16_bigdata/01_intro/013_public_bigdata/)
 14. [Apache Sqoop](/studynote/16_bigdata/01_intro/014_data_voucher/) — RDBMS ↔ [HDFS](/studynote/16_bigdata/01_intro/014_data_voucher/) [데이터](/studynote/16_bigdata/01_intro/014_data_voucher/) 임포트/익스포트
@@ -72,7 +72,7 @@ weight: 50
 
 ---
 
-## 3. [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 / 스파크 심화 — 24개
+## 3. [분산](/studynote/16_bigdata/06_nosql/136_search_engine_db/) 처리 / 스파크 심화 — 24개
 
 1. [Apache Spark](/studynote/16_bigdata/01_intro/001_bigdata_definition/) — 인메모리 [분산](/studynote/16_bigdata/01_intro/001_bigdata_definition/) 처리, [MapReduce](/studynote/16_bigdata/01_intro/001_bigdata_definition/) 대비 최대 100배 빠름
 2. [RDD](/studynote/16_bigdata/01_intro/002_bigdata_5v/) ([Resilient Distributed Dataset](/studynote/16_bigdata/01_intro/002_bigdata_5v/)) — 불변, [분산](/studynote/16_bigdata/01_intro/002_bigdata_5v/), [결함 허용](/studynote/16_bigdata/01_intro/002_bigdata_5v/), Lineage 기반 [복구](/studynote/16_bigdata/01_intro/002_bigdata_5v/)
@@ -83,8 +83,8 @@ weight: 50
 7. [Tungsten 엔진](/studynote/16_bigdata/01_intro/007_big_data_ecosystem/) — CPU/메모리 최적화, Codegen, Off-[heap](/studynote/16_bigdata/01_intro/007_big_data_ecosystem/) 메모리
 8. [AQE (Adaptive Query Execution) — 런타임 통계 기반 자동 최적화 (Spark 3.0+)](/studynote/16_bigdata/01_intro/008_big_data_vs_traditional_data/)
 9. [Spark Streaming](/studynote/16_bigdata/01_intro/009_data_explosion_factors/) ([DStream](/studynote/16_bigdata/01_intro/009_data_explosion_factors/)) — 마이크로배치 스트리밍 (구세대)
-[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [Structured Streaming](/studynote/16_bigdata/03_spark/061_structured_streaming/) — DataFrame [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 스트리밍, 연속 처리, [Watermark](/studynote/16_bigdata/04_streaming/085_watermark/)
-[11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). MLlib — [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) ML [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) ([분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)/회귀/군집/추천/[PCA](/studynote/08_algorithm_stats/10_linear_algebra/163_pca/))
+[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [Structured Streaming](/studynote/16_bigdata/03_spark/061_structured_streaming/) — DataFrame [API](/studynote/16_bigdata/01_intro/014_data_voucher/) 스트리밍, 연속 처리, [Watermark](/studynote/16_bigdata/04_streaming/085_watermark/)
+[11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). MLlib — [분산](/studynote/16_bigdata/06_nosql/136_search_engine_db/) ML [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) ([분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)/회귀/군집/추천/[PCA](/studynote/16_bigdata/08_visualization/163_dashboard_design/))
 12. GraphX — [분산](/studynote/16_bigdata/01_intro/012_mydata/) [그래프](/studynote/16_bigdata/01_intro/012_mydata/) 처리, PageRank
 13. Spark 배포 모드 — Local / [Standalone](/studynote/16_bigdata/01_intro/013_public_bigdata/) / [YARN](/studynote/16_bigdata/01_intro/013_public_bigdata/) / [Kubernetes](/studynote/16_bigdata/01_intro/013_public_bigdata/) / Mesos
 14. [Executor / Driver / Cluster Manager — Spark 실행 구조](/studynote/16_bigdata/01_intro/014_data_voucher/)
@@ -112,8 +112,8 @@ weight: 50
 7. [Watermark](/studynote/16_bigdata/01_intro/007_big_data_ecosystem/) — [지연](/studynote/16_bigdata/01_intro/007_big_data_ecosystem/) 이벤트 허용 임계, 늦은 [데이터](/studynote/16_bigdata/01_intro/007_big_data_ecosystem/) [트리거](/studynote/16_bigdata/01_intro/007_big_data_ecosystem/)
 8. [윈도우 연산](/studynote/16_bigdata/01_intro/008_big_data_vs_traditional_data/) — 텀블링 / 슬라이딩 / [세션](/studynote/16_bigdata/01_intro/008_big_data_vs_traditional_data/) / 글로벌 윈도우
 9. [정확히 한 번](/studynote/16_bigdata/01_intro/009_data_explosion_factors/) ([Exactly-Once Semantics](/studynote/16_bigdata/01_intro/009_data_explosion_factors/)) — [2PC](/studynote/16_bigdata/01_intro/009_data_explosion_factors/) + Idempotent Sink
-[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [Apache Kafka](/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/) — 내구성 있는 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐, 스트리밍 기반
-[11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). [Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) — 키 기반 / 라운드로빈 / 커스텀
+[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [Apache Kafka](/studynote/16_bigdata/11_industry/214_finance_bigdata/) — 내구성 있는 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐, 스트리밍 기반
+[11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). [Kafka](/studynote/16_bigdata/09_platform/179_unified_batch_streaming/) [파티셔닝](/studynote/16_bigdata/09_platform/179_unified_batch_streaming/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) — 키 기반 / 라운드로빈 / 커스텀
 12. [Consumer Lag](/studynote/16_bigdata/01_intro/012_mydata/) — [Kafka](/studynote/16_bigdata/01_intro/012_mydata/) 소비 [지연](/studynote/16_bigdata/01_intro/012_mydata/) [모니터](/studynote/16_bigdata/01_intro/012_mydata/)링, Burrow / JMX
 13. [Kafka](/studynote/16_bigdata/01_intro/013_public_bigdata/) MirrorMaker 2 — 클러스터 간 [복제](/studynote/16_bigdata/01_intro/013_public_bigdata/), [DR](/studynote/16_bigdata/01_intro/013_public_bigdata/)
 14. [Amazon Kinesis](/studynote/16_bigdata/01_intro/014_data_voucher/) [Data](/studynote/16_bigdata/01_intro/014_data_voucher/) Streams — 샤드 기반, AWS 관리형
@@ -139,8 +139,8 @@ weight: 50
 7. [연관 규칙](/studynote/16_bigdata/01_intro/007_big_data_ecosystem/) ([Association Rules](/studynote/16_bigdata/01_intro/007_big_data_ecosystem/)) — Apriori / [FP](/studynote/16_bigdata/01_intro/007_big_data_ecosystem/)-Growth, [지지도](/studynote/16_bigdata/01_intro/007_big_data_ecosystem/)/[신뢰도](/studynote/16_bigdata/01_intro/007_big_data_ecosystem/)/[향상도](/studynote/16_bigdata/01_intro/007_big_data_ecosystem/)
 8. [장바구니 분석](/studynote/16_bigdata/01_intro/008_big_data_vs_traditional_data/) ([Market Basket Analysis](/studynote/16_bigdata/01_intro/008_big_data_vs_traditional_data/)) — 구매 패턴, 교차 판매
 9. [감성 분석](/studynote/16_bigdata/01_intro/009_data_explosion_factors/) ([Sentiment Analysis](/studynote/16_bigdata/01_intro/009_data_explosion_factors/)) — 긍/부정/중립, [BERT](/studynote/16_bigdata/01_intro/009_data_explosion_factors/) 기반 심화
-[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [텍스트 마이닝](/studynote/16_bigdata/05_analysis/109_text_mining/) ([Text Mining](/studynote/16_bigdata/05_analysis/109_text_mining/)) — [TF-IDF](/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/) / [Word2Vec](/studynote/10_ai/04_ai_ops_ethics/339_word2vec/) / [BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) / [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)
-[11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). [소셜 네트워크 분석](/studynote/12_it_management/03_ea_isp/107_classification/) ([SNA](/studynote/12_it_management/03_ea_isp/107_classification/)) — 중심성 / 커뮤니티 탐지 / 영향력
+[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [텍스트 마이닝](/studynote/16_bigdata/05_analysis/109_text_mining/) ([Text Mining](/studynote/16_bigdata/05_analysis/109_text_mining/)) — [TF-IDF](/studynote/16_bigdata/12_trends/232_olap_druid_pinot_clickhouse_starrocks/) / [Word2Vec](/studynote/10_ai/04_ai_ops_ethics/339_word2vec/) / [BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) / [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)
+[11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). [소셜 네트워크 분석](/studynote/16_bigdata/05_analysis/107_market_basket_analysis/) ([SNA](/studynote/16_bigdata/05_analysis/107_market_basket_analysis/)) — 중심성 / 커뮤니티 탐지 / 영향력
 12. [이상 탐지](/studynote/16_bigdata/01_intro/012_mydata/) ([Anomaly Detection](/studynote/16_bigdata/01_intro/012_mydata/)) — 통계 기반 / ML 기반 / 딥러닝 기반
 13. [시계열 분석](/studynote/16_bigdata/01_intro/013_public_bigdata/) (Time Series) — [ARIMA](/studynote/16_bigdata/01_intro/013_public_bigdata/) / SARIMA / Prophet / [LSTM](/studynote/16_bigdata/01_intro/013_public_bigdata/) / [Transformer](/studynote/16_bigdata/01_intro/013_public_bigdata/)
 14. [공간 분석](/studynote/16_bigdata/01_intro/014_data_voucher/) ([Spatial Analysis](/studynote/16_bigdata/01_intro/014_data_voucher/)) — 지리정보시스템(GIS), PostGIS
@@ -159,7 +159,7 @@ weight: 50
 
 ---
 
-## 6. [NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/) [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) — 20개
+## 6. [NoSQL](/studynote/16_bigdata/02_hadoop/035_yarn_resource_negotiator/) [데이터베이스](/studynote/16_bigdata/01_intro/002_bigdata_5v/) — 20개
 
 1. [NoSQL](/studynote/16_bigdata/01_intro/001_bigdata_definition/) 등장 배경 — RDBMS 수평 확장 한계, BASE 원칙
 2. BASE 원칙 — Basically Available / Soft [State](/studynote/16_bigdata/01_intro/002_bigdata_5v/) / Eventually Consistent
@@ -170,8 +170,8 @@ weight: 50
 7. 문서형 ([Document](/studynote/16_bigdata/01_intro/007_big_data_ecosystem/)) DB — [MongoDB](/studynote/16_bigdata/01_intro/007_big_data_ecosystem/) / CouchDB / Firestore
 8. [MongoDB](/studynote/16_bigdata/01_intro/008_big_data_vs_traditional_data/) 아키텍처 — [ReplicaSet](/studynote/16_bigdata/01_intro/008_big_data_vs_traditional_data/) / [Sharding](/studynote/16_bigdata/01_intro/008_big_data_vs_traditional_data/) / Mongos / [Config](/studynote/16_bigdata/01_intro/008_big_data_vs_traditional_data/) Server
 9. 컬럼 패밀리 (Column Family) DB — [Cassandra](/studynote/16_bigdata/01_intro/009_data_explosion_factors/) / [HBase](/studynote/16_bigdata/01_intro/009_data_explosion_factors/) / ScyllaDB
-[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [Cassandra](/studynote/05_database/04_transactions_concurrency/541_cassandra/) — [마스](/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 없는 링 구조, 토큰 기반 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 해시, 튜닝 가능한 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)
-[11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB — Neo4j / Amazon Neptune / Memgraph — [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화
+[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [Cassandra](/studynote/05_database/04_transactions_concurrency/541_cassandra/) — [마스](/studynote/16_bigdata/08_visualization/172_network_visualization/)터 없는 링 구조, 토큰 기반 [일관성](/studynote/16_bigdata/10_governance/194_datalineage/) 해시, 튜닝 가능한 [일관성](/studynote/16_bigdata/10_governance/194_datalineage/)
+[11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). [그래프](/studynote/16_bigdata/03_spark/070_partition_optimization/) DB — Neo4j / Amazon Neptune / Memgraph — [관계](/studynote/16_bigdata/04_streaming/083_flink_savepoint_checkpoint/) [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화
 12. Cypher [쿼리](/studynote/16_bigdata/01_intro/012_mydata/) 언어 (Neo4j) — MATCH / WHERE / RETURN
 13. 시계열 DB — [InfluxDB](/studynote/16_bigdata/01_intro/013_public_bigdata/) / TimescaleDB / QuestDB — 시간 기반 인덱싱
 14. 검색 엔진 DB — [Elasticsearch](/studynote/16_bigdata/01_intro/014_data_voucher/) / OpenSearch — [역색인](/studynote/16_bigdata/01_intro/014_data_voucher/), 전문 검색
@@ -184,7 +184,7 @@ weight: 50
 
 ---
 
-## 7. [데이터 레이크](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) / [레이크하우스](/studynote/16_bigdata/07_data_lake/146_lakehouse/) — 18개
+## 7. [데이터 레이크](/studynote/16_bigdata/10_governance/208_data_deidentification_techniques/) / [레이크하우스](/studynote/16_bigdata/07_data_lake/146_lakehouse/) — 18개
 
 1. [데이터 레이크](/studynote/16_bigdata/01_intro/001_bigdata_definition/) ([Data Lake](/studynote/16_bigdata/01_intro/001_bigdata_definition/)) — 원시 [데이터](/studynote/16_bigdata/01_intro/001_bigdata_definition/) 저장, [Schema-on-Read](/studynote/16_bigdata/01_intro/001_bigdata_definition/), 저비용
 2. [데이터](/studynote/16_bigdata/01_intro/002_bigdata_5v/) 스왐프 ([Data Swamp](/studynote/16_bigdata/01_intro/002_bigdata_5v/)) — 거버넌스 부재, 레이크 변질 위험
@@ -195,8 +195,8 @@ weight: 50
 7. [Apache Hudi](/studynote/16_bigdata/01_intro/007_big_data_ecosystem/) ([Hadoop Upserts Deletes Incrementals](/studynote/16_bigdata/01_intro/007_big_data_ecosystem/)) — Uber, [CDC](/studynote/16_bigdata/01_intro/007_big_data_ecosystem/) 지원
 8. [Unity Catalog](/studynote/16_bigdata/01_intro/008_big_data_vs_traditional_data/) ([Databricks](/studynote/16_bigdata/01_intro/008_big_data_vs_traditional_data/)) — [레이크하우스](/studynote/16_bigdata/01_intro/008_big_data_vs_traditional_data/) 통합 거버넌스
 9. [다중 계층 아키텍처](/studynote/16_bigdata/01_intro/009_data_explosion_factors/) — Bronze(원시) / Silver(정제) / Gold(집계) — Medallion
-[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [Medallion Architecture](/studynote/14_data_engineering/04_mlops/194_medallion_architecture_bronze_silver_gold/) — [Delta Lake](/studynote/16_bigdata/07_data_lake/147_delta_lake/) 기반 3계층, [Databricks](/studynote/16_bigdata/03_spark/074_photon_engine/) 표준
-[11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). [데이터 메시](/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) ([Data Mesh](/studynote/12_it_management/05_security_compliance/320_data_mesh/)) — [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 분권, [데이터 제품](/studynote/16_bigdata/07_data_lake/154_data_product/)화, 연합 거버넌스
+[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [Medallion Architecture](/studynote/16_bigdata/10_governance/194_datalineage/) — [Delta Lake](/studynote/16_bigdata/07_data_lake/147_delta_lake/) 기반 3계층, [Databricks](/studynote/16_bigdata/03_spark/074_photon_engine/) 표준
+[11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). [데이터 메시](/studynote/16_bigdata/10_governance/211_data_ethics/) ([Data Mesh](/studynote/12_it_management/05_security_compliance/320_data_mesh/)) — [도메인](/studynote/16_bigdata/03_spark/064_spark_deployment_modes/) 분권, [데이터 제품](/studynote/16_bigdata/07_data_lake/154_data_product/)화, 연합 거버넌스
 12. [데이터 제품](/studynote/16_bigdata/01_intro/012_mydata/) ([Data Product](/studynote/16_bigdata/01_intro/012_mydata/)) — [API](/studynote/16_bigdata/01_intro/012_mydata/) 인터페이스, [SLA](/studynote/16_bigdata/01_intro/012_mydata/), 품질 지표 보유
 13. [ELT vs ETL](/studynote/16_bigdata/01_intro/013_public_bigdata/) — 클라우드에서 ELT가 주류 (먼저 적재 후 변환)
 14. [데이터 패브릭](/studynote/16_bigdata/01_intro/014_data_voucher/) ([Data Fabric](/studynote/16_bigdata/01_intro/014_data_voucher/)) — 위치 무관 지능형 [데이터](/studynote/16_bigdata/01_intro/014_data_voucher/) 연결, Gartner
@@ -238,7 +238,7 @@ weight: 50
 8. [서버리스 빅데이터](/studynote/16_bigdata/01_intro/008_big_data_vs_traditional_data/) — AWS Athena / [BigQuery](/studynote/16_bigdata/01_intro/008_big_data_vs_traditional_data/) / Redshift [Serverless](/studynote/16_bigdata/01_intro/008_big_data_vs_traditional_data/)
 9. [데이터 오케스트레이션](/studynote/16_bigdata/01_intro/009_data_explosion_factors/) — [Apache Airflow](/studynote/16_bigdata/01_intro/009_data_explosion_factors/) / Dagster / Prefect
 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [데이터 카탈로그 통합](/studynote/16_bigdata/09_platform/184_data_catalog_integration/) — Glue [Catalog](/studynote/05_database/07_exam_summary/394_catalog_metadata/) / DataHub / OpenMetadata / Alation
-[11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). [확장성 설계](/studynote/16_bigdata/09_platform/185_scalability_design/) — 수평 확장 / [샤딩](/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) / [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/) / 클러스터 자동 확장
+[11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). [확장성 설계](/studynote/16_bigdata/09_platform/185_scalability_design/) — 수평 확장 / [샤딩](/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) / [파티셔닝](/studynote/16_bigdata/09_platform/179_unified_batch_streaming/) / 클러스터 자동 확장
 12. [데이터 컴프레션 전략](/studynote/16_bigdata/01_intro/012_mydata/) — Snappy(속도) / Zstd([압축](/studynote/16_bigdata/01_intro/012_mydata/)률) / Gzip([호환성](/studynote/16_bigdata/01_intro/012_mydata/))
 13. [컬럼 기반 파일 포맷](/studynote/16_bigdata/01_intro/013_public_bigdata/) — [Parquet](/studynote/16_bigdata/01_intro/013_public_bigdata/) / ORC / Iceberg / Arrow — 조회 최적화
 14. [빅데이터 비용 최적화](/studynote/16_bigdata/01_intro/014_data_voucher/) — [Spot Instance](/studynote/16_bigdata/01_intro/014_data_voucher/) / 컴퓨팅-스토리지 분리 / RI
@@ -258,8 +258,8 @@ weight: 50
 7. [데이터](/studynote/16_bigdata/01_intro/007_big_data_ecosystem/) 계보 ([Data Lineage](/studynote/16_bigdata/01_intro/007_big_data_ecosystem/)) — 열 수준 계보, 영향 분석, Apache Atlas
 8. [메타데이터 관리](/studynote/16_bigdata/01_intro/008_big_data_vs_traditional_data/) — 비즈니스/기술/운영 [메타데이터](/studynote/16_bigdata/01_intro/008_big_data_vs_traditional_data/) 3유형
 9. [마스터 데이터 관리](/studynote/16_bigdata/01_intro/009_data_explosion_factors/) ([MDM](/studynote/16_bigdata/01_intro/009_data_explosion_factors/)) — 황금 레코드, 중복 제거
-[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보안 — 암호화(전송/저장) / 접근 제어 / [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) / [DLP](/studynote/01_computer_architecture/10_parallel_processing_architecture/386_dlp/)
-[11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). [개인정보보호법 빅데이터 특례](/studynote/16_bigdata/10_governance/206_pipa_bigdata_exception/) — 가명처리 허용 (2020년 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 3법)
+[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [데이터](/studynote/16_bigdata/01_intro/001_bigdata_definition/) 보안 — 암호화(전송/저장) / 접근 제어 / [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) / [DLP](/studynote/01_computer_architecture/10_parallel_processing_architecture/386_dlp/)
+[11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). [개인정보보호법 빅데이터 특례](/studynote/16_bigdata/10_governance/206_pipa_bigdata_exception/) — 가명처리 허용 (2020년 [데이터](/studynote/16_bigdata/01_intro/001_bigdata_definition/) 3법)
 12. [GDPR Article 89](/studynote/16_bigdata/01_intro/012_mydata/) — 과학적 연구 목적 빅데이터 처리 특례
 13. [데이터 비식별화 기법](/studynote/16_bigdata/01_intro/013_public_bigdata/) — [데이터 마스킹](/studynote/16_bigdata/01_intro/013_public_bigdata/) / 가명화 / 집계화 / 노이즈 추가
 14. [차등 프라이버시](/studynote/16_bigdata/01_intro/014_data_voucher/) ([Differential Privacy](/studynote/16_bigdata/01_intro/014_data_voucher/)) — 통계 [쿼리](/studynote/16_bigdata/01_intro/014_data_voucher/) + 노이즈, Apple/Google
@@ -281,7 +281,7 @@ weight: 50
 7. [SNS 빅데이터 — 여론 분석 / 트렌드 감지 / 인플루언서 분석](/studynote/16_bigdata/01_intro/007_big_data_ecosystem/)
 8. [스마트시티 빅데이터](/studynote/16_bigdata/01_intro/008_big_data_vs_traditional_data/) — [CCTV](/studynote/16_bigdata/01_intro/008_big_data_vs_traditional_data/) 분석 / 교통 [신호](/studynote/16_bigdata/01_intro/008_big_data_vs_traditional_data/) 최적화 / 에너지 그리드
 9. [농업 빅데이터](/studynote/16_bigdata/01_intro/009_data_explosion_factors/) — 정밀 농업 / 날씨 연계 수확량 예측 / 토양 분석
-[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [교육 빅데이터](/studynote/16_bigdata/11_industry/223_education_bigdata/) — 학습 분석([Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Analytics) / 맞춤형 교육
+[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [교육 빅데이터](/studynote/16_bigdata/11_industry/223_education_bigdata/) — 학습 분석([Learning](/studynote/16_bigdata/12_trends/240_databricks_vs_snowflake_dw/) Analytics) / 맞춤형 교육
 [11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). [관광 빅데이터](/studynote/16_bigdata/11_industry/224_tourism_bigdata/) — 관광 수요 예측 / 혼잡도 분석 / 관광 코스 추천
 12. [통신 빅데이터](/studynote/16_bigdata/01_intro/012_mydata/) — 네트워크 장애 예측 / 고객 이탈 분석 / QoE 최적화
 13. [에너지 빅데이터](/studynote/16_bigdata/01_intro/013_public_bigdata/) — 전력 수요 예측 / 신재생에너지 출력 예측 / 스마트미터
@@ -302,8 +302,8 @@ weight: 50
 7. [데이터 계약](/studynote/16_bigdata/01_intro/007_big_data_ecosystem/) ([Data Contract](/studynote/16_bigdata/01_intro/007_big_data_ecosystem/)) — [스키마](/studynote/16_bigdata/01_intro/007_big_data_ecosystem/) 안정성 보장 생산자-소비자 합의
 8. [오픈소스 포맷 경쟁](/studynote/16_bigdata/01_intro/008_big_data_vs_traditional_data/) — [Apache Iceberg](/studynote/16_bigdata/01_intro/008_big_data_vs_traditional_data/) 사실상 표준화 움직임
 9. [양자 컴퓨팅](/studynote/16_bigdata/01_intro/009_data_explosion_factors/) + 빅데이터 — 최적화 문제, 양자 ML [초기](/studynote/16_bigdata/01_intro/009_data_explosion_factors/) 연구
-[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [엣지 빅데이터](/studynote/16_bigdata/12_trends/239_architecture/) — 엣지에서 집계 후 클라우드 전송, [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 절감
-[11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). [Databricks vs Snowflake](/studynote/16_bigdata/12_trends/240_databricks_vs_snowflake_dw/) — [레이크하우스](/studynote/16_bigdata/07_data_lake/146_lakehouse/) vs [DW](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 진영 경쟁
+[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [엣지 빅데이터](/studynote/16_bigdata/12_trends/239_architecture/) — 엣지에서 집계 후 클라우드 전송, [대역폭](/studynote/16_bigdata/06_nosql/140_consistency_levels/) 절감
+[11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). [Databricks vs Snowflake](/studynote/16_bigdata/12_trends/240_databricks_vs_snowflake_dw/) — [레이크하우스](/studynote/16_bigdata/07_data_lake/146_lakehouse/) vs [DW](/studynote/16_bigdata/10_governance/209_differential_privacy/) 진영 경쟁
 12. [데이터 옵저버빌리티](/studynote/16_bigdata/01_intro/012_mydata/) — Monte Carlo / Bigeye — [데이터 파이프라인](/studynote/16_bigdata/01_intro/012_mydata/) [신뢰성](/studynote/16_bigdata/01_intro/012_mydata/)
 
 ---

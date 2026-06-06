@@ -5,125 +5,125 @@ tags:
   - "studynote-network"
 weight: 50
 ---
-# [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)통신 / 네트워크 키워드 목록 (1,200+ 심화 확장판)
+# [데이터](/studynote/03_network/01_data_communication/001_dte_dce_ccu/)통신 / 네트워크 키워드 목록 (1,200+ 심화 확장판)
 
-정보통신기술사·컴퓨터응용시스템기술사 및 전문 엔지니어를 위한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)통신/네트워크 전 영역 핵심 및 심화 키워드 1,200선입니다.
+정보통신기술사·컴퓨터응용시스템기술사 및 전문 엔지니어를 위한 [데이터](/studynote/03_network/01_data_communication/001_dte_dce_ccu/)통신/네트워크 전 영역 핵심 및 심화 키워드 1,200선입니다.
 
 ---
 
-## 1. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)통신 기초 및 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)처리 (70개)
-1. [데이터통신 시스템 구성요소](/studynote/03_network/01_data_communication/001_데이터통신_시스템_구성요소/) (단말장치 DTE, [데이터](/studynote/03_network/01_data_communication/001_데이터통신_시스템_구성요소/)회선종단장치 DCE, 통신제어장치 CCU)
-2. [정보처리장치](/studynote/03_network/01_data_communication/002_정보처리장치/) (Host Computer, Front-End Processor FEP)
-3. [아날로그 신호](/studynote/03_network/01_data_communication/003_아날로그_신호_vs_디지털_신호/) (연속적, 증폭기) vs 디지털 [신호](/studynote/03_network/01_data_communication/003_아날로그_신호_vs_디지털_신호/) (이산적, 리피터)
-4. [배드보](/studynote/03_network/01_data_communication/004_배드보_비트레이트/) (Baud Rate, 변조 속도) vs [비트](/studynote/03_network/01_data_communication/004_배드보_비트레이트/)레이트 ([Bit](/studynote/03_network/01_data_communication/004_배드보_비트레이트/) Rate, 전송 속도)
-5. [비트 시간](/studynote/03_network/01_data_communication/005_비트_시간_심볼_시간/) ([Bit Duration](/studynote/03_network/01_data_communication/005_비트_시간_심볼_시간/)) / 심볼 시간 (Symbol Duration)
-6. [아날로그 통신 vs 디지털 통신](/studynote/03_network/01_data_communication/006_아날로그_vs_디지털_통신/)
-7. [기저대역 전송](/studynote/03_network/01_data_communication/007_기저대역_대역통과_전송/) ([Baseband Transmission](/studynote/03_network/01_data_communication/007_기저대역_대역통과_전송/)) / 대역통과 전송 (Broadband Transmission)
-8. [단방향](/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) ([Simplex](/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)) / 반이중 (Half-Duplex) / 전이중 (Full-Duplex)
-9. [직렬 전송](/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/) ([Serial](/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/)) vs [병렬](/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/) 전송 (Parallel)
-[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [동기식 전송](/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/) ([Synchronous](/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/)) vs 비동기식 전송 (Asynchronous)
-[11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). 비동기식 전송 - 시작/정지 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) (Start/Stop [Bit](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)), [프레이밍](/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/) 에러
-12. [동기식 전송](/studynote/03_network/01_data_communication/012_동기식_전송_프로토콜/) - 문자 동기방식 (SYN, [BSC](/studynote/03_network/01_data_communication/012_동기식_전송_프로토콜/)), [비트](/studynote/03_network/01_data_communication/012_동기식_전송_프로토콜/) 동기방식 ([SDLC](/studynote/03_network/01_data_communication/012_동기식_전송_프로토콜/), [HDLC](/studynote/03_network/01_data_communication/012_동기식_전송_프로토콜/))
-13. [대역폭](/studynote/03_network/01_data_communication/013_대역폭_효율성/) ([Bandwidth](/studynote/03_network/01_data_communication/013_대역폭_효율성/)), [대역폭](/studynote/03_network/01_data_communication/013_대역폭_효율성/)-효율성 [관계](/studynote/03_network/01_data_communication/013_대역폭_효율성/)
-14. [처리량](/studynote/03_network/01_data_communication/014_처리량_굿풋/) ([Throughput](/studynote/03_network/01_data_communication/014_처리량_굿풋/)) / 굿풋 (Goodput)
-15. [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ([Latency](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)/Delay) - [데이터](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 관점
-16. [전파 지연](/studynote/03_network/01_data_communication/016_전파_지연/) ([Propagation Delay](/studynote/03_network/01_data_communication/016_전파_지연/)) - 거리/속도
-17. [전송 지연](/studynote/03_network/01_data_communication/017_전송_지연/) ([Transmission Delay](/studynote/03_network/01_data_communication/017_전송_지연/)) - 패킷길이/[대역폭](/studynote/03_network/01_data_communication/017_전송_지연/)
-18. [큐잉 지연](/studynote/03_network/01_data_communication/018_큐잉_지연/) ([Queueing Delay](/studynote/03_network/01_data_communication/018_큐잉_지연/)) - 라우터 버퍼
-19. [처리 지연](/studynote/03_network/01_data_communication/019_처리_지연/) ([Processing Delay](/studynote/03_network/01_data_communication/019_처리_지연/)) - 헤더 검사, [라우팅](/studynote/03_network/01_data_communication/019_처리_지연/)
-20. [나이퀴스트 채널 용량](/studynote/03_network/01_data_communication/020_나이퀴스트_채널_용량/) ([Nyquist Capacity](/studynote/03_network/01_data_communication/020_나이퀴스트_채널_용량/)) - 무잡음 채널, C = 2B log2(M)
-21. [샤논의 채널 용량](/studynote/03_network/01_data_communication/021_샤논의_채널_용량/) ([Shannon Capacity](/studynote/03_network/01_data_communication/021_샤논의_채널_용량/)) - 잡음 채널, C = B log2(1 + S/N)
-22. [심볼 상호 간섭](/studynote/03_network/01_data_communication/022_심볼_상호_간섭_ISI/) (ISI: Inter-Symbol Interference)
-23. [나이퀴스트 펄스 포맷 / 아이패턴 (Eye Pattern)](/studynote/03_network/01_data_communication/023_나이퀴스트_아이패턴/)
-24. [신호 대 잡음비](/studynote/03_network/01_data_communication/024_신호_대_잡음비/) ([SNR](/studynote/03_network/01_data_communication/024_신호_대_잡음비/), [Signal-to-Noise Ratio](/studynote/03_network/01_data_communication/024_신호_대_잡음비/))
-25. [감쇠 (Attenuation), 데시벨(dB) 측정](/studynote/03_network/01_data_communication/025_감쇠와_데시벨/)
-26. [지연 왜곡](/studynote/03_network/01_data_communication/026_지연_왜곡/) ([Delay Distortion](/studynote/03_network/01_data_communication/026_지연_왜곡/))
-27. [백색 잡음 (White Noise) / 가우스 잡음](/studynote/03_network/01_data_communication/027_백색_잡음_가우스_잡음/)
-28. [충격 잡음 (Impulse Noise) / 열 잡음 (Thermal Noise)](/studynote/03_network/01_data_communication/028_충격_잡음_열_잡음/)
-29. [상호변조 잡음](/studynote/03_network/01_data_communication/029_상호변조_잡음/) ([Intermodulation Noise](/studynote/03_network/01_data_communication/029_상호변조_잡음/))
-30. [누화](/studynote/03_network/01_data_communication/030_누화_크로스토크/) ([Crosstalk](/studynote/03_network/01_data_communication/030_누화_크로스토크/), 혼선)
-31. [에코](/studynote/03_network/01_data_communication/031_에코_반향/) (Echo, [반향](/studynote/03_network/01_data_communication/031_에코_반향/))
-32. [회선 제어 규약](/studynote/03_network/01_data_communication/032_회선_제어_규약/) (Line Discipline)
+## 1. [데이터](/studynote/03_network/01_data_communication/001_dte_dce_ccu/)통신 기초 및 [신호](/studynote/03_network/03_physical_layer_media/130_multimode_step_index_fiber/)처리 (70개)
+1. [데이터통신 시스템 구성요소](/studynote/03_network/01_data_communication/001_dte_dce_ccu/) (단말장치 DTE, [데이터](/studynote/03_network/01_data_communication/001_dte_dce_ccu/)회선종단장치 DCE, 통신제어장치 CCU)
+2. [정보처리장치](/studynote/03_network/01_data_communication/002_host_computer_front_end_processor/) (Host Computer, Front-End Processor FEP)
+3. [아날로그 신호](/studynote/03_network/01_data_communication/003_vs/) (연속적, 증폭기) vs 디지털 [신호](/studynote/03_network/01_data_communication/003_vs/) (이산적, 리피터)
+4. [배드보](/studynote/03_network/01_data_communication/004_bit_rate/) (Baud Rate, 변조 속도) vs [비트](/studynote/03_network/01_data_communication/004_bit_rate/)레이트 ([Bit](/studynote/03_network/01_data_communication/004_bit_rate/) Rate, 전송 속도)
+5. [비트 시간](/studynote/03_network/01_data_communication/005_symbol_duration/) ([Bit Duration](/studynote/03_network/01_data_communication/005_symbol_duration/)) / 심볼 시간 (Symbol Duration)
+6. [아날로그 통신 vs 디지털 통신](/studynote/03_network/01_data_communication/006_vs/)
+7. [기저대역 전송](/studynote/03_network/01_data_communication/007_broadband_transmission/) ([Baseband Transmission](/studynote/03_network/01_data_communication/007_broadband_transmission/)) / 대역통과 전송 (Broadband Transmission)
+8. [단방향](/studynote/03_network/01_data_communication/008_full_duplex/) ([Simplex](/studynote/03_network/01_data_communication/008_full_duplex/)) / 반이중 (Half-Duplex) / 전이중 (Full-Duplex)
+9. [직렬 전송](/studynote/03_network/01_data_communication/009_vs/) ([Serial](/studynote/03_network/01_data_communication/009_vs/)) vs [병렬](/studynote/03_network/01_data_communication/009_vs/) 전송 (Parallel)
+[10](/studynote/03_network/09_application_layer_web_email/489_pop3_post_office_protocol_v3/). [동기식 전송](/studynote/03_network/01_data_communication/010_asynchronous/) ([Synchronous](/studynote/03_network/01_data_communication/010_asynchronous/)) vs 비동기식 전송 (Asynchronous)
+[11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). 비동기식 전송 - 시작/정지 [비트](/studynote/03_network/02_multiplexing_multiple_access/073_fdm/) (Start/Stop [Bit](/studynote/03_network/02_multiplexing_multiple_access/086_cp_gi/)), [프레이밍](/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/) 에러
+12. [동기식 전송](/studynote/03_network/01_data_communication/012_sdlc_hdlc/) - 문자 동기방식 (SYN, [BSC](/studynote/03_network/01_data_communication/012_sdlc_hdlc/)), [비트](/studynote/03_network/01_data_communication/012_sdlc_hdlc/) 동기방식 ([SDLC](/studynote/03_network/01_data_communication/012_sdlc_hdlc/), [HDLC](/studynote/03_network/01_data_communication/012_sdlc_hdlc/))
+13. [대역폭](/studynote/03_network/01_data_communication/013_bandwidth_efficiency/) ([Bandwidth](/studynote/03_network/01_data_communication/013_bandwidth_efficiency/)), [대역폭](/studynote/03_network/01_data_communication/013_bandwidth_efficiency/)-효율성 [관계](/studynote/03_network/01_data_communication/013_bandwidth_efficiency/)
+14. [처리량](/studynote/03_network/01_data_communication/014_goodput/) ([Throughput](/studynote/03_network/01_data_communication/014_goodput/)) / 굿풋 (Goodput)
+15. [지연](/studynote/03_network/01_data_communication/015_delay_data_perspective/) ([Latency](/studynote/03_network/01_data_communication/015_delay_data_perspective/)/Delay) - [데이터](/studynote/03_network/01_data_communication/015_delay_data_perspective/) 관점
+16. [전파 지연](/studynote/03_network/01_data_communication/016_propagation_delay/) ([Propagation Delay](/studynote/03_network/01_data_communication/016_propagation_delay/)) - 거리/속도
+17. [전송 지연](/studynote/03_network/01_data_communication/017_transmission_delay/) ([Transmission Delay](/studynote/03_network/01_data_communication/017_transmission_delay/)) - 패킷길이/[대역폭](/studynote/03_network/01_data_communication/017_transmission_delay/)
+18. [큐잉 지연](/studynote/03_network/01_data_communication/018_queuing_delay/) ([Queueing Delay](/studynote/03_network/01_data_communication/018_queuing_delay/)) - 라우터 버퍼
+19. [처리 지연](/studynote/03_network/01_data_communication/019_processing_delay/) ([Processing Delay](/studynote/03_network/01_data_communication/019_processing_delay/)) - 헤더 검사, [라우팅](/studynote/03_network/01_data_communication/019_processing_delay/)
+20. [나이퀴스트 채널 용량](/studynote/03_network/01_data_communication/020_topic_020/) ([Nyquist Capacity](/studynote/03_network/01_data_communication/020_topic_020/)) - 무잡음 채널, C = 2B log2(M)
+21. [샤논의 채널 용량](/studynote/03_network/01_data_communication/021_topic_021/) ([Shannon Capacity](/studynote/03_network/01_data_communication/021_topic_021/)) - 잡음 채널, C = B log2(1 + S/N)
+22. [심볼 상호 간섭](/studynote/03_network/01_data_communication/022_isi/) (ISI: Inter-Symbol Interference)
+23. [나이퀴스트 펄스 포맷 / 아이패턴 (Eye Pattern)](/studynote/03_network/01_data_communication/023_nyquist_eye_pattern/)
+24. [신호 대 잡음비](/studynote/03_network/01_data_communication/024_snr/) ([SNR](/studynote/03_network/01_data_communication/024_snr/), [Signal-to-Noise Ratio](/studynote/03_network/01_data_communication/024_snr/))
+25. [감쇠 (Attenuation), 데시벨(dB) 측정](/studynote/03_network/01_data_communication/025_attenuation/)
+26. [지연 왜곡](/studynote/03_network/01_data_communication/026_delay_distortion/) ([Delay Distortion](/studynote/03_network/01_data_communication/026_delay_distortion/))
+27. [백색 잡음 (White Noise) / 가우스 잡음](/studynote/03_network/01_data_communication/027_white_noise_gaussian_noise/)
+28. [충격 잡음 (Impulse Noise) / 열 잡음 (Thermal Noise)](/studynote/03_network/01_data_communication/028_impulse_noise_thermal_noise/)
+29. [상호변조 잡음](/studynote/03_network/01_data_communication/029_intermodulation_noise/) ([Intermodulation Noise](/studynote/03_network/01_data_communication/029_intermodulation_noise/))
+30. [누화](/studynote/03_network/01_data_communication/030_crosstalk/) ([Crosstalk](/studynote/03_network/01_data_communication/030_crosstalk/), 혼선)
+31. [에코](/studynote/03_network/01_data_communication/031_echo/) (Echo, [반향](/studynote/03_network/01_data_communication/031_echo/))
+32. [회선 제어 규약](/studynote/03_network/01_data_communication/032_line_control_protocol/) (Line Discipline)
 33. 엔트 (ENQ) / 애크 (ACK) / 나크 ([NAK](/studynote/03_network/01_data_communication/033_ENQ_ACK_NAK_EOT/)) / EOT
-34. [에러 검출율](/studynote/03_network/01_data_communication/034_에러_검출율/) ([Error Detection](/studynote/03_network/01_data_communication/034_에러_검출율/) Rate)
-35. 부호화 (Encoding) - Line Coding, [Block Coding](/studynote/03_network/01_data_communication/035_부호화_라인_코딩_블록_코딩/)
-36. [Line Coding - 단극성 (Unipolar), 극성 (Polar), 양극성 (Bipolar)](/studynote/03_network/01_data_communication/036_단극성_극성_양극성/)
+34. [에러 검출율](/studynote/03_network/01_data_communication/034_error_detection_rate/) ([Error Detection](/studynote/03_network/01_data_communication/034_error_detection_rate/) Rate)
+35. 부호화 (Encoding) - Line Coding, [Block Coding](/studynote/03_network/01_data_communication/035_line_coding_block_coding/)
+36. [Line Coding - 단극성 (Unipolar), 극성 (Polar), 양극성 (Bipolar)](/studynote/03_network/01_data_communication/036_unipolar_polar_bipolar/)
 37. NRZ (Non-[Return to Zero](/studynote/03_network/01_data_communication/037_NRZ_L_NRZ_I/)) - NRZ-L, NRZ-I
 38. RZ ([Return to Zero](/studynote/03_network/01_data_communication/038_RZ_Return_to_Zero/)) - [동기화](/studynote/03_network/01_data_communication/038_RZ_Return_to_Zero/) 장점, [대역폭](/studynote/03_network/01_data_communication/038_RZ_Return_to_Zero/) 증가
-39. [맨체스터 (Manchester) 부호화 / 차분 맨체스터 (Differential Manchester)](/studynote/03_network/01_data_communication/039_맨체스터_차분맨체스터/)
+39. [맨체스터 (Manchester) 부호화 / 차분 맨체스터 (Differential Manchester)](/studynote/03_network/01_data_communication/039_manchester_differential_manchester/)
 40. [AMI](/studynote/03_network/01_data_communication/040_AMI_Pseudoternary/) (Alternate Mark Inversion) / Pseudoternary
-41. [차분 부호화](/studynote/03_network/01_data_communication/041_차분_부호화/) ([Differential Encoding](/studynote/03_network/01_data_communication/041_차분_부호화/))
-42. 4B/5B, 8B/10B 부호화 ([Block Coding](/studynote/03_network/01_data_communication/042_4B5B_8B10B_블록_코딩/))
-43. B8ZS (Bipolar with 8-[Zero](/studynote/03_network/01_data_communication/043_B8ZS_HDB3_스크램블링/) Substitution) / HDB3 (High-Density Bipolar 3 zeros)
-44. 변조 (Modulation) 필요성 - [안테나](/studynote/03_network/01_data_communication/044_변조의_필요성/) 크기, 주파수 [다중화](/studynote/03_network/01_data_communication/044_변조의_필요성/)
-45. 진폭 편이 변조 (ASK, [Amplitude Shift Keying](/studynote/03_network/01_data_communication/045_진폭_편이_변조_ASK/))
-46. 주파수 편이 변조 (FSK, [Frequency Shift Keying](/studynote/03_network/01_data_communication/046_주파수_편이_변조_FSK/))
-47. 위상 편이 변조 ([PSK](/studynote/03_network/01_data_communication/047_위상_편이_변조_PSK/), Phase Shift Keying)
+41. [차분 부호화](/studynote/03_network/01_data_communication/041_differential_encoding/) ([Differential Encoding](/studynote/03_network/01_data_communication/041_differential_encoding/))
+42. 4B/5B, 8B/10B 부호화 ([Block Coding](/studynote/03_network/01_data_communication/042_b5b_8b10b/))
+43. B8ZS (Bipolar with 8-[Zero](/studynote/03_network/01_data_communication/043_b8zs_hdb3/) Substitution) / HDB3 (High-Density Bipolar 3 zeros)
+44. 변조 (Modulation) 필요성 - [안테나](/studynote/03_network/01_data_communication/044_necessity_modulation/) 크기, 주파수 [다중화](/studynote/03_network/01_data_communication/044_necessity_modulation/)
+45. 진폭 편이 변조 (ASK, [Amplitude Shift Keying](/studynote/03_network/01_data_communication/045_ask/))
+46. 주파수 편이 변조 (FSK, [Frequency Shift Keying](/studynote/03_network/01_data_communication/046_fsk/))
+47. 위상 편이 변조 ([PSK](/studynote/03_network/01_data_communication/047_psk/), Phase Shift Keying)
 48. BPSK (Binary [PSK](/studynote/03_network/01_data_communication/048_BPSK_QPSK/), 1bit/symbol) / QPSK (Quadrature [PSK](/studynote/03_network/01_data_communication/048_BPSK_QPSK/), 2bit/symbol)
 49. OQPSK (Offset QPSK) / [Pi](/studynote/03_network/01_data_communication/049_OQPSK_Pi_4_QPSK/)/4 QPSK
-50. M진 [PSK](/studynote/03_network/01_data_communication/050_M진_PSK_8PSK_16PSK/) (8PSK, 16PSK)
-51. [직교 진폭 변조](/studynote/03_network/01_data_communication/051_직교_진폭_변조_QAM/) (QAM, Quadrature Amplitude Modulation) - ASK+[PSK](/studynote/03_network/01_data_communication/051_직교_진폭_변조_QAM/) 혼합
-52. [16-QAM, 64-QAM, 256-QAM, 1024-QAM](/studynote/03_network/01_data_communication/052_고차_QAM_16_64_256_1024/)
-53. [성상도](/studynote/03_network/01_data_communication/053_성상도_Constellation_Diagram/) ([Constellation Diagram](/studynote/03_network/01_data_communication/053_성상도_Constellation_Diagram/)) - 진폭과 위상 표시
-54. [반송파](/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/) ([Carrier Wave](/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/))
-55. [아날로그 연속파 변조](/studynote/03_network/01_data_communication/055_아날로그_연속파_변조_AM_FM_PM/) - AM, FM, PM
-56. [표본화](/studynote/03_network/01_data_communication/056_표본화_Sampling/) ([Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/)), [표본화](/studynote/03_network/01_data_communication/056_표본화_Sampling/) 정리 ([Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/) Theorem)
-57. [에일리어싱](/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/) ([Aliasing](/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/)) - [표본화](/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/) 주파수 부족시 발생
-58. [폴딩 주파수](/studynote/03_network/01_data_communication/058_폴딩_주파수_Folding_Frequency/) ([Folding Frequency](/studynote/03_network/01_data_communication/058_폴딩_주파수_Folding_Frequency/))
-59. [양자화](/studynote/03_network/01_data_communication/059_양자화_Quantization/) ([Quantization](/studynote/03_network/01_data_communication/059_양자화_Quantization/)) - 선형/비선형
-60. [양자화 잡음](/studynote/03_network/01_data_communication/060_양자화_잡음_양자화_스텝/) ([Quantization](/studynote/03_network/01_data_communication/060_양자화_잡음_양자화_스텝/) Noise/Error), [양자화](/studynote/03_network/01_data_communication/060_양자화_잡음_양자화_스텝/) 스텝
-61. [컴팬딩](/studynote/03_network/01_data_communication/061_컴팬딩_압신_mu_law_A_law/) ([Companding](/studynote/03_network/01_data_communication/061_컴팬딩_압신_mu_law_A_law/)) / 압신 - μ-law, A-law
-62. [펄스 부호 변조](/studynote/03_network/01_data_communication/062_펄스_부호_변조_PCM_과정/) ([PCM](/studynote/03_network/01_data_communication/062_펄스_부호_변조_PCM_과정/), Pulse [Code](/studynote/03_network/01_data_communication/062_펄스_부호_변조_PCM_과정/) Modulation) 처리 과정
-63. [DPCM](/studynote/03_network/01_data_communication/063_DPCM_차분_펄스_부호_변조/) ([Differential PCM](/studynote/03_network/01_data_communication/063_DPCM_차분_펄스_부호_변조/)) - 차분 [펄스 부호 변조](/studynote/03_network/01_data_communication/063_DPCM_차분_펄스_부호_변조/)
-64. [ADPCM](/studynote/03_network/01_data_communication/064_ADPCM_적응형_차분_펄스_부호_변조/) ([Adaptive DPCM](/studynote/03_network/01_data_communication/064_ADPCM_적응형_차분_펄스_부호_변조/)) - 적응형 차분 [펄스 부호 변조](/studynote/03_network/01_data_communication/064_ADPCM_적응형_차분_펄스_부호_변조/)
-65. [델타 변조](/studynote/03_network/01_data_communication/065_델타_변조_DM/) (DM, Delta Modulation) - 1비트 전송
-66. [적응형 델타 변조](/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/) ([ADM](/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/))
-67. [경사 과부하 잡음](/studynote/03_network/01_data_communication/067_경사과부하_그래뉼러_잡음/) ([Slope Overload Noise](/studynote/03_network/01_data_communication/067_경사과부하_그래뉼러_잡음/)) / 그래뉼러 잡음 (Granular Noise)
-68. [스펙트럼 확산](/studynote/03_network/01_data_communication/068_스펙트럼_확산_Spread_Spectrum/) ([Spread Spectrum](/studynote/03_network/01_data_communication/068_스펙트럼_확산_Spread_Spectrum/))
-69. 직접 수열 [확산 스펙트럼](/studynote/03_network/01_data_communication/069_직접_수열_확산_DSSS/) ([DSSS](/studynote/03_network/01_data_communication/069_직접_수열_확산_DSSS/), [Direct](/studynote/03_network/01_data_communication/069_직접_수열_확산_DSSS/) Sequence [Spread Spectrum](/studynote/03_network/01_data_communication/069_직접_수열_확산_DSSS/)) - PN 시퀀스
-70. [주파수 도약](/studynote/03_network/01_data_communication/070_주파수_도약_확산_FHSS/) [확산 스펙트럼](/studynote/03_network/01_data_communication/070_주파수_도약_확산_FHSS/) ([FHSS](/studynote/03_network/01_data_communication/070_주파수_도약_확산_FHSS/), Frequency Hopping [Spread Spectrum](/studynote/03_network/01_data_communication/070_주파수_도약_확산_FHSS/))
+50. M진 [PSK](/studynote/03_network/01_data_communication/050_m_psk_8psk_16psk/) (8PSK, 16PSK)
+51. [직교 진폭 변조](/studynote/03_network/01_data_communication/051_qam/) (QAM, Quadrature Amplitude Modulation) - ASK+[PSK](/studynote/03_network/01_data_communication/051_qam/) 혼합
+52. [16-QAM, 64-QAM, 256-QAM, 1024-QAM](/studynote/03_network/01_data_communication/052_qam_16_64_256_1024/)
+53. [성상도](/studynote/03_network/01_data_communication/053_constellation_diagram/) ([Constellation Diagram](/studynote/03_network/01_data_communication/053_constellation_diagram/)) - 진폭과 위상 표시
+54. [반송파](/studynote/03_network/01_data_communication/054_carrier_wave/) ([Carrier Wave](/studynote/03_network/01_data_communication/054_carrier_wave/))
+55. [아날로그 연속파 변조](/studynote/03_network/01_data_communication/055_am_fm_pm/) - AM, FM, PM
+56. [표본화](/studynote/03_network/01_data_communication/056_sampling/) ([Sampling](/studynote/03_network/01_data_communication/056_sampling/)), [표본화](/studynote/03_network/01_data_communication/056_sampling/) 정리 ([Sampling](/studynote/03_network/01_data_communication/056_sampling/) Theorem)
+57. [에일리어싱](/studynote/03_network/01_data_communication/057_aliasing/) ([Aliasing](/studynote/03_network/01_data_communication/057_aliasing/)) - [표본화](/studynote/03_network/01_data_communication/057_aliasing/) 주파수 부족시 발생
+58. [폴딩 주파수](/studynote/03_network/01_data_communication/058_folding_frequency/) ([Folding Frequency](/studynote/03_network/01_data_communication/058_folding_frequency/))
+59. [양자화](/studynote/03_network/01_data_communication/059_quantization/) ([Quantization](/studynote/03_network/01_data_communication/059_quantization/)) - 선형/비선형
+60. [양자화 잡음](/studynote/03_network/01_data_communication/060_quantization_noise_step_size/) ([Quantization](/studynote/03_network/01_data_communication/060_quantization_noise_step_size/) Noise/Error), [양자화](/studynote/03_network/01_data_communication/060_quantization_noise_step_size/) 스텝
+61. [컴팬딩](/studynote/03_network/01_data_communication/061_mu_law_a_law/) ([Companding](/studynote/03_network/01_data_communication/061_mu_law_a_law/)) / 압신 - μ-law, A-law
+62. [펄스 부호 변조](/studynote/03_network/01_data_communication/062_pcm/) ([PCM](/studynote/03_network/01_data_communication/062_pcm/), Pulse [Code](/studynote/03_network/01_data_communication/062_pcm/) Modulation) 처리 과정
+63. [DPCM](/studynote/03_network/01_data_communication/063_dpcm/) ([Differential PCM](/studynote/03_network/01_data_communication/063_dpcm/)) - 차분 [펄스 부호 변조](/studynote/03_network/01_data_communication/063_dpcm/)
+64. [ADPCM](/studynote/03_network/01_data_communication/064_adpcm/) ([Adaptive DPCM](/studynote/03_network/01_data_communication/064_adpcm/)) - 적응형 차분 [펄스 부호 변조](/studynote/03_network/01_data_communication/064_adpcm/)
+65. [델타 변조](/studynote/03_network/01_data_communication/065_dm/) (DM, Delta Modulation) - 1비트 전송
+66. [적응형 델타 변조](/studynote/03_network/01_data_communication/066_adm/) ([ADM](/studynote/03_network/01_data_communication/066_adm/))
+67. [경사 과부하 잡음](/studynote/03_network/01_data_communication/067_granular_noise/) ([Slope Overload Noise](/studynote/03_network/01_data_communication/067_granular_noise/)) / 그래뉼러 잡음 (Granular Noise)
+68. [스펙트럼 확산](/studynote/03_network/01_data_communication/068_spread_spectrum/) ([Spread Spectrum](/studynote/03_network/01_data_communication/068_spread_spectrum/))
+69. 직접 수열 [확산 스펙트럼](/studynote/03_network/01_data_communication/069_dsss/) ([DSSS](/studynote/03_network/01_data_communication/069_dsss/), [Direct](/studynote/03_network/01_data_communication/069_dsss/) Sequence [Spread Spectrum](/studynote/03_network/01_data_communication/069_dsss/)) - PN 시퀀스
+70. [주파수 도약](/studynote/03_network/01_data_communication/070_fhss/) [확산 스펙트럼](/studynote/03_network/01_data_communication/070_fhss/) ([FHSS](/studynote/03_network/01_data_communication/070_fhss/), Frequency Hopping [Spread Spectrum](/studynote/03_network/01_data_communication/070_fhss/))
 
-## 2. [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 및 다중접속 기술 (50개)
-71. [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) ([Multiplexing](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 개념 및 특징
-72. [공간 분할 다중화](/studynote/03_network/02_multiplexing_multiple_access/072_공간_분할_다중화_SDM/) (SDM, Space [Division](/studynote/03_network/02_multiplexing_multiple_access/072_공간_분할_다중화_SDM/) [Multiplexing](/studynote/03_network/02_multiplexing_multiple_access/072_공간_분할_다중화_SDM/))
-73. [주파수 분할 다중화](/studynote/03_network/02_multiplexing_multiple_access/073_주파수_분할_다중화_FDM/) (FDM, Frequency [Division](/studynote/03_network/02_multiplexing_multiple_access/073_주파수_분할_다중화_FDM/) [Multiplexing](/studynote/03_network/02_multiplexing_multiple_access/073_주파수_분할_다중화_FDM/))
-74. [보호 대역](/studynote/03_network/02_multiplexing_multiple_access/074_보호_대역_Guard_Band/) ([Guard Band](/studynote/03_network/02_multiplexing_multiple_access/074_보호_대역_Guard_Band/))
-75. [시분할 다중화](/studynote/03_network/02_multiplexing_multiple_access/075_시분할_다중화_TDM/) (TDM, Time [Division](/studynote/03_network/02_multiplexing_multiple_access/075_시분할_다중화_TDM/) [Multiplexing](/studynote/03_network/02_multiplexing_multiple_access/075_시분할_다중화_TDM/)) (타임디비전 멀티플렉싱)
-76. [동기식 시분할 다중화](/studynote/03_network/02_multiplexing_multiple_access/076_동기식_시분할_다중화/) ([Synchronous TDM](/studynote/03_network/02_multiplexing_multiple_access/076_동기식_시분할_다중화/)) - 정적 타임슬롯 할당
-77. 비동기식/통계적 [시분할 다중화](/studynote/03_network/02_multiplexing_multiple_access/077_비동기식_통계적_TDM/) (Asynchronous/Statistical TDM) - 동적 할당
-78. [비트 교차](/studynote/03_network/02_multiplexing_multiple_access/078_비트_교차_워드_교차/) ([Bit Interleaving](/studynote/03_network/02_multiplexing_multiple_access/078_비트_교차_워드_교차/)) / [워드](/studynote/03_network/02_multiplexing_multiple_access/078_비트_교차_워드_교차/) 교차 ([Word](/studynote/03_network/02_multiplexing_multiple_access/078_비트_교차_워드_교차/) Interleaving)
-79. [광파장 분할 다중화](/studynote/03_network/02_multiplexing_multiple_access/079_광파장_분할_다중화_WDM/) (WDM, Wavelength [Division](/studynote/03_network/02_multiplexing_multiple_access/079_광파장_분할_다중화_WDM/) [Multiplexing](/studynote/03_network/02_multiplexing_multiple_access/079_광파장_분할_다중화_WDM/))
-80. 저밀도 파장 분할 [다중화](/studynote/03_network/02_multiplexing_multiple_access/080_저밀도_파장_분할_다중화_CWDM/) (CWDM, Coarse WDM)
-81. 고밀도 파장 분할 [다중화](/studynote/03_network/02_multiplexing_multiple_access/081_고밀도_파장_분할_다중화_DWDM/) (DWDM, Dense WDM) - EDFA 증폭기 사용
-82. [코드 분할 다중화](/studynote/03_network/02_multiplexing_multiple_access/082_코드_분할_다중화_CDM/) (CDM, [Code](/studynote/03_network/02_multiplexing_multiple_access/082_코드_분할_다중화_CDM/) [Division](/studynote/03_network/02_multiplexing_multiple_access/082_코드_분할_다중화_CDM/) [Multiplexing](/studynote/03_network/02_multiplexing_multiple_access/082_코드_분할_다중화_CDM/))
-83. [직교성](/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/) ([Orthogonality](/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/)) 원리
-84. 직교 [주파수 분할 다중화](/studynote/03_network/02_multiplexing_multiple_access/084_직교_주파수_분할_다중화_OFDM/) (OFDM, Orthogonal FDM)
-85. [부반송파](/studynote/03_network/02_multiplexing_multiple_access/085_부반송파_Subcarrier/) ([Subcarrier](/studynote/03_network/02_multiplexing_multiple_access/085_부반송파_Subcarrier/))
-86. [CP](/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) ([Cyclic Prefix](/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)) / GI (Guard Interval) - ISI 방지
-87. [다중 접속](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) ([Multiple Access](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/)) 개념 ([MAC](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 계층 연관)
-88. [FDMA](/studynote/03_network/02_multiplexing_multiple_access/088_주파수_분할_다중접속_FDMA/) (Frequency [Division](/studynote/03_network/02_multiplexing_multiple_access/088_주파수_분할_다중접속_FDMA/) [Multiple Access](/studynote/03_network/02_multiplexing_multiple_access/088_주파수_분할_다중접속_FDMA/))
-89. [TDMA](/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/) (Time [Division](/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/) [Multiple Access](/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/)) - 슬롯 할당
-90. [CDMA](/studynote/03_network/02_multiplexing_multiple_access/090_코드_분할_다중접속_CDMA/) ([Code](/studynote/03_network/02_multiplexing_multiple_access/090_코드_분할_다중접속_CDMA/) [Division](/studynote/03_network/02_multiplexing_multiple_access/090_코드_분할_다중접속_CDMA/) [Multiple Access](/studynote/03_network/02_multiplexing_multiple_access/090_코드_분할_다중접속_CDMA/)) - 왈시 코드 (Walsh [Code](/studynote/03_network/02_multiplexing_multiple_access/090_코드_분할_다중접속_CDMA/))
-91. 동기식 [CDMA](/studynote/03_network/02_multiplexing_multiple_access/091_동기식_비동기식_CDMA_WCDMA/) vs 비동기식 [CDMA](/studynote/03_network/02_multiplexing_multiple_access/091_동기식_비동기식_CDMA_WCDMA/) ([WCDMA](/studynote/03_network/02_multiplexing_multiple_access/091_동기식_비동기식_CDMA_WCDMA/))
-92. [근거리-원거리 문제](/studynote/03_network/02_multiplexing_multiple_access/092_근거리_원거리_문제_CDMA_전력제어/) ([Near-Far Problem](/studynote/03_network/02_multiplexing_multiple_access/092_근거리_원거리_문제_CDMA_전력제어/)) - [CDMA](/studynote/03_network/02_multiplexing_multiple_access/092_근거리_원거리_문제_CDMA_전력제어/) 전력 제어
-93. [셀 호흡](/studynote/03_network/02_multiplexing_multiple_access/093_셀_호흡_현상/) ([Cell Breathing](/studynote/03_network/02_multiplexing_multiple_access/093_셀_호흡_현상/)) 현상
+## 2. [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_multiplexing/) 및 다중접속 기술 (50개)
+71. [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_multiplexing/) ([Multiplexing](/studynote/03_network/02_multiplexing_multiple_access/071_multiplexing/)) 개념 및 특징
+72. [공간 분할 다중화](/studynote/03_network/02_multiplexing_multiple_access/072_sdm/) (SDM, Space [Division](/studynote/03_network/02_multiplexing_multiple_access/072_sdm/) [Multiplexing](/studynote/03_network/02_multiplexing_multiple_access/072_sdm/))
+73. [주파수 분할 다중화](/studynote/03_network/02_multiplexing_multiple_access/073_fdm/) (FDM, Frequency [Division](/studynote/03_network/02_multiplexing_multiple_access/073_fdm/) [Multiplexing](/studynote/03_network/02_multiplexing_multiple_access/073_fdm/))
+74. [보호 대역](/studynote/03_network/02_multiplexing_multiple_access/074_guard_band/) ([Guard Band](/studynote/03_network/02_multiplexing_multiple_access/074_guard_band/))
+75. [시분할 다중화](/studynote/03_network/02_multiplexing_multiple_access/075_tdm/) (TDM, Time [Division](/studynote/03_network/02_multiplexing_multiple_access/075_tdm/) [Multiplexing](/studynote/03_network/02_multiplexing_multiple_access/075_tdm/)) (타임디비전 멀티플렉싱)
+76. [동기식 시분할 다중화](/studynote/03_network/02_multiplexing_multiple_access/076_synchronous_tdm/) ([Synchronous TDM](/studynote/03_network/02_multiplexing_multiple_access/076_synchronous_tdm/)) - 정적 타임슬롯 할당
+77. 비동기식/통계적 [시분할 다중화](/studynote/03_network/02_multiplexing_multiple_access/077_tdm/) (Asynchronous/Statistical TDM) - 동적 할당
+78. [비트 교차](/studynote/03_network/02_multiplexing_multiple_access/078_word_interleaving/) ([Bit Interleaving](/studynote/03_network/02_multiplexing_multiple_access/078_word_interleaving/)) / [워드](/studynote/03_network/02_multiplexing_multiple_access/078_word_interleaving/) 교차 ([Word](/studynote/03_network/02_multiplexing_multiple_access/078_word_interleaving/) Interleaving)
+79. [광파장 분할 다중화](/studynote/03_network/02_multiplexing_multiple_access/079_wdm/) (WDM, Wavelength [Division](/studynote/03_network/02_multiplexing_multiple_access/079_wdm/) [Multiplexing](/studynote/03_network/02_multiplexing_multiple_access/079_wdm/))
+80. 저밀도 파장 분할 [다중화](/studynote/03_network/02_multiplexing_multiple_access/080_cwdm/) (CWDM, Coarse WDM)
+81. 고밀도 파장 분할 [다중화](/studynote/03_network/02_multiplexing_multiple_access/081_dwdm/) (DWDM, Dense WDM) - EDFA 증폭기 사용
+82. [코드 분할 다중화](/studynote/03_network/02_multiplexing_multiple_access/082_cdm/) (CDM, [Code](/studynote/03_network/02_multiplexing_multiple_access/082_cdm/) [Division](/studynote/03_network/02_multiplexing_multiple_access/082_cdm/) [Multiplexing](/studynote/03_network/02_multiplexing_multiple_access/082_cdm/))
+83. [직교성](/studynote/03_network/02_multiplexing_multiple_access/083_orthogonality/) ([Orthogonality](/studynote/03_network/02_multiplexing_multiple_access/083_orthogonality/)) 원리
+84. 직교 [주파수 분할 다중화](/studynote/03_network/02_multiplexing_multiple_access/084_ofdm/) (OFDM, Orthogonal FDM)
+85. [부반송파](/studynote/03_network/02_multiplexing_multiple_access/085_subcarrier/) ([Subcarrier](/studynote/03_network/02_multiplexing_multiple_access/085_subcarrier/))
+86. [CP](/studynote/03_network/02_multiplexing_multiple_access/086_cp_gi/) ([Cyclic Prefix](/studynote/03_network/02_multiplexing_multiple_access/086_cp_gi/)) / GI (Guard Interval) - ISI 방지
+87. [다중 접속](/studynote/03_network/02_multiplexing_multiple_access/087_multiple_access/) ([Multiple Access](/studynote/03_network/02_multiplexing_multiple_access/087_multiple_access/)) 개념 ([MAC](/studynote/03_network/02_multiplexing_multiple_access/087_multiple_access/) 계층 연관)
+88. [FDMA](/studynote/03_network/02_multiplexing_multiple_access/088_fdma/) (Frequency [Division](/studynote/03_network/02_multiplexing_multiple_access/088_fdma/) [Multiple Access](/studynote/03_network/02_multiplexing_multiple_access/088_fdma/))
+89. [TDMA](/studynote/03_network/02_multiplexing_multiple_access/089_tdma/) (Time [Division](/studynote/03_network/02_multiplexing_multiple_access/089_tdma/) [Multiple Access](/studynote/03_network/02_multiplexing_multiple_access/089_tdma/)) - 슬롯 할당
+90. [CDMA](/studynote/03_network/02_multiplexing_multiple_access/090_cdma/) ([Code](/studynote/03_network/02_multiplexing_multiple_access/090_cdma/) [Division](/studynote/03_network/02_multiplexing_multiple_access/090_cdma/) [Multiple Access](/studynote/03_network/02_multiplexing_multiple_access/090_cdma/)) - 왈시 코드 (Walsh [Code](/studynote/03_network/02_multiplexing_multiple_access/090_cdma/))
+91. 동기식 [CDMA](/studynote/03_network/02_multiplexing_multiple_access/091_cdma_wcdma/) vs 비동기식 [CDMA](/studynote/03_network/02_multiplexing_multiple_access/091_cdma_wcdma/) ([WCDMA](/studynote/03_network/02_multiplexing_multiple_access/091_cdma_wcdma/))
+92. [근거리-원거리 문제](/studynote/03_network/02_multiplexing_multiple_access/092_cdma/) ([Near-Far Problem](/studynote/03_network/02_multiplexing_multiple_access/092_cdma/)) - [CDMA](/studynote/03_network/02_multiplexing_multiple_access/092_cdma/) 전력 제어
+93. [셀 호흡](/studynote/03_network/02_multiplexing_multiple_access/093_cell_breathing_phenomenon/) ([Cell Breathing](/studynote/03_network/02_multiplexing_multiple_access/093_cell_breathing_phenomenon/)) 현상
 94. [OFDMA](/studynote/03_network/02_multiplexing_multiple_access/094_OFDMA/) (Orthogonal Frequency [Division](/studynote/03_network/02_multiplexing_multiple_access/094_OFDMA/) [Multiple Access](/studynote/03_network/02_multiplexing_multiple_access/094_OFDMA/)) - [LTE](/studynote/03_network/02_multiplexing_multiple_access/094_OFDMA/), [5G](/studynote/03_network/02_multiplexing_multiple_access/094_OFDMA/)
-95. [NOMA](/studynote/03_network/02_multiplexing_multiple_access/095_NOMA_비직교_다중_접속/) ([Non-Orthogonal Multiple Access](/studynote/03_network/02_multiplexing_multiple_access/095_NOMA_비직교_다중_접속/)) - 비직교 [다중 접속](/studynote/03_network/02_multiplexing_multiple_access/095_NOMA_비직교_다중_접속/) ([5G](/studynote/03_network/02_multiplexing_multiple_access/095_NOMA_비직교_다중_접속/)/[6G](/studynote/03_network/02_multiplexing_multiple_access/095_NOMA_비직교_다중_접속/) 기술)
-96. 공간 분할 [다중 접속](/studynote/03_network/02_multiplexing_multiple_access/096_공간_분할_다중_접속_SDMA/) (SDMA, Space [Division](/studynote/03_network/02_multiplexing_multiple_access/096_공간_분할_다중_접속_SDMA/) [Multiple Access](/studynote/03_network/02_multiplexing_multiple_access/096_공간_분할_다중_접속_SDMA/))
-97. [MIMO](/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) ([Multiple-Input Multiple-Output](/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/)) 다중 [안테나](/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) 기술
+95. [NOMA](/studynote/03_network/02_multiplexing_multiple_access/095_noma/) ([Non-Orthogonal Multiple Access](/studynote/03_network/02_multiplexing_multiple_access/095_noma/)) - 비직교 [다중 접속](/studynote/03_network/02_multiplexing_multiple_access/095_noma/) ([5G](/studynote/03_network/02_multiplexing_multiple_access/095_noma/)/[6G](/studynote/03_network/02_multiplexing_multiple_access/095_noma/) 기술)
+96. 공간 분할 [다중 접속](/studynote/03_network/02_multiplexing_multiple_access/096_sdma/) (SDMA, Space [Division](/studynote/03_network/02_multiplexing_multiple_access/096_sdma/) [Multiple Access](/studynote/03_network/02_multiplexing_multiple_access/096_sdma/))
+97. [MIMO](/studynote/03_network/02_multiplexing_multiple_access/097_mimo/) ([Multiple-Input Multiple-Output](/studynote/03_network/02_multiplexing_multiple_access/097_mimo/)) 다중 [안테나](/studynote/03_network/02_multiplexing_multiple_access/097_mimo/) 기술
 98. [SU-MIMO](/studynote/03_network/02_multiplexing_multiple_access/098_SU_MIMO_vs_MU_MIMO/) ([Single User MIMO](/studynote/03_network/02_multiplexing_multiple_access/098_SU_MIMO_vs_MU_MIMO/)) vs MU-[MIMO](/studynote/03_network/02_multiplexing_multiple_access/098_SU_MIMO_vs_MU_MIMO/) (Multi-User [MIMO](/studynote/03_network/02_multiplexing_multiple_access/098_SU_MIMO_vs_MU_MIMO/))
-99. [Massive MIMO](/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) ([대규모 다중 안테나](/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/))
-100. [공간 다중화](/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/) ([Spatial Multiplexing](/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/))
+99. [Massive MIMO](/studynote/03_network/02_multiplexing_multiple_access/099_massive_mimo/) ([대규모 다중 안테나](/studynote/03_network/02_multiplexing_multiple_access/099_massive_mimo/))
+100. [공간 다중화](/studynote/03_network/02_multiplexing_multiple_access/100_spatial_multiplexing/) ([Spatial Multiplexing](/studynote/03_network/02_multiplexing_multiple_access/100_spatial_multiplexing/))
 101. [빔포밍](/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) ([Beamforming](/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/)) - 아날로그/디지털 [빔포밍](/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/)
 102. [TDD](/studynote/03_network/02_multiplexing_multiple_access/102_tdd/) ([Time Division Duplexing](/studynote/03_network/02_multiplexing_multiple_access/102_tdd/)) - 시분할 [이중화](/studynote/03_network/02_multiplexing_multiple_access/102_tdd/) (업/다운링크 분리)
 103. [FDD](/studynote/03_network/02_multiplexing_multiple_access/103_fdd/) ([Frequency Division Duplexing](/studynote/03_network/02_multiplexing_multiple_access/103_fdd/)) - 주파수 분할 [이중화](/studynote/03_network/02_multiplexing_multiple_access/103_fdd/)
 104. [CSMA](/studynote/03_network/02_multiplexing_multiple_access/104_csma/) (Carrier Sense [Multiple Access](/studynote/03_network/02_multiplexing_multiple_access/104_csma/)) [반송파](/studynote/03_network/02_multiplexing_multiple_access/104_csma/) 감지
 105. 1-Persistent, Non-Persistent, p-Persistent [CSMA](/studynote/03_network/02_multiplexing_multiple_access/105_csma_persistence/)
-106. [CSMA](/studynote/03_network/02_multiplexing_multiple_access/106_CSMA_CD_유선이더넷_충돌감지/)/CD ([Collision Detection](/studynote/03_network/02_multiplexing_multiple_access/106_CSMA_CD_유선이더넷_충돌감지/)) - 유선 [이더넷](/studynote/03_network/02_multiplexing_multiple_access/106_CSMA_CD_유선이더넷_충돌감지/), 충돌 감지
-107. [잼 신호](/studynote/03_network/02_multiplexing_multiple_access/107_잼_신호_백오프_알고리즘/) ([Jam Signal](/studynote/03_network/02_multiplexing_multiple_access/107_잼_신호_백오프_알고리즘/)) / 백오프 [알고리즘](/studynote/03_network/02_multiplexing_multiple_access/107_잼_신호_백오프_알고리즘/) (Backoff [Algorithm](/studynote/03_network/02_multiplexing_multiple_access/107_잼_신호_백오프_알고리즘/))
-108. [CSMA](/studynote/03_network/02_multiplexing_multiple_access/108_CSMA_CA_무선LAN_충돌회피/)/[CA](/studynote/03_network/02_multiplexing_multiple_access/108_CSMA_CA_무선LAN_충돌회피/) ([Collision](/studynote/03_network/02_multiplexing_multiple_access/108_CSMA_CA_무선LAN_충돌회피/) Avoidance) - 무선 LAN, 충돌 회피
-109. [RTS/CTS (Request To Send / Clear To Send) - 은닉 노드 문제 해결](/studynote/03_network/02_multiplexing_multiple_access/109_RTS_CTS_은닉노드문제/)
-110. [노출 노드 문제](/studynote/03_network/02_multiplexing_multiple_access/110_노출_노드_문제/) ([Exposed Node Problem](/studynote/03_network/02_multiplexing_multiple_access/110_노출_노드_문제/))
+106. [CSMA](/studynote/03_network/02_multiplexing_multiple_access/106_csma_cd/)/CD ([Collision Detection](/studynote/03_network/02_multiplexing_multiple_access/106_csma_cd/)) - 유선 [이더넷](/studynote/03_network/02_multiplexing_multiple_access/106_csma_cd/), 충돌 감지
+107. [잼 신호](/studynote/03_network/02_multiplexing_multiple_access/107_backoff_algorithm/) ([Jam Signal](/studynote/03_network/02_multiplexing_multiple_access/107_backoff_algorithm/)) / 백오프 [알고리즘](/studynote/03_network/02_multiplexing_multiple_access/107_backoff_algorithm/) (Backoff [Algorithm](/studynote/03_network/02_multiplexing_multiple_access/107_backoff_algorithm/))
+108. [CSMA](/studynote/03_network/02_multiplexing_multiple_access/108_csma_ca_lan/)/[CA](/studynote/03_network/02_multiplexing_multiple_access/108_csma_ca_lan/) ([Collision](/studynote/03_network/02_multiplexing_multiple_access/108_csma_ca_lan/) Avoidance) - 무선 LAN, 충돌 회피
+109. [RTS/CTS (Request To Send / Clear To Send) - 은닉 노드 문제 해결](/studynote/03_network/02_multiplexing_multiple_access/109_rts_cts/)
+110. [노출 노드 문제](/studynote/03_network/02_multiplexing_multiple_access/110_exposed_node_problem/) ([Exposed Node Problem](/studynote/03_network/02_multiplexing_multiple_access/110_exposed_node_problem/))
 111. [ALOHA](/studynote/03_network/02_multiplexing_multiple_access/111_aloha_protocol/) ([순수 알로하](/studynote/03_network/02_multiplexing_multiple_access/111_aloha_protocol/)) - 하와이 대학, 무작위 채널 접근
 112. [Slotted ALOHA](/studynote/03_network/02_multiplexing_multiple_access/112_slotted_aloha/) - 슬롯 단위 전송, 충돌 감소
 113. [예약 방식 접속](/studynote/03_network/02_multiplexing_multiple_access/113_reservation_access/) ([Reservation Access](/studynote/03_network/02_multiplexing_multiple_access/113_reservation_access/))
@@ -197,7 +197,7 @@ weight: 50
 179. [전력선 통신](/studynote/03_network/03_physical_layer_media/179_plc_power_line_communication/) ([PLC](/studynote/03_network/03_physical_layer_media/179_plc_power_line_communication/), [Power](/studynote/03_network/03_physical_layer_media/179_plc_power_line_communication/) Line Communication)
 180. [xPON](/studynote/03_network/03_physical_layer_media/180_xpon_epon_gpon_10gpon/) ([Passive Optical Network](/studynote/03_network/03_physical_layer_media/180_xpon_epon_gpon_10gpon/)) - EPON, GPON, 10G-[PON](/studynote/03_network/03_physical_layer_media/180_xpon_epon_gpon_10gpon/)
 
-## 4. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층 - 오류성능 및 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (90개)
+## 4. [데이터](/studynote/03_network/01_data_communication/001_dte_dce_ccu/) 링크 계층 - 오류성능 및 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (90개)
 181. [데이터](/studynote/03_network/04_data_link_layer_error/181_data_link_layer_roles/) 링크 계층의 역할: [프레이밍](/studynote/03_network/04_data_link_layer_error/181_data_link_layer_roles/), [흐름 제어](/studynote/03_network/04_data_link_layer_error/181_data_link_layer_roles/), [오류 제어](/studynote/03_network/04_data_link_layer_error/181_data_link_layer_roles/), 회선 제어
 182. [논리적 링크 제어](/studynote/03_network/04_data_link_layer_error/182_llc_logical_link_control/) ([LLC](/studynote/03_network/04_data_link_layer_error/182_llc_logical_link_control/), Logical Link Control) - IEEE 802.2
 183. [매체 접근 제어](/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/) ([MAC](/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/), [Media](/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/) [Access Control](/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/)) - IEEE 802.3~802.[11](/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/)
@@ -487,7 +487,7 @@ weight: 50
 459. FEC 기능 선택적 포함 ([초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/))
 460. 패킷 손실 [복구](/studynote/03_network/08_transport_layer/460_quic_packet_loss_recovery_unique_packet_number/) 메커니즘 개선 - 고유 패킷 번호 (재전송시 번호 바뀜)
 
-## 9. 응용 계층 - 웹, 이메일, [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전송 (50개)
+## 9. 응용 계층 - 웹, 이메일, [파일](/studynote/03_network/09_application_layer_web_email/501_sip_session_initiation_protocol_voip/) 전송 (50개)
 461. [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) ([HyperText Transfer Protocol](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)) 상태 비저장 ([Stateless](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)), 연결형/비연결형 특징
 462. [HTTP](/studynote/03_network/09_application_layer_web_email/462_http_methods_get_post_put_delete/) 메서드 (GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD, TRACE)
 463. [HTTP](/studynote/03_network/09_application_layer_web_email/463_http_status_codes_1xx_5xx/) 1.0 (비지속 연결, 단점) - 매 요청마다 3-Way Handshake
@@ -539,7 +539,7 @@ weight: 50
 509. [OCAP](/studynote/03_network/09_application_layer_web_email/509_ocap_opencable_application_platform/) ([OpenCable Application Platform](/studynote/03_network/09_application_layer_web_email/509_ocap_opencable_application_platform/))
 510. [DASH](/studynote/03_network/09_application_layer_web_email/510_dash_dynamic_adaptive_streaming_over_http/) (Dynamic Adaptive Streaming over [HTTP](/studynote/03_network/09_application_layer_web_email/510_dash_dynamic_adaptive_streaming_over_http/)) - 동적 [대역폭](/studynote/03_network/09_application_layer_web_email/510_dash_dynamic_adaptive_streaming_over_http/) 적응형 영상 스트리밍
 
-## [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). 응용 계층 - [DNS](/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 및 네트워크 관리 (40개)
+## [10](/studynote/03_network/09_application_layer_web_email/489_pop3_post_office_protocol_v3/). 응용 계층 - [DNS](/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 및 네트워크 관리 (40개)
 511. [DNS](/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) ([Domain Name System](/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)) 계층적 [분산](/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 구조 (루트 - TLD - SLD)
 512. [재귀적 질의](/studynote/03_network/10_application_layer_dns_mgmt/512_recursive_iterative_dns_query/) ([Recursive Query](/studynote/03_network/10_application_layer_dns_mgmt/512_recursive_iterative_dns_query/)) vs 반복적 질의 (Iterative Query)
 513. [정방향 조회](/studynote/03_network/10_application_layer_dns_mgmt/513_forward_reverse_dns_lookup/) (FQDN -> IP) vs 역방향 조회 (IP -> FQDN, in-addr.arpa)
@@ -633,7 +633,7 @@ weight: 50
 599. [무선 충전 전송 원리 (자기 유도형 WPC Qi, 자기 공명형 A4WP)](/studynote/03_network/11_wireless_mobile_communication/599_wireless_charging_wpc_qi_a4wp_resonance/)
 600. RFID / NFC [프로토콜](/studynote/03_network/11_wireless_mobile_communication/600_rfid_nfc_near_field_communication/) 기본 구상
 
-## 12. [사물인터넷](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)), [WPAN](/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/) 및 엣지 통신 (50개)
+## 12. [사물인터넷](/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/)([IoT](/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/)), [WPAN](/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/) 및 엣지 통신 (50개)
 601. [사물인터넷](/studynote/03_network/12_iot_wpan_edge/601_iot_internet_of_things_3_elements/) ([IoT](/studynote/03_network/12_iot_wpan_edge/601_iot_internet_of_things_3_elements/), Internet of Things)의 3대 요소 (디바이스, 네트워크, 클라우드/플랫폼)
 602. [사물 통신](/studynote/03_network/12_iot_wpan_edge/602_m2m_machine_to_machine_telemetry/) ([M2M](/studynote/03_network/12_iot_wpan_edge/602_m2m_machine_to_machine_telemetry/)) - 기기 간 직접 연결 (IoT의 근본)
 603. [센서 네트워크](/studynote/03_network/12_iot_wpan_edge/603_wsn_wireless_sensor_network_sink_node/) ([WSN](/studynote/03_network/12_iot_wpan_edge/603_wsn_wireless_sensor_network_sink_node/), Wireless Sensor Network) / 싱크 노드 (Sink Node) 구성
@@ -789,7 +789,7 @@ weight: 50
 749. [다크 데이터](/studynote/03_network/14_network_security_threats/749_dlp_data_loss_prevention_dark_data/) / [Data Loss Prevention](/studynote/03_network/14_network_security_threats/749_dlp_data_loss_prevention_dark_data/) ([DLP](/studynote/03_network/14_network_security_threats/749_dlp_data_loss_prevention_dark_data/) 네트워크 기반 메일 메신저 단말 외장 유출 차단 모델 시스템 개념 [데이터](/studynote/03_network/14_network_security_threats/749_dlp_data_loss_prevention_dark_data/) 기밀 탐지 적용 원리 분석 적용 구조 파편 제어)
 750. ISO 27001 네트워크 통제 및 개인정보영향평가 [인증](/studynote/03_network/14_network_security_threats/750_network_separation_linkage_system_iso27001/) 모델망 분리 아키텍처 ([논리](/studynote/03_network/14_network_security_threats/750_network_separation_linkage_system_iso27001/)/물리) [망연계 시스템](/studynote/03_network/14_network_security_threats/750_network_separation_linkage_system_iso27001/) (스트림 분리 체계 연동 기술 [VDI](/studynote/03_network/14_network_security_threats/750_network_separation_linkage_system_iso27001/) 도입 구성망 보안망 체계적 구조 이해 등 설계 방침 기초)
 
-## 15. 차세대 통신망 (4G/[5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)/[6G](/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/)) 핵심 아키텍처 (50개)
+## 15. 차세대 통신망 (4G/[5G](/studynote/03_network/08_transport_layer/418_tcp_4_way_handshake_connection_termination/)/[6G](/studynote/03_network/08_transport_layer/419_time_wait_state_2msl_delay_handling/)) 핵심 아키텍처 (50개)
 751. [3GPP](/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) (3rd Generation Partnership [Project](/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/)) 표준 개발
 752. [LTE](/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) (Long Term Evolution 4세대 망 진화) All-IP [패킷 교환](/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 완전 전환, [OFDMA](/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)
 753. [EPC](/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/) (Evolved Packet Core 코어망 시스템) S-GW, P-GW 제어 망 트래픽 통합
@@ -892,7 +892,7 @@ weight: 50
 848. 스마트NIC (SmartNIC) / [DPU](/studynote/03_network/16_data_center_cloud/848_smartnic_dpu_data_processing_unit_offload/) ([Data Processing Unit](/studynote/03_network/16_data_center_cloud/848_smartnic_dpu_data_processing_unit_offload/) 인프라 가속망 컨트롤러 CPU 연산 [오프로딩](/studynote/03_network/16_data_center_cloud/848_smartnic_dpu_data_processing_unit_offload/) 구조 카드 모델 분석 체계)
 849. [SD-WAN](/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/) 가속 오버레이 토폴로지 암호망/다중경로 최적 클라우드 연결 지능 [라우팅](/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/) 통합 게이트웨이 기술 (차세대 지점망 인프라)
 
-## 17. [소프트웨어 정의 네트워킹](/studynote/03_network/17_sdn_nfv/850_sdn_software_defined_networking_concept/)([SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)) 및 네트워크 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)([NFV](/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/)) (40개)
+## 17. [소프트웨어 정의 네트워킹](/studynote/03_network/17_sdn_nfv/850_sdn_software_defined_networking_concept/)([SDN](/studynote/03_network/12_iot_wpan_edge/633_v2v_v2i_autonomous_vehicle_communication/)) 및 네트워크 [가상화](/studynote/03_network/01_data_communication/015_delay_data_perspective/)([NFV](/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/)) (40개)
 850. [SDN](/studynote/03_network/17_sdn_nfv/850_sdn_software_defined_networking_concept/) ([Software Defined Networking](/studynote/03_network/17_sdn_nfv/850_sdn_software_defined_networking_concept/) 소프트웨어 정의 네트워크 구조 패러다임 특징 제어/[데이터](/studynote/03_network/17_sdn_nfv/850_sdn_software_defined_networking_concept/) 영역 근본 분리)
 851. [SDN](/studynote/03_network/17_sdn_nfv/851_sdn_data_plane_forwarding_pipeline_asic/) [데이터](/studynote/03_network/17_sdn_nfv/851_sdn_data_plane_forwarding_pipeline_asic/) 평면 ([Data](/studynote/03_network/17_sdn_nfv/851_sdn_data_plane_forwarding_pipeline_asic/) Plane = 포워딩 평면 단순 [파이프](/studynote/03_network/17_sdn_nfv/851_sdn_data_plane_forwarding_pipeline_asic/) 라인 패킷 [스위치](/studynote/03_network/17_sdn_nfv/851_sdn_data_plane_forwarding_pipeline_asic/) 수행 역할/[ASIC](/studynote/03_network/17_sdn_nfv/851_sdn_data_plane_forwarding_pipeline_asic/) 라우터 이관)
 852. [SDN](/studynote/03_network/17_sdn_nfv/852_sdn_control_plane_centralized_logic_global_view/) 제어 평면 (Control Plane 관리망 [정책](/studynote/03_network/17_sdn_nfv/852_sdn_control_plane_centralized_logic_global_view/) 룰 [라우팅](/studynote/03_network/17_sdn_nfv/852_sdn_control_plane_centralized_logic_global_view/) 시야 중앙 [논리](/studynote/03_network/17_sdn_nfv/852_sdn_control_plane_centralized_logic_global_view/) 통제 아키텍처) 두뇌 격 구조
@@ -1049,7 +1049,7 @@ weight: 50
 999. [MEC](/studynote/03_network/12_iot_wpan_edge/999_mec_mobile_edge_computing/) ([모바일 엣지 컴퓨팅](/studynote/03_network/12_iot_wpan_edge/999_mec_mobile_edge_computing/))
 1000. [클라우드 네이티브 네트워크](/studynote/03_network/16_data_center_cloud/1000_cni_cloud_native_network/) ([CNI](/studynote/03_network/16_data_center_cloud/1000_cni_cloud_native_network/))
 
-## 20. 네트워크 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가 및 심화/기타 실무 용어 (200개 요약집)
+## 20. 네트워크 [성능](/studynote/03_network/05_lan_wan_l2_devices/282_fddi_fiber_distributed_data_interface_dual_ring/) 평가 및 심화/기타 실무 용어 (200개 요약집)
 1001. [QoS](/studynote/03_network/20_performance_evaluation_advanced/1001_qos_qoe_difference/) / QoE 차이 비교
 1002. [네트워크 지연](/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/) ([Rtt](/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/) vs [단방향](/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/) Delay)
 1003. [처리량](/studynote/03_network/20_performance_evaluation_advanced/1003_throughput_goodput_bandwidth_formula/) ([Throughput](/studynote/03_network/20_performance_evaluation_advanced/1003_throughput_goodput_bandwidth_formula/)) 수식화

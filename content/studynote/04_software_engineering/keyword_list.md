@@ -9,7 +9,7 @@ weight: 50
 
 정보통신기술사·컴퓨터응용시스템기술사 및 전문 SW 엔지니어를 위한 소프트웨어공학 전 영역 핵심 및 심화 키워드 800선입니다.
 
-전통적인 소프트웨어 개발 방법론부터 최신 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/), [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/), [클라우드 네이티브 아키텍처](/studynote/12_it_management/05_security_compliance/204_cloud_native_architecture/), [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 개발([LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)), [시큐어 코딩](/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) 및 SW [공급망 보안](/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/)까지 폭넓게 다룹니다.
+전통적인 소프트웨어 개발 방법론부터 최신 [애자일](/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/), [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/), [클라우드 네이티브 아키텍처](/studynote/04_software_engineering/04_testing_quality/204_architecture_style_pattern_overview/), [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 개발([LLM](/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/)), [시큐어 코딩](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 및 SW [공급망 보안](/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/)까지 폭넓게 다룹니다.
 
 ---
 
@@ -23,8 +23,8 @@ weight: 50
 7. [나선형 모델](/studynote/04_software_engineering/01_overview_principles/007_spiral_model/) ([Spiral Model](/studynote/04_software_engineering/01_overview_principles/007_spiral_model/)) - 위험 분석([Risk](/studynote/04_software_engineering/01_overview_principles/007_spiral_model/) Analysis) 강조, 점진적 확장
 8. [반복적/점진적 모델 (Iterative and Incremental Model)](/studynote/04_software_engineering/01_overview_principles/008_iterative_incremental_model/)
 9. [RAD](/studynote/04_software_engineering/01_overview_principles/009_rad_model/) ([Rapid Application Development](/studynote/04_software_engineering/01_overview_principles/009_rad_model/)) 모델 - JAD, CASE 도구 활용
-[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [진화적 프로세스 모델](/studynote/04_software_engineering/01_overview_principles/010_evolutionary_process_model/) ([Evolutionary Process Model](/studynote/04_software_engineering/01_overview_principles/010_evolutionary_process_model/))
-[11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). [클린룸 소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/011_cleanroom_software_engineering/) ([Cleanroom Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/011_cleanroom_software_engineering/)) - 통계적 품질 제어
+[10](/studynote/04_software_engineering/08_security_compliance_devsecops/489_cve_vulnerabilities_exposures/). [진화적 프로세스 모델](/studynote/04_software_engineering/01_overview_principles/010_evolutionary_process_model/) ([Evolutionary Process Model](/studynote/04_software_engineering/01_overview_principles/010_evolutionary_process_model/))
+[11](/studynote/04_software_engineering/05_devops_ci_cd/308_bulkhead_pattern/). [클린룸 소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/011_cleanroom_software_engineering/) ([Cleanroom Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/011_cleanroom_software_engineering/)) - 통계적 품질 제어
 12. [애자일 방법론](/studynote/04_software_engineering/01_overview_principles/012_agile_methodology/) ([Agile Methodology](/studynote/04_software_engineering/01_overview_principles/012_agile_methodology/)) 개요
 13. ISO/IEC 12207 ([소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/013_iso_iec_12207/) 공정 표준) - 기본, 지원, 조직 공정
 14. ISO/IEC 15504 ([SPICE](/studynote/04_software_engineering/01_overview_principles/014_iso_iec_15504_spice/)) - 소프트웨어 프로세스 평가 표준
@@ -67,7 +67,7 @@ weight: 50
 51. [델파이 기법](/studynote/04_software_engineering/01_overview_principles/051_delphi_method/) ([Delphi Method](/studynote/04_software_engineering/01_overview_principles/051_delphi_method/)) - 전문가 합의 기반 예측
 52. [와이드밴드 델파이](/studynote/04_software_engineering/01_overview_principles/052_wideband_delphi/) ([Wideband Delphi](/studynote/04_software_engineering/01_overview_principles/052_wideband_delphi/)) - 팀 단위 반복적 리뷰
 53. 백파이어링 (Backfiring) 기법 - LOC와 [FP](/studynote/04_software_engineering/01_overview_principles/053_backfiring_technique/) 간 변환
-54. [브룩스의 법칙 (Brooks's Law) - 지체된 프로젝트에 인력 투입 시 더 지체됨](/studynote/04_software_engineering/01_overview_principles/054_브룩스의_법칙_brooks_s_law_지체된_프로젝트에/)
+54. [브룩스의 법칙 (Brooks's Law) - 지체된 프로젝트에 인력 투입 시 더 지체됨](/studynote/04_software_engineering/01_overview_principles/054_brooks_s_law/)
 55. [잭맨 프레임워크](/studynote/04_software_engineering/01_overview_principles/055_zachman_framework/) ([Zachman Framework](/studynote/04_software_engineering/01_overview_principles/055_zachman_framework/)) - 전사적 아키텍처([EA](/studynote/04_software_engineering/01_overview_principles/055_zachman_framework/)) 프레임워크
 56. 토가프 ([TOGAF](/studynote/04_software_engineering/01_overview_principles/056_togaf_ea_framework/)) - [The Open Group](/studynote/04_software_engineering/01_overview_principles/056_togaf_ea_framework/) [Architecture](/studynote/04_software_engineering/01_overview_principles/056_togaf_ea_framework/) Framework
 57. [모델 주도 아키텍처](/studynote/04_software_engineering/01_overview_principles/057_mda_model_driven_architecture/) (MDA, Model Driven [Architecture](/studynote/04_software_engineering/01_overview_principles/057_mda_model_driven_architecture/)) - [PIM](/studynote/04_software_engineering/01_overview_principles/057_mda_model_driven_architecture/), PSM 매핑
@@ -75,7 +75,7 @@ weight: 50
 59. [PMO](/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/) ([Project Management Office](/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/)) - 전사 프로젝트 관리 조직
 60. [브레인스토밍 4원칙](/studynote/04_software_engineering/01_overview_principles/060_brainstorming_4_principles/) (비판금지, 자유분방, 다다익선, 결합개선)
 
-## 2. [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 개발 및 최신 방법론 (70개)
+## 2. [애자일](/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/) 개발 및 최신 방법론 (70개)
 61. [애자일 선언문](/studynote/04_software_engineering/02_requirements_analysis/061_agile_manifesto/) ([Agile Manifesto](/studynote/04_software_engineering/02_requirements_analysis/061_agile_manifesto/)) - 4가지 가치, 12가지 원칙
 62. [스크럼](/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) ([Scrum](/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)) 프레임워크 - 역할, 이벤트, 산출물
 63. [제품 책임자](/studynote/04_software_engineering/02_requirements_analysis/063_product_owner_po/) (Product Owner) - 비즈니스 가치 극대화, 백로그 관리
@@ -149,17 +149,17 @@ weight: 50
 
 ## 3. 요구공학 및 비즈니스 분석 (60개)
 131. 요구공학 ([Requirements 엔진ering](/studynote/04_software_engineering/03_design_architecture/131_requirements_engineering/)) 정의 및 필요성
-132. [요구사항의 유형 - 기능적 요구사항 vs 비기능적 요구사항](/studynote/04_software_engineering/03_design_architecture/132_요구사항의_유형_기능적_요구사항_vs_비기능적_요구사항/)
+132. [요구사항의 유형 - 기능적 요구사항 vs 비기능적 요구사항](/studynote/04_software_engineering/03_design_architecture/132_vs/)
 133. [비기능 요구사항](/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/) ([Quality Attributes](/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/)) - [성능](/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/), 보안, [가용성](/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/), [신뢰성](/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/) 등
 134. 요구공학 프로세스 - 도출, 분석, 명세, [확인](/studynote/04_software_engineering/03_design_architecture/134_requirements_engineering_process/), 관리
-135. [요구사항 도출 (Elicitation) 기법 - 인터뷰, 설문, 워크숍, 관찰](/studynote/04_software_engineering/03_design_architecture/135_요구사항_도출_elicitation_기법_인터뷰_설문/)
-136. [브레인스토밍 (Brainstorming) / JAD (Joint Application Design)](/studynote/04_software_engineering/03_design_architecture/136_브레인스토밍_brainstorming_jad_joint/)
-137. [페르소나 (Persona) 분석 - 가상 사용자 모델링](/studynote/04_software_engineering/03_design_architecture/137_페르소나_persona_분석_가상_사용자_모델링/)
-138. [사용자 여정 지도 (User Journey Map)](/studynote/04_software_engineering/03_design_architecture/138_사용자_여정_지도_user_journey_map/)
-139. [프로토타이핑 (Prototyping) - Low-fidelity vs High-fidelity](/studynote/04_software_engineering/03_design_architecture/139_프로토타이핑_prototyping_low_fidelit/)
-140. [섀도잉 (Shadowing) - 사용자 업무 환경 직접 관찰](/studynote/04_software_engineering/03_design_architecture/140_섀도잉_shadowing_사용자_업무_환경_직접_관찰/)
+135. [요구사항 도출 (Elicitation) 기법 - 인터뷰, 설문, 워크숍, 관찰](/studynote/04_software_engineering/03_design_architecture/135_elicitation/)
+136. [브레인스토밍 (Brainstorming) / JAD (Joint Application Design)](/studynote/04_software_engineering/03_design_architecture/136_brainstorming_jad_joint/)
+137. [페르소나 (Persona) 분석 - 가상 사용자 모델링](/studynote/04_software_engineering/03_design_architecture/137_persona/)
+138. [사용자 여정 지도 (User Journey Map)](/studynote/04_software_engineering/03_design_architecture/138_user_journey_map/)
+139. [프로토타이핑 (Prototyping) - Low-fidelity vs High-fidelity](/studynote/04_software_engineering/03_design_architecture/139_prototyping_low_fidelit/)
+140. [섀도잉 (Shadowing) - 사용자 업무 환경 직접 관찰](/studynote/04_software_engineering/03_design_architecture/140_shadowing/)
 141. [포커스 그룹 인터뷰](/studynote/04_software_engineering/03_design_architecture/141_focus_group_interview_fgi/) ([FGI](/studynote/04_software_engineering/03_design_architecture/141_focus_group_interview_fgi/))
-142. [요구사항 분석 (Analysis) - 모순 해결, 범위 확정](/studynote/04_software_engineering/03_design_architecture/142_요구사항_분석_analysis_모순_해결_범위_확정/)
+142. [요구사항 분석 (Analysis) - 모순 해결, 범위 확정](/studynote/04_software_engineering/03_design_architecture/142_analysis/)
 143. [구조적 분석](/studynote/04_software_engineering/03_design_architecture/143_structured_analysis_dfd_dd_minispec/) ([Structured Analysis](/studynote/04_software_engineering/03_design_architecture/143_structured_analysis_dfd_dd_minispec/)) - [DFD](/studynote/04_software_engineering/03_design_architecture/143_structured_analysis_dfd_dd_minispec/), [Data Dictionary](/studynote/04_software_engineering/03_design_architecture/143_structured_analysis_dfd_dd_minispec/), [Mini-Spec](/studynote/04_software_engineering/03_design_architecture/143_structured_analysis_dfd_dd_minispec/)
 144. 자료 흐름도 ([DFD](/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/), [Data Flow Diagram](/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/)) - [Process](/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/), [Data](/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/) Flow, [Data](/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/) Store, Terminator
 145. 자료 사전 ([DD](/studynote/04_software_engineering/03_design_architecture/145_1_mini_spec/), [Data Dictionary](/studynote/04_software_engineering/03_design_architecture/145_1_mini_spec/)) - =, +, { }, [ ], ( ), * *
@@ -631,7 +631,7 @@ weight: 50
 599. [모듈러 모놀리스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/599_modular_monolith_architecture/) ([Modular Monolith](/studynote/04_software_engineering/09_cloud_native_ai_architecture/599_modular_monolith_architecture/)) 아키텍처 - [MSA](/studynote/04_software_engineering/09_cloud_native_ai_architecture/599_modular_monolith_architecture/) 전환 전 단계, [모듈](/studynote/04_software_engineering/09_cloud_native_ai_architecture/599_modular_monolith_architecture/) 간 강결합 방지 아키텍처
 600. [아키텍처 런웨이](/studynote/04_software_engineering/09_cloud_native_ai_architecture/600_architecture_runway_agile_foundation/) ([Architecture Runway](/studynote/04_software_engineering/09_cloud_native_ai_architecture/600_architecture_runway_agile_foundation/)) - 비즈니스 요구 수용을 위해 사전에 마련하는 기술적 기반 구조
 
-## [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). 최신 트렌드 및 프로젝트 관리/품질 심화 (200개 요약)
+## [10](/studynote/04_software_engineering/08_security_compliance_devsecops/489_cve_vulnerabilities_exposures/). 최신 트렌드 및 프로젝트 관리/품질 심화 (200개 요약)
 601. 객체지향 5원칙 [SOLID](/studynote/04_software_engineering/10_trends_pm_quality/601_solid_principles_object_oriented_design/) 완벽 매핑
 602. [정보 은닉](/studynote/04_software_engineering/10_trends_pm_quality/602_information_hiding_encapsulation/)([Information Hiding](/studynote/04_software_engineering/10_trends_pm_quality/602_information_hiding_encapsulation/)) 캡슐화 연계
 603. [컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)([Component](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)) 독립 배포 단위
@@ -835,4 +835,4 @@ weight: 50
 
 ---
 **총합 요약 : 총 800개 핵심 키워드 수록**
-(소프트웨어공학의 전통적 이론부터 객체지향/아키텍처/테스트를 거쳐, 최근 핫트렌드인 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/), [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/), [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)([MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)), [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 코드생성, [시큐어 코딩](/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/)까지 정보관리기술사 수준의 방대한 지식 체계를 800개의 키워드로 집대성하였습니다.)
+(소프트웨어공학의 전통적 이론부터 객체지향/아키텍처/테스트를 거쳐, 최근 핫트렌드인 [애자일](/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/), [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/), [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)([MSA](/studynote/04_software_engineering/10_trends_pm_quality/619_saga_pattern_distributed_transaction/)), [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 코드생성, [시큐어 코딩](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)까지 정보관리기술사 수준의 방대한 지식 체계를 800개의 키워드로 집대성하였습니다.)
