@@ -2,6 +2,7 @@
 title: "005. Divide And Conquer"
 tags:
   - "algorithm_stats"
+date: "2026-06-07"
 ---
 
 # 05. 분할 정복 (Divide and Conquer)

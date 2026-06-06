@@ -2,6 +2,7 @@
 title: "102. SLI (Service Level Indicator) / SLO (Service Level Objective)"
 tags:
   - "software_engineering"
+date: "2026-06-07"
 ---
 
 

@@ -2,6 +2,7 @@
 title: "167. Cps Cyber Physical System"
 tags:
   - "studynote-ict"
+date: "2026-06-07"
 ---
 
 ## 핵심 인사이트 (3줄 요약)

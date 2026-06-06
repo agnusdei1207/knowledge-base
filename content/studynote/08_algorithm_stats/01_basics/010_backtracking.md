@@ -2,6 +2,7 @@
 title: "010. Backtracking"
 tags:
   - "algorithm_stats"
+date: "2026-06-07"
 ---
 
 # [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). 백트래킹 (Backtracking)

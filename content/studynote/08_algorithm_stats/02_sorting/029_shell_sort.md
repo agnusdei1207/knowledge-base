@@ -2,6 +2,7 @@
 title: "n^1.5"
 tags:
   - "algorithm_stats"
+date: "2026-06-07"
 ---
 
 # 18. 셸 정렬 ([Shell](/studynote/02_operating_system/01_overview_architecture/044_shell/) Sort)

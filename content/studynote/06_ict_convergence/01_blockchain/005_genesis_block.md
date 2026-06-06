@@ -2,6 +2,7 @@
 title: "005. Genesis Block"
 tags:
   - "ict_convergence"
+date: "2026-06-07"
 ---
 
 # 05. 제네시스 블록 (Genesis Block)

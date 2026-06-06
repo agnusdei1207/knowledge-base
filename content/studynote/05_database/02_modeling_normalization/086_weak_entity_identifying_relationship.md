@@ -2,6 +2,7 @@
 title: "086. Weak Entity Identifying Relationship"
 tags:
   - "database"
+date: "2026-06-07"
 ---
 
 ## 핵심 인사이트 (3줄 요약)

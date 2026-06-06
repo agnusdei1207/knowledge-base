@@ -2,6 +2,7 @@
 title: "012. Approximation Algorithm"
 tags:
   - "algorithm_stats"
+date: "2026-06-07"
 ---
 
 # 12. 근사 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Approximation [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))

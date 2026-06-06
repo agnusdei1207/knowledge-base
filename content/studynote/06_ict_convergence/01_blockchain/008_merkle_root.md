@@ -2,6 +2,7 @@
 title: "008. Merkle Root"
 tags:
   - "ict_convergence"
+date: "2026-06-07"
 ---
 
 # 08. 머클 루트 (Merkle Root)

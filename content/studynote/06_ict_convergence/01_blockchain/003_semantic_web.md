@@ -2,6 +2,7 @@
 title: "003. Semantic Web"
 tags:
   - "ict_convergence"
+date: "2026-06-07"
 ---
 
 # 03. 시맨틱 웹 (Semantic Web)

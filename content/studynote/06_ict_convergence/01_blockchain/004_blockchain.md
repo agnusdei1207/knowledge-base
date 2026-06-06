@@ -2,6 +2,7 @@
 title: "DLT, Distributed Ledger Technology"
 tags:
   - "ict_convergence"
+date: "2026-06-07"
 ---
 
 # 04. 블록체인 (Blockchain)

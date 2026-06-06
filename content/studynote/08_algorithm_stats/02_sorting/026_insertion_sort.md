@@ -2,6 +2,7 @@
 title: "026. Insertion Sort"
 tags:
   - "algorithm_stats"
+date: "2026-06-07"
 ---
 
 # 17. [삽입 정렬](/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/) ([Insertion Sort](/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/))

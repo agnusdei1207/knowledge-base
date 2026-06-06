@@ -2,6 +2,7 @@
 title: "007. Dynamic Programming"
 tags:
   - "algorithm_stats"
+date: "2026-06-07"
 ---
 
 # 07. 동적 프로그래밍 (Dynamic Programming)

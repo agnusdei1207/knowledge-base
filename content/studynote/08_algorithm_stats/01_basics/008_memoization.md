@@ -2,6 +2,7 @@
 title: "008. Memoization"
 tags:
   - "algorithm_stats"
+date: "2026-06-07"
 ---
 
 # 08. 메모이제이션 (Memoization)

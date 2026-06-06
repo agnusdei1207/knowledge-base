@@ -2,6 +2,7 @@
 title: "03. Kafka Hadoop Integration"
 tags:
   - "bigdata"
+date: "2026-06-07"
 ---
 
 

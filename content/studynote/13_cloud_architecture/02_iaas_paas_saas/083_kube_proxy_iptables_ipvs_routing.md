@@ -2,6 +2,7 @@
 title: "083. Kube Proxy Iptables Ipvs Routing"
 tags:
   - "cloud_architecture"
+date: "2026-06-07"
 ---
 
 ## 핵심 인사이트 (3줄 요약)

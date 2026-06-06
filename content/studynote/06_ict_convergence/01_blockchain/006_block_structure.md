@@ -2,6 +2,7 @@
 title: "006. Block Structure"
 tags:
   - "ict_convergence"
+date: "2026-06-07"
 ---
 
 # 06. 블록의 구조

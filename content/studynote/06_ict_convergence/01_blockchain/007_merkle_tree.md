@@ -2,6 +2,7 @@
 title: "007. Merkle Tree"
 tags:
   - "ict_convergence"
+date: "2026-06-07"
 ---
 
 # 07. 머클 트리 (Merkle Tree)

@@ -2,6 +2,7 @@
 title: "024. Selection Sort"
 tags:
   - "algorithm_stats"
+date: "2026-06-07"
 ---
 
 # 16. 선택 정렬 ([Selection](/studynote/10_ai/01_ai_basics/022_mcts_four_stages/) Sort)

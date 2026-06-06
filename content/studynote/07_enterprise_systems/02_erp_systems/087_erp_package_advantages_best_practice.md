@@ -2,6 +2,7 @@
 title: "087. Erp Package Advantages Best Practice"
 tags:
   - "enterprise_systems"
+date: "2026-06-07"
 ---
 
 ## 핵심 인사이트 (3줄 요약)

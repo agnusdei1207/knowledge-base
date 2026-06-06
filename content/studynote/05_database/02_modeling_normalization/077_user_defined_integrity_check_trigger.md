@@ -2,6 +2,7 @@
 title: "CHECK"
 tags:
   - "database"
+date: "2026-06-07"
 ---
 
 # 사용자 정의 [무결성](/studynote/09_security/01_intro_principles/003_integrity/) (User-defined [Integrity](/studynote/09_security/01_intro_principles/003_integrity/)) - 업무 규칙에 따른 제약

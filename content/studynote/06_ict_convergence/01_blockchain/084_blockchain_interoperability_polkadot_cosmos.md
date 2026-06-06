@@ -2,6 +2,7 @@
 title: "084. Blockchain Interoperability Polkadot Cosmos"
 tags:
   - "ict_convergence"
+date: "2026-06-07"
 ---
 
 ## 핵심 인사이트 (3줄 요약)

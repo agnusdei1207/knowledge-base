@@ -2,6 +2,7 @@
 title: "103. SLA (Service Level Agreement)"
 tags:
   - "software_engineering"
+date: "2026-06-07"
 ---
 
 

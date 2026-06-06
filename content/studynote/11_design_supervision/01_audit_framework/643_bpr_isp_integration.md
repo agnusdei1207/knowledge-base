@@ -2,6 +2,7 @@
 title: "643. Bpr Isp Integration"
 tags:
   - "design_supervision"
+date: "2026-06-07"
 ---
 
 ## 핵심 인사이트 (3줄 요약)

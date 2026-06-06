@@ -2,6 +2,7 @@
 title: "001. Algorithm Definition"
 tags:
   - "algorithm_stats"
+date: "2026-06-07"
 ---
 
 # 01. 알고리즘 (Algorithm) 정의

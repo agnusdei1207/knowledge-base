@@ -2,6 +2,7 @@
 title: "166. Api Gateway Architecture"
 tags:
   - "studynote-enterprise-systems"
+date: "2026-06-07"
 ---
 
 ## 핵심 인사이트

@@ -2,6 +2,7 @@
 title: "4. O(1) / O(log n) / O(n) / O(n log n) / O(n^) / O(2ⁿ) / O(n!)"
 tags:
   - "algorithm_stats"
+date: "2026-06-07"
 ---
 
 

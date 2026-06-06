@@ -2,6 +2,7 @@
 title: "180. xPON (Passive Optical Network) - EPON, GPON, 10G-PON"
 tags:
   - "network"
+date: "2026-06-07"
 ---
 
 

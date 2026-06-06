@@ -2,6 +2,7 @@
 title: "011. Branch And Bound"
 tags:
   - "algorithm_stats"
+date: "2026-06-07"
 ---
 
 # [11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). 분기 한정 (Branch and Bound)
