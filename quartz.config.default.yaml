@@ -12,7 +12,6 @@ configuration:
     - private
     - templates
     - .obsidian
-    - "**/_keyword_list.md"
   theme:
     fontOrigin: googleFonts
     cdnCaching: true
