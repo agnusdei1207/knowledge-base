@@ -31,8 +31,8 @@ weight: 50
 17. [전송 지연](/studynote/03_network/01_data_communication/017_transmission_delay/) ([Transmission Delay](/studynote/03_network/01_data_communication/017_transmission_delay/)) - 패킷길이/[대역폭](/studynote/03_network/01_data_communication/017_transmission_delay/)
 18. [큐잉 지연](/studynote/03_network/01_data_communication/018_queuing_delay/) ([Queueing Delay](/studynote/03_network/01_data_communication/018_queuing_delay/)) - 라우터 버퍼
 19. [처리 지연](/studynote/03_network/01_data_communication/019_processing_delay/) ([Processing Delay](/studynote/03_network/01_data_communication/019_processing_delay/)) - 헤더 검사, [라우팅](/studynote/03_network/01_data_communication/019_processing_delay/)
-20. [나이퀴스트 채널 용량](/studynote/03_network/01_data_communication/020_topic_020/) ([Nyquist Capacity](/studynote/03_network/01_data_communication/020_topic_020/)) - 무잡음 채널, C = 2B log2(M)
-21. [샤논의 채널 용량](/studynote/03_network/01_data_communication/021_topic_021/) ([Shannon Capacity](/studynote/03_network/01_data_communication/021_topic_021/)) - 잡음 채널, C = B log2(1 + S/N)
+20. [나이퀴스트 채널 용량](/studynote/03_network/01_data_communication/020_nyquist_channel_capacity/) ([Nyquist Capacity](/studynote/03_network/01_data_communication/020_nyquist_channel_capacity/)) - 무잡음 채널, C = 2B log2(M)
+21. [샤논의 채널 용량](/studynote/03_network/01_data_communication/021_shannon_channel_capacity_formula/) ([Shannon Capacity](/studynote/03_network/01_data_communication/021_shannon_channel_capacity_formula/)) - 잡음 채널, C = B log2(1 + S/N)
 22. [심볼 상호 간섭](/studynote/03_network/01_data_communication/022_isi/) (ISI: Inter-Symbol Interference)
 23. [나이퀴스트 펄스 포맷 / 아이패턴 (Eye Pattern)](/studynote/03_network/01_data_communication/023_nyquist_eye_pattern/)
 24. [신호 대 잡음비](/studynote/03_network/01_data_communication/024_snr/) ([SNR](/studynote/03_network/01_data_communication/024_snr/), [Signal-to-Noise Ratio](/studynote/03_network/01_data_communication/024_snr/))

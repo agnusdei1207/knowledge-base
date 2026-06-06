@@ -1,9 +1,8 @@
 ---
+date: "2026-06-07"
 title: "1000. 클라우드 네이티브 네트워크 (Cloud Native Network Cni Kubernetes Pod Overlay)"
 date: "2026-05-08"
-tags:
-  - "studynote-security"
-weight: 1000
+categories: "studynote-security"
 ---
 
 

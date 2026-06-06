@@ -504,7 +504,7 @@ weight: 50
 476. [OLAP](/exam/05_database/476_olap_denormalization/) 비정규화 읽기 다차원
 477. [스타 스키마 중심 팩트 방사 차원 단일 계층](/exam/05_database/477_star_schema_fact_dimension/)
 478. [스노우플레이크 차원 정규화 계층 트리](/exam/05_database/478_snowflake_schema_normalization/)
-479. [드릴 다운 / 롤 업 계층 분석](/studynote/05_database/04_transactions_concurrency/479_topic_479/)
+479. [드릴 다운 / 롤 업 계층 분석](/studynote/05_database/04_transactions_concurrency/479_drill_down_roll_up_analysis/)
 480. [슬라이스 다이스 차원 절단](/exam/05_database/480_slicing_dicing_olap/)
 481. [피벗 크로스탭 보고서](/exam/05_database/481_pivoting_crosstab_report/)
 482. [데이터 레이크 스키마 온 리드 원시 형태 저장](/exam/05_database/482_data_lake_schema_on_read/)

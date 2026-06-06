@@ -22,7 +22,7 @@ weight: 50
 8. [종속성](/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) ([Dependencies](/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)) 격리 - 모든 [종속성](/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)은 명시적으로 선언(package.[json](/studynote/15_devops_sre/01_culture_methodology/008_dependencies/), pom.xml 등)
 9. [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) ([Config](/studynote/15_devops_sre/01_culture_methodology/009_config/)) - [환경 변수](/studynote/15_devops_sre/01_culture_methodology/009_config/)(Env Vars)에 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)을 저장하여 코드와 분리
 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [백엔드 서비스](/studynote/15_devops_sre/01_culture_methodology/010_backend_services/) ([Backing Services](/studynote/15_devops_sre/01_culture_methodology/010_backend_services/)) - DB, 큐, 캐시 등을 네트워크로 연결된 자원(Attached Resource)으로 취급
-[11](/studynote/15_devops_sre/05_devsecops/308_process/). 빌드, 릴리스, 실행 (Build, Release, Run) 단계의 엄격한 분리
+[11](/studynote/15_devops_sre/05_devsecops/308_kubernetes_control_plane_and/). 빌드, 릴리스, 실행 (Build, Release, Run) 단계의 엄격한 분리
 12. [무상태 프로세스](/studynote/15_devops_sre/01_culture_methodology/012_stateless_processes/) ([Stateless Processes](/studynote/15_devops_sre/01_culture_methodology/012_stateless_processes/)) - 애플리케이션은 상태를 공유하지 않고 무상태로 실행되며, 상태는 DB 등에 저장
 13. [포트 바인딩](/studynote/15_devops_sre/01_culture_methodology/013_port_binding/) ([Port Binding](/studynote/15_devops_sre/01_culture_methodology/013_port_binding/)) - 자체적으로 [포트](/studynote/15_devops_sre/01_culture_methodology/013_port_binding/)를 바인딩하여 웹 [서비스](/studynote/15_devops_sre/01_culture_methodology/013_port_binding/) 노출
 14. [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) ([Concurrency](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)) - 프로세스 모델을 통한 [스케일 아웃](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)([Scale-out](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)) 수평 확장
@@ -297,105 +297,105 @@ weight: 50
 275. [서비스 계정](/studynote/15_devops_sre/05_devsecops/275_iam_role_for_service_accounts/) ([IAM Role for Service Accounts](/studynote/15_devops_sre/05_devsecops/275_iam_role_for_service_accounts/), IRSA) 최소 권한 [OIDC](/studynote/15_devops_sre/05_devsecops/275_iam_role_for_service_accounts/) 연합 토큰 증명
 276. [FIDO, WebAuthn 생체 기반 패스워드리스 [인증](/studynote/15_devops_sre/05_devsecops/276_fido_webauthn/) 적용 체제](/studynote/15_devops_sre/05_devsecops/276_fido_webauthn/)
 277. [OAuth 2.0 [OIDC](/studynote/15_devops_sre/05_devsecops/277_oauth_2_0_oidc/) 토큰 권한 위임 체계 [마이크로서비스](/studynote/15_devops_sre/05_devsecops/277_oauth_2_0_oidc/) 연동](/studynote/15_devops_sre/05_devsecops/277_oauth_2_0_oidc/)
-278. [개인정보 데이터 마스킹 자동 필터](/studynote/15_devops_sre/05_devsecops/278_process/)([DLP](/studynote/15_devops_sre/05_devsecops/278_process/) [파이프](/studynote/15_devops_sre/05_devsecops/278_process/)라인 전송망 감시)
+278. [개인정보 데이터 마스킹 자동 필터](/studynote/15_devops_sre/05_devsecops/278_data_masking_dlp/)([DLP](/studynote/15_devops_sre/05_devsecops/278_data_masking_dlp/) [파이프](/studynote/15_devops_sre/05_devsecops/278_data_masking_dlp/)라인 전송망 감시)
 279. [난독화](/studynote/15_devops_sre/05_devsecops/279_obfuscation/) ([Obfuscation](/studynote/15_devops_sre/05_devsecops/279_obfuscation/)) 안티 디버깅 모바일 빌드 [파이프](/studynote/15_devops_sre/05_devsecops/279_obfuscation/)라인 주입
 280. [양자 내성 암호](/studynote/15_devops_sre/05_devsecops/280_management/) ([PQC](/studynote/15_devops_sre/05_devsecops/280_management/)) 마이그레이션 클라우드 인프라 키 관리 체계
 
 ## 6. 시험 빈출 요약 및 기술사 융합 논술 토픽 (120개 집중 요약)
 281. [데브옵스](/studynote/15_devops_sre/05_devsecops/281_calms/) [CALMS](/studynote/15_devops_sre/05_devsecops/281_calms/) ([문화 자동화 린 측정 공유](/studynote/15_devops_sre/05_devsecops/281_calms/))
-282. [사일로 효과](/studynote/15_devops_sre/05_devsecops/282_process/) ([부서 장벽 이기주의](/studynote/15_devops_sre/05_devsecops/282_process/))
+282. [사일로 효과](/studynote/15_devops_sre/05_devsecops/282_silo_effect/) ([부서 장벽 이기주의](/studynote/15_devops_sre/05_devsecops/282_silo_effect/))
 283. [12 팩터 앱](/studynote/15_devops_sre/05_devsecops/283_architecture/) ([클라우드 네이티브 설계 원칙](/studynote/15_devops_sre/05_devsecops/283_architecture/))
 284. [CI CD](/studynote/15_devops_sre/05_devsecops/284_ci_cd/) [지속적 통합](/studynote/15_devops_sre/05_devsecops/284_ci_cd/) 제공 배포 자동화
 285. [DORA](/studynote/15_devops_sre/05_devsecops/285_dora_4/) [메트릭](/studynote/15_devops_sre/05_devsecops/285_dora_4/)스 4대 지표 배포 빈도 리드타임 실패율 [복구](/studynote/15_devops_sre/05_devsecops/285_dora_4/)
-286. [롤링 배포](/studynote/15_devops_sre/05_devsecops/286_process/) ([점진 교체 무중단](/studynote/15_devops_sre/05_devsecops/286_process/))
-287. [블루 그린](/studynote/15_devops_sre/05_devsecops/287_process/) ([전면 스위칭 롤백 유리 2배 자원](/studynote/15_devops_sre/05_devsecops/287_process/))
-288. [카나리 배포](/studynote/15_devops_sre/05_devsecops/288_audit/) (1% 오픈 에러 [검증](/studynote/15_devops_sre/05_devsecops/288_audit/) 확대)
-289. [섀도우 배포 트래픽 미러링 백그라운드 테스트](/studynote/15_devops_sre/05_devsecops/289_process/)
-290. [피처 플래그 토글 동적 분기 트렁크 개발](/studynote/15_devops_sre/05_devsecops/290_process/)
+286. [롤링 배포](/studynote/15_devops_sre/05_devsecops/286_rolling_deployment/) ([점진 교체 무중단](/studynote/15_devops_sre/05_devsecops/286_rolling_deployment/))
+287. [블루 그린](/studynote/15_devops_sre/05_devsecops/287_blue_green_deployment/) ([전면 스위칭 롤백 유리 2배 자원](/studynote/15_devops_sre/05_devsecops/287_blue_green_deployment/))
+288. [카나리 배포](/studynote/15_devops_sre/05_devsecops/288_canary_deployment/) (1% 오픈 에러 [검증](/studynote/15_devops_sre/05_devsecops/288_canary_deployment/) 확대)
+289. [섀도우 배포 트래픽 미러링 백그라운드 테스트](/studynote/15_devops_sre/05_devsecops/289_shadow_deployment/)
+290. [피처 플래그 토글 동적 분기 트렁크 개발](/studynote/15_devops_sre/05_devsecops/290_feature_flag_toggle/)
 291. [GitOps](/studynote/15_devops_sre/05_devsecops/291_gitops/) 선언형 [동기화](/studynote/15_devops_sre/05_devsecops/291_gitops/) 푸시 풀 배포 차이
-292. [IaC](/studynote/15_devops_sre/05_devsecops/292_process/) [테라폼](/studynote/15_devops_sre/05_devsecops/292_process/) [인프라 코드](/studynote/15_devops_sre/05_devsecops/292_process/)화 [멱등성](/studynote/15_devops_sre/05_devsecops/292_process/)
+292. [IaC](/studynote/15_devops_sre/05_devsecops/292_infrastructure_as_code_terraform/) [테라폼](/studynote/15_devops_sre/05_devsecops/292_infrastructure_as_code_terraform/) [인프라 코드](/studynote/15_devops_sre/05_devsecops/292_infrastructure_as_code_terraform/)화 [멱등성](/studynote/15_devops_sre/05_devsecops/292_infrastructure_as_code_terraform/)
 293. [구성 편류 방지 불변 인프라](/studynote/15_devops_sre/05_devsecops/293_architecture/)
 294. [테라폼 상태 파일 tfstate 잠금](/studynote/15_devops_sre/05_devsecops/294_tfstate/)
 295. [마이크로서비스](/studynote/15_devops_sre/05_devsecops/295_msa_ddd/) [MSA](/studynote/15_devops_sre/05_devsecops/295_msa_ddd/) [도메인 주도 설계](/studynote/15_devops_sre/05_devsecops/295_msa_ddd/) [DDD](/studynote/15_devops_sre/05_devsecops/295_msa_ddd/)
-296. [바운디드 컨텍스트 애그리게이트 루트](/studynote/15_devops_sre/05_devsecops/296_process/)
-297. [API](/studynote/15_devops_sre/05_devsecops/297_process/) 게이트웨이 [인증](/studynote/15_devops_sre/05_devsecops/297_process/) 스로틀링
+296. [바운디드 컨텍스트 애그리게이트 루트](/studynote/15_devops_sre/05_devsecops/296_bounded_context/)
+297. [API](/studynote/15_devops_sre/05_devsecops/297_api_process/) 게이트웨이 [인증](/studynote/15_devops_sre/05_devsecops/297_api_process/) 스로틀링
 298. [서비스 메시](/studynote/15_devops_sre/05_devsecops/298_istio/) [Istio](/studynote/15_devops_sre/05_devsecops/298_istio/) [사이드카](/studynote/15_devops_sre/05_devsecops/298_istio/) 트래픽 보안
 299. [mTLS](/studynote/15_devops_sre/05_devsecops/299_mtls/) 상호 [인증](/studynote/15_devops_sre/05_devsecops/299_mtls/) [제로 트러스트](/studynote/15_devops_sre/05_devsecops/299_mtls/)
-300. [서비스 디스커버리](/studynote/15_devops_sre/05_devsecops/300_process/) 동적 IP [라우팅](/studynote/15_devops_sre/05_devsecops/300_process/)
-301. [서킷 브레이커 장애 연쇄 확산 차단 폴백](/studynote/15_devops_sre/05_devsecops/301_process/)
+300. [서비스 디스커버리](/studynote/15_devops_sre/05_devsecops/300_service_discovery/) 동적 IP [라우팅](/studynote/15_devops_sre/05_devsecops/300_service_discovery/)
+301. [서킷 브레이커 장애 연쇄 확산 차단 폴백](/studynote/15_devops_sre/05_devsecops/301_circuit_breaker/)
 302. [사가 패턴](/studynote/15_devops_sre/05_devsecops/302_architecture/) [2PC](/studynote/15_devops_sre/05_devsecops/302_architecture/) 한계 [보상 트랜잭션](/studynote/15_devops_sre/05_devsecops/302_architecture/) [롤백](/studynote/15_devops_sre/05_devsecops/302_architecture/)
 303. [CQRS](/studynote/15_devops_sre/05_devsecops/303_cqrs/) 읽기 [쓰기](/studynote/15_devops_sre/05_devsecops/303_cqrs/) 물리 [논리](/studynote/15_devops_sre/05_devsecops/303_cqrs/) 분리 [이벤트 소싱](/studynote/15_devops_sre/05_devsecops/303_cqrs/)
 304. [서버리스](/studynote/15_devops_sre/05_devsecops/304_faas/) [FaaS](/studynote/15_devops_sre/05_devsecops/304_faas/) [콜드 스타트 지연](/studynote/15_devops_sre/05_devsecops/304_faas/) 극복
 305. [스트랭글러 피그 레거시 교체 패턴](/studynote/15_devops_sre/05_devsecops/305_architecture/)
-306. [컨테이너](/studynote/15_devops_sre/05_devsecops/306_process/) [도커](/studynote/15_devops_sre/05_devsecops/306_process/) [커널](/studynote/15_devops_sre/05_devsecops/306_process/) 공유 이미지 레이어
+306. [컨테이너](/studynote/15_devops_sre/05_devsecops/306_container_docker_image_layer/) [도커](/studynote/15_devops_sre/05_devsecops/306_container_docker_image_layer/) [커널](/studynote/15_devops_sre/05_devsecops/306_container_docker_image_layer/) 공유 이미지 레이어
 307. [네임스페이스](/studynote/15_devops_sre/05_devsecops/307_cgroups/) [cgroups](/studynote/15_devops_sre/05_devsecops/307_cgroups/) 자원 격리 제한
-308. [쿠버네티스](/studynote/15_devops_sre/05_devsecops/308_process/) [마스](/studynote/15_devops_sre/05_devsecops/308_process/)터 워커 [컴포넌트](/studynote/15_devops_sre/05_devsecops/308_process/)
-309. [포드](/studynote/15_devops_sre/05_devsecops/309_process/) [Pod](/studynote/15_devops_sre/05_devsecops/309_process/) [레플리카셋](/studynote/15_devops_sre/05_devsecops/309_process/) [디플로이먼트](/studynote/15_devops_sre/05_devsecops/309_process/)
+308. [쿠버네티스](/studynote/15_devops_sre/05_devsecops/308_kubernetes_control_plane_and/) [마스](/studynote/15_devops_sre/05_devsecops/308_kubernetes_control_plane_and/)터 워커 [컴포넌트](/studynote/15_devops_sre/05_devsecops/308_kubernetes_control_plane_and/)
+309. [포드](/studynote/15_devops_sre/05_devsecops/309_pod_replicaset_deployment/) [Pod](/studynote/15_devops_sre/05_devsecops/309_pod_replicaset_deployment/) [레플리카셋](/studynote/15_devops_sre/05_devsecops/309_pod_replicaset_deployment/) [디플로이먼트](/studynote/15_devops_sre/05_devsecops/309_pod_replicaset_deployment/)
 310. [ClusterIP NodePort LoadBalancer Ingress](/studynote/15_devops_sre/05_devsecops/310_clusterip_nodeport_loadbalancer_ingress/) [라우팅](/studynote/15_devops_sre/05_devsecops/310_clusterip_nodeport_loadbalancer_ingress/)
-311. [데몬셋](/studynote/15_devops_sre/05_devsecops/311_process/) 전체 노드 로깅
-312. [테인트](/studynote/15_devops_sre/05_devsecops/312_process/) 톨러레이션 노드 오염 배제
+311. [데몬셋](/studynote/15_devops_sre/05_devsecops/311_daemonset/) 전체 노드 로깅
+312. [테인트](/studynote/15_devops_sre/05_devsecops/312_taint_and_toleration/) 톨러레이션 노드 오염 배제
 313. [오토스케일링 [HPA CA](/studynote/15_devops_sre/05_devsecops/313_hpa_ca/) [파드](/studynote/15_devops_sre/05_devsecops/313_hpa_ca/) 노드 증가](/studynote/15_devops_sre/05_devsecops/313_hpa_ca/)
 314. [PV PVC](/studynote/15_devops_sre/05_devsecops/314_pv_pvc/) 스토리지 [추상화](/studynote/15_devops_sre/05_devsecops/314_pv_pvc/) 보존
-315. [헬름](/studynote/15_devops_sre/05_devsecops/315_process/) 패키지 템플릿 변수 주입
+315. [헬름](/studynote/15_devops_sre/05_devsecops/315_helm_package_manager/) 패키지 템플릿 변수 주입
 316. [SRE](/studynote/15_devops_sre/05_devsecops/316_management/) 사이트 [신뢰성](/studynote/15_devops_sre/05_devsecops/316_management/) 구글 운영 공학
 317. [SLI SLO SLA](/studynote/15_devops_sre/05_devsecops/317_sli_slo_sla/) [에러 예산](/studynote/15_devops_sre/05_devsecops/317_sli_slo_sla/) 한도 통제
-318. [토일](/studynote/15_devops_sre/05_devsecops/318_process/) 무가치 자동화 대상 작업
-319. [무비난 포스트모템 회고 문화](/studynote/15_devops_sre/05_devsecops/319_topic_319/)
+318. [토일](/studynote/15_devops_sre/05_devsecops/318_toil_sre_automation/) 무가치 자동화 대상 작업
+319. [무비난 포스트모템 회고 문화](/studynote/15_devops_sre/05_devsecops/319_blameless_postmortem_retrospective_/)
 320. [옵저버빌리티](/studynote/15_devops_sre/05_devsecops/320_metric/) 가시성 [메트릭](/studynote/15_devops_sre/05_devsecops/320_metric/) [로그](/studynote/15_devops_sre/05_devsecops/320_metric/) 트레이스
 321. [분산 추적](/studynote/15_devops_sre/05_devsecops/321_trace_id/) [Trace ID](/studynote/15_devops_sre/05_devsecops/321_trace_id/) 병목 파악
 322. [오픈텔레메트리](/studynote/15_devops_sre/05_devsecops/322_cncf/) [CNCF](/studynote/15_devops_sre/05_devsecops/322_cncf/) 표준화
-323. [프로메테우스 풀 방식 그라파나 대시보드](/studynote/15_devops_sre/05_devsecops/323_process/)
-324. [카오스 엔지니어링](/studynote/15_devops_sre/05_devsecops/324_audit/) 의도적 장애 복원력 점검
-325. [데브섹옵스](/studynote/15_devops_sre/05_devsecops/325_audit/) [시프트 레프트](/studynote/15_devops_sre/05_devsecops/325_audit/) 보안 조기 점검
+323. [프로메테우스 풀 방식 그라파나 대시보드](/studynote/15_devops_sre/05_devsecops/323_prometheus_grafana_monitoring/)
+324. [카오스 엔지니어링](/studynote/15_devops_sre/05_devsecops/324_chaos_engineering/) 의도적 장애 복원력 점검
+325. [데브섹옵스](/studynote/15_devops_sre/05_devsecops/325_devsecops_shift_left_security/) [시프트 레프트](/studynote/15_devops_sre/05_devsecops/325_devsecops_shift_left_security/) 보안 조기 점검
 326. [SAST DAST IAST](/studynote/15_devops_sre/05_devsecops/326_sast_dast_iast/) 정적 동적 보안 테스팅
-327. [SCA](/studynote/15_devops_sre/05_devsecops/327_process/) [오픈소스](/studynote/15_devops_sre/05_devsecops/327_process/) 컴플라이언스 스캔
+327. [SCA](/studynote/15_devops_sre/05_devsecops/327_sca_software_composition_analysis/) [오픈소스](/studynote/15_devops_sre/05_devsecops/327_sca_software_composition_analysis/) 컴플라이언스 스캔
 328. [SBOM](/studynote/15_devops_sre/05_devsecops/328_sbom/) 소프트웨어 구성 자재 명세 [공급망](/studynote/15_devops_sre/05_devsecops/328_sbom/) 방어
-329. [시크릿 매니저](/studynote/15_devops_sre/05_devsecops/329_process/) [볼트](/studynote/15_devops_sre/05_devsecops/329_process/) 하드코딩 방지
-330. [마이크로 세그멘테이션](/studynote/15_devops_sre/05_devsecops/330_process/) 래터럴(횡적) 이동 차단 [방화벽](/studynote/15_devops_sre/05_devsecops/330_process/)
+329. [시크릿 매니저](/studynote/15_devops_sre/05_devsecops/329_secret_manager_hashicorp_vault/) [볼트](/studynote/15_devops_sre/05_devsecops/329_secret_manager_hashicorp_vault/) 하드코딩 방지
+330. [마이크로 세그멘테이션](/studynote/15_devops_sre/05_devsecops/330_micro_segmentation_ztna_zero/) 래터럴(횡적) 이동 차단 [방화벽](/studynote/15_devops_sre/05_devsecops/330_micro_segmentation_ztna_zero/)
 331. [CSPM](/studynote/15_devops_sre/05_devsecops/331_cspm/) 클라우드 형상 [설정](/studynote/15_devops_sre/05_devsecops/331_cspm/) 통제
 332. [CWPP](/studynote/15_devops_sre/05_devsecops/332_cwpp/) 런타임 워크로드 [컨테이너](/studynote/15_devops_sre/05_devsecops/332_cwpp/) [보호](/studynote/15_devops_sre/05_devsecops/332_cwpp/)
 333. [CNAPP](/studynote/15_devops_sre/05_devsecops/333_cnapp/) 클라우드 통합 보안 플랫폼
 334. [정책 애즈 코드](/studynote/15_devops_sre/05_devsecops/334_opa_gatekeeper_rego/) [OPA Gatekeeper Rego](/studynote/15_devops_sre/05_devsecops/334_opa_gatekeeper_rego/) 검사
 335. [TDD BDD](/studynote/15_devops_sre/05_devsecops/335_tdd_bdd/) [인수 테스트](/studynote/15_devops_sre/05_devsecops/335_tdd_bdd/) 모의 격리
 336. [계약 테스트](/studynote/15_devops_sre/05_devsecops/336_msa_api/) [MSA API](/studynote/15_devops_sre/05_devsecops/336_msa_api/) 통신 상호 호환 검사
-337. [뮤테이션 테스트 테스트 케이스 품질 평가](/studynote/15_devops_sre/05_devsecops/337_audit/)망
-338. [플랫폼 엔지니어링](/studynote/15_devops_sre/05_devsecops/338_process/) [IDP](/studynote/15_devops_sre/05_devsecops/338_process/) 골든 패스 [인지 부하](/studynote/15_devops_sre/05_devsecops/338_process/) 감소
+337. [뮤테이션 테스트 테스트 케이스 품질 평가](/studynote/15_devops_sre/05_devsecops/337_mutation_testing_mutant_survived/)망
+338. [플랫폼 엔지니어링](/studynote/15_devops_sre/05_devsecops/338_platform_ering_internal_developer/) [IDP](/studynote/15_devops_sre/05_devsecops/338_platform_ering_internal_developer/) 골든 패스 [인지 부하](/studynote/15_devops_sre/05_devsecops/338_platform_ering_internal_developer/) 감소
 339. [빅데이터 [하둡](/studynote/15_devops_sre/05_devsecops/339_hdfs/) [HDFS](/studynote/15_devops_sre/05_devsecops/339_hdfs/) 스파크 인메모리](/studynote/15_devops_sre/05_devsecops/339_hdfs/)
 340. [카프카](/studynote/15_devops_sre/05_devsecops/340_pub_sub/) [분산](/studynote/15_devops_sre/05_devsecops/340_pub_sub/) 큐 Pub/Sub 토픽 [파티션](/studynote/15_devops_sre/05_devsecops/340_pub_sub/) 오프셋
 341. [CDC](/studynote/15_devops_sre/05_devsecops/341_cdc_db/) [트랜잭션](/studynote/15_devops_sre/05_devsecops/341_cdc_db/) 변경 실시간 캡처 DB 이관
-342. [데이터 레이크하우스](/studynote/15_devops_sre/05_devsecops/342_process/) 스토리지 컴퓨팅 [트랜잭션](/studynote/15_devops_sre/05_devsecops/342_process/)
-343. [데이터 메시 도메인 프로덕트 분산](/studynote/15_devops_sre/05_devsecops/343_process/)
-344. [데이터 패브릭 가상화](/studynote/15_devops_sre/05_devsecops/344_process/) 메타 지식 연결망
+342. [데이터 레이크하우스](/studynote/15_devops_sre/05_devsecops/342_data_lakehouse/) 스토리지 컴퓨팅 [트랜잭션](/studynote/15_devops_sre/05_devsecops/342_data_lakehouse/)
+343. [데이터 메시 도메인 프로덕트 분산](/studynote/15_devops_sre/05_devsecops/343_data_mesh/)
+344. [데이터 패브릭 가상화](/studynote/15_devops_sre/05_devsecops/344_data_fabric/) 메타 지식 연결망
 345. [MLOps](/studynote/15_devops_sre/05_devsecops/345_mlops/) [피처 스토어](/studynote/15_devops_sre/05_devsecops/345_mlops/) [모델 드리프트](/studynote/15_devops_sre/05_devsecops/345_mlops/) 재학습 [파이프](/studynote/15_devops_sre/05_devsecops/345_mlops/)라인
 346. [LLM](/studynote/15_devops_sre/05_devsecops/346_llm_rag_db/) [RAG](/studynote/15_devops_sre/05_devsecops/346_llm_rag_db/) [환각](/studynote/15_devops_sre/05_devsecops/346_llm_rag_db/) 제어 벡터 [임베딩](/studynote/15_devops_sre/05_devsecops/346_llm_rag_db/) DB 검색
-347. [프롬프트 인젝션](/studynote/15_devops_sre/05_devsecops/347_process/) 방어 탈옥 [보호](/studynote/15_devops_sre/05_devsecops/347_process/)
+347. [프롬프트 인젝션](/studynote/15_devops_sre/05_devsecops/347_prompt_injection_defense/) 방어 탈옥 [보호](/studynote/15_devops_sre/05_devsecops/347_prompt_injection_defense/)
 348. [FinOps](/studynote/15_devops_sre/05_devsecops/348_finops_ri/) [스팟 인스턴스](/studynote/15_devops_sre/05_devsecops/348_finops_ri/) RI 클라우드 비용 효율 조직
-349. [하이브리드 멀티 클라우드 록인 회피](/studynote/15_devops_sre/05_devsecops/349_process/)
-350. [엣지 컴퓨팅](/studynote/15_devops_sre/05_devsecops/350_process/) [분산](/studynote/15_devops_sre/05_devsecops/350_process/) [지연](/studynote/15_devops_sre/05_devsecops/350_process/) 스토리지
-351. [양자 컴퓨팅 쇼어 알고리즘 양자 내성 암호](/studynote/15_devops_sre/05_devsecops/351_process/) 적용
-352. [동형 암호 데이터 프라이버시 클린 룸](/studynote/15_devops_sre/05_devsecops/352_process/)
+349. [하이브리드 멀티 클라우드 록인 회피](/studynote/15_devops_sre/05_devsecops/349_cloud_hybrid/)
+350. [엣지 컴퓨팅](/studynote/15_devops_sre/05_devsecops/350_edge_computing/) [분산](/studynote/15_devops_sre/05_devsecops/350_edge_computing/) [지연](/studynote/15_devops_sre/05_devsecops/350_edge_computing/) 스토리지
+351. [양자 컴퓨팅 쇼어 알고리즘 양자 내성 암호](/studynote/15_devops_sre/05_devsecops/351_quantum_computing_and_post/) 적용
+352. [동형 암호 데이터 프라이버시 클린 룸](/studynote/15_devops_sre/05_devsecops/352_homomorphic_encryption/)
 353. [gRPC](/studynote/15_devops_sre/05_devsecops/353_grpc/) [프로토콜](/studynote/15_devops_sre/05_devsecops/353_grpc/) 버퍼 [직렬](/studynote/15_devops_sre/05_devsecops/353_grpc/) 고속망
-354. [마이크로 프론트엔드](/studynote/15_devops_sre/05_devsecops/354_process/) UI [컴포넌트](/studynote/15_devops_sre/05_devsecops/354_process/) 독립 배포망
-355. [CXL](/studynote/15_devops_sre/05_devsecops/355_architecture/) [칩렛](/studynote/15_devops_sre/05_devsecops/355_architecture/) [메모리 풀](/studynote/15_devops_sre/05_devsecops/355_architecture/) 고성능 서버 아키텍처망
+354. [마이크로 프론트엔드](/studynote/15_devops_sre/05_devsecops/354_micro_frontend/) UI [컴포넌트](/studynote/15_devops_sre/05_devsecops/354_micro_frontend/) 독립 배포망
+355. [CXL](/studynote/15_devops_sre/05_devsecops/355_pool_performance/) [칩렛](/studynote/15_devops_sre/05_devsecops/355_pool_performance/) [메모리 풀](/studynote/15_devops_sre/05_devsecops/355_pool_performance/) 고성능 서버 아키텍처망
 356. [데이터옵스](/studynote/15_devops_sre/05_devsecops/356_ci_cd_dbt/) [CI](/studynote/15_devops_sre/05_devsecops/356_ci_cd_dbt/)/CD dbt 분석 [파이프](/studynote/15_devops_sre/05_devsecops/356_ci_cd_dbt/) 자동망
 357. [OOM Killed](/studynote/15_devops_sre/05_devsecops/357_oom_killed/) [커널](/studynote/15_devops_sre/05_devsecops/357_oom_killed/) 자원 제한 종료 방어망
-358. [서드파티](/studynote/15_devops_sre/05_devsecops/358_architecture/) [API](/studynote/15_devops_sre/05_devsecops/358_architecture/) 통신 [폴백](/studynote/15_devops_sre/05_devsecops/358_architecture/) 지터 백오프 설계
+358. [서드파티](/studynote/15_devops_sre/05_devsecops/358_backoff/) [API](/studynote/15_devops_sre/05_devsecops/358_backoff/) 통신 [폴백](/studynote/15_devops_sre/05_devsecops/358_backoff/) 지터 백오프 설계
 359. [시맨틱 캐시](/studynote/15_devops_sre/05_devsecops/359_metric/) [RAG](/studynote/15_devops_sre/05_devsecops/359_metric/) 비용 응답 단축 계층
-360. [가치 흐름 매핑 낭비 병목 식별 린 사상망](/studynote/15_devops_sre/05_devsecops/360_process/)
-361. [컨웨이의 법칙 조직 구조 소프트웨어 반영 아키텍처](/studynote/15_devops_sre/05_devsecops/361_architecture/)
+360. [가치 흐름 매핑 낭비 병목 식별 린 사상망](/studynote/15_devops_sre/05_devsecops/360_value_stream_mapping_vsm/)
+361. [컨웨이의 법칙 조직 구조 소프트웨어 반영 아키텍처](/studynote/15_devops_sre/05_devsecops/361_structure_law/)
 362. [O-RAN](/studynote/15_devops_sre/05_devsecops/362_o_ran/) [프론트홀](/studynote/15_devops_sre/05_devsecops/362_o_ran/) 화이트박스 분리 아키텍처
 363. [SDN SDDC VXLAN](/studynote/15_devops_sre/05_devsecops/363_sdn_sddc_vxlan/) [논리](/studynote/15_devops_sre/05_devsecops/363_sdn_sddc_vxlan/)망 오버레이 통신 제어망
-364. [다중 클러스터 K8s 페더레이션 고가용 배포망](/studynote/15_devops_sre/05_devsecops/364_process/)
+364. [다중 클러스터 K8s 페더레이션 고가용 배포망](/studynote/15_devops_sre/05_devsecops/364_multi_cluster_kubernetes_federation/)
 365. [C-V2X](/studynote/15_devops_sre/05_devsecops/365_c_v2x_5g/) 자율주행 모빌리티 [5G](/studynote/15_devops_sre/05_devsecops/365_c_v2x_5g/) 엣지 레이턴시 제어
-366. [퍼듀 모델 산업 제어망 스마트팩토리 보안](/studynote/15_devops_sre/05_devsecops/366_architecture/)
+366. [퍼듀 모델 산업 제어망 스마트팩토리 보안](/studynote/15_devops_sre/05_devsecops/366_purdue_model_ics_ot/)
 367. [DPU SmartNIC](/studynote/15_devops_sre/05_devsecops/367_dpu_smartnic/) 인프라 [오프로딩](/studynote/15_devops_sre/05_devsecops/367_dpu_smartnic/) 네트워크 가속
-368. [액침 냉각](/studynote/15_devops_sre/05_devsecops/368_process/) [PUE](/studynote/15_devops_sre/05_devsecops/368_process/) 탄소 인지 그린 클라우드
+368. [액침 냉각](/studynote/15_devops_sre/05_devsecops/368_immersion_cooling_carbon_aware/) [PUE](/studynote/15_devops_sre/05_devsecops/368_immersion_cooling_carbon_aware/) 탄소 인지 그린 클라우드
 369. [블록체인](/studynote/15_devops_sre/05_devsecops/369_dlt_bft/) [스마트 컨트랙트](/studynote/15_devops_sre/05_devsecops/369_dlt_bft/) [DLT](/studynote/15_devops_sre/05_devsecops/369_dlt_bft/) 합의 [BFT](/studynote/15_devops_sre/05_devsecops/369_dlt_bft/) [알고리즘](/studynote/15_devops_sre/05_devsecops/369_dlt_bft/)
 370. [DID](/studynote/15_devops_sre/05_devsecops/370_did_zkp/) 탈중앙 신원 [ZKP](/studynote/15_devops_sre/05_devsecops/370_did_zkp/) [영지식 증명](/studynote/15_devops_sre/05_devsecops/370_did_zkp/) [마이데이터](/studynote/15_devops_sre/05_devsecops/370_did_zkp/)망
-371. [([데브옵스](/studynote/15_devops_sre/05_devsecops/371_process/)/클라우드 기술사 필수 심화 주제 논술 키워드 통합 800+ [라우팅](/studynote/15_devops_sre/05_devsecops/371_process/) 확장)](/studynote/15_devops_sre/05_devsecops/371_process/)
+371. [([데브옵스](/studynote/15_devops_sre/05_devsecops/371_studynote_devops_sre_devsecops/)/클라우드 기술사 필수 심화 주제 논술 키워드 통합 800+ [라우팅](/studynote/15_devops_sre/05_devsecops/371_studynote_devops_sre_devsecops/) 확장)](/studynote/15_devops_sre/05_devsecops/371_studynote_devops_sre_devsecops/)
 ... (아키텍처 확장 패턴 지속)
 400. [클라우드/[DevOps](/studynote/15_devops_sre/05_devsecops/400_devops/)/[데이터](/studynote/15_devops_sre/05_devsecops/400_devops/)/보안 차세대 통합 [플랫폼 엔지니어링](/studynote/15_devops_sre/05_devsecops/400_devops/) 최종 [마스](/studynote/15_devops_sre/05_devsecops/400_devops/)터 맵.](/studynote/15_devops_sre/05_devsecops/400_devops/)
 
 ---
 <strong>총정리 <a href="/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/">DevOps</a> / <a href="/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 키워드 : 총 800+ 심화 요약 수록 (하위 파생 1,000+ 규모)</strong>
-([애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)/[DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 방법론, [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD, [GitOps](/studynote/15_devops_sre/02_cicd_gitops/119_pre_commit_hook_linting/)(ArgoCD)부터 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) [쿠버네티스](/studynote/15_devops_sre/05_devsecops/196_tfstate_json_s3/) [오케스트레이션](/studynote/15_devops_sre/02_cicd_gitops/073_github_actions_ci_cd_workflow/), [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 설계 패턴([Saga](/studynote/15_devops_sre/05_devsecops/305_architecture/)/[CQRS](/studynote/15_devops_sre/05_devsecops/306_process/)), [SRE](/studynote/15_devops_sre/02_cicd_gitops/100_multi_region_deployment_pipeline_disaster_recovery/) [옵저버빌리티](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) 인프라 및 최신 [DevSecOps](/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) [공급망 보안](/studynote/15_devops_sre/05_devsecops/374_service_mesh_security/)까지 전 영역 기술사/전문가 수준의 키워드를 집대성했습니다.)
+([애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)/[DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 방법론, [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD, [GitOps](/studynote/15_devops_sre/02_cicd_gitops/119_pre_commit_hook_linting/)(ArgoCD)부터 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) [쿠버네티스](/studynote/15_devops_sre/05_devsecops/196_tfstate_json_s3/) [오케스트레이션](/studynote/15_devops_sre/02_cicd_gitops/073_github_actions_ci_cd_workflow/), [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 설계 패턴([Saga](/studynote/15_devops_sre/05_devsecops/305_architecture/)/[CQRS](/studynote/15_devops_sre/05_devsecops/306_container_docker_image_layer/)), [SRE](/studynote/15_devops_sre/02_cicd_gitops/100_multi_region_deployment_pipeline_disaster_recovery/) [옵저버빌리티](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) 인프라 및 최신 [DevSecOps](/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) [공급망 보안](/studynote/15_devops_sre/05_devsecops/374_service_mesh_security/)까지 전 영역 기술사/전문가 수준의 키워드를 집대성했습니다.)

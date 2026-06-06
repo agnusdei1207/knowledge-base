@@ -1,9 +1,8 @@
 ---
+date: "2026-06-07"
 title: "672. 소프트웨어 비용 산정 COCOMO"
 date: "2026-05-08"
-tags:
-  - "studynote-software-engineering"
-weight: 672
+categories: "studynote-software-engineering"
 ---
 
 
