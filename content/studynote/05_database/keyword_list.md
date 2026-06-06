@@ -47,7 +47,7 @@ weight: 50
 31. 클라이언트-서버 [DBMS](/studynote/05_database/01_db_architecture_relational/031_client_server_dbms_architecture/) 아키텍처 (2-Tier, 3-Tier)
 32. TP [모니터](/studynote/05_database/01_db_architecture_relational/032_tp_monitor/) ([Transaction Processing Monitor](/studynote/05_database/01_db_architecture_relational/032_tp_monitor/)) / 미들웨어
 33. [파일 저장 구조](/studynote/05_database/01_db_architecture_relational/033_file_storage_structure/) - 히프([Heap](/studynote/05_database/01_db_architecture_relational/033_file_storage_structure/)), 순차(Sequential), 해시(Hash), [인덱스](/studynote/05_database/01_db_architecture_relational/033_file_storage_structure/)([Indexed](/studynote/05_database/01_db_architecture_relational/033_file_storage_structure/)) [파일](/studynote/05_database/01_db_architecture_relational/033_file_storage_structure/)
-34. 고정 길이 레코드 vs 가변 길이 레코드
+34. [고정 길이 레코드 vs 가변 길이 레코드](/studynote/05_database/01_db_architecture_relational/034_record_length/)
 35. [블로킹 팩터](/studynote/05_database/01_db_architecture_relational/035_blocking_factor/) ([Blocking Factor](/studynote/05_database/01_db_architecture_relational/035_blocking_factor/)) - 하나의 블록에 저장되는 레코드 수
 36. [B-Tree](/studynote/05_database/01_db_architecture_relational/036_b_tree/) (다진 탐색 트리) 원리 및 구조
 37. B+Tree - 리프 노드에만 [데이터](/studynote/05_database/01_db_architecture_relational/037_b_plus_tree/) 저장, 리프 노드 간 [연결 리스트](/studynote/05_database/01_db_architecture_relational/037_b_plus_tree/) (RDB [인덱스](/studynote/05_database/01_db_architecture_relational/037_b_plus_tree/) 기본)
@@ -62,8 +62,8 @@ weight: 50
 46. 인-메모리 [데이터베이스](/studynote/05_database/01_db_architecture_relational/046_in_memory_db_imdb/) (IMDB, [In-Memory DB](/studynote/05_database/01_db_architecture_relational/046_in_memory_db_imdb/)) - [Redis](/studynote/05_database/01_db_architecture_relational/046_in_memory_db_imdb/), Memcached, SAP HANA (디스크 I/O 병목 제거)
 47. 컬럼 기반 저장소 (Columnar Store) - 분석([OLAP](/studynote/05_database/01_db_architecture_relational/047_columnar_store_olap/)) 최적화, 높은 [압축](/studynote/05_database/01_db_architecture_relational/047_columnar_store_olap/)률
 48. 로우 기반 저장소 (Row Store) - [트랜잭션](/studynote/05_database/01_db_architecture_relational/048_row_oriented_store_oltp/)([OLTP](/studynote/05_database/01_db_architecture_relational/048_row_oriented_store_oltp/)) 최적화
-49. 스토리지 엔진 (Storage 엔진) 구조 (InnoDB, MyISAM 등)
-50. 버퍼 풀 (Buffer Pool) / 버퍼 관리자 - 디스크 접근 최소화
+49. [스토리지 엔진 (Storage 엔진) 구조 (InnoDB, MyISAM 등)](/studynote/05_database/01_db_architecture_relational/049_storage_engine_innodb_myisam/)
+50. [버퍼 풀 (Buffer Pool) / 버퍼 관리자 - 디스크 접근 최소화](/studynote/05_database/01_db_architecture_relational/050_buffer_pool_manager/)
 51. [로깅 엔진](/studynote/05_database/01_db_architecture_relational/051_logging_engine_wal_redo_undo/) ([Logging 엔진](/studynote/05_database/01_db_architecture_relational/051_logging_engine_wal_redo_undo/)) - [복구](/studynote/05_database/01_db_architecture_relational/051_logging_engine_wal_redo_undo/)([Recovery](/studynote/05_database/01_db_architecture_relational/051_logging_engine_wal_redo_undo/))를 위한 [로그](/studynote/05_database/01_db_architecture_relational/051_logging_engine_wal_redo_undo/)(WAL) 작성
 52. [옵티마이저](/studynote/05_database/01_db_architecture_relational/052_db_optimizer_rbo_cbo/) ([Optimizer](/studynote/05_database/01_db_architecture_relational/052_db_optimizer_rbo_cbo/)) - 최적의 SQL [실행 계획](/studynote/05_database/01_db_architecture_relational/052_db_optimizer_rbo_cbo/) [생성](/studynote/05_database/01_db_architecture_relational/052_db_optimizer_rbo_cbo/)
 53. 파서 (Parser) - SQL 구문 분석 및 파스 트리 [생성](/studynote/05_database/01_db_architecture_relational/053_db_parser_parse_tree/)
@@ -96,7 +96,7 @@ weight: 50
 78. [키 무결성](/studynote/05_database/02_modeling_normalization/078_key_integrity/) ([Key Integrity](/studynote/05_database/02_modeling_normalization/078_key_integrity/))
 79. NULL [무결성](/studynote/05_database/02_modeling_normalization/079_null_integrity_not_null/) (Null [Integrity](/studynote/05_database/02_modeling_normalization/079_null_integrity_not_null/))
 80. ER 모델 (Entity-[Relationship](/studynote/05_database/02_modeling_normalization/080_er_model_entity_relationship_peter_chen/) Model) - 피터 첸(Peter Chen) 제안, 개념적 모델링
-81. 개체 (Entity) - 사각형, 관리 대상
+81. [개체 (Entity) - 사각형, 관리 대상](/studynote/05_database/02_modeling_normalization/081_entity_concept_er_model/)
 82. [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) ([Attribute](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)) - 타원, 개체의 특성
 83. [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) ([Relationship](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)) - 마름모, 개체 간 연관성
 84. [카디널리티 비율](/studynote/05_database/02_modeling_normalization/084_cardinality_ratio_1_to_n/) ([Cardinality Ratio](/studynote/05_database/02_modeling_normalization/084_cardinality_ratio_1_to_n/)) - 1:1, 1:N, M:N
@@ -114,7 +114,7 @@ weight: 50
 96. [완전 함수적 종속](/studynote/05_database/02_modeling_normalization/096_full_functional_dependency/) ([Full Functional Dependency](/studynote/05_database/02_modeling_normalization/096_full_functional_dependency/))
 97. [부분 함수적 종속](/studynote/05_database/02_modeling_normalization/097_partial_functional_dependency/) ([Partial Functional Dependency](/studynote/05_database/02_modeling_normalization/097_partial_functional_dependency/)) - 복합키의 일부 [속성](/studynote/05_database/02_modeling_normalization/097_partial_functional_dependency/)에만 종속
 98. [이행적 함수적 종속](/studynote/05_database/02_modeling_normalization/098_transitive_functional_dependency/) ([Transitive Functional Dependency](/studynote/05_database/02_modeling_normalization/098_transitive_functional_dependency/)) - X->Y, Y->Z 일 때 X->Z 종속 발생
-99. 암스트롱의 공리 (Armstrong's Axioms) - 반사의 공리, 첨가의 공리, 이행의 공리
+99. [암스트롱의 공리 (Armstrong's Axioms) - 반사의 공리, 첨가의 공리, 이행의 공리](/studynote/05_database/02_modeling_normalization/099_armstrongs_axioms_reflexivity/)
 100. [정규화](/studynote/05_database/02_modeling_normalization/100_normalization_decomposition/) ([Normalization](/studynote/05_database/02_modeling_normalization/100_normalization_decomposition/)) - [이상 현상](/studynote/05_database/02_modeling_normalization/100_normalization_decomposition/) 방지를 위해 [릴레이션](/studynote/05_database/02_modeling_normalization/100_normalization_decomposition/)을 분해(Decomposition)하는 과정
 101. [무손실 분해](/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/) ([Lossless-Join Decomposition](/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/)) - 조인 시 원래 [릴레이션](/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/)이 복원됨 보장
 102. [종속성 보존](/studynote/05_database/02_modeling_normalization/102_dependency_preservation_decomposition/) ([Dependency Preservation](/studynote/05_database/02_modeling_normalization/102_dependency_preservation_decomposition/)) - 분해 후에도 FD가 유지됨
@@ -145,11 +145,11 @@ weight: 50
 127. 정보 공학 방법론 (Information 엔진ering) - [데이터 중심](/studynote/05_database/02_modeling_normalization/127_information_engineering_methodology_ie/) 개발 (James Martin)
 128. [논리](/studynote/05_database/02_modeling_normalization/128_logical_data_independence_view/)적 [데이터 독립성](/studynote/05_database/02_modeling_normalization/128_logical_data_independence_view/)과 뷰([View](/studynote/05_database/02_modeling_normalization/128_logical_data_independence_view/))의 [관계](/studynote/05_database/02_modeling_normalization/128_logical_data_independence_view/)
 129. ORM (Object-Relational [Mapping](/studynote/05_database/02_modeling_normalization/129_orm_impedance_mismatch/)) 개념과 [임피던스](/studynote/05_database/02_modeling_normalization/129_orm_impedance_mismatch/) 불일치 ([Impedance](/studynote/05_database/02_modeling_normalization/129_orm_impedance_mismatch/) Mismatch)
-130. ERD 표기법 - IE(Information 엔진ering, 까마귀발 표기법), Barker, IDEF1X
+130. [ERD 표기법 - IE(Information 엔진ering, 까마귀발 표기법), Barker, IDEF1X](/studynote/05_database/02_modeling_normalization/130_erd_표기법_ie_information_엔진ering/)
 
 ## 3. SQL 및 [옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) (60개)
-131. SQL (Structured Query Language) 국제 표준 (ANSI/ISO SQL)
-132. 조인 연산의 종류 (SQL 기준)
+131. [SQL (Structured Query Language) 국제 표준 (ANSI/ISO SQL)](/studynote/05_database/03_relational_model/131_sql_structured_query_language/)
+132. [조인 연산의 종류 (SQL 기준)](/studynote/05_database/03_relational_model/132_조인_연산의_종류_sql_기준/)
 133. 내부 조인 (Inner [Join](/studynote/05_database/03_relational_model/133_sql_inner_join_intersection/)) - 교집합, 양쪽에 모두 존재하는 행만 추출
 134. 동등 조인 (Equi [Join](/studynote/05_database/03_relational_model/134_sql_outer_join_left_right_full/)) / [자연 조인](/studynote/05_database/03_relational_model/134_sql_outer_join_left_right_full/) ([Natural Join](/studynote/05_database/03_relational_model/134_sql_outer_join_left_right_full/)) - 중복 컬럼 제거
 135. 비동등 조인 (Non-Equi [Join](/studynote/05_database/03_relational_model/135_sql_non_equi_join/)) - BETWEEN, >, < 등 등호 이외 연산자 사용 조인
@@ -167,7 +167,7 @@ weight: 50
 147. [집계 함수](/studynote/05_database/03_relational_model/147_aggregate_function_group_by/) ([Aggregate Function](/studynote/05_database/03_relational_model/147_aggregate_function_group_by/)) - SUM, AVG, MAX, MIN, COUNT
 148. [그룹 바이](/studynote/05_database/03_relational_model/148_sql_group_by_having_clause/) ([GROUP BY](/studynote/05_database/03_relational_model/148_sql_group_by_having_clause/)) / 해빙 (HAVING) - HAVING은 [그룹화](/studynote/05_database/03_relational_model/148_sql_group_by_having_clause/) 결과에 대한 조건
 149. [ROLLUP](/studynote/05_database/03_relational_model/149_rollup_cube_grouping_sets/), CUBE, [GROUPING](/studynote/05_database/03_relational_model/149_rollup_cube_grouping_sets/) SETS - 다차원 소계 및 총계 [생성](/studynote/05_database/03_relational_model/149_rollup_cube_grouping_sets/) ([OLAP](/studynote/05_database/03_relational_model/149_rollup_cube_grouping_sets/))
-150. 집합 연산자 - UNION (중복 제거 합집합), UNION ALL (중복 포함 합집합), INTERSECT, MINUS/EXCEPT
+150. [집합 연산자 - UNION (중복 제거 합집합), UNION ALL (중복 포함 합집합), INTERSECT, MINUS/EXCEPT](/studynote/05_database/03_relational_model/150_sql_set_operators_union_intersect_minus/)
 151. 뷰 ([View](/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)) - 가상 테이블, [논리](/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)적 [데이터 독립성](/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) 및 보안 제공
 152. [단순 뷰](/studynote/05_database/03_relational_model/152_simple_view_vs_complex_view/) ([Simple View](/studynote/05_database/03_relational_model/152_simple_view_vs_complex_view/)) vs 복합 뷰 (Complex [View](/studynote/05_database/03_relational_model/152_simple_view_vs_complex_view/))
 153. [구체화된 뷰](/studynote/05_database/03_relational_model/153_materialized_view_mview_data_warehouse/) (MVIEW, Materialized [View](/studynote/05_database/03_relational_model/153_materialized_view_mview_data_warehouse/)) - 물리적 공간에 실제 [데이터](/studynote/05_database/03_relational_model/153_materialized_view_mview_data_warehouse/) 저장, [성능](/studynote/05_database/03_relational_model/153_materialized_view_mview_data_warehouse/) 향상, [동기화](/studynote/05_database/03_relational_model/153_materialized_view_mview_data_warehouse/)(Refresh) 필요
@@ -389,7 +389,7 @@ weight: 50
 363. [그래프 신경망](/studynote/05_database/06_dw_olap_trends/363_gnn_knowledge_graph_db/) ([GNN](/studynote/05_database/06_dw_olap_trends/363_gnn_knowledge_graph_db/))과 [지식 그래프](/studynote/05_database/06_dw_olap_trends/363_gnn_knowledge_graph_db/) ([Knowledge Graph](/studynote/05_database/06_dw_olap_trends/363_gnn_knowledge_graph_db/)) 연계 DB 시스템
 364. [데이터 리니지](/studynote/05_database/06_dw_olap_trends/364_data_lineage/) ([Data Lineage](/studynote/05_database/06_dw_olap_trends/364_data_lineage/)) - [데이터](/studynote/05_database/06_dw_olap_trends/364_data_lineage/) 기원, 이동 경로, 변환 이력 추적(규제 대응, [무결성](/studynote/05_database/06_dw_olap_trends/364_data_lineage/))
 365. [데이터베이스 암호화](/studynote/05_database/06_dw_olap_trends/365_tde/) ([TDE](/studynote/05_database/06_dw_olap_trends/365_tde/), [Transparent Data Encryption](/studynote/05_database/06_dw_olap_trends/365_tde/)) - 애플리케이션 수정 없이 디스크 저장 [파일](/studynote/05_database/06_dw_olap_trends/365_tde/) 레벨 암호화 (휴지 상태 암호화)
-366. 컬럼 레벨 암호화 / 블록 레벨 암호화
+366. [컬럼 레벨 암호화 / 블록 레벨 암호화](/studynote/05_database/06_dw_olap_trends/366_column_block_encryption/)
 367. [난독화](/studynote/05_database/06_dw_olap_trends/367_obfuscation_masking/) ([Obfuscation](/studynote/05_database/06_dw_olap_trends/367_obfuscation_masking/)) 및 [데이터 마스킹](/studynote/05_database/06_dw_olap_trends/367_obfuscation_masking/) ([Data Masking](/studynote/05_database/06_dw_olap_trends/367_obfuscation_masking/)) - 개발/운영계 테스트 DB 민감 [정보 은닉](/studynote/05_database/06_dw_olap_trends/367_obfuscation_masking/)
 368. [FPE](/studynote/05_database/06_dw_olap_trends/368_fpe_format_preserving_encryption/) ([Format Preserving Encryption](/studynote/05_database/06_dw_olap_trends/368_fpe_format_preserving_encryption/)) - 암호화 전후 [데이터](/studynote/05_database/06_dw_olap_trends/368_fpe_format_preserving_encryption/) 포맷(길이, 형식) 유지 (카드번호, 주민번호 등)
 369. [데이터베이스 감사](/studynote/05_database/06_dw_olap_trends/369_db_auditing/) ([DB Auditing](/studynote/05_database/06_dw_olap_trends/369_db_auditing/)) 추적 [로그](/studynote/05_database/06_dw_olap_trends/369_db_auditing/)
@@ -459,10 +459,10 @@ weight: 50
 431. [중첩 루프 조인](/exam/05_database/431_nested_loop_join/) ([Nested Loop](/exam/05_database/431_nested_loop_join/))
 432. [소트 머지 조인](/exam/05_database/432_sort_merge_join/) ([정렬 후 병합](/exam/05_database/432_sort_merge_join/))
 433. [해시 조인](/exam/05_database/433_hash_join_build_probe/) ([메모리 해시 영역 빌드 프로브](/exam/05_database/433_hash_join_build_probe/))
-434. 서브쿼리 IN 연산자
+434. [서브쿼리 IN 연산자](/studynote/05_database/06_dw_olap_trends/434_서브쿼리_in_연산자/)
 435. [EXISTS](/exam/05_database/435_exists_boolean_fast_search/) ([존재 여부 불린 반환 고속 탐색](/exam/05_database/435_exists_boolean_fast_search/))
-436. 윈도우 함수 OVER ([PARTITION BY](/exam/05_database/436_window_function_over/))
-437. RANK() 동점 점프 / DENSE_RANK() 비점프
+436. [윈도우 함수 OVER ([PARTITION BY](/exam/05_database/436_window_function_over/))](/studynote/05_database/06_dw_olap_trends/436_윈도우_함수_over_partition_by_exam/)
+437. [RANK() 동점 점프 / DENSE_RANK() 비점프](/studynote/05_database/06_dw_olap_trends/437_rank_동점_점프_dense_rank_비점프/)
 438. [GROUP BY](/exam/05_database/438_group_by_rollup_cube/) 다차원 [ROLLUP](/exam/05_database/438_group_by_rollup_cube/), CUBE
 439. [힌트 구문 적용](/exam/05_database/439_optimizer_hint_index/) (/*+ [INDEX](/exam/05_database/439_optimizer_hint_index/)() */)
 440. [트랜잭션](/exam/05_database/440_transaction_acid_properties/) ACID 특성
@@ -490,8 +490,8 @@ weight: 50
 462. [2단계 커밋](/exam/05_database/462_two_phase_commit_2pc/) ([2PC](/exam/05_database/462_two_phase_commit_2pc/) Prepare -> Commit)
 463. [CAP](/exam/05_database/463_cap_theorem_consistency_availability/) 이론 정합성 [가용성](/exam/05_database/463_cap_theorem_consistency_availability/) [파티션](/exam/05_database/463_cap_theorem_consistency_availability/) [분산](/exam/05_database/463_cap_theorem_consistency_availability/) 특성
 464. BASE [속성](/exam/05_database/464_base_properties_nosql/) [NoSQL](/exam/05_database/464_base_properties_nosql/) [결과적 일관성](/exam/05_database/464_base_properties_nosql/)
-465. 키-값 DB [레디스](/exam/05_database/465_key_value_db_redis/) 인메모리
-466. 도큐먼트 DB 몽고DB [JSON](/exam/05_database/466_document_db_mongodb/) BSON
+465. [키-값 DB [레디스](/exam/05_database/465_key_value_db_redis/) 인메모리](/studynote/05_database/04_transactions_concurrency/465_키_값_db_레디스_exam_05_database_46/)
+466. [도큐먼트 DB 몽고DB [JSON](/exam/05_database/466_document_db_mongodb/) BSON](/studynote/05_database/04_transactions_concurrency/466_도큐먼트_db_몽고db_json_exam_05_data/)
 467. 컬럼 패밀리 [HBASE](/exam/05_database/467_column_family_hbase/) [카산드라](/exam/05_database/467_column_family_hbase/) 와이드 컬럼
 468. [그래프](/exam/05_database/468_graph_db_neo4j/) DB 노드 엣지 프로퍼티 [관계](/exam/05_database/468_graph_db_neo4j/) 탐색 Neo4j
 469. [샤딩 파티셔닝 수평 스케일 아웃](/exam/05_database/469_sharding_horizontal_partitioning/)
@@ -504,7 +504,7 @@ weight: 50
 476. [OLAP](/exam/05_database/476_olap_denormalization/) 비정규화 읽기 다차원
 477. [스타 스키마 중심 팩트 방사 차원 단일 계층](/exam/05_database/477_star_schema_fact_dimension/)
 478. [스노우플레이크 차원 정규화 계층 트리](/exam/05_database/478_snowflake_schema_normalization/)
-479. 드릴 다운 / 롤 업 계층 분석
+479. [드릴 다운 / 롤 업 계층 분석](/studynote/05_database/04_transactions_concurrency/479_드릴_다운_롤_업_계층_분석/)
 480. [슬라이스 다이스 차원 절단](/exam/05_database/480_slicing_dicing_olap/)
 481. [피벗 크로스탭 보고서](/exam/05_database/481_pivoting_crosstab_report/)
 482. [데이터 레이크 스키마 온 리드 원시 형태 저장](/exam/05_database/482_data_lake_schema_on_read/)
@@ -524,7 +524,7 @@ weight: 50
 496. Quorum 읽기 [쓰기](/exam/05_database/496_quorum_consistency_read_write/) [일관성](/exam/05_database/496_quorum_consistency_read_write/) 보정 정족수 합의 구조
 497. [툼스톤](/exam/05_database/497_tombstone_delayed_deletion_nosql/) 마킹 [지연](/exam/05_database/497_tombstone_delayed_deletion_nosql/) 삭제 [NoSQL](/exam/05_database/497_tombstone_delayed_deletion_nosql/) 설계
 498. [데이터 옵스](/exam/05_database/498_dataops_automation_pipeline/) ([DataOps](/exam/05_database/498_dataops_automation_pipeline/)) 자동화 [파이프](/exam/05_database/498_dataops_automation_pipeline/)라인
-499. ORM 객체 매핑 JPA N+1 질의 문제
+499. [ORM 객체 매핑 JPA N+1 질의 문제](/studynote/05_database/04_transactions_concurrency/499_orm_객체_매핑_jpa_n_1_질의_문제/)
 500. [역색인](/exam/05_database/500_inverted_index_elasticsearch/) ([Inverted Index](/exam/05_database/500_inverted_index_elasticsearch/)) 엘라스틱 서치 단어 포인터
 501. 스토리지 컴퓨팅 분리 [클라우드 네이티브](/studynote/05_database/04_transactions_concurrency/501_database/) [DW](/studynote/05_database/04_transactions_concurrency/501_database/) 특장점
 502. [데이터 리니지 흐름 추적 무결성 감사 구조](/studynote/05_database/04_transactions_concurrency/502_dbms/)
@@ -546,7 +546,7 @@ weight: 50
 518. [클린 룸 데이터 공유 샌드박싱 연동](/exam/05_database/518_data_clean_room_sandboxing/)
 519. [서버리스 오로라 스토리지 분산 복제 쿼럼](/exam/05_database/519_aurora_serverless_quorum_replication/)
 520. [PACELC](/studynote/05_database/04_transactions_concurrency/520_select/) [분산](/studynote/05_database/04_transactions_concurrency/520_select/) DB 장애 평시 트레이드 오프 이론
-521. 동적 SQL 조립 런타임 질의 파서
+521. [동적 SQL 조립 런타임 질의 파서](/studynote/05_database/04_transactions_concurrency/521_join/)
 522. [데이터 거버넌스 3요소](/studynote/05_database/04_transactions_concurrency/522_group_by/) (원칙, 조직, 프로세스)
 523. [정보 공학 방법론 데이터 주도적 생명 주기](/studynote/05_database/04_transactions_concurrency/523_subquery/)
 524. [EER](/studynote/05_database/04_transactions_concurrency/524_dml_ddl_dcl/) 모델 서브타입 [상속](/studynote/05_database/04_transactions_concurrency/524_dml_ddl_dcl/) 특수화
@@ -596,7 +596,7 @@ weight: 50
 568. 몽고DB [샤딩](/studynote/05_database/04_transactions_concurrency/568_mongodb_sharding_chunk_migration_balancing/) 청크 마이그레이션 백그라운드 밸런싱 모형 분석망
 569. [카산드라 쓰기 경로](/studynote/05_database/04_transactions_concurrency/569_cassandra_write_path_commitlog_memtable_sstable/)(Commit Log -> [Memtable](/studynote/05_database/04_transactions_concurrency/569_cassandra_write_path_commitlog_memtable_sstable/) -> SSTable) 병목 배제 모델
 570. [하둡 에코시스템](/studynote/05_database/04_transactions_concurrency/570_hadoop_ecosystem_hive_pig_mapreduce_abstraction/) [Hive](/studynote/05_database/04_transactions_concurrency/570_hadoop_ecosystem_hive_pig_mapreduce_abstraction/), Pig [분산](/studynote/05_database/04_transactions_concurrency/570_hadoop_ecosystem_hive_pig_mapreduce_abstraction/) DB 질의 [쿼리](/studynote/05_database/04_transactions_concurrency/570_hadoop_ecosystem_hive_pig_mapreduce_abstraction/) 엔진 [맵리듀스](/studynote/05_database/04_transactions_concurrency/570_hadoop_ecosystem_hive_pig_mapreduce_abstraction/) [추상화](/studynote/05_database/04_transactions_concurrency/570_hadoop_ecosystem_hive_pig_mapreduce_abstraction/)
-571. Spark 스트리밍 마이크로 배치 vs Flink 네이티브 스트림 인 메모리 DB
+571. [Spark 스트리밍 마이크로 배치 vs Flink 네이티브 스트림 인 메모리 DB](/studynote/05_database/04_transactions_concurrency/571_spark_micro_batch_vs_flink_native_stream/)
 572. [데이터 옵스 자동화 테스트 카나리 배포 데이터 파이프라인 검증망 설계](/studynote/05_database/04_transactions_concurrency/572_dataops_automated_testing_canary_deployment/)
 573. [ODS](/studynote/05_database/04_transactions_concurrency/573_ods_operational_data_store_near_real_time/) 준실시간 [스냅샷](/studynote/05_database/04_transactions_concurrency/573_ods_operational_data_store_near_real_time/) 레코드 마이그레이션 [DW](/studynote/05_database/04_transactions_concurrency/573_ods_operational_data_store_near_real_time/) 배치 레이어 차이점
 574. [데이터 마트 콘포밍 차원](/studynote/05_database/06_dw_olap_trends/574_conformed_dimension/) ([Conformed Dimension](/studynote/05_database/06_dw_olap_trends/574_conformed_dimension/)) 킴볼 [버스](/studynote/05_database/06_dw_olap_trends/574_conformed_dimension/) 구조

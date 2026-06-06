@@ -28,7 +28,7 @@ weight: 50
 12. [마이데이터](/studynote/16_bigdata/01_intro/012_mydata/) ([MyData](/studynote/16_bigdata/01_intro/012_mydata/)) — [개인정보](/studynote/16_bigdata/01_intro/012_mydata/) 자기결정권, 금융 [마이데이터](/studynote/16_bigdata/01_intro/012_mydata/)
 13. [공공 빅데이터](/studynote/16_bigdata/01_intro/013_public_bigdata/) — 공공데이터포털, 행정안전부, [데이터](/studynote/16_bigdata/01_intro/013_public_bigdata/) 개방 [정책](/studynote/16_bigdata/01_intro/013_public_bigdata/)
 14. [데이터바우처 사업](/studynote/16_bigdata/01_intro/014_data_voucher/) — 중소기업 [데이터](/studynote/16_bigdata/01_intro/014_data_voucher/) 구매·가공 지원
-15. 오픈데이터 원칙 — FAIR (Findable/Accessible/Interoperable/Reusable)
+15. [오픈데이터 원칙 — FAIR (Findable/Accessible/Interoperable/Reusable)](/studynote/16_bigdata/01_intro/015_open_data_principles/)
 16. 유럽 [데이터](/studynote/16_bigdata/01_intro/016_europe_data_strategy/) [전략](/studynote/16_bigdata/01_intro/016_europe_data_strategy/) — [Data](/studynote/16_bigdata/01_intro/016_europe_data_strategy/) Spaces, Gaia-X
 17. 국가 [데이터](/studynote/16_bigdata/01_intro/017_national_data_policy/) [정책](/studynote/16_bigdata/01_intro/017_national_data_policy/) — [데이터](/studynote/16_bigdata/01_intro/017_national_data_policy/)기본법, [데이터](/studynote/16_bigdata/01_intro/017_national_data_policy/) 산업 진흥법
 18. [데이터 주권](/studynote/16_bigdata/01_intro/018_data_sovereignty/) ([Data Sovereignty](/studynote/16_bigdata/01_intro/018_data_sovereignty/)) — 국가별 [데이터](/studynote/16_bigdata/01_intro/018_data_sovereignty/) 현지화 규제
@@ -48,7 +48,7 @@ weight: 50
 5. [Rack Awareness](/studynote/16_bigdata/01_intro/005_unstructured_data/) — 같은 랙 두 [복제](/studynote/16_bigdata/01_intro/005_unstructured_data/)본 방지, 장애 [복구](/studynote/16_bigdata/01_intro/005_unstructured_data/) 최적화
 6. [MapReduce](/studynote/16_bigdata/01_intro/006_semi_structured_data/) — Map([분산](/studynote/16_bigdata/01_intro/006_semi_structured_data/) 처리)/Shuffle&Sort/Reduce(집계) 3단계
 7. Map 함수 — 입력 -> ([Key](/studynote/16_bigdata/01_intro/007_big_data_ecosystem/), Value) 쌍 출력
-8. Reduce 함수 — 동일 Key의 Value 집계, 최종 결과 출력
+8. [Reduce 함수 — 동일 Key의 Value 집계, 최종 결과 출력](/studynote/16_bigdata/01_intro/008_big_data_vs_traditional_data/)
 9. [Shuffle & Sort](/studynote/16_bigdata/01_intro/009_data_explosion_factors/) — Map 출력을 Reduce로 분배 (네트워크 병목)
 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [YARN](/studynote/14_data_engineering/01_infrastructure/020_yarn/) ([Yet Another Resource Negotiator](/studynote/14_data_engineering/01_infrastructure/020_yarn/)) — 자원 관리, Application Master / [Container](/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/)
 [11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). [Apache Hive](/studynote/14_data_engineering/01_infrastructure/028_apache_hive/) — SQL on [Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/), HQL, 메타스토어(MySQL/PostgreSQL), 배치형
@@ -81,14 +81,14 @@ weight: 50
 5. [Spark SQL](/studynote/16_bigdata/01_intro/005_unstructured_data/) — SQL [쿼리](/studynote/16_bigdata/01_intro/005_unstructured_data/)로 DataFrame 처리, [Hive](/studynote/16_bigdata/01_intro/005_unstructured_data/) 메타스토어 연동
 6. [Catalyst Optimizer](/studynote/16_bigdata/01_intro/006_semi_structured_data/) — [논리](/studynote/16_bigdata/01_intro/006_semi_structured_data/) -> 물리 [실행 계획](/studynote/16_bigdata/01_intro/006_semi_structured_data/) 최적화
 7. [Tungsten 엔진](/studynote/16_bigdata/01_intro/007_big_data_ecosystem/) — CPU/메모리 최적화, Codegen, Off-[heap](/studynote/16_bigdata/01_intro/007_big_data_ecosystem/) 메모리
-8. AQE (Adaptive Query Execution) — 런타임 통계 기반 자동 최적화 (Spark 3.0+)
+8. [AQE (Adaptive Query Execution) — 런타임 통계 기반 자동 최적화 (Spark 3.0+)](/studynote/16_bigdata/01_intro/008_big_data_vs_traditional_data/)
 9. [Spark Streaming](/studynote/16_bigdata/01_intro/009_data_explosion_factors/) ([DStream](/studynote/16_bigdata/01_intro/009_data_explosion_factors/)) — 마이크로배치 스트리밍 (구세대)
 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [Structured Streaming](/studynote/16_bigdata/03_spark/061_structured_streaming/) — DataFrame [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 스트리밍, 연속 처리, [Watermark](/studynote/16_bigdata/04_streaming/085_watermark/)
 [11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). MLlib — [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) ML [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) ([분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)/회귀/군집/추천/[PCA](/studynote/08_algorithm_stats/10_linear_algebra/163_pca/))
 12. GraphX — [분산](/studynote/16_bigdata/01_intro/012_mydata/) [그래프](/studynote/16_bigdata/01_intro/012_mydata/) 처리, PageRank
 13. Spark 배포 모드 — Local / [Standalone](/studynote/16_bigdata/01_intro/013_public_bigdata/) / [YARN](/studynote/16_bigdata/01_intro/013_public_bigdata/) / [Kubernetes](/studynote/16_bigdata/01_intro/013_public_bigdata/) / Mesos
-14. Executor / Driver / Cluster Manager — Spark 실행 구조
-15. Shuffle 최적화 — spark.sql.shuffle.partitions, AQE 코어리스
+14. [Executor / Driver / Cluster Manager — Spark 실행 구조](/studynote/16_bigdata/01_intro/014_data_voucher/)
+15. [Shuffle 최적화 — spark.sql.shuffle.partitions, AQE 코어리스](/studynote/16_bigdata/01_intro/015_open_data_principles/)
 16. Spark [직렬](/studynote/16_bigdata/01_intro/016_europe_data_strategy/)화 최적화 (Kryo) — Kryo > Java, [성능](/studynote/16_bigdata/01_intro/016_europe_data_strategy/) 차이
 17. Broadcast [Join](/studynote/16_bigdata/01_intro/017_national_data_policy/) — 소규모 테이블을 모든 Executor에 복사
 18. [Skew Join](/studynote/16_bigdata/01_intro/018_data_sovereignty/) — [데이터](/studynote/16_bigdata/01_intro/018_data_sovereignty/) 쏠림 해결 (AQE 자동 분할)
@@ -103,12 +103,12 @@ weight: 50
 
 ## 4. 스트리밍 / 실시간 처리 — 22개
 
-1. 스트리밍 처리 필요성 — 실시간 이상 감지, 즉각 대응 의사결정
+1. [스트리밍 처리 필요성 — 실시간 이상 감지, 즉각 대응 의사결정](/studynote/16_bigdata/01_intro/001_bigdata_definition/)
 2. [Apache Flink](/studynote/16_bigdata/01_intro/002_bigdata_5v/) — 상태 기반 스트리밍, 이벤트 시간 처리, Exactly-Once
-3. Flink 아키텍처 — JobManager / TaskManager / JobGraph
+3. [Flink 아키텍처 — JobManager / TaskManager / JobGraph](/studynote/16_bigdata/01_intro/003_bigdata_7v/)
 4. DataStream [API](/studynote/16_bigdata/01_intro/004_bigdata_necessity/) / Table [API](/studynote/16_bigdata/01_intro/004_bigdata_necessity/) & SQL — Flink 두 계층
 5. Flink [Savepoint](/studynote/16_bigdata/01_intro/005_unstructured_data/) / Checkpoint — 상태 저장, 재시작 지점
-6. 이벤트 시간 (Event Time) vs 처리 시간 (Processing Time)
+6. [이벤트 시간 (Event Time) vs 처리 시간 (Processing Time)](/studynote/16_bigdata/01_intro/006_semi_structured_data/)
 7. [Watermark](/studynote/16_bigdata/01_intro/007_big_data_ecosystem/) — [지연](/studynote/16_bigdata/01_intro/007_big_data_ecosystem/) 이벤트 허용 임계, 늦은 [데이터](/studynote/16_bigdata/01_intro/007_big_data_ecosystem/) [트리거](/studynote/16_bigdata/01_intro/007_big_data_ecosystem/)
 8. [윈도우 연산](/studynote/16_bigdata/01_intro/008_big_data_vs_traditional_data/) — 텀블링 / 슬라이딩 / [세션](/studynote/16_bigdata/01_intro/008_big_data_vs_traditional_data/) / 글로벌 윈도우
 9. [정확히 한 번](/studynote/16_bigdata/01_intro/009_data_explosion_factors/) ([Exactly-Once Semantics](/studynote/16_bigdata/01_intro/009_data_explosion_factors/)) — [2PC](/studynote/16_bigdata/01_intro/009_data_explosion_factors/) + Idempotent Sink
@@ -151,7 +151,7 @@ weight: 50
 19. [이미지 분석](/studynote/16_bigdata/01_intro/019_data_de_identification/) — [CNN](/studynote/16_bigdata/01_intro/019_data_de_identification/) 기반 [분류](/studynote/16_bigdata/01_intro/019_data_de_identification/)/탐지/분할 대용량 배치
 20. [로그 분석](/studynote/16_bigdata/01_intro/020_data_structure_ratio/) — 이상 감지, 보안 이벤트, 패턴 발견
 21. [클릭스트림 분석](/studynote/16_bigdata/01_intro/021_zettabyte_era_data_explosion/) — 사용자 행동 패턴, 전환율 최적화
-22. A/B 테스트 — 실험적 방법론, 통계적 유의성
+22. [A/B 테스트 — 실험적 방법론, 통계적 유의성](/studynote/16_bigdata/01_intro/022_small_data_qualitative_analysis/)
 23. [추천 시스템](/studynote/16_bigdata/02_hadoop/023_apache_hadoop_distributed_storage_processing/) — [협업 필터링](/studynote/16_bigdata/02_hadoop/023_apache_hadoop_distributed_storage_processing/) / 콘텐츠 기반 / 하이브리드
 24. [예측 분석](/studynote/16_bigdata/02_hadoop/024_hdfs_hadoop_distributed_file_system_block/) ([Predictive Analytics](/studynote/16_bigdata/02_hadoop/024_hdfs_hadoop_distributed_file_system_block/)) — 이탈 예측, 대출 부도, 장비 고장
 25. 처방적 분석 ([Prescriptive Analytics](/studynote/16_bigdata/02_hadoop/025_namenode_metadata_spof_ha/)) — 최적 의사결정 제안
@@ -232,7 +232,7 @@ weight: 50
 2. [On-Premise](/studynote/16_bigdata/01_intro/002_bigdata_5v/) [Hadoop](/studynote/16_bigdata/01_intro/002_bigdata_5v/) vs Cloud 비교 — [초기](/studynote/16_bigdata/01_intro/002_bigdata_5v/) 비용 vs OPEX, 유연성
 3. [빅데이터 참조 아키텍처](/studynote/16_bigdata/01_intro/003_bigdata_7v/) — 수집->저장->처리->분석->[서비스](/studynote/16_bigdata/01_intro/003_bigdata_7v/)->관리
 4. [모던 데이터 스택](/studynote/16_bigdata/01_intro/004_bigdata_necessity/) ([MDS](/studynote/16_bigdata/01_intro/004_bigdata_necessity/)) — Fivetran + [Snowflake](/studynote/16_bigdata/01_intro/004_bigdata_necessity/) + dbt + [Tableau](/studynote/16_bigdata/01_intro/004_bigdata_necessity/)
-5. 실시간 + 배치 통합 플랫폼 — Unified Batch/Streaming (Spark/Flink)
+5. [실시간 + 배치 통합 플랫폼 — Unified Batch/Streaming (Spark/Flink)](/studynote/16_bigdata/01_intro/005_unstructured_data/)
 6. [데이터 허브](/studynote/16_bigdata/01_intro/006_semi_structured_data/) ([Data Hub](/studynote/16_bigdata/01_intro/006_semi_structured_data/)) — 중앙 [데이터](/studynote/16_bigdata/01_intro/006_semi_structured_data/) 집계 및 배포 계층
 7. [멀티클라우드 데이터 플랫폼](/studynote/16_bigdata/01_intro/007_big_data_ecosystem/) — [Snowflake](/studynote/16_bigdata/01_intro/007_big_data_ecosystem/) / [Databricks](/studynote/16_bigdata/01_intro/007_big_data_ecosystem/) 멀티클라우드 지원
 8. [서버리스 빅데이터](/studynote/16_bigdata/01_intro/008_big_data_vs_traditional_data/) — AWS Athena / [BigQuery](/studynote/16_bigdata/01_intro/008_big_data_vs_traditional_data/) / Redshift [Serverless](/studynote/16_bigdata/01_intro/008_big_data_vs_traditional_data/)
@@ -276,9 +276,9 @@ weight: 50
 2. [의료 빅데이터](/studynote/16_bigdata/01_intro/002_bigdata_5v/) — 전자의무기록(EMR) / 유전체 분석 / 임상 예측 / 신약 개발
 3. 공공 [데이터](/studynote/16_bigdata/01_intro/003_bigdata_7v/) 활용 — 교통 예측 / 범죄 예방 / 도시 계획 / 행정 [서비스](/studynote/16_bigdata/01_intro/003_bigdata_7v/) 개선
 4. [제조 빅데이터](/studynote/16_bigdata/01_intro/004_bigdata_necessity/) — 예지 정비([PdM](/studynote/16_bigdata/01_intro/004_bigdata_necessity/)) / 불량 감지 / 에너지 최적화
-5. 유통·물류 빅데이터 — 수요 예측 / 재고 최적화 / 배송 경로 최적화
+5. [유통·물류 빅데이터 — 수요 예측 / 재고 최적화 / 배송 경로 최적화](/studynote/16_bigdata/01_intro/005_unstructured_data/)
 6. [미디어 빅데이터](/studynote/16_bigdata/01_intro/006_semi_structured_data/) — 시청 분석 / 콘텐츠 추천 / 광고 타겟팅
-7. SNS 빅데이터 — 여론 분석 / 트렌드 감지 / 인플루언서 분석
+7. [SNS 빅데이터 — 여론 분석 / 트렌드 감지 / 인플루언서 분석](/studynote/16_bigdata/01_intro/007_big_data_ecosystem/)
 8. [스마트시티 빅데이터](/studynote/16_bigdata/01_intro/008_big_data_vs_traditional_data/) — [CCTV](/studynote/16_bigdata/01_intro/008_big_data_vs_traditional_data/) 분석 / 교통 [신호](/studynote/16_bigdata/01_intro/008_big_data_vs_traditional_data/) 최적화 / 에너지 그리드
 9. [농업 빅데이터](/studynote/16_bigdata/01_intro/009_data_explosion_factors/) — 정밀 농업 / 날씨 연계 수확량 예측 / 토양 분석
 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [교육 빅데이터](/studynote/16_bigdata/11_industry/223_education_bigdata/) — 학습 분석([Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Analytics) / 맞춤형 교육

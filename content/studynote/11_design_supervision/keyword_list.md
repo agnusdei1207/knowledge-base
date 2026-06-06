@@ -23,7 +23,7 @@ weight: 50
 9. [감리 단계](/studynote/11_design_supervision/01_audit_framework/009_audit_phase/) ([Audit Phase](/studynote/11_design_supervision/01_audit_framework/009_audit_phase/)) - 사업의 [진행](/studynote/11_design_supervision/01_audit_framework/009_audit_phase/) 단계 (요구사항 정의, 설계, 종료/구현)
 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [예방 감리](/studynote/11_design_supervision/01_audit_framework/010_preventive_resident_audit/) ([Preventive Audit](/studynote/11_design_supervision/01_audit_framework/010_preventive_resident_audit/)) / 상주 감리 (Resident [Audit](/studynote/12_it_management/05_security_compliance/363_audit/)) - 사업 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중 상주하며 상시 조언
 [11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). [3단계 감리](/exam/11_design_supervision/322_audit/) - 요구사항 정의 단계 감리, 설계 단계 감리, 종료 단계 감리
-12. 2단계 감리 - 설계 단계 감리, 종료 단계 감리 (요구사항 정의 감리 생략 조건 사업)
+12. [2단계 감리 - 설계 단계 감리, 종료 단계 감리 (요구사항 정의 감리 생략 조건 사업)](/studynote/11_design_supervision/01_audit_framework/012_2_stage_audit/)
 13. 추가 감리 / 시정조치 [확인](/studynote/11_design_supervision/01_audit_framework/601_follow_up_audit/) ([Follow-up Audit](/studynote/11_design_supervision/01_audit_framework/601_follow_up_audit/)) - 감리 지적 사항(조치 권고) 이행 여부 최종 점검
 14. [감리 계획 수립](/studynote/11_design_supervision/01_audit_framework/014_audit_planning/) ([Audit Planning](/studynote/11_design_supervision/01_audit_framework/014_audit_planning/)) - 예비조사, 감리 일정 및 인력 배치, 감리 계획서 작성
 15. [예비 조사](/studynote/11_design_supervision/01_audit_framework/015_preliminary_survey/) ([Preliminary Survey](/studynote/11_design_supervision/01_audit_framework/015_preliminary_survey/)) - 피감리인 인터뷰, 과업내용서/제안서 분석을 통해 감리 주안점 도출
@@ -38,7 +38,7 @@ weight: 50
 24. [위험 기반 감리](/studynote/11_design_supervision/01_audit_framework/024_risk_based_audit/) ([Risk-based Audit](/studynote/11_design_supervision/01_audit_framework/024_risk_based_audit/)) - [리스크](/studynote/11_design_supervision/01_audit_framework/024_risk_based_audit/)가 높은 영역에 감리 자원 집중
 25. 과업 대비표 ([Task Traceability Matrix](/studynote/11_design_supervision/01_audit_framework/025_task_traceability_matrix/)) - RFP, 제안서, 요구사항 명세서 간의 과업 이행 여부 추적 맵
 26. [베이스라인](/studynote/11_design_supervision/01_audit_framework/026_applications_system_area_audit/) ([Baseline](/studynote/11_design_supervision/01_audit_framework/026_applications_system_area_audit/)) [검증](/studynote/11_design_supervision/01_audit_framework/026_applications_system_area_audit/) - 요구사항, 설계 산출물의 [형상 통제](/studynote/11_design_supervision/01_audit_framework/026_applications_system_area_audit/) 및 승인 [기준선](/studynote/11_design_supervision/01_audit_framework/026_applications_system_area_audit/) 점검
-27. 사업 관리 (PM) 영역 감리 - 통합 관리, 범위 관리, 일정 관리, 품질 관리, 인력 관리, 의사소통 관리, 위험 관리 점검
+27. [사업 관리 (PM) 영역 감리 - 통합 관리, 범위 관리, 일정 관리, 품질 관리, 인력 관리, 의사소통 관리, 위험 관리 점검](/studynote/11_design_supervision/01_audit_framework/027_database_area_audit/)
 28. 응용 시스템 영역 감리 - 기능 요구사항 구현 여부, [소프트웨어 아키텍처](/studynote/11_design_supervision/01_audit_framework/605_system_architecture_security_audit/), UI/UX, 테스트 적정성 점검
 29. [데이터베이스 영역 감리](/studynote/11_design_supervision/01_audit_framework/029_audit_by_project_type/) - [데이터](/studynote/11_design_supervision/01_audit_framework/029_audit_by_project_type/) 모델링(ERD [정규화](/studynote/11_design_supervision/01_audit_framework/029_audit_by_project_type/)/반정규화), [데이터](/studynote/11_design_supervision/01_audit_framework/029_audit_by_project_type/) 표준 관리, 이행(Migration) [무결성](/studynote/11_design_supervision/01_audit_framework/029_audit_by_project_type/), [성능](/studynote/11_design_supervision/01_audit_framework/029_audit_by_project_type/) 튜닝 점검
 30. 시스템 아키텍처/보안 영역 감리 - 인프라(HW/SW/네트워크) 용량 산정 적정성, 보안 지침([시큐어 코딩](/studynote/11_design_supervision/01_audit_framework/607_system_architecture_security_audit/), [개인정보보호](/studynote/11_design_supervision/01_audit_framework/607_system_architecture_security_audit/)) 준수 여부, 장애 [복구](/studynote/11_design_supervision/01_audit_framework/607_system_architecture_security_audit/)([DR](/studynote/11_design_supervision/01_audit_framework/607_system_architecture_security_audit/)) 체계 점검
@@ -49,7 +49,7 @@ weight: 50
 35. 웹 [접근성](/studynote/11_design_supervision/01_audit_framework/035_pmo_vs_audit_difference/) (Web [Accessibility](/studynote/11_design_supervision/01_audit_framework/035_pmo_vs_audit_difference/), [KWCAG](/studynote/11_design_supervision/01_audit_framework/035_pmo_vs_audit_difference/)) 및 웹 [호환성](/studynote/11_design_supervision/01_audit_framework/035_pmo_vs_audit_difference/) 준수 여부 진단
 36. [감리 품질 관리](/studynote/11_design_supervision/01_audit_framework/613_cloud_based_audit/) (Quality Assurance of [Audit](/studynote/11_design_supervision/01_audit_framework/613_cloud_based_audit/)) - 감리 법인 내부의 감리 품질 통제 프로세스
 37. [PMO](/studynote/11_design_supervision/01_audit_framework/614_pmo_project_management_office/) ([Project Management Office](/studynote/11_design_supervision/01_audit_framework/614_pmo_project_management_office/)) - 발주자를 대행하여 프로젝트 관리 및 기술 지원을 수행하는 조직 (사전 예방 위주)
-38. PMO와 감리의 차이 - PMO는 발주자 편에서 능동적 문제 해결 개입, 감리는 제3자 관점에서 객관적 평가 및 권고 (감리 독립성)
+38. [PMO와 감리의 차이 - PMO는 발주자 편에서 능동적 문제 해결 개입, 감리는 제3자 관점에서 객관적 평가 및 권고 (감리 독립성)](/studynote/11_design_supervision/01_audit_framework/038_objective_evidence_collection/)
 39. 전자정부 표준 프레임워크 (eGovFrame) 아키텍처 및 적용 기준 점검 (스프링 부트 기반 공통 [컴포넌트](/studynote/11_design_supervision/01_audit_framework/039_egovframe_architecture_audit/) 활용성)
 40. 클라우드 기반 정보화 사업 감리 가이드 - [IaaS](/studynote/11_design_supervision/01_audit_framework/617_cloud_based_audit/), [PaaS](/studynote/11_design_supervision/01_audit_framework/617_cloud_based_audit/), [SaaS](/studynote/11_design_supervision/01_audit_framework/617_cloud_based_audit/) [SLA](/studynote/11_design_supervision/01_audit_framework/617_cloud_based_audit/) 점검 및 [데이터](/studynote/11_design_supervision/01_audit_framework/617_cloud_based_audit/) 이관/[종속성](/studynote/11_design_supervision/01_audit_framework/617_cloud_based_audit/)([Lock-in](/studynote/11_design_supervision/01_audit_framework/617_cloud_based_audit/)) 점검 지침
 41. [데이터 품질 진단](/studynote/11_design_supervision/01_audit_framework/041_contractor_late_penalty/) ([Data Quality Audit](/studynote/11_design_supervision/01_audit_framework/041_contractor_late_penalty/)) - 완전성, 유효성, [일관성](/studynote/11_design_supervision/01_audit_framework/041_contractor_late_penalty/), [정확성](/studynote/11_design_supervision/01_audit_framework/041_contractor_late_penalty/), 적시성, [보안성](/studynote/11_design_supervision/01_audit_framework/041_contractor_late_penalty/) (6대 [데이터](/studynote/11_design_supervision/01_audit_framework/041_contractor_late_penalty/) 품질 지표 점검)
@@ -59,8 +59,8 @@ weight: 50
 45. 사업자 [지체 상금](/studynote/11_design_supervision/01_audit_framework/622_maintenance_transition/) ([Liquidated Damages](/studynote/11_design_supervision/01_audit_framework/622_maintenance_transition/)) 분쟁 예방을 위한 진척도 및 [지연](/studynote/11_design_supervision/01_audit_framework/622_maintenance_transition/) 사유 증빙 점검
 46. 테스트 계획, 시나리오, 결과서 (단위, 통합, 시스템, [인수 테스트](/studynote/11_design_supervision/01_audit_framework/046_test_plan_scenario_result_verification/)) 완결성 대조 [확인](/studynote/11_design_supervision/01_audit_framework/046_test_plan_scenario_result_verification/)
 47. [요구사항 추적 매트릭스](/studynote/11_design_supervision/01_audit_framework/624_rtm_requirements_traceability_matrix_validation/) ([RTM](/studynote/11_design_supervision/01_audit_framework/624_rtm_requirements_traceability_matrix_validation/), [Requirements Traceability Matrix](/studynote/11_design_supervision/01_audit_framework/624_rtm_requirements_traceability_matrix_validation/))의 양방향 추적성 [검증](/studynote/11_design_supervision/01_audit_framework/624_rtm_requirements_traceability_matrix_validation/)
-48. 소프트웨어 인도물 (Deliverables) 명세 합치 여부 점검
-49. 유지보수 이관 (Hand-over) 및 운영자 교육, 매뉴얼 적정성 진단
+48. [소프트웨어 인도물 (Deliverables) 명세 합치 여부 점검](/studynote/11_design_supervision/01_audit_framework/048_software_deliverables_verification/)
+49. [유지보수 이관 (Hand-over) 및 운영자 교육, 매뉴얼 적정성 진단](/studynote/11_design_supervision/01_audit_framework/049_hand_over_education_manual_audit/)
 50. 모바일 앱 사업 감리 - 앱 스토어 배포 기준, 취약점(위변조 방지, 루팅 탐지), [난독화](/studynote/11_design_supervision/01_audit_framework/050_mobile_app_audit/) 적용 여부 점검
 51. [AI](/studynote/11_design_supervision/01_audit_framework/051_ai_bigdata_project_audit/) / 빅데이터 사업 감리 - 학습 [데이터](/studynote/11_design_supervision/01_audit_framework/051_ai_bigdata_project_audit/) 편향성, [알고리즘](/studynote/11_design_supervision/01_audit_framework/051_ai_bigdata_project_audit/) [성능](/studynote/11_design_supervision/01_audit_framework/051_ai_bigdata_project_audit/) 지표([F1-score](/studynote/11_design_supervision/01_audit_framework/051_ai_bigdata_project_audit/), MAE 등), [개인정보 가명 처리](/studynote/11_design_supervision/01_audit_framework/051_ai_bigdata_project_audit/) 적정성 평가
 52. [IoT](/studynote/11_design_supervision/01_audit_framework/052_iot_project_audit/) 구축 사업 감리 - 디바이스 [펌웨어](/studynote/11_design_supervision/01_audit_framework/052_iot_project_audit/) [무결성](/studynote/11_design_supervision/01_audit_framework/052_iot_project_audit/), 경량 통신 [프로토콜](/studynote/11_design_supervision/01_audit_framework/052_iot_project_audit/) 안정성 점검
@@ -88,7 +88,7 @@ weight: 50
 74. [모의 해킹](/studynote/11_design_supervision/01_audit_framework/640_penetration_testing_vulnerability_remediation_audit/) ([Penetration](/studynote/11_design_supervision/01_audit_framework/640_penetration_testing_vulnerability_remediation_audit/) Test) 수행 내역서 기반 미비점 재점검
 75. IT 예산 및 계약 행정 처리, 선금/잔금 정산 요건([과업 완료](/studynote/11_design_supervision/01_audit_framework/075_it_budget_contract_administration_audit/)) 부합 검토
 76. [서비스 데스크](/studynote/11_design_supervision/01_audit_framework/076_service_desk_incident_management_audit/) ([Service Desk](/studynote/11_design_supervision/01_audit_framework/076_service_desk_incident_management_audit/)) 및 [인시던트 관리](/studynote/11_design_supervision/01_audit_framework/076_service_desk_incident_management_audit/) 체계 구축 [확인](/studynote/11_design_supervision/01_audit_framework/076_service_desk_incident_management_audit/)
-77. 사용자 만족도 조사 결과 분석 및 개선 조치
+77. [사용자 만족도 조사 결과 분석 및 개선 조치](/studynote/11_design_supervision/01_audit_framework/077_user_satisfaction_csat_audit/)
 78. [BPR](/studynote/11_design_supervision/01_audit_framework/078_bpr_isp_alignment_audit/)/[ISP](/studynote/11_design_supervision/01_audit_framework/078_bpr_isp_alignment_audit/) 연계 - 구축된 시스템이 당초 [전략](/studynote/11_design_supervision/01_audit_framework/078_bpr_isp_alignment_audit/)적 목표([AS-IS](/studynote/11_design_supervision/01_audit_framework/078_bpr_isp_alignment_audit/) 대비 TO-BE 효과)를 달성했는지 사후 평가
 79. [개발자 클린룸 망분리](/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/)([VDI](/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/)) 환경 및 보안 이동 경로 점검
 80. [COBIT](/studynote/11_design_supervision/01_audit_framework/080_cobit_process_evaluation_model/) 프로세스 평가 (APO, BAI, DSS, MEA) 모델 연계 통제 진단
@@ -193,7 +193,7 @@ weight: 50
 175. DTO ([Data](/studynote/11_design_supervision/10_patterns_antipatterns/175_dto_data_transfer_object/) Transfer Object) - 계층 간(특히 네트워크, [데이터베이스](/studynote/11_design_supervision/10_patterns_antipatterns/175_dto_data_transfer_object/)) 통신 시 오버헤드 최소화를 위해 캡슐화 없이 상태 [데이터](/studynote/11_design_supervision/10_patterns_antipatterns/175_dto_data_transfer_object/)만 운반하는 객체 (Value Object와 구분)
 176. [DAO](/studynote/11_design_supervision/10_patterns_antipatterns/176_dao_pattern/) ([Data](/studynote/11_design_supervision/10_patterns_antipatterns/176_dao_pattern/) Access Object) 패턴 - [도메인](/studynote/11_design_supervision/10_patterns_antipatterns/176_dao_pattern/) 비즈니스 로직과 [데이터베이스](/studynote/11_design_supervision/10_patterns_antipatterns/176_dao_pattern/) 접근 계층을 분리하는 구조
 177. 프론트 컨트롤러 (Front Controller) - 모든 웹 요청을 단일 컨트롤러가 받아 공통 처리 후 개별 컨트롤러로 [라우팅](/studynote/11_design_supervision/10_patterns_antipatterns/177_front_controller_pattern/) (Spring DispatcherServlet)
-178. 인터셉터 (Interceptor) / 필터 (Filter) 설계망 구조
+178. [인터셉터 (Interceptor) / 필터 (Filter) 설계망 구조](/studynote/11_design_supervision/10_patterns_antipatterns/178_interceptor_filter_pattern/)
 179. 레파지토리 (Repository) 패턴 - [DDD](/studynote/11_design_supervision/10_patterns_antipatterns/179_repository_pattern/) 관점, 컬렉션과 같이 [도메인](/studynote/11_design_supervision/10_patterns_antipatterns/179_repository_pattern/) 객체 추가/검색 담당, 하위 인프라 DB [추상화](/studynote/11_design_supervision/10_patterns_antipatterns/179_repository_pattern/)
 180. [트랜잭션](/studynote/11_design_supervision/10_patterns_antipatterns/180_transaction_script_vs_domain_model/) 스크립트 ([Transaction](/studynote/11_design_supervision/10_patterns_antipatterns/180_transaction_script_vs_domain_model/) Script) 패턴 - 단순 CRUD 업무 시 [도메인](/studynote/11_design_supervision/10_patterns_antipatterns/180_transaction_script_vs_domain_model/) 모델 없이 함수/스크립트 하나로 처리 (갓 클래스 유발 가능성) vs [도메인](/studynote/11_design_supervision/10_patterns_antipatterns/180_transaction_script_vs_domain_model/) 모델 ([Domain](/studynote/11_design_supervision/10_patterns_antipatterns/180_transaction_script_vs_domain_model/) Model) 패턴
 181. 유닛 오브 워크 (Unit of Work) 패턴 - [트랜잭션](/studynote/11_design_supervision/10_patterns_antipatterns/181_unit_of_work_pattern/)의 커밋과 [롤백](/studynote/11_design_supervision/10_patterns_antipatterns/181_unit_of_work_pattern/) 보장을 위해 객체의 변경 상태(추가, 수정, 삭제)를 [캐싱](/studynote/11_design_supervision/10_patterns_antipatterns/181_unit_of_work_pattern/) 추적 (JPA/Hibernate [영속성](/studynote/11_design_supervision/10_patterns_antipatterns/181_unit_of_work_pattern/) [컨텍스트](/studynote/11_design_supervision/10_patterns_antipatterns/181_unit_of_work_pattern/) 핵심)
@@ -229,7 +229,7 @@ weight: 50
 209. [읽기-쓰기 락](/studynote/11_design_supervision/04_gof_behavioral/209_read_write_lock_pattern/) ([Read-Write Lock](/studynote/11_design_supervision/04_gof_behavioral/209_read_write_lock_pattern/)) 패턴 (행위 다중 제어)
 210. [모니터](/studynote/11_design_supervision/04_gof_behavioral/210_monitor_object_pattern/) 객체 ([Monitor](/studynote/11_design_supervision/04_gof_behavioral/210_monitor_object_pattern/) Object) 패턴 ([자바 동기화](/studynote/11_design_supervision/04_gof_behavioral/210_monitor_object_pattern/) 원리)
 211. [액티브](/studynote/11_design_supervision/04_gof_behavioral/211_active_object_pattern/) 오브젝트 ([Active](/studynote/11_design_supervision/04_gof_behavioral/211_active_object_pattern/) Object) 패턴 - 비동기 메서드 호출과 실행 [스레드](/studynote/11_design_supervision/04_gof_behavioral/211_active_object_pattern/) 분리
-212. 리액터 (Reactor) 패턴 - 멀티플렉싱 비동기 I/O 이벤트 통지 (Node.js, Netty 코어)
+212. [리액터 (Reactor) 패턴 - 멀티플렉싱 비동기 I/O 이벤트 통지 (Node.js, Netty 코어)](/studynote/11_design_supervision/04_gof_behavioral/212_reactor_pattern/)
 213. 프로액터 (Proactor) 패턴 - 비동기 I/O 작업 완료 이벤트 통지 [스레드 풀](/studynote/11_design_supervision/04_gof_behavioral/213_proactor_pattern/) 할당망
 214. 하프-싱크/하프-어싱크 (Half-Sync/Half-Async) 패턴 - 큐를 사이로 비동기 수신과 동기 워커 [스레드 풀](/studynote/11_design_supervision/04_gof_behavioral/214_half_sync_half_async_pattern/) 분리 [성능](/studynote/11_design_supervision/04_gof_behavioral/214_half_sync_half_async_pattern/) 병목 분해
 215. 워커 [스레드](/studynote/11_design_supervision/04_gof_behavioral/215_worker_thread_pool_pattern/) (Worker [Thread](/studynote/11_design_supervision/04_gof_behavioral/215_worker_thread_pool_pattern/)) / [스레드 풀](/studynote/11_design_supervision/04_gof_behavioral/215_worker_thread_pool_pattern/) ([Thread Pool](/studynote/11_design_supervision/04_gof_behavioral/215_worker_thread_pool_pattern/)) 팩토리 관리망 설계
@@ -238,13 +238,13 @@ weight: 50
 218. 불변 객체 ([Immutable Object](/studynote/11_design_supervision/04_gof_behavioral/218_immutable_object_pattern/)) 패턴 - 쓰레드 세이프 사이드 이펙트 0 원칙 설계망
 219. 객체 풀 (Object Pool) 패턴 - [데이터베이스](/studynote/11_design_supervision/04_gof_behavioral/219_object_pool_pattern/) 커넥션, 쓰레드 등 [생성](/studynote/11_design_supervision/04_gof_behavioral/219_object_pool_pattern/) 비용이 비싼 객체를 제한된 풀 내에서 대여/반납 라이프사이클 제어
 220. 콜백 (Callback) 패턴 / [옵저버 패턴](/studynote/11_design_supervision/04_gof_behavioral/220_callback_pattern/)의 [지연](/studynote/11_design_supervision/04_gof_behavioral/220_callback_pattern/) 함수 파싱 구조망
-221. Promise / Future 비동기 체이닝 구조체 설계
+221. [Promise / Future 비동기 체이닝 구조체 설계](/studynote/11_design_supervision/04_gof_behavioral/221_promise_future_async/)
 222. 모킹 (Mocking) [단위 테스트](/studynote/11_design_supervision/04_gof_behavioral/222_mocking_unit_test_stub/) [스텁](/studynote/11_design_supervision/04_gof_behavioral/222_mocking_unit_test_stub/) 패턴
 223. [서킷 브레이커](/studynote/11_design_supervision/04_gof_behavioral/223_circuit_breaker_pattern/) ([Circuit Breaker](/studynote/11_design_supervision/04_gof_behavioral/223_circuit_breaker_pattern/)) 장애 감지 및 자가 치유 [폴백](/studynote/11_design_supervision/04_gof_behavioral/223_circuit_breaker_pattern/)([Fallback](/studynote/11_design_supervision/04_gof_behavioral/223_circuit_breaker_pattern/)) [라우팅](/studynote/11_design_supervision/04_gof_behavioral/223_circuit_breaker_pattern/) 디자인
-224. 백오프 리트라이 (Exponential Backoff and Retry) 네트워크 통신 패턴
+224. [백오프 리트라이 (Exponential Backoff and Retry) 네트워크 통신 패턴](/studynote/11_design_supervision/04_gof_behavioral/224_exponential_backoff_retry/)
 225. 쓰로틀링 (Throttling) 토큰 버킷 (Token Bucket) 패턴 - [API](/studynote/11_design_supervision/04_gof_behavioral/225_throttling_token_bucket/) 호출 한계량 속도 제어
 226. 리키 버킷 (Leaky Bucket) [트래픽 쉐이핑](/studynote/11_design_supervision/04_gof_behavioral/226_leaky_bucket_traffic_shaping/) [알고리즘](/studynote/11_design_supervision/04_gof_behavioral/226_leaky_bucket_traffic_shaping/) 설계
-227. 불-리언 파서 (Boolean Parser) 인터프리터 맵
+227. [불-리언 파서 (Boolean Parser) 인터프리터 맵](/studynote/11_design_supervision/04_gof_behavioral/227_boolean_parser_interpreter/)
 228. [컨텍스트](/studynote/11_design_supervision/04_gof_behavioral/228_context_map_acl_pattern/) 맵 ([Context](/studynote/11_design_supervision/04_gof_behavioral/228_context_map_acl_pattern/) Map) 안티-커럽션 레이어 패턴 변환망
 229. 더블 디스패치 (Double Dispatch) [방문자 패턴](/studynote/11_design_supervision/04_gof_behavioral/229_double_dispatch_visitor/) 객체 다형성 양방향 [오버로딩](/studynote/11_design_supervision/04_gof_behavioral/229_double_dispatch_visitor/) 해결 메커니즘
 230. [모듈형 모놀리스](/studynote/11_design_supervision/04_gof_behavioral/230_modular_monolith/) ([Modular Monolith](/studynote/11_design_supervision/04_gof_behavioral/230_modular_monolith/)) 의존성 제어 디자인망
@@ -258,11 +258,11 @@ weight: 50
 238. 멀티 테이블 [상속](/studynote/11_design_supervision/04_gof_behavioral/238_class_table_inheritance/) ([Class Table Inheritance](/studynote/11_design_supervision/04_gof_behavioral/238_class_table_inheritance/)) 패턴 [분산](/studynote/11_design_supervision/04_gof_behavioral/238_class_table_inheritance/) 연계
 239. 게이트웨이 (Gateway) [MSA](/studynote/11_design_supervision/04_gof_behavioral/239_gateway_msa_entry_pattern/) 진입점 통제 패턴 통일
 240. [안티 패턴](/studynote/11_design_supervision/04_gof_behavioral/240_refactoring_conditional_to_polymorphism/) 탈피 [리팩토링](/studynote/11_design_supervision/04_gof_behavioral/240_refactoring_conditional_to_polymorphism/): 조건문(if-else)을 다형성(상태/[전략 패턴](/studynote/11_design_supervision/04_gof_behavioral/240_refactoring_conditional_to_polymorphism/))으로 전환 (Replace Conditional 정 다형성)
-241. 메서드 분리 (Extract Method) 템플릿 재배치 구조망
+241. [메서드 분리 (Extract Method) 템플릿 재배치 구조망](/studynote/11_design_supervision/04_gof_behavioral/241_extract_method_refactoring/)
 242. [파라미터 객체화](/studynote/11_design_supervision/04_gof_behavioral/242_introduce_parameter_object/) ([Introduce Parameter Object](/studynote/11_design_supervision/04_gof_behavioral/242_introduce_parameter_object/)) 길고 복잡한 매개변수 통제망
 243. 스멜링 코드 ([Code Smell](/studynote/11_design_supervision/04_gof_behavioral/243_code_smell_diagnosis/)) 진단 - 롱 메서드, 라지 클래스, 프리미티브 강박(Primitive Obsession), 샷건 수술(Shotgun Surgery - 하나의 변경이 여러 클래스 전이), [피처](/studynote/11_design_supervision/04_gof_behavioral/243_code_smell_diagnosis/) 엔비(Feature Envy - 남의 객체 [데이터](/studynote/11_design_supervision/04_gof_behavioral/243_code_smell_diagnosis/) 과도 접근)
 244. [데이터](/studynote/11_design_supervision/04_gof_behavioral/244_data_clumps_refactoring/) 클럼프 ([Data](/studynote/11_design_supervision/04_gof_behavioral/244_data_clumps_refactoring/) Clumps) 변수 묶음 클래스화 통제
-245. 임시 필드 (Temporary Field) 라이프사이클 한계 정리
+245. [임시 필드 (Temporary Field) 라이프사이클 한계 정리](/studynote/11_design_supervision/04_gof_behavioral/245_temporary_field_refactoring/)
 246. [상속](/studynote/11_design_supervision/04_gof_behavioral/246_refused_bequest_lsp_violation/) 거부 (Refused Bequest) 리스코프 치환 위배 인터페이스 강제 전환망 설계
 247. 주석 과잉 (Comments) [클린 코드](/studynote/11_design_supervision/04_gof_behavioral/247_clean_code_naming_philosophy/) 자가 설명 네이밍(Naming) 변환 철학
 248. [리팩토링](/studynote/11_design_supervision/04_gof_behavioral/248_refactoring_tdd_safety_net/) [검증](/studynote/11_design_supervision/04_gof_behavioral/248_refactoring_tdd_safety_net/) 안전망 보장 [TDD](/studynote/11_design_supervision/04_gof_behavioral/248_refactoring_tdd_safety_net/) 테스트 커버리지 도입 필수 조건
@@ -280,11 +280,11 @@ weight: 50
 258. [성능](/studynote/11_design_supervision/05_audit_deep_guide/258_load_test_bottleneck_diagnosis/) [부하 테스트](/studynote/11_design_supervision/05_audit_deep_guide/258_load_test_bottleneck_diagnosis/) 병목 구간 진단 - CPU, 메모리 릭, 디스크 I/O 대기(Wait), 네트웍 [대역폭](/studynote/11_design_supervision/05_audit_deep_guide/258_load_test_bottleneck_diagnosis/) 병목
 259. [APM](/studynote/11_design_supervision/05_audit_deep_guide/259_apm_monitoring_audit/) ([Application Performance Management](/studynote/11_design_supervision/05_audit_deep_guide/259_apm_monitoring_audit/)) 툴 (Jennifer, Scouter 등) 연계 감리
 260. [데이터베이스](/studynote/11_design_supervision/05_audit_deep_guide/260_db_optimizer_slow_query/) [옵티마이저](/studynote/11_design_supervision/05_audit_deep_guide/260_db_optimizer_slow_query/) [힌트](/studynote/11_design_supervision/05_audit_deep_guide/260_db_optimizer_slow_query/) 및 악성/Slow [쿼리](/studynote/11_design_supervision/05_audit_deep_guide/260_db_optimizer_slow_query/) 튜닝 조치 내역 진단
-261. 모바일 앱 감리 규정 - 앱스토어 심사 리젝 대비, 플랫폼(iOS/Android) 디자인 가이드(HIG, Material) 준수성
+261. [모바일 앱 감리 규정 - 앱스토어 심사 리젝 대비, 플랫폼(iOS/Android) 디자인 가이드(HIG, Material) 준수성](/studynote/11_design_supervision/05_audit_deep_guide/261_mobile_app_audit_store_hig/)
 262. 사용자 인터페이스 (UI/UX) 감리 - [휴리스틱](/studynote/11_design_supervision/05_audit_deep_guide/262_ui_ux_heuristic_audit/) 평가(10대 원칙), [접근성](/studynote/11_design_supervision/05_audit_deep_guide/262_ui_ux_heuristic_audit/)([KWCAG](/studynote/11_design_supervision/05_audit_deep_guide/262_ui_ux_heuristic_audit/)) 자동 진단 툴 및 수동 점검
 263. 웹 [호환성](/studynote/11_design_supervision/05_audit_deep_guide/263_web_compatibility_activex/) 점검 - 이종 브라우저(크롬, 사파리, 엣지) 화면 깨짐 및 비표준 기술(ActiveX 등 플러그인) 사용 여부 배제
-264. 감리 결과 시정 조치 조율 체계 - 필수 시정 조치(Major)와 권고 사항(Minor) 분리 통보
-265. 발주처 및 사업자 간 감리 이견 조율위원회 운영 (법적 중재 기구)
+264. [감리 결과 시정 조치 조율 체계 - 필수 시정 조치(Major)와 권고 사항(Minor) 분리 통보](/studynote/11_design_supervision/05_audit_deep_guide/264_audit_corrective_action_major_minor/)
+265. [발주처 및 사업자 간 감리 이견 조율위원회 운영 (법적 중재 기구)](/studynote/11_design_supervision/05_audit_deep_guide/265_audit_dispute_mediation/)
 266. [데이터 거버넌스](/studynote/11_design_supervision/05_audit_deep_guide/266_data_governance_metadata_standard/) 감리 - [메타데이터](/studynote/11_design_supervision/05_audit_deep_guide/266_data_governance_metadata_standard/) 표준, [공공데이터 개방](/studynote/11_design_supervision/05_audit_deep_guide/266_data_governance_metadata_standard/) 규격 준수, 민감 [데이터](/studynote/11_design_supervision/05_audit_deep_guide/266_data_governance_metadata_standard/) 비식별화 규정 점검
 267. 인프라 클라우드 감리 가이드 - 보안 [인증](/studynote/11_design_supervision/05_audit_deep_guide/267_cloud_infrastructure_audit_csap/)([CSAP](/studynote/11_design_supervision/05_audit_deep_guide/267_cloud_infrastructure_audit_csap/)) 취득 클라우드 활용, 존(Zone) 격리, 가상머신 암호화 점검
 268. [PaaS](/studynote/11_design_supervision/05_audit_deep_guide/268_paas_lockin_k8s_portability/) 락인([Lock-in](/studynote/11_design_supervision/05_audit_deep_guide/268_paas_lockin_k8s_portability/)) 방지 점검 - K8s 기반 [컨테이너](/studynote/11_design_supervision/05_audit_deep_guide/268_paas_lockin_k8s_portability/) 이식성(Portability) 및 표준 [API](/studynote/11_design_supervision/05_audit_deep_guide/268_paas_lockin_k8s_portability/) 활용 평가
@@ -305,7 +305,7 @@ weight: 50
 283. [PMO](/studynote/11_design_supervision/05_audit_deep_guide/283_pmo_preventive_quality_plan/) 역할 수행 가이드 상 예방적 품질 통제 계획서
 284. 프로젝트 위험 등록부 ([Risk](/studynote/11_design_supervision/05_audit_deep_guide/284_risk_register_monitoring/) [Register](/studynote/11_design_supervision/05_audit_deep_guide/284_risk_register_monitoring/)) [식별](/studynote/11_design_supervision/05_audit_deep_guide/284_risk_register_monitoring/) - 완화 조치 미이행 [모니터](/studynote/11_design_supervision/05_audit_deep_guide/284_risk_register_monitoring/)링
 285. [EVM](/studynote/11_design_supervision/05_audit_deep_guide/285_evm_schedule_performance/)(획득 가치 관리) 진척 뻥튀기(오버 리포팅) [데이터](/studynote/11_design_supervision/05_audit_deep_guide/285_evm_schedule_performance/) 현장 대조 진단
-286. 조달 계약 관리 범위(SOW) 초과 무상 과업 지시 여부
+286. [조달 계약 관리 범위(SOW) 초과 무상 과업 지시 여부](/studynote/11_design_supervision/05_audit_deep_guide/286_sow_scope_management/)
 287. [감리 프레임워크](/studynote/11_design_supervision/05_audit_deep_guide/287_audit_framework_3_0_agile/) 3.0 전환 기법 ([Agile](/studynote/11_design_supervision/05_audit_deep_guide/287_audit_framework_3_0_agile/), 클라우드, [MSA](/studynote/11_design_supervision/05_audit_deep_guide/287_audit_framework_3_0_agile/) 특화 감리 추가)
 288. [애자일](/studynote/11_design_supervision/05_audit_deep_guide/288_agile_sprint_audit_model/) [스프린트](/studynote/11_design_supervision/05_audit_deep_guide/288_agile_sprint_audit_model/) 감리 적용 모델 (반복/점진적 산출물에 대한 마일스톤 리뷰 유연성 확보)
 289. [MSA](/studynote/11_design_supervision/05_audit_deep_guide/289_msa_saga_eventual_consistency/) [분산 트랜잭션](/studynote/11_design_supervision/05_audit_deep_guide/289_msa_saga_eventual_consistency/) ([Saga](/studynote/11_design_supervision/05_audit_deep_guide/289_msa_saga_eventual_consistency/)/[CQRS](/studynote/11_design_supervision/05_audit_deep_guide/289_msa_saga_eventual_consistency/)) [데이터](/studynote/11_design_supervision/05_audit_deep_guide/289_msa_saga_eventual_consistency/) 불일치([Eventual Consistency](/studynote/11_design_supervision/05_audit_deep_guide/289_msa_saga_eventual_consistency/)) [회복](/studynote/11_design_supervision/05_audit_deep_guide/289_msa_saga_eventual_consistency/) 불능 지점 [리스크](/studynote/11_design_supervision/05_audit_deep_guide/289_msa_saga_eventual_consistency/) 분석
@@ -317,14 +317,14 @@ weight: 50
 295. 배치 (Batch) 작업 [스케줄](/studynote/11_design_supervision/05_audit_deep_guide/295_batch_window_bottleneck_audit/)링 병목 및 새벽 시간대 완료 한계 마진(Window) 점검
 296. [서드파티](/studynote/11_design_supervision/05_audit_deep_guide/296_third_party_api_timeout_circuit_breaker/) ([3rd Party](/studynote/11_design_supervision/05_audit_deep_guide/296_third_party_api_timeout_circuit_breaker/)) 외부 솔루션 [API](/studynote/11_design_supervision/05_audit_deep_guide/296_third_party_api_timeout_circuit_breaker/) 연동 구간 통신 [타임아웃](/studynote/11_design_supervision/05_audit_deep_guide/296_third_party_api_timeout_circuit_breaker/)/[서킷 브레이커](/studynote/11_design_supervision/05_audit_deep_guide/296_third_party_api_timeout_circuit_breaker/) 방어막 설계
 297. 시스템 [백업](/studynote/11_design_supervision/05_audit_deep_guide/297_backup_policy_offsite_media_recovery_test/) [정책](/studynote/11_design_supervision/05_audit_deep_guide/297_backup_policy_offsite_media_recovery_test/), 미디어 소산 보관망 및 [복구](/studynote/11_design_supervision/05_audit_deep_guide/297_backup_policy_offsite_media_recovery_test/) 주기 테스트 이력
-298. 사용자 수용 테스트(UAT) 고객 서명 인수증 완료 점검
+298. [사용자 수용 테스트(UAT) 고객 서명 인수증 완료 점검](/studynote/11_design_supervision/05_audit_deep_guide/298_uat_customer_signoff_acceptance/)
 299. [ISMS-P](/studynote/11_design_supervision/05_audit_deep_guide/299_isms_p_mock_audit_architecture_consistency/) [인증](/studynote/11_design_supervision/05_audit_deep_guide/299_isms_p_mock_audit_architecture_consistency/) 모의 심사 대비 IT 통제 아키텍처 정합성 진단
 300. 소프트웨어 안전성 (Functional Safety) 중요 미션 크리티컬 시스템 장애 모드 영향([FMEA](/studynote/11_design_supervision/05_audit_deep_guide/300_functional_safety_fmea_audit/)) 평가 대장 점검
 301. [형상 관리](/studynote/11_design_supervision/05_audit_deep_guide/301_baseline_hot_fix/) [베이스라인](/studynote/11_design_supervision/05_audit_deep_guide/301_baseline_hot_fix/)([Baseline](/studynote/11_design_supervision/05_audit_deep_guide/301_baseline_hot_fix/)) 무단 우회 라이브 수정(Hot-fix) 절차 통제 진단
-302. 감리 결과 공시 및 책임 조치 이행 보증 공공 조달 프레임
+302. [감리 결과 공시 및 책임 조치 이행 보증 공공 조달 프레임](/studynote/11_design_supervision/05_audit_deep_guide/302_audit/)
 303. [EA](/studynote/11_design_supervision/05_audit_deep_guide/303_audit/) 모델 [현행화](/studynote/11_design_supervision/05_audit_deep_guide/303_audit/) [동기화](/studynote/11_design_supervision/05_audit_deep_guide/303_audit/)율 (아키텍처 정보 포털 갱신 [검증](/studynote/11_design_supervision/05_audit_deep_guide/303_audit/))
 304. [ITIL V4 SVS](/studynote/11_design_supervision/05_audit_deep_guide/304_itil_v4_svs/) 가치 시스템 최적화 운영 프로세스 적용 진단
-305. 비정형 아키텍처 뷰(4+1) 산출물 미비로 인한 유지보수 추적 단절 지적
+305. [비정형 아키텍처 뷰(4+1) 산출물 미비로 인한 유지보수 추적 단절 지적](/studynote/11_design_supervision/05_audit_deep_guide/305_4_1/)
 306. [웹쉘](/studynote/11_design_supervision/05_audit_deep_guide/665_web_shell_upload_filter/)([Web Shell](/studynote/11_design_supervision/05_audit_deep_guide/665_web_shell_upload_filter/)) 방지 [파일](/studynote/11_design_supervision/05_audit_deep_guide/665_web_shell_upload_filter/) 확장자 우회 업로드 차단 로직(멀티플 필터)
 307. 서버 [인증](/studynote/11_design_supervision/05_audit_deep_guide/666_certificate_expiration_monitoring/)서 기간 만료 [모니터](/studynote/11_design_supervision/05_audit_deep_guide/666_certificate_expiration_monitoring/)링 체계
 308. 사용자 [세션](/studynote/11_design_supervision/05_audit_deep_guide/308_audit/) [타임아웃](/studynote/11_design_supervision/05_audit_deep_guide/308_audit/) / 중복 [로그](/studynote/11_design_supervision/05_audit_deep_guide/308_audit/)인 차단망 점검
@@ -334,39 +334,39 @@ weight: 50
 312. 하드웨어 [스위치](/studynote/11_design_supervision/05_audit_deep_guide/312_audit/)/라우터 [펌웨어](/studynote/11_design_supervision/05_audit_deep_guide/312_audit/) [백도어](/studynote/11_design_supervision/05_audit_deep_guide/312_audit/) [모니터](/studynote/11_design_supervision/05_audit_deep_guide/312_audit/)링망
 313. 모바일 통신 구간 [인증서 핀닝](/studynote/11_design_supervision/05_audit_deep_guide/313_certificate_pinning/)([Certificate Pinning](/studynote/11_design_supervision/05_audit_deep_guide/313_certificate_pinning/)) 점검
 314. [IoT](/studynote/11_design_supervision/05_audit_deep_guide/314_audit/) 디바이스 템퍼 엑스 방어망 진단
-315. 운영 체계 인수인계 매뉴얼 완전성 점검
+315. [운영 체계 인수인계 매뉴얼 완전성 점검](/studynote/11_design_supervision/05_audit_deep_guide/315_audit/)
 316. [데이터](/studynote/11_design_supervision/05_audit_deep_guide/316_migration_backup_rollback_test/) 마이그레이션 [백업](/studynote/11_design_supervision/05_audit_deep_guide/316_migration_backup_rollback_test/) [롤백](/studynote/11_design_supervision/05_audit_deep_guide/316_migration_backup_rollback_test/) 테스트
 317. [시큐어 코딩](/studynote/11_design_supervision/05_audit_deep_guide/317_audit/) 툴 탐지 미탐/오탐 비율 보고 체계 진단
-318. 정보시스템 보안 감리 통제 체제 총론
-319. 전자정부 지침 표준 프레임워크 준수율 달성
+318. [정보시스템 보안 감리 통제 체제 총론](/studynote/11_design_supervision/05_audit_deep_guide/318_audit/)
+319. [전자정부 지침 표준 프레임워크 준수율 달성](/studynote/11_design_supervision/05_audit_deep_guide/319_architecture/)
 320. [소프트웨어 공학](/studynote/11_design_supervision/05_audit_deep_guide/320_exam_essay_structure_map/) 기술사 IT 감리 평가 논술 대비 필수 구조 맵 구성 완료망
 
 ## 6. 시험 빈출 요약 및 기술사 아키텍처 융합 토픽 (280개)
 321. [정보시스템 감리](/exam/11_design_supervision/321_audit/) 목적 3대 [속성](/exam/11_design_supervision/321_audit/) (효과성, 효율성, 안전성)
 322. [3단계 감리](/exam/11_design_supervision/322_audit/) (요구, 설계, 종료)
-323. 상주 감리 예방적 통제
+323. [상주 감리 예방적 통제](/studynote/11_design_supervision/05_audit_deep_guide/323_상주_감리_예방적_통제/)
 324. [감리 프레임워크 관점](/exam/11_design_supervision/324_audit/) (절차, 산출물, 성과)
-325. 과업 대비표 요건 추적성
+325. [과업 대비표 요건 추적성](/studynote/11_design_supervision/05_audit_deep_guide/325_과업_대비표_요건_추적성/)
 326. [PMO](/exam/11_design_supervision/326_audit/) 감리 주관 차이점
 327. [객관적 증거 수집](/exam/11_design_supervision/327_process/) 인터뷰 문서 테스트
-328. 샘플링 감리 [신뢰 구간](/exam/11_design_supervision/328_audit/)
+328. [샘플링 감리 [신뢰 구간](/exam/11_design_supervision/328_audit/)](/studynote/11_design_supervision/05_audit_deep_guide/328_샘플링_감리_신뢰_구간_exam_11_design_su/)
 329. [전자정부법 의무 대상](/exam/11_design_supervision/329_process/)
 330. [기능점수 정산 증빙](/exam/11_design_supervision/330_process/)
 331. 웹 [접근성](/exam/11_design_supervision/331_kwcag/) [KWCAG](/exam/11_design_supervision/331_kwcag/) 장애인
 332. [시큐어 코딩](/exam/11_design_supervision/332_process/) [47개 보안 약점](/exam/11_design_supervision/332_process/)
 333. [데이터](/exam/11_design_supervision/333_metric/) 품질 6대 지표
-334. 마이그레이션 [무결성](/exam/11_design_supervision/334_process/) 100%
-335. 형상 [베이스라인](/exam/11_design_supervision/335_process/) 변경 심의
-336. 고가용성 모의 페일오버 테스트
+334. [마이그레이션 [무결성](/exam/11_design_supervision/334_process/) 100%](/studynote/11_design_supervision/05_audit_deep_guide/334_마이그레이션_무결성_exam_11_design_supe/)
+335. [형상 [베이스라인](/exam/11_design_supervision/335_process/) 변경 심의](/studynote/11_design_supervision/05_audit_deep_guide/335_형상_베이스라인_exam_11_design_superv/)
+336. [고가용성 모의 페일오버 테스트](/studynote/11_design_supervision/05_audit_deep_guide/336_고가용성_모의_페일오버_테스트/)
 337. [DR RTO RPO](/exam/11_design_supervision/337_dr_rto_rpo/) 모의 훈련 참관
 338. [성능](/exam/11_design_supervision/338_apm_tps/) [APM TPS](/exam/11_design_supervision/338_apm_tps/) 튜닝 지적
 339. [개인정보](/exam/11_design_supervision/339_process/) 암호화 [단방향](/exam/11_design_supervision/339_process/) 양방향 조치
 340. [오픈소스](/exam/11_design_supervision/340_process/) 컴플라이언스 GPL 배포
-341. 감리 독립성 지배 구조
-342. 시정 조치 조율 위원회
+341. [감리 독립성 지배 구조](/studynote/11_design_supervision/05_audit_deep_guide/341_감리_독립성_지배_구조/)
+342. [시정 조치 조율 위원회](/studynote/11_design_supervision/05_audit_deep_guide/342_시정_조치_조율_위원회/)
 343. [공공데이터 개방](/exam/11_design_supervision/343_json/) 규격 [JSON](/exam/11_design_supervision/343_json/)
-344. 모바일 위변조 방지 감리
-345. 클라우드 [종속성](/exam/11_design_supervision/345_audit/) 이식성 진단
+344. [모바일 위변조 방지 감리](/studynote/11_design_supervision/05_audit_deep_guide/344_모바일_위변조_방지_감리/)
+345. [클라우드 [종속성](/exam/11_design_supervision/345_audit/) 이식성 진단](/studynote/11_design_supervision/05_audit_deep_guide/345_클라우드_종속성_exam_11_design_superv/)
 346. [애자일](/exam/11_design_supervision/346_audit/) [스프린트](/exam/11_design_supervision/346_audit/) 마일스톤 평가
 347. [CISA IT](/exam/11_design_supervision/347_cisa_it/) 통제 프로세스
 348. 4+1 [View](/exam/11_design_supervision/348_4_1_view/) ([논리](/exam/11_design_supervision/348_4_1_view/) 프로세스 구현 배포 유스케이스)
@@ -375,14 +375,14 @@ weight: 50
 351. [민감도 상충점 리스크](/exam/11_design_supervision/351_process/)
 352. [품질 속성 시나리오](/exam/11_design_supervision/352_process/) ([가용성](/exam/11_design_supervision/352_process/), 보안, [성능](/exam/11_design_supervision/352_process/))
 353. [ADR](/exam/11_design_supervision/353_architecture/) 아키텍처 결정 기록 마크다운
-354. 객체지향 [SOLID](/exam/11_design_supervision/354_solid_5/) 5원칙
-355. 단일 책임 [응집도](/exam/11_design_supervision/355_process/) 극대
-356. 개방 폐쇄 확장에 유연
-357. 리스코프 치환 부모 자식 호환
-358. 인터페이스 분리 인터페이스 비대 방지
-359. 의존 역전 [추상화](/exam/11_design_supervision/359_process/)
+354. [객체지향 [SOLID](/exam/11_design_supervision/354_solid_5/) 5원칙](/studynote/11_design_supervision/05_audit_deep_guide/354_객체지향_solid_exam_11_design_supe/)
+355. [단일 책임 [응집도](/exam/11_design_supervision/355_process/) 극대](/studynote/11_design_supervision/05_audit_deep_guide/355_단일_책임_응집도_exam_11_design_super/)
+356. [개방 폐쇄 확장에 유연](/studynote/11_design_supervision/05_audit_deep_guide/356_개방_폐쇄_확장에_유연/)
+357. [리스코프 치환 부모 자식 호환](/studynote/11_design_supervision/05_audit_deep_guide/357_리스코프_치환_부모_자식_호환/)
+358. [인터페이스 분리 인터페이스 비대 방지](/studynote/11_design_supervision/05_audit_deep_guide/358_인터페이스_분리_인터페이스_비대_방지/)
+359. [의존 역전 [추상화](/exam/11_design_supervision/359_process/)](/studynote/11_design_supervision/05_audit_deep_guide/359_의존_역전_추상화_exam_11_design_super/)
 360. [데메테르 법칙](/exam/11_design_supervision/360_process/) 최소 지식
-361. DRY 코드 중복 제거
+361. [DRY 코드 중복 제거](/studynote/11_design_supervision/05_audit_deep_guide/361_dry_코드_중복_제거/)
 362. [YAGNI](/exam/11_design_supervision/362_yagni/) 오버엔지니어링 금지
 363. [결합도](/exam/11_design_supervision/363_process/) (낮게) [응집도](/exam/11_design_supervision/363_process/) (높게)
 364. [계층형 아키텍처](/exam/11_design_supervision/364_architecture/) [수직 분할](/exam/11_design_supervision/364_architecture/)
@@ -415,41 +415,41 @@ weight: 50
 391. [전략](/exam/11_design_supervision/391_strategy_pattern_summary/) [알고리즘](/exam/11_design_supervision/391_strategy_pattern_summary/) 교체 캡슐화
 392. [템플릿 메서드](/exam/11_design_supervision/392_process/) 뼈대 공통화 [상속](/exam/11_design_supervision/392_process/)
 393. [커맨드](/exam/11_design_supervision/393_undo/) 요청 객체화 [Undo](/exam/11_design_supervision/393_undo/) 지원
-394. 상태 상태별 행동 위임
+394. [상태 상태별 행동 위임](/studynote/11_design_supervision/05_audit_deep_guide/394_상태_상태별_행동_위임/)
 395. [책임 연쇄](/exam/11_design_supervision/395_process/) 동적 처리 [파이프](/exam/11_design_supervision/395_process/)라인
 396. [중재자](/exam/11_design_supervision/396_process/) 객체 통신 중앙 캡슐 집중망
 397. [이터레이터](/exam/11_design_supervision/397_process/) 내부 은닉 순차 컬렉션 탐색
 398. [메멘토](/exam/11_design_supervision/398_process/) 상태 저장 복원 캡슐 보존
 399. [방문자](/exam/11_design_supervision/399_architecture/) 구조 변경 없이 새 기능 이중 디스패치
 400. [해석자](/exam/11_design_supervision/400_process/) 문법 트리 구문 파싱
-401. DTO 계층 [데이터](/exam/11_design_supervision/401_process/) 운반 객체
+401. [DTO 계층 [데이터](/exam/11_design_supervision/401_process/) 운반 객체](/studynote/11_design_supervision/05_audit_deep_guide/401_dto_계층_데이터_exam_11_design_supe/)
 402. [DAO](/exam/11_design_supervision/402_process/) 디비 접근 비즈니스 격리망
 403. [안티 패턴](/exam/11_design_supervision/403_architecture/) 스파게티 갓 클래스 [피처](/exam/11_design_supervision/403_architecture/) 엔비
 404. [테스트 더블](/exam/11_design_supervision/404_process/) [스텁](/exam/11_design_supervision/404_process/) 모의 [페이크](/exam/11_design_supervision/404_process/) [스파이](/exam/11_design_supervision/404_process/)
-405. MVC M V C 관심사 완벽 분할
+405. [MVC M V C 관심사 완벽 분할](/studynote/11_design_supervision/05_audit_deep_guide/405_mvc_m_v_c_관심사_완벽_분할/)
 406. [MVP MVVM](/exam/11_design_supervision/406_mvp_mvvm/) [데이터](/exam/11_design_supervision/406_mvp_mvvm/) 바인딩
-407. 백오프 리트라이 재시도 서킷 융합망
-408. 디스럽터 락프리 고속 [동시성](/exam/11_design_supervision/408_process/) 큐
+407. [백오프 리트라이 재시도 서킷 융합망](/studynote/11_design_supervision/05_audit_deep_guide/407_백오프_리트라이_재시도_서킷_융합망/)
+408. [디스럽터 락프리 고속 [동시성](/exam/11_design_supervision/408_process/) 큐](/studynote/11_design_supervision/05_audit_deep_guide/408_디스럽터_락프리_고속_동시성_exam_11_design/)
 409. [콜백 패턴](/exam/11_design_supervision/409_architecture/) 비동기 블록 방어 반환 구조
-410. 프로미스 퓨처 [지연](/exam/11_design_supervision/410_process/) 연산망 체인
+410. [프로미스 퓨처 [지연](/exam/11_design_supervision/410_process/) 연산망 체인](/studynote/11_design_supervision/05_audit_deep_guide/410_프로미스_퓨처_지연_exam_11_design_supe/)
 411. [테스트 주도 개발](/exam/11_design_supervision/411_process/) [TDD](/exam/11_design_supervision/411_process/) 레드 그린 [리팩토링](/exam/11_design_supervision/411_process/)
 412. [행위 주도 개발](/exam/11_design_supervision/412_process/) [BDD](/exam/11_design_supervision/412_process/) 유비쿼터스 용어
 413. [서드파티 락인](/exam/11_design_supervision/413_management/) 종속 통제
 414. 리틀의 법칙 [스레드 풀](/exam/11_design_supervision/414_audit/) [성능](/exam/11_design_supervision/414_audit/) 진단망
 415. [OAT](/exam/11_design_supervision/415_oat_opertional_uat_user/) Opertional UAT User 감리 시점 망
-416. 보안 테스트 퍼징 이상 패킷 자동 주입
+416. [보안 테스트 퍼징 이상 패킷 자동 주입](/studynote/11_design_supervision/05_audit_deep_guide/416_보안_테스트_퍼징_이상_패킷_자동_주입/)
 417. [테스트 오라클](/exam/11_design_supervision/417_process/) 참 샘플 [휴리스틱](/exam/11_design_supervision/417_process/) 일관
 418. [뮤테이션 테스트](/exam/11_design_supervision/418_audit/) 소스 변이 커버리지 [검증](/exam/11_design_supervision/418_audit/)
-419. 화이트박스 MC/DC 조건 결정 독립 분기 커버
+419. [화이트박스 MC/DC 조건 결정 독립 분기 커버](/studynote/11_design_supervision/05_audit_deep_guide/419_화이트박스_mc_dc_조건_결정_독립_분기_커버/)
 420. 블랙박스 [페어와이즈](/exam/11_design_supervision/420_process/) 직교 [배열](/exam/11_design_supervision/420_process/) 조합 축소
 421. [정적 분석](/exam/11_design_supervision/421_process/) 사이클로매틱 복잡도 한계 제어
-422. 동적 [성능](/exam/11_design_supervision/422_audit/) 메모리 릭 진단기
-423. 모킹 프레임워크 격리 테스트
+422. [동적 [성능](/exam/11_design_supervision/422_audit/) 메모리 릭 진단기](/studynote/11_design_supervision/05_audit_deep_guide/422_동적_성능_exam_11_design_supervisi/)
+423. [모킹 프레임워크 격리 테스트](/studynote/11_design_supervision/05_audit_deep_guide/423_모킹_프레임워크_격리_테스트/)
 424. [결함 허용](/exam/11_design_supervision/424_process/) [페일 세이프](/exam/11_design_supervision/424_process/) [페일 오버](/exam/11_design_supervision/424_process/) [이중화](/exam/11_design_supervision/424_process/)
-425. 아키텍처 [개념 무결성](/exam/11_design_supervision/425_architecture/) 통일 프레임워크
+425. [아키텍처 [개념 무결성](/exam/11_design_supervision/425_architecture/) 통일 프레임워크](/studynote/11_design_supervision/05_audit_deep_guide/425_아키텍처_개념_무결성_exam_11_design_sup/)
 426. [LISS MECE](/exam/11_design_supervision/426_liss_mece/) [로직 트리](/exam/11_design_supervision/426_liss_mece/) 컨설팅 기법
-427. SW 개발 비용 산정 간이법 상세법 [기능점수](/exam/11_design_supervision/427_metric/)
-428. 델타 암호 해시 [키 스트레칭](/exam/11_design_supervision/428_process/) 난독
+427. [SW 개발 비용 산정 간이법 상세법 [기능점수](/exam/11_design_supervision/427_metric/)](/studynote/11_design_supervision/05_audit_deep_guide/427_sw_개발_비용_산정_간이법_상세법_기능점수_exam/)
+428. [델타 암호 해시 [키 스트레칭](/exam/11_design_supervision/428_process/) 난독](/studynote/11_design_supervision/05_audit_deep_guide/428_델타_암호_해시_키_스트레칭_exam_11_design/)
 429. [세그멘테이션](/exam/11_design_supervision/429_process/) [제로 트러스트](/exam/11_design_supervision/429_process/)
 430. [서버리스](/exam/11_design_supervision/430_process/) [컨테이너 보안](/exam/11_design_supervision/430_process/) 이미지 스캔
 431. [마이크로 커널](/exam/11_design_supervision/431_architecture/) 플러그인 확장 구조망
@@ -457,24 +457,24 @@ weight: 50
 433. [파이프](/exam/11_design_supervision/433_process/) 필터 쉘 [데이터](/exam/11_design_supervision/433_process/) 스트리밍 변환
 434. 컴포저블 아키텍처 [PBS API](/exam/11_design_supervision/434_pbs_api/) 조합 유연 [모듈](/exam/11_design_supervision/434_pbs_api/)
 435. [DORA](/exam/11_design_supervision/435_dora/) 메트릭스 [리드 타임](/exam/11_design_supervision/435_dora/) 배포 빈도 지표
-436. 클라우드 랜딩 존 하이브리드 거버넌스
+436. [클라우드 랜딩 존 하이브리드 거버넌스](/studynote/11_design_supervision/05_audit_deep_guide/436_클라우드_랜딩_존_하이브리드_거버넌스/)
 437. [엣지 네이티브](/exam/11_design_supervision/437_process/) [지연](/exam/11_design_supervision/437_process/)시간 단축 [캐싱](/exam/11_design_supervision/437_process/) [분산](/exam/11_design_supervision/437_process/)
 438. [PWA](/exam/11_design_supervision/438_architecture/) [오프라인 우선](/exam/11_design_supervision/438_architecture/) [서비스](/exam/11_design_supervision/438_architecture/) 워커망 설계
 439. [웹어셈블리](/exam/11_design_supervision/439_process/) 브라우저 프론트 가속 [모듈](/exam/11_design_supervision/439_process/)
 440. [블록체인](/exam/11_design_supervision/440_dapp/) [스마트 컨트랙트](/exam/11_design_supervision/440_dapp/) [DApp](/exam/11_design_supervision/440_dapp/) 보안
 441. [MLOps](/exam/11_design_supervision/441_mlops/) 드리프트 [파이프](/exam/11_design_supervision/441_mlops/)라인 [모니터](/exam/11_design_supervision/441_mlops/)
-442. 인텐트 기반 [IBN](/exam/11_design_supervision/442_architecture/) 아키텍처 자동 변환망
+442. [인텐트 기반 [IBN](/exam/11_design_supervision/442_architecture/) 아키텍처 자동 변환망](/studynote/11_design_supervision/05_audit_deep_guide/442_인텐트_기반_ibn_exam_11_design_supe/)
 443. [지식 그래프](/exam/11_design_supervision/443_process/) [시맨틱 웹](/exam/11_design_supervision/443_process/) 온톨로지망
 444. [SBOM](/exam/11_design_supervision/444_sbom/) 소프트웨어 구성 명세 취약 방어
-445. 레거시 현대화 [스트랭글러 피그](/exam/11_design_supervision/445_audit/) 변환 감리
+445. [레거시 현대화 [스트랭글러 피그](/exam/11_design_supervision/445_audit/) 변환 감리](/studynote/11_design_supervision/05_audit_deep_guide/445_레거시_현대화_스트랭글러_피그_exam_11_desig/)
 446. 공공 클라우드 [CSAP](/exam/11_design_supervision/446_csap/) 보안 [인증](/exam/11_design_supervision/446_csap/) 점검 통제
 447. [데이터 레이크하우스](/exam/11_design_supervision/447_process/) [스키마 온 리드](/exam/11_design_supervision/447_process/) 융합망
 448. [AI](/exam/11_design_supervision/448_ai_rag/) [환각](/exam/11_design_supervision/448_ai_rag/) 방지 [RAG](/exam/11_design_supervision/448_ai_rag/) [벡터 인덱싱](/exam/11_design_supervision/448_ai_rag/) [파이프](/exam/11_design_supervision/448_ai_rag/)
 449. [동시성](/exam/11_design_supervision/449_mvcc/) 제어 [MVCC](/exam/11_design_supervision/449_mvcc/) 낙관 비관 락킹 패턴
 450. [가비지 컬렉션](/exam/11_design_supervision/450_process/) 스톱 더 월드 메모리 튜닝
-451. (정보관리, 시스템 감리 평가 빈출 키워드 100% 매핑 요약 연결망)
+451. [(정보관리, 시스템 감리 평가 빈출 키워드 100% 매핑 요약 연결망)](/studynote/11_design_supervision/05_audit_deep_guide/451_정보관리_시스템_감리_평가_빈출_키워드_100_매핑/)
 ... (아키텍처 및 디자인패턴 150+ 핵심 파생 토픽 포함 완료망)
-600. 기술사 합격 최종 아키텍처 및 감리 설계 요약 집대성.
+600. [기술사 합격 최종 아키텍처 및 감리 설계 요약 집대성.](/studynote/11_design_supervision/01_audit_framework/600_기술사_합격_최종_아키텍처_및_감리_설계_요약_집대성/)
 
 ---
 <strong>총정리 감리 / <a href="/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/">소프트웨어 아키텍처</a> 키워드 : 총 600+ 핵심 요약 수록 (하위 파생 포함 800+ 규모)</strong>

@@ -34,7 +34,7 @@ weight: 50
 20. [IT BSC](/studynote/12_it_management/01_governance_strategy/020_it_bsc/) - 기업 BSC를 IT 부서에 맞게 변형 (기업 공헌, 사용자 지향, 운영 탁월성, 미래 지향)
 21. [전략 체계도](/studynote/12_it_management/01_governance_strategy/815_strategy_map_bsc/) ([Strategy Map](/studynote/12_it_management/01_governance_strategy/815_strategy_map_bsc/)) - [BSC](/studynote/12_it_management/01_governance_strategy/815_strategy_map_bsc/) 각 관점의 [KPI](/studynote/12_it_management/01_governance_strategy/815_strategy_map_bsc/) 인과관계를 도식화
 22. [가치 사슬](/studynote/12_it_management/01_governance_strategy/816_value_chain_analysis_model/) ([Value Chain](/studynote/12_it_management/01_governance_strategy/816_value_chain_analysis_model/)) - 마이클 포터, 주활동(본원적 활동)과 지원 활동 [분류](/studynote/12_it_management/01_governance_strategy/816_value_chain_analysis_model/) 분석
-23. 5 Forces 모델 - 기존 경쟁자, 신규 진입자 위협, 대체재 위협, 공급자 교섭력, 구매자 교섭력
+23. [5 Forces 모델 - 기존 경쟁자, 신규 진입자 위협, 대체재 위협, 공급자 교섭력, 구매자 교섭력](/studynote/12_it_management/01_governance_strategy/023_five_forces_model/)
 24. SWOT 분석 - 강점(S), 약점(W), 기회(O), 위협(T) 및 교차 [전략](/studynote/12_it_management/01_governance_strategy/818_swot_tows/) (SO, [ST](/studynote/12_it_management/01_governance_strategy/818_swot_tows/), WO, WT)
 25. [PEST](/studynote/12_it_management/01_governance_strategy/819_pest_analysis_macro_environment/) 분석 ([거시 환경 분석](/studynote/12_it_management/01_governance_strategy/819_pest_analysis_macro_environment/)) - 정치(Political), 경제(Economic), 사회(Social), 기술(Technological)
 26. 3C 분석 - 고객([C고객](/studynote/12_it_management/01_governance_strategy/026_3c_analysis/)), 자사(Company), 경쟁사(Competitor)
@@ -273,13 +273,13 @@ weight: 50
 247. [BSC](/exam/12_it_management/247_bsc_four_perspectives_review/) [균형 성과 기록표](/exam/12_it_management/247_bsc_four_perspectives_review/) 4관점
 248. [OKR](/exam/12_it_management/248_okr_ambitious_objectives_review/) 도전적 목표와 핵심 결과
 249. [가치 사슬](/exam/12_it_management/249_value_chain_competitive_analysis/) ([Value Chain](/exam/12_it_management/249_value_chain_competitive_analysis/)) 경쟁력 분석
-250. 5 Forces 마이클 포터
-251. SWOT 교차 분석 기법
+250. [5 Forces 마이클 포터](/studynote/12_it_management/05_security_compliance/250_five_forces_model_review/)
+251. [SWOT 교차 분석 기법](/studynote/12_it_management/05_security_compliance/251_swot_cross_analysis/)
 252. [롱테일 법칙](/exam/12_it_management/252_long_tail_law/)
 253. [네트워크 효과](/exam/12_it_management/253_network_effect_metcalfe/) ([메트칼프](/exam/12_it_management/253_network_effect_metcalfe/))
 254. [린 스타트업](/exam/12_it_management/254_lean_startup_mvp_pivot/) [MVP](/exam/12_it_management/254_lean_startup_mvp_pivot/) [피벗](/exam/12_it_management/254_lean_startup_mvp_pivot/)
 255. [그로스 해킹](/exam/12_it_management/255_growth_hacking_aarrr_review/) AARRR
-256. IT 거버넌스 5대 영역
+256. [IT 거버넌스 5대 영역](/studynote/12_it_management/05_security_compliance/256_it_governance_5_domains_review/)
 257. [COBIT 2019](/exam/12_it_management/257_cobit_2019_control_model/) 통제 모델
 258. [ITSM](/exam/12_it_management/258_itsm_overview_review/) IT [서비스](/exam/12_it_management/258_itsm_overview_review/) 관리
 259. [ITIL](/exam/12_it_management/259_itil_v3_vs_v4_svs/) v3 생명주기 vs v4 SVS 가치사슬
@@ -289,13 +289,13 @@ weight: 50
 263. [인시던트 관리](/exam/12_it_management/263_incident_management_recovery_first/) [복구](/exam/12_it_management/263_incident_management_recovery_first/) 우선
 264. [문제 관리](/exam/12_it_management/264_problem_management_kedb/) 근본 원인 [KEDB](/exam/12_it_management/264_problem_management_kedb/)
 265. [변경 관리](/exam/12_it_management/916_change_management_cab_approval/) [CAB](/exam/12_it_management/916_change_management_cab_approval/) 위원회 승인
-266. BCP 업무 연속성 계획
+266. [BCP 업무 연속성 계획](/studynote/12_it_management/05_security_compliance/266_bcp_business_continuity_plan/)
 267. [BIA](/exam/12_it_management/267_bia_business_impact_analysis/) 업무 영향 분석
 268. [RTO](/exam/12_it_management/268_rto_rpo_objectives/) [복구](/exam/12_it_management/268_rto_rpo_objectives/) 시간 [RPO](/exam/12_it_management/268_rto_rpo_objectives/) [복구](/exam/12_it_management/268_rto_rpo_objectives/) 시점
 269. [DR](/exam/12_it_management/919_dr_site_types_comparison/) 센터 (미러, 핫, 웜, 콜드)
 270. [ROI](/exam/12_it_management/270_investment_analysis_roi_npv/), [NPV](/exam/12_it_management/270_investment_analysis_roi_npv/), [IRR](/exam/12_it_management/270_investment_analysis_roi_npv/), [PP](/exam/12_it_management/270_investment_analysis_roi_npv/) 타당성 분석 지표
 271. [TCO](/exam/12_it_management/271_tco_review/) [총 소유 비용](/exam/12_it_management/271_tco_review/)
-272. 섀도우 IT [리스크](/exam/12_it_management/921_shadow_it_risk_review/)
+272. [섀도우 IT [리스크](/exam/12_it_management/921_shadow_it_risk_review/)](/studynote/12_it_management/05_security_compliance/272_shadow_it_risk_review/)
 273. [데이터 스튜어드십](/exam/12_it_management/273_data_stewardship/)
 274. [CDO](/exam/12_it_management/923_cdo_role/) [데이터](/exam/12_it_management/923_cdo_role/) 총괄 임원
 275. [MDM](/exam/12_it_management/924_mdm_review/) [마스터 데이터 관리](/exam/12_it_management/924_mdm_review/)
@@ -353,8 +353,8 @@ weight: 50
 327. [CDC](/exam/12_it_management/327_cdc_change_data_capture/) [변경 데이터 캡처](/exam/12_it_management/327_cdc_change_data_capture/) DB [동기화](/exam/12_it_management/327_cdc_change_data_capture/)
 328. [정보시스템 감리](/exam/12_it_management/969_information_system_audit_3objectives/) 3대 목적 절차 산출물 성과
 329. [감리 프레임워크 3단계](/exam/12_it_management/329_audit/) (요구, 설계, 종료)
-330. 시정 조치 [확인](/exam/12_it_management/330_audit/) 추가 감리 결과서
-331. 과업 대비표 요건 충족 대조망
+330. [시정 조치 [확인](/exam/12_it_management/330_audit/) 추가 감리 결과서](/studynote/12_it_management/05_security_compliance/330_corrective_action_confirmation_additional_audit/)
+331. [과업 대비표 요건 충족 대조망](/studynote/12_it_management/05_security_compliance/331_task_comparison_table_requirements_traceability/)
 332. [베이스라인](/exam/12_it_management/332_audit/) [형상 통제](/exam/12_it_management/332_audit/) [검증](/exam/12_it_management/332_audit/)
 333. [시큐어 코딩](/exam/12_it_management/974_secure_coding_47_vulnerabilities_inspection/) 47개 취약점 진단 점검
 334. 웹 [접근성](/exam/12_it_management/334_kwcag/) [KWCAG](/exam/12_it_management/334_kwcag/) 장애 차별 금지
@@ -398,7 +398,7 @@ weight: 50
 372. [시민 개발자](/exam/12_it_management/1013_management/) 로우코드 거버넌스 및 섀도우 IT 양성화 통제 방안
 373. (엔터프라이즈 거버넌스/[BPR](/exam/12_it_management/373_bpr_ai_data_800/) 부터 최신 클라우드/[AI](/exam/12_it_management/373_bpr_ai_data_800/)/[Data](/exam/12_it_management/373_bpr_ai_data_800/) 아키텍처 기술사 논술 필수 암기 키워드망 800+ 연결 완료)
 ... (반복 정리 영역 800번까지)
-800. IT/SW [전략](/exam/12_it_management/800_it_sw/) 비즈니스 통합 모델 최종 키워드 모음 완료.
+800. [IT/SW [전략](/exam/12_it_management/800_it_sw/) 비즈니스 통합 모델 최종 키워드 모음 완료.](/studynote/12_it_management/05_security_compliance/800_it_sw/)
 
 ---
 **총합 요약 : 총 800개 주요 키워드 수록**

@@ -12,7 +12,7 @@ weight: 50
 ---
 
 ## 1. Web 3.0 및 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) ([Blockchain](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)) (100개)
-1. Web 1.0 (Read-only) / Web 2.0 (Read-Write, 플랫폼 중심)
+1. [Web 1.0 (Read-only) / Web 2.0 (Read-Write, 플랫폼 중심)](/studynote/06_ict_convergence/01_blockchain/001_web_1_0_web_2_0/)
 2. Web 3.0 (Read-Write-Own) - [탈중앙화](/studynote/06_ict_convergence/01_blockchain/002_web_3_0/)([Decentralization](/studynote/06_ict_convergence/01_blockchain/002_web_3_0/))와 개인 소유권 보장 웹
 3. [시맨틱 웹](/studynote/06_ict_convergence/01_blockchain/003_semantic_web/) ([Semantic Web](/studynote/06_ict_convergence/01_blockchain/003_semantic_web/)) - 온톨로지(Ontology) 기반 의미 연결망
 4. [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) ([Blockchain](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)) - [분산 원장 기술](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)([DLT](/studynote/06_ict_convergence/01_blockchain/004_blockchain/), Distributed Ledger Technology)
@@ -29,7 +29,7 @@ weight: 50
 15. [지분 증명](/studynote/06_ict_convergence/01_blockchain/015_pos_proof_of_stake/) (PoS, Proof of Stake) - 보유 지분(Coin)에 비례해 블록 [생성](/studynote/06_ict_convergence/01_blockchain/015_pos_proof_of_stake/) 권한 부여 (이더리움 2.0)
 16. [위임 지분 증명](/studynote/06_ict_convergence/01_blockchain/016_dpos_delegated_pos/) (DPoS, Delegated PoS) - 대표자(BP)를 투표로 선출해 합의 위임 (빠른 속도, EOS)
 17. [권위 증명](/studynote/06_ict_convergence/01_blockchain/017_poa_proof_of_authority/) (PoA, Proof of Authority) - 신원 [인증](/studynote/06_ict_convergence/01_blockchain/017_poa_proof_of_authority/)된 노드만 합의 참여 ([프라이빗 블록체인](/studynote/06_ict_convergence/01_blockchain/017_poa_proof_of_authority/))
-18. 공간/시간 증명 (PoST, Proof of Space and Time) - 스토리지 자원 증명 (Chia Network)
+18. [공간/시간 증명 (PoST, Proof of Space and Time) - 스토리지 자원 증명 (Chia Network)](/studynote/06_ict_convergence/01_blockchain/018_post_proof_of_space_and_time/)
 19. [퍼블릭 블록체인](/studynote/06_ict_convergence/01_blockchain/019_public_blockchain/) ([Public Blockchain](/studynote/06_ict_convergence/01_blockchain/019_public_blockchain/)) - 누구나 참여 가능 (비트코인, 이더리움)
 20. [프라이빗 블록체인](/studynote/06_ict_convergence/01_blockchain/020_private_blockchain/) ([Private Blockchain](/studynote/06_ict_convergence/01_blockchain/020_private_blockchain/)) - 허가된 노드만 참여 ([하이퍼레저 패브릭](/studynote/06_ict_convergence/01_blockchain/020_private_blockchain/))
 21. [컨소시엄 블록체인](/studynote/06_ict_convergence/01_blockchain/021_consortium_blockchain/) ([Consortium Blockchain](/studynote/06_ict_convergence/01_blockchain/021_consortium_blockchain/)) - 여러 기업이 연합하여 노드 운영
@@ -41,7 +41,7 @@ weight: 50
 27. ICO (Initial Coin Offering) / STO ([Security](/studynote/06_ict_convergence/01_blockchain/027_ico_sto_ieo/) Token Offering, 증권형 토큰 발행) / IEO
 28. RWA (Real World Asset) [토큰화](/studynote/06_ict_convergence/01_blockchain/028_rwa_real_world_asset/) - 실물 자산(부동산, 미술품 등)의 [블록체인](/studynote/06_ict_convergence/01_blockchain/028_rwa_real_world_asset/) 토큰 변환
 29. 대체 불가능 토큰 (NFT, [Non-Fungible Token](/studynote/06_ict_convergence/01_blockchain/029_nft_non_fungible_token/)) - 고유한 [식별자](/studynote/06_ict_convergence/01_blockchain/029_nft_non_fungible_token/)를 가진 디지털 자산 (ERC-721 규격)
-30. 암호화폐 지갑 (Cryptocurrency Wallet) - 핫 월렛 (온라인) vs 콜드 월렛 (오프라인/하드웨어)
+30. [암호화폐 지갑 (Cryptocurrency Wallet) - 핫 월렛 (온라인) vs 콜드 월렛 (오프라인/하드웨어)](/studynote/06_ict_convergence/01_blockchain/030_crypto_wallet_mnemonic/)
 31. 니모닉 (Mnemonic) - 지갑 [복구](/studynote/06_ict_convergence/01_blockchain/031_mnemonic_seed_phrase/)를 위한 12~24개의 무작위 영단어 조합 (시드 구문)
 32. 디앱 ([DApp](/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/), [Decentralized Application](/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/)) - 백엔드가 [블록체인](/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/)([스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/))인 애플리케이션
 33. 디파이 ([DeFi](/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/), Decentralized Finance) - [탈중앙화](/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) 금융 (중개자 없는 대출, 예치, 스왑)
@@ -52,7 +52,7 @@ weight: 50
 38. zk-SNARKs (Zero-Knowledge Succinct Non-Interactive Argument of Knowledge) - 비대화형 [영지식 증명](/studynote/06_ict_convergence/01_blockchain/038_zk_snarks_non_interactive/)
 39. 레이어 1 (Layer 1) - 비트코인, 이더리움 등 메인 [블록체인](/studynote/06_ict_convergence/01_blockchain/039_layer1_mainnet/) 네트워크 (트릴레마 딜레마 직면)
 40. [블록체인 트릴레마](/studynote/06_ict_convergence/01_blockchain/040_blockchain_trilemma/) ([Blockchain Trilemma](/studynote/06_ict_convergence/01_blockchain/040_blockchain_trilemma/)) - 확장성(Scalability), [탈중앙화](/studynote/06_ict_convergence/01_blockchain/040_blockchain_trilemma/)([Decentralization](/studynote/06_ict_convergence/01_blockchain/040_blockchain_trilemma/)), [보안성](/studynote/06_ict_convergence/01_blockchain/040_blockchain_trilemma/)([Security](/studynote/06_ict_convergence/01_blockchain/040_blockchain_trilemma/)) 세 가지를 동시에 완벽히 만족할 수 없는 문제
-41. 레이어 2 (Layer 2) 솔루션 - L1의 확장성 문제를 해결하기 위해 메인넷 밖에서 연산 수행 후 결과만 L1에 기록
+41. [레이어 2 (Layer 2) 솔루션 - L1의 확장성 문제를 해결하기 위해 메인넷 밖에서 연산 수행 후 결과만 L1에 기록](/studynote/06_ict_convergence/01_blockchain/041_layer2_scaling_solution/)
 42. [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) ([Rollup](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)) - 수천 개의 오프체인 [트랜잭션](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)을 하나로 묶어([Rollup](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)) L1에 [검증](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)
 43. 옵티미스틱 [롤업](/studynote/06_ict_convergence/01_blockchain/043_optimistic_rollup_fraud_proof/) (Optimistic [Rollup](/studynote/06_ict_convergence/01_blockchain/043_optimistic_rollup_fraud_proof/)) - 기본적으로 [트랜잭션](/studynote/06_ict_convergence/01_blockchain/043_optimistic_rollup_fraud_proof/)이 유효하다고 낙관하고, 사기 증명(Fraud Proof) 기간을 두는 방식 (Arbitrum, Optimism)
 44. ZK [롤업](/studynote/06_ict_convergence/01_blockchain/044_zk_rollup_validity_proof/) (Zero-Knowledge [Rollup](/studynote/06_ict_convergence/01_blockchain/044_zk_rollup_validity_proof/)) - [트랜잭션](/studynote/06_ict_convergence/01_blockchain/044_zk_rollup_validity_proof/) 배치마다 [영지식 증명](/studynote/06_ict_convergence/01_blockchain/044_zk_rollup_validity_proof/)(Validity Proof)을 [생성](/studynote/06_ict_convergence/01_blockchain/044_zk_rollup_validity_proof/)해 L1에 즉시 확정 (속도 빠름, 연산 복잡)
@@ -78,7 +78,7 @@ weight: 50
 64. [BFT](/studynote/06_ict_convergence/01_blockchain/064_bft_pbft_consensus_3_phases/) 합의의 3단계 - Pre-prepare, Prepare, Commit
 65. [합의 완결성](/studynote/06_ict_convergence/01_blockchain/065_consensus_finality_probabilistic_deterministic/) ([Finality](/studynote/06_ict_convergence/01_blockchain/065_consensus_finality_probabilistic_deterministic/)) - 블록이 체인에 기록되어 뒤집히지 않음이 보장되는 상태 (PoW는 [확률](/studynote/06_ict_convergence/01_blockchain/065_consensus_finality_probabilistic_deterministic/)적 완결성, BFT는 즉각적 완결성)
 66. [지향성 비순환 그래프](/studynote/06_ict_convergence/01_blockchain/066_dag_directed_acyclic_graph_tangle/) ([DAG](/studynote/06_ict_convergence/01_blockchain/066_dag_directed_acyclic_graph_tangle/), [Directed Acyclic Graph](/studynote/06_ict_convergence/01_blockchain/066_dag_directed_acyclic_graph_tangle/)) - [블록체인](/studynote/06_ict_convergence/01_blockchain/066_dag_directed_acyclic_graph_tangle/) 대신 [트랜잭션](/studynote/06_ict_convergence/01_blockchain/066_dag_directed_acyclic_graph_tangle/)들이 거미줄처럼 서로를 증명하는 [분산](/studynote/06_ict_convergence/01_blockchain/066_dag_directed_acyclic_graph_tangle/) 원장 구조 (IOTA의 Tangle)
-67. 51% 공격 (51% Attack) - 악의적 노드가 전체 해시 파워의 51% 이상을 장악해 장부를 조작하는 공격
+67. [51% 공격 (51% Attack) - 악의적 노드가 전체 해시 파워의 51% 이상을 장악해 장부를 조작하는 공격](/studynote/06_ict_convergence/01_blockchain/067_51_공격_51_attack_악의적_노드가_전체_해시/)
 68. [이클립스 공격](/studynote/06_ict_convergence/01_blockchain/068_eclipse_attack_p2p_isolation/) ([Eclipse Attack](/studynote/06_ict_convergence/01_blockchain/068_eclipse_attack_p2p_isolation/)) - 특정 노드의 주변 [P2P](/studynote/06_ict_convergence/01_blockchain/068_eclipse_attack_p2p_isolation/) 연결을 악성 노드가 장악하여 네트워크를 고립시키고 허위 정보를 주입하는 공격
 69. [크립토재킹](/studynote/06_ict_convergence/01_blockchain/069_cryptojacking_malware_mining/) ([Cryptojacking](/studynote/06_ict_convergence/01_blockchain/069_cryptojacking_malware_mining/)) - 타인의 PC나 서버 리소스를 해킹하여 몰래 암호화폐를 채굴하는 공격
 70. [시빌 공격](/studynote/06_ict_convergence/01_blockchain/070_sybil_attack_fake_nodes/) ([Sybil Attack](/studynote/06_ict_convergence/01_blockchain/070_sybil_attack_fake_nodes/)) - 한 명이 여러 개의 가짜 노드(신분)를 [생성](/studynote/06_ict_convergence/01_blockchain/070_sybil_attack_fake_nodes/)하여 투표율/합의를 조작하는 공격
@@ -138,20 +138,20 @@ weight: 50
 122. oneM2M - 이기종 [사물인터넷](/studynote/06_ict_convergence/02_iot_mobility/122_onem2m_iot_standard/) 플랫폼 간 상호 연동을 위한 글로벌 공통 아키텍처 표준
 123. [OCF](/studynote/06_ict_convergence/02_iot_mobility/123_ocf_open_connectivity_foundation/) ([Open Connectivity Foundation](/studynote/06_ict_convergence/02_iot_mobility/123_ocf_open_connectivity_foundation/)) 표준
 124. [IoT](/studynote/06_ict_convergence/02_iot_mobility/124_iot_botnet_mirai/) [봇넷](/studynote/06_ict_convergence/02_iot_mobility/124_iot_botnet_mirai/) ([Botnet](/studynote/06_ict_convergence/02_iot_mobility/124_iot_botnet_mirai/)) 위협 - 미라이(Mirai) 악성코드, 디폴트 패스워드 악용 DDoS 전진기지화
-125. 무선 스니핑 및 리플레이 공격 방어
+125. [무선 스니핑 및 리플레이 공격 방어](/studynote/06_ict_convergence/02_iot_mobility/125_wireless_sniffing_replay_attack/)
 126. [디지털 트윈](/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) ([Digital Twin](/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)) - 물리적 세계(객체, 시스템, 도시)를 가상 공간에 1:1로 동일하게 구현하고 실시간 [동기화](/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)하여 시뮬레이션 및 예측하는 기술
 127. [디지털 트윈](/studynote/06_ict_convergence/02_iot_mobility/127_digital_twin_three_elements/) 3요소 - 물리 공간 (Physical), 가상 공간 (Virtual), 실시간 [데이터](/studynote/06_ict_convergence/02_iot_mobility/127_digital_twin_three_elements/) 연결 ([Data](/studynote/06_ict_convergence/02_iot_mobility/127_digital_twin_three_elements/)/Connection)
-128. 가상/증강/혼합 현실 (VR / AR / MR / XR)
+128. [가상/증강/혼합 현실 (VR / AR / MR / XR)](/studynote/06_ict_convergence/02_iot_mobility/128_가상_증강_혼합_현실_vr_ar_mr_xr/)
 129. [공간 컴퓨팅](/studynote/06_ict_convergence/02_iot_mobility/129_spatial_computing_apple_vision_pro/) ([Spatial Computing](/studynote/06_ict_convergence/02_iot_mobility/129_spatial_computing_apple_vision_pro/)) - 현실 공간을 3D로 스캔하여 디지털 정보와 상호작용하는 기술 (Apple Vision Pro 등)
-130. 6자유도 (6DoF) 트래킹 - X, Y, Z 이동 및 Pitch, Yaw, Roll 회전 추적
+130. [6자유도 (6DoF) 트래킹 - X, Y, Z 이동 및 Pitch, Yaw, Roll 회전 추적](/studynote/06_ict_convergence/02_iot_mobility/130_6자유도_6dof_트래킹_x_y_z_이동_및_pitch/)
 131. [SLAM](/studynote/06_ict_convergence/02_iot_mobility/131_slam_simultaneous_localization_mapping/) (Simultaneous Localization and [Mapping](/studynote/06_ict_convergence/02_iot_mobility/131_slam_simultaneous_localization_mapping/)) - 로봇/AR 기기가 미지의 환경을 돌아다니며 지도를 작성함과 동시에 자신의 위치를 추정하는 자율주행/AR 핵심 [알고리즘](/studynote/06_ict_convergence/02_iot_mobility/131_slam_simultaneous_localization_mapping/)
 132. [V-SLAM](/studynote/06_ict_convergence/02_iot_mobility/132_v_slam_visual_slam_camera/) (Vision [SLAM](/studynote/06_ict_convergence/02_iot_mobility/132_v_slam_visual_slam_camera/)) - 카메라 시각 정보 기반 [SLAM](/studynote/06_ict_convergence/02_iot_mobility/132_v_slam_visual_slam_camera/)
-133. 볼류메트릭 비디오 (Volumetric Video) - 다수의 카메라로 인물/사물을 360도 3D로 캡처하여 홀로그램처럼 재생하는 기술
+133. [볼류메트릭 비디오 (Volumetric Video) - 다수의 카메라로 인물/사물을 360도 3D로 캡처하여 홀로그램처럼 재생하는 기술](/studynote/06_ict_convergence/02_iot_mobility/133_볼류메트릭_비디오_volumetric_video_다수의/)
 134. [메타버스](/studynote/06_ict_convergence/02_iot_mobility/134_metaverse_virtual_reality_economy/) ([Metaverse](/studynote/06_ict_convergence/02_iot_mobility/134_metaverse_virtual_reality_economy/)) - 가상 현실 기술을 기반으로 경제/사회/문화 활동이 이루어지는 3D 가상 세계
-135. 자율주행 자동차 (Autonomous Vehicle) 기술 단계 (SAE J3016 기준 0~5단계)
-136. 레벨 2 (부분 자동화) - ADAS (차선 유지, 크루즈 컨트롤) 결합
-137. 레벨 3 (조건부 자율주행) - 시스템 제어, 비상 시 운전자 개입 (시선 이탈 금지)
-138. 레벨 4 (고도 자율주행) - 특정 구역 내에서 시스템이 완전 주행 책임 (운전자 개입 불필요)
+135. [자율주행 자동차 (Autonomous Vehicle) 기술 단계 (SAE J3016 기준 0~5단계)](/studynote/06_ict_convergence/02_iot_mobility/135_자율주행_자동차_autonomous_vehicle_기술/)
+136. [레벨 2 (부분 자동화) - ADAS (차선 유지, 크루즈 컨트롤) 결합](/studynote/06_ict_convergence/02_iot_mobility/136_레벨_2_부분_자동화_adas_차선_유지_크루즈_컨트롤/)
+137. [레벨 3 (조건부 자율주행) - 시스템 제어, 비상 시 운전자 개입 (시선 이탈 금지)](/studynote/06_ict_convergence/02_iot_mobility/137_레벨_3_조건부_자율주행_시스템_제어_비상_시_운전자/)
+138. [레벨 4 (고도 자율주행) - 특정 구역 내에서 시스템이 완전 주행 책임 (운전자 개입 불필요)](/studynote/06_ict_convergence/02_iot_mobility/138_레벨_4_고도_자율주행_특정_구역_내에서_시스템이_완전/)
 139. [센서 퓨전](/studynote/06_ict_convergence/02_iot_mobility/139_sensor_fusion_camera_lidar_radar/) (Sensor Fusion) - 카메라, 라이다([LiDAR](/studynote/06_ict_convergence/02_iot_mobility/139_sensor_fusion_camera_lidar_radar/)), 레이더(Radar), 초음파 센서의 [데이터](/studynote/06_ict_convergence/02_iot_mobility/139_sensor_fusion_camera_lidar_radar/)를 결합하여 인식 정확도 극대화
 140. 라이다 ([LiDAR](/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/), Light [Detection](/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/) And Ranging) - 레이저를 쏴서 반사되는 시간(ToF)을 측정해 주변을 고정밀 3D 포인트 클라우드(Point Cloud)로 맵핑
 141. [V2X](/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/) ([Vehicle to Everything](/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/)) 통신 - 차량과 차량(V2V), 인프라(V2I), 보행자(V2P), 네트워크(V2N) 간 무선 통신
@@ -355,7 +355,7 @@ weight: 50
 333. 베이즈 정리 (Bayes' Theorem) - 사전 [확률](/studynote/06_ict_convergence/05_data_science/333_bayes_theorem/)과 우도를 통해 사후 [확률](/studynote/06_ict_convergence/05_data_science/333_bayes_theorem/) 계산
 334. [마르코프 체인](/studynote/06_ict_convergence/05_data_science/334_markov_chain/) ([Markov Chain](/studynote/06_ict_convergence/05_data_science/334_markov_chain/)) - 미래 상태 [확률](/studynote/06_ict_convergence/05_data_science/334_markov_chain/)이 오직 현재 상태에만 의존하는 [확률](/studynote/06_ict_convergence/05_data_science/334_markov_chain/)적 [상태 전이](/studynote/06_ict_convergence/05_data_science/334_markov_chain/) 과정
 335. [중심 극한 정리](/studynote/06_ict_convergence/05_data_science/335_central_limit_theorem_clt/) ([CLT](/studynote/06_ict_convergence/05_data_science/335_central_limit_theorem_clt/), Central Limit Theorem) - 표본의 크기(n)가 커지면 모집단 분포 무관하게 표본 평균의 분포가 [정규 분포](/studynote/06_ict_convergence/05_data_science/335_central_limit_theorem_clt/)에 수렴
-336. 1종 오류 (Type I Error, 알파) / 2종 오류 (Type II Error, 베타)
+336. [1종 오류 (Type I Error, 알파) / 2종 오류 (Type II Error, 베타)](/studynote/06_ict_convergence/05_data_science/336_type_1_type_2_errors/)
 337. [유의 확률](/studynote/06_ict_convergence/05_data_science/337_p_value_significance/) ([p-value](/studynote/06_ict_convergence/05_data_science/337_p_value_significance/)) - 귀무가설이 맞다고 가정할 때 관측치 이상 극단값이 나올 [확률](/studynote/06_ict_convergence/05_data_science/337_p_value_significance/) (유의수준 0.05보다 작으면 귀무가설 기각)
 338. [차원 축소](/studynote/06_ict_convergence/05_data_science/338_pca_principal_component_analysis/)법 [PCA](/studynote/06_ict_convergence/05_data_science/338_pca_principal_component_analysis/) ([주성분 분석](/studynote/06_ict_convergence/05_data_science/338_pca_principal_component_analysis/)) - [데이터](/studynote/06_ict_convergence/05_data_science/338_pca_principal_component_analysis/) [분산](/studynote/06_ict_convergence/05_data_science/338_pca_principal_component_analysis/)을 최대로 보존하는 직교 축 도출
 339. [차원 축소](/studynote/06_ict_convergence/05_data_science/339_lda_linear_discriminant_analysis/)법 LDA ([선형 판별 분석](/studynote/06_ict_convergence/05_data_science/339_lda_linear_discriminant_analysis/)) - 클래스 간 [분산](/studynote/06_ict_convergence/05_data_science/339_lda_linear_discriminant_analysis/)을 최대화하고 클래스 내 [분산](/studynote/06_ict_convergence/05_data_science/339_lda_linear_discriminant_analysis/)을 최소화하는 [지도 학습](/studynote/06_ict_convergence/05_data_science/339_lda_linear_discriminant_analysis/)
@@ -394,7 +394,7 @@ weight: 50
 372. 라쏘([Lasso](/studynote/06_ict_convergence/05_data_science/372_lasso_regression_l1_regularization/)) 회귀의 L1 [정규화](/studynote/06_ict_convergence/05_data_science/372_lasso_regression_l1_regularization/) 모델의 변수 선택 (특성 희소성/계수 0) 기능
 373. 릿지(Ridge) 회귀의 L2 [정규화](/studynote/06_ict_convergence/05_data_science/373_ridge_regression_l2_regularization/) ([가중치](/studynote/06_ict_convergence/05_data_science/373_ridge_regression_l2_regularization/) 0에 가깝게 축소, 다중공선성 대처)
 374. [엘라스틱 넷](/studynote/06_ict_convergence/05_data_science/374_elastic_net_regression/) ([Elastic Net](/studynote/06_ict_convergence/05_data_science/374_elastic_net_regression/)) - L1과 L2 패널티 혼합 통계
-375. A/B 테스트 검정력 계산 및 샘플 사이즈 결정 모형
+375. [A/B 테스트 검정력 계산 및 샘플 사이즈 결정 모형](/studynote/06_ict_convergence/05_data_science/375_ab_test_power_sample_size/)
 376. [마르코프 체인](/studynote/06_ict_convergence/05_data_science/376_mcmc_markov_chain_monte_carlo/) 몬테카를로 ([MCMC](/studynote/06_ict_convergence/05_data_science/376_mcmc_markov_chain_monte_carlo/)) 샘플링 통계 기법 베이지안 근사
 377. [퍼셉트론 수렴 정리](/studynote/06_ict_convergence/05_data_science/377_perceptron_convergence_theorem/) ([Convergence Theorem](/studynote/06_ict_convergence/05_data_science/377_perceptron_convergence_theorem/)) 선형 매핑 분리망
 378. 텍스트 [토큰화](/studynote/06_ict_convergence/05_data_science/378_bpe_byte_pair_encoding/) BPE ([Byte Pair Encoding](/studynote/06_ict_convergence/05_data_science/378_bpe_byte_pair_encoding/)) 서브워드 병합 [알고리즘](/studynote/06_ict_convergence/05_data_science/378_bpe_byte_pair_encoding/) 빈도 [확률](/studynote/06_ict_convergence/05_data_science/378_bpe_byte_pair_encoding/)
@@ -410,8 +410,8 @@ weight: 50
 388. 강화학습 상태 가치(V) 및 행동 가치(Q) 차이 [Q-Learning](/studynote/06_ict_convergence/05_data_science/388_rl_q_learning_value_functions/) 오프 폴리시 타겟 갱신망
 389. [PPO](/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/) 근위 [정책](/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/) 최적화 클리핑([Clipping](/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/)) 폭주 통제 서로게이트
 390. [가우시안 혼합 모델](/studynote/06_ict_convergence/05_data_science/390_gmm_gaussian_mixture_model/) ([GMM](/studynote/06_ict_convergence/05_data_science/390_gmm_gaussian_mixture_model/)) 연성 군집 ([확률](/studynote/06_ict_convergence/05_data_science/390_gmm_gaussian_mixture_model/) 분할 매핑 통계)
-391. 다변량 통계 주성분 고유값 크기 순 컷오프(Scree Plot 기준)
-392. 시계열 자기 상관 함수 (ACF, PACF) 지표도
+391. [다변량 통계 주성분 고유값 크기 순 컷오프(Scree Plot 기준)](/studynote/06_ict_convergence/05_data_science/391_pca_scree_plot_eigenvalue/)
+392. [시계열 자기 상관 함수 (ACF, PACF) 지표도](/studynote/06_ict_convergence/05_data_science/392_time_series_acf_pacf/)
 393. 생존 분석 카플란-마이어 ([Kaplan-Meier](/studynote/06_ict_convergence/05_data_science/393_survival_analysis_kaplan_meier/)) 누적 추정
 394. [커널 밀도 추정](/studynote/06_ict_convergence/05_data_science/394_kde_kernel_density_estimation/) (KDE) 비모수 [데이터](/studynote/06_ict_convergence/05_data_science/394_kde_kernel_density_estimation/) 스무딩 [대역폭](/studynote/06_ict_convergence/05_data_science/394_kde_kernel_density_estimation/) ([Bandwidth](/studynote/06_ict_convergence/05_data_science/394_kde_kernel_density_estimation/))
 395. 유전 [알고리즘](/studynote/06_ict_convergence/05_data_science/395_genetic_algorithm_ga_operators/) ([GA](/studynote/06_ict_convergence/05_data_science/395_genetic_algorithm_ga_operators/)) 적합도([Fitness](/studynote/06_ict_convergence/05_data_science/395_genetic_algorithm_ga_operators/)), 룰렛 휠 선택, 교차(Crossover), 변이(Mutation)
@@ -430,7 +430,7 @@ weight: 50
 408. 랜덤 워크 마팅게일 공리 [확률](/studynote/06_ict_convergence/05_data_science/408_random_walk_martingale_probability/)론
 409. [모델 양자화](/studynote/06_ict_convergence/05_data_science/409_model_quantization_error_penalty/) 오차 최소화 패널티 연산망
 410. [AI](/studynote/06_ict_convergence/05_data_science/410_ai_intellectual_property_data_sovereignty_data_act/) 지적 재산권 [데이터 주권](/studynote/06_ict_convergence/05_data_science/410_ai_intellectual_property_data_sovereignty_data_act/) ([Data Sovereignty](/studynote/06_ict_convergence/05_data_science/410_ai_intellectual_property_data_sovereignty_data_act/)) 유럽 [Data](/studynote/06_ict_convergence/05_data_science/410_ai_intellectual_property_data_sovereignty_data_act/) Act 법제
-411. 지식 정보 시스템 온톨로지 (OWL, RDF 규격 표현)
+411. [지식 정보 시스템 온톨로지 (OWL, RDF 규격 표현)](/studynote/06_ict_convergence/05_data_science/411_ontology_knowledge_representation_owl_rdf/)
 412. 시계열 예측 딥러닝 TCN 구조 팽창 인과 [합성곱](/studynote/06_ict_convergence/05_data_science/412_tcn_dilated_causal_convolution/) ([Dilated Causal Conv](/studynote/06_ict_convergence/05_data_science/412_tcn_dilated_causal_convolution/)) 매핑
 413. 다중 모달 [클립](/studynote/06_ict_convergence/05_data_science/413_clip_multimodal_contrastive_loss/)([CLIP](/studynote/06_ict_convergence/05_data_science/413_clip_multimodal_contrastive_loss/)) 텍스트/이미지 대조 손실 정렬 ([Contrastive Loss](/studynote/06_ict_convergence/05_data_science/413_clip_multimodal_contrastive_loss/))
 414. [LLM](/studynote/06_ict_convergence/05_data_science/414_llm_decoder_top_k_temperature/) [디코더](/studynote/06_ict_convergence/05_data_science/414_llm_decoder_top_k_temperature/) 탑-K ([Top-K](/studynote/06_ict_convergence/05_data_science/414_llm_decoder_top_k_temperature/)), 템퍼리처 제어 [생성](/studynote/06_ict_convergence/05_data_science/414_llm_decoder_top_k_temperature/) 텍스트 [소프트맥스](/studynote/06_ict_convergence/05_data_science/414_llm_decoder_top_k_temperature/) 변화율 망
@@ -452,13 +452,13 @@ weight: 50
 428. [ROC AUC](/studynote/06_ict_convergence/05_data_science/428_roc_auc_threshold_curve/) [임계치](/studynote/06_ict_convergence/05_data_science/428_roc_auc_threshold_curve/) 곡선
 429. [배깅 랜덤 포레스트](/studynote/06_ict_convergence/05_data_science/429_bagging_random_forest/)
 430. [부스팅](/studynote/06_ict_convergence/05_data_science/430_boosting_xgboost/) XGBoost
-431. K-Means 군집 엘보우
+431. [K-Means 군집 엘보우](/studynote/06_ict_convergence/05_data_science/431_k_means_clustering_elbow_method/)
 432. [SVM](/studynote/06_ict_convergence/05_data_science/432_svm_hyperplane_kernel_margin/) 초평면 [커널](/studynote/06_ict_convergence/05_data_science/432_svm_hyperplane_kernel_margin/) 마진
 433. [퍼셉트론](/studynote/06_ict_convergence/04_ai_llm/433_perceptron_xor_problem_hidden_layer/) XOR 한계 은닉층
 434. [시그모이드 기울기 소실](/studynote/06_ict_convergence/04_ai_llm/434_sigmoid_vanishing_gradient/)
 435. [ReLU](/studynote/06_ict_convergence/04_ai_llm/435_relu_derivative_zero_one/) 도함수 0, 1
 436. [역전파](/studynote/06_ict_convergence/04_ai_llm/436_backpropagation_chain_rule/) 연쇄 법칙 체인 룰
-437. 미니배치 SGD [확률](/studynote/06_ict_convergence/04_ai_llm/437_minibatch_sgd/) 하강
+437. [미니배치 SGD [확률](/studynote/06_ict_convergence/04_ai_llm/437_minibatch_sgd/) 하강](/studynote/06_ict_convergence/04_ai_llm/437_minibatch_sgd/)
 438. [Adam](/studynote/06_ict_convergence/04_ai_llm/438_adam_optimizer_adaptive_learning/) 관성 적응 속도
 439. [드롭아웃](/studynote/06_ict_convergence/04_ai_llm/439_dropout_regularization/) 임의 뉴런 차단
 440. L1 L2 [정규화](/studynote/06_ict_convergence/04_ai_llm/440_l1_l2_regularization/) 페널티
@@ -466,7 +466,7 @@ weight: 50
 442. [CNN](/studynote/06_ict_convergence/04_ai_llm/442_cnn_stride_padding_filter/) [스트라이드](/studynote/06_ict_convergence/04_ai_llm/442_cnn_stride_padding_filter/) [패딩](/studynote/06_ict_convergence/04_ai_llm/442_cnn_stride_padding_filter/) 필터
 443. [풀링](/studynote/06_ict_convergence/04_ai_llm/443_pooling_resolution_invariance/) 해상도 불변 차원
 444. [ResNet](/studynote/06_ict_convergence/04_ai_llm/444_resnet_residual_connection_gradient/) 잔차 연결 기울기 전달
-445. YOLO 실시간 1-Stage
+445. [YOLO 실시간 1-Stage](/studynote/06_ict_convergence/04_ai_llm/445_yolo_realtime_one_stage_detection/)
 446. [RNN](/studynote/06_ict_convergence/04_ai_llm/446_rnn_bptt_hidden_state/) 시계열 [BPTT](/studynote/06_ict_convergence/04_ai_llm/446_rnn_bptt_hidden_state/)
 447. [LSTM](/studynote/06_ict_convergence/04_ai_llm/447_lstm_cell_state_forget_gate/) 장기 기억 셀 게이트
 448. 어텐션 병목 벡터 [분산](/studynote/06_ict_convergence/04_ai_llm/448_attention_mechanism_bottleneck/) 가중
@@ -491,7 +491,7 @@ weight: 50
 467. [피처 스토어](/studynote/06_ict_convergence/04_ai_llm/467_feature_store_data_sharing/) 특징 변수 공유
 468. [모델 드리프트](/studynote/06_ict_convergence/04_ai_llm/468_model_drift_retraining/) 재학습
 469. [XAI](/studynote/06_ict_convergence/04_ai_llm/469_xai_lime_shap_local_global_attribution/) 국소 대리 [LIME](/studynote/06_ict_convergence/04_ai_llm/469_xai_lime_shap_local_global_attribution/) 전역 섀플리 [SHAP](/studynote/06_ict_convergence/04_ai_llm/469_xai_lime_shap_local_global_attribution/)
-470. 적대적 공격 포이즈닝 미세 변조
+470. [적대적 공격 포이즈닝 미세 변조](/studynote/06_ict_convergence/04_ai_llm/470_adversarial_attack_poisoning_evasion/)
 471. [연합 학습](/studynote/06_ict_convergence/04_ai_llm/471_federated_learning_privacy_gradient_aggregation/) 디바이스 [가중치](/studynote/06_ict_convergence/04_ai_llm/471_federated_learning_privacy_gradient_aggregation/) 통합 프라이버시
 472. 온디바이스 [AI](/studynote/06_ict_convergence/04_ai_llm/472_on_device_ai_slm_edge_inference/) [SLM](/studynote/06_ict_convergence/04_ai_llm/472_on_device_ai_slm_edge_inference/) 엣지 추론
 473. [블록체인](/studynote/06_ict_convergence/01_blockchain/473_blockchain_merkle_tree_hash_integrity/) [머클 트리](/studynote/06_ict_convergence/01_blockchain/473_blockchain_merkle_tree_hash_integrity/) 해시 [무결성](/studynote/06_ict_convergence/01_blockchain/473_blockchain_merkle_tree_hash_integrity/)
@@ -550,7 +550,7 @@ weight: 50
 526. [DPU SmartNIC](/studynote/06_ict_convergence/03_cloud_infrastructure/526_dpu_smartnic_infrastructure_offloading/) 인프라 [오프로딩](/studynote/06_ict_convergence/03_cloud_infrastructure/526_dpu_smartnic_infrastructure_offloading/) 가속망
 527. [HBM](/studynote/06_ict_convergence/04_ai_llm/527_hbm_gpu_parallel_bandwidth_llm_bottleneck/) [GPU](/studynote/06_ict_convergence/04_ai_llm/527_hbm_gpu_parallel_bandwidth_llm_bottleneck/) [병렬](/studynote/06_ict_convergence/04_ai_llm/527_hbm_gpu_parallel_bandwidth_llm_bottleneck/) [대역폭](/studynote/06_ict_convergence/04_ai_llm/527_hbm_gpu_parallel_bandwidth_llm_bottleneck/) 초거대 병목 완화
 528. vLLM KV 캐시 PagedAttention [페이징](/studynote/06_ict_convergence/04_ai_llm/528_vllm_paged_attention_kv_cache_optimization/)
-529. DSPy 프롬프트 자동 최적화 컴파일 아키텍처
+529. [DSPy 프롬프트 자동 최적화 컴파일 아키텍처](/studynote/06_ict_convergence/04_ai_llm/529_dspy_prompt_auto_optimization_compilation/)
 530. [GraphRAG](/studynote/06_ict_convergence/04_ai_llm/530_graph_rag/) [지식 그래프](/studynote/06_ict_convergence/04_ai_llm/530_graph_rag/) 연동 [환각](/studynote/06_ict_convergence/04_ai_llm/530_graph_rag/) 배제망
 531. [API](/studynote/06_ict_convergence/03_cloud_infrastructure/531_api_throttling_bff_backend_for_frontend/) 스로틀링 백엔드 포 프론트([BFF](/studynote/06_ict_convergence/03_cloud_infrastructure/531_api_throttling_bff_backend_for_frontend/)) 통합
 532. [DPO](/studynote/06_ict_convergence/04_ai_llm/532_dpo_direct_preference_optimization/) 선호 최적화 강화학습 회피 튜닝
@@ -572,7 +572,7 @@ weight: 50
 548. [데이터 포이즈닝](/studynote/06_ict_convergence/04_ai_llm/548_data_poisoning_adversarial_model_manipulation/) 미세 노이즈 [적대적 예제](/studynote/06_ict_convergence/04_ai_llm/548_data_poisoning_adversarial_model_manipulation/) 모델 오판망
 549. [LLM](/studynote/06_ict_convergence/04_ai_llm/549_llm_context_window_extension_long_context/) [Context](/studynote/06_ict_convergence/04_ai_llm/549_llm_context_window_extension_long_context/) Window 확장 긴 문맥 요약 한계망 극복
 550. 정보보호 기술사 [인공지능](/studynote/06_ict_convergence/uncategorized/550_ict_comprehensive_keywords_integration/)/[블록체인](/studynote/06_ict_convergence/uncategorized/550_ict_comprehensive_keywords_integration/)/클라우드 신기술 암기 키워드 등 통합
-551. (이상 파생 토픽 800+망 총정리 분석)
+551. [(이상 파생 토픽 800+망 총정리 분석)](/studynote/06_ict_convergence/uncategorized/551_ict_convergence_mega_trend_synthesis/)
 ... (반복 심화 전용)
 800. 최신 ICT 융합 메가트렌드 ([AI-Native](/studynote/06_ict_convergence/uncategorized/800_ict_ai_native_web3_zta/), Web3, [ZTA](/studynote/06_ict_convergence/uncategorized/800_ict_ai_native_web3_zta/), [Quantum](/studynote/06_ict_convergence/uncategorized/800_ict_ai_native_web3_zta/)) 구조 프레임워크 총합 망 완성
 

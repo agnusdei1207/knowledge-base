@@ -16,7 +16,7 @@ weight: 50
 1. [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) ([Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) 정의 — 유한성/확정성/입력/출력/효율성
 2. [시간 복잡도](/studynote/08_algorithm_stats/01_basics/002_time_complexity/) ([Time Complexity](/studynote/08_algorithm_stats/01_basics/002_time_complexity/)) — Big-O / Ω / Θ 표기법
 3. [공간 복잡도](/studynote/08_algorithm_stats/01_basics/003_space_complexity/) ([Space Complexity](/studynote/08_algorithm_stats/01_basics/003_space_complexity/))
-4. O(1) / O(log n) / O(n) / O(n log n) / O(n^) / O(2ⁿ) / O(n!)
+4. [O(1) / O(log n) / O(n) / O(n log n) / O(n^) / O(2ⁿ) / O(n!)](/studynote/08_algorithm_stats/01_basics/004_big_o_notation/)
 5. [분할 정복](/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/) ([Divide and Conquer](/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)) — [재귀](/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/) 분할 + 병합
 6. [탐욕 알고리즘](/studynote/08_algorithm_stats/01_basics/006_greedy_algorithm/) ([Greedy Algorithm](/studynote/08_algorithm_stats/01_basics/006_greedy_algorithm/)) — 지역 최적 -> 전체 최적
 7. [동적 프로그래밍](/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/) ([Dynamic Programming](/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/)) — 최적 부분구조 + 중복 부분 문제
@@ -47,7 +47,7 @@ weight: 50
 13. [인트로 정렬](/studynote/08_algorithm_stats/01_basics/013_randomized_algorithm/) ([Introsort](/studynote/08_algorithm_stats/01_basics/013_randomized_algorithm/)) — 퀵+힙+삽입 혼합, C++ STL
 14. [정렬 안정성](/studynote/08_algorithm_stats/01_basics/014_recursion/) ([Stability](/studynote/08_algorithm_stats/01_basics/014_recursion/)) — 동일 키 순서 유지 여부
 15. [외부 정렬](/studynote/08_algorithm_stats/02_sorting/015_quick_sort_optimization/) ([External Sort](/studynote/08_algorithm_stats/02_sorting/015_quick_sort_optimization/)) — 대용량 [데이터](/studynote/08_algorithm_stats/02_sorting/015_quick_sort_optimization/), 멀티웨이 합병
-16. 정렬 비교 — 시간/공간/안정성/적합 환경
+16. [정렬 비교 — 시간/공간/안정성/적합 환경](/studynote/08_algorithm_stats/02_sorting/016_counting_sort/)
 17. 네트워크 정렬 ([Sorting Network](/studynote/08_algorithm_stats/02_sorting/017_radix_sort/)) — [병렬](/studynote/08_algorithm_stats/02_sorting/017_radix_sort/) 정렬
 18. [이분 탐색](/studynote/08_algorithm_stats/02_sorting/018_bucket_sort/) ([Binary Search](/studynote/08_algorithm_stats/02_sorting/018_bucket_sort/)) — O(log n), 정렬된 [배열](/studynote/08_algorithm_stats/02_sorting/018_bucket_sort/) 필수
 
@@ -74,7 +74,7 @@ weight: 50
 17. [이분 매칭](/studynote/08_algorithm_stats/02_sorting/017_radix_sort/) ([Bipartite Matching](/studynote/08_algorithm_stats/02_sorting/017_radix_sort/)) — 헝가리안 [알고리즘](/studynote/08_algorithm_stats/02_sorting/017_radix_sort/)
 18. 유니온-파인드 ([Union-Find](/studynote/08_algorithm_stats/02_sorting/018_bucket_sort/) / [Disjoint Set](/studynote/08_algorithm_stats/02_sorting/018_bucket_sort/)) — 경로 [압축](/studynote/08_algorithm_stats/02_sorting/018_bucket_sort/), 랭크
 19. [최소 컷](/studynote/08_algorithm_stats/02_sorting/019_timsort/) ([Min Cut](/studynote/08_algorithm_stats/02_sorting/019_timsort/)) — Max-Flow Min-Cut 정리
-20. 오일러 경로/회로 — Fleury / Hierholzer
+20. [오일러 경로/회로 — Fleury / Hierholzer](/studynote/08_algorithm_stats/02_sorting/020_introsort/)
 21. [해밀턴 경로](/studynote/08_algorithm_stats/02_sorting/021_stability/) — NP-완전, [백트래킹](/studynote/08_algorithm_stats/02_sorting/021_stability/)
 22. 최소 비용 [최대 유량](/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/) (Min-Cost Max-Flow) — 네트워크 최적화, 비용 최소화
 23. 중국 우편배달 문제 (Chinese Postman Problem) — 모든 간선 순회, [그래프](/studynote/08_algorithm_stats/02_sorting/023_external_sort/) 순회 최적화
@@ -106,7 +106,7 @@ weight: 50
 20. [펜윅 트리](/studynote/08_algorithm_stats/02_sorting/020_introsort/) / [BIT](/studynote/08_algorithm_stats/02_sorting/020_introsort/) (Binary [Indexed](/studynote/08_algorithm_stats/02_sorting/020_introsort/) Tree / [Fenwick Tree](/studynote/08_algorithm_stats/02_sorting/020_introsort/)) — 구간 합
 21. [압축된 트라이](/studynote/08_algorithm_stats/02_sorting/021_stability/) ([Compressed Trie](/studynote/08_algorithm_stats/02_sorting/021_stability/) / Patricia [Trie](/studynote/08_algorithm_stats/02_sorting/021_stability/))
 22. 서픽스 트리 (Suffix Tree) / 서픽스 [배열](/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/) (Suffix [Array](/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/))
-23. 해시맵 (HashMap) vs 트리맵 (TreeMap) — 순서 유무
+23. [해시맵 (HashMap) vs 트리맵 (TreeMap) — 순서 유무](/studynote/08_algorithm_stats/02_sorting/023_external_sort/)
 24. [스킵 리스트](/studynote/08_algorithm_stats/02_sorting/024_selection_sort/) ([Skip List](/studynote/08_algorithm_stats/02_sorting/024_selection_sort/)) — [확률](/studynote/08_algorithm_stats/02_sorting/024_selection_sort/)적 균형, O(log n)
 25. 유니온-파인드 ([Union-Find](/studynote/08_algorithm_stats/02_sorting/025_sort_comparison/)) — 집합 연산
 26. [단조 스택](/studynote/08_algorithm_stats/02_sorting/026_insertion_sort/) ([Monotonic Stack](/studynote/08_algorithm_stats/02_sorting/026_insertion_sort/)/[Queue](/studynote/08_algorithm_stats/02_sorting/026_insertion_sort/))
@@ -134,11 +134,11 @@ weight: 50
 
 ## 6. NP 이론 / 계산 이론 — 14개
 
-1. P 클래스 — 다항 시간 내 해결 가능
+1. [P 클래스 — 다항 시간 내 해결 가능](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 2. NP 클래스 — 다항 시간 내 [검증](/studynote/08_algorithm_stats/01_basics/002_time_complexity/) 가능
 3. NP-완전 ([NP-Complete](/studynote/08_algorithm_stats/01_basics/003_space_complexity/)) — NP 중 가장 어려운 문제
 4. NP-어려움 ([NP-Hard](/studynote/08_algorithm_stats/01_basics/004_big_o_notation/)) — NP보다 어렵거나 동등
-5. P = NP 문제 — 미해결 난제
+5. [P = NP 문제 — 미해결 난제](/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)
 6. [다항 시간 환산](/studynote/08_algorithm_stats/01_basics/006_greedy_algorithm/) ([Polynomial Reduction](/studynote/08_algorithm_stats/01_basics/006_greedy_algorithm/))
 7. [SAT](/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/) ([Satisfiability](/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/)) — 최초 NP-완전 증명 (Cook-Levin)
 8. [클리크 문제](/studynote/08_algorithm_stats/01_basics/008_memoization/) ([Clique Problem](/studynote/08_algorithm_stats/01_basics/008_memoization/)) — NP-완전
@@ -169,7 +169,7 @@ weight: 50
 ## 8. [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) / 통계 기초 — 20개
 
 1. [확률](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) ([Probability](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) — 고전/상대도수/주관 [확률](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
-2. 베이즈 정리 (Bayes' Theorem) — P(A|B) = P(B|A)P(A)/P(B)
+2. [베이즈 정리 (Bayes' Theorem) — P(A|B) = P(B|A)P(A)/P(B)](/studynote/08_algorithm_stats/01_basics/002_time_complexity/)
 3. [조건부 확률](/studynote/08_algorithm_stats/01_basics/003_space_complexity/) ([Conditional Probability](/studynote/08_algorithm_stats/01_basics/003_space_complexity/))
 4. [독립 사건](/studynote/08_algorithm_stats/01_basics/004_big_o_notation/) ([Independence](/studynote/08_algorithm_stats/01_basics/004_big_o_notation/)) / 상호 배타적 사건
 5. [확률 변수](/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/) ([Random Variable](/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)) — 이산/연속
@@ -208,9 +208,9 @@ weight: 50
 
 ## [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). 선형대수 / 최적화 — 10개
 
-1. 선형 연립방정식 — 행렬 표현, 가우스 소거
+1. [선형 연립방정식 — 행렬 표현, 가우스 소거](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 2. [행렬 분해](/studynote/08_algorithm_stats/01_basics/002_time_complexity/) — LU / QR / [SVD](/studynote/08_algorithm_stats/01_basics/002_time_complexity/) ([Singular Value Decomposition](/studynote/08_algorithm_stats/01_basics/002_time_complexity/))
-3. 고유값 / 고유벡터 (Eigenvalue/Eigenvector)
+3. [고유값 / 고유벡터 (Eigenvalue/Eigenvector)](/studynote/08_algorithm_stats/01_basics/003_space_complexity/)
 4. [PCA](/studynote/08_algorithm_stats/01_basics/004_big_o_notation/) ([Principal Component Analysis](/studynote/08_algorithm_stats/01_basics/004_big_o_notation/)) — [SVD](/studynote/08_algorithm_stats/01_basics/004_big_o_notation/) 기반 [차원 축소](/studynote/08_algorithm_stats/01_basics/004_big_o_notation/)
 5. [볼록 함수](/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/) ([Convex Function](/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)) — 전역 최적 보장
 6. [기울기 하강법](/studynote/08_algorithm_stats/01_basics/006_greedy_algorithm/) ([Gradient Descent](/studynote/08_algorithm_stats/01_basics/006_greedy_algorithm/)) — 최적화 기본

@@ -39,8 +39,8 @@ weight: 50
 25. [MBO](/studynote/07_enterprise_systems/01_strategy_governance/025_mbo_management_by_objectives/) ([Management by Objectives](/studynote/07_enterprise_systems/01_strategy_governance/025_mbo_management_by_objectives/)) - 피터 드러커의 목표 관리 제도의 한계와 OKR의 차이점
 26. [가치 사슬](/studynote/07_enterprise_systems/01_strategy_governance/026_value_chain_analysis/) ([Value Chain](/studynote/07_enterprise_systems/01_strategy_governance/026_value_chain_analysis/)) 분석 - 마이클 포터, 기업의 주활동(본원적 활동)과 지원활동을 분석해 부가가치 창출 원천 파악
 27. 주활동 (Inbound Logistics, Operations, Outbound Logistics, Marketing/Sales, [Service](/studynote/07_enterprise_systems/01_strategy_governance/027_value_chain_primary_activities/))
-28. 지원활동 (Firm Infrastructure, HR, Tech Development, Procurement)
-29. 5 Forces Model (마이클 포터) - 산업 경쟁력 분석 (기존 경쟁자, 신규 진입자, 대체재, 공급자 교섭력, 구매자 교섭력)
+28. [지원활동 (Firm Infrastructure, HR, Tech Development, Procurement)](/studynote/07_enterprise_systems/01_strategy_governance/028_value_chain_support_activities/)
+29. [5 Forces Model (마이클 포터) - 산업 경쟁력 분석 (기존 경쟁자, 신규 진입자, 대체재, 공급자 교섭력, 구매자 교섭력)](/studynote/07_enterprise_systems/01_strategy_governance/029_five_forces_model/)
 30. SWOT 분석 - 강점(Strength), 약점(Weakness), 기회(Opportunity), 위협(Threat) 교차 분석(SO, [ST](/studynote/07_enterprise_systems/01_strategy_governance/030_swot_analysis/), WO, WT [전략](/studynote/07_enterprise_systems/01_strategy_governance/030_swot_analysis/))
 31. 3C 분석 - [C고객](/studynote/07_enterprise_systems/01_strategy_governance/031_3c_analysis/)(고객), Company(자사), Competitor(경쟁사)
 32. [PEST](/studynote/07_enterprise_systems/01_strategy_governance/032_pest_steep_analysis/) 분석 - [거시 환경 분석](/studynote/07_enterprise_systems/01_strategy_governance/032_pest_steep_analysis/) (Political, Economic, Social, Technological) / STEEP 분석
@@ -141,10 +141,10 @@ weight: 50
 125. [C-Commerce](/studynote/07_enterprise_systems/02_erp_systems/125_c_commerce_collaborative_commerce/) ([Collaborative Commerce](/studynote/07_enterprise_systems/02_erp_systems/125_c_commerce_collaborative_commerce/)) - B2B 환경 협업 상거래 설계 도면 공유
 126. [SCM](/studynote/07_enterprise_systems/02_erp_systems/126_scm_erp_mes_vertical_integration/)-[ERP](/studynote/07_enterprise_systems/02_erp_systems/126_scm_erp_mes_vertical_integration/)-[MES](/studynote/07_enterprise_systems/02_erp_systems/126_scm_erp_mes_vertical_integration/) 수직적 통합 (Vertical Integration) 아키텍처
 127. [KMS](/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/) ([Knowledge Management System](/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/)) - 지식 관리 시스템 (조직의 암묵지를 [형식지](/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/)로 변환 공유)
-128. 암묵지 (Tacit Knowledge) - 개인의 경험/노하우 내재된 지식
+128. [암묵지 (Tacit Knowledge) - 개인의 경험/노하우 내재된 지식](/studynote/07_enterprise_systems/02_erp_systems/128_tacit_vs_explicit_knowledge/)
 129. [형식지](/studynote/07_enterprise_systems/02_erp_systems/129_explicit_knowledge_formalization/) ([Explicit Knowledge](/studynote/07_enterprise_systems/02_erp_systems/129_explicit_knowledge_formalization/)) - 문서/매뉴얼로 겉으로 표출된 지식
 130. SECI 모델 (Nonaka 지식 창조 이론) - 이식(Socialization), 표출(Externalization), 연결(Combination), 내면화(Internalization)
-131. 그룹웨어 (Groupware) 및 엔터프라이즈 2.0 협업 툴 (Slack, Teams, Confluence)
+131. [그룹웨어 (Groupware) 및 엔터프라이즈 2.0 협업 툴 (Slack, Teams, Confluence)](/studynote/07_enterprise_systems/02_erp_systems/131_그룹웨어_groupware_및_엔터프라이즈_2_0_협업/)
 132. HRIS / e-HR (인적 자원 정보 시스템) 및 인재 관리 ([Talent Management](/studynote/07_enterprise_systems/02_erp_systems/132_hris_e_hr_talent_management_system/))
 133. EPM ([Enterprise Performance Management](/studynote/07_enterprise_systems/02_erp_systems/133_epm_enterprise_performance_management_cpm/)) / [CPM](/studynote/07_enterprise_systems/02_erp_systems/133_epm_enterprise_performance_management_cpm/) - 재무 성과, 예산 편성, 예측 통합 관리 [모듈](/studynote/07_enterprise_systems/02_erp_systems/133_epm_enterprise_performance_management_cpm/)
 134. SR (Social Responsibility) / ESG 경영 IT 시스템 (환경, 사회, 지배구조 탄소 배출 [모니터](/studynote/07_enterprise_systems/02_erp_systems/134_esg_management_it_system_carbon_tracking/)링)
@@ -156,7 +156,7 @@ weight: 50
 140. [구독 경제](/studynote/07_enterprise_systems/02_erp_systems/140_subscription_economy_xaas_business_model/) ([Subscription Economy](/studynote/07_enterprise_systems/02_erp_systems/140_subscription_economy_xaas_business_model/)) 및 [서비스](/studynote/07_enterprise_systems/02_erp_systems/140_subscription_economy_xaas_business_model/)형 플랫폼(XaaS) 비즈니스 모델
 
 ## 3. 엔터프라이즈 [애플리케이션 아키텍처](/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/) ([EAI](/studynote/07_enterprise_systems/03_eai_esb_msa/143_eai_enterprise_application_integration_hub/)/[ESB](/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/)/[MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) (70개)
-141. 애플리케이션 통합 아키텍처 개요
+141. [애플리케이션 통합 아키텍처 개요](/studynote/07_enterprise_systems/03_eai_esb_msa/141_애플리케이션_통합_아키텍처_개요/)
 142. 포인트 투 포인트 ([Point-to-Point](/studynote/07_enterprise_systems/03_eai_esb_msa/142_point_to_point_integration_spaghetti/)) 통합 - 각 시스템을 1:1로 직접 연결 (N*(N-1)/2 링크 스파게티 구조, 관리 불가)
 143. [EAI](/studynote/07_enterprise_systems/03_eai_esb_msa/143_eai_enterprise_application_integration_hub/) ([Enterprise Application Integration](/studynote/07_enterprise_systems/03_eai_esb_msa/143_eai_enterprise_application_integration_hub/)) - 전사적 애플리케이션 통합 미들웨어 기반 ([Hub](/studynote/07_enterprise_systems/03_eai_esb_msa/143_eai_enterprise_application_integration_hub/) & Spoke 모델 중앙 제어)
 144. [허브](/studynote/07_enterprise_systems/03_eai_esb_msa/144_hub_and_spoke_architecture_eai/) 앤 스포크 ([Hub](/studynote/07_enterprise_systems/03_eai_esb_msa/144_hub_and_spoke_architecture_eai/) and Spoke) - 중앙 [허브](/studynote/07_enterprise_systems/03_eai_esb_msa/144_hub_and_spoke_architecture_eai/)를 통해 [데이터](/studynote/07_enterprise_systems/03_eai_esb_msa/144_hub_and_spoke_architecture_eai/) 포맷 변환 및 [라우팅](/studynote/07_enterprise_systems/03_eai_esb_msa/144_hub_and_spoke_architecture_eai/) 수행 ([허브](/studynote/07_enterprise_systems/03_eai_esb_msa/144_hub_and_spoke_architecture_eai/) 장애 시 전면 중단/[SPOF](/studynote/07_enterprise_systems/03_eai_esb_msa/144_hub_and_spoke_architecture_eai/) 위험)
@@ -174,7 +174,7 @@ weight: 50
 156. [REST](/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) ([Representational State Transfer](/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/)) - Roy Fielding 제안 [아키텍처 스타일](/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/), [HTTP](/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) 메서드(GET, POST, PUT, DELETE)와 URI(자원)를 있는 그대로 활용 ([SOAP](/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) 대체)
 157. [RESTful API](/studynote/07_enterprise_systems/03_eai_esb_msa/157_restful_api_richardson_maturity_model/) 성숙도 모델 ([Richardson Maturity Model](/studynote/07_enterprise_systems/03_eai_esb_msa/157_restful_api_richardson_maturity_model/))
 158. Level 0 - 단일 URI, 단일 POST 메서드만 사용 ([RPC](/studynote/07_enterprise_systems/03_eai_esb_msa/158_rest_level_0_rpc_style/) 스타일)
-159. Level 1 - 리소스별 고유 URI 할당
+159. [Level 1 - 리소스별 고유 URI 할당](/studynote/07_enterprise_systems/03_eai_esb_msa/159_rest_level_1_resources/)
 160. Level 2 - [HTTP](/studynote/07_enterprise_systems/03_eai_esb_msa/160_rest_level_2_http_verbs/) 메서드의 적절한 분리 사용 ([가장 대중적 단계](/studynote/07_enterprise_systems/03_eai_esb_msa/160_rest_level_2_http_verbs/))
 161. [Level 3 - HATEOAS](/studynote/07_enterprise_systems/03_eai_esb_msa/161_rest_level_3_hateoas/) ([Hypermedia As The 엔진 Of Application State](/studynote/07_enterprise_systems/03_eai_esb_msa/161_rest_level_3_hateoas/)), 응답에 다음 [상태 전이](/studynote/07_enterprise_systems/03_eai_esb_msa/161_rest_level_3_hateoas/)용 하이퍼링크 동적 포함
 162. [무상태성](/studynote/07_enterprise_systems/03_eai_esb_msa/162_rest_statelessness/) ([Statelessness](/studynote/07_enterprise_systems/03_eai_esb_msa/162_rest_statelessness/)) - REST의 핵심, 서버에 [세션](/studynote/07_enterprise_systems/03_eai_esb_msa/162_rest_statelessness/) 상태를 저장하지 않고 요청 자체만으로 완벽히 문맥 이해
@@ -221,7 +221,7 @@ weight: 50
 ## 4. 프로세스 모델링, IT 컨설팅 및 관리 기법 (60개)
 202. [BPM](/studynote/07_enterprise_systems/04_process_consulting/202_bpm_lifecycle_design_execution_monitoring_optimization/) ([Business Process Management](/studynote/07_enterprise_systems/04_process_consulting/202_bpm_lifecycle_design_execution_monitoring_optimization/)) 라이프사이클 - 프로세스 설계 -> 실행 -> [모니터](/studynote/07_enterprise_systems/04_process_consulting/202_bpm_lifecycle_design_execution_monitoring_optimization/)링 -> 최적화 (순환)
 203. [BPMN](/studynote/07_enterprise_systems/04_process_consulting/203_bpmn_business_process_model_and_notation/) ([Business Process Model and Notation](/studynote/07_enterprise_systems/04_process_consulting/203_bpmn_business_process_model_and_notation/)) - [비즈니스 프로세스 모델링](/studynote/07_enterprise_systems/04_process_consulting/203_bpmn_business_process_model_and_notation/) 표준 그래픽 기법 (Event, Gateway, Activity, Pool/Lane)
-204. 워크플로우 (Workflow) 관리 시스템 - 결재 라인 및 작업 흐름 자동화
+204. [워크플로우 (Workflow) 관리 시스템 - 결재 라인 및 작업 흐름 자동화](/studynote/07_enterprise_systems/04_process_consulting/204_workflow_management_system_business_automation/)
 205. [프로세스 마이닝](/studynote/07_enterprise_systems/04_process_consulting/205_process_mining_event_log_discovery_conformance/) ([Process Mining](/studynote/07_enterprise_systems/04_process_consulting/205_process_mining_event_log_discovery_conformance/)) - 정보시스템 이벤트 [로그](/studynote/07_enterprise_systems/04_process_consulting/205_process_mining_event_log_discovery_conformance/)([ERP](/studynote/07_enterprise_systems/04_process_consulting/205_process_mining_event_log_discovery_conformance/), [CRM](/studynote/07_enterprise_systems/04_process_consulting/205_process_mining_event_log_discovery_conformance/) 접속 기록) [데이터](/studynote/07_enterprise_systems/04_process_consulting/205_process_mining_event_log_discovery_conformance/)를 분석하여 직원들의 '실제 업무 프로세스 맵'을 자동 [시각화](/studynote/07_enterprise_systems/04_process_consulting/205_process_mining_event_log_discovery_conformance/) 도출 및 병목([Bottleneck](/studynote/07_enterprise_systems/04_process_consulting/205_process_mining_event_log_discovery_conformance/)) 탐지하는 최신 기법
 206. [적합성 검사](/studynote/07_enterprise_systems/04_process_consulting/206_conformance_checking_process_mining_deviation_audit/) ([Conformance Checking](/studynote/07_enterprise_systems/04_process_consulting/206_conformance_checking_process_mining_deviation_audit/)) - [프로세스 마이닝](/studynote/07_enterprise_systems/04_process_consulting/206_conformance_checking_process_mining_deviation_audit/) 기능, 규정된 표준 프로세스와 실제 임직원 수행 [로그](/studynote/07_enterprise_systems/04_process_consulting/206_conformance_checking_process_mining_deviation_audit/)와의 위반 일탈(Deviation) 정도 비교
 207. [모델 향상](/studynote/07_enterprise_systems/04_process_consulting/207_model_enhancement_process_mining_simulation/) ([Model Enhancement](/studynote/07_enterprise_systems/04_process_consulting/207_model_enhancement_process_mining_simulation/)) - 병목 제거 후 최적 프로세스로 업데이트
@@ -254,13 +254,13 @@ weight: 50
 234. [의사소통 관리 계획 수립 절차](/studynote/07_enterprise_systems/04_process_consulting/234_communication_management_plan/)
 235. 범위 관리 [WBS](/studynote/07_enterprise_systems/04_process_consulting/235_scope_wbs_100_rule/) ([Work Breakdown Structure](/studynote/07_enterprise_systems/04_process_consulting/235_scope_wbs_100_rule/)) 100% Rule 규칙 통제
 236. 위험 관리 [레지스터](/studynote/07_enterprise_systems/04_process_consulting/236_risk_register_contingency_reserve/) ([Risk](/studynote/07_enterprise_systems/04_process_consulting/236_risk_register_contingency_reserve/) [Register](/studynote/07_enterprise_systems/04_process_consulting/236_risk_register_contingency_reserve/)) 및 예비비 (Contingency Reserve) vs 관리 예비비 ([Management](/studynote/07_enterprise_systems/04_process_consulting/236_risk_register_contingency_reserve/) Reserve)
-237. 조달 관리 (Procurement) 입찰 RFP (제안요청서), RFI (정보요청서), RFQ 도입 비교
+237. [조달 관리 (Procurement) 입찰 RFP (제안요청서), RFI (정보요청서), RFQ 도입 비교](/studynote/07_enterprise_systems/04_process_consulting/237_procurement_rfp_rfi_rfq/)
 238. [프로젝트 통합 관리 통제 위원회](/studynote/07_enterprise_systems/04_process_consulting/238_project_steering_committee/) 구성
 239. [변경 통제 위원회](/studynote/07_enterprise_systems/04_process_consulting/239_ccb_change_control_board_baseline/) ([CCB](/studynote/07_enterprise_systems/04_process_consulting/239_ccb_change_control_board_baseline/)) [기준선](/studynote/07_enterprise_systems/04_process_consulting/239_ccb_change_control_board_baseline/)([Baseline](/studynote/07_enterprise_systems/04_process_consulting/239_ccb_change_control_board_baseline/)) 갱신 절차
 240. [애자일 스크럼](/studynote/07_enterprise_systems/04_process_consulting/240_agile_scrum_limits_waterscrumfall_culture_conflict/)([Scrum](/studynote/07_enterprise_systems/04_process_consulting/240_agile_scrum_limits_waterscrumfall_culture_conflict/)) 도입 한계 및 폭포수(Waterfall) 모델 혼합 [워터스크럼폴](/studynote/07_enterprise_systems/04_process_consulting/240_agile_scrum_limits_waterscrumfall_culture_conflict/) 조직 문화 충돌 진단
 241. [디자인 씽킹](/studynote/07_enterprise_systems/04_process_consulting/241_design_thinking_5_stages_empathize_define_ideate_prototype_test/) ([Design Thinking](/studynote/07_enterprise_systems/04_process_consulting/241_design_thinking_5_stages_empathize_define_ideate_prototype_test/)) 5단계 - 공감(Empathize), 정의(Define), 아이디에이션(Ideate), [프로토타입](/studynote/07_enterprise_systems/04_process_consulting/241_design_thinking_5_stages_empathize_define_ideate_prototype_test/)([Prototype](/studynote/07_enterprise_systems/04_process_consulting/241_design_thinking_5_stages_empathize_define_ideate_prototype_test/)), 테스트(Test) 창의적 문제 해결 프레임워크
 242. 페르소나 (Persona) 및 고객 여정 지도 ([C고객](/studynote/07_enterprise_systems/04_process_consulting/242_persona_customer_journey_map_cx_touchpoint/) Journey Map) CX 터치포인트 도출 기법
-243. 페인 포인트 (Pain Point) 발굴 워크숍
+243. [페인 포인트 (Pain Point) 발굴 워크숍](/studynote/07_enterprise_systems/04_process_consulting/243_pain_point_discovery_workshop/)
 244. [애자일](/studynote/07_enterprise_systems/04_process_consulting/244_agile_user_story_invest_principle/) [사용자 스토리](/studynote/07_enterprise_systems/04_process_consulting/244_agile_user_story_invest_principle/) ([User Story](/studynote/07_enterprise_systems/04_process_consulting/244_agile_user_story_invest_principle/)) 인베스트(INVEST) 원칙 - 독립적, 협상 가능, 가치 있는, 추정 가능한, 충분히 작은, 테스트 가능한 요건 작성
 245. [최소 존립 제품](/studynote/07_enterprise_systems/04_process_consulting/245_mvp_hypothesis_canvas_ab_testing_strategy/) ([MVP](/studynote/07_enterprise_systems/04_process_consulting/245_mvp_hypothesis_canvas_ab_testing_strategy/)) 가설 캔버스 작성 및 AB 테스팅 실험 [전략](/studynote/07_enterprise_systems/04_process_consulting/245_mvp_hypothesis_canvas_ab_testing_strategy/)
 246. [데이터 거버넌스](/studynote/07_enterprise_systems/04_process_consulting/246_data_governance_council_operation/) 협의체 ([Data Governance Council](/studynote/07_enterprise_systems/04_process_consulting/246_data_governance_council_operation/)) 운영
@@ -270,7 +270,7 @@ weight: 50
 250. 레그테크 ([RegTech](/studynote/07_enterprise_systems/04_process_consulting/250_regtech_internal_control_it_compliance_audit/)) 활용 내부 통제 및 IT 컴플라이언스 체계 상시 [감사](/studynote/07_enterprise_systems/04_process_consulting/250_regtech_internal_control_it_compliance_audit/)(Continuous [Auditing](/studynote/07_enterprise_systems/04_process_consulting/250_regtech_internal_control_it_compliance_audit/)) 인프라
 251. [ISMS-P](/studynote/07_enterprise_systems/04_process_consulting/251_isms_p_certification_risk_assessment_methodology/) [인증](/studynote/07_enterprise_systems/04_process_consulting/251_isms_p_certification_risk_assessment_methodology/) 위험 평가 절차 방법론 적용
 252. 보안/프라이버시 내재화 ([Security by Design](/studynote/07_enterprise_systems/04_process_consulting/252_security_by_design_privacy_by_design/) / [Privacy by Design](/studynote/07_enterprise_systems/04_process_consulting/252_security_by_design_privacy_by_design/)) 요구사항 도출
-253. 디지털 탄소 발자국 지표 (Carbon Footprint) 대시보드
+253. [디지털 탄소 발자국 지표 (Carbon Footprint) 대시보드](/studynote/07_enterprise_systems/04_process_consulting/253_digital_carbon_footprint_dashboard/)
 254. 지속 가능한 IT(Sustainable IT) 아키텍처 서버 효율화 [전략](/studynote/07_enterprise_systems/04_process_consulting/254_sustainable_it_architecture_server_efficiency/)
 255. [데이터](/studynote/07_enterprise_systems/04_process_consulting/255_datacenter_pue_cooling_infrastructure_economics/) 센터 [PUE](/studynote/07_enterprise_systems/04_process_consulting/255_datacenter_pue_cooling_infrastructure_economics/) 하락을 위한 쿨링(액침냉각 등) 인프라 도입 경제성 평가
 256. 하이브리드 워크플레이스 (Hybrid Workplace) [보안 아키텍처](/studynote/07_enterprise_systems/04_process_consulting/256_hybrid_workplace_zero_trust_security_architecture/) [제로 트러스트](/studynote/07_enterprise_systems/04_process_consulting/256_hybrid_workplace_zero_trust_security_architecture/)망 모델
@@ -349,8 +349,8 @@ weight: 50
 325. [BSC](/exam/07_enterprise_systems/325_bsc_four_perspectives/) 균형 성과 4관점 (재무, 고객, 프로세스, 성장)
 326. [OKR](/exam/07_enterprise_systems/326_okr_vs_mbo/) [MBO](/exam/07_enterprise_systems/326_okr_vs_mbo/) 성과 평가 패러다임 차이
 327. [가치 사슬](/exam/07_enterprise_systems/327_value_chain_porter/) ([Value Chain](/exam/07_enterprise_systems/327_value_chain_porter/)) 마이클 포터
-328. 5 Forces 산업 구조 경쟁 요인
-329. SWOT 교차 분석 [전략](/exam/07_enterprise_systems/329_swot_cross_analysis/) 도출
+328. [5 Forces 산업 구조 경쟁 요인](/studynote/07_enterprise_systems/05_data_bi/328_5_forces_산업_구조_경쟁_요인/)
+329. [SWOT 교차 분석 [전략](/exam/07_enterprise_systems/329_swot_cross_analysis/) 도출](/studynote/07_enterprise_systems/05_data_bi/329_swot_교차_분석_전략_exam_07_enterpri/)
 330. [롱테일 법칙](/exam/07_enterprise_systems/330_long_tail_vs_pareto/) 파레토 80:20 비교
 331. [린 스타트업](/exam/07_enterprise_systems/331_lean_startup_mvp_bml/) [MVP](/exam/07_enterprise_systems/331_lean_startup_mvp_bml/) 배포 실험
 332. [그로스 해킹](/exam/07_enterprise_systems/332_growth_hacking_aarrr/) AARRR 퍼널
@@ -361,7 +361,7 @@ weight: 50
 337. [인시던트 관리 vs 문제 관리 근본 원인](/exam/07_enterprise_systems/337_incident_vs_problem_management/)
 338. BCP 업무 연속성 [복구](/studynote/07_enterprise_systems/10_enterprise_security_governance/338_bcp_bia_business_continuity/) [BIA](/studynote/07_enterprise_systems/10_enterprise_security_governance/338_bcp_bia_business_continuity/)
 339. 클라우드 마이그레이션 6R (Rehost, [Refactor](/studynote/07_enterprise_systems/08_cloud_finops/339_cloud_migration_6r/))
-340. 섀도우 IT [CASB](/exam/07_enterprise_systems/340_shadow_it_casb/) 솔루션
+340. [섀도우 IT [CASB](/exam/07_enterprise_systems/340_shadow_it_casb/) 솔루션](/studynote/07_enterprise_systems/08_cloud_finops/340_섀도우_it_casb_exam_07_enterprise/)
 341. [데이터 스튜어드 품질 오너십](/exam/07_enterprise_systems/341_data_steward_quality_ownership/)
 342. [MDM](/exam/07_enterprise_systems/342_mdm_master_data_golden_record/) [마스터 데이터](/exam/07_enterprise_systems/342_mdm_master_data_golden_record/) 골든 레코드
 343. [플랫폼 비즈니스 양면 시장](/exam/07_enterprise_systems/343_platform_business_two_sided_market/) 모델
@@ -381,7 +381,7 @@ weight: 50
 357. [CDP](/exam/07_enterprise_systems/357_cdp_first_party_data/) 퍼스트파티 고객 통합
 358. [MES](/exam/07_enterprise_systems/358_mes_pop_manufacturing/) 공장 실행 [POP](/exam/07_enterprise_systems/358_mes_pop_manufacturing/) [데이터](/exam/07_enterprise_systems/358_mes_pop_manufacturing/)
 359. [PLM](/exam/07_enterprise_systems/359_plm_bom_product_lifecycle/) [BOM](/exam/07_enterprise_systems/359_plm_bom_product_lifecycle/) 도면 수명 주기
-360. 지식 관리 SECI 모델 내면화
+360. [지식 관리 SECI 모델 내면화](/studynote/07_enterprise_systems/08_cloud_finops/360_지식_관리_seci_모델_내면화/)
 361. [EAI](/exam/07_enterprise_systems/361_eai_hub_spoke_bus/) [허브](/exam/07_enterprise_systems/361_eai_hub_spoke_bus/) 앤 스포크 [버스](/exam/07_enterprise_systems/361_eai_hub_spoke_bus/)
 362. [SOA WSDL UDDI SOAP](/exam/07_enterprise_systems/362_soa_wsdl_uddi_soap/)
 363. [ESB](/exam/07_enterprise_systems/363_esb_message_bus_routing/) [메시](/exam/07_enterprise_systems/363_esb_message_bus_routing/)지 [버스](/exam/07_enterprise_systems/363_esb_message_bus_routing/) [라우팅](/exam/07_enterprise_systems/363_esb_message_bus_routing/)
@@ -426,7 +426,7 @@ weight: 50
 402. [블록체인](/studynote/07_enterprise_systems/09_digital_transformation/402_blockchain_dlt_merkle_tree/) [DLT](/studynote/07_enterprise_systems/09_digital_transformation/402_blockchain_dlt_merkle_tree/) [머클 트리](/studynote/07_enterprise_systems/09_digital_transformation/402_blockchain_dlt_merkle_tree/)
 403. [분산](/studynote/07_enterprise_systems/09_digital_transformation/403_consensus_pow_pos_bft/) 합의 PoW PoS [BFT](/studynote/07_enterprise_systems/09_digital_transformation/403_consensus_pow_pos_bft/)
 404. [스마트 컨트랙트 튜링 완전성 가스비](/studynote/07_enterprise_systems/09_digital_transformation/404_smart_contract_turing_gas/)
-405. NFT 대체 불가능 토큰 ERC
+405. [NFT 대체 불가능 토큰 ERC](/studynote/07_enterprise_systems/09_digital_transformation/405_nft_non_fungible_token_erc/)
 406. 디파이 [플래시 론](/studynote/07_enterprise_systems/09_digital_transformation/406_defi_flash_loan_oracle/) 오라클
 407. [ZKP](/studynote/07_enterprise_systems/09_digital_transformation/407_zkp_zero_knowledge_proof/) [영지식 증명](/studynote/07_enterprise_systems/09_digital_transformation/407_zkp_zero_knowledge_proof/) 비대화형
 408. 레이어 2 [롤업](/studynote/07_enterprise_systems/09_digital_transformation/408_layer2_rollup_optimistic_zk/) 옵티미스틱 ZK 차이
@@ -502,7 +502,7 @@ weight: 50
 478. [SLM](/studynote/07_enterprise_systems/09_digital_transformation/478_slm_small_language_model_edge_rag/) 소형 언어 에지 [RAG](/studynote/07_enterprise_systems/09_digital_transformation/478_slm_small_language_model_edge_rag/) 온디바이스 검색 모델망
 479. [인텐트 기반 네트워킹](/studynote/07_enterprise_systems/09_digital_transformation/479_ibn_intent_based_networking/) ([IBN](/studynote/07_enterprise_systems/09_digital_transformation/479_ibn_intent_based_networking/)) [AI](/studynote/07_enterprise_systems/09_digital_transformation/479_ibn_intent_based_networking/) [SDN](/studynote/07_enterprise_systems/09_digital_transformation/479_ibn_intent_based_networking/) 융합 통제망
 480. 텔레메트리 스트리밍 ([gRPC](/studynote/07_enterprise_systems/09_digital_transformation/480_telemetry_streaming_grpc_active/) [폴링](/studynote/07_enterprise_systems/09_digital_transformation/480_telemetry_streaming_grpc_active/) 탈피) 능동 감시망
-481. (엔터프라이즈 시스템 / 아키텍처 기술사 기출 종합 등 800+ 심화 파생 키워드 연결 체계 완성)
+481. [(엔터프라이즈 시스템 / 아키텍처 기술사 기출 종합 등 800+ 심화 파생 키워드 연결 체계 완성)](/studynote/07_enterprise_systems/09_digital_transformation/481_엔터프라이즈_시스템_아키텍처_기술사_기출_종합_등_8/)
 ... (반복 심화 전용)
 800. [차세대 전사 비즈니스 디지털 혁신](/exam/07_enterprise_systems/800_dt_dx_it/)(DT/[DX](/exam/07_enterprise_systems/800_dt_dx_it/)) 및 IT [전략](/exam/07_enterprise_systems/800_dt_dx_it/) 총론 포괄 구조 프레임워크 맵
 

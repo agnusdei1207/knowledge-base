@@ -45,13 +45,13 @@ weight: 50
 29. 차원의 저주 ([Curse of Dimensionality](/studynote/10_ai/01_ai_basics/029_dropout/)) - 특성(변수) 공간 차원이 늘어날수록, [데이터](/studynote/10_ai/01_ai_basics/029_dropout/) 간 거리가 희소해지고 학습 효율이 급감하는 현상
 30. [차원 축소](/studynote/10_ai/01_ai_basics/030_validation_set/) ([Dimensionality Reduction](/studynote/10_ai/01_ai_basics/030_validation_set/)) 기법
 31. [독립 변수](/studynote/10_ai/01_ai_basics/031_cross_validation/) (Independent Variable / Feature) / 종속 변수 (Dependent Variable / Target/Label)
-32. 회귀 (Regression) - 연속적인 수치 예측 (집값, 주가)
+32. [회귀 (Regression) - 연속적인 수치 예측 (집값, 주가)](/studynote/10_ai/01_ai_basics/032_decision_tree/)
 33. [분류](/studynote/10_ai/01_ai_basics/033_random_forest/) ([Classification](/studynote/10_ai/01_ai_basics/033_random_forest/)) - 이산적인 클래스 판별 (스팸 여부, 개/고양이 사진)
 34. [군집화](/studynote/10_ai/01_ai_basics/034_gradient_boosting/) ([Clustering](/studynote/10_ai/01_ai_basics/034_gradient_boosting/)) - 정답(Label) 없이 [데이터](/studynote/10_ai/01_ai_basics/034_gradient_boosting/)의 유사도에 따라 그룹 묶기
 35. [연관 규칙](/studynote/10_ai/01_ai_basics/035_xgboost_lightgbm/) ([Association Rules](/studynote/10_ai/01_ai_basics/035_xgboost_lightgbm/)) - [장바구니 분석](/studynote/10_ai/01_ai_basics/035_xgboost_lightgbm/) (A를 사면 B도 산다)
 36. 특성 공학 ([Feature 엔진ering](/studynote/10_ai/01_ai_basics/036_support_vector_machine/)) - [도메인](/studynote/10_ai/01_ai_basics/036_support_vector_machine/) 지식을 활용하여 모델 학습에 좋은 [피처](/studynote/10_ai/01_ai_basics/036_support_vector_machine/)(Feature)를 추출/가공
 37. [원-핫 인코딩](/studynote/10_ai/01_ai_basics/037_svm_kernel_trick/) ([One-Hot Encoding](/studynote/10_ai/01_ai_basics/037_svm_kernel_trick/)) - 범주형 [데이터](/studynote/10_ai/01_ai_basics/037_svm_kernel_trick/)를 0과 1의 벡터로 변환
-38. 라벨 인코딩 (Label Encoding) / 정수 인코딩
+38. [라벨 인코딩 (Label Encoding) / 정수 인코딩](/studynote/10_ai/01_ai_basics/038_knn/)
 39. [스케일링](/studynote/10_ai/01_ai_basics/039_naive_bayes/) (Scaling) - [정규화](/studynote/10_ai/01_ai_basics/039_naive_bayes/)([Normalization](/studynote/10_ai/01_ai_basics/039_naive_bayes/), 0~1), 표준화(Standardization, 평균 0 표준편차 1 Z-score)
 40. [교차 검증](/studynote/10_ai/01_ai_basics/040_ensemble_learning/) ([Cross-Validation](/studynote/10_ai/01_ai_basics/040_ensemble_learning/)) - K-Fold 분할 모델 평가 기법 (과적합 방지, 일반화 [성능](/studynote/10_ai/01_ai_basics/040_ensemble_learning/) [확인](/studynote/10_ai/01_ai_basics/040_ensemble_learning/))
 41. 하이퍼파라미터 (Hyperparameter) - 모델 학습 전 인간(엔지니어)이 직접 [설정](/studynote/10_ai/01_ai_basics/041_bagging_boosting/)해야 하는 변수 ([학습률](/studynote/10_ai/01_ai_basics/041_bagging_boosting/), 트리 깊이 등)
@@ -131,7 +131,7 @@ weight: 50
 113. [장기 의존성 문제](/studynote/10_ai/02_dl_architecture_new/113_long_term_dependency_rnn/) ([Long-term Dependency](/studynote/10_ai/02_dl_architecture_new/113_long_term_dependency_rnn/)) - [RNN](/studynote/10_ai/02_dl_architecture_new/113_long_term_dependency_rnn/) 시퀀스가 길어지면 [초기](/studynote/10_ai/02_dl_architecture_new/113_long_term_dependency_rnn/) 정보가 희석([기울기 소실](/studynote/10_ai/02_dl_architecture_new/113_long_term_dependency_rnn/))되는 한계
 114. [BPTT](/studynote/10_ai/02_dl_architecture_new/114_bptt_backpropagation_through_time/) ([Backpropagation Through Time](/studynote/10_ai/02_dl_architecture_new/114_bptt_backpropagation_through_time/)) - 시간에 따른 오차 [역전파](/studynote/10_ai/02_dl_architecture_new/114_bptt_backpropagation_through_time/)
 115. [LSTM](/studynote/10_ai/02_dl_architecture_new/115_lstm_long_short_term_memory/) ([Long Short-Term Memory](/studynote/10_ai/02_dl_architecture_new/115_lstm_long_short_term_memory/)) - [RNN](/studynote/10_ai/02_dl_architecture_new/115_lstm_long_short_term_memory/) 한계 극복, 은닉 상태(단기기억) 외에 셀 상태(Cell [State](/studynote/10_ai/02_dl_architecture_new/115_lstm_long_short_term_memory/), 장기기억) 컨베이어 벨트 도입
-116. LSTM의 3가지 게이트 - 입력 게이트(Input), 삭제 게이트(Forget, 기존 기억 폐기 비율 결정), 출력 게이트(Output)
+116. [LSTM의 3가지 게이트 - 입력 게이트(Input), 삭제 게이트(Forget, 기존 기억 폐기 비율 결정), 출력 게이트(Output)](/studynote/10_ai/02_dl_architecture_new/116_lstm_gates/)
 117. [GRU](/studynote/10_ai/02_dl_architecture_new/117_gru/) ([Gated Recurrent Unit](/studynote/10_ai/02_dl_architecture_new/117_gru/)) - LSTM의 복잡한 구조를 간소화(업데이트/리셋 게이트), 연산 속도 개선
 118. [양방향 RNN](/studynote/10_ai/02_dl_architecture_new/118_bidirectional_rnn/) ([Bidirectional RNN](/studynote/10_ai/02_dl_architecture_new/118_bidirectional_rnn/)) - 과거뿐만 아니라 미래의 문맥 역방향 연산 결과도 활용
 119. [Seq2Seq](/studynote/10_ai/02_dl_architecture_new/119_seq2seq_model/) ([Sequence to Sequence](/studynote/10_ai/02_dl_architecture_new/119_seq2seq_model/)) 모델 - [인코더](/studynote/10_ai/02_dl_architecture_new/119_seq2seq_model/)([Encoder](/studynote/10_ai/02_dl_architecture_new/119_seq2seq_model/))-[디코더](/studynote/10_ai/02_dl_architecture_new/119_seq2seq_model/)([Decoder](/studynote/10_ai/02_dl_architecture_new/119_seq2seq_model/)) 구조, 기계 번역 및 챗봇 뼈대
@@ -226,7 +226,7 @@ weight: 50
 204. [그래프 신경망](/studynote/10_ai/03_llm_nlp/204_gnn_graph_neural_network/) ([GNN](/studynote/10_ai/03_llm_nlp/204_gnn_graph_neural_network/), [Graph Neural Network](/studynote/10_ai/03_llm_nlp/204_gnn_graph_neural_network/)) - 구조화된 [그래프](/studynote/10_ai/03_llm_nlp/204_gnn_graph_neural_network/)(노드, 간선) 정보 소셜 네트워크, 화학 분자 분리 탐색 모델 ([Message Passing](/studynote/10_ai/03_llm_nlp/204_gnn_graph_neural_network/) 방식 통신)
 205. [지식 그래프](/studynote/10_ai/03_llm_nlp/205_knowledge_graph_rag/) ([Knowledge Graph](/studynote/10_ai/03_llm_nlp/205_knowledge_graph_rag/)) 지능형 연계 - [RAG](/studynote/10_ai/03_llm_nlp/205_knowledge_graph_rag/) 결합 [GraphRAG](/studynote/10_ai/03_llm_nlp/205_knowledge_graph_rag/) [환각](/studynote/10_ai/03_llm_nlp/205_knowledge_graph_rag/) 최소 [관계](/studynote/10_ai/03_llm_nlp/205_knowledge_graph_rag/) [메타데이터](/studynote/10_ai/03_llm_nlp/205_knowledge_graph_rag/) 주입
 206. [시계열 딥러닝](/studynote/10_ai/03_llm_nlp/206_tcn_time_series/) 예측 TCN ([Temporal Convolutional Network](/studynote/10_ai/03_llm_nlp/206_tcn_time_series/)) [병렬](/studynote/10_ai/03_llm_nlp/206_tcn_time_series/) 1D [CNN](/studynote/10_ai/03_llm_nlp/206_tcn_time_series/) 적용 비교
-207. 오디오 딥러닝 멜 스펙트로그램 (Mel-Spectrogram) 푸리에 변환 이미지 차용 음성 인식 모델(ASR) (Whisper 구조)
+207. [오디오 딥러닝 멜 스펙트로그램 (Mel-Spectrogram) 푸리에 변환 이미지 차용 음성 인식 모델(ASR) (Whisper 구조)](/studynote/10_ai/03_llm_nlp/207_audio_mel_spectrogram/)
 208. [기계 독해](/studynote/10_ai/03_llm_nlp/208_mrc_machine_reading_comprehension/) (MRC, Machine Reading Comprehension) 텍스트 분석 [알고리즘](/studynote/10_ai/03_llm_nlp/208_mrc_machine_reading_comprehension/) (SQuAD 벤치마크)
 209. [감성 분석](/studynote/10_ai/03_llm_nlp/209_sentiment_analysis/) ([Sentiment Analysis](/studynote/10_ai/03_llm_nlp/209_sentiment_analysis/)) NLP 적용 체제 (리뷰 호감도 자연어 파싱망)
 210. [개체명 인식](/studynote/10_ai/03_llm_nlp/210_ner_named_entity_recognition/) ([NER](/studynote/10_ai/03_llm_nlp/210_ner_named_entity_recognition/), Named Entity Recognition) - 텍스트 단어 인명, 지명, 조직 라벨링 [토큰화](/studynote/10_ai/03_llm_nlp/210_ner_named_entity_recognition/) 모델 체제
@@ -257,9 +257,9 @@ weight: 50
 233. [전문가 시스템](/studynote/10_ai/03_llm_nlp/233_expert_system/) ([지식 베이스](/studynote/10_ai/03_llm_nlp/233_expert_system/), 추론 엔진)
 234. [퍼지 로직](/studynote/10_ai/03_llm_nlp/234_fuzzy_logic/) (소속도 [확률](/studynote/10_ai/03_llm_nlp/234_fuzzy_logic/))
 235. [전향 추론](/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) ([데이터](/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/)) [후향 추론](/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) (목표)
-236. 상태 공간 트리 깊이/너비 우선
+236. [상태 공간 트리 깊이/너비 우선](/studynote/10_ai/03_llm_nlp/236_state_space_search_dfs_bfs/)
 237. [언덕 오르기 탐색](/studynote/10_ai/03_llm_nlp/237_hill_climbing_local_optima/) (지역 최적)
-238. A* 별 [휴리스틱](/studynote/10_ai/03_llm_nlp/238_a_star_heuristic_search/) 거리 탐색 (G+H)
+238. [A* 별 [휴리스틱](/studynote/10_ai/03_llm_nlp/238_a_star_heuristic_search/) 거리 탐색 (G+H)](/studynote/10_ai/03_llm_nlp/238_a_star_heuristic_search/)
 239. [미니맥스](/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/) (적대적 게임 트리) 알파베타 [가지치기](/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/)
 240. [몬테카를로 트리 탐색](/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/) ([MCTS](/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/)) 무작위 시뮬레이션
 241. [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) ([경험 기반 학습](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/))
@@ -284,7 +284,7 @@ weight: 50
 260. [부스팅](/studynote/10_ai/03_llm_nlp/260_boosting_xgboost/) (오차 [가중치](/studynote/10_ai/03_llm_nlp/260_boosting_xgboost/) [직렬](/studynote/10_ai/03_llm_nlp/260_boosting_xgboost/) 보완) XGBoost
 261. [SVM](/studynote/10_ai/03_llm_nlp/261_svm_hyperplane_kernel/) 초평면 최대 마진 [커널 트릭](/studynote/10_ai/03_llm_nlp/261_svm_hyperplane_kernel/)
 262. [K-NN](/studynote/10_ai/03_llm_nlp/262_knn/) 거리 기반 다수결 최근접 이웃
-263. K-Means 중심점 거리 반복 이동 EM 구조
+263. [K-Means 중심점 거리 반복 이동 EM 구조](/studynote/10_ai/03_llm_nlp/263_kmeans_em/)
 264. [나이브 베이즈](/studynote/10_ai/03_llm_nlp/264_naive_bayes/) 조건부 독립 [확률](/studynote/10_ai/03_llm_nlp/264_naive_bayes/) 연산
 265. [단층 퍼셉트론](/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/) XOR 판별 불가
 266. [다층 퍼셉트론](/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/) 비선형 해결 은닉층
@@ -300,7 +300,7 @@ weight: 50
 276. [모멘텀](/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/) 관성 기반 탈출
 277. [Adam](/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) 적응 학습 관성 결합망
 278. [과적합 방지 기법](/studynote/10_ai/03_llm_nlp/278_regularization_overview/) 모음
-279. L1/L2 라쏘 릿지 페널티 규제
+279. [L1/L2 라쏘 릿지 페널티 규제](/studynote/10_ai/03_llm_nlp/279_l1_l2_regularization/)
 280. [드롭아웃](/studynote/10_ai/03_llm_nlp/280_dropout/) 임의 뉴런 제거
 281. [조기 종료](/studynote/10_ai/03_llm_nlp/281_early_stopping/) [검증](/studynote/10_ai/03_llm_nlp/281_early_stopping/) 오차 증가 시 단절
 282. [배치 정규화 평균 분산](/studynote/10_ai/03_llm_nlp/282_batch_normalization/) 0~1 분포 은닉층 투과
@@ -314,7 +314,7 @@ weight: 50
 290. [RNN](/studynote/10_ai/04_ai_ops_ethics/290_rnn_recurrent/) 시계열 순서 기억 은닉 상태 루프
 291. [장기 의존성](/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/) (과거 정보 소실망 기울기)
 292. [LSTM](/studynote/10_ai/04_ai_ops_ethics/292_lstm/) 장기 단기 기억 셀 상태 컨베이어망
-293. 게이트 3개 (입력 출력 삭제 밸브망)
+293. [게이트 3개 (입력 출력 삭제 밸브망)](/studynote/10_ai/04_ai_ops_ethics/293_lstm_gates/)
 294. [GRU](/studynote/10_ai/04_ai_ops_ethics/294_gru/) 간소화 업데이트 리셋 게이트
 295. [Seq2Seq](/studynote/10_ai/04_ai_ops_ethics/295_seq2seq/) [인코더](/studynote/10_ai/04_ai_ops_ethics/295_seq2seq/) [디코더](/studynote/10_ai/04_ai_ops_ethics/295_seq2seq/) 챗봇 병목 발생
 296. 어텐션 고정 문맥 벡터 한계 돌파 동적 [가중치](/studynote/10_ai/04_ai_ops_ethics/296_attention_mechanism/)망
@@ -330,7 +330,7 @@ weight: 50
 306. [PEFT](/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/) 매개변수 효율적 파인튜닝 [로라](/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/) ([LoRA](/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/) 저차원 행렬)
 307. [할루시네이션 환각](/studynote/10_ai/04_ai_ops_ethics/307_hallucination/) 거짓말 위장 [생성](/studynote/10_ai/04_ai_ops_ethics/307_hallucination/) 통제
 308. [RAG](/studynote/10_ai/04_ai_ops_ethics/308_rag/) 검색 증강 외부 DB 문서 연동 주입 [생성](/studynote/10_ai/04_ai_ops_ethics/308_rag/)
-309. 벡터 DB [임베딩](/studynote/10_ai/04_ai_ops_ethics/309_vector_database/) 고차원 변환 의미 검색망
+309. [벡터 DB [임베딩](/studynote/10_ai/04_ai_ops_ethics/309_vector_database/) 고차원 변환 의미 검색망](/studynote/10_ai/04_ai_ops_ethics/309_vector_database/)
 310. [코사인 유사도](/studynote/10_ai/04_ai_ops_ethics/310_cosine_similarity/) 벡터 각도 비교 탐색기
 311. [지식 증류](/studynote/10_ai/04_ai_ops_ethics/311_knowledge_distillation/) ([Knowledge Distillation](/studynote/10_ai/04_ai_ops_ethics/311_knowledge_distillation/) 교사 학생 네트워크 [압축](/studynote/10_ai/04_ai_ops_ethics/311_knowledge_distillation/)망)
 312. [모델 양자화](/studynote/10_ai/04_ai_ops_ethics/312_quantization/) ([Quantization FP32 INT8](/studynote/10_ai/04_ai_ops_ethics/312_quantization/) 정수 절삭 용량 가속)

@@ -108,7 +108,7 @@ weight: 50
 92. [재현율](/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/) ([Recall](/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/) / 민감도) - 실제 "양성"인 [데이터](/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/) 전체 중에서 모델이 놓치지 않고 찾아낸 양성의 비율 (FN 억제가 중요할 때, 암 진단/불량 탐지)
 93. [F1-Score](/studynote/14_data_engineering/02_math_mining/093_f1_score_harmonic_mean/) - [정밀도](/studynote/14_data_engineering/02_math_mining/093_f1_score_harmonic_mean/)와 [재현율](/studynote/14_data_engineering/02_math_mining/093_f1_score_harmonic_mean/)의 조화 평균 (불균형 [데이터](/studynote/14_data_engineering/02_math_mining/093_f1_score_harmonic_mean/) 평가 제1지표)
 94. ROC 곡선 (Receiver Operating Characteristic) - [분류](/studynote/14_data_engineering/02_math_mining/094_roc_curve_auc_classification_performance/) 모델 [임계치](/studynote/14_data_engineering/02_math_mining/094_roc_curve_auc_classification_performance/) 변화에 따른 FPR(위양성률) 대비 TPR([재현율](/studynote/14_data_engineering/02_math_mining/094_roc_curve_auc_classification_performance/)) [그래프](/studynote/14_data_engineering/02_math_mining/094_roc_curve_auc_classification_performance/) 모형
-95. AUC (Area Under Curve) - ROC 곡선 아래 넓이 척도 (1.0에 가까울수록 완벽한 모델)
+95. [AUC (Area Under Curve) - ROC 곡선 아래 넓이 척도 (1.0에 가까울수록 완벽한 모델)](/studynote/14_data_engineering/01_infrastructure/095_concept/)
 96. [불균형 데이터 증강](/studynote/14_data_engineering/02_math_mining/096_oversampling_smote/) ([Oversampling](/studynote/14_data_engineering/02_math_mining/096_oversampling_smote/)) - [SMOTE](/studynote/14_data_engineering/02_math_mining/096_oversampling_smote/) (Synthetic Minority Over-sampling Technique) [알고리즘](/studynote/14_data_engineering/02_math_mining/096_oversampling_smote/) ([K-NN](/studynote/14_data_engineering/02_math_mining/096_oversampling_smote/) 이웃 선형 보간 기반 가상 [합성 데이터](/studynote/14_data_engineering/02_math_mining/096_oversampling_smote/) [생성](/studynote/14_data_engineering/02_math_mining/096_oversampling_smote/)망)
 97. [회귀 분석 지표](/studynote/14_data_engineering/02_math_mining/097_regression_metrics_mse_rmse_mae/) - [MSE](/studynote/14_data_engineering/02_math_mining/097_regression_metrics_mse_rmse_mae/) (평균 제곱 오차), RMSE (루트 보정), MAE (절대값 오차)
 98. [결정 계수](/studynote/14_data_engineering/02_math_mining/098_coefficient_of_determination_r_squared/) (R-Squared, R^2) - 0~1 사이값, 독립변수가 종속변수의 변동([Variance](/studynote/14_data_engineering/02_math_mining/098_coefficient_of_determination_r_squared/))을 얼마나 완벽히 설명하는가 ([SSR](/studynote/14_data_engineering/02_math_mining/098_coefficient_of_determination_r_squared/)/SST) 모델 설명력
@@ -122,15 +122,15 @@ weight: 50
 106. [마할라노비스 거리](/studynote/14_data_engineering/02_math_mining/106_mahalanobis_distance/) 통계 [이상치](/studynote/14_data_engineering/02_math_mining/106_mahalanobis_distance/) 파악
 107. [텐서플로우 배열](/studynote/14_data_engineering/02_math_mining/107_tensorflow_array_tensor/) 스칼라 벡터 차원 수학
 108. [지니 불순도](/studynote/14_data_engineering/02_math_mining/108_gini_impurity/) 정보 이득 트리 분할 [분산](/studynote/14_data_engineering/02_math_mining/108_gini_impurity/)
-109. 유클리드 거리 L2, 맨해튼 거리 L1 측정
+109. [유클리드 거리 L2, 맨해튼 거리 L1 측정](/studynote/14_data_engineering/02_math_mining/109_euclidean_vs_manhattan_distance/)
 110. 편향 [분산](/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/) 트레이드 오프 오버피팅 언더피팅
 111. [마르코프 체인](/studynote/14_data_engineering/02_math_mining/111_markov_chain_transition_matrix/) 시간 전이 행렬 시계열
-112. 로버스트 (Robust) 중앙값 절사 평균
-113. 다차원 표면 매니폴드 가정 매핑
+112. [로버스트 (Robust) 중앙값 절사 평균](/studynote/14_data_engineering/02_math_mining/112_robust_statistics_median_trimmed_mean/)
+113. [다차원 표면 매니폴드 가정 매핑](/studynote/14_data_engineering/02_math_mining/113_manifold_hypothesis_dimensionality_reduction/)
 114. [가우시안 혼합 모델](/studynote/14_data_engineering/02_math_mining/114_gaussian_mixture_model/) [GMM](/studynote/14_data_engineering/02_math_mining/114_gaussian_mixture_model/) EM
 115. 밀도 군집 [DBSCAN](/studynote/14_data_engineering/02_math_mining/115_dbscan_clustering/) 노이즈 [식별](/studynote/14_data_engineering/02_math_mining/115_dbscan_clustering/)
 116. [커널 밀도 추정](/studynote/14_data_engineering/02_math_mining/116_kernel_density_estimation/) KDE 스무딩
-117. 베이즈 오류 최저 한계
+117. [베이즈 오류 최저 한계](/studynote/14_data_engineering/02_math_mining/117_bayes_error/)
 118. 정보 이론 교차 [엔트로피](/studynote/14_data_engineering/02_math_mining/118_cross_entropy_kl_divergence/) KLD 발산
 119. [앙상블](/studynote/14_data_engineering/02_math_mining/119_ensemble_voting_methods/) 조합 [보팅](/studynote/14_data_engineering/02_math_mining/119_ensemble_voting_methods/) 통계망
 120. [부스팅](/studynote/14_data_engineering/02_math_mining/120_concept/) 경사 하강 수치 오차 보완
@@ -211,7 +211,7 @@ weight: 50
 191. [람다](/studynote/14_data_engineering/04_mlops/191_event_sourcing_replay_lambda_kappa/)/[카파 아키텍처](/studynote/14_data_engineering/04_mlops/191_event_sourcing_replay_lambda_kappa/) 재현 ([Event Sourcing](/studynote/14_data_engineering/04_mlops/191_event_sourcing_replay_lambda_kappa/) Replay) 스트림 병합
 192. 엣지 [AI](/studynote/14_data_engineering/04_mlops/192_edge_ai_onnx_tensorrt_model_serialization/) 컴파일러 (ONNX, TensorRT) 모델 [직렬](/studynote/14_data_engineering/04_mlops/192_edge_ai_onnx_tensorrt_model_serialization/)화 패키징 배포망
 193. [뉴로모픽 반도체](/studynote/14_data_engineering/04_mlops/193_neuromorphic_chip_snn_low_power_inference/) [SNN](/studynote/14_data_engineering/04_mlops/193_neuromorphic_chip_snn_low_power_inference/) 저전력 칩 통계 추론
-194. 메들리온 아키텍처 (Bronze, Silver, Gold 테이블) 정제 적재 로직
+194. [메들리온 아키텍처 (Bronze, Silver, Gold 테이블) 정제 적재 로직](/studynote/14_data_engineering/04_mlops/194_medallion_architecture_bronze_silver_gold/)
 195. [연방 쿼리](/studynote/14_data_engineering/04_mlops/195_federated_query_data_fabric_distributed_join/) [데이터 패브릭](/studynote/14_data_engineering/04_mlops/195_federated_query_data_fabric_distributed_join/) [분산](/studynote/14_data_engineering/04_mlops/195_federated_query_data_fabric_distributed_join/) 메타 통계망 조인
 196. [데이터옵스](/studynote/14_data_engineering/04_mlops/196_dataops_dbt_ci_cd_data_testing/) [CI](/studynote/14_data_engineering/04_mlops/196_dataops_dbt_ci_cd_data_testing/)/CD (dbt) [데이터](/studynote/14_data_engineering/04_mlops/196_dataops_dbt_ci_cd_data_testing/) [검증](/studynote/14_data_engineering/04_mlops/196_dataops_dbt_ci_cd_data_testing/) 테스트 코드 결합
 197. [데이터 카탈로그](/studynote/14_data_engineering/04_mlops/197_data_catalog_lineage_visualization_security/) 계보 (Lineage) [시각화](/studynote/14_data_engineering/04_mlops/197_data_catalog_lineage_visualization_security/) [보안 정책](/studynote/14_data_engineering/04_mlops/197_data_catalog_lineage_visualization_security/) 연계망
@@ -220,7 +220,7 @@ weight: 50
 200. [자율주행 모방 학습](/studynote/14_data_engineering/04_mlops/200_autonomous_driving_imitation_learning_digital_twin/) 시뮬레이터 [디지털 트윈](/studynote/14_data_engineering/04_mlops/200_autonomous_driving_imitation_learning_digital_twin/) 동기 [합성 데이터](/studynote/14_data_engineering/04_mlops/200_autonomous_driving_imitation_learning_digital_twin/) [생성](/studynote/14_data_engineering/04_mlops/200_autonomous_driving_imitation_learning_digital_twin/) [파이프](/studynote/14_data_engineering/04_mlops/200_autonomous_driving_imitation_learning_digital_twin/)라인
 
 ## 5. 시험 빈출 요약 및 기술사 빅데이터/[AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 논술 키워드 (100개 집중)
-201. 3V 5V 빅데이터 특성 다양 속도 볼륨
+201. [3V 5V 빅데이터 특성 다양 속도 볼륨](/studynote/14_data_engineering/04_mlops/201_3v_5v_빅데이터_특성_다양_속도_볼륨/)
 202. [스케일 아웃](/exam/14_data_engineering/202_scale_out_distributed_horizontal_expansion/) [분산](/exam/14_data_engineering/202_scale_out_distributed_horizontal_expansion/) 확장 수평 범용 노드
 203. [하둡](/exam/14_data_engineering/203_hadoop_hdfs_block_replication_fault_tolerance/) [HDFS](/exam/14_data_engineering/203_hadoop_hdfs_block_replication_fault_tolerance/) 블록 [복제](/exam/14_data_engineering/203_hadoop_hdfs_block_replication_fault_tolerance/) 3벌 [랙 인지](/exam/14_data_engineering/203_hadoop_hdfs_block_replication_fault_tolerance/) 내결함성
 204. [네임노드](/exam/14_data_engineering/204_namenode_metadata_mapreduce_disk_bottleneck/) [메타데이터](/exam/14_data_engineering/204_namenode_metadata_mapreduce_disk_bottleneck/) [맵리듀스](/exam/14_data_engineering/204_namenode_metadata_mapreduce_disk_bottleneck/) 디스크 병목

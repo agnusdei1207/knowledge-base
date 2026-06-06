@@ -17,7 +17,7 @@ weight: 50
 3. [아날로그 신호](/studynote/03_network/01_data_communication/003_아날로그_신호_vs_디지털_신호/) (연속적, 증폭기) vs 디지털 [신호](/studynote/03_network/01_data_communication/003_아날로그_신호_vs_디지털_신호/) (이산적, 리피터)
 4. [배드보](/studynote/03_network/01_data_communication/004_배드보_비트레이트/) (Baud Rate, 변조 속도) vs [비트](/studynote/03_network/01_data_communication/004_배드보_비트레이트/)레이트 ([Bit](/studynote/03_network/01_data_communication/004_배드보_비트레이트/) Rate, 전송 속도)
 5. [비트 시간](/studynote/03_network/01_data_communication/005_비트_시간_심볼_시간/) ([Bit Duration](/studynote/03_network/01_data_communication/005_비트_시간_심볼_시간/)) / 심볼 시간 (Symbol Duration)
-6. 아날로그 통신 vs 디지털 통신
+6. [아날로그 통신 vs 디지털 통신](/studynote/03_network/01_data_communication/006_아날로그_vs_디지털_통신/)
 7. [기저대역 전송](/studynote/03_network/01_data_communication/007_기저대역_대역통과_전송/) ([Baseband Transmission](/studynote/03_network/01_data_communication/007_기저대역_대역통과_전송/)) / 대역통과 전송 (Broadband Transmission)
 8. [단방향](/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) ([Simplex](/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)) / 반이중 (Half-Duplex) / 전이중 (Full-Duplex)
 9. [직렬 전송](/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/) ([Serial](/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/)) vs [병렬](/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/) 전송 (Parallel)
@@ -34,12 +34,12 @@ weight: 50
 20. [나이퀴스트 채널 용량](/studynote/03_network/01_data_communication/020_나이퀴스트_채널_용량/) ([Nyquist Capacity](/studynote/03_network/01_data_communication/020_나이퀴스트_채널_용량/)) - 무잡음 채널, C = 2B log2(M)
 21. [샤논의 채널 용량](/studynote/03_network/01_data_communication/021_샤논의_채널_용량/) ([Shannon Capacity](/studynote/03_network/01_data_communication/021_샤논의_채널_용량/)) - 잡음 채널, C = B log2(1 + S/N)
 22. [심볼 상호 간섭](/studynote/03_network/01_data_communication/022_심볼_상호_간섭_ISI/) (ISI: Inter-Symbol Interference)
-23. 나이퀴스트 펄스 포맷 / 아이패턴 (Eye Pattern)
+23. [나이퀴스트 펄스 포맷 / 아이패턴 (Eye Pattern)](/studynote/03_network/01_data_communication/023_나이퀴스트_아이패턴/)
 24. [신호 대 잡음비](/studynote/03_network/01_data_communication/024_신호_대_잡음비/) ([SNR](/studynote/03_network/01_data_communication/024_신호_대_잡음비/), [Signal-to-Noise Ratio](/studynote/03_network/01_data_communication/024_신호_대_잡음비/))
-25. 감쇠 (Attenuation), 데시벨(dB) 측정
+25. [감쇠 (Attenuation), 데시벨(dB) 측정](/studynote/03_network/01_data_communication/025_감쇠와_데시벨/)
 26. [지연 왜곡](/studynote/03_network/01_data_communication/026_지연_왜곡/) ([Delay Distortion](/studynote/03_network/01_data_communication/026_지연_왜곡/))
-27. 백색 잡음 (White Noise) / 가우스 잡음
-28. 충격 잡음 (Impulse Noise) / 열 잡음 (Thermal Noise)
+27. [백색 잡음 (White Noise) / 가우스 잡음](/studynote/03_network/01_data_communication/027_백색_잡음_가우스_잡음/)
+28. [충격 잡음 (Impulse Noise) / 열 잡음 (Thermal Noise)](/studynote/03_network/01_data_communication/028_충격_잡음_열_잡음/)
 29. [상호변조 잡음](/studynote/03_network/01_data_communication/029_상호변조_잡음/) ([Intermodulation Noise](/studynote/03_network/01_data_communication/029_상호변조_잡음/))
 30. [누화](/studynote/03_network/01_data_communication/030_누화_크로스토크/) ([Crosstalk](/studynote/03_network/01_data_communication/030_누화_크로스토크/), 혼선)
 31. [에코](/studynote/03_network/01_data_communication/031_에코_반향/) (Echo, [반향](/studynote/03_network/01_data_communication/031_에코_반향/))
@@ -47,10 +47,10 @@ weight: 50
 33. 엔트 (ENQ) / 애크 (ACK) / 나크 ([NAK](/studynote/03_network/01_data_communication/033_ENQ_ACK_NAK_EOT/)) / EOT
 34. [에러 검출율](/studynote/03_network/01_data_communication/034_에러_검출율/) ([Error Detection](/studynote/03_network/01_data_communication/034_에러_검출율/) Rate)
 35. 부호화 (Encoding) - Line Coding, [Block Coding](/studynote/03_network/01_data_communication/035_부호화_라인_코딩_블록_코딩/)
-36. Line Coding - 단극성 (Unipolar), 극성 (Polar), 양극성 (Bipolar)
+36. [Line Coding - 단극성 (Unipolar), 극성 (Polar), 양극성 (Bipolar)](/studynote/03_network/01_data_communication/036_단극성_극성_양극성/)
 37. NRZ (Non-[Return to Zero](/studynote/03_network/01_data_communication/037_NRZ_L_NRZ_I/)) - NRZ-L, NRZ-I
 38. RZ ([Return to Zero](/studynote/03_network/01_data_communication/038_RZ_Return_to_Zero/)) - [동기화](/studynote/03_network/01_data_communication/038_RZ_Return_to_Zero/) 장점, [대역폭](/studynote/03_network/01_data_communication/038_RZ_Return_to_Zero/) 증가
-39. 맨체스터 (Manchester) 부호화 / 차분 맨체스터 (Differential Manchester)
+39. [맨체스터 (Manchester) 부호화 / 차분 맨체스터 (Differential Manchester)](/studynote/03_network/01_data_communication/039_맨체스터_차분맨체스터/)
 40. [AMI](/studynote/03_network/01_data_communication/040_AMI_Pseudoternary/) (Alternate Mark Inversion) / Pseudoternary
 41. [차분 부호화](/studynote/03_network/01_data_communication/041_차분_부호화/) ([Differential Encoding](/studynote/03_network/01_data_communication/041_차분_부호화/))
 42. 4B/5B, 8B/10B 부호화 ([Block Coding](/studynote/03_network/01_data_communication/042_4B5B_8B10B_블록_코딩/))
@@ -63,7 +63,7 @@ weight: 50
 49. OQPSK (Offset QPSK) / [Pi](/studynote/03_network/01_data_communication/049_OQPSK_Pi_4_QPSK/)/4 QPSK
 50. M진 [PSK](/studynote/03_network/01_data_communication/050_M진_PSK_8PSK_16PSK/) (8PSK, 16PSK)
 51. [직교 진폭 변조](/studynote/03_network/01_data_communication/051_직교_진폭_변조_QAM/) (QAM, Quadrature Amplitude Modulation) - ASK+[PSK](/studynote/03_network/01_data_communication/051_직교_진폭_변조_QAM/) 혼합
-52. 16-QAM, 64-QAM, 256-QAM, 1024-QAM
+52. [16-QAM, 64-QAM, 256-QAM, 1024-QAM](/studynote/03_network/01_data_communication/052_고차_QAM_16_64_256_1024/)
 53. [성상도](/studynote/03_network/01_data_communication/053_성상도_Constellation_Diagram/) ([Constellation Diagram](/studynote/03_network/01_data_communication/053_성상도_Constellation_Diagram/)) - 진폭과 위상 표시
 54. [반송파](/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/) ([Carrier Wave](/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/))
 55. [아날로그 연속파 변조](/studynote/03_network/01_data_communication/055_아날로그_연속파_변조_AM_FM_PM/) - AM, FM, PM
@@ -122,7 +122,7 @@ weight: 50
 106. [CSMA](/studynote/03_network/02_multiplexing_multiple_access/106_CSMA_CD_유선이더넷_충돌감지/)/CD ([Collision Detection](/studynote/03_network/02_multiplexing_multiple_access/106_CSMA_CD_유선이더넷_충돌감지/)) - 유선 [이더넷](/studynote/03_network/02_multiplexing_multiple_access/106_CSMA_CD_유선이더넷_충돌감지/), 충돌 감지
 107. [잼 신호](/studynote/03_network/02_multiplexing_multiple_access/107_잼_신호_백오프_알고리즘/) ([Jam Signal](/studynote/03_network/02_multiplexing_multiple_access/107_잼_신호_백오프_알고리즘/)) / 백오프 [알고리즘](/studynote/03_network/02_multiplexing_multiple_access/107_잼_신호_백오프_알고리즘/) (Backoff [Algorithm](/studynote/03_network/02_multiplexing_multiple_access/107_잼_신호_백오프_알고리즘/))
 108. [CSMA](/studynote/03_network/02_multiplexing_multiple_access/108_CSMA_CA_무선LAN_충돌회피/)/[CA](/studynote/03_network/02_multiplexing_multiple_access/108_CSMA_CA_무선LAN_충돌회피/) ([Collision](/studynote/03_network/02_multiplexing_multiple_access/108_CSMA_CA_무선LAN_충돌회피/) Avoidance) - 무선 LAN, 충돌 회피
-109. RTS/CTS (Request To Send / Clear To Send) - 은닉 노드 문제 해결
+109. [RTS/CTS (Request To Send / Clear To Send) - 은닉 노드 문제 해결](/studynote/03_network/02_multiplexing_multiple_access/109_RTS_CTS_은닉노드문제/)
 110. [노출 노드 문제](/studynote/03_network/02_multiplexing_multiple_access/110_노출_노드_문제/) ([Exposed Node Problem](/studynote/03_network/02_multiplexing_multiple_access/110_노출_노드_문제/))
 111. [ALOHA](/studynote/03_network/02_multiplexing_multiple_access/111_aloha_protocol/) ([순수 알로하](/studynote/03_network/02_multiplexing_multiple_access/111_aloha_protocol/)) - 하와이 대학, 무작위 채널 접근
 112. [Slotted ALOHA](/studynote/03_network/02_multiplexing_multiple_access/112_slotted_aloha/) - 슬롯 단위 전송, 충돌 감소
@@ -155,7 +155,7 @@ weight: 50
 137. [이더넷](/studynote/03_network/03_physical_layer_media/137_ieee_802_3_phy_ethernet_standard/) 물리 계층 표준 (IEEE 802.3 PHY)
 138. 10BASE-T, 100BASE-TX ([Fast Ethernet](/studynote/03_network/03_physical_layer_media/138_10base_t_100base_tx_fast_ethernet/))
 139. [1000BASE-T](/studynote/03_network/03_physical_layer_media/139_1000base_t_gigabit_ethernet/) ([Gigabit Ethernet](/studynote/03_network/03_physical_layer_media/139_1000base_t_gigabit_ethernet/)) - 4페어 사용, 5단계 [PAM](/studynote/03_network/03_physical_layer_media/139_1000base_t_gigabit_ethernet/) 변조
-140. 10GBASE-T / 10GBASE-SR / 10GBASE-LR
+140. [10GBASE-T / 10GBASE-SR / 10GBASE-LR](/studynote/03_network/03_physical_layer_media/140_10gbase_t_sr_lr_10_gigabit/)
 141. 40GbE / 100GbE / 400GbE / 800GbE [이더넷](/studynote/03_network/03_physical_layer_media/141_40gbe_100gbe_400gbe_ethernet/)
 142. MDI/MDI-X ([Medium Dependent Interface](/studynote/03_network/03_physical_layer_media/142_mdi_mdix_interface/))
 143. [Auto-MDIX](/studynote/03_network/03_physical_layer_media/143_auto_mdix/) (크로스 케이블 자동 인식)
@@ -164,7 +164,7 @@ weight: 50
 146. [모뎀](/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) (Modem, Modulator/Demodulator)
 147. [케이블 모뎀](/studynote/03_network/03_physical_layer_media/147_cable_modem_docsis/) ([Cable Modem](/studynote/03_network/03_physical_layer_media/147_cable_modem_docsis/)) / DOCSIS 표준
 148. [VDSL](/studynote/03_network/03_physical_layer_media/148_adsl_vdsl_gfast/) ([Very high-bit-rate DSL](/studynote/03_network/03_physical_layer_media/148_adsl_vdsl_gfast/)) / ADSL (Asymmetric DSL) / G.fast
-149. RS-232C, RS-422, RS-485 시리얼 통신 인터페이스
+149. [RS-232C, RS-422, RS-485 시리얼 통신 인터페이스](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)
 150. [USB](/studynote/03_network/03_physical_layer_media/150_usb_ieee1394_firewire/), IEEE 1394 ([FireWire](/studynote/03_network/03_physical_layer_media/150_usb_ieee1394_firewire/))
 151. 베이스밴드 중계기 / 리피터 ([Repeater](/studynote/03_network/03_physical_layer_media/151_repeater_baseband/))
 152. [허브](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) ([Hub](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)) - [더미](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) [허브](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) ([Dummy](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)), 스위칭 [허브](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/), 인텔리전트 [허브](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)
@@ -181,7 +181,7 @@ weight: 50
 163. [투과율](/studynote/03_network/03_physical_layer_media/163_penetration_diffraction_radio_waves/) ([Penetration](/studynote/03_network/03_physical_layer_media/163_penetration_diffraction_radio_waves/)) / 회절 (Diffraction)
 164. [산란](/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/) ([Scattering](/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/)) / 반사 (Reflection)
 165. [프레넬 영역](/studynote/03_network/03_physical_layer_media/165_fresnel_zone_clearance/) ([Fresnel Zone](/studynote/03_network/03_physical_layer_media/165_fresnel_zone_clearance/))
-166. 자유 공간 경로 손실 (FSPL, Free Space Path Loss)
+166. [자유 공간 경로 손실 (FSPL, Free Space Path Loss)](/studynote/03_network/03_physical_layer_media/166_fspl_free_space_path_loss/)
 167. [페이딩](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) ([Fading](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)) - 대규모(Large-scale) [페이딩](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) vs 소규모(Small-scale) [페이딩](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)
 168. [다중 경로 페이딩](/studynote/03_network/03_physical_layer_media/168_multipath_fading_isi/) ([Multipath Fading](/studynote/03_network/03_physical_layer_media/168_multipath_fading_isi/)) - 주파수 선택적/평탄 [페이딩](/studynote/03_network/03_physical_layer_media/168_multipath_fading_isi/)
 169. [도플러 효과](/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/) ([Doppler Effect](/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/)) / 고속 이동체 통신
@@ -343,7 +343,7 @@ weight: 50
 319. [ICMP](/studynote/03_network/06_network_layer_ip/319_icmp_message_types_query_error_reporting/) [메시](/studynote/03_network/06_network_layer_ip/319_icmp_message_types_query_error_reporting/)지 종류 - Query, Error Reporting
 320. [Time Exceeded](/studynote/03_network/06_network_layer_ip/320_icmp_time_exceeded_ttl_expiration_traceroute/) ([TTL](/studynote/03_network/06_network_layer_ip/320_icmp_time_exceeded_ttl_expiration_traceroute/) 만료, Traceroute 원리)
 321. Destination Unreachable (목적지 도달 불가 - [포트](/studynote/03_network/06_network_layer_ip/321_destination_unreachable_port_host_prohibited/), 호스트 차단)
-322. Echo Request/Reply (Ping 원리) / Source Quench (혼잡 제어, 구형)
+322. [Echo Request/Reply (Ping 원리) / Source Quench (혼잡 제어, 구형)](/studynote/03_network/06_network_layer_ip/322_echo_request_reply_ping_source_quench/)
 323. Redirect [메시](/studynote/03_network/06_network_layer_ip/323_redirect_message_better_route_notification/)지 - 더 나은 라우터 경로 통보
 324. [IPv6](/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) (Internet [Protocol](/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) Version 6) - 128비트 차세대 주소
 325. [IPv6](/studynote/03_network/06_network_layer_ip/325_ipv6_simplified_header_40bytes_no_checksum_no_fragmentation/) 단순화된 헤더 - 40바이트 고정 ([헤더 체크섬](/studynote/03_network/06_network_layer_ip/325_ipv6_simplified_header_40bytes_no_checksum_no_fragmentation/) 삭제, [단편화](/studynote/03_network/06_network_layer_ip/325_ipv6_simplified_header_40bytes_no_checksum_no_fragmentation/) 삭제)
@@ -416,7 +416,7 @@ weight: 50
 390. [DiffServ](/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/) ([Differentiated Services](/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/)) - 트래픽 차등 처리, DSCP([6bit](/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/)) PHB
 391. [우선순위 큐](/studynote/03_network/07_network_layer_routing/391_qos_queuing_pq_cq_wfq_cbwfq_llq/) ([PQ](/studynote/03_network/07_network_layer_routing/391_qos_queuing_pq_cq_wfq_cbwfq_llq/)), 맞춤형 큐 (CQ), WFQ, CBWFQ, LLQ
 392. [트래픽 쉐이핑](/studynote/03_network/07_network_layer_routing/392_traffic_shaping_and_policing/) ([Traffic Shaping](/studynote/03_network/07_network_layer_routing/392_traffic_shaping_and_policing/)) / 폴리싱 (Traffic Policing)
-393. Leaky Bucket / Token Bucket
+393. [Leaky Bucket / Token Bucket](/studynote/03_network/07_network_layer_routing/393_leaky_bucket_token_bucket/)
 394. [WRED](/studynote/03_network/07_network_layer_routing/394_wred_weighted_random_early_detection/) (Weighted Random Early [Detection](/studynote/03_network/07_network_layer_routing/394_wred_weighted_random_early_detection/)) 혼잡 제어 꼬리 짜르기 제한
 395. [HSRP](/studynote/03_network/07_network_layer_routing/395_hsrp_fhrp_router_redundancy/) ([Hot Standby](/studynote/03_network/07_network_layer_routing/395_hsrp_fhrp_router_redundancy/) Router [Protocol](/studynote/03_network/07_network_layer_routing/395_hsrp_fhrp_router_redundancy/)) - FHRP 류, 라우터 [이중화](/studynote/03_network/07_network_layer_routing/395_hsrp_fhrp_router_redundancy/)
 396. [VRRP](/studynote/03_network/07_network_layer_routing/396_vrrp_virtual_router_redundancy_protocol/) (Virtual Router Redundancy [Protocol](/studynote/03_network/07_network_layer_routing/396_vrrp_virtual_router_redundancy_protocol/)) - 개방형 FHRP
@@ -445,7 +445,7 @@ weight: 50
 417. [ISN](/studynote/03_network/08_transport_layer/417_isn_initial_sequence_number_randomization/) ([Initial Sequence Number](/studynote/03_network/08_transport_layer/417_isn_initial_sequence_number_randomization/)) 무작위 할당 이유 ([보안성](/studynote/03_network/08_transport_layer/417_isn_initial_sequence_number_randomization/) 강화)
 418. [TCP 4-Way Handshake](/studynote/03_network/08_transport_layer/418_tcp_4_way_handshake_connection_termination/) - 연결 종료 과정 (FIN -> ACK -> FIN -> ACK)
 419. TIME_WAIT 상태 (기본 2MSL 대기) - [지연](/studynote/03_network/08_transport_layer/419_time_wait_state_2msl_delay_handling/) 패킷 수신 및 정상 종료 보장
-420. CLOSE_WAIT / LAST_ACK 상태
+420. [CLOSE_WAIT / LAST_ACK 상태](/studynote/03_network/08_transport_layer/420_close_wait_last_ack_state/)
 421. [TCP](/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/) [흐름 제어](/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/) ([Flow Control](/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/)) - 수신자 관점, 슬라이딩 윈도우 [알고리즘](/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/)
 422. [윈도우 스케일옵션](/studynote/03_network/08_transport_layer/422_tcp_window_scale_option/) ([Window Scale Option](/studynote/03_network/08_transport_layer/422_tcp_window_scale_option/)) - 최대 1GB까지 윈도우 확장
 423. [송신 버퍼](/studynote/03_network/08_transport_layer/423_send_buffer_receive_buffer/) ([Send Buffer](/studynote/03_network/08_transport_layer/423_send_buffer_receive_buffer/)) / 수신 버퍼 (Receive Buffer)
@@ -529,7 +529,7 @@ weight: 50
 499. [BOSH](/studynote/03_network/09_application_layer_web_email/499_bosh_bidirectional_streams_over_synchronous_http/) (Bidirectional-streams Over [Synchronous](/studynote/03_network/09_application_layer_web_email/499_bosh_bidirectional_streams_over_synchronous_http/) [HTTP](/studynote/03_network/09_application_layer_web_email/499_bosh_bidirectional_streams_over_synchronous_http/))
 500. [XMPP](/studynote/03_network/09_application_layer_web_email/500_xmpp_extensible_messaging_presence_protocol/) (Extensible Messaging and Presence [Protocol](/studynote/03_network/09_application_layer_web_email/500_xmpp_extensible_messaging_presence_protocol/)) - XML 기반 실시간 메신저
 501. [SIP](/studynote/03_network/09_application_layer_web_email/501_sip_session_initiation_protocol_voip/) ([Session Initiation Protocol](/studynote/03_network/09_application_layer_web_email/501_sip_session_initiation_protocol_voip/)) - VoIP 호/섹션 제어 표준 (텍스트 기반)
-502. H.323 - ITU-T 실시간 멀티미디어 화상회의 (바이너리 기반, 구형)
+502. [H.323 - ITU-T 실시간 멀티미디어 화상회의 (바이너리 기반, 구형)](/studynote/03_network/09_application_layer_web_email/502_h323_itu_t_multimedia_conferencing/)
 503. [IP PBX](/studynote/03_network/09_application_layer_web_email/503_ip_pbx_private_branch_exchange/) - 구내 IP 사설 교환기
 504. IPTV [멀티캐스트](/studynote/03_network/09_application_layer_web_email/504_iptv_multicast_igmp_pim/) ([IGMP](/studynote/03_network/09_application_layer_web_email/504_iptv_multicast_igmp_pim/), [PIM](/studynote/03_network/09_application_layer_web_email/504_iptv_multicast_igmp_pim/)) 전송
 505. [WebRTC](/studynote/03_network/09_application_layer_web_email/505_webrtc_web_real_time_communication/) ([Web Real-Time Communication](/studynote/03_network/09_application_layer_web_email/505_webrtc_web_real_time_communication/)) - 플러그인 없는 브라우저간 [P2P](/studynote/03_network/09_application_layer_web_email/505_webrtc_web_real_time_communication/) 오디오/음성 (Google 주도)
@@ -560,7 +560,7 @@ weight: 50
 528. [SNMP](/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) (Simple Network [Management](/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) [Protocol](/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/)) - 네트워크 관리 목적, 기본 [포트](/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) 161 (Manager), 162 ([Trap](/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/))
 529. [MIB](/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/) ([Management Information Base](/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/)) / OID (Object [Identifier](/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/))
 530. [SMI](/studynote/03_network/10_application_layer_dns_mgmt/530_smi_structure_of_management_information/) (Structure of [Management](/studynote/03_network/10_application_layer_dns_mgmt/530_smi_structure_of_management_information/) Information)
-531. SNMPv1, v2c (Community String 노출 단점)
+531. [SNMPv1, v2c (Community String 노출 단점)](/studynote/03_network/10_application_layer_dns_mgmt/531_snmp_v1_v2c_community_string/)
 532. [SNMPv3](/studynote/03_network/10_application_layer_dns_mgmt/532_snmp_v3_security_authentication_encryption/) (사용자 기반 [인증](/studynote/03_network/10_application_layer_dns_mgmt/532_snmp_v3_security_authentication_encryption/), [메시](/studynote/03_network/10_application_layer_dns_mgmt/532_snmp_v3_security_authentication_encryption/)지 암호화 지원 [DES](/studynote/03_network/10_application_layer_dns_mgmt/532_snmp_v3_security_authentication_encryption/)/[AES](/studynote/03_network/10_application_layer_dns_mgmt/532_snmp_v3_security_authentication_encryption/))
 533. [SNMP](/studynote/03_network/10_application_layer_dns_mgmt/533_snmp_commands_get_set_trap/) 명령 - Get, GetNext, Set
 534. [SNMP Trap](/studynote/03_network/10_application_layer_dns_mgmt/534_snmp_trap_inform/) - 에이전트 단에서 특정 이벤트 발생 시 자발적/[단방향](/studynote/03_network/10_application_layer_dns_mgmt/534_snmp_trap_inform/) 통지 (알람)
@@ -628,9 +628,9 @@ weight: 50
 594. [중궤도 위성](/studynote/03_network/11_wireless_mobile_communication/594_meo_medium_earth_orbit_gps/) ([MEO](/studynote/03_network/11_wireless_mobile_communication/594_meo_medium_earth_orbit_gps/)) (GPS, 항법시스템)
 595. [저궤도 위성](/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) ([LEO](/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/)) - 500~1500km 고도. 초저지연 글로벌 [6G](/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) 망 구성, Starlink(스타링크), OneWeb(원웹)
 596. [HAPS](/studynote/03_network/11_wireless_mobile_communication/596_haps_high_altitude_platform_station_drone/) (고고도 전송 기지국, 성층권 드론 통신)
-597. GPS (Global Positioning System) 삼각 측량 / 오차 개선 기법 (DGPS, RTK)
+597. [GPS (Global Positioning System) 삼각 측량 / 오차 개선 기법 (DGPS, RTK)](/studynote/03_network/11_wireless_mobile_communication/597_gps_triangulation_dgps_rtk/)
 598. [UWB](/studynote/03_network/11_wireless_mobile_communication/598_uwb_ultra_wideband_indoor_positioning/) ([Ultra-Wideband](/studynote/03_network/11_wireless_mobile_communication/598_uwb_ultra_wideband_indoor_positioning/)) - 초광대역 근거리 정밀 위치인식통신, 임펄스 전송 (Apple AirTag 등)
-599. 무선 충전 전송 원리 (자기 유도형 WPC Qi, 자기 공명형 A4WP)
+599. [무선 충전 전송 원리 (자기 유도형 WPC Qi, 자기 공명형 A4WP)](/studynote/03_network/11_wireless_mobile_communication/599_wireless_charging_wpc_qi_a4wp_resonance/)
 600. RFID / NFC [프로토콜](/studynote/03_network/11_wireless_mobile_communication/600_rfid_nfc_near_field_communication/) 기본 구상
 
 ## 12. [사물인터넷](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)), [WPAN](/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/) 및 엣지 통신 (50개)
@@ -692,7 +692,7 @@ weight: 50
 654. [스트림 암호](/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/) ([Stream Cipher](/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/)) - [RC4](/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/) ([WEP](/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/) 등, 최신 사장), ChaCha20
 655. [블록 암호](/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) ([Block Cipher](/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)) - [DES](/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) (56bit 비권장), [3DES](/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) (과도기) 모델
 656. [AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) ([Advanced Encryption Standard](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)) - 국제 대표 표준, Rijndael 구조 (128/192/256bit 체계)
-657. SEED, ARIA, LEA - 대한민국의 표준 블록/경량 암호 방식 체계
+657. [SEED, ARIA, LEA - 대한민국의 표준 블록/경량 암호 방식 체계](/studynote/03_network/13_network_security_basics/657_seed_aria_lea_korean_cryptography/)
 658. [블록 암호](/studynote/03_network/13_network_security_basics/658_block_cipher_modes_ecb_cbc_ctr/) 운영 모드 (ECB 기본/취약 모드, [CBC](/studynote/03_network/13_network_security_basics/658_block_cipher_modes_ecb_cbc_ctr/)([IV](/studynote/03_network/13_network_security_basics/658_block_cipher_modes_ecb_cbc_ctr/) 필요), CFB, OFB, [CTR](/studynote/03_network/13_network_security_basics/658_block_cipher_modes_ecb_cbc_ctr/))
 659. [GCM](/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) (Galois/[Counter](/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) Mode) 모드 - 암호화와 더불어 [데이터](/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) [인증](/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) 기능 탑재 ([AEAD](/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) - [TLS](/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) 1.3의 핵심 모드)
 660. 비대칭키/공개키 암호화 (Asymmetric/Public [Key](/studynote/03_network/13_network_security_basics/660_asymmetric_public_key_cryptography_rsa/)) - 암/복호화 키 상이, 서명(개인키)/기밀화(공개키 전송) 가능
@@ -704,7 +704,7 @@ weight: 50
 666. 디피-헬만 상호 키 교환 ([Diffie-Hellman Key Exchange](/studynote/03_network/13_network_security_basics/666_diffie_hellman_key_exchange_mitm/)) 원리 및 스니핑 취약점
 667. [해시 함수](/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) ([Hash Function](/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)) - [무결성](/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) 점검을 위한 일방향 고정길이 [압축](/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)
 668. [MD5](/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/) (취약성/충돌 노출) 회피 조치, SHA-1 차단
-669. SHA-2 패밀리 - SHA-256 / SHA-512 위주 통신망 서명 기본 기술
+669. [SHA-2 패밀리 - SHA-256 / SHA-512 위주 통신망 서명 기본 기술](/studynote/03_network/13_network_security_basics/669_sha_2_family_sha256_sha512/)
 670. [SHA-3](/studynote/03_network/13_network_security_basics/670_sha_3_family_keccak_sponge_construction/) 패밀리 - 스펀지(Sponge) 펑션 방식 [Keccak](/studynote/03_network/13_network_security_basics/670_sha_3_family_keccak_sponge_construction/) 로직, 기존 방어 [결함](/studynote/03_network/13_network_security_basics/670_sha_3_family_keccak_sponge_construction/) 해소
 671. [솔트](/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) ([Salt](/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)) 첨가 패스워드 해시 (PBKDF2, bcrypt, Argon2) 체계 - 레인보우 테이블 방지
 672. [무결성](/studynote/03_network/13_network_security_basics/672_integrity_origin_authentication_code/) 및 출처 [인증](/studynote/03_network/13_network_security_basics/672_integrity_origin_authentication_code/)용 서명 [데이터](/studynote/03_network/13_network_security_basics/672_integrity_origin_authentication_code/) 코드 제어
@@ -761,7 +761,7 @@ weight: 50
 721. SLOW GET / SLOW POST 공격([Slowloris](/studynote/03_network/14_network_security_threats/721_drdos_scrubbing_center_mitigation/)) 응용 계층 [소켓](/studynote/03_network/14_network_security_threats/721_drdos_scrubbing_center_mitigation/) 점유, 헤더/엔티티를 끊임없이 매우 느리게 보내 Connection 지속 자원 무력화 (일시적 [방화벽](/studynote/03_network/14_network_security_threats/721_drdos_scrubbing_center_mitigation/) 필터링, [타임아웃](/studynote/03_network/14_network_security_threats/721_drdos_scrubbing_center_mitigation/) 최소화 대응)
 722. [트래픽 혼잡공격](/studynote/03_network/14_network_security_threats/722_slowloris_http_get_delay_attack/) ([CC](/studynote/03_network/14_network_security_threats/722_slowloris_http_get_delay_attack/) Attack [봇넷](/studynote/03_network/14_network_security_threats/722_slowloris_http_get_delay_attack/) [HTTP](/studynote/03_network/14_network_security_threats/722_slowloris_http_get_delay_attack/) 임의페이지 무한 요청) 유도 및 캡챠 적용
 723. [랜섬웨어](/studynote/03_network/14_network_security_threats/723_rudy_slow_http_post_attack/) ([Ransomware](/studynote/03_network/14_network_security_threats/723_rudy_slow_http_post_attack/)) [파일](/studynote/03_network/14_network_security_threats/723_rudy_slow_http_post_attack/)공유 139/445망 자가전파 및 [피싱](/studynote/03_network/14_network_security_threats/723_rudy_slow_http_post_attack/) 방어 [포트](/studynote/03_network/14_network_security_threats/723_rudy_slow_http_post_attack/) 폐쇄 규약 체계 SMBv1 보안 약점 타격 (워너크라이 [WannaCry](/studynote/03_network/14_network_security_threats/723_rudy_slow_http_post_attack/) 분석)
-724. 다크 웹 (Dark Web) Tor (The Onion Router 은닉망 릴레이 체계 분석)
+724. [다크 웹 (Dark Web) Tor (The Onion Router 은닉망 릴레이 체계 분석)](/studynote/03_network/14_network_security_threats/724_no_ip_directed_broadcast_smurf_defense/)
 725. [스키밍](/studynote/03_network/14_network_security_threats/725_port_scanning_full_open_vs_stealth_half_open/) ([Skimming](/studynote/03_network/14_network_security_threats/725_port_scanning_full_open_vs_stealth_half_open/)) 공격
 726. 무차별 대입 공격 ([Brute Force](/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) / 사전 Dictionary 제어) 통신 [로그](/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/)인/[SSH](/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) 타격
 727. SQL [인젝션](/studynote/03_network/14_network_security_threats/727_httponly_cookie_xss_defense/) (OWASP 핵심 웹 구조 보안 약점 [WAF](/studynote/03_network/14_network_security_threats/727_httponly_cookie_xss_defense/) 적용 룰 필터망 파라미터 처리망)
@@ -803,7 +803,7 @@ weight: 50
 761. [uRLLC](/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/) (Ultra-Reliable and Low [Latency](/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/) Communications 초안정/초고신뢰 초저지연망 차량 제어/[스마트 팩토리](/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/) 통신 [프로토콜](/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/) 설계 1ms)
 762. [mMTC](/studynote/03_network/15_nextgen_communication_architecture/762_mmtc_massive_machine_type_communications/) (Massive Machine-Type Communications 초거대 밀도 초다수 연결 사물 기기 [IoT](/studynote/03_network/15_nextgen_communication_architecture/762_mmtc_massive_machine_type_communications/) 연결망 배터리 저전력 제어 적용 모델 [성능](/studynote/03_network/15_nextgen_communication_architecture/762_mmtc_massive_machine_type_communications/) 지표 적용)
 763. [5G NR](/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/) ([New Radio](/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/)) 신무선 표준 대역
-764. FR1 주파수 (Sub-6GHz 대역, 기존 호환 및 중간 광역/보편 속도 모델 적용 제어)
+764. [FR1 주파수 (Sub-6GHz 대역, 기존 호환 및 중간 광역/보편 속도 모델 적용 제어)](/studynote/03_network/15_nextgen_communication_architecture/764_fr1_sub_6ghz_5g_coverage/)
 765. FR2 주파수 ([mmWave](/studynote/03_network/15_nextgen_communication_architecture/765_fr2_mmwave_28ghz_small_cell_beamforming/) 24Ghz~ [밀리미터파](/studynote/03_network/15_nextgen_communication_architecture/765_fr2_mmwave_28ghz_small_cell_beamforming/) 직진성 극한, 장애물 회절 약화 대형 [스몰셀](/studynote/03_network/15_nextgen_communication_architecture/765_fr2_mmwave_28ghz_small_cell_beamforming/) 조밀 구성 기술 체계 대역)
 766. [NSA](/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/) (Non-[Standalone](/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/) 코어는 [LTE](/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/) [EPC](/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/) / 기지국 제어 무선 NR 결합 구축 진보 비용 최소 고속도 망 적용 구조 융합 통신 모델)
 767. [SA](/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) ([Standalone](/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 코어까지 [5G](/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) Core([5GC](/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/)) 풀 전환 [클라우드 네이티브](/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 슬라이싱 전체 통제 [네트워크 지연](/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 해결 구축 모델 최신 릴리즈 채용 방식)
@@ -1032,8 +1032,8 @@ weight: 50
 982. SSL/[TLS](/studynote/03_network/19_frequent_topics_terms/982_ssl_tls_handshake/) 핸드셰이크
 983. [VPN](/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) ([가상 사설망](/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/))
 984. [PKI](/studynote/03_network/19_frequent_topics_terms/984_pki_public_key_infrastructure/) 공개키 인프라
-985. X.509 [인증](/studynote/03_network/19_frequent_topics_terms/985_x509_certificate/)서
-986. 대칭키 / 비대칭키 구조 비교
+985. [X.509 [인증](/studynote/03_network/19_frequent_topics_terms/985_x509_certificate/)서](/studynote/03_network/19_frequent_topics_terms/985_x509_certificate/)
+986. [대칭키 / 비대칭키 구조 비교](/studynote/03_network/19_frequent_topics_terms/986_symmetric_asymmetric_key/)
 987. [해시 함수](/studynote/03_network/19_frequent_topics_terms/987_hash_function/)
 988. [전자 서명](/studynote/03_network/19_frequent_topics_terms/988_digital_signature/)
 989. [서비스 거부 공격](/studynote/03_network/19_frequent_topics_terms/989_dos_denial_of_service/) ([DoS](/studynote/03_network/19_frequent_topics_terms/989_dos_denial_of_service/))
@@ -1083,9 +1083,9 @@ weight: 50
 1031. [NB-IoT](/studynote/03_network/20_performance_evaluation_advanced/1031_nbiot_psm_edrx_power_saving/) 전력 최적화 (PSM/eDRX)
 1032. [블루투스](/studynote/03_network/20_performance_evaluation_advanced/1032_ble_bluetooth_low_energy_beacon/) LE ([BLE](/studynote/03_network/20_performance_evaluation_advanced/1032_ble_bluetooth_low_energy_beacon/))
 1033. [지그비](/studynote/03_network/20_performance_evaluation_advanced/1033_zigbee_mesh_network_802_15_4/) ([Zigbee](/studynote/03_network/20_performance_evaluation_advanced/1033_zigbee_mesh_network_802_15_4/)) 메쉬
-1034. NFC 표준 (13.56MHz)
+1034. [NFC 표준 (13.56MHz)](/studynote/03_network/20_performance_evaluation_advanced/1034_nfc_near_field_communication_13_56mhz/)
 1035. RFID 충돌 방지 [알고리즘](/studynote/03_network/20_performance_evaluation_advanced/1035_rfid_anti_collision_aloha_tree_algorithm/) (알로하 기반)
-1036. EPCglobal 망 아키텍처
+1036. [EPCglobal 망 아키텍처](/studynote/03_network/20_performance_evaluation_advanced/1036_epcglobal_rfid_network_architecture/)
 1037. [ONS](/studynote/03_network/20_performance_evaluation_advanced/1037_ons_object_name_service_rfid_dns/) ([Object Name Service](/studynote/03_network/20_performance_evaluation_advanced/1037_ons_object_name_service_rfid_dns/)) 구조
 1038. [MQTT](/studynote/03_network/20_performance_evaluation_advanced/1038_mqtt_publish_subscribe_iot_protocol/) 퍼블리시 서브스크라이브 모드
 1039. [CoAP](/studynote/03_network/20_performance_evaluation_advanced/1039_coap_constrained_application_protocol_rest/) [프로토콜](/studynote/03_network/20_performance_evaluation_advanced/1039_coap_constrained_application_protocol_rest/) 및 [REST](/studynote/03_network/20_performance_evaluation_advanced/1039_coap_constrained_application_protocol_rest/) 인터페이스
@@ -1097,16 +1097,16 @@ weight: 50
 1045. [eBPF](/studynote/03_network/20_performance_evaluation_advanced/1045_ebpf_extended_berkeley_packet_filter_hooking/) [커널](/studynote/03_network/20_performance_evaluation_advanced/1045_ebpf_extended_berkeley_packet_filter_hooking/) 네트워킹 후킹 시스템
 1046. [P4](/studynote/03_network/20_performance_evaluation_advanced/1046_p4_programming_protocol_independent_packet_processors/) 네트워크 프로그래밍 모델 플로우
 1047. [타임 센시티브 네트워킹](/studynote/03_network/20_performance_evaluation_advanced/1047_tsn_time_sensitive_networking_deterministic/) ([TSN](/studynote/03_network/20_performance_evaluation_advanced/1047_tsn_time_sensitive_networking_deterministic/) 인프라망)
-1048. IEEE 1588 PTP 시각 동기망
+1048. [IEEE 1588 PTP 시각 동기망](/studynote/03_network/20_performance_evaluation_advanced/1048_ptp_ieee_1588_precision_time_protocol_sync/)
 1049. [NTP](/studynote/03_network/20_performance_evaluation_advanced/1049_ntp_gps_network_time_synchronization/) / GPS [동기화](/studynote/03_network/20_performance_evaluation_advanced/1049_ntp_gps_network_time_synchronization/)
 1050. [RDMA](/studynote/03_network/20_performance_evaluation_advanced/1050_rdma_roce_remote_direct_memory_access_storage/) / [RoCE](/studynote/03_network/20_performance_evaluation_advanced/1050_rdma_roce_remote_direct_memory_access_storage/) 스토리지 서버 네트워킹
 1051. [VXLAN](/studynote/03_network/20_performance_evaluation_advanced/1051_vxlan_overlay_vtep_tunneling_mac_in_udp/) 오버레이 VTEP [터널링](/studynote/03_network/20_performance_evaluation_advanced/1051_vxlan_overlay_vtep_tunneling_mac_in_udp/) 연결기법
 1052. [EVPN](/studynote/03_network/20_performance_evaluation_advanced/1052_evpn_vxlan_bgp_control_plane_routing/)-[VXLAN](/studynote/03_network/20_performance_evaluation_advanced/1052_evpn_vxlan_bgp_control_plane_routing/) [BGP](/studynote/03_network/20_performance_evaluation_advanced/1052_evpn_vxlan_bgp_control_plane_routing/) 컨트롤 플레인 전이
-1053. Spine-Leaf 대용량 클로스 구조
+1053. [Spine-Leaf 대용량 클로스 구조](/studynote/03_network/20_performance_evaluation_advanced/1053_spine_leaf_clos_architecture_data_center/)
 1054. [IBN](/studynote/03_network/20_performance_evaluation_advanced/1054_ibn_intent_based_networking_ai_automation/)([의도기반망](/studynote/03_network/20_performance_evaluation_advanced/1054_ibn_intent_based_networking_ai_automation/)) 선행 [AI](/studynote/03_network/20_performance_evaluation_advanced/1054_ibn_intent_based_networking_ai_automation/) 설계
 1055. 화이트박스 [OCP](/studynote/03_network/20_performance_evaluation_advanced/1055_whitebox_switch_ocp_open_networking/) [스위치](/studynote/03_network/20_performance_evaluation_advanced/1055_whitebox_switch_ocp_open_networking/)
-1056. ONOS / OpenDaylight 구조 모델 비교
-1057. NETCONF / YANG 모델링 규격체
+1056. [ONOS / OpenDaylight 구조 모델 비교](/studynote/03_network/20_performance_evaluation_advanced/1056_onos_opendaylight_sdn_controller_comparison/)
+1057. [NETCONF / YANG 모델링 규격체](/studynote/03_network/20_performance_evaluation_advanced/1057_netconf_yang_network_configuration_modeling/)
 1058. 트래픽 텔레메트리 ([Streaming Telemetry](/studynote/03_network/20_performance_evaluation_advanced/1058_streaming_telemetry_network_monitoring/))
 1059. [디지털 트윈](/studynote/03_network/20_performance_evaluation_advanced/1059_digital_twin_network_management_simulation/) 및 관제 시스템 연동
 1060. 양자 암호 키 분배 ([QKD](/studynote/03_network/20_performance_evaluation_advanced/1060_qkd_quantum_key_distribution_network/) 인프라 기반망)
@@ -1137,9 +1137,9 @@ weight: 50
 1085. [IPsec](/studynote/03_network/20_performance_evaluation_advanced/1085_ipsec_ikev2_tunnel_negotiation_vpn/) [IKEv2](/studynote/03_network/20_performance_evaluation_advanced/1085_ipsec_ikev2_tunnel_negotiation_vpn/) 터널 협상
 1086. [WireGuard](/studynote/03_network/20_performance_evaluation_advanced/1086_wireguard_vpn_routing_high_speed/) [라우팅](/studynote/03_network/20_performance_evaluation_advanced/1086_wireguard_vpn_routing_high_speed/) 고속망 체계
 1087. [BBR](/studynote/03_network/20_performance_evaluation_advanced/1087_bbr_google_tcp_congestion_control_delay_based/) 구글 [TCP](/studynote/03_network/20_performance_evaluation_advanced/1087_bbr_google_tcp_congestion_control_delay_based/) 동적 모델 [지연](/studynote/03_network/20_performance_evaluation_advanced/1087_bbr_google_tcp_congestion_control_delay_based/) 기반 혼잡
-1088. ECN 징후 큐 통지
+1088. [ECN 징후 큐 통지](/studynote/03_network/20_performance_evaluation_advanced/1088_ecn_explicit_congestion_notification_queue/)
 1089. [DiffServ](/studynote/03_network/20_performance_evaluation_advanced/1089_diffserv_dscp_classification_phb_qos/) DSCP [분류](/studynote/03_network/20_performance_evaluation_advanced/1089_diffserv_dscp_classification_phb_qos/) PHB
-1090. RSVP 자원 예약 플로우
+1090. [RSVP 자원 예약 플로우](/studynote/03_network/20_performance_evaluation_advanced/1090_rsvp_resource_reservation_protocol_qos/)
 1091. [GRE](/studynote/03_network/20_performance_evaluation_advanced/1091_gre_generic_routing_encapsulation_tunneling/) 일반 캡슐화 포맷 오버헤드
 1092. [DMVPN](/studynote/03_network/20_performance_evaluation_advanced/1092_dmvpn_dynamic_multipoint_vpn_nhrp_ipsec/) [동적 라우팅](/studynote/03_network/20_performance_evaluation_advanced/1092_dmvpn_dynamic_multipoint_vpn_nhrp_ipsec/) 결합형 지점
 1093. [MPLS VPN](/studynote/03_network/20_performance_evaluation_advanced/1093_mpls_vpn_l3vpn_vrf_label_switching/) L3 경로 격리 라벨 [스위치](/studynote/03_network/20_performance_evaluation_advanced/1093_mpls_vpn_l3vpn_vrf_label_switching/)
@@ -1152,7 +1152,7 @@ weight: 50
 1100. [스위치 포트 미러링](/studynote/03_network/20_performance_evaluation_advanced/1100_port_mirroring_span_tap_network_monitoring/) (SPAN/TAP)
 1101. [UTP](/studynote/03_network/20_performance_evaluation_advanced/1101_utp_cable_category_cat5_cat6/) 배선 카테고리
 1102. [광섬유 싱글모드 다중모드](/studynote/03_network/20_performance_evaluation_advanced/1102_optical_fiber_single_mode_multi_mode/)
-1103. WDM 무손실 광 증폭
+1103. [WDM 무손실 광 증폭](/studynote/03_network/20_performance_evaluation_advanced/1103_wdm_lossless_optical_amplification_edfa/)
 1104. [O-RAN](/studynote/03_network/20_performance_evaluation_advanced/1104_o_ran_open_fronthaul_architecture/) [프론트홀](/studynote/03_network/20_performance_evaluation_advanced/1104_o_ran_open_fronthaul_architecture/) 개방 사양
 1105. [vCPE](/studynote/03_network/20_performance_evaluation_advanced/1105_vcpe_nfv_virtual_customer_premises_equipment/) [NFV](/studynote/03_network/20_performance_evaluation_advanced/1105_vcpe_nfv_virtual_customer_premises_equipment/) 고객 구내 망 통합 전환
 1106. [마이크로그리드 통신 규격](/studynote/03_network/20_performance_evaluation_advanced/1106_microgrid_communication_standards_iec61850/)
@@ -1163,11 +1163,11 @@ weight: 50
 1111. [DPDK](/studynote/03_network/20_performance_evaluation_advanced/1111_dpdk_data_plane_development_kit_kernel_bypass/) 패킷 바이패스
 1112. 스마트NIC 가속 [오프로딩](/studynote/03_network/20_performance_evaluation_advanced/1112_smartnic_dpu_hardware_acceleration_offloading/) 시스템
 1113. [5G SA](/studynote/03_network/20_performance_evaluation_advanced/1113_5g_sa_nsa_standalone_non_standalone_architecture/)/[NSA](/studynote/03_network/20_performance_evaluation_advanced/1113_5g_sa_nsa_standalone_non_standalone_architecture/) 아키텍처 비교망
-1114. 스몰 셀 조밀화 간섭 통제망
+1114. [스몰 셀 조밀화 간섭 통제망](/studynote/03_network/20_performance_evaluation_advanced/1114_small_cell_densification_interference_management/)
 1115. [Massive MIMO](/studynote/03_network/20_performance_evaluation_advanced/1115_massive_mimo_beamforming_management_system/) 빔 관리 시스템
-1116. 자율 구동 네트워크 레벨링
+1116. [자율 구동 네트워크 레벨링](/studynote/03_network/20_performance_evaluation_advanced/1116_adn_autonomous_driving_network_leveling/)
 1117. [네트워크 보안](/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) ([Zero Trust](/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) [정책](/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/))
-1118. 정보통신 기술사 최근 기출 토픽 기반
+1118. [정보통신 기술사 최근 기출 토픽 기반](/studynote/03_network/20_performance_evaluation_advanced/1118_recent_it_communication_infrastructure_trends/)
 1119. [6G](/studynote/03_network/20_performance_evaluation_advanced/1119_6g_convergence_terahertz_thz_network_indicators/) 융합 [테라헤르츠](/studynote/03_network/20_performance_evaluation_advanced/1119_6g_convergence_terahertz_thz_network_indicators/) 예측 지표망
 1120. [위성 기반 도심항공교통](/studynote/03_network/20_performance_evaluation_advanced/1120_uam_urban_air_mobility_satellite_routing/)([UAM](/studynote/03_network/20_performance_evaluation_advanced/1120_uam_urban_air_mobility_satellite_routing/)) [라우팅](/studynote/03_network/20_performance_evaluation_advanced/1120_uam_urban_air_mobility_satellite_routing/) 통신 구조 모델
 

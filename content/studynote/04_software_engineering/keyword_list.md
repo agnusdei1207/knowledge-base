@@ -21,7 +21,7 @@ weight: 50
 5. V-모델 ([V-Model](/studynote/04_software_engineering/01_overview_principles/005_v_model/)) - [검증](/studynote/04_software_engineering/01_overview_principles/005_v_model/)([Verification](/studynote/04_software_engineering/01_overview_principles/005_v_model/))과 [확인](/studynote/04_software_engineering/01_overview_principles/005_v_model/)([Validation](/studynote/04_software_engineering/01_overview_principles/005_v_model/))의 대응
 6. [프로토타입 모델](/studynote/04_software_engineering/01_overview_principles/006_prototype_model/) ([Prototype Model](/studynote/04_software_engineering/01_overview_principles/006_prototype_model/)) - 요구사항 명확화, 시제품
 7. [나선형 모델](/studynote/04_software_engineering/01_overview_principles/007_spiral_model/) ([Spiral Model](/studynote/04_software_engineering/01_overview_principles/007_spiral_model/)) - 위험 분석([Risk](/studynote/04_software_engineering/01_overview_principles/007_spiral_model/) Analysis) 강조, 점진적 확장
-8. 반복적/점진적 모델 (Iterative and Incremental Model)
+8. [반복적/점진적 모델 (Iterative and Incremental Model)](/studynote/04_software_engineering/01_overview_principles/008_iterative_incremental_model/)
 9. [RAD](/studynote/04_software_engineering/01_overview_principles/009_rad_model/) ([Rapid Application Development](/studynote/04_software_engineering/01_overview_principles/009_rad_model/)) 모델 - JAD, CASE 도구 활용
 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [진화적 프로세스 모델](/studynote/04_software_engineering/01_overview_principles/010_evolutionary_process_model/) ([Evolutionary Process Model](/studynote/04_software_engineering/01_overview_principles/010_evolutionary_process_model/))
 [11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). [클린룸 소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/011_cleanroom_software_engineering/) ([Cleanroom Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/011_cleanroom_software_engineering/)) - 통계적 품질 제어
@@ -44,7 +44,7 @@ weight: 50
 28. 소프트웨어 재공학 (Re-engineering) - 분석, 재구성, [역공학](/studynote/04_software_engineering/01_overview_principles/028_software_reengineering/), 이관
 29. [역공학](/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/) ([Reverse 엔진ering](/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)) - 소스코드에서 설계서 추출
 30. 재사용 (Reuse) - 자산의 공유, [컴포넌트](/studynote/04_software_engineering/01_overview_principles/030_software_reuse_cbd/) 기반 개발(CBD)
-31. 유지보수 (Maintenance)의 4가지 유형 - 수정, 적응, 완전(개선), 예방
+31. [유지보수 (Maintenance)의 4가지 유형 - 수정, 적응, 완전(개선), 예방](/studynote/04_software_engineering/01_overview_principles/031_software_maintenance_types/)
 32. [소프트웨어 노후화](/studynote/04_software_engineering/01_overview_principles/032_software_obsolescence/) ([Software Obsolescence](/studynote/04_software_engineering/01_overview_principles/032_software_obsolescence/))
 33. [기술 부채](/studynote/04_software_engineering/01_overview_principles/033_technical_debt/) ([Technical Debt](/studynote/04_software_engineering/01_overview_principles/033_technical_debt/)) - 단기적 편의성으로 인한 장기적 비용 증가
 34. 레거시 시스템 (Legacy System) 현대화 [전략](/studynote/04_software_engineering/01_overview_principles/034_legacy_system_modernization/)
@@ -56,9 +56,9 @@ weight: 50
 40. [EVM](/studynote/04_software_engineering/01_overview_principles/040_evm/) ([Earned Value Management](/studynote/04_software_engineering/01_overview_principles/040_evm/)) - 성과 측정 관리 ([PV](/studynote/04_software_engineering/01_overview_principles/040_evm/), [EV](/studynote/04_software_engineering/01_overview_principles/040_evm/), [AC](/studynote/04_software_engineering/01_overview_principles/040_evm/), [SV](/studynote/04_software_engineering/01_overview_principles/040_evm/), [CV](/studynote/04_software_engineering/01_overview_principles/040_evm/), [SPI](/studynote/04_software_engineering/01_overview_principles/040_evm/), [CPI](/studynote/04_software_engineering/01_overview_principles/040_evm/))
 41. 위험 관리 ([Risk Management](/studynote/04_software_engineering/01_overview_principles/041_risk_management_4_steps/)) 4단계 - [식별](/studynote/04_software_engineering/01_overview_principles/041_risk_management_4_steps/), 분석, 대응, 모니터링
 42. [위험 대응 전략](/studynote/04_software_engineering/01_overview_principles/042_risk_response_strategies/) - 회피, 전가, 완화, 수용
-43. 품질 보증 (QA) vs 품질 제어 (QC)
-44. 소프트웨어 비용 산정 기법 개요
-45. 하향식 산정 - 전문가 감정, 델타이 기법
+43. [품질 보증 (QA) vs 품질 제어 (QC)](/studynote/04_software_engineering/01_overview_principles/043_qa_vs_qc/)
+44. [소프트웨어 비용 산정 기법 개요](/studynote/04_software_engineering/01_overview_principles/044_software_cost_estimation_overview/)
+45. [하향식 산정 - 전문가 감정, 델타이 기법](/studynote/04_software_engineering/01_overview_principles/045_top_down_estimation/)
 46. 상향식 산정 - LOC (Line of [Code](/studynote/04_software_engineering/01_overview_principles/046_bottom_up_estimation_loc/)), 단계별 인월 산정
 47. [COCOMO](/studynote/04_software_engineering/01_overview_principles/047_cocomo_model/) ([Constructive Cost Model](/studynote/04_software_engineering/01_overview_principles/047_cocomo_model/)) - 유기적, 준분리형, 내장형
 48. [COCOMO](/studynote/04_software_engineering/01_overview_principles/048_cocomo_2_model/) II - 응용 구성, [초기](/studynote/04_software_engineering/01_overview_principles/048_cocomo_2_model/) 설계, 포스트 아키텍처 모델
@@ -67,7 +67,7 @@ weight: 50
 51. [델파이 기법](/studynote/04_software_engineering/01_overview_principles/051_delphi_method/) ([Delphi Method](/studynote/04_software_engineering/01_overview_principles/051_delphi_method/)) - 전문가 합의 기반 예측
 52. [와이드밴드 델파이](/studynote/04_software_engineering/01_overview_principles/052_wideband_delphi/) ([Wideband Delphi](/studynote/04_software_engineering/01_overview_principles/052_wideband_delphi/)) - 팀 단위 반복적 리뷰
 53. 백파이어링 (Backfiring) 기법 - LOC와 [FP](/studynote/04_software_engineering/01_overview_principles/053_backfiring_technique/) 간 변환
-54. 브룩스의 법칙 (Brooks's Law) - 지체된 프로젝트에 인력 투입 시 더 지체됨
+54. [브룩스의 법칙 (Brooks's Law) - 지체된 프로젝트에 인력 투입 시 더 지체됨](/studynote/04_software_engineering/01_overview_principles/054_브룩스의_법칙_brooks_s_law_지체된_프로젝트에/)
 55. [잭맨 프레임워크](/studynote/04_software_engineering/01_overview_principles/055_zachman_framework/) ([Zachman Framework](/studynote/04_software_engineering/01_overview_principles/055_zachman_framework/)) - 전사적 아키텍처([EA](/studynote/04_software_engineering/01_overview_principles/055_zachman_framework/)) 프레임워크
 56. 토가프 ([TOGAF](/studynote/04_software_engineering/01_overview_principles/056_togaf_ea_framework/)) - [The Open Group](/studynote/04_software_engineering/01_overview_principles/056_togaf_ea_framework/) [Architecture](/studynote/04_software_engineering/01_overview_principles/056_togaf_ea_framework/) Framework
 57. [모델 주도 아키텍처](/studynote/04_software_engineering/01_overview_principles/057_mda_model_driven_architecture/) (MDA, Model Driven [Architecture](/studynote/04_software_engineering/01_overview_principles/057_mda_model_driven_architecture/)) - [PIM](/studynote/04_software_engineering/01_overview_principles/057_mda_model_driven_architecture/), PSM 매핑
@@ -111,7 +111,7 @@ weight: 50
 93. [SAFe](/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) ([Scaled Agile Framework](/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/)) - 기업용 [대규모 애자일](/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/)
 94. [LeSS](/studynote/04_software_engineering/02_requirements_analysis/094_less_large_scale_scrum/) ([Large-Scale Scrum](/studynote/04_software_engineering/02_requirements_analysis/094_less_large_scale_scrum/)) - 다수 팀 [스크럼](/studynote/04_software_engineering/02_requirements_analysis/094_less_large_scale_scrum/) 확장
 95. Nexus - [스크럼](/studynote/04_software_engineering/02_requirements_analysis/095_nexus_scaled_agile_framework/) 팀 간 의존성 관리
-96. Spotify 모델 - Tribe, Squad, Chapter, Guild
+96. [Spotify 모델 - Tribe, Squad, Chapter, Guild](/studynote/04_software_engineering/02_requirements_analysis/096_spotify_model_tribe_squad/)
 97. [DevOps](/studynote/04_software_engineering/02_requirements_analysis/097_devops_culture_calms/) (Development + Operations) - 문화, 자동화, 측정, 공유
 98. [인프라로서의 코드](/studynote/04_software_engineering/02_requirements_analysis/098_iac_infrastructure_as_code_terraform/) ([IaC](/studynote/04_software_engineering/02_requirements_analysis/098_iac_infrastructure_as_code_terraform/), [Infrastructure as Code](/studynote/04_software_engineering/02_requirements_analysis/098_iac_infrastructure_as_code_terraform/))
 99. [지속적 배포](/studynote/04_software_engineering/02_requirements_analysis/099_continuous_deployment_cd/) (CD, [Continuous Deployment](/studynote/04_software_engineering/02_requirements_analysis/099_continuous_deployment_cd/) / Delivery)
@@ -149,17 +149,17 @@ weight: 50
 
 ## 3. 요구공학 및 비즈니스 분석 (60개)
 131. 요구공학 ([Requirements 엔진ering](/studynote/04_software_engineering/03_design_architecture/131_requirements_engineering/)) 정의 및 필요성
-132. 요구사항의 유형 - 기능적 요구사항 vs 비기능적 요구사항
+132. [요구사항의 유형 - 기능적 요구사항 vs 비기능적 요구사항](/studynote/04_software_engineering/03_design_architecture/132_요구사항의_유형_기능적_요구사항_vs_비기능적_요구사항/)
 133. [비기능 요구사항](/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/) ([Quality Attributes](/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/)) - [성능](/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/), 보안, [가용성](/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/), [신뢰성](/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/) 등
 134. 요구공학 프로세스 - 도출, 분석, 명세, [확인](/studynote/04_software_engineering/03_design_architecture/134_requirements_engineering_process/), 관리
-135. 요구사항 도출 (Elicitation) 기법 - 인터뷰, 설문, 워크숍, 관찰
-136. 브레인스토밍 (Brainstorming) / JAD (Joint Application Design)
-137. 페르소나 (Persona) 분석 - 가상 사용자 모델링
-138. 사용자 여정 지도 (User Journey Map)
-139. 프로토타이핑 (Prototyping) - Low-fidelity vs High-fidelity
-140. 섀도잉 (Shadowing) - 사용자 업무 환경 직접 관찰
+135. [요구사항 도출 (Elicitation) 기법 - 인터뷰, 설문, 워크숍, 관찰](/studynote/04_software_engineering/03_design_architecture/135_요구사항_도출_elicitation_기법_인터뷰_설문/)
+136. [브레인스토밍 (Brainstorming) / JAD (Joint Application Design)](/studynote/04_software_engineering/03_design_architecture/136_브레인스토밍_brainstorming_jad_joint/)
+137. [페르소나 (Persona) 분석 - 가상 사용자 모델링](/studynote/04_software_engineering/03_design_architecture/137_페르소나_persona_분석_가상_사용자_모델링/)
+138. [사용자 여정 지도 (User Journey Map)](/studynote/04_software_engineering/03_design_architecture/138_사용자_여정_지도_user_journey_map/)
+139. [프로토타이핑 (Prototyping) - Low-fidelity vs High-fidelity](/studynote/04_software_engineering/03_design_architecture/139_프로토타이핑_prototyping_low_fidelit/)
+140. [섀도잉 (Shadowing) - 사용자 업무 환경 직접 관찰](/studynote/04_software_engineering/03_design_architecture/140_섀도잉_shadowing_사용자_업무_환경_직접_관찰/)
 141. [포커스 그룹 인터뷰](/studynote/04_software_engineering/03_design_architecture/141_focus_group_interview_fgi/) ([FGI](/studynote/04_software_engineering/03_design_architecture/141_focus_group_interview_fgi/))
-142. 요구사항 분석 (Analysis) - 모순 해결, 범위 확정
+142. [요구사항 분석 (Analysis) - 모순 해결, 범위 확정](/studynote/04_software_engineering/03_design_architecture/142_요구사항_분석_analysis_모순_해결_범위_확정/)
 143. [구조적 분석](/studynote/04_software_engineering/03_design_architecture/143_structured_analysis_dfd_dd_minispec/) ([Structured Analysis](/studynote/04_software_engineering/03_design_architecture/143_structured_analysis_dfd_dd_minispec/)) - [DFD](/studynote/04_software_engineering/03_design_architecture/143_structured_analysis_dfd_dd_minispec/), [Data Dictionary](/studynote/04_software_engineering/03_design_architecture/143_structured_analysis_dfd_dd_minispec/), [Mini-Spec](/studynote/04_software_engineering/03_design_architecture/143_structured_analysis_dfd_dd_minispec/)
 144. 자료 흐름도 ([DFD](/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/), [Data Flow Diagram](/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/)) - [Process](/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/), [Data](/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/) Flow, [Data](/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/) Store, Terminator
 145. 자료 사전 ([DD](/studynote/04_software_engineering/03_design_architecture/145_1_mini_spec/), [Data Dictionary](/studynote/04_software_engineering/03_design_architecture/145_1_mini_spec/)) - =, +, { }, [ ], ( ), * *
@@ -171,7 +171,7 @@ weight: 50
 151. 요구사항 [확인](/studynote/04_software_engineering/03_design_architecture/151_requirements_verification_and_validation_v_v/) 및 [검증](/studynote/04_software_engineering/03_design_architecture/151_requirements_verification_and_validation_v_v/) (V&V, [Verification](/studynote/04_software_engineering/03_design_architecture/151_requirements_verification_and_validation_v_v/) & [Validation](/studynote/04_software_engineering/03_design_architecture/151_requirements_verification_and_validation_v_v/))
 152. [요구사항 검토](/studynote/04_software_engineering/03_design_architecture/152_requirements_review_inspection_walkthrough/) ([Review](/studynote/04_software_engineering/03_design_architecture/152_requirements_review_inspection_walkthrough/)) - [인스펙션](/studynote/04_software_engineering/03_design_architecture/152_requirements_review_inspection_walkthrough/), 워크쓰루
 153. [인스펙션](/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/) (Inspection) - 공식적 검토, [중재자](/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/), [체크리스트](/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/)
-154. 워크쓰루 (Walkthrough) - 비공식적, 지식 공유 위주
+154. [워크쓰루 (Walkthrough) - 비공식적, 지식 공유 위주](/studynote/04_software_engineering/03_design_architecture/154_requirements_review_walkthrough/)
 155. [동료 검토](/studynote/04_software_engineering/03_design_architecture/155_peer_review/) ([Peer Review](/studynote/04_software_engineering/03_design_architecture/155_peer_review/))
 156. [요구사항 추적성](/studynote/04_software_engineering/03_design_architecture/156_requirements_traceability_vertical_horizontal/) ([Traceability](/studynote/04_software_engineering/03_design_architecture/156_requirements_traceability_vertical_horizontal/)) - 수직적/수평적 추적성
 157. [요구사항 추적 매트릭스](/studynote/04_software_engineering/03_design_architecture/157_requirements_traceability_matrix_rtm/) ([RTM](/studynote/04_software_engineering/03_design_architecture/157_requirements_traceability_matrix_rtm/), [Requirements Traceability Matrix](/studynote/04_software_engineering/03_design_architecture/157_requirements_traceability_matrix_rtm/))
@@ -183,7 +183,7 @@ weight: 50
 163. [비즈니스 프로세스 모델링](/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/) ([BPMN](/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/))
 164. [유스케이스 시나리오](/studynote/04_software_engineering/03_design_architecture/164_use_case_scenario_flows/) ([Use Case Scenario](/studynote/04_software_engineering/03_design_architecture/164_use_case_scenario_flows/)) - 기본 흐름, 대안 흐름, 예외 흐름
 165. [인수 기준](/studynote/04_software_engineering/03_design_architecture/165_acceptance_criteria_definition/) ([Acceptance Criteria](/studynote/04_software_engineering/03_design_architecture/165_acceptance_criteria_definition/)) 정의
-166. MoSCoW 기법 - Must, Should, Could, Won't 우선순위 결정
+166. [MoSCoW 기법 - Must, Should, Could, Won't 우선순위 결정](/studynote/04_software_engineering/03_design_architecture/166_moscow_prioritization_technique/)
 167. [카노 모델](/studynote/04_software_engineering/03_design_architecture/167_kano_model_quality_attributes/) ([Kano Model](/studynote/04_software_engineering/03_design_architecture/167_kano_model_quality_attributes/)) - 당연적, 일원적, 매력적 품질
 168. [품질 기능 전개](/studynote/04_software_engineering/03_design_architecture/168_qfd_quality_function_deployment/) (QFD, Quality Function [Deployment](/studynote/04_software_engineering/03_design_architecture/168_qfd_quality_function_deployment/))
 169. [품질의 집](/studynote/04_software_engineering/03_design_architecture/169_hoq_house_of_quality_matrix/) (HoQ, House of Quality) 매트릭스
@@ -196,7 +196,7 @@ weight: 50
 176. [페트리 넷](/studynote/04_software_engineering/03_design_architecture/176_petri_net_concurrent_system_specification/) ([Petri Net](/studynote/04_software_engineering/03_design_architecture/176_petri_net_concurrent_system_specification/)) - 병행 시스템 명세
 177. [요구사항 도구](/studynote/04_software_engineering/03_design_architecture/177_requirements_management_tools_jira_doors/) (Jira, DOORS 등) 활용 [전략](/studynote/04_software_engineering/03_design_architecture/177_requirements_management_tools_jira_doors/)
 178. [AS-IS](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) ([현재 상태](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)) / TO-BE (미래 상태) 분석
-179. SWOT 분석, 3C/4C 분석 연계 요구 도출
+179. [SWOT 분석, 3C/4C 분석 연계 요구 도출](/studynote/04_software_engineering/03_design_architecture/179_swot_3c_4c_analysis/)
 180. [마인드 맵](/studynote/04_software_engineering/03_design_architecture/180_mind_map_affinity_diagram/) ([Mind Map](/studynote/04_software_engineering/03_design_architecture/180_mind_map_affinity_diagram/)) 및 친화도 ([Affinity](/studynote/04_software_engineering/03_design_architecture/180_mind_map_affinity_diagram/) Diagram)
 181. [역공학](/studynote/04_software_engineering/03_design_architecture/181_reverse_engineering_requirements/)을 통한 요구사항 추출
 182. [에픽](/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/) ([Epic](/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/)) - 거시적 스토리 집합
@@ -206,7 +206,7 @@ weight: 50
 186. [가치 제안 캔버스](/studynote/04_software_engineering/03_design_architecture/186_value_proposition_canvas/) ([Value Proposition Canvas](/studynote/04_software_engineering/03_design_architecture/186_value_proposition_canvas/))
 187. [소프트웨어 제품 라인](/studynote/04_software_engineering/03_design_architecture/187_spl_software_product_line_variability/) ([SPL](/studynote/04_software_engineering/03_design_architecture/187_spl_software_product_line_variability/)) 요구사항 가변성(Variability) 분석
 188. [피쳐 모델](/studynote/04_software_engineering/03_design_architecture/188_feature_model_variability_tree/) ([Feature Model](/studynote/04_software_engineering/03_design_architecture/188_feature_model_variability_tree/)) 가변성 트리
-189. BDD의 Given-When-Then 문법을 이용한 명세
+189. [BDD의 Given-When-Then 문법을 이용한 명세](/studynote/04_software_engineering/03_design_architecture/189_bdd_given_when_then/)
 190. [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([LLM](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) 기반 [요구사항 명세](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)서 초안 자동 [생성](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 지원
 
 ## 4. 소프트웨어 설계 및 아키텍처 (80개)
@@ -246,7 +246,7 @@ weight: 50
 224. [안티 코럽션 레이어](/studynote/04_software_engineering/04_testing_quality/224_acl_anti_corruption_layer_legacy_integration/) ([ACL](/studynote/04_software_engineering/04_testing_quality/224_acl_anti_corruption_layer_legacy_integration/), Anti-Corruption Layer)
 225. [CQRS](/studynote/04_software_engineering/04_testing_quality/225_cqrs_command_query_responsibility_segregation/) ([Command](/studynote/04_software_engineering/04_testing_quality/225_cqrs_command_query_responsibility_segregation/) Query Responsibility Segregation) - 명령과 조회 모델 분리
 226. [이벤트 소싱](/studynote/04_software_engineering/04_testing_quality/226_event_sourcing_state_change_history/) ([Event Sourcing](/studynote/04_software_engineering/04_testing_quality/226_event_sourcing_state_change_history/)) - 상태 변경 이력을 이벤트 스트림으로 저장
-227. 아키텍처 평가 기법 개요
+227. [아키텍처 평가 기법 개요](/studynote/04_software_engineering/04_testing_quality/227_architecture_evaluation_methods_overview/)
 228. [SAAM](/studynote/04_software_engineering/04_testing_quality/228_saam_software_architecture_analysis_method/) ([Software Architecture](/studynote/04_software_engineering/04_testing_quality/228_saam_software_architecture_analysis_method/) Analysis Method)
 229. [ATAM](/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) ([Architecture](/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) Trade-off Analysis Method) - 품질 [속성](/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) 간 상충 [관계](/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) 분석
 230. [CBAM](/studynote/04_software_engineering/04_testing_quality/230_cbam_cost_benefit_analysis_method/) (Cost Benefit Analysis Method) - 경제적 관점의 평가
@@ -260,14 +260,14 @@ weight: 50
 238. [유스케이스 다이어그램](/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/) (정적/기능)
 239. [컴포넌트](/studynote/04_software_engineering/04_testing_quality/239_component_deployment_diagram_uml/) 다이어그램 / 배치 다이어그램 ([Deployment Diagram](/studynote/04_software_engineering/04_testing_quality/239_component_deployment_diagram_uml/)) (정적/물리)
 240. [통신 다이어그램](/studynote/04_software_engineering/04_testing_quality/240_communication_collaboration_diagram_uml/) (Communication Diagram / Collaboration Diagram)
-241. 패키지 다이어그램 / 복합 구조 다이어그램
+241. [패키지 다이어그램 / 복합 구조 다이어그램](/studynote/04_software_engineering/04_testing_quality/241_package_composite_structure_diagram_uml/)
 242. [객체지향 설계 원칙](/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/) ([SOLID](/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/))
 243. [SRP](/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/) ([Single Responsibility Principle](/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/)) - [단일 책임 원칙](/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/)
 244. [OCP](/studynote/04_software_engineering/04_testing_quality/244_ocp_open_closed_principle/) ([Open-Closed Principle](/studynote/04_software_engineering/04_testing_quality/244_ocp_open_closed_principle/)) - [개방-폐쇄 원칙](/studynote/04_software_engineering/04_testing_quality/244_ocp_open_closed_principle/) (확장엔 열려있고 변경엔 닫혀있음)
 245. [LSP](/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/) ([Liskov Substitution Principle](/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/)) - [리스코프 치환 원칙](/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/) (자식은 부모를 대체 가능)
 246. [ISP](/studynote/04_software_engineering/04_testing_quality/246_isp_interface_segregation_principle/) ([Interface Segregation Principle](/studynote/04_software_engineering/04_testing_quality/246_isp_interface_segregation_principle/)) - [인터페이스 분리 원칙](/studynote/04_software_engineering/04_testing_quality/246_isp_interface_segregation_principle/)
 247. [DIP](/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/) ([Dependency Inversion Principle](/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/)) - [의존 역전 원칙](/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/) ([추상화](/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/)에 의존)
-248. DRY (Don't Repeat Yourself) 원칙
+248. [DRY (Don't Repeat Yourself) 원칙](/studynote/04_software_engineering/04_testing_quality/248_dry_dont_repeat_yourself_principle/)
 249. [KISS](/studynote/04_software_engineering/04_testing_quality/249_kiss_keep_it_simple_stupid/) (Keep It Simple, Stupid) 원칙
 250. [YAGNI](/studynote/04_software_engineering/04_testing_quality/250_yagni_you_arent_gonna_need_it/) (You Aren't Gonna Need It) 원칙
 251. [디자인 패턴](/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/) ([Design Patterns](/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/)) 개요 - GoF (Gang of Four) 23가지
@@ -301,7 +301,7 @@ weight: 50
 277. [해석자](/studynote/04_software_engineering/05_devops_ci_cd/277_interpreter_pattern/) ([Interpreter](/studynote/04_software_engineering/05_devops_ci_cd/277_interpreter_pattern/)) - 문법 규칙을 정의하고 해석
 278. [동시성 패턴](/studynote/04_software_engineering/05_devops_ci_cd/278_concurrency_patterns/) ([Concurrency Patterns](/studynote/04_software_engineering/05_devops_ci_cd/278_concurrency_patterns/)) - [Active](/studynote/04_software_engineering/05_devops_ci_cd/278_concurrency_patterns/) Object, [Monitor](/studynote/04_software_engineering/05_devops_ci_cd/278_concurrency_patterns/) Object, [Thread Pool](/studynote/04_software_engineering/05_devops_ci_cd/278_concurrency_patterns/)
 279. [아키텍처 품질 속성](/studynote/04_software_engineering/05_devops_ci_cd/279_quality_attributes_scenario/) ([Quality Attributes](/studynote/04_software_engineering/05_devops_ci_cd/279_quality_attributes_scenario/)) - 시나리오 기반 정의
-280. 품질 시나리오 요소 - 자극원, 자극, 환경, 대상, 응답, 응답 척도
+280. [품질 시나리오 요소 - 자극원, 자극, 환경, 대상, 응답, 응답 척도](/studynote/04_software_engineering/05_devops_ci_cd/280_quality_scenario_elements/)
 281. [가용성](/studynote/04_software_engineering/05_devops_ci_cd/281_availability_tactics/) ([Availability](/studynote/04_software_engineering/05_devops_ci_cd/281_availability_tactics/)) - [결함](/studynote/04_software_engineering/05_devops_ci_cd/281_availability_tactics/) 탐지, [복구](/studynote/04_software_engineering/05_devops_ci_cd/281_availability_tactics/), 예방 전술
 282. [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) ([Performance](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)) - 자원 요구 관리, 자원 관리, 스케줄링 전술
 283. [보안성](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) ([Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) - 공격 탐지, 방어, [복구](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 전술
@@ -310,7 +310,7 @@ weight: 50
 286. [사용성](/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/) ([Usability](/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/)) - 사용자 인터페이스 설계 전술
 287. [상호운용성](/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/) ([Interoperability](/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/)) - 시스템 간 정보 교환 전술
 288. [개념적 무결성](/studynote/04_software_engineering/05_devops_ci_cd/288_conceptual_integrity/) ([Conceptual Integrity](/studynote/04_software_engineering/05_devops_ci_cd/288_conceptual_integrity/)) - 아키텍처 전반의 [일관성](/studynote/04_software_engineering/05_devops_ci_cd/288_conceptual_integrity/)
-289. UI/UX 설계 원칙 - 직관성, 유효성, 학습성, 유연성
+289. [UI/UX 설계 원칙 - 직관성, 유효성, 학습성, 유연성](/studynote/04_software_engineering/05_devops_ci_cd/289_ui_ux_design_principles/)
 290. [니코보코](/studynote/04_software_engineering/05_devops_ci_cd/290_nielsen_norman_10_heuristics/) ([Nielsen-Norman](/studynote/04_software_engineering/05_devops_ci_cd/290_nielsen_norman_10_heuristics/)) 10대 [휴리스틱](/studynote/04_software_engineering/05_devops_ci_cd/290_nielsen_norman_10_heuristics/) 원칙
 291. [정보 아키텍처](/studynote/04_software_engineering/05_devops_ci_cd/291_information_architecture/) ([Information Architecture](/studynote/04_software_engineering/05_devops_ci_cd/291_information_architecture/)) 설계
 292. [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) ([Accessibility](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)) - [KWCAG](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/), WCAG 웹 [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) 지침
@@ -384,7 +384,7 @@ weight: 50
 358. [MTBF](/studynote/04_software_engineering/06_software_architecture/358_mtbf/) (Mean Time Between Failures) - [평균 무고장 시간](/studynote/04_software_engineering/06_software_architecture/358_mtbf/)
 359. [MTTR](/studynote/04_software_engineering/06_software_architecture/359_mttr/) (Mean Time To Repair) - [평균 수리 시간](/studynote/04_software_engineering/06_software_architecture/359_mttr/)
 360. [MTTF](/studynote/04_software_engineering/06_software_architecture/360_mttf/) (Mean Time To Failure) - 평균 고장 시간
-361. 소프트웨어 복잡도 측정 - 맥케이브 순환 복잡도 (McCabe's Cyclomatic Complexity, V(G) = e - n + 2)
+361. [소프트웨어 복잡도 측정 - 맥케이브 순환 복잡도 (McCabe's Cyclomatic Complexity, V(G) = e - n + 2)](/studynote/04_software_engineering/06_software_architecture/361_mccabe_cyclomatic_complexity/)
 362. [할스테드](/studynote/04_software_engineering/06_software_architecture/362_halstead_complexity/) ([Halstead](/studynote/04_software_engineering/06_software_architecture/362_halstead_complexity/)) 복잡도 - 연산자([Operator](/studynote/04_software_engineering/06_software_architecture/362_halstead_complexity/))와 [피연산자](/studynote/04_software_engineering/06_software_architecture/362_halstead_complexity/)([Operand](/studynote/04_software_engineering/06_software_architecture/362_halstead_complexity/)) 수 기반 측정
 363. [객체지향 메트릭](/studynote/04_software_engineering/06_software_architecture/363_ck_metrics/) (CK [메트릭](/studynote/04_software_engineering/06_software_architecture/363_ck_metrics/)스) - WMC, DIT, [NOC](/studynote/04_software_engineering/06_software_architecture/363_ck_metrics/), CBO, RFC, LCOM
 364. [정형 기술 검토](/studynote/04_software_engineering/06_software_architecture/364_formal_technical_review/) ([FTR](/studynote/04_software_engineering/06_software_architecture/364_formal_technical_review/), [Formal Technical Review](/studynote/04_software_engineering/06_software_architecture/364_formal_technical_review/)) 의 지침
@@ -404,7 +404,7 @@ weight: 50
 378. [소프트웨어 문서화](/studynote/04_software_engineering/06_software_architecture/378_software_documentation/) ([Documentation](/studynote/04_software_engineering/06_software_architecture/378_software_documentation/)) 표준 및 지식 관리 (Wiki, Confluence)
 379. [재해 복구](/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/) ([DR](/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/)) 아키텍처 - [RTO](/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/) ([Recovery Time Objective](/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/)), [RPO](/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/) ([Recovery Point Objective](/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/))
 380. 소프트웨어 유지보수의 종류 - 수정([Corrective](/studynote/04_software_engineering/06_software_architecture/380_maintenance_types/)), 적응(Adaptive), 완전/개선(Perfective), 예방(Preventive)
-381. 메이먼의 법칙 (Lehman's Laws of Software Evolution) - 지속적 변경, 복잡도 증가의 법칙
+381. [메이먼의 법칙 (Lehman's Laws of Software Evolution) - 지속적 변경, 복잡도 증가의 법칙](/studynote/04_software_engineering/06_software_architecture/381_lehman_laws/)
 382. [방어적 프로그래밍](/studynote/04_software_engineering/06_software_architecture/382_defensive_programming/) ([Defensive Programming](/studynote/04_software_engineering/06_software_architecture/382_defensive_programming/)) - 예외 처리, Assertion 적극 활용
 383. [데이터 중심](/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/)([Data-Centric](/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/)) 아키텍처의 품질 보증
 384. [AI](/studynote/04_software_engineering/06_software_architecture/384_ai_code_generation_quality/) 기반 코드 [생성](/studynote/04_software_engineering/06_software_architecture/384_ai_code_generation_quality/)기(Copilot 등) 산출물의 품질 평가 한계
@@ -419,7 +419,7 @@ weight: 50
 391. 소프트웨어 테스팅의 7가지 원리 ([결함](/studynote/04_software_engineering/07_object_oriented/391_seven_principles_of_software_testing/) 발견, 완벽한 테스트 불가능, 조기 테스트, [결함](/studynote/04_software_engineering/07_object_oriented/391_seven_principles_of_software_testing/) 집중, [살충제 패러독스](/studynote/04_software_engineering/07_object_oriented/391_seven_principles_of_software_testing/), 정황 의존, [오류 부재의 궤변](/studynote/04_software_engineering/07_object_oriented/391_seven_principles_of_software_testing/))
 392. [살충제 패러독스](/studynote/04_software_engineering/07_object_oriented/392_pesticide_paradox_test_renewal/) ([Pesticide Paradox](/studynote/04_software_engineering/07_object_oriented/392_pesticide_paradox_test_renewal/)) 극복을 위한 [테스트 케이스](/studynote/04_software_engineering/07_object_oriented/392_pesticide_paradox_test_renewal/) 주기적 갱신
 393. [오류 부재의 궤변](/studynote/04_software_engineering/11_testing_validation/393_absence_of_errors_fallacy/) (Absence of Errors Fallacy) - 요구사항 미충족 시 [결함](/studynote/04_software_engineering/11_testing_validation/393_absence_of_errors_fallacy/)이 없어도 무용지물
-394. V-모델의 매핑 (요구사항-인수테스트, 기본설계-시스템테스트, 상세설계-통합테스트, 코딩-단위테스트)
+394. [V-모델의 매핑 (요구사항-인수테스트, 기본설계-시스템테스트, 상세설계-통합테스트, 코딩-단위테스트)](/studynote/04_software_engineering/07_object_oriented/394_v_model_testing_mapping/)
 395. [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) ([Verification](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)) - 제품을 올바르게 만들고 있는가 (과정, 산출물 리뷰)
 396. [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) ([Validation](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)) - 올바른 제품을 만들었는가 (결과, 실행 테스트)
 397. [단위 테스트](/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) ([Unit Test](/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)) - 최소 단위([모듈](/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)/함수) 기능 [검증](/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/), 화이트박스 위주
@@ -436,7 +436,7 @@ weight: 50
 408. [베타 테스트](/studynote/04_software_engineering/12_testing_maintenance/408_beta_test/) ([Beta Test](/studynote/04_software_engineering/12_testing_maintenance/408_beta_test/)) - 실제 환경에서 다수 사용자가 수행 (필드 테스트)
 409. [OAT](/studynote/04_software_engineering/12_testing_maintenance/801_operational_acceptance_testing_oat/) ([Operational Acceptance Testing](/studynote/04_software_engineering/12_testing_maintenance/801_operational_acceptance_testing_oat/)) - 운영 전환 전 [백업](/studynote/04_software_engineering/12_testing_maintenance/801_operational_acceptance_testing_oat/), [이중화](/studynote/04_software_engineering/12_testing_maintenance/801_operational_acceptance_testing_oat/) 등 [검증](/studynote/04_software_engineering/12_testing_maintenance/801_operational_acceptance_testing_oat/)
 410. [회귀 테스트](/studynote/04_software_engineering/12_testing_maintenance/802_regression_test/) ([Regression Test](/studynote/04_software_engineering/12_testing_maintenance/802_regression_test/)) - 코드 수정 후 기존 기능에 예기치 않은 [결함](/studynote/04_software_engineering/12_testing_maintenance/802_regression_test/)(사이드 이펙트) 발생 [확인](/studynote/04_software_engineering/12_testing_maintenance/802_regression_test/)
-411. 리그레션 테스트 자동화 및 선택적 수행 (Retest All vs Selective)
+411. [리그레션 테스트 자동화 및 선택적 수행 (Retest All vs Selective)](/studynote/04_software_engineering/12_testing_maintenance/411_regression_test_strategy/)
 412. [블랙박스 테스트](/studynote/04_software_engineering/12_testing_maintenance/804_black_box_testing/) ([Black-box Test](/studynote/04_software_engineering/12_testing_maintenance/804_black_box_testing/) / 명세 기반 테스트) - 내부 구조를 보지 않고 입력/출력 기반 [검증](/studynote/04_software_engineering/12_testing_maintenance/804_black_box_testing/)
 413. [동등 분할](/studynote/04_software_engineering/07_object_oriented/413_equivalence_partitioning/) ([Equivalence Partitioning](/studynote/04_software_engineering/07_object_oriented/413_equivalence_partitioning/)) - 입력 영역을 유효/무효 클래스로 분할하여 대푯값 테스트
 414. [경계값 분석](/studynote/04_software_engineering/07_object_oriented/414_boundary_value_analysis/) ([Boundary Value Analysis](/studynote/04_software_engineering/07_object_oriented/414_boundary_value_analysis/)) - 경계 부분에서 [결함](/studynote/04_software_engineering/07_object_oriented/414_boundary_value_analysis/)이 많다는 점 이용 (분할의 가장자리 값)
@@ -477,7 +477,7 @@ weight: 50
 449. [내구성 테스트](/studynote/04_software_engineering/07_object_oriented/449_endurance_soak_test/) (Endurance / Soak Test) - 장시간 부하를 주어 [메모리 누수](/studynote/04_software_engineering/07_object_oriented/449_endurance_soak_test/)(Leak) 등 [확인](/studynote/04_software_engineering/07_object_oriented/449_endurance_soak_test/)
 450. [벤치마크 테스트](/studynote/04_software_engineering/07_object_oriented/450_benchmark_test/) ([BMT](/studynote/04_software_engineering/07_object_oriented/450_benchmark_test/), [Benchmark Test](/studynote/04_software_engineering/07_object_oriented/450_benchmark_test/)) - 동일한 환경에서 여러 제품의 [성능](/studynote/04_software_engineering/07_object_oriented/450_benchmark_test/)을 비교
 451. [사용성 테스트](/studynote/04_software_engineering/07_object_oriented/451_usability_test/) ([Usability Test](/studynote/04_software_engineering/07_object_oriented/451_usability_test/)) - 사용자가 시스템을 얼마나 쉽게 다룰 수 있는지 UI/UX 관점 평가
-452. A/B 테스트 - 두 가지 UI/기능을 실 사용자에게 노출하여 반응 비교
+452. [A/B 테스트 - 두 가지 UI/기능을 실 사용자에게 노출하여 반응 비교](/studynote/04_software_engineering/07_object_oriented/452_ab_test/)
 453. [호환성 테스트](/studynote/04_software_engineering/07_object_oriented/453_compatibility_test/) ([Compatibility Test](/studynote/04_software_engineering/07_object_oriented/453_compatibility_test/)) - OS, 브라우저, 기기(모바일) 등 이기종 환경 동작 [확인](/studynote/04_software_engineering/07_object_oriented/453_compatibility_test/)
 454. [이식성 테스트](/studynote/04_software_engineering/07_object_oriented/454_portability_test/) ([Portability Test](/studynote/04_software_engineering/07_object_oriented/454_portability_test/)) - 다른 환경으로 시스템을 이전했을 때의 동작 [확인](/studynote/04_software_engineering/07_object_oriented/454_portability_test/)
 455. [모의 해킹](/studynote/04_software_engineering/07_object_oriented/455_penetration_testing_vulnerability_scanning/) ([Penetration Testing](/studynote/04_software_engineering/07_object_oriented/455_penetration_testing_vulnerability_scanning/)) 및 취약점 스캐닝
@@ -545,7 +545,7 @@ weight: 50
 515. [쿠버네티스](/studynote/04_software_engineering/08_security_compliance_devsecops/515_kubernetes_security_rbac_network_policy/) ([Kubernetes](/studynote/04_software_engineering/08_security_compliance_devsecops/515_kubernetes_security_rbac_network_policy/)) 보안 - [RBAC](/studynote/04_software_engineering/08_security_compliance_devsecops/515_kubernetes_security_rbac_network_policy/), Network [Policy](/studynote/04_software_engineering/08_security_compliance_devsecops/515_kubernetes_security_rbac_network_policy/), [Pod](/studynote/04_software_engineering/08_security_compliance_devsecops/515_kubernetes_security_rbac_network_policy/) [Security](/studynote/04_software_engineering/08_security_compliance_devsecops/515_kubernetes_security_rbac_network_policy/) Admission
 516. [개인정보](/studynote/04_software_engineering/08_security_compliance_devsecops/516_privacy_by_design_pbd/) [보호](/studynote/04_software_engineering/08_security_compliance_devsecops/516_privacy_by_design_pbd/) 중심 설계 ([Privacy by Design](/studynote/04_software_engineering/08_security_compliance_devsecops/516_privacy_by_design_pbd/) - [PbD](/studynote/04_software_engineering/08_security_compliance_devsecops/516_privacy_by_design_pbd/)) 7원칙
 517. [데이터](/studynote/04_software_engineering/08_security_compliance_devsecops/517_data_privacy_compliance_gdpr/) 3법 및 [GDPR](/studynote/04_software_engineering/08_security_compliance_devsecops/517_data_privacy_compliance_gdpr/) 컴플라이언스 대응 SW 기능 (잊혀질 권리, 동의 철회 기능)
-518. 가명 처리 및 비식별화 기술 (K-익명성, L-다양성, T-근접성) SW 적용
+518. [가명 처리 및 비식별화 기술 (K-익명성, L-다양성, T-근접성) SW 적용](/studynote/04_software_engineering/08_security_compliance_devsecops/518_pseudonymization_kanonymity/)
 519. [사이버 레질리언스](/studynote/04_software_engineering/08_security_compliance_devsecops/519_cyber_resilience_architecture/) ([Cyber Resilience](/studynote/04_software_engineering/08_security_compliance_devsecops/519_cyber_resilience_architecture/)) 아키텍처
 520. [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) ([Supply Chain](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)) 공격 사례 및 서명된 커밋(Signed Commit), [CI](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 파이프라인 [보호](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)
 521. [인공지능](/studynote/04_software_engineering/08_security_compliance_devsecops/521_ai_model_security_adversarial_poisoning/) 모델 공격 방어 - [적대적 예제](/studynote/04_software_engineering/08_security_compliance_devsecops/521_ai_model_security_adversarial_poisoning/)([Adversarial Example](/studynote/04_software_engineering/08_security_compliance_devsecops/521_ai_model_security_adversarial_poisoning/)), [데이터 포이즈닝](/studynote/04_software_engineering/08_security_compliance_devsecops/521_ai_model_security_adversarial_poisoning/) 방어 설계
@@ -562,7 +562,7 @@ weight: 50
 ## 9. SW 아키텍처 심화, [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 및 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) (80개)
 531. [클라우드 네이티브 아키텍처](/studynote/04_software_engineering/09_cloud_native_ai_architecture/531_cloud_native_architecture/) ([Cloud Native Architecture](/studynote/04_software_engineering/09_cloud_native_ai_architecture/531_cloud_native_architecture/)) 철학
 532. [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) ([Microservices](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)) 분해 패턴
-533. 비즈니스 능력에 따른 분해 (Decompose by Business Capability)
+533. [비즈니스 능력에 따른 분해 (Decompose by Business Capability)](/studynote/04_software_engineering/09_cloud_native_ai_architecture/533_decompose_by_business_capability/)
 534. 하위 [도메인](/studynote/04_software_engineering/09_cloud_native_ai_architecture/534_decompose_by_subdomain_ddd/)에 따른 분해 (Decompose by Subdomain - [DDD](/studynote/04_software_engineering/09_cloud_native_ai_architecture/534_decompose_by_subdomain_ddd/) 기반)
 535. [서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/535_sync_communication_rest_grpc/) 간 동기 통신 - [REST API](/studynote/04_software_engineering/09_cloud_native_ai_architecture/535_sync_communication_rest_grpc/), [gRPC](/studynote/04_software_engineering/09_cloud_native_ai_architecture/535_sync_communication_rest_grpc/) ([Protocol Buffers](/studynote/04_software_engineering/09_cloud_native_ai_architecture/535_sync_communication_rest_grpc/))
 536. [서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/536_asynchronous_communication_kafka_rabbitmq/) 간 비동기 통신 - [메시](/studynote/04_software_engineering/09_cloud_native_ai_architecture/536_asynchronous_communication_kafka_rabbitmq/)지 큐 (RabbitMQ, [Kafka](/studynote/04_software_engineering/09_cloud_native_ai_architecture/536_asynchronous_communication_kafka_rabbitmq/)), AMQP [프로토콜](/studynote/04_software_engineering/09_cloud_native_ai_architecture/536_asynchronous_communication_kafka_rabbitmq/)
@@ -657,7 +657,7 @@ weight: 50
 623. [서버리스 콜드 스타트](/studynote/04_software_engineering/10_trends_pm_quality/623_serverless_cold_start_issue/) 이슈
 624. [클라우드 네이티브](/studynote/04_software_engineering/10_trends_pm_quality/624_cloud_native_12_factor_app/) 12 Factor App
 625. [테스트 더블](/studynote/04_software_engineering/10_trends_pm_quality/625_test_double_mock_vs_stub/) Mock과 Stub의 차이
-626. V-모델 개발-테스트 매핑 구조
+626. [V-모델 개발-테스트 매핑 구조](/studynote/04_software_engineering/10_trends_pm_quality/626_v_model_development_testing_mapping/)
 627. [회귀 테스트](/studynote/04_software_engineering/10_trends_pm_quality/627_regression_testing_coverage_tools/) 커버리지 도구
 628. [살충제 패러독스](/studynote/04_software_engineering/10_trends_pm_quality/628_pesticide_paradox_test_renewal/) 테스트 갱신
 629. [오류 부재의 궤변](/studynote/04_software_engineering/10_trends_pm_quality/629_absence_of_errors_fallacy/) 요구사항 미달
@@ -666,11 +666,11 @@ weight: 50
 632. [상태 전이](/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) ([State Transition](/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)) 다이어그램
 633. [페어와이즈](/studynote/04_software_engineering/10_trends_pm_quality/633_pairwise_orthogonal_array_testing/) ([Pairwise](/studynote/04_software_engineering/10_trends_pm_quality/633_pairwise_orthogonal_array_testing/)) 직교 [배열](/studynote/04_software_engineering/10_trends_pm_quality/633_pairwise_orthogonal_array_testing/) (Orthogonal [Array](/studynote/04_software_engineering/10_trends_pm_quality/633_pairwise_orthogonal_array_testing/))
 634. 구문, 분기, [조건 커버리지](/studynote/04_software_engineering/10_trends_pm_quality/634_statement_branch_condition_coverage_inclusion/) 포함 [관계](/studynote/04_software_engineering/10_trends_pm_quality/634_statement_branch_condition_coverage_inclusion/)
-635. MC/DC 항공/자동차 안전 표준 조건
+635. [MC/DC 항공/자동차 안전 표준 조건](/studynote/04_software_engineering/10_trends_pm_quality/635_mcdc_modified_condition_decision_coverage/)
 636. 탐색적 테스트 차터 기반 [휴리스틱](/studynote/04_software_engineering/10_trends_pm_quality/636_exploratory_testing_charter_heuristic/)
-637. 퍼즈 테스트 보안 취약점 발견
+637. [퍼즈 테스트 보안 취약점 발견](/studynote/04_software_engineering/10_trends_pm_quality/637_fuzz_testing_vulnerability_discovery/)
 638. [뮤테이션 테스트](/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/) ([돌연변이](/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/)) [테스트 케이스](/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/) [검증](/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/)
-639. A/B 테스팅
+639. [A/B 테스팅](/studynote/04_software_engineering/10_trends_pm_quality/639_ab_testing_hypothesis_validation/)
 640. [성능 테스트](/studynote/04_software_engineering/10_trends_pm_quality/640_performance_testing_load_stress_spike_endurance/) 부하/스트레스/[스파이크](/studynote/04_software_engineering/10_trends_pm_quality/640_performance_testing_load_stress_spike_endurance/)/인듀어런스
 641. ISO 25010 [소프트웨어 품질](/studynote/04_software_engineering/10_trends_pm_quality/641_iso_25010_software_quality_model/) 모델
 642. [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) ([MTBF](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/), [MTTR](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/), [MTTF](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)) [가용성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 공식
@@ -697,7 +697,7 @@ weight: 50
 663. [스토리 포인트](/studynote/04_software_engineering/uncategorized/663_story_point_planning_poker/) [플래닝 포커](/studynote/04_software_engineering/uncategorized/663_story_point_planning_poker/) 합의
 664. [대규모 애자일](/studynote/04_software_engineering/uncategorized/664_scaled_agile_safe_less/) [SAFe](/studynote/04_software_engineering/uncategorized/664_scaled_agile_safe_less/), [LeSS](/studynote/04_software_engineering/uncategorized/664_scaled_agile_safe_less/)
 665. [린 스타트업](/studynote/04_software_engineering/uncategorized/971_lean_startup_mvp_pivot/) [MVP](/studynote/04_software_engineering/uncategorized/971_lean_startup_mvp_pivot/) [피벗](/studynote/04_software_engineering/uncategorized/971_lean_startup_mvp_pivot/) 사이클
-666. 요구사항 도출 JAD 페르소나
+666. [요구사항 도출 JAD 페르소나](/studynote/04_software_engineering/uncategorized/666_requirements_jad_persona/)
 667. 요구사항 [검증](/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) 추적성 매트릭스 ([RTM](/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/))
 668. [비기능 요구사항](/studynote/04_software_engineering/uncategorized/668_non_functional_requirements/) [아키텍처 드라이버](/studynote/04_software_engineering/uncategorized/668_non_functional_requirements/)
 669. [DFD](/studynote/04_software_engineering/uncategorized/972_dfd_data_flow_diagram/) 자료 흐름도 4요소
@@ -715,7 +715,7 @@ weight: 50
 681. [모노레포 vs 멀티레포](/studynote/04_software_engineering/10_trends_pm_quality/681_monorepo_vs_multirepo/)
 682. [마이크로 프론트엔드](/studynote/04_software_engineering/10_trends_pm_quality/682_micro_frontend_webpack_federation/) 웹팩 연계
 683. [API](/studynote/04_software_engineering/10_trends_pm_quality/683_api_gateway_bff_backend_for_frontend/) 게이트웨이 [BFF](/studynote/04_software_engineering/10_trends_pm_quality/683_api_gateway_bff_backend_for_frontend/) ([Backend for Frontend](/studynote/04_software_engineering/10_trends_pm_quality/683_api_gateway_bff_backend_for_frontend/))
-684. 스트랭글러 패턴 레거시 분할
+684. [스트랭글러 패턴 레거시 분할](/studynote/04_software_engineering/10_trends_pm_quality/684_strangler_pattern_legacy_migration/)
 685. [토일](/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) ([Toil](/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)) 자동화 축소 대상 작업
 686. [인지 부하](/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/) ([Cognitive Load](/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)) 팀 토폴로지
 687. [시큐어 코딩](/studynote/04_software_engineering/10_trends_pm_quality/687_secure_coding_xss_sqli/) 입력값 [검증](/studynote/04_software_engineering/10_trends_pm_quality/687_secure_coding_xss_sqli/) [XSS](/studynote/04_software_engineering/10_trends_pm_quality/687_secure_coding_xss_sqli/) SQLi 방어
@@ -744,7 +744,7 @@ weight: 50
 710. [ATDD](/studynote/04_software_engineering/10_trends_pm_quality/710_atdd_acceptance_test_driven_development/) (인수 [테스트 주도 개발](/studynote/04_software_engineering/10_trends_pm_quality/710_atdd_acceptance_test_driven_development/)) [BDD](/studynote/04_software_engineering/10_trends_pm_quality/710_atdd_acceptance_test_driven_development/) 연계
 711. [KWCAG](/studynote/04_software_engineering/10_trends_pm_quality/711_kwcag_web_accessibility_guidelines/) 웹 [접근성](/studynote/04_software_engineering/10_trends_pm_quality/711_kwcag_web_accessibility_guidelines/) 지침
 712. [다크 패턴](/studynote/04_software_engineering/10_trends_pm_quality/712_dark_pattern_deceptive_ux/) 기만적 UX 방지
-713. 기능 안전 ISO 26262 ASIL 등급
+713. [기능 안전 ISO 26262 ASIL 등급](/studynote/04_software_engineering/10_trends_pm_quality/713_functional_safety_iso26262_asil/)
 714. [FMEA](/studynote/04_software_engineering/10_trends_pm_quality/714_fmea_fta_fault_analysis/) / [FTA](/studynote/04_software_engineering/10_trends_pm_quality/714_fmea_fta_fault_analysis/) [결함](/studynote/04_software_engineering/10_trends_pm_quality/714_fmea_fta_fault_analysis/) 분석망
 715. N-[버전](/studynote/04_software_engineering/10_trends_pm_quality/715_n_version_programming_diversity/) 프로그래밍 이종 [다중화](/studynote/04_software_engineering/10_trends_pm_quality/715_n_version_programming_diversity/)
 716. [페일 세이프](/studynote/04_software_engineering/10_trends_pm_quality/716_fail_safe_vs_fail_soft/) / [페일 소프트](/studynote/04_software_engineering/10_trends_pm_quality/716_fail_safe_vs_fail_soft/) 비교
@@ -756,10 +756,10 @@ weight: 50
 722. [어니언 아키텍처](/studynote/04_software_engineering/10_trends_pm_quality/722_onion_architecture_domain_isolation/) [도메인](/studynote/04_software_engineering/10_trends_pm_quality/722_onion_architecture_domain_isolation/) 코어 격리
 723. [COTS](/studynote/04_software_engineering/10_trends_pm_quality/723_cots_commercial_off_the_shelf_testing/) 상용 기성품 통합 테스팅
 724. [인프라스트럭처 애즈 코드](/studynote/04_software_engineering/10_trends_pm_quality/724_infrastructure_as_code_terraform/) ([IaC](/studynote/04_software_engineering/10_trends_pm_quality/724_infrastructure_as_code_terraform/)) [테라폼](/studynote/04_software_engineering/10_trends_pm_quality/724_infrastructure_as_code_terraform/)
-725. 선언적 인프라 상태 일치 루프
+725. [선언적 인프라 상태 일치 루프](/studynote/04_software_engineering/10_trends_pm_quality/725_declarative_infrastructure_reconciliation_loop/)
 726. [플랫폼 엔지니어링](/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/) [IDP](/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/) 포털 [개발자 경험](/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/)([DX](/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/))
 727. [DORA](/studynote/04_software_engineering/10_trends_pm_quality/727_dora_metrics_4_indicators/) [메트릭](/studynote/04_software_engineering/10_trends_pm_quality/727_dora_metrics_4_indicators/)스 4대 지표 ([배포 빈도 등](/studynote/04_software_engineering/10_trends_pm_quality/727_dora_metrics_4_indicators/))
-728. SPACE 프레임워크 생산성 다각화
+728. [SPACE 프레임워크 생산성 다각화](/studynote/04_software_engineering/10_trends_pm_quality/728_space_framework_developer_productivity/)
 729. [객체지향 결합도](/studynote/04_software_engineering/10_trends_pm_quality/729_oo_coupling_types/) (내용, 공통, 제어, 스탬프, 자료)
 730. [객체지향 응집도](/studynote/04_software_engineering/10_trends_pm_quality/730_oo_cohesion_types/) (우연, [논리](/studynote/04_software_engineering/10_trends_pm_quality/730_oo_cohesion_types/), 시간, 절차, 통신, 순차, 기능)
 731. [ATAM](/studynote/04_software_engineering/10_trends_pm_quality/731_atam_architecture_tradeoff_analysis/) 트레이드오프 분석 평가 트리
@@ -778,17 +778,17 @@ weight: 50
 744. [엣지 컴퓨팅](/studynote/04_software_engineering/10_trends_pm_quality/744_edge_computing_local_optimization/) [데이터](/studynote/04_software_engineering/10_trends_pm_quality/744_edge_computing_local_optimization/) 로컬 최적화
 745. [디지털 트윈](/studynote/04_software_engineering/10_trends_pm_quality/745_digital_twin_synchronization_model/) [동기화](/studynote/04_software_engineering/10_trends_pm_quality/745_digital_twin_synchronization_model/) 인터페이스 모델
 746. [메타버스 네트워크](/studynote/04_software_engineering/10_trends_pm_quality/746_metaverse_network_rendering_latency/) 렌더링 [지연](/studynote/04_software_engineering/10_trends_pm_quality/746_metaverse_network_rendering_latency/) 단축 기술
-747. 탄소 인지적 소프트웨어 그린 코딩
-748. 로우코드/노코드 섀도우 IT 거버넌스
+747. [탄소 인지적 소프트웨어 그린 코딩](/studynote/04_software_engineering/10_trends_pm_quality/747_carbon_aware_software_green_coding/)
+748. [로우코드/노코드 섀도우 IT 거버넌스](/studynote/04_software_engineering/10_trends_pm_quality/748_lowcode_nocode_shadow_it/)
 749. [마이크로 커널](/studynote/04_software_engineering/10_trends_pm_quality/749_microkernel_architecture_plugin/) 아키텍처 플러그인 확장
 750. [아키텍처 런웨이](/studynote/04_software_engineering/10_trends_pm_quality/750_architectural_runway_enabler/) 기술적 기반 조기 확보
 751. [소프트웨어 위기](/studynote/04_software_engineering/10_trends_pm_quality/751_software_crisis_cost_delay/) 비용 [지연](/studynote/04_software_engineering/10_trends_pm_quality/751_software_crisis_cost_delay/) 품질 문제
 752. [프로토타입](/studynote/04_software_engineering/10_trends_pm_quality/752_prototyping_throwaway_vs_evolutionary/) 버리기 모델 vs 진화적 모델
-753. 나선형 위험 분석 4단계 루프
-754. 테일러링 프로젝트 맞춤형 프로세스 재단
+753. [나선형 위험 분석 4단계 루프](/studynote/04_software_engineering/10_trends_pm_quality/753_spiral_model_risk_analysis/)
+754. [테일러링 프로젝트 맞춤형 프로세스 재단](/studynote/04_software_engineering/10_trends_pm_quality/754_tailoring_software_process/)
 755. [PMO](/studynote/04_software_engineering/10_trends_pm_quality/755_pmo_project_management_office/) 전사 품질 통제 및 [감사](/studynote/04_software_engineering/10_trends_pm_quality/755_pmo_project_management_office/) 조직
 756. [잭맨 프레임워크](/studynote/04_software_engineering/10_trends_pm_quality/756_zachman_framework_matrix/) 6x6 매트릭스
-757. MoSCoW 요구사항 우선순위 판별
+757. [MoSCoW 요구사항 우선순위 판별](/studynote/04_software_engineering/10_trends_pm_quality/757_moscow_requirement_prioritization/)
 758. Kano 모델 매력적, 당연적 품질 요소 [분류](/studynote/04_software_engineering/10_trends_pm_quality/758_kano_model_quality_attributes/)
 759. QFD [품질 기능 전개](/studynote/04_software_engineering/10_trends_pm_quality/759_qfd_quality_function_deployment/) 요구사항 변환 기법
 760. [인스펙션 중재자](/studynote/04_software_engineering/10_trends_pm_quality/760_inspection_moderator_formal_review/)([Moderator](/studynote/04_software_engineering/10_trends_pm_quality/760_inspection_moderator_formal_review/)) 주도 공식 검토
@@ -810,7 +810,7 @@ weight: 50
 776. [소프트웨어 품질](/studynote/04_software_engineering/10_trends_pm_quality/776_cost_of_quality_control_graph/) 비용 통제 [그래프](/studynote/04_software_engineering/10_trends_pm_quality/776_cost_of_quality_control_graph/) 최적점
 777. 정량적 프로젝트 관리 [SPI](/studynote/04_software_engineering/10_trends_pm_quality/777_quantitative_project_management_spi/) 통제 한계선
 778. 소프트웨어 테스트 성숙도 모델 ([TMMi](/studynote/04_software_engineering/10_trends_pm_quality/778_tmmi_test_maturity_model_integration/))
-779. ISO/IEC/IEEE 29119 소프트웨어 테스팅 국제 표준
+779. [ISO/IEC/IEEE 29119 소프트웨어 테스팅 국제 표준](/studynote/04_software_engineering/10_trends_pm_quality/779_iso_29119_software_testing_standard/)
 780. 클라우드 보안 [형상 관리](/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/) ([CSPM](/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/)) [데브옵스](/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/) 결합
 781. 안티 디버깅 코드 [난독화](/studynote/04_software_engineering/10_trends_pm_quality/781_anti_debugging_code_obfuscation/) 리버스엔지니어링 차단
 782. [메모리 안전성 언어](/studynote/04_software_engineering/10_trends_pm_quality/782_memory_safety_rust_compiler_verification/) ([Rust](/studynote/04_software_engineering/10_trends_pm_quality/782_memory_safety_rust_compiler_verification/)) 컴파일러 [검증](/studynote/04_software_engineering/10_trends_pm_quality/782_memory_safety_rust_compiler_verification/) 차용
@@ -826,7 +826,7 @@ weight: 50
 792. [API](/studynote/04_software_engineering/10_trends_pm_quality/792_api_gateway_authentication_routing/) 게이트웨이 [인증](/studynote/04_software_engineering/10_trends_pm_quality/792_api_gateway_authentication_routing/) 및 [라우팅](/studynote/04_software_engineering/10_trends_pm_quality/792_api_gateway_authentication_routing/) 병목 관리망
 793. [인프라 코드](/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) ([IaC](/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)) [멱등성](/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) 보장 템플릿 기술
 794. [지속적 배포](/studynote/04_software_engineering/10_trends_pm_quality/794_continuous_deployment_rollback_automation/) [롤백](/studynote/04_software_engineering/10_trends_pm_quality/794_continuous_deployment_rollback_automation/) 자동화 [정책](/studynote/04_software_engineering/10_trends_pm_quality/794_continuous_deployment_rollback_automation/) 파이프라인 구성
-795. 린 개발 7원칙 낭비 제거 전체 최적화 배포망
+795. [린 개발 7원칙 낭비 제거 전체 최적화 배포망](/studynote/04_software_engineering/10_trends_pm_quality/795_process/)
 796. [스크럼 스프린트 회고](/studynote/04_software_engineering/10_trends_pm_quality/796_retrospective/)([Retrospective](/studynote/04_software_engineering/10_trends_pm_quality/796_retrospective/)) 개선 액션 도출
 797. [XP](/studynote/04_software_engineering/10_trends_pm_quality/797_xp_tdd/) 실천 방법 [TDD](/studynote/04_software_engineering/10_trends_pm_quality/797_xp_tdd/) 페어 지속 통합 코드 공동 소유
 798. [형상 통제](/studynote/04_software_engineering/10_trends_pm_quality/798_audit/) [베이스라인](/studynote/04_software_engineering/10_trends_pm_quality/798_audit/) 변경 심의 이력 추적

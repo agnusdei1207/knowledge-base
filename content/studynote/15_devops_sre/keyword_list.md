@@ -27,7 +27,7 @@ weight: 50
 13. [포트 바인딩](/studynote/15_devops_sre/01_culture_methodology/013_port_binding/) ([Port Binding](/studynote/15_devops_sre/01_culture_methodology/013_port_binding/)) - 자체적으로 [포트](/studynote/15_devops_sre/01_culture_methodology/013_port_binding/)를 바인딩하여 웹 [서비스](/studynote/15_devops_sre/01_culture_methodology/013_port_binding/) 노출
 14. [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) ([Concurrency](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)) - 프로세스 모델을 통한 [스케일 아웃](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)([Scale-out](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)) 수평 확장
 15. [폐기 가능성](/studynote/15_devops_sre/01_culture_methodology/015_disposability/) ([Disposability](/studynote/15_devops_sre/01_culture_methodology/015_disposability/)) - 빠른 시작과 우아한 종료(Graceful Shutdown)를 통한 안정성 극대화
-16. 개발/운영 환경 일치 (Dev/Prod Parity) - 개발, 스테이징, 운영 환경의 갭을 최소화
+16. [개발/운영 환경 일치 (Dev/Prod Parity) - 개발, 스테이징, 운영 환경의 갭을 최소화](/studynote/15_devops_sre/01_culture_methodology/016_dev_prod_parity/)
 17. [로그](/studynote/15_devops_sre/01_culture_methodology/017_logs_event_stream/) ([Logs](/studynote/15_devops_sre/01_culture_methodology/017_logs_event_stream/)) - [로그](/studynote/15_devops_sre/01_culture_methodology/017_logs_event_stream/)를 이벤트 스트림으로 취급하여 표준 출력(stdout)으로 뿜어냄
 18. [관리 프로세스](/studynote/15_devops_sre/01_culture_methodology/018_admin_processes/) ([Admin Processes](/studynote/15_devops_sre/01_culture_methodology/018_admin_processes/)) - 일회성 관리/스크립트 작업도 동일한 환경에서 실행
 19. [지속적 통합](/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/) ([CI](/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/), [Continuous Integration](/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)) - 다수 개발자의 코드를 메인 브랜치에 수시로 병합하고 자동 빌드/테스트를 수행해 통합 오류를 조기 발견
@@ -38,13 +38,13 @@ weight: 50
 24. 변경 [리드 타임](/studynote/15_devops_sre/01_culture_methodology/024_lead_time_for_changes/) ([Lead Time for Changes](/studynote/15_devops_sre/01_culture_methodology/024_lead_time_for_changes/)) - 코드가 커밋된 후 프로덕션에 배포되기까지 걸리는 시간
 25. 변경 실패율 ([Change Failure Rate](/studynote/15_devops_sre/01_culture_methodology/025_change_failure_rate_cfr/)) - 배포 후 장애/버그로 인해 핫픽스나 [롤백](/studynote/15_devops_sre/01_culture_methodology/025_change_failure_rate_cfr/)이 필요한 비율
 26. [서비스](/studynote/15_devops_sre/01_culture_methodology/026_mttr/) [복구](/studynote/15_devops_sre/01_culture_methodology/026_mttr/) 시간 (Time to Restore [Service](/studynote/15_devops_sre/01_culture_methodology/026_mttr/) / [MTTR](/studynote/15_devops_sre/01_culture_methodology/026_mttr/)) - 장애 발생 시 [복구](/studynote/15_devops_sre/01_culture_methodology/026_mttr/)에 걸리는 시간
-27. SPACE 프레임워크 - 개발자 생산성을 단순 코드량(LOC)이 아닌 만족도, 성과, 활동, 커뮤니케이션, 효율성 5가지 차원으로 다각화 측정
+27. [SPACE 프레임워크 - 개발자 생산성을 단순 코드량(LOC)이 아닌 만족도, 성과, 활동, 커뮤니케이션, 효율성 5가지 차원으로 다각화 측정](/studynote/15_devops_sre/01_culture_methodology/027_space_framework/)
 28. [플랫폼 엔지니어링](/studynote/15_devops_sre/01_culture_methodology/028_platform_engineering_idp/) ([Platform 엔진ering](/studynote/15_devops_sre/01_culture_methodology/028_platform_engineering_idp/)) - 개발자의 [인지 부하](/studynote/15_devops_sre/01_culture_methodology/028_platform_engineering_idp/)([Cognitive Load](/studynote/15_devops_sre/01_culture_methodology/028_platform_engineering_idp/))를 줄이기 위해 전담 플랫폼 팀이 '내부 개발자 포털([IDP](/studynote/15_devops_sre/01_culture_methodology/028_platform_engineering_idp/))'을 구축해 툴체인을 셀프 [서비스](/studynote/15_devops_sre/01_culture_methodology/028_platform_engineering_idp/)로 제공하는 최신 [DevOps](/studynote/15_devops_sre/01_culture_methodology/028_platform_engineering_idp/) 트렌드
 29. 내부 개발자 포털 ([IDP](/studynote/15_devops_sre/01_culture_methodology/029_golden_path_value_stream/), Internal Developer Portal) - Backstage 등, 개발자가 인프라/K8s를 몰라도 클릭 몇 번으로 인프라 [프로비저닝](/studynote/15_devops_sre/01_culture_methodology/029_golden_path_value_stream/) 및 [CI](/studynote/15_devops_sre/01_culture_methodology/029_golden_path_value_stream/)/CD [파이프](/studynote/15_devops_sre/01_culture_methodology/029_golden_path_value_stream/)라인 [생성](/studynote/15_devops_sre/01_culture_methodology/029_golden_path_value_stream/)
-30. 골든 패스 (Golden Path / Paved Road) - 조직 내에서 권장되는 가장 안전하고 자동화된 표준 개발/배포 경로 (가이드라인)
+30. [골든 패스 (Golden Path / Paved Road) - 조직 내에서 권장되는 가장 안전하고 자동화된 표준 개발/배포 경로 (가이드라인)](/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/)
 31. [가치 흐름 매핑](/studynote/15_devops_sre/01_culture_methodology/031_lead_time_cycle_time/) ([VSM](/studynote/15_devops_sre/01_culture_methodology/031_lead_time_cycle_time/), [Value Stream Mapping](/studynote/15_devops_sre/01_culture_methodology/031_lead_time_cycle_time/)) - 아이디어 발의부터 고객에게 가치가 전달되기까지의 전체 흐름에서 대기 시간(병목, Muda)을 [식별](/studynote/15_devops_sre/01_culture_methodology/031_lead_time_cycle_time/)하고 린([Lean](/studynote/15_devops_sre/01_culture_methodology/031_lead_time_cycle_time/))하게 제거하는 도식화 기법
 32. [리드 타임](/studynote/15_devops_sre/01_culture_methodology/032_conways_law/) ([Lead Time](/studynote/15_devops_sre/01_culture_methodology/032_conways_law/)) vs 사이클 타임 (Cycle Time)
-33. 콘웨이의 법칙 (Conway's Law) - "소프트웨어의 구조는 그 소프트웨어를 만드는 조직의 통신 구조를 닮는다"
+33. [콘웨이의 법칙 (Conway's Law) - "소프트웨어의 구조는 그 소프트웨어를 만드는 조직의 통신 구조를 닮는다"](/studynote/15_devops_sre/01_culture_methodology/033_conway_s_law/)
 34. 역 콘웨이 [전략](/studynote/15_devops_sre/01_culture_methodology/034_devops_topology/) (Inverse Conway Maneuver) - 원하는 [마이크로서비스](/studynote/15_devops_sre/01_culture_methodology/034_devops_topology/)([MSA](/studynote/15_devops_sre/01_culture_methodology/034_devops_topology/)) 아키텍처 구조에 맞춰 조직 구조(스쿼드, 크로스펑셔널 팀)를 선제적으로 재편하는 [전략](/studynote/15_devops_sre/01_culture_methodology/034_devops_topology/)
 35. [데브옵스](/studynote/15_devops_sre/01_culture_methodology/035_blameless_postmortem/) 토폴로지 ([DevOps](/studynote/15_devops_sre/01_culture_methodology/035_blameless_postmortem/) Topologies) - [안티 패턴](/studynote/15_devops_sre/01_culture_methodology/035_blameless_postmortem/) (Dev 팀과 Ops 팀의 완전 분리) vs 모범 패턴 (협력형, 플랫폼 팀 지원형)
 36. 비난 없는 포스트모템 ([Blameless Post-mortem](/studynote/15_devops_sre/01_culture_methodology/036_psychological_safety/)) - 장애 발생 시 '누가' 잘못했는지가 아니라 '무엇이' 문제였고 시스템이 어떻게 막지 못했는지 시스템적 관점에서 분석하는 회고 문화
@@ -61,12 +61,12 @@ weight: 50
 47. 에러 버짓 ([Error Budget](/studynote/15_devops_sre/01_culture_methodology/047_error_budget_slo_sre/)) - 100% [가용성](/studynote/15_devops_sre/01_culture_methodology/047_error_budget_slo_sre/)의 비현실성을 인정하고, [SLO](/studynote/15_devops_sre/01_culture_methodology/047_error_budget_slo_sre/)(예: 99.9%)를 뺀 나머지 0.1%를 '합법적으로 허용된 장애 예산'으로 할당하여 신규 배포의 [리스크](/studynote/15_devops_sre/01_culture_methodology/047_error_budget_slo_sre/)를 관리하는 [SRE](/studynote/15_devops_sre/01_culture_methodology/047_error_budget_slo_sre/) 철학
 48. [MLOps](/studynote/15_devops_sre/01_culture_methodology/048_mlops_machine_learning_operations/) ([Machine Learning Operations](/studynote/15_devops_sre/01_culture_methodology/048_mlops_machine_learning_operations/)) - 모델 개발과 운영의 단절 극복
 49. [DataOps](/studynote/15_devops_sre/01_culture_methodology/049_dataops_data_operations/) ([Data](/studynote/15_devops_sre/01_culture_methodology/049_dataops_data_operations/) Operations) - [데이터 파이프라인](/studynote/15_devops_sre/01_culture_methodology/049_dataops_data_operations/) 자동화
-50. BizDevOps - 비즈니스 요구사항 기획부터 운영까지 일체화
+50. [BizDevOps - 비즈니스 요구사항 기획부터 운영까지 일체화](/studynote/15_devops_sre/01_culture_methodology/050_bizdevops_business_alignment/)
 51. [애자일 성숙도 평가](/studynote/15_devops_sre/01_culture_methodology/051_agile_maturity_assessment/) 지표 ([Agile Maturity Assessment](/studynote/15_devops_sre/01_culture_methodology/051_agile_maturity_assessment/))
 52. [기술 부채](/studynote/15_devops_sre/01_culture_methodology/052_git_branching_strategies/) ([Technical Debt](/studynote/15_devops_sre/01_culture_methodology/052_git_branching_strategies/)) [모니터](/studynote/15_devops_sre/01_culture_methodology/052_git_branching_strategies/)링 시스템
-53. 백로그 정제 (Backlog Grooming/Refinement)
+53. [백로그 정제 (Backlog Grooming/Refinement)](/studynote/15_devops_sre/01_culture_methodology/053_백로그_정제_backlog_grooming_refine/)
 54. [데일리 스탠드업](/studynote/15_devops_sre/01_culture_methodology/054_github_flow/) (Daily Standup) 및 [칸반](/studynote/15_devops_sre/01_culture_methodology/054_github_flow/) 보드
-55. 워크플로우 오케스트레이터 (Workflow Orchestrator)
+55. [워크플로우 오케스트레이터 (Workflow Orchestrator)](/studynote/15_devops_sre/01_culture_methodology/055_워크플로우_오케스트레이터_workflow_orchest/)
 56. [DevOps](/studynote/15_devops_sre/01_culture_methodology/056_cicd_pipeline/) 툴체인 (Toolchain) 이기종 연동 [API](/studynote/15_devops_sre/01_culture_methodology/056_cicd_pipeline/)
 57. [데브옵스](/studynote/15_devops_sre/01_culture_methodology/057_jenkins_buildkite/) 에반젤리스트 ([DevOps](/studynote/15_devops_sre/01_culture_methodology/057_jenkins_buildkite/) Evangelist) 역할
 58. [개발자 경험](/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/) ([DX](/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/), Developer Experience) 향상 [전략](/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/)
@@ -130,9 +130,9 @@ weight: 50
 114. [카나리](/studynote/15_devops_sre/02_cicd_gitops/114_kayenta_canary_analysis/) 분석 도구 (Kayenta) 통계적 [오류 탐지](/studynote/15_devops_sre/02_cicd_gitops/114_kayenta_canary_analysis/)
 115. [테라폼](/studynote/15_devops_sre/02_cicd_gitops/115_atlantis_terraform_ci/) 클라우드 / [테라폼](/studynote/15_devops_sre/02_cicd_gitops/115_atlantis_terraform_ci/) 엔터프라이즈 [CI](/studynote/15_devops_sre/02_cicd_gitops/115_atlantis_terraform_ci/) 연동 (Atlantis)
 116. 인프라 배포 시 드리프트 감지 (Drift [Detection](/studynote/15_devops_sre/02_cicd_gitops/116_infrastructure_drift_detection/))
-117. 텍스트옵스 (TextOps) 및 DocOps (문서 배포 자동화)
+117. [텍스트옵스 (TextOps) 및 DocOps (문서 배포 자동화)](/studynote/15_devops_sre/02_cicd_gitops/117_textops_docops_automation/)
 118. [CI](/studynote/15_devops_sre/02_cicd_gitops/118_ephemeral_ci_runner_isolation/) [파이프](/studynote/15_devops_sre/02_cicd_gitops/118_ephemeral_ci_runner_isolation/)라인 러너 (Runner) 인스턴스의 1회용 (Ephemeral) 격리 실행
-119. 프리커밋 훅 (Pre-commit Hook) 로컬 코드 포맷팅 자동 점검
+119. [프리커밋 훅 (Pre-commit Hook) 로컬 코드 포맷팅 자동 점검](/studynote/15_devops_sre/02_cicd_gitops/119_pre_commit_hook_linting/)
 120. [컨테이너](/studynote/15_devops_sre/02_cicd_gitops/120_concept/) 이미지 사이닝 (Image Signing / Cosign, Notary) [무결성](/studynote/15_devops_sre/02_cicd_gitops/120_concept/) [검증](/studynote/15_devops_sre/02_cicd_gitops/120_concept/)망
 
 ## 3. 사이트 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 공학 ([SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 및 [옵저버빌리티](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) (70개)
@@ -149,7 +149,7 @@ weight: 50
 131. [옵저버빌리티 3대 기둥](/studynote/15_devops_sre/03_sre_observability/131_observability_three_pillars/) (Three Pillars) - [메트릭](/studynote/15_devops_sre/03_sre_observability/131_observability_three_pillars/)([Metrics](/studynote/15_devops_sre/03_sre_observability/131_observability_three_pillars/)), [로그](/studynote/15_devops_sre/03_sre_observability/131_observability_three_pillars/)([Logs](/studynote/15_devops_sre/03_sre_observability/131_observability_three_pillars/)), [분산 추적](/studynote/15_devops_sre/03_sre_observability/131_observability_three_pillars/)(Traces)
 132. [메트릭](/studynote/15_devops_sre/03_sre_observability/132_metrics_monitoring/) ([Metrics](/studynote/15_devops_sre/03_sre_observability/132_metrics_monitoring/)) - 시간에 따른 시스템 자원(CPU, 메모리) 및 [서비스](/studynote/15_devops_sre/03_sre_observability/132_metrics_monitoring/) 응답 수치를 [압축](/studynote/15_devops_sre/03_sre_observability/132_metrics_monitoring/)한 시계열 [데이터](/studynote/15_devops_sre/03_sre_observability/132_metrics_monitoring/) (가장 적은 용량, 경고 알람 [설정](/studynote/15_devops_sre/03_sre_observability/132_metrics_monitoring/)용)
 133. [SRE](/studynote/15_devops_sre/03_sre_observability/133_four_golden_signals/) [4대 골든 시그널](/studynote/15_devops_sre/03_sre_observability/133_four_golden_signals/) ([Four Golden Signals](/studynote/15_devops_sre/03_sre_observability/133_four_golden_signals/)) - 트래픽(Traffic, 초당 요청 수), [지연 시간](/studynote/15_devops_sre/03_sre_observability/133_four_golden_signals/)([Latency](/studynote/15_devops_sre/03_sre_observability/133_four_golden_signals/)), 에러(Errors, 5xx 비율), 포화도(Saturation, 자원 사용률/큐 대기)
-134. USE 메서드 (Utilization, Saturation, Errors) - 인프라 자원 분석 방법론
+134. [USE 메서드 (Utilization, Saturation, Errors) - 인프라 자원 분석 방법론](/studynote/15_devops_sre/03_sre_observability/134_use_메서드_utilization_saturation/)
 135. RED 메서드 (Rate, Errors, Duration) - 애플리케이션 [서비스](/studynote/15_devops_sre/03_sre_observability/135_red_method_service_analysis/) 로직 분석 방법론
 136. 프로메테우스 ([Prometheus](/studynote/15_devops_sre/03_sre_observability/136_prometheus/)) - [클라우드 네이티브](/studynote/15_devops_sre/03_sre_observability/136_prometheus/) 환경의 사실상 표준 [메트릭](/studynote/15_devops_sre/03_sre_observability/136_prometheus/) 수집 시스템. 에이전트가 밀어주는 방식(Push)이 아니라 서버가 주기적으로 엔드포인트를 당겨오는(Pull) 메커니즘
 137. 그라파나 ([Grafana](/studynote/15_devops_sre/03_sre_observability/137_grafana/)) - 프로메테우스, [엘라스틱서치](/studynote/15_devops_sre/03_sre_observability/137_grafana/) 등 [데이터](/studynote/15_devops_sre/03_sre_observability/137_grafana/)소스를 연결하여 강력한 [시각화](/studynote/15_devops_sre/03_sre_observability/137_grafana/) 대시보드를 제공하는 [오픈소스](/studynote/15_devops_sre/03_sre_observability/137_grafana/) 플랫폼
@@ -157,7 +157,7 @@ weight: 50
 139. [분산 로깅](/studynote/15_devops_sre/03_sre_observability/139_distributed_logging_efk_elk_stack/) 아키텍처 - Fluentd/Logstash(수집/변환) -> [Kafka](/studynote/15_devops_sre/03_sre_observability/139_distributed_logging_efk_elk_stack/)([버퍼링](/studynote/15_devops_sre/03_sre_observability/139_distributed_logging_efk_elk_stack/)) -> [Elasticsearch](/studynote/15_devops_sre/03_sre_observability/139_distributed_logging_efk_elk_stack/)(저장/검색) -> [Kibana](/studynote/15_devops_sre/03_sre_observability/139_distributed_logging_efk_elk_stack/)([시각화](/studynote/15_devops_sre/03_sre_observability/139_distributed_logging_efk_elk_stack/)) (EFK / ELK [Stack](/studynote/15_devops_sre/03_sre_observability/139_distributed_logging_efk_elk_stack/))
 140. [로그](/studynote/15_devops_sre/03_sre_observability/140_structured_logging_json_format/) 포맷 표준화 - 디버깅 용이성을 위해 [JSON](/studynote/15_devops_sre/03_sre_observability/140_structured_logging_json_format/) 형태의 구조화된 [로그](/studynote/15_devops_sre/03_sre_observability/140_structured_logging_json_format/)([Structured Logging](/studynote/15_devops_sre/03_sre_observability/140_structured_logging_json_format/)) 필수 적용
 141. [분산 추적](/studynote/15_devops_sre/03_sre_observability/141_distributed_tracing_msa_request_flow/) ([Distributed Tracing](/studynote/15_devops_sre/03_sre_observability/141_distributed_tracing_msa_request_flow/)) - MSA에서 하나의 사용자 요청이 수많은 [마이크로서비스](/studynote/15_devops_sre/03_sre_observability/141_distributed_tracing_msa_request_flow/)를 넘나들며 병목이 어디서 발생하는지 구간별로 추적하는 기술
-142. 트레이스 (Trace) - 하나의 사용자 요청 전체 흐름
+142. [트레이스 (Trace) - 하나의 사용자 요청 전체 흐름](/studynote/15_devops_sre/03_sre_observability/142_트레이스_trace_하나의_사용자_요청_전체_흐름/)
 143. 스팬 (Span) - 트레이스 내에서 단일 [서비스](/studynote/15_devops_sre/03_sre_observability/143_span_service_operation_unit/)가 수행한 작업 구간 (시작/종료 시간 포함). 상위 스팬(부모)과 하위 스팬(자식) 간 계층 구조 형성
 144. [컨텍스트](/studynote/15_devops_sre/03_sre_observability/144_context_propagation_trace_id/) 전파 ([Context Propagation](/studynote/15_devops_sre/03_sre_observability/144_context_propagation_trace_id/)) - [서비스](/studynote/15_devops_sre/03_sre_observability/144_context_propagation_trace_id/) 간 [HTTP](/studynote/15_devops_sre/03_sre_observability/144_context_propagation_trace_id/) 호출 시 [HTTP](/studynote/15_devops_sre/03_sre_observability/144_context_propagation_trace_id/) Header에 Trace ID와 부모 Span ID를 주입해 흐름의 연속성을 유지
 145. 예거 (Jaeger) / 집킨 (Zipkin) - 대표적인 [오픈소스](/studynote/15_devops_sre/03_sre_observability/145_jaeger_zipkin_distributed_tracing_backend/) [분산 추적](/studynote/15_devops_sre/03_sre_observability/145_jaeger_zipkin_distributed_tracing_backend/) UI/스토리지 백엔드
@@ -340,11 +340,11 @@ weight: 50
 316. [SRE](/studynote/15_devops_sre/05_devsecops/316_management/) 사이트 [신뢰성](/studynote/15_devops_sre/05_devsecops/316_management/) 구글 운영 공학
 317. [SLI SLO SLA](/studynote/15_devops_sre/05_devsecops/317_sli_slo_sla/) [에러 예산](/studynote/15_devops_sre/05_devsecops/317_sli_slo_sla/) 한도 통제
 318. [토일](/studynote/15_devops_sre/05_devsecops/318_process/) 무가치 자동화 대상 작업
-319. 무비난 포스트모템 회고 문화
+319. [무비난 포스트모템 회고 문화](/studynote/15_devops_sre/05_devsecops/319_무비난_포스트모템_회고_문화/)
 320. [옵저버빌리티](/studynote/15_devops_sre/05_devsecops/320_metric/) 가시성 [메트릭](/studynote/15_devops_sre/05_devsecops/320_metric/) [로그](/studynote/15_devops_sre/05_devsecops/320_metric/) 트레이스
 321. [분산 추적](/studynote/15_devops_sre/05_devsecops/321_trace_id/) [Trace ID](/studynote/15_devops_sre/05_devsecops/321_trace_id/) 병목 파악
 322. [오픈텔레메트리](/studynote/15_devops_sre/05_devsecops/322_cncf/) [CNCF](/studynote/15_devops_sre/05_devsecops/322_cncf/) 표준화
-323. 프로메테우스 풀 방식 그라파나 대시보드
+323. [프로메테우스 풀 방식 그라파나 대시보드](/studynote/15_devops_sre/05_devsecops/323_process/)
 324. [카오스 엔지니어링](/studynote/15_devops_sre/05_devsecops/324_audit/) 의도적 장애 복원력 점검
 325. [데브섹옵스](/studynote/15_devops_sre/05_devsecops/325_audit/) [시프트 레프트](/studynote/15_devops_sre/05_devsecops/325_audit/) 보안 조기 점검
 326. [SAST DAST IAST](/studynote/15_devops_sre/05_devsecops/326_sast_dast_iast/) 정적 동적 보안 테스팅
@@ -385,7 +385,7 @@ weight: 50
 361. [컨웨이의 법칙 조직 구조 소프트웨어 반영 아키텍처](/studynote/15_devops_sre/05_devsecops/361_architecture/)
 362. [O-RAN](/studynote/15_devops_sre/05_devsecops/362_o_ran/) [프론트홀](/studynote/15_devops_sre/05_devsecops/362_o_ran/) 화이트박스 분리 아키텍처
 363. [SDN SDDC VXLAN](/studynote/15_devops_sre/05_devsecops/363_sdn_sddc_vxlan/) [논리](/studynote/15_devops_sre/05_devsecops/363_sdn_sddc_vxlan/)망 오버레이 통신 제어망
-364. 다중 클러스터 K8s 페더레이션 고가용 배포망
+364. [다중 클러스터 K8s 페더레이션 고가용 배포망](/studynote/15_devops_sre/05_devsecops/364_process/)
 365. [C-V2X](/studynote/15_devops_sre/05_devsecops/365_c_v2x_5g/) 자율주행 모빌리티 [5G](/studynote/15_devops_sre/05_devsecops/365_c_v2x_5g/) 엣지 레이턴시 제어
 366. [퍼듀 모델 산업 제어망 스마트팩토리 보안](/studynote/15_devops_sre/05_devsecops/366_architecture/)
 367. [DPU SmartNIC](/studynote/15_devops_sre/05_devsecops/367_dpu_smartnic/) 인프라 [오프로딩](/studynote/15_devops_sre/05_devsecops/367_dpu_smartnic/) 네트워크 가속
