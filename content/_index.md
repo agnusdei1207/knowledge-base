@@ -1,5 +1,6 @@
 ---
-title: "기술사 스터디 노트"
+title: "Study Hub"
+page-label: "Study Hub"
 tags:
   - "studynote"
 ---
