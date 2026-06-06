@@ -1,5 +1,5 @@
 ---
-title: "06. Network Layer Ip"
+title: "Network Layer Ip"
 tags:
   - "network"
 weight: 6

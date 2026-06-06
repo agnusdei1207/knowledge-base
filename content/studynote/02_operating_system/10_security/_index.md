@@ -1,5 +1,5 @@
 ---
-title: "10. Security"
+title: "Security"
 tags:
   - "operating_system"
 weight: 10

@@ -1,5 +1,5 @@
 ---
-title: "Big Data"
+title: "Data Lake"
 tags:
   - "bigdata"
 weight: 7

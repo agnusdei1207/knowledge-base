@@ -1,5 +1,5 @@
 ---
-title: "Operating System"
+title: "Process Thread"
 tags:
   - "operating_system"
 weight: 2

@@ -1,5 +1,5 @@
 ---
-title: "Algorithm & Statistics"
+title: "Numerical"
 tags:
   - "algorithm_stats"
 weight: 7

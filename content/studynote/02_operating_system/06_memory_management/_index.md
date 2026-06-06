@@ -1,5 +1,5 @@
 ---
-title: "Operating System"
+title: "Memory Management"
 tags:
   - "operating_system"
 weight: 6

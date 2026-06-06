@@ -1,5 +1,5 @@
 ---
-title: "Cloud Architecture"
+title: "Virtualization"
 tags:
   - "studynote-cloud-architecture"
 weight: 1

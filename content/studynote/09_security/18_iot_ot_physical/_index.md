@@ -1,5 +1,5 @@
 ---
-title: "Security"
+title: "IOT Ot Physical"
 tags:
   - "studynote-security"
 weight: 18

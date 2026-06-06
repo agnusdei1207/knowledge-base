@@ -1,5 +1,5 @@
 ---
-title: "Computer Architecture"
+title: "Data Representation & Arithmetic"
 tags:
   - "computer_architecture"
 weight: 2

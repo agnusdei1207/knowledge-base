@@ -1,5 +1,5 @@
 ---
-title: "Security"
+title: "Uncategorized"
 tags:
   - "security"
 weight: 99

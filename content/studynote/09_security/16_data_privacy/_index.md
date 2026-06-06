@@ -1,5 +1,5 @@
 ---
-title: "Security"
+title: "Data Privacy"
 tags:
   - "studynote-security"
 weight: 16

@@ -1,5 +1,5 @@
 ---
-title: "Computer Architecture"
+title: "System Bus & Interconnects"
 tags:
   - "computer_architecture"
 weight: 9

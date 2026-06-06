@@ -1,5 +1,5 @@
 ---
-title: "Data Engineering"
+title: "Math Mining"
 tags:
   - "data_engineering"
 weight: 2

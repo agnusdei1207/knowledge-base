@@ -1,5 +1,5 @@
 ---
-title: "Algorithm & Statistics"
+title: "Linear Algebra"
 tags:
   - "studynote-algorithm-stats"
 weight: 10

@@ -1,5 +1,5 @@
 ---
-title: "Operating System"
+title: "CPU Scheduling"
 tags:
   - "operating_system"
 weight: 3

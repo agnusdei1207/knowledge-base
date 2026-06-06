@@ -1,5 +1,5 @@
 ---
-title: "3. LLM NLP"
+title: "Llm Nlp"
 tags:
   - "studynote-ai"
 weight: 3

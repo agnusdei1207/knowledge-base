@@ -1,5 +1,5 @@
 ---
-title: "IT Management"
+title: "Security Compliance"
 tags:
   - "it_management"
 weight: 5

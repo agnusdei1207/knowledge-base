@@ -1,5 +1,5 @@
 ---
-title: "07. Network Layer Routing"
+title: "Network Layer Routing"
 tags:
   - "network"
 weight: 7

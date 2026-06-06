@@ -1,5 +1,5 @@
 ---
-title: "17. Sdn Nfv"
+title: "Sdn Nfv"
 tags:
   - "network"
 weight: 17

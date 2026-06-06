@@ -1,5 +1,5 @@
 ---
-title: "02. Multiplexing Multiple Access"
+title: "Multiplexing Multiple Access"
 tags:
   - "network"
 weight: 2

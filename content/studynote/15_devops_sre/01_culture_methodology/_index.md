@@ -1,5 +1,5 @@
 ---
-title: "DevOps & SRE"
+title: "Culture Methodology"
 tags:
   - "devops_sre"
 weight: 1

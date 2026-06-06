@@ -1,5 +1,5 @@
 ---
-title: "Algorithm & Statistics"
+title: "Graph Algorithms"
 tags:
   - "studynote-algorithm-stats"
 weight: 11

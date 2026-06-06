@@ -1,5 +1,5 @@
 ---
-title: "03. Design Architecture"
+title: "Design Architecture"
 tags:
   - "software_engineering"
 weight: 3

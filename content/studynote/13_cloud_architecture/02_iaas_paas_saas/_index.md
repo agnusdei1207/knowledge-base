@@ -1,5 +1,5 @@
 ---
-title: "02. Iaas Paas Saas"
+title: "Iaas Paas Saas"
 tags:
   - "cloud_architecture"
 weight: 2

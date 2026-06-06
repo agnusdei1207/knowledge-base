@@ -1,5 +1,5 @@
 ---
-title: "Computer Architecture"
+title: "Hardware Security & Trends"
 tags:
   - "computer_architecture"
 weight: 14

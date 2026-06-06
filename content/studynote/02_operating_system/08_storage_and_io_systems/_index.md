@@ -1,5 +1,5 @@
 ---
-title: "08. Storage And Io Systems"
+title: "Storage And IO Systems"
 tags:
   - "operating_system"
 weight: 8

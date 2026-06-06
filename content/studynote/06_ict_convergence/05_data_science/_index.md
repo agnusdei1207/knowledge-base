@@ -1,5 +1,5 @@
 ---
-title: "ICT Convergence"
+title: "Data Science"
 tags:
   - "ict_convergence"
 weight: 5

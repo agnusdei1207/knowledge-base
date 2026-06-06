@@ -1,5 +1,5 @@
 ---
-title: "Design & Supervision"
+title: "Design Principles"
 tags:
   - "design_supervision"
 weight: 9

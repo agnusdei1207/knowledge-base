@@ -1,5 +1,5 @@
 ---
-title: "Database"
+title: "Core Deep Dives"
 tags:
   - "database"
 weight: 8

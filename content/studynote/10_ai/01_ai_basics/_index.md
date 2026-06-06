@@ -1,5 +1,5 @@
 ---
-title: "1. AI Basics"
+title: "AI Basics"
 tags:
   - "studynote-ai"
 weight: 1

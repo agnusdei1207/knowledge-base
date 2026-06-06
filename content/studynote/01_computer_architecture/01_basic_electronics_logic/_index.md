@@ -1,5 +1,5 @@
 ---
-title: "Computer Architecture"
+title: "Basic Electronics & Logic"
 tags:
   - "computer_architecture"
 weight: 1

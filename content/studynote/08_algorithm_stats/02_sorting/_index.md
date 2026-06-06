@@ -1,5 +1,5 @@
 ---
-title: "Algorithm & Statistics"
+title: "Sorting"
 tags:
   - "algorithm_stats"
 weight: 2

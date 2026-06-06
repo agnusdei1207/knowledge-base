@@ -1,5 +1,5 @@
 ---
-title: "19. Frequent Topics Terms"
+title: "Frequent Topics Terms"
 tags:
   - "network"
 weight: 19

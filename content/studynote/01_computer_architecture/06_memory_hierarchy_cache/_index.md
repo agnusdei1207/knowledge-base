@@ -1,5 +1,5 @@
 ---
-title: "Computer Architecture"
+title: "Memory Hierarchy & Cache"
 tags:
   - "computer_architecture"
 weight: 6

@@ -1,5 +1,5 @@
 ---
-title: "Algorithm & Statistics"
+title: "Graph Search"
 tags:
   - "algorithm_stats"
 weight: 3

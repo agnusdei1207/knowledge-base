@@ -1,5 +1,5 @@
 ---
-title: "Computer Architecture"
+title: "Virtual Memory & OS Integration"
 tags:
   - "computer_architecture"
 weight: 7

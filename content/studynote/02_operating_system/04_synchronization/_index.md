@@ -1,5 +1,5 @@
 ---
-title: "Operating System"
+title: "Synchronization"
 tags:
   - "operating_system"
 weight: 4

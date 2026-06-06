@@ -1,5 +1,5 @@
 ---
-title: "13. Intro Trends"
+title: "Intro Trends"
 tags:
   - "studynote-bigdata"
 weight: 13

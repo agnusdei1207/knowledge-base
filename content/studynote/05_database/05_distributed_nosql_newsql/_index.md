@@ -1,5 +1,5 @@
 ---
-title: "Database"
+title: "Distributed Nosql Newsql"
 tags:
   - "database"
 weight: 5

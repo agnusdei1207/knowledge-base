@@ -1,5 +1,5 @@
 ---
-title: "Big Data"
+title: "Platform"
 tags:
   - "studynote-bigdata"
 weight: 9

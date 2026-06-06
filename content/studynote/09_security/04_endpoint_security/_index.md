@@ -1,5 +1,5 @@
 ---
-title: "Security"
+title: "Endpoint Security"
 tags:
   - "security"
 weight: 4

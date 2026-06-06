@@ -1,5 +1,5 @@
 ---
-title: "Design & Supervision"
+title: "Gof Creational Structural"
 tags:
   - "design_supervision"
 weight: 3

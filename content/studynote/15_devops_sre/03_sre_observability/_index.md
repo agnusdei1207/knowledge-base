@@ -1,5 +1,5 @@
 ---
-title: "DevOps & SRE"
+title: "SRE Observability"
 tags:
   - "devops_sre"
 weight: 3

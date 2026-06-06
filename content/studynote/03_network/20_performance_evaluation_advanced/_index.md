@@ -1,5 +1,5 @@
 ---
-title: "20. Performance Evaluation Advanced"
+title: "Performance Evaluation Advanced"
 tags:
   - "network"
 weight: 20

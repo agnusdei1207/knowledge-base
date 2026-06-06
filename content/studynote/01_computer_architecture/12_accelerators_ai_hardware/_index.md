@@ -1,5 +1,5 @@
 ---
-title: "Computer Architecture"
+title: "Accelerators & AI Hardware"
 tags:
   - "computer_architecture"
 weight: 12

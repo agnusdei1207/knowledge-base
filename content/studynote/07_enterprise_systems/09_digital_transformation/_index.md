@@ -1,5 +1,5 @@
 ---
-title: "Enterprise Systems"
+title: "Digital Transformation"
 tags:
   - "enterprise_systems"
 weight: 9

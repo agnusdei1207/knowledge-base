@@ -1,5 +1,5 @@
 ---
-title: "03. Physical Layer Media"
+title: "Physical Layer Media"
 tags:
   - "network"
 weight: 3

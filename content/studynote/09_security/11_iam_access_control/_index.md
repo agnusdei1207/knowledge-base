@@ -1,5 +1,5 @@
 ---
-title: "08. Authorization Access Control"
+title: "Iam Access Control"
 tags:
   - "security"
 weight: 11

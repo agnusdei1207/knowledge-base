@@ -1,5 +1,5 @@
 ---
-title: "01. Data Communication"
+title: "Data Communication"
 tags:
   - "network"
 weight: 1

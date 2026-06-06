@@ -1,5 +1,5 @@
 ---
-title: "08. Transport Layer"
+title: "Transport Layer"
 tags:
   - "network"
 weight: 8

@@ -1,5 +1,5 @@
 ---
-title: "Computer Architecture"
+title: "Multicore & Synchronization"
 tags:
   - "computer_architecture"
 weight: 11

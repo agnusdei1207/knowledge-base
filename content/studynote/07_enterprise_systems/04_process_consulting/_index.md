@@ -1,5 +1,5 @@
 ---
-title: "Enterprise Systems"
+title: "Process Consulting"
 tags:
   - "enterprise_systems"
 weight: 4

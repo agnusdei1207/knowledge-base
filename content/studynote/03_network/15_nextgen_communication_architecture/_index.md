@@ -1,5 +1,5 @@
 ---
-title: "15. Nextgen Communication Architecture"
+title: "Nextgen Communication Architecture"
 tags:
   - "network"
 weight: 15

@@ -1,5 +1,5 @@
 ---
-title: "Algorithm & Statistics"
+title: "Np Theory"
 tags:
   - "algorithm_stats"
 weight: 6

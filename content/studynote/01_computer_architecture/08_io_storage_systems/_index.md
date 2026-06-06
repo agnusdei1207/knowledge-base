@@ -1,5 +1,5 @@
 ---
-title: "Computer Architecture"
+title: "I/O & Storage Systems"
 tags:
   - "computer_architecture"
 weight: 8

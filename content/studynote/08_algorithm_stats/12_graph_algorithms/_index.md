@@ -1,5 +1,5 @@
 ---
-title: "Algorithm & Statistics"
+title: "Graph Algorithms"
 tags:
   - "algorithm_stats"
 weight: 12

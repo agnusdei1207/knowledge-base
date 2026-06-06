@@ -1,5 +1,5 @@
 ---
-title: "03. Relational Model"
+title: "Relational Model"
 tags:
   - "database"
 weight: 3

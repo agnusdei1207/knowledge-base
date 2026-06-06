@@ -1,5 +1,5 @@
 ---
-title: "Operating System"
+title: "Virtual Memory"
 tags:
   - "operating_system"
 weight: 7

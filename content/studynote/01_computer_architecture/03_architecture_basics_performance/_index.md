@@ -1,5 +1,5 @@
 ---
-title: "Computer Architecture"
+title: "Architecture Basics & Performance"
 tags:
   - "computer_architecture"
 weight: 3

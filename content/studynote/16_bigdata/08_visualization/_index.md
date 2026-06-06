@@ -1,5 +1,5 @@
 ---
-title: "Big Data"
+title: "Visualization"
 tags:
   - "studynote-bigdata"
 weight: 8

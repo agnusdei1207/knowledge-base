@@ -1,5 +1,5 @@
 ---
-title: "02. Requirements Analysis"
+title: "Requirements Analysis"
 tags:
   - "software_engineering"
 weight: 2

@@ -1,5 +1,5 @@
 ---
-title: "Computer Architecture"
+title: "Control Unit & Pipelining"
 tags:
   - "computer_architecture"
 weight: 5

@@ -1,5 +1,5 @@
 ---
-title: "Operating System"
+title: "Deadlock"
 tags:
   - "operating_system"
 weight: 5

@@ -1,5 +1,5 @@
 ---
-title: "Big Data"
+title: "Trends"
 tags:
   - "studynote-bigdata"
 weight: 12

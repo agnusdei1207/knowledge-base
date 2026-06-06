@@ -1,5 +1,5 @@
 ---
-title: "12. Iot Wpan Edge"
+title: "IOT Wpan Edge"
 tags:
   - "network"
 weight: 12

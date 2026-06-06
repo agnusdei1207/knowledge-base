@@ -1,5 +1,5 @@
 ---
-title: "Computer Architecture"
+title: "Parallel Processing Architecture"
 tags:
   - "computer_architecture"
 weight: 10

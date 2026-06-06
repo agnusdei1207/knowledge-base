@@ -1,5 +1,5 @@
 ---
-title: "2. Deep Learning Architecture"
+title: "Dl Architecture New"
 tags:
   - "studynote-ai"
 weight: 2

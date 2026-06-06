@@ -1,5 +1,5 @@
 ---
-title: "ICT Convergence"
+title: "Cloud Infrastructure"
 tags:
   - "ict_convergence"
 weight: 3

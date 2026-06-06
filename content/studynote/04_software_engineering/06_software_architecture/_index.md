@@ -1,5 +1,5 @@
 ---
-title: "06. Software Architecture"
+title: "Software Architecture"
 tags:
   - "software_engineering"
 weight: 6

@@ -1,5 +1,5 @@
 ---
-title: "Cloud Architecture"
+title: "DEVOPS Observability"
 tags:
   - "cloud_architecture"
 weight: 4

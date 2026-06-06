@@ -1,5 +1,5 @@
 ---
-title: "Computer Architecture"
+title: "Advanced Topics"
 tags:
   - "computer_architecture"
 weight: 15

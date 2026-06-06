@@ -1,5 +1,5 @@
 ---
-title: "DevOps & SRE"
+title: "Devsecops"
 tags:
   - "devops_sre"
 weight: 5

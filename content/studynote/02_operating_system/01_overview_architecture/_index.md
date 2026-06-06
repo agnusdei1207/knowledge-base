@@ -1,5 +1,5 @@
 ---
-title: "Operating System"
+title: "Overview Architecture"
 tags:
   - "operating_system"
 weight: 1

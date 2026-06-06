@@ -1,5 +1,5 @@
 ---
-title: "Big Data"
+title: "Nosql"
 tags:
   - "bigdata"
 weight: 6

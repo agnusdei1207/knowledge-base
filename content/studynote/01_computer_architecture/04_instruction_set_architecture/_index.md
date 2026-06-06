@@ -1,5 +1,5 @@
 ---
-title: "Computer Architecture"
+title: "Instruction Set Architecture (ISA)"
 tags:
   - "computer_architecture"
 weight: 4

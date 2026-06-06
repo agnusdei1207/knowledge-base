@@ -1,5 +1,5 @@
 ---
-title: "Enterprise Systems"
+title: "Data Bi"
 tags:
   - "enterprise_systems"
 weight: 5

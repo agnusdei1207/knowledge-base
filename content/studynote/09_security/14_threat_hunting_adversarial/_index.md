@@ -1,5 +1,5 @@
 ---
-title: "14. Threat Hunting Adversarial"
+title: "Threat Hunting Adversarial"
 tags:
   - "studynote-security"
 weight: 14

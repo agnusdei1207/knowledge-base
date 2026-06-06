@@ -1,5 +1,5 @@
 ---
-title: "Database"
+title: "Modeling Normalization"
 tags:
   - "database"
 weight: 2

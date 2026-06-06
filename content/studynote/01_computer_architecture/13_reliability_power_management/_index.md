@@ -1,5 +1,5 @@
 ---
-title: "Computer Architecture"
+title: "Reliability & Power Management"
 tags:
   - "computer_architecture"
 weight: 13
