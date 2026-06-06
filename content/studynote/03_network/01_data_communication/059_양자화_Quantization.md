@@ -1,5 +1,5 @@
 ---
-title: "059. 양자화 Quantization"
+title: "059. Quantization"
 date: "2026-03-30"
 tags:
   - "studynote-network"

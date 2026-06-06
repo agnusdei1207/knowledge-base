@@ -1,5 +1,5 @@
 ---
-title: "071. 다중화 Multiplexing"
+title: "071. Multiplexing"
 date: "2024-05-20"
 description: "다중화의 본질적 개념, 아키텍처(MUX/DeMUX) 구조, 프로토콜 레이어 융합 및 실무 경제성 분석"
 tags:

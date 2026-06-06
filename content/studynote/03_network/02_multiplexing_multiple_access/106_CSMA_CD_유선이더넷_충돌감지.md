@@ -1,5 +1,5 @@
 ---
-title: "106. Csma Cd 유선이더넷 충돌감지"
+title: "106. CSMA/CD (Wired Ethernet Collision Detection)"
 date: "2026-04-01"
 description: "초기 유선 이더넷의 다중 접속 제어 프로토콜인 CSMA/CD의 동작 원리와 충돌 도메인의 한계"
 tags:

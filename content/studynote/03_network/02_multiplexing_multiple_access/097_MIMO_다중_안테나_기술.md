@@ -1,5 +1,5 @@
 ---
-title: "097. Mimo 다중 안테나 기술"
+title: "097. MIMO (Multiple-Input Multiple-Output)"
 date: "2026-03-04"
 description: "송수신 양측에 다수의 안테나를 배치하여 채널 용량과 신뢰성을 동시에 극대화하는 MIMO 기술의 구조와 실무 적용 방안"
 tags:

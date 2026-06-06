@@ -1,5 +1,5 @@
 ---
-title: "086. Cp 순환 전치 Gi"
+title: "086. Cyclic Prefix (CP) & Guard Interval (GI)"
 date: "2026-03-30"
 description: "OFDM 시스템에서 다중경로 간섭(ISI)을 방지하고 직교성을 유지하기 위한 순환 전치의 원리와 실무 적용"
 tags:

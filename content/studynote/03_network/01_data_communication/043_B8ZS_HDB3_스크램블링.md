@@ -1,5 +1,5 @@
 ---
-title: "043. B8Zs Hdb3 스크램블링"
+title: "043. B8ZS / HDB3 Scrambling"
 date: "2026-04-05"
 tags:
   - "studynote-network"

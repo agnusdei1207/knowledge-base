@@ -1,5 +1,5 @@
 ---
-title: "064. Adpcm 적응형 차분 펄스 부호 변조"
+title: "064. Adaptive DPCM (ADPCM)"
 date: "2024-05-15"
 description: "DPCM의 한계인 경사 과부하 왜곡과 양자화 잡음을 해결하기 위해, 양자화 스텝 크기와 예측 계수를 동적으로 조절하는 적응형 부호화 기술"
 tags:

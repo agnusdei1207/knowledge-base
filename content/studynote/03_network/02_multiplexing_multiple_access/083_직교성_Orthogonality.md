@@ -1,5 +1,5 @@
 ---
-title: "083. 직교성 Orthogonality"
+title: "083. Orthogonality"
 date: "2026-03-30"
 description: "겹쳐진 파동이나 코드가 서로에게 단 1%의 간섭도 주지 않고 완벽히 분리될 수 있도록 만드는 통신 공학의 핵심 수학적 성질"
 tags:

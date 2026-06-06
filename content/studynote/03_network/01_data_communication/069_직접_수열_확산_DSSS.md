@@ -1,5 +1,5 @@
 ---
-title: "069. 직접 수열 확산 Dsss"
+title: "069. Direct Sequence Spread Spectrum (DSSS)"
 date: "2024-05-24"
 description: "PN 시퀀스를 사용하여 데이터를 넓은 대역으로 직접 확산시키는 무선 통신 핵심 원리"
 tags:

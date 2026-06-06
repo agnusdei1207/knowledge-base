@@ -1,5 +1,5 @@
 ---
-title: "057. 에일리어싱 Aliasing"
+title: "057. Aliasing"
 date: "2026-03-30"
 tags:
   - "Network"
