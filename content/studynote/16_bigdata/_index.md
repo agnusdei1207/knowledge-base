@@ -2,6 +2,7 @@
 title: "Big Data"
 tags:
   - "studynote-bigdata"
+weight: 16
 ---
 
 > 🧸 **어린이를 위한 비유**

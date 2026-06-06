@@ -2,6 +2,7 @@
 title: "Algorithm & Statistics"
 tags:
   - "algorithm_stats"
+weight: 13
 ---
 
 ## 핵심 인사이트 (3줄 요약)

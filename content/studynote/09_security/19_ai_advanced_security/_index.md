@@ -2,6 +2,7 @@
 title: "Security"
 tags:
   - "security"
+weight: 19
 ---
 
 ## 핵심 인사이트 (3줄 요약)

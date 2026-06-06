@@ -2,6 +2,7 @@
 title: "Algorithm & Statistics"
 tags:
   - "studynote-algorithm"
+weight: 8
 ---
 
 > 🧸 **어린이를 위한 비유**

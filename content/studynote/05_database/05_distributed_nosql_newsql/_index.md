@@ -2,6 +2,7 @@
 title: "Database"
 tags:
   - "database"
+weight: 5
 ---
 
 ## 핵심 인사이트 (3줄 요약)

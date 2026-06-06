@@ -2,6 +2,7 @@
 title: "Security"
 tags:
   - "studynote-security"
+weight: 9
 ---
 
 > 🧸 **어린이를 위한 비유**

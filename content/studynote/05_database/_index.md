@@ -2,6 +2,7 @@
 title: "Database"
 tags:
   - "studynote-database"
+weight: 5
 ---
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 동시성(Concurrency)과 장애(Failure)가 일상적인 환경에서 데이터의 무결성(Integrity)과 일관성(Consistency)을 보장하기 위한 트랜잭션(ACID) 기반의 영속성 저장 시스템.

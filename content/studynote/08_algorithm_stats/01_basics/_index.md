@@ -2,6 +2,7 @@
 title: "Algorithm & Statistics"
 tags:
   - "algorithm_stats"
+weight: 1
 ---
 
 > **핵심 인사이트**

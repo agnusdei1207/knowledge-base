@@ -2,6 +2,7 @@
 title: "Data Engineering"
 tags:
   - "studynote-data-engineering"
+weight: 14
 ---
 
 > 🧸 **어린이를 위한 비유**

@@ -2,6 +2,7 @@
 title: "Design & Supervision"
 tags:
   - "design_supervision"
+weight: 10
 ---
 
 ## 핵심 인사이트 (3줄 요약)

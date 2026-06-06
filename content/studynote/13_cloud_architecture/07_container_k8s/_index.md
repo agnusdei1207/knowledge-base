@@ -2,6 +2,7 @@
 title: "Cloud Architecture"
 tags:
   - "studynote-cloud-architecture"
+weight: 7
 ---
 
 > 🧸 **어린이를 위한 비유**

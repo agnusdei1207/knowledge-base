@@ -2,6 +2,7 @@
 title: "Database"
 tags:
   - "database"
+weight: 1
 ---
 
 ## 핵심 인사이트

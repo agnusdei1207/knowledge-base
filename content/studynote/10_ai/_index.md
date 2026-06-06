@@ -2,6 +2,7 @@
 title: "Artificial Intelligence"
 tags:
   - "studynote-ai"
+weight: 10
 ---
 
 > 🧸 **어린이를 위한 비유**

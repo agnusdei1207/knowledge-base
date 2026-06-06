@@ -3,6 +3,7 @@ title: "Software Engineering"
 tags:
   - "Process Models"
   - "Software Engineering"
+weight: 1
 ---
 
 > 💡 **핵심 인사이트**

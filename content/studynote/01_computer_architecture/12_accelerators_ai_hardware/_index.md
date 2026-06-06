@@ -2,6 +2,7 @@
 title: "Computer Architecture"
 tags:
   - "computer_architecture"
+weight: 12
 ---
 
 ## 핵심 인사이트 (3줄 요약)

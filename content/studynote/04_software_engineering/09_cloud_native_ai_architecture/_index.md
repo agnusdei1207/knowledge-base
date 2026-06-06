@@ -2,6 +2,7 @@
 title: "Software Engineering"
 tags:
   - "software_engineering"
+weight: 9
 ---
 
 ## 핵심 인사이트 (3줄 요약)

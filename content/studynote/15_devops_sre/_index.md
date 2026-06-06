@@ -2,6 +2,7 @@
 title: "DevOps & SRE"
 tags:
   - "studynote-devops-sre"
+weight: 15
 ---
 
 > 🧸 **어린이를 위한 비유**

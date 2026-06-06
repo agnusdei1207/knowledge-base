@@ -2,6 +2,7 @@
 title: "Software Engineering"
 tags:
   - "studynote-software-engineering"
+weight: 4
 ---
 
 > 🧸 **어린이를 위한 비유**

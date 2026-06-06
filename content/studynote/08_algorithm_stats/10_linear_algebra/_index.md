@@ -2,6 +2,7 @@
 title: "Algorithm & Statistics"
 tags:
   - "studynote-algorithm-stats"
+weight: 10
 ---
 
 ## 핵심 인사이트 (3줄 요약)

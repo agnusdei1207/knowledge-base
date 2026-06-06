@@ -2,6 +2,7 @@
 title: "Operating System"
 tags:
   - "studynote-operating-system"
+weight: 2
 ---
 
 > 🧸 **어린이를 위한 비유**

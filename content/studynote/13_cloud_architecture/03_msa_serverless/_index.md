@@ -2,6 +2,7 @@
 title: "Cloud Architecture"
 tags:
   - "cloud_architecture"
+weight: 3
 ---
 
 ## 핵심 인사이트 (3줄 요약)

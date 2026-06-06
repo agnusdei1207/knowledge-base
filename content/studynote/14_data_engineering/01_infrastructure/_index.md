@@ -2,6 +2,7 @@
 title: "Data Engineering"
 tags:
   - "data_engineering"
+weight: 1
 ---
 
 ## 핵심 인사이트 (3줄 요약)

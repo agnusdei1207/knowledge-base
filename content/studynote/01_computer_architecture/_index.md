@@ -2,6 +2,7 @@
 title: "Computer Architecture"
 tags:
   - "studynote-computer-architecture"
+weight: 1
 ---
 
 > 🧸 **어린이를 위한 비유**

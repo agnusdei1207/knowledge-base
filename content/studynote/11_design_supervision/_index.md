@@ -2,6 +2,7 @@
 title: "Design & Supervision"
 tags:
   - "studynote-design-supervision"
+weight: 11
 ---
 
 > 🧸 **어린이를 위한 비유**

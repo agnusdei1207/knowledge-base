@@ -2,6 +2,7 @@
 title: "Big Data"
 tags:
   - "bigdata"
+weight: 7
 ---
 
 > **핵심 인사이트**

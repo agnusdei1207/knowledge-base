@@ -2,6 +2,7 @@
 title: "IT Management"
 tags:
   - "studynote-it-management"
+weight: 12
 ---
 
 > 🧸 **어린이를 위한 비유**
