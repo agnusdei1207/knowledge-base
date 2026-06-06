@@ -99,3 +99,61 @@ input {
     overflow: hidden;
   }
 }
+
+/* ====== Right sidebar overflow fix (2026-06-06) ======
+ * Same pattern as the left explorer: on narrow viewports the right
+ * column (TOC + backlinks + graph) bleeds labels out of its grid
+ * cell. Clip the column. Page-level heading nav is still reachable
+ * via the in-article TOC; the article width is unchanged.
+ */
+@media all and (max-width: 800px) {
+  .sidebar.right {
+    overflow: hidden;
+  }
+}
+
+/* ====== Mobile toolbar: icons only, no text (2026-06-06) ======
+ * On viewports ≤800px the page-title h2 ("Study"), the search button
+ * label ("검색"), and other toolbar item <p> tags render inline text
+ * alongside their icons. This crowds the top toolbar and bleeds into
+ * the explorer column. Hide all toolbar text on mobile; the icons
+ * and the search panel itself still work.
+ *
+ * The page-title h2 wraps a link to the home baseDir, so we keep the
+ * <a> but strip the visible text. The link is still keyboard-tabbable
+ * for accessibility; visual users get just the home icon.
+ */
+@media all and (max-width: 800px) {
+  // Page title: keep the link, hide the text node inside.
+  h2.page-title a {
+    font-size: 0;
+    color: transparent;
+    text-indent: -9999px;
+    overflow: hidden;
+    display: inline-block;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  // Search button: hide the <p> label, keep the magnifying-glass SVG.
+  .search > .search-button > p {
+    display: none;
+  }
+  .search > .search-button {
+    padding: 0 0.5rem;
+    justify-content: center;
+  }
+  // Compensate the now-empty space so the button doesn't dominate.
+  .search {
+    flex-grow: 0;
+    min-width: auto;
+  }
+
+  // Dark mode / reader mode / sidebar toggle buttons: same pattern.
+  // The community plugins render an <svg> + a <p> (or <span>) inside
+  // the button. Hide the text node; keep the icon.
+  button > p,
+  button > span:not([class]) {
+    display: none;
+  }
+}
