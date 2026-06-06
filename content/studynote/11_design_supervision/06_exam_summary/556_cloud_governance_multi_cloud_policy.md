@@ -87,7 +87,7 @@ tags:
 
 **진행 상황**: 556 / 600
 
-<- **이전**: [555. AI 거버넌스 윤리 규제 프레임워크](/studynote/11_design_supervision/06_exam_summary/556_ai_governance_ethics_regulatory_framewor/)
+<- **이전**: [555. AI 거버넌스 윤리 규제 프레임워크](/studynote/11_design_supervision/06_exam_summary/555_ai_governance_ethics_regulatory_framewor)
 **다음**: [557. 오픈소스 거버넌스 라이선스 관리](/studynote/11_design_supervision/06_exam_summary/557_open_source_governance_license_managemen/) ->
 
 ---

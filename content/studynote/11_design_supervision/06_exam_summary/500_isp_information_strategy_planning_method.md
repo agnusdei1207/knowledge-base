@@ -167,7 +167,7 @@ ISP는 일반적으로 **5단계·9세부활동**으로 구성되며, 각 단계
 
 **진행 상황**: 500 / 600
 
-<- **이전**: [499. ERP 감리 프로세스 적합성 평가](/studynote/11_design_supervision/06_exam_summary/500_erp_audit_process_fitness_evaluation/)
+<- **이전**: [499. ERP 감리 프로세스 적합성 평가](/studynote/11_design_supervision/06_exam_summary/499_erp_audit_process_fitness_evaluation)
 **다음**: [501. EA 엔터프라이즈 아키텍처 프레임워크](/studynote/11_design_supervision/06_exam_summary/501_ea_enterprise_architecture_framework/) ->
 
 ---

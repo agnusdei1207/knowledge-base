@@ -116,7 +116,7 @@ Risk = f(Threat, Vulnerability, Likelihood, Impact, Predisposing Conditions)
 
 **진행 상황**: 516 / 600
 
-<- **이전**: [515. COSMIC 기능 크기 측정](/studynote/11_design_supervision/06_exam_summary/516_cosmic_functional_size_measurement/)
+<- **이전**: [515. COSMIC 기능 크기 측정](/studynote/11_design_supervision/06_exam_summary/515_cosmic_functional_size_measurement)
 **다음**: [517. PMBOK 프로젝트 관리 지식 체계](/studynote/11_design_supervision/06_exam_summary/517_pmbok_project_management_body_of_knowled/) ->
 
 ---

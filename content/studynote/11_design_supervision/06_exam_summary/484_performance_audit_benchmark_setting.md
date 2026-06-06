@@ -140,7 +140,7 @@ tags:
 
 **진행 상황**: 484 / 600
 
-<- **이전**: [483. 보안 감리 취약점 진단 방법론](/studynote/11_design_supervision/06_exam_summary/484_security_audit_vulnerability_assessment/)
+<- **이전**: [483. 보안 감리 취약점 진단 방법론](/studynote/11_design_supervision/06_exam_summary/483_security_audit_vulnerability_assessment)
 **다음**: [485. 품질 감리 메트릭 정량적 평가](/studynote/11_design_supervision/06_exam_summary/485_quality_audit_metric_quantitative_evalua/) ->
 
 ---

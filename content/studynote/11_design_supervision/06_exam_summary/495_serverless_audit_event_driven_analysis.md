@@ -168,7 +168,7 @@ tags:
 
 **진행 상황**: 495 / 600
 
-<- **이전**: [494. 컨테이너 감리 오케스트레이션 검증](/studynote/11_design_supervision/06_exam_summary/495_container_audit_orchestration_validation/)
+<- **이전**: [494. 컨테이너 감리 오케스트레이션 검증](/studynote/11_design_supervision/06_exam_summary/494_container_audit_orchestration_validation)
 **다음**: [496. IoT 시스템 감리 연결성 보안 평가](/studynote/11_design_supervision/06_exam_summary/496_iot_system_audit_connectivity_security/) ->
 
 ---

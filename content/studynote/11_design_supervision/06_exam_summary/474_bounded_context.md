@@ -160,7 +160,7 @@ Bounded Context는 단순한 패키지 경계가 아니라 **모델의 의미론
 
 **진행 상황**: 474 / 600
 
-<- **이전**: [473. 도메인 주도 설계 DDD 전략 패턴](/studynote/11_design_supervision/06_exam_summary/474_ddd_strategic_pattern/)
+<- **이전**: [473. 도메인 주도 설계 DDD 전략 패턴](/studynote/11_design_supervision/06_exam_summary/473_ddd_strategic_pattern)
 **다음**: [475. 애그리게이트 루트 일관성 경계](/studynote/11_design_supervision/06_exam_summary/475_aggregate_root/) ->
 
 ---

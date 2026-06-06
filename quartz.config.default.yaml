@@ -1,13 +1,13 @@
 # yaml-language-server: $schema=./quartz/plugins/quartz-plugins.schema.json
 configuration:
-  pageTitle: Knowledge Base
+  pageTitle: Study
   pageTitleSuffix: ""
   enableSPA: true
   enablePopovers: true
   analytics:
     provider: plausible
   locale: ko-KR
-  baseUrl: agnusdei1207.github.io/knowledge-base
+  baseUrl: agnusdei1207.github.io/study
   ignorePatterns:
     - private
     - templates
@@ -197,7 +197,7 @@ plugins:
     enabled: true
     options:
       links:
-        GitHub: https://github.com/agnusdei1207/knowledge-base
+        GitHub: https://github.com/agnusdei1207/study
   - source: github:quartz-community/recent-notes
     enabled: false
   - source: github:quartz-community/spacer

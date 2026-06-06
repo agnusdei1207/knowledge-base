@@ -129,7 +129,7 @@ tags:
 
 **진행 상황**: 537 / 600
 
-<- **이전**: [536. 회귀 테스팅 자동화 전략 효율화](/studynote/11_design_supervision/06_exam_summary/537_regression_testing_automation_strategy/)
+<- **이전**: [536. 회귀 테스팅 자동화 전략 효율화](/studynote/11_design_supervision/06_exam_summary/536_regression_testing_automation_strategy)
 **다음**: [538. 형상 관리 버전 제어 변경 추적](/studynote/11_design_supervision/06_exam_summary/538_configuration_management_version_control/) ->
 
 ---

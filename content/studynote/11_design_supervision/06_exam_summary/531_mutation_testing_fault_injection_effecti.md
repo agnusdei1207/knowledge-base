@@ -108,7 +108,7 @@ tags:
 
 **진행 상황**: 531 / 600
 
-<- **이전**: [530. 테스트 주도 개발 TDD BDD ATDD](/studynote/11_design_supervision/06_exam_summary/531_test_driven_development_tdd_bdd_atdd/)
+<- **이전**: [530. 테스트 주도 개발 TDD BDD ATDD](/studynote/11_design_supervision/06_exam_summary/530_test_driven_development_tdd_bdd_atdd)
 **다음**: [532. 모델 기반 테스팅 MBT 자동화](/studynote/11_design_supervision/06_exam_summary/532_model_based_testing_mbt_automation/) ->
 
 ---

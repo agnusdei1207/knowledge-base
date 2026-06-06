@@ -171,7 +171,7 @@ COBIT 2019     --+
 
 **진행 상황**: 552 / 600
 
-<- **이전**: [551. 공급업체 관리 벤더 성과 평가](/studynote/11_design_supervision/06_exam_summary/552_supplier_management_vendor_performance/)
+<- **이전**: [551. 공급업체 관리 벤더 성과 평가](/studynote/11_design_supervision/06_exam_summary/551_supplier_management_vendor_performance)
 **다음**: [553. 개인정보 보호 GDPR PIPA 컴플라이언스](/studynote/11_design_supervision/06_exam_summary/553_privacy_protection_gdpr_pipa_compliance/) ->
 
 ---

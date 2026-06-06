@@ -195,7 +195,7 @@ NIST는 2016년 PQC 표준화 프로젝트를 시작해 2022년 7월 1차 4개 �
 
 **진행 상황**: 573 / 600
 
-<- **이전**: [572. 그린 IT 탄소 인식 컴퓨팅 지속가능성](/studynote/11_design_supervision/06_exam_summary/573_green_it_carbon_aware_sustainable_comput/)
+<- **이전**: [572. 그린 IT 탄소 인식 컴퓨팅 지속가능성](/studynote/11_design_supervision/06_exam_summary/572_green_it_carbon_aware_sustainable_comput)
 **다음**: [574. 엣지 컴퓨팅 MEC 분산 지능](/studynote/11_design_supervision/06_exam_summary/574_edge_computing_mec_distributed_intellige/) ->
 
 ---

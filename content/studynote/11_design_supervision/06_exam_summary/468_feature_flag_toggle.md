@@ -160,7 +160,7 @@ hash(userId + flagKey) mod 100 < rolloutPercentage  -> ON
 
 **진행 상황**: 468 / 600
 
-<- **이전**: [467. 카나리 배포 블루 그린 롤링 전략](/studynote/11_design_supervision/06_exam_summary/468_canary_bluegreen_rolling/)
+<- **이전**: [467. 카나리 배포 블루 그린 롤링 전략](/studynote/11_design_supervision/06_exam_summary/467_canary_bluegreen_rolling)
 **다음**: [469. A/B 테스팅 실험 주도 개발](/studynote/11_design_supervision/06_exam_summary/469_ab_testing_experiment/) ->
 
 ---

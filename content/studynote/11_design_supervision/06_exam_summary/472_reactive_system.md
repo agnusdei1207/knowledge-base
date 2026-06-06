@@ -175,7 +175,7 @@ tags:
 
 **진행 상황**: 472 / 600
 
-<- **이전**: [471. 클라우드 디자인 패턴 분류 체계](/studynote/11_design_supervision/06_exam_summary/472_cloud_design_pattern/)
+<- **이전**: [471. 클라우드 디자인 패턴 분류 체계](/studynote/11_design_supervision/06_exam_summary/471_cloud_design_pattern)
 **다음**: [473. 도메인 주도 설계 DDD 전략 패턴](/studynote/11_design_supervision/06_exam_summary/473_ddd_strategic_pattern/) ->
 
 ---

@@ -145,7 +145,7 @@ Problem Management는 ITSM 내에서 Incident, Change, Knowledge, Service Contin
 
 **진행 상황**: 541 / 600
 
-<- **이전**: [540. 사고 관리 인시던트 대응 프로세스](/studynote/11_design_supervision/06_exam_summary/541_incident_management_response_process/)
+<- **이전**: [540. 사고 관리 인시던트 대응 프로세스](/studynote/11_design_supervision/06_exam_summary/540_incident_management_response_process)
 **다음**: [542. 변경 관리 CAB 영향 분석 승인](/studynote/11_design_supervision/06_exam_summary/542_change_management_cab_impact_analysis/) ->
 
 ---

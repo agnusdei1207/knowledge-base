@@ -154,7 +154,7 @@ PSP/TSP를 다른 SW 공학 프레임워크와 비교합니다. 특히 PSP/TSP�
 
 **진행 상황**: 512 / 600
 
-<- **이전**: [511. SPICE ISO 15504 프로세스 평가](/studynote/11_design_supervision/06_exam_summary/512_spice_iso_15504_process_assessment/)
+<- **이전**: [511. SPICE ISO 15504 프로세스 평가](/studynote/11_design_supervision/06_exam_summary/511_spice_iso_15504_process_assessment)
 **다음**: [513. FPA 기능점 분석 규모 산정](/studynote/11_design_supervision/06_exam_summary/513_fpa_function_point_analysis_size_estimat/) ->
 
 ---

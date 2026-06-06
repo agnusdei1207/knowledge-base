@@ -191,7 +191,7 @@ Terraform은 내부적으로 **Resource Graph**를 구성합니다. 예: `aws_in
 
 **진행 상황**: 587 / 600
 
-<- **이전**: [586. 서비스 메시 관측성 트래픽 제어](/studynote/11_design_supervision/06_exam_summary/587_service_mesh_observability_traffic_contr/)
+<- **이전**: [586. 서비스 메시 관측성 트래픽 제어](/studynote/11_design_supervision/06_exam_summary/586_service_mesh_observability_traffic_contr)
 **다음**: [588. 불변 인프라 골든 이미지 패턴](/studynote/11_design_supervision/06_exam_summary/588_immutable_infrastructure_golden_image/) ->
 
 ---

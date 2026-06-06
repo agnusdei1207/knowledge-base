@@ -144,7 +144,7 @@ tags:
 
 **진행 상황**: 568 / 600
 
-<- **이전**: [567. 멱등성 설계 중복 요청 처리](/studynote/11_design_supervision/06_exam_summary/568_idempotency_design_duplicate_request_han/)
+<- **이전**: [567. 멱등성 설계 중복 요청 처리](/studynote/11_design_supervision/06_exam_summary/567_idempotency_design_duplicate_request_han)
 **다음**: [569. SRE 에러 버짓 토일 자동화](/studynote/11_design_supervision/06_exam_summary/569_sre_error_budget_toil_automation/) ->
 
 ---

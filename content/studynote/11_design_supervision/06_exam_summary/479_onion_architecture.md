@@ -194,7 +194,7 @@ static final ArchRule domain_should_not_depend_on_infrastructure =
 
 **진행 상황**: 479 / 600
 
-<- **이전**: [478. 클린 아키텍처 의존성 역전 원칙](/studynote/11_design_supervision/06_exam_summary/479_clean_architecture/)
+<- **이전**: [478. 클린 아키텍처 의존성 역전 원칙](/studynote/11_design_supervision/06_exam_summary/478_clean_architecture)
 **다음**: [480. CQRS 명령 조회 분리 패턴 심화](/studynote/11_design_supervision/06_exam_summary/480_cqrs_advanced/) ->
 
 ---

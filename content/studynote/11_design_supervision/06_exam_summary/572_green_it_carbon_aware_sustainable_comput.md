@@ -159,7 +159,7 @@ OUTPUT: (r*, t*) maximizing Carbon_Avoidance within SLA
 
 **진행 상황**: 572 / 600
 
-<- **이전**: [571. FinOps 클라우드 비용 최적화 전략](/studynote/11_design_supervision/06_exam_summary/572_finops_cloud_cost_optimization_strategy/)
+<- **이전**: [571. FinOps 클라우드 비용 최적화 전략](/studynote/11_design_supervision/06_exam_summary/571_finops_cloud_cost_optimization_strategy)
 **다음**: [573. 양자 내성 암호 포스트 양자 전환](/studynote/11_design_supervision/06_exam_summary/573_post_quantum_cryptography_pqc_migration/) ->
 
 ---

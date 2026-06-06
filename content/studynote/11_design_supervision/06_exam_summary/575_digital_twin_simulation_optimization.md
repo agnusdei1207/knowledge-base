@@ -96,7 +96,7 @@ Michael Grieves(2002)의 3차원 모델(물리공간·가상공간·데이터 �
 
 **진행 상황**: 575 / 600
 
-<- **이전**: [574. 엣지 컴퓨팅 MEC 분산 지능](/studynote/11_design_supervision/06_exam_summary/575_edge_computing_mec_distributed_intellige/)
+<- **이전**: [574. 엣지 컴퓨팅 MEC 분산 지능](/studynote/11_design_supervision/06_exam_summary/574_edge_computing_mec_distributed_intellige)
 **다음**: [576. 메타버스 가상 공간 인터랙션 설계](/studynote/11_design_supervision/06_exam_summary/576_metaverse_virtual_space_interaction_desi/) ->
 
 ---

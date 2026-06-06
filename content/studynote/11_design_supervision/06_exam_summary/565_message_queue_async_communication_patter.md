@@ -178,7 +178,7 @@ tags:
 
 **진행 상황**: 565 / 600
 
-<- **이전**: [564. API 설계 RESTful GraphQL gRPC](/studynote/11_design_supervision/06_exam_summary/565_api_design_restful_graphql_grpc/)
+<- **이전**: [564. API 설계 RESTful GraphQL gRPC](/studynote/11_design_supervision/06_exam_summary/564_api_design_restful_graphql_grpc)
 **다음**: [566. 데이터 일관성 패턴 최종 일관성](/studynote/11_design_supervision/06_exam_summary/566_data_consistency_pattern_eventual_consis/) ->
 
 ---

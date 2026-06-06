@@ -243,7 +243,7 @@ public Order createOrder(OrderRequest req) {
 
 **진행 상황**: 463 / 600
 
-<- **이전**: [462. 리트라이 패턴 지수 백오프](/studynote/11_design_supervision/06_exam_summary/463_retry_pattern/)
+<- **이전**: [462. 리트라이 패턴 지수 백오프](/studynote/11_design_supervision/06_exam_summary/462_retry_pattern)
 **다음**: [464. 데이터베이스 퍼 서비스 독립 저장소](/studynote/11_design_supervision/06_exam_summary/464_database_per_service/) ->
 
 ---

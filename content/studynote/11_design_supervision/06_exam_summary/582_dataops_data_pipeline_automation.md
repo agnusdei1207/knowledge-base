@@ -158,7 +158,7 @@ WHEN NOT MATCHED THEN
 
 **진행 상황**: 582 / 600
 
-<- **이전**: [581. 제로 트러스트 아키텍처 감리 관점](/studynote/11_design_supervision/06_exam_summary/582_zero_trust_architecture_audit_perspectiv/)
+<- **이전**: [581. 제로 트러스트 아키텍처 감리 관점](/studynote/11_design_supervision/06_exam_summary/581_zero_trust_architecture_audit_perspectiv)
 **다음**: [583. MLOps 머신러닝 운영 자동화 파이프라인](/studynote/11_design_supervision/06_exam_summary/583_mlops_machine_learning_operations_pipeli/) ->
 
 ---

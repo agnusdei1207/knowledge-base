@@ -1,26 +1,26 @@
 {
-  "name": "knowledge-base",
-  "description": "Quartz knowledge base for study notes and reference documents",
+  "name": "study",
+  "description": "Quartz study notes and reference documents",
   "private": true,
   "version": "1.0.0",
   "type": "module",
   "author": "agnusdei1207",
   "license": "MIT",
-  "homepage": "https://github.com/agnusdei1207/knowledge-base",
+  "homepage": "https://github.com/agnusdei1207/study",
   "repository": {
     "type": "git",
-    "url": "https://github.com/agnusdei1207/knowledge-base.git"
+    "url": "https://github.com/agnusdei1207/study.git"
   },
   "scripts": {
     "quartz": "./quartz/bootstrap-cli.mjs",
     "start": "npm run dev",
-    "dev": "npx quartz build --serve --watch --baseDir /knowledge-base --port 8080 --wsPort 3001",
+    "dev": "npx quartz build --serve --watch --baseDir /study --port 8080 --wsPort 3001",
     "docs": "npm run dev",
     "build": "rm -rf quartz/.quartz-cache .quartz/cache .cache && NODE_OPTIONS=--max-old-space-size=16384 npx quartz build --concurrency=2",
-    "serve": "npx quartz build --serve --baseDir /knowledge-base --port 8080",
-    "serve:local": "npx quartz build --serve --baseDir /knowledge-base --port 8080",
-    "serve:watch": "npx quartz build --serve --watch --baseDir /knowledge-base --port 8080 --wsPort 3001",
-    "preview": "npx quartz build --serve --baseDir /knowledge-base --port 8080",
+    "serve": "npx quartz build --serve --baseDir /study --port 8080",
+    "serve:local": "npx quartz build --serve --baseDir /study --port 8080",
+    "serve:watch": "npx quartz build --serve --watch --baseDir /study --port 8080 --wsPort 3001",
+    "preview": "npx quartz build --serve --baseDir /study --port 8080",
     "check": "NODE_OPTIONS=--max-old-space-size=16384 tsc --noEmit && npx prettier --check package.json quartz.config.default.yaml quartz.ts quartz .github tsconfig.json",
     "format": "npx prettier . --write",
     "test": "tsx --test",
@@ -37,7 +37,7 @@
     "digital-garden",
     "markdown",
     "quartz",
-    "knowledge-base"
+    "study"
   ],
   "bin": {
     "quartz": "./quartz/bootstrap-cli.mjs"

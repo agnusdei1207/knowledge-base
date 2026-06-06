@@ -199,7 +199,7 @@ OrderCreated
 
 **진행 상황**: 480 / 600
 
-<- **이전**: [479. 양파 아키텍처 계층 분리](/studynote/11_design_supervision/06_exam_summary/480_onion_architecture/)
+<- **이전**: [479. 양파 아키텍처 계층 분리](/studynote/11_design_supervision/06_exam_summary/479_onion_architecture)
 **다음**: [481. 감리 프로세스 자산 관리 체계](/studynote/11_design_supervision/06_exam_summary/481_audit_process_asset_management/) ->
 
 ---

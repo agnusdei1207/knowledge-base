@@ -148,7 +148,7 @@ ETSI MEC 참조 아키텍처(ISG MEC 003 v3.x, 2022)는 **MEC Orchestrator(MEO) 
 
 **진행 상황**: 574 / 600
 
-<- **이전**: [573. 양자 내성 암호 포스트 양자 전환](/studynote/11_design_supervision/06_exam_summary/574_post_quantum_cryptography_pqc_migration/)
+<- **이전**: [573. 양자 내성 암호 포스트 양자 전환](/studynote/06_ict_convergence/uncategorized/703_post_quantum_cryptography_pqc_migration)
 **다음**: [575. 디지털 트윈 시뮬레이션 최적화](/studynote/11_design_supervision/06_exam_summary/575_digital_twin_simulation_optimization/) ->
 
 ---

@@ -151,7 +151,7 @@ Microsoft Azure의 정식 분류 체계(8개 카테고리, 24개 핵심 패턴)�
 
 **진행 상황**: 471 / 600
 
-<- **이전**: [470. 카오스 엔지니어링 복원력 검증](/studynote/11_design_supervision/06_exam_summary/471_chaos_engineering_resilience/)
+<- **이전**: [470. 카오스 엔지니어링 복원력 검증](/studynote/11_design_supervision/06_exam_summary/470_chaos_engineering_resilience)
 **다음**: [472. 반응형 시스템 리액티브 매니페스토](/studynote/11_design_supervision/06_exam_summary/472_reactive_system/) ->
 
 ---

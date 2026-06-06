@@ -156,7 +156,7 @@ tags:
 
 **진행 상황**: 489 / 600
 
-<- **이전**: [488. 네트워크 감리 트래픽 분석 진단](/studynote/11_design_supervision/06_exam_summary/489_network_audit_traffic_analysis_diagnosis/)
+<- **이전**: [488. 네트워크 감리 트래픽 분석 진단](/studynote/11_design_supervision/06_exam_summary/488_network_audit_traffic_analysis_diagnosis)
 **다음**: [490. AI 시스템 감리 윤리 편향 검증](/studynote/11_design_supervision/06_exam_summary/490_ai_system_audit_ethics_bias_validation/) ->
 
 ---

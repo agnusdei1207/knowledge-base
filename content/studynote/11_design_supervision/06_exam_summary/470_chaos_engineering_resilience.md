@@ -127,7 +127,7 @@ tags:
 
 **진행 상황**: 470 / 600
 
-<- **이전**: [469. A/B 테스팅 실험 주도 개발](/studynote/11_design_supervision/06_exam_summary/470_ab_testing_experiment/)
+<- **이전**: [469. A/B 테스팅 실험 주도 개발](/studynote/11_design_supervision/06_exam_summary/469_ab_testing_experiment)
 **다음**: [471. 클라우드 디자인 패턴 분류 체계](/studynote/11_design_supervision/06_exam_summary/471_cloud_design_pattern/) ->
 
 ---

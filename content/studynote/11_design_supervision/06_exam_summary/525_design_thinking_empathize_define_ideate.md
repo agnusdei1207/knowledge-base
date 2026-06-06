@@ -146,7 +146,7 @@ RICE = (Reach × Impact × Confidence) / Effort
 
 **진행 상황**: 525 / 600
 
-<- **이전**: [524. Nexus 다중 팀 스크럼 조율](/studynote/11_design_supervision/06_exam_summary/525_nexus_multi_team_scrum_coordination/)
+<- **이전**: [524. Nexus 다중 팀 스크럼 조율](/studynote/11_design_supervision/06_exam_summary/524_nexus_multi_team_scrum_coordination)
 **다음**: [526. 린 스타트업 MVP 가설 검증](/studynote/11_design_supervision/06_exam_summary/526_lean_startup_mvp_hypothesis_validation/) ->
 
 ---

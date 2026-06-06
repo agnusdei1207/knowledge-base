@@ -156,7 +156,7 @@ DIP는 다른 아키텍처 원칙·패턴·프레임워크 워크와 명확히 �
 
 **진행 상황**: 478 / 600
 
-<- **이전**: [477. 헥사고날 아키텍처 포트 어댑터](/studynote/11_design_supervision/06_exam_summary/478_hexagonal_architecture/)
+<- **이전**: [477. 헥사고날 아키텍처 포트 어댑터](/studynote/11_design_supervision/06_exam_summary/477_hexagonal_architecture)
 **다음**: [479. 양파 아키텍처 계층 분리](/studynote/11_design_supervision/06_exam_summary/479_onion_architecture/) ->
 
 ---

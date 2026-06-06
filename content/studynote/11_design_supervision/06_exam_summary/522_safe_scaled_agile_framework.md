@@ -155,7 +155,7 @@ SAFe는 단일 Agile 확장 프레임워크 중 가장 광범위하나, 모든 �
 
 **진행 상황**: 522 / 600
 
-<- **이전**: [521. XP 익스트림 프로그래밍 실천법](/studynote/11_design_supervision/06_exam_summary/522_xp_extreme_programming_practice/)
+<- **이전**: [521. XP 익스트림 프로그래밍 실천법](/studynote/11_design_supervision/06_exam_summary/521_xp_extreme_programming_practice)
 **다음**: [523. LeSS 대규모 스크럼](/studynote/11_design_supervision/06_exam_summary/523_less_large_scale_scrum/) ->
 
 ---

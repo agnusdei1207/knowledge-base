@@ -157,7 +157,7 @@ FPA의 핵심 메커니즘은 **① 경계(Boundary) 식별 -> ② 5개 기능 �
 
 **진행 상황**: 513 / 600
 
-<- **이전**: [512. PSP TSP 개인 팀 소프트웨어 프로세스](/studynote/11_design_supervision/06_exam_summary/513_psp_tsp_personal_team_software_process/)
+<- **이전**: [512. PSP TSP 개인 팀 소프트웨어 프로세스](/studynote/11_design_supervision/06_exam_summary/512_psp_tsp_personal_team_software_process)
 **다음**: [514. COCOMO 비용 산정 모델](/studynote/11_design_supervision/06_exam_summary/514_cocomo_cost_estimation_model/) ->
 
 ---

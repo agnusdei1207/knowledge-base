@@ -158,7 +158,7 @@ GDPR과 PIPA는 **70% 이상 유사하나, 6가지 핵심 차이**가 존재한�
 
 **진행 상황**: 553 / 600
 
-<- **이전**: [552. 정보 보안 거버넌스 정책 수립](/studynote/11_design_supervision/06_exam_summary/553_information_security_governance_policy/)
+<- **이전**: [552. 정보 보안 거버넌스 정책 수립](/studynote/11_design_supervision/06_exam_summary/552_information_security_governance_policy)
 **다음**: [554. 데이터 거버넌스 품질 관리 체계](/studynote/11_design_supervision/06_exam_summary/554_data_governance_quality_management_syste/) ->
 
 ---

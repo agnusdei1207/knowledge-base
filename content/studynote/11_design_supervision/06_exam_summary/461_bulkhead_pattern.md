@@ -162,7 +162,7 @@ tags:
 
 **진행 상황**: 461 / 600
 
-<- **이전**: [460. 백엔드 포 프론트엔드 BFF 패턴](/studynote/11_design_supervision/06_exam_summary/461_bff_pattern/)
+<- **이전**: [460. 백엔드 포 프론트엔드 BFF 패턴](/studynote/11_design_supervision/06_exam_summary/460_bff_pattern)
 **다음**: [462. 리트라이 패턴 지수 백오프](/studynote/11_design_supervision/06_exam_summary/462_retry_pattern/) ->
 
 ---

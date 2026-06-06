@@ -159,7 +159,7 @@ tags:
 
 **진행 상황**: 540 / 600
 
-<- **이전**: [539. 릴리스 관리 배포 전략 롤백](/studynote/11_design_supervision/06_exam_summary/540_release_management_deployment_rollback/)
+<- **이전**: [539. 릴리스 관리 배포 전략 롤백](/studynote/11_design_supervision/06_exam_summary/539_release_management_deployment_rollback)
 **다음**: [541. 문제 관리 근본 원인 분석 RCA](/studynote/11_design_supervision/06_exam_summary/541_problem_management_root_cause_analysis/) ->
 
 ---

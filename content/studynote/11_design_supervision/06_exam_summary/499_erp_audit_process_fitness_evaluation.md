@@ -140,7 +140,7 @@ ERP 감리 프로세스 적합성 평가는 **ISACA의 ITAF(Information Technolo
 
 **진행 상황**: 499 / 600
 
-<- **이전**: [498. 빅데이터 감리 파이프라인 품질 검증](/studynote/11_design_supervision/06_exam_summary/499_big_data_audit_pipeline_quality/)
+<- **이전**: [498. 빅데이터 감리 파이프라인 품질 검증](/studynote/11_design_supervision/06_exam_summary/498_big_data_audit_pipeline_quality)
 **다음**: [500. 정보화 전략 수립 ISP 방법론](/studynote/11_design_supervision/06_exam_summary/500_isp_information_strategy_planning_method/) ->
 
 ---

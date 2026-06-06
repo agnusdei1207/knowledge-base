@@ -125,7 +125,7 @@ IoT 연결성 보안 감리는 **P-A-D-A** 4단계 프로세스로 수행된다:
 
 **진행 상황**: 496 / 600
 
-<- **이전**: [495. 서버리스 감리 이벤트 드리븐 분석](/studynote/11_design_supervision/06_exam_summary/496_serverless_audit_event_driven_analysis/)
+<- **이전**: [495. 서버리스 감리 이벤트 드리븐 분석](/studynote/11_design_supervision/06_exam_summary/495_serverless_audit_event_driven_analysis)
 **다음**: [497. 블록체인 감리 스마트 계약 검증](/studynote/11_design_supervision/06_exam_summary/497_blockchain_audit_smart_contract_verifica/) ->
 
 ---

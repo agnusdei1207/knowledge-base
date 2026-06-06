@@ -178,7 +178,7 @@ PRINCE2는 국제적으로 가장 많이 채택되는 두 가지 PM 방법론인
 
 **진행 상황**: 518 / 600
 
-<- **이전**: [517. PMBOK 프로젝트 관리 지식 체계](/studynote/11_design_supervision/06_exam_summary/518_pmbok_project_management_body_of_knowled/)
+<- **이전**: [517. PMBOK 프로젝트 관리 지식 체계](/studynote/11_design_supervision/06_exam_summary/517_pmbok_project_management_body_of_knowled)
 **다음**: [519. 애자일 스크럼 스프린트 백로그](/studynote/11_design_supervision/06_exam_summary/519_agile_scrum_sprint_backlog/) ->
 
 ---

@@ -151,7 +151,7 @@ tags:
 
 **진행 상황**: 563 / 600
 
-<- **이전**: [562. 아키텍처 패턴 레이어드 이벤트 파이프](/studynote/11_design_supervision/06_exam_summary/563_architecture_pattern_layered_event_pipe/)
+<- **이전**: [562. 아키텍처 패턴 레이어드 이벤트 파이프](/studynote/11_design_supervision/06_exam_summary/562_architecture_pattern_layered_event_pipe)
 **다음**: [564. API 설계 RESTful GraphQL gRPC](/studynote/11_design_supervision/06_exam_summary/564_api_design_restful_graphql_grpc/) ->
 
 ---

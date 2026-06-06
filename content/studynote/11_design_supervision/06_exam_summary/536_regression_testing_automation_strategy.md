@@ -165,7 +165,7 @@ tags:
 
 **진행 상황**: 536 / 600
 
-<- **이전**: [535. 접근성 테스팅 WCAG 규정 준수](/studynote/11_design_supervision/06_exam_summary/536_accessibility_testing_wcag_compliance/)
+<- **이전**: [535. 접근성 테스팅 WCAG 규정 준수](/studynote/11_design_supervision/06_exam_summary/535_accessibility_testing_wcag_compliance)
 **다음**: [537. 비기능 요구사항 검증 신뢰성 가용성](/studynote/11_design_supervision/06_exam_summary/537_nfr_verification_reliability_availabilit/) ->
 
 ---

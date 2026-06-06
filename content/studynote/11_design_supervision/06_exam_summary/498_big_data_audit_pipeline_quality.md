@@ -133,7 +133,7 @@ DQ 검증 비용 =  α · FullScan   +  β · Pushdown   +  γ · Anomaly
 
 **진행 상황**: 498 / 600
 
-<- **이전**: [497. 블록체인 감리 스마트 계약 검증](/studynote/11_design_supervision/06_exam_summary/498_blockchain_audit_smart_contract_verifica/)
+<- **이전**: [497. 블록체인 감리 스마트 계약 검증](/studynote/11_design_supervision/06_exam_summary/497_blockchain_audit_smart_contract_verifica)
 **다음**: [499. ERP 감리 프로세스 적합성 평가](/studynote/11_design_supervision/06_exam_summary/499_erp_audit_process_fitness_evaluation/) ->
 
 ---

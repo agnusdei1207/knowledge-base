@@ -146,7 +146,7 @@ tags:
 
 **진행 상황**: 476 / 600
 
-<- **이전**: [475. 애그리게이트 루트 일관성 경계](/studynote/11_design_supervision/06_exam_summary/476_aggregate_root/)
+<- **이전**: [475. 애그리게이트 루트 일관성 경계](/studynote/11_design_supervision/06_exam_summary/475_aggregate_root)
 **다음**: [477. 헥사고날 아키텍처 포트 어댑터](/studynote/11_design_supervision/06_exam_summary/477_hexagonal_architecture/) ->
 
 ---

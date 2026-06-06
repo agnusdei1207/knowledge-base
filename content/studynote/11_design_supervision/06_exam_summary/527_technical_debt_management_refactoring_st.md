@@ -200,7 +200,7 @@ tags:
 
 **진행 상황**: 527 / 600
 
-<- **이전**: [526. 린 스타트업 MVP 가설 검증](/studynote/11_design_supervision/06_exam_summary/527_lean_startup_mvp_hypothesis_validation/)
+<- **이전**: [526. 린 스타트업 MVP 가설 검증](/studynote/11_design_supervision/06_exam_summary/526_lean_startup_mvp_hypothesis_validation)
 **다음**: [528. 코드 리뷰 정적 분석 품질 관문](/studynote/11_design_supervision/06_exam_summary/528_code_review_static_analysis_quality_gate/) ->
 
 ---

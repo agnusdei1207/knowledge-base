@@ -98,7 +98,7 @@ DX 전략 로드맵의 표준 참조 아키텍처는 **TOGAF ADM + McKinsey DBM(
 
 **진행 상황**: 558 / 600
 
-<- **이전**: [557. 오픈소스 거버넌스 라이선스 관리](/studynote/11_design_supervision/06_exam_summary/558_open_source_governance_license_managemen/)
+<- **이전**: [557. 오픈소스 거버넌스 라이선스 관리](/studynote/11_design_supervision/06_exam_summary/557_open_source_governance_license_managemen)
 **다음**: [559. 아키텍처 거버넌스 원칙 가이드라인](/studynote/11_design_supervision/06_exam_summary/559_architecture_governance_principles_guide/) ->
 
 ---

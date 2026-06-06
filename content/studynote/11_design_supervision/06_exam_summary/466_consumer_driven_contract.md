@@ -160,7 +160,7 @@ CDCT
 
 **진행 상황**: 466 / 600
 
-<- **이전**: [465. 분산 추적 상관 관계 ID 패턴](/studynote/11_design_supervision/06_exam_summary/466_distributed_tracing/)
+<- **이전**: [465. 분산 추적 상관 관계 ID 패턴](/studynote/04_software_engineering/11_testing_validation/961_distributed_tracing)
 **다음**: [467. 카나리 배포 블루 그린 롤링 전략](/studynote/11_design_supervision/06_exam_summary/467_canary_bluegreen_rolling/) ->
 
 ---

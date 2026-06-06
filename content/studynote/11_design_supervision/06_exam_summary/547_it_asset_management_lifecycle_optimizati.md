@@ -134,7 +134,7 @@ tags:
 
 **진행 상황**: 547 / 600
 
-<- **이전**: [546. 가용성 관리 MTBF MTTR 고가용성](/studynote/11_design_supervision/06_exam_summary/547_availability_management_mtbf_mttr_ha/)
+<- **이전**: [546. 가용성 관리 MTBF MTTR 고가용성](/studynote/12_it_management/05_security_compliance/420_availability_management_mtbf_mttr_ha)
 **다음**: [548. 지식 관리 KMS 조직 학습 시스템](/studynote/11_design_supervision/06_exam_summary/548_knowledge_management_kms_organizational_/) ->
 
 ---

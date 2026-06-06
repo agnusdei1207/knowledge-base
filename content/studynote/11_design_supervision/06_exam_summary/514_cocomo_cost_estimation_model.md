@@ -182,7 +182,7 @@ Cost  =  PM × (평균 단가) × 지역 보정 계수 (CPI, Cost Performance In
 
 **진행 상황**: 514 / 600
 
-<- **이전**: [513. FPA 기능점 분석 규모 산정](/studynote/11_design_supervision/06_exam_summary/514_fpa_function_point_analysis_size_estimat/)
+<- **이전**: [513. FPA 기능점 분석 규모 산정](/studynote/11_design_supervision/06_exam_summary/513_fpa_function_point_analysis_size_estimat)
 **다음**: [515. COSMIC 기능 크기 측정](/studynote/11_design_supervision/06_exam_summary/515_cosmic_functional_size_measurement/) ->
 
 ---

@@ -175,7 +175,7 @@ Resilience4j의 `CircuitBreaker`(실패율 50% 임계치, 슬라이딩 윈도우
 
 **진행 상황**: 460 / 600
 
-<- **이전**: [459. 사이드카 앰배서더 프록시 패턴](/studynote/11_design_supervision/06_exam_summary/460_sidecar_ambassador/)
+<- **이전**: [459. 사이드카 앰배서더 프록시 패턴](/studynote/11_design_supervision/06_exam_summary/459_sidecar_ambassador)
 **다음**: [461. 벌크헤드 패턴 자원 격리](/studynote/11_design_supervision/06_exam_summary/461_bulkhead_pattern/) ->
 
 ---

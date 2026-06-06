@@ -205,7 +205,7 @@ Where:
 
 **진행 상황**: 491 / 600
 
-<- **이전**: [490. AI 시스템 감리 윤리 편향 검증](/studynote/11_design_supervision/06_exam_summary/491_ai_system_audit_ethics_bias_validation/)
+<- **이전**: [490. AI 시스템 감리 윤리 편향 검증](/studynote/11_design_supervision/06_exam_summary/490_ai_system_audit_ethics_bias_validation)
 **다음**: [492. DevOps 환경 감리 자동화 검증](/studynote/11_design_supervision/06_exam_summary/492_devops_environment_audit_automation/) ->
 
 ---

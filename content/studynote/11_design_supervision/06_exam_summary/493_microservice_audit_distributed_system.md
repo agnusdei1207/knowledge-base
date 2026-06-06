@@ -167,7 +167,7 @@ tags:
 
 **진행 상황**: 493 / 600
 
-<- **이전**: [492. DevOps 환경 감리 자동화 검증](/studynote/11_design_supervision/06_exam_summary/493_devops_environment_audit_automation/)
+<- **이전**: [492. DevOps 환경 감리 자동화 검증](/studynote/11_design_supervision/06_exam_summary/492_devops_environment_audit_automation)
 **다음**: [494. 컨테이너 감리 오케스트레이션 검증](/studynote/11_design_supervision/06_exam_summary/494_container_audit_orchestration_validation/) ->
 
 ---

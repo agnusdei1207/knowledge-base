@@ -155,7 +155,7 @@ tags:
 
 **진행 상황**: 458 / 600
 
-<- **이전**: [457. API 게이트웨이 패턴 라우팅 인증](/studynote/11_design_supervision/06_exam_summary/458_api_gateway_pattern/)
+<- **이전**: [457. API 게이트웨이 패턴 라우팅 인증](/studynote/04_software_engineering/05_devops_ci_cd/305_api_gateway_pattern)
 **다음**: [459. 사이드카 앰배서더 프록시 패턴](/studynote/11_design_supervision/06_exam_summary/459_sidecar_ambassador/) ->
 
 ---

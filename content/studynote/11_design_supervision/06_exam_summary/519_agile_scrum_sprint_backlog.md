@@ -172,7 +172,7 @@ tags:
 
 **진행 상황**: 519 / 600
 
-<- **이전**: [518. 프린스2 프로젝트 관리 방법론](/studynote/11_design_supervision/06_exam_summary/519_prince2_project_management_methodology/)
+<- **이전**: [518. 프린스2 프로젝트 관리 방법론](/studynote/11_design_supervision/06_exam_summary/518_prince2_project_management_methodology)
 **다음**: [520. 칸반 WIP 제한 흐름 최적화](/studynote/11_design_supervision/06_exam_summary/520_kanban_wip_limit_flow_optimization/) ->
 
 ---

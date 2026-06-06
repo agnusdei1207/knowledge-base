@@ -140,7 +140,7 @@ tags:
 
 **진행 상황**: 551 / 600
 
-<- **이전**: [550. IT 재무 관리 FinOps 비용 최적화](/studynote/11_design_supervision/06_exam_summary/551_it_financial_management_finops_cost_opti/)
+<- **이전**: [550. IT 재무 관리 FinOps 비용 최적화](/studynote/11_design_supervision/06_exam_summary/550_it_financial_management_finops_cost_opti)
 **다음**: [552. 정보 보안 거버넌스 정책 수립](/studynote/11_design_supervision/06_exam_summary/552_information_security_governance_policy/) ->
 
 ---

@@ -200,7 +200,7 @@ tags:
 
 **진행 상황**: 467 / 600
 
-<- **이전**: [466. 컨슈머 주도 계약 테스트](/studynote/11_design_supervision/06_exam_summary/467_consumer_driven_contract/)
+<- **이전**: [466. 컨슈머 주도 계약 테스트](/studynote/11_design_supervision/06_exam_summary/466_consumer_driven_contract)
 **다음**: [468. 피처 플래그 토글 점진적 릴리스](/studynote/11_design_supervision/06_exam_summary/468_feature_flag_toggle/) ->
 
 ---

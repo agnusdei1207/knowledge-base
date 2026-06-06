@@ -173,7 +173,7 @@ tags:
 
 **진행 상황**: 482 / 600
 
-<- **이전**: [481. 감리 프로세스 자산 관리 체계](/studynote/11_design_supervision/06_exam_summary/482_audit_process_asset_management/)
+<- **이전**: [481. 감리 프로세스 자산 관리 체계](/studynote/11_design_supervision/06_exam_summary/481_audit_process_asset_management)
 **다음**: [483. 보안 감리 취약점 진단 방법론](/studynote/11_design_supervision/06_exam_summary/483_security_audit_vulnerability_assessment/) ->
 
 ---

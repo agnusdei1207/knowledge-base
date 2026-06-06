@@ -160,7 +160,7 @@ tags:
 
 **진행 상황**: 526 / 600
 
-<- **이전**: [525. 디자인 씽킹 공감 정의 아이디어](/studynote/11_design_supervision/06_exam_summary/526_design_thinking_empathize_define_ideate/)
+<- **이전**: [525. 디자인 씽킹 공감 정의 아이디어](/studynote/11_design_supervision/06_exam_summary/525_design_thinking_empathize_define_ideate)
 **다음**: [527. 기술 부채 관리 리팩터링 전략](/studynote/11_design_supervision/06_exam_summary/527_technical_debt_management_refactoring_st/) ->
 
 ---

@@ -1,5 +1,5 @@
 services:
-  knowledge-base:
+  study:
     build:
       context: .
       dockerfile: Dockerfile

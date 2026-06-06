@@ -127,7 +127,7 @@ tags:
 
 **진행 상황**: 560 / 600
 
-<- **이전**: [559. 아키텍처 거버넌스 원칙 가이드라인](/studynote/11_design_supervision/06_exam_summary/560_architecture_governance_principles_guide/)
+<- **이전**: [559. 아키텍처 거버넌스 원칙 가이드라인](/studynote/11_design_supervision/06_exam_summary/559_architecture_governance_principles_guide)
 **다음**: [561. 아키텍처 평가 ATAM CBAM 트레이드오프](/studynote/11_design_supervision/06_exam_summary/561_architecture_evaluation_atam_cbam_tradeo/) ->
 
 ---

@@ -141,7 +141,7 @@ WCAG 2.1 SC(성공 기준)별 검증 알고리즘은 의사결정 로직으로 �
 
 **진행 상황**: 535 / 600
 
-<- **이전**: [534. 보안 테스팅 OWASP 취약점 진단](/studynote/11_design_supervision/06_exam_summary/535_security_testing_owasp_vulnerability/)
+<- **이전**: [534. 보안 테스팅 OWASP 취약점 진단](/studynote/11_design_supervision/06_exam_summary/534_security_testing_owasp_vulnerability)
 **다음**: [536. 회귀 테스팅 자동화 전략 효율화](/studynote/11_design_supervision/06_exam_summary/536_regression_testing_automation_strategy/) ->
 
 ---

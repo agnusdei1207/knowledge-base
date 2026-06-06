@@ -160,7 +160,7 @@ route_config:
 
 **진행 상황**: 456 / 600
 
-<- **이전**: [455. 사가 패턴 분산 트랜잭션 보상](/studynote/11_design_supervision/06_exam_summary/456_saga_pattern/)
+<- **이전**: [455. 사가 패턴 분산 트랜잭션 보상](/studynote/12_it_management/05_security_compliance/948_saga_pattern)
 **다음**: [457. API 게이트웨이 패턴 라우팅 인증](/studynote/11_design_supervision/06_exam_summary/457_api_gateway_pattern/) ->
 
 ---

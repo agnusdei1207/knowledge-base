@@ -157,7 +157,7 @@ tags:
 
 **진행 상황**: 554 / 600
 
-<- **이전**: [553. 개인정보 보호 GDPR PIPA 컴플라이언스](/studynote/11_design_supervision/06_exam_summary/554_privacy_protection_gdpr_pipa_compliance/)
+<- **이전**: [553. 개인정보 보호 GDPR PIPA 컴플라이언스](/studynote/11_design_supervision/06_exam_summary/553_privacy_protection_gdpr_pipa_compliance)
 **다음**: [555. AI 거버넌스 윤리 규제 프레임워크](/studynote/11_design_supervision/06_exam_summary/555_ai_governance_ethics_regulatory_framewor/) ->
 
 ---

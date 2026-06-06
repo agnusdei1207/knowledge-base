@@ -141,7 +141,7 @@ tags:
 
 **진행 상황**: 488 / 600
 
-<- **이전**: [487. 데이터 감리 무결성 정합성 검증](/studynote/11_design_supervision/06_exam_summary/488_data_audit_integrity_consistency_validat/)
+<- **이전**: [487. 데이터 감리 무결성 정합성 검증](/studynote/11_design_supervision/06_exam_summary/487_data_audit_integrity_consistency_validat)
 **다음**: [489. 클라우드 감리 SLA 준수 평가](/studynote/11_design_supervision/06_exam_summary/489_cloud_audit_sla_compliance_evaluation/) ->
 
 ---

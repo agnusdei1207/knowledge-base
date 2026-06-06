@@ -130,7 +130,7 @@ tags:
 
 **진행 상황**: 576 / 600
 
-<- **이전**: [575. 디지털 트윈 시뮬레이션 최적화](/studynote/11_design_supervision/06_exam_summary/576_digital_twin_simulation_optimization/)
+<- **이전**: [575. 디지털 트윈 시뮬레이션 최적화](/studynote/11_design_supervision/06_exam_summary/575_digital_twin_simulation_optimization)
 **다음**: [577. 로우코드 노코드 시민 개발자 거버넌스](/studynote/11_design_supervision/06_exam_summary/577_low_code_no_code_citizen_developer_gover/) ->
 
 ---

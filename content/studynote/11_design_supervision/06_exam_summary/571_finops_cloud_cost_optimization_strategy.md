@@ -205,7 +205,7 @@ if z_score > 3.0:  # 99.7% 신뢰구간 이탈
 
 **진행 상황**: 571 / 600
 
-<- **이전**: [570. 플랫폼 엔지니어링 내부 개발자 포탈](/studynote/11_design_supervision/06_exam_summary/571_platform_engineering_internal_developer_/)
+<- **이전**: [570. 플랫폼 엔지니어링 내부 개발자 포탈](/studynote/11_design_supervision/06_exam_summary/570_platform_engineering_internal_developer_)
 **다음**: [572. 그린 IT 탄소 인식 컴퓨팅 지속가능성](/studynote/11_design_supervision/06_exam_summary/572_green_it_carbon_aware_sustainable_comput/) ->
 
 ---

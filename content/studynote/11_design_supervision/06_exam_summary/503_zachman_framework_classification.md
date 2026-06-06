@@ -111,7 +111,7 @@ Zachman의 수학적 엄밀성을 보여주는 추가 규칙으로 **"Mathematic
 
 **진행 상황**: 503 / 600
 
-<- **이전**: [502. TOGAF ADM 아키텍처 개발 방법](/studynote/11_design_supervision/06_exam_summary/503_togaf_adm_architecture_development_metho/)
+<- **이전**: [502. TOGAF ADM 아키텍처 개발 방법](/studynote/11_design_supervision/06_exam_summary/502_togaf_adm_architecture_development_metho)
 **다음**: [504. FEAF 연방 EA 프레임워크](/studynote/11_design_supervision/06_exam_summary/504_feaf_federal_ea_framework/) ->
 
 ---

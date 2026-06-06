@@ -176,7 +176,7 @@ loop for analysisRun.interval (기본 60초):
 
 **진행 상황**: 539 / 600
 
-<- **이전**: [538. 형상 관리 버전 제어 변경 추적](/studynote/11_design_supervision/06_exam_summary/539_configuration_management_version_control/)
+<- **이전**: [538. 형상 관리 버전 제어 변경 추적](/studynote/11_design_supervision/06_exam_summary/538_configuration_management_version_control)
 **다음**: [540. 사고 관리 인시던트 대응 프로세스](/studynote/11_design_supervision/06_exam_summary/540_incident_management_response_process/) ->
 
 ---

@@ -187,7 +187,7 @@ iptables 불필요 -> Init Container (istio-init) 생략
 
 **진행 상황**: 459 / 600
 
-<- **이전**: [458. 서비스 디스커버리 레지스트리 패턴](/studynote/11_design_supervision/06_exam_summary/459_service_discovery/)
+<- **이전**: [458. 서비스 디스커버리 레지스트리 패턴](/studynote/12_it_management/05_security_compliance/946_service_discovery)
 **다음**: [460. 백엔드 포 프론트엔드 BFF 패턴](/studynote/11_design_supervision/06_exam_summary/460_bff_pattern/) ->
 
 ---

@@ -171,7 +171,7 @@ MSA(마이크로서비스 아키텍처)와 클라우드 네이티브 환경에�
 
 **진행 상황**: 462 / 600
 
-<- **이전**: [461. 벌크헤드 패턴 자원 격리](/studynote/11_design_supervision/06_exam_summary/462_bulkhead_pattern/)
+<- **이전**: [461. 벌크헤드 패턴 자원 격리](/studynote/04_software_engineering/05_devops_ci_cd/308_bulkhead_pattern)
 **다음**: [463. 아웃박스 패턴 메시지 보장](/studynote/11_design_supervision/06_exam_summary/463_outbox_pattern/) ->
 
 ---

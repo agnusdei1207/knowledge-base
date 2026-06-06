@@ -14,7 +14,7 @@ tags:
 
 **진행 상황**: 494 / 600
 
-<- **이전**: [493. 마이크로서비스 감리 분산 시스템 진단](/studynote/11_design_supervision/06_exam_summary/494_microservice_audit_distributed_system/)
+<- **이전**: [493. 마이크로서비스 감리 분산 시스템 진단](/studynote/11_design_supervision/06_exam_summary/493_microservice_audit_distributed_system)
 **다음**: [495. 서버리스 감리 이벤트 드리븐 분석](/studynote/11_design_supervision/06_exam_summary/495_serverless_audit_event_driven_analysis/) ->
 
 ---

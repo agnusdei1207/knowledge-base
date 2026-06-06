@@ -140,7 +140,7 @@ tags:
 
 **진행 상황**: 486 / 600
 
-<- **이전**: [485. 품질 감리 메트릭 정량적 평가](/studynote/11_design_supervision/06_exam_summary/486_quality_audit_metric_quantitative_evalua/)
+<- **이전**: [485. 품질 감리 메트릭 정량적 평가](/studynote/11_design_supervision/06_exam_summary/485_quality_audit_metric_quantitative_evalua)
 **다음**: [487. 데이터 감리 무결성 정합성 검증](/studynote/11_design_supervision/06_exam_summary/487_data_audit_integrity_consistency_validat/) ->
 
 ---

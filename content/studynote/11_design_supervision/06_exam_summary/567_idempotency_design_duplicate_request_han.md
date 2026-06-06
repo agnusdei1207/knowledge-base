@@ -201,7 +201,7 @@ def handle_request(idempotency_key, request_body):
 
 **진행 상황**: 567 / 600
 
-<- **이전**: [566. 데이터 일관성 패턴 최종 일관성](/studynote/11_design_supervision/06_exam_summary/567_data_consistency_pattern_eventual_consis/)
+<- **이전**: [566. 데이터 일관성 패턴 최종 일관성](/studynote/11_design_supervision/06_exam_summary/566_data_consistency_pattern_eventual_consis)
 **다음**: [568. 관측 가능성 메트릭 로그 트레이스](/studynote/11_design_supervision/06_exam_summary/568_observability_metrics_logs_traces/) ->
 
 ---

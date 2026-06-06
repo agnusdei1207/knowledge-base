@@ -138,7 +138,7 @@ tags:
 
 **진행 상황**: 520 / 600
 
-<- **이전**: [519. 애자일 스크럼 스프린트 백로그](/studynote/11_design_supervision/06_exam_summary/520_agile_scrum_sprint_backlog/)
+<- **이전**: [519. 애자일 스크럼 스프린트 백로그](/studynote/11_design_supervision/06_exam_summary/519_agile_scrum_sprint_backlog)
 **다음**: [521. XP 익스트림 프로그래밍 실천법](/studynote/11_design_supervision/06_exam_summary/521_xp_extreme_programming_practice/) ->
 
 ---

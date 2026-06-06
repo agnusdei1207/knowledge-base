@@ -136,7 +136,7 @@ SBOM은 **NTIA Minimum Field**(Supplier, Component, Version, Author of SBOM, Tim
 
 **진행 상황**: 557 / 600
 
-<- **이전**: [556. 클라우드 거버넌스 멀티 클라우드 정책](/studynote/11_design_supervision/06_exam_summary/557_cloud_governance_multi_cloud_policy/)
+<- **이전**: [556. 클라우드 거버넌스 멀티 클라우드 정책](/studynote/11_design_supervision/06_exam_summary/556_cloud_governance_multi_cloud_policy)
 **다음**: [558. 디지털 전환 전략 로드맵 수립](/studynote/11_design_supervision/06_exam_summary/558_digital_transformation_strategy_roadmap/) ->
 
 ---

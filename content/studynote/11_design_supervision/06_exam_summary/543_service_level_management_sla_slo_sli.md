@@ -182,7 +182,7 @@ SLO는 "목표"이므로 그것을 위반한 정도를 정량화한 것이 **에
 
 **진행 상황**: 543 / 600
 
-<- **이전**: [542. 변경 관리 CAB 영향 분석 승인](/studynote/11_design_supervision/06_exam_summary/543_change_management_cab_impact_analysis/)
+<- **이전**: [542. 변경 관리 CAB 영향 분석 승인](/studynote/11_design_supervision/06_exam_summary/542_change_management_cab_impact_analysis)
 **다음**: [544. 연속성 관리 BCP DRP 재해 복구](/studynote/11_design_supervision/06_exam_summary/544_continuity_management_bcp_drp_recovery/) ->
 
 ---

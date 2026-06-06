@@ -182,7 +182,7 @@ tags:
 
 **진행 상황**: 581 / 600
 
-<- **이전**: [580. 컴포저블 아키텍처 모듈화 재사용](/studynote/11_design_supervision/06_exam_summary/581_composable_architecture_modular_reuse/)
+<- **이전**: [580. 컴포저블 아키텍처 모듈화 재사용](/studynote/11_design_supervision/06_exam_summary/580_composable_architecture_modular_reuse)
 **다음**: [582. 데이터 옵스 데이터 파이프라인 자동화](/studynote/11_design_supervision/06_exam_summary/582_dataops_data_pipeline_automation/) ->
 
 ---

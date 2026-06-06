@@ -223,7 +223,7 @@ void discount_항상_양수_보장(@ForAll int price) {
 
 **진행 상황**: 529 / 600
 
-<- **이전**: [528. 코드 리뷰 정적 분석 품질 관문](/studynote/11_design_supervision/06_exam_summary/529_code_review_static_analysis_quality_gate/)
+<- **이전**: [528. 코드 리뷰 정적 분석 품질 관문](/studynote/11_design_supervision/06_exam_summary/528_code_review_static_analysis_quality_gate)
 **다음**: [530. 테스트 주도 개발 TDD BDD ATDD](/studynote/11_design_supervision/06_exam_summary/530_test_driven_development_tdd_bdd_atdd/) ->
 
 ---

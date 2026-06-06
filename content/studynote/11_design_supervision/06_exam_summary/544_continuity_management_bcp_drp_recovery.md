@@ -125,7 +125,7 @@ Primary | 정상 운영| 장애 감지    | 데이터      |  서비스
 
 **진행 상황**: 544 / 600
 
-<- **이전**: [543. 서비스 수준 관리 SLA SLO SLI](/studynote/11_design_supervision/06_exam_summary/544_service_level_management_sla_slo_sli/)
+<- **이전**: [543. 서비스 수준 관리 SLA SLO SLI](/studynote/11_design_supervision/06_exam_summary/543_service_level_management_sla_slo_sli)
 **다음**: [545. 용량 관리 수요 예측 확장 계획](/studynote/11_design_supervision/06_exam_summary/545_capacity_management_demand_forecasting/) ->
 
 ---

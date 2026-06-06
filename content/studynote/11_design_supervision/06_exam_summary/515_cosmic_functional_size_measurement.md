@@ -13,7 +13,7 @@ tags:
 
 **진행 상황**: 515 / 600
 
-<- **이전**: [514. COCOMO 비용 산정 모델](/studynote/11_design_supervision/06_exam_summary/515_cocomo_cost_estimation_model/)
+<- **이전**: [514. COCOMO 비용 산정 모델](/studynote/11_design_supervision/06_exam_summary/514_cocomo_cost_estimation_model)
 **다음**: [516. 위험 관리 프레임워크 리스크 평가](/studynote/11_design_supervision/06_exam_summary/516_risk_management_framework_assessment/) ->
 
 ---

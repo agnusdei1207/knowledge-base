@@ -120,7 +120,7 @@ tags:
 
 **진행 상황**: 579 / 600
 
-<- **이전**: [578. RPA 프로세스 자동화 봇 관리](/studynote/11_design_supervision/06_exam_summary/579_rpa_process_automation_bot_management/)
+<- **이전**: [578. RPA 프로세스 자동화 봇 관리](/studynote/11_design_supervision/06_exam_summary/578_rpa_process_automation_bot_management)
 **다음**: [580. 컴포저블 아키텍처 모듈화 재사용](/studynote/11_design_supervision/06_exam_summary/580_composable_architecture_modular_reuse/) ->
 
 ---

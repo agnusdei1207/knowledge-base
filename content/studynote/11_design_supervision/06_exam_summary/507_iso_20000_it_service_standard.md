@@ -163,7 +163,7 @@ ISO/IEC 20000은 2002년 영국표준협회(BSI)의 BS 15000을 모태로, 2005�
 
 **진행 상황**: 507 / 600
 
-<- **이전**: [506. ITIL 서비스 관리 프레임워크](/studynote/11_design_supervision/06_exam_summary/507_itil_service_management_framework/)
+<- **이전**: [506. ITIL 서비스 관리 프레임워크](/studynote/11_design_supervision/06_exam_summary/506_itil_service_management_framework)
 **다음**: [508. ISO 27001 정보보안 관리체계](/studynote/11_design_supervision/06_exam_summary/508_iso_27001_isms_standard/) ->
 
 ---

@@ -68,7 +68,7 @@ tags:
 
 **진행 상황**: 485 / 600
 
-<- **이전**: [484. 성능 감리 벤치마크 기준 설정](/studynote/11_design_supervision/06_exam_summary/485_performance_audit_benchmark_setting/)
+<- **이전**: [484. 성능 감리 벤치마크 기준 설정](/studynote/11_design_supervision/06_exam_summary/484_performance_audit_benchmark_setting)
 **다음**: [486. 사용성 감리 UX 인터페이스 검증](/studynote/11_design_supervision/06_exam_summary/486_usability_audit_ux_interface_validation/) ->
 
 ---

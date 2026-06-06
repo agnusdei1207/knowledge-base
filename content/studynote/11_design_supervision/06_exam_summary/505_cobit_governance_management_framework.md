@@ -213,7 +213,7 @@ Step 7: KPI 임계치 + Risk Tolerance 설정
 
 **진행 상황**: 505 / 600
 
-<- **이전**: [504. FEAF 연방 EA 프레임워크](/studynote/11_design_supervision/06_exam_summary/505_feaf_federal_ea_framework/)
+<- **이전**: [504. FEAF 연방 EA 프레임워크](/studynote/11_design_supervision/06_exam_summary/504_feaf_federal_ea_framework)
 **다음**: [506. ITIL 서비스 관리 프레임워크](/studynote/11_design_supervision/06_exam_summary/506_itil_service_management_framework/) ->
 
 ---

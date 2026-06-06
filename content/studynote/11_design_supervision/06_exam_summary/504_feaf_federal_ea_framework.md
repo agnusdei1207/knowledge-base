@@ -166,7 +166,7 @@ FEAF는 **"연방정부라는 거대 아파트 단지(24개 부처)의 통합 �
 
 **진행 상황**: 504 / 600
 
-<- **이전**: [503. Zachman 프레임워크 분류 체계](/studynote/11_design_supervision/06_exam_summary/504_zachman_framework_classification/)
+<- **이전**: [503. Zachman 프레임워크 분류 체계](/studynote/11_design_supervision/06_exam_summary/503_zachman_framework_classification)
 **다음**: [505. COBIT 거버넌스 관리 프레임워크](/studynote/11_design_supervision/06_exam_summary/505_cobit_governance_management_framework/) ->
 
 ---

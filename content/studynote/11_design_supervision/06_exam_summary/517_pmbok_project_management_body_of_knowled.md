@@ -153,7 +153,7 @@ EVM은 **Schedule(일정) × Cost(비용) × Scope(범위)**를 통합 측정하
 
 **진행 상황**: 517 / 600
 
-<- **이전**: [516. 위험 관리 프레임워크 리스크 평가](/studynote/11_design_supervision/06_exam_summary/517_risk_management_framework_assessment/)
+<- **이전**: [516. 위험 관리 프레임워크 리스크 평가](/studynote/11_design_supervision/06_exam_summary/516_risk_management_framework_assessment)
 **다음**: [518. 프린스2 프로젝트 관리 방법론](/studynote/11_design_supervision/06_exam_summary/518_prince2_project_management_methodology/) ->
 
 ---

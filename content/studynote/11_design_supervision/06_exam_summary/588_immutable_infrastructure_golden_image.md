@@ -147,7 +147,7 @@ Golden Image 기반 불변 인프라의 아키텍처는 크게 **(1) 빌드 레�
 
 **진행 상황**: 588 / 600
 
-<- **이전**: [587. 인프라 코드화 IaC 선언적 관리](/studynote/11_design_supervision/06_exam_summary/588_infrastructure_as_code_iac_declarative/)
+<- **이전**: [587. 인프라 코드화 IaC 선언적 관리](/studynote/11_design_supervision/06_exam_summary/587_infrastructure_as_code_iac_declarative)
 **다음**: [589. 정보시스템 감리 종합 정리 기술사 요약](/studynote/11_design_supervision/06_exam_summary/589_is_audit_comprehensive_summary_pe_overvi/) ->
 
 ---

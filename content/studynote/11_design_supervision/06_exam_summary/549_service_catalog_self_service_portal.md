@@ -142,7 +142,7 @@ tags:
 
 **진행 상황**: 549 / 600
 
-<- **이전**: [548. 지식 관리 KMS 조직 학습 시스템](/studynote/11_design_supervision/06_exam_summary/549_knowledge_management_kms_organizational_/)
+<- **이전**: [548. 지식 관리 KMS 조직 학습 시스템](/studynote/11_design_supervision/06_exam_summary/548_knowledge_management_kms_organizational_)
 **다음**: [550. IT 재무 관리 FinOps 비용 최적화](/studynote/11_design_supervision/06_exam_summary/550_it_financial_management_finops_cost_opti/) ->
 
 ---

@@ -214,7 +214,7 @@ Nexus는 Scrum의 3개 pillar(Transparency / Inspection / Adaptation)에 다음 
 
 **진행 상황**: 524 / 600
 
-<- **이전**: [523. LeSS 대규모 스크럼](/studynote/11_design_supervision/06_exam_summary/524_less_large_scale_scrum/)
+<- **이전**: [523. LeSS 대규모 스크럼](/studynote/04_software_engineering/02_requirements_analysis/094_less_large_scale_scrum)
 **다음**: [525. 디자인 씽킹 공감 정의 아이디어](/studynote/11_design_supervision/06_exam_summary/525_design_thinking_empathize_define_ideate/) ->
 
 ---

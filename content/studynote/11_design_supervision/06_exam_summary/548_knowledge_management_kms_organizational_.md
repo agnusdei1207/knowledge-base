@@ -153,7 +153,7 @@ tags:
 
 **진행 상황**: 548 / 600
 
-<- **이전**: [547. IT 자산 관리 라이프사이클 최적화](/studynote/11_design_supervision/06_exam_summary/548_it_asset_management_lifecycle_optimizati/)
+<- **이전**: [547. IT 자산 관리 라이프사이클 최적화](/studynote/11_design_supervision/06_exam_summary/547_it_asset_management_lifecycle_optimizati)
 **다음**: [549. 서비스 카탈로그 셀프서비스 포털](/studynote/11_design_supervision/06_exam_summary/549_service_catalog_self_service_portal/) ->
 
 ---

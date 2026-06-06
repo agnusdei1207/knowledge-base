@@ -184,7 +184,7 @@ def reconciliation_loop(interval_sec=180):
 
 **진행 상황**: 585 / 600
 
-<- **이전**: [584. AIOps 지능형 IT 운영 자동화](/studynote/11_design_supervision/06_exam_summary/585_aiops_intelligent_it_operations/)
+<- **이전**: [584. AIOps 지능형 IT 운영 자동화](/studynote/11_design_supervision/06_exam_summary/584_aiops_intelligent_it_operations)
 **다음**: [586. 서비스 메시 관측성 트래픽 제어](/studynote/11_design_supervision/06_exam_summary/586_service_mesh_observability_traffic_contr/) ->
 
 ---

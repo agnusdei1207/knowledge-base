@@ -219,7 +219,7 @@ Mike Cohn(2009, "Succeeding with Agile")이 제시한 **Test Automation Pyramid*
 
 **진행 상황**: 530 / 600
 
-<- **이전**: [529. 테스트 피라미드 단위 통합 E2E](/studynote/11_design_supervision/06_exam_summary/530_test_pyramid_unit_integration_e2e/)
+<- **이전**: [529. 테스트 피라미드 단위 통합 E2E](/studynote/11_design_supervision/06_exam_summary/529_test_pyramid_unit_integration_e2e)
 **다음**: [531. 뮤테이션 테스팅 결함 주입 효과](/studynote/11_design_supervision/06_exam_summary/531_mutation_testing_fault_injection_effecti/) ->
 
 ---

@@ -116,7 +116,7 @@ tags:
 
 **진행 상황**: 590 / 600
 
-<- **이전**: [589. 정보시스템 감리 종합 정리 기술사 요약](/studynote/11_design_supervision/06_exam_summary/590_is_audit_comprehensive_summary_pe_overvi/)
+<- **이전**: [589. 정보시스템 감리 종합 정리 기술사 요약](/studynote/11_design_supervision/06_exam_summary/589_is_audit_comprehensive_summary_pe_overvi)
 **다음**: [600. 600. 기술사 합격 최종 아키텍처 및 감리 설계 요약 집대성 (Final Architecture and Audit Design Master Summary)](/studynote/11_design_supervision/06_exam_summary/600_summary/) ->
 
 ---

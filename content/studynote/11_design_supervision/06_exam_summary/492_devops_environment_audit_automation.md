@@ -132,7 +132,7 @@ CCM은 **통제 상태의 시간 함수** `S_c(t) ∈ {0, 1, 2, 3}` (0=Failed, 1
 
 **진행 상황**: 492 / 600
 
-<- **이전**: [491. 애자일 프로젝트 감리 방법론](/studynote/11_design_supervision/06_exam_summary/492_agile_project_audit_methodology/)
+<- **이전**: [491. 애자일 프로젝트 감리 방법론](/studynote/11_design_supervision/06_exam_summary/491_agile_project_audit_methodology)
 **다음**: [493. 마이크로서비스 감리 분산 시스템 진단](/studynote/11_design_supervision/06_exam_summary/493_microservice_audit_distributed_system/) ->
 
 ---

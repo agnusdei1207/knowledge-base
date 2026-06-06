@@ -186,7 +186,7 @@ TOGAF는 **8단계 + Preliminary + Requirements Management** 의 사이클로, *
 
 **진행 상황**: 501 / 600
 
-<- **이전**: [500. 정보화 전략 수립 ISP 방법론](/studynote/11_design_supervision/06_exam_summary/501_isp_information_strategy_planning_method/)
+<- **이전**: [500. 정보화 전략 수립 ISP 방법론](/studynote/11_design_supervision/06_exam_summary/500_isp_information_strategy_planning_method)
 **다음**: [502. TOGAF ADM 아키텍처 개발 방법](/studynote/11_design_supervision/06_exam_summary/502_togaf_adm_architecture_development_metho/) ->
 
 ---

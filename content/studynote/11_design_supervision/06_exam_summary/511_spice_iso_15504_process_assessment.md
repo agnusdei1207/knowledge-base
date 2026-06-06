@@ -251,7 +251,7 @@ ISO/IEC 33002(구 15504-2)는 **5개 카테고리·46개 프로세스**를 정�
 
 **진행 상황**: 511 / 600
 
-<- **이전**: [510. CMMI 프로세스 성숙도 모델](/studynote/11_design_supervision/06_exam_summary/511_cmmi_process_maturity_model/)
+<- **이전**: [510. CMMI 프로세스 성숙도 모델](/studynote/11_design_supervision/06_exam_summary/510_cmmi_process_maturity_model)
 **다음**: [512. PSP TSP 개인 팀 소프트웨어 프로세스](/studynote/11_design_supervision/06_exam_summary/512_psp_tsp_personal_team_software_process/) ->
 
 ---

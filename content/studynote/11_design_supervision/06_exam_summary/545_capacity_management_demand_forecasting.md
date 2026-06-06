@@ -149,7 +149,7 @@ ITIL 4 Capacity & Performance Management 프로세스는 **3-Pillar 구조(서�
 
 **진행 상황**: 545 / 600
 
-<- **이전**: [544. 연속성 관리 BCP DRP 재해 복구](/studynote/11_design_supervision/06_exam_summary/545_continuity_management_bcp_drp_recovery/)
+<- **이전**: [544. 연속성 관리 BCP DRP 재해 복구](/studynote/11_design_supervision/06_exam_summary/544_continuity_management_bcp_drp_recovery)
 **다음**: [546. 가용성 관리 MTBF MTTR 고가용성](/studynote/11_design_supervision/06_exam_summary/546_availability_management_mtbf_mttr_ha/) ->
 
 ---

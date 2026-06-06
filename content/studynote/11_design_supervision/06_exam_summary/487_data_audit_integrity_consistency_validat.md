@@ -147,7 +147,7 @@ tags:
 
 **진행 상황**: 487 / 600
 
-<- **이전**: [486. 사용성 감리 UX 인터페이스 검증](/studynote/11_design_supervision/06_exam_summary/487_usability_audit_ux_interface_validation/)
+<- **이전**: [486. 사용성 감리 UX 인터페이스 검증](/studynote/11_design_supervision/06_exam_summary/486_usability_audit_ux_interface_validation)
 **다음**: [488. 네트워크 감리 트래픽 분석 진단](/studynote/11_design_supervision/06_exam_summary/488_network_audit_traffic_analysis_diagnosis/) ->
 
 ---

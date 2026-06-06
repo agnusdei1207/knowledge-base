@@ -192,7 +192,7 @@ tags:
 
 **진행 상황**: 538 / 600
 
-<- **이전**: [537. 비기능 요구사항 검증 신뢰성 가용성](/studynote/11_design_supervision/06_exam_summary/538_nfr_verification_reliability_availabilit/)
+<- **이전**: [537. 비기능 요구사항 검증 신뢰성 가용성](/studynote/11_design_supervision/06_exam_summary/537_nfr_verification_reliability_availabilit)
 **다음**: [539. 릴리스 관리 배포 전략 롤백](/studynote/11_design_supervision/06_exam_summary/539_release_management_deployment_rollback/) ->
 
 ---

@@ -167,7 +167,7 @@ ITIL 4의 근간인 **Service Value System(SVS)**는 다음 5대 구성요소로
 
 **진행 상황**: 506 / 600
 
-<- **이전**: [505. COBIT 거버넌스 관리 프레임워크](/studynote/11_design_supervision/06_exam_summary/506_cobit_governance_management_framework/)
+<- **이전**: [505. COBIT 거버넌스 관리 프레임워크](/studynote/11_design_supervision/06_exam_summary/505_cobit_governance_management_framework)
 **다음**: [507. ISO 20000 IT 서비스 표준](/studynote/11_design_supervision/06_exam_summary/507_iso_20000_it_service_standard/) ->
 
 ---

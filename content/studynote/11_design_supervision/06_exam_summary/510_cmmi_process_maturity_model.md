@@ -148,7 +148,7 @@ CMMI는 유사한 프로세스 개선 프레임워크와 **상호 보완적 관�
 
 **진행 상황**: 510 / 600
 
-<- **이전**: [509. ISO 25010 소프트웨어 품질 모델](/studynote/11_design_supervision/06_exam_summary/510_iso_25010_software_quality_model/)
+<- **이전**: [509. ISO 25010 소프트웨어 품질 모델](/studynote/04_software_engineering/10_trends_pm_quality/641_iso_25010_software_quality_model)
 **다음**: [511. SPICE ISO 15504 프로세스 평가](/studynote/11_design_supervision/06_exam_summary/511_spice_iso_15504_process_assessment/) ->
 
 ---

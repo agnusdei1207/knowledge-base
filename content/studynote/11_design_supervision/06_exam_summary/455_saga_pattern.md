@@ -101,7 +101,7 @@ Saga는 두 가지 토폴로지로 구현되며, 메시지 전달 보장 수준�
 
 **진행 상황**: 455 / 600
 
-<- **이전**: [454. 서킷 브레이커 패턴 장애 격리](/studynote/11_design_supervision/06_exam_summary/455_circuit_breaker_pattern/)
+<- **이전**: [454. 서킷 브레이커 패턴 장애 격리](/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern)
 **다음**: [456. 스트랭글러 패턴 레거시 전환](/studynote/11_design_supervision/06_exam_summary/456_strangler_pattern/) ->
 
 ---

@@ -121,7 +121,7 @@ ISO/IEC 25010의 구조는 **3계층 모델**이다: 최상위 **품질 특성(Q
 
 **진행 상황**: 509 / 600
 
-<- **이전**: [508. ISO 27001 정보보안 관리체계](/studynote/11_design_supervision/06_exam_summary/509_iso_27001_isms_standard/)
+<- **이전**: [508. ISO 27001 정보보안 관리체계](/studynote/11_design_supervision/06_exam_summary/508_iso_27001_isms_standard)
 **다음**: [510. CMMI 프로세스 성숙도 모델](/studynote/11_design_supervision/06_exam_summary/510_cmmi_process_maturity_model/) ->
 
 ---

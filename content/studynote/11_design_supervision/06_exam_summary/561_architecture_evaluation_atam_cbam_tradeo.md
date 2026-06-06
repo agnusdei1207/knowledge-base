@@ -148,7 +148,7 @@ ATAM은 **9단계 프로세스**로 구성되며, 각 단계는 명확한 산출
 
 **진행 상황**: 561 / 600
 
-<- **이전**: [560. SW 아키텍처 문서화 4+1 뷰](/studynote/11_design_supervision/06_exam_summary/561_software_architecture_documentation_4_1_/)
+<- **이전**: [560. SW 아키텍처 문서화 4+1 뷰](/studynote/11_design_supervision/06_exam_summary/560_software_architecture_documentation_4_1_)
 **다음**: [562. 아키텍처 패턴 레이어드 이벤트 파이프](/studynote/11_design_supervision/06_exam_summary/562_architecture_pattern_layered_event_pipe/) ->
 
 ---

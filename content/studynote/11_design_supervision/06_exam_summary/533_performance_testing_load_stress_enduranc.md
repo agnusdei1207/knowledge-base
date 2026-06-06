@@ -42,7 +42,7 @@ tags:
 
 **진행 상황**: 533 / 600
 
-<- **이전**: [532. 모델 기반 테스팅 MBT 자동화](/studynote/11_design_supervision/06_exam_summary/533_model_based_testing_mbt_automation/)
+<- **이전**: [532. 모델 기반 테스팅 MBT 자동화](/studynote/11_design_supervision/06_exam_summary/532_model_based_testing_mbt_automation)
 **다음**: [534. 보안 테스팅 OWASP 취약점 진단](/studynote/11_design_supervision/06_exam_summary/534_security_testing_owasp_vulnerability/) ->
 
 ---

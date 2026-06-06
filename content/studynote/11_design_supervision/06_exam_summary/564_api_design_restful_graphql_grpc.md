@@ -207,7 +207,7 @@ gRPC는 Google의 **Stubby**(2001년~ 내부 RPC 시스템)에서 파생된 **�
 
 **진행 상황**: 564 / 600
 
-<- **이전**: [563. 모놀리스 분해 전략 도메인 경계](/studynote/11_design_supervision/06_exam_summary/564_monolith_decomposition_domain_boundary/)
+<- **이전**: [563. 모놀리스 분해 전략 도메인 경계](/studynote/11_design_supervision/06_exam_summary/563_monolith_decomposition_domain_boundary)
 **다음**: [565. 메시지 큐 비동기 통신 패턴](/studynote/11_design_supervision/06_exam_summary/565_message_queue_async_communication_patter/) ->
 
 ---

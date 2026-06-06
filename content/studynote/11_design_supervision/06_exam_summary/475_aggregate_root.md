@@ -23,7 +23,7 @@ tags:
 
 **진행 상황**: 475 / 600
 
-<- **이전**: [474. 바운디드 컨텍스트 컨텍스트 매핑](/studynote/11_design_supervision/06_exam_summary/475_bounded_context/)
+<- **이전**: [474. 바운디드 컨텍스트 컨텍스트 매핑](/studynote/11_design_supervision/06_exam_summary/474_bounded_context)
 **다음**: [476. 유비쿼터스 언어 도메인 모델링](/studynote/11_design_supervision/06_exam_summary/476_ubiquitous_language/) ->
 
 ---

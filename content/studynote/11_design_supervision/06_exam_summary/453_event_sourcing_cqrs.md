@@ -171,7 +171,7 @@ tags:
 
 **진행 상황**: 453 / 600
 
-<- **이전**: [452. 마이크로서비스 아키텍처 설계 패턴 심화](/studynote/11_design_supervision/06_exam_summary/453_msa_design_pattern_advanced/)
+<- **이전**: [452. 마이크로서비스 아키텍처 설계 패턴 심화](/studynote/11_design_supervision/06_exam_summary/452_msa_design_pattern_advanced)
 **다음**: [454. 서킷 브레이커 패턴 장애 격리](/studynote/11_design_supervision/06_exam_summary/454_circuit_breaker_pattern/) ->
 
 ---

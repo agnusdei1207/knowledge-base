@@ -148,7 +148,7 @@ LeSS는 다른 확장 프레임워크(SAFe, Nexus, Scrum@Scale, Spotify Model)�
 
 **진행 상황**: 523 / 600
 
-<- **이전**: [522. SAFe 대규모 애자일 프레임워크](/studynote/11_design_supervision/06_exam_summary/523_safe_scaled_agile_framework/)
+<- **이전**: [522. SAFe 대규모 애자일 프레임워크](/studynote/11_design_supervision/06_exam_summary/522_safe_scaled_agile_framework)
 **다음**: [524. Nexus 다중 팀 스크럼 조율](/studynote/11_design_supervision/06_exam_summary/524_nexus_multi_team_scrum_coordination/) ->
 
 ---

@@ -153,7 +153,7 @@ MLOps 아키텍처는 **데이터 계층 -> 피처 계층 -> 학습 계층 -> �
 
 **진행 상황**: 583 / 600
 
-<- **이전**: [582. 데이터 옵스 데이터 파이프라인 자동화](/studynote/11_design_supervision/06_exam_summary/583_dataops_data_pipeline_automation/)
+<- **이전**: [582. 데이터 옵스 데이터 파이프라인 자동화](/studynote/11_design_supervision/06_exam_summary/582_dataops_data_pipeline_automation)
 **다음**: [584. AIOps 지능형 IT 운영 자동화](/studynote/11_design_supervision/06_exam_summary/584_aiops_intelligent_it_operations/) ->
 
 ---

@@ -169,7 +169,7 @@ COBIT 2019의 **RACI(Responsible, Accountable, Consulted, Informed)** 모델을 
 
 **진행 상황**: 559 / 600
 
-<- **이전**: [558. 디지털 전환 전략 로드맵 수립](/studynote/11_design_supervision/06_exam_summary/559_digital_transformation_strategy_roadmap/)
+<- **이전**: [558. 디지털 전환 전략 로드맵 수립](/studynote/11_design_supervision/06_exam_summary/558_digital_transformation_strategy_roadmap)
 **다음**: [560. SW 아키텍처 문서화 4+1 뷰](/studynote/11_design_supervision/06_exam_summary/560_software_architecture_documentation_4_1_/) ->
 
 ---

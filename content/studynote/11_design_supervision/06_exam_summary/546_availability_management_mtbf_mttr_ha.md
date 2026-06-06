@@ -144,7 +144,7 @@ tags:
 
 **진행 상황**: 546 / 600
 
-<- **이전**: [545. 용량 관리 수요 예측 확장 계획](/studynote/11_design_supervision/06_exam_summary/546_capacity_management_demand_forecasting/)
+<- **이전**: [545. 용량 관리 수요 예측 확장 계획](/studynote/11_design_supervision/06_exam_summary/545_capacity_management_demand_forecasting)
 **다음**: [547. IT 자산 관리 라이프사이클 최적화](/studynote/11_design_supervision/06_exam_summary/547_it_asset_management_lifecycle_optimizati/) ->
 
 ---

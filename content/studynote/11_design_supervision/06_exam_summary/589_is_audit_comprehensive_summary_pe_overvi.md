@@ -145,7 +145,7 @@ tags:
 
 **진행 상황**: 589 / 600
 
-<- **이전**: [588. 불변 인프라 골든 이미지 패턴](/studynote/11_design_supervision/06_exam_summary/589_immutable_infrastructure_golden_image/)
+<- **이전**: [588. 불변 인프라 골든 이미지 패턴](/studynote/11_design_supervision/06_exam_summary/588_immutable_infrastructure_golden_image)
 **다음**: [590. 감리 설계 아키텍처 종합 마스터 정리](/studynote/11_design_supervision/06_exam_summary/590_audit_architecture_comprehensive_master_/) ->
 
 ---

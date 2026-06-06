@@ -182,7 +182,7 @@ spec:
 
 **진행 상황**: 570 / 600
 
-<- **이전**: [569. SRE 에러 버짓 토일 자동화](/studynote/11_design_supervision/06_exam_summary/570_sre_error_budget_toil_automation/)
+<- **이전**: [569. SRE 에러 버짓 토일 자동화](/studynote/11_design_supervision/06_exam_summary/569_sre_error_budget_toil_automation)
 **다음**: [571. FinOps 클라우드 비용 최적화 전략](/studynote/11_design_supervision/06_exam_summary/571_finops_cloud_cost_optimization_strategy/) ->
 
 ---

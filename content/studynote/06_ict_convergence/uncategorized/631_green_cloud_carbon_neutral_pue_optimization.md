@@ -117,6 +117,6 @@ Core flow: Measure -> Attribute -> Optimize -> Shift -> Report
 **진행 상황**: 625 / 800
 
 <- **이전**: [624. FinOps 클라우드 비용 최적화 태깅](/studynote/06_ict_convergence/uncategorized/630_finops_cloud_cost_optimization_tagging/)
-**다음**: [632. 엣지 클라우드 MEC CDN 분산 컴퓨팅](/studynote/06_ict_convergence/uncategorized/632_edge_cloud_mec_cdn_distributed_computing/) ->
+**다음**: [632. 엣지 클라우드 MEC CDN 분산 컴퓨팅](/studynote/06_ict_convergence/uncategorized/636_edge_cloud_mec_cdn_distributed_computing) ->
 
 ---

@@ -162,7 +162,7 @@ else            -> Treatment (변경안)
 
 **진행 상황**: 469 / 600
 
-<- **이전**: [468. 피처 플래그 토글 점진적 릴리스](/studynote/11_design_supervision/06_exam_summary/469_feature_flag_toggle/)
+<- **이전**: [468. 피처 플래그 토글 점진적 릴리스](/studynote/11_design_supervision/06_exam_summary/468_feature_flag_toggle)
 **다음**: [470. 카오스 엔지니어링 복원력 검증](/studynote/11_design_supervision/06_exam_summary/470_chaos_engineering_resilience/) ->
 
 ---

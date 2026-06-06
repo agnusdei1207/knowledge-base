@@ -131,7 +131,7 @@ tags:
 
 **진행 상황**: 566 / 600
 
-<- **이전**: [565. 메시지 큐 비동기 통신 패턴](/studynote/11_design_supervision/06_exam_summary/566_message_queue_async_communication_patter/)
+<- **이전**: [565. 메시지 큐 비동기 통신 패턴](/studynote/11_design_supervision/06_exam_summary/565_message_queue_async_communication_patter)
 **다음**: [567. 멱등성 설계 중복 요청 처리](/studynote/11_design_supervision/06_exam_summary/567_idempotency_design_duplicate_request_han/) ->
 
 ---

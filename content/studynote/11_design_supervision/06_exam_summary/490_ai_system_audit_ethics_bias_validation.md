@@ -143,7 +143,7 @@ AI 윤리 편향 검증 아키텍처는 크게 **① 편향 측정 엔진(Bias M
 
 **진행 상황**: 490 / 600
 
-<- **이전**: [489. 클라우드 감리 SLA 준수 평가](/studynote/11_design_supervision/06_exam_summary/490_cloud_audit_sla_compliance_evaluation/)
+<- **이전**: [489. 클라우드 감리 SLA 준수 평가](/studynote/11_design_supervision/06_exam_summary/489_cloud_audit_sla_compliance_evaluation)
 **다음**: [491. 애자일 프로젝트 감리 방법론](/studynote/11_design_supervision/06_exam_summary/491_agile_project_audit_methodology/) ->
 
 ---

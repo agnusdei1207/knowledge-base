@@ -222,7 +222,7 @@ DDD(도메인 주도 설계)에서는 Inbound Port를 **Command/Query Service**�
 
 **진행 상황**: 477 / 600
 
-<- **이전**: [476. 유비쿼터스 언어 도메인 모델링](/studynote/11_design_supervision/06_exam_summary/477_ubiquitous_language/)
+<- **이전**: [476. 유비쿼터스 언어 도메인 모델링](/studynote/11_design_supervision/06_exam_summary/476_ubiquitous_language)
 **다음**: [478. 클린 아키텍처 의존성 역전 원칙](/studynote/11_design_supervision/06_exam_summary/478_clean_architecture/) ->
 
 ---

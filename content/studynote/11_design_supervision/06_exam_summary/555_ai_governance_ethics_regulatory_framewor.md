@@ -171,7 +171,7 @@ EU AI Act는 AI 시스템을 위험 수준에 따라 4단계로 분류하며, �
 
 **진행 상황**: 555 / 600
 
-<- **이전**: [554. 데이터 거버넌스 품질 관리 체계](/studynote/11_design_supervision/06_exam_summary/555_data_governance_quality_management_syste/)
+<- **이전**: [554. 데이터 거버넌스 품질 관리 체계](/studynote/11_design_supervision/06_exam_summary/554_data_governance_quality_management_syste)
 **다음**: [556. 클라우드 거버넌스 멀티 클라우드 정책](/studynote/11_design_supervision/06_exam_summary/556_cloud_governance_multi_cloud_policy/) ->
 
 ---
