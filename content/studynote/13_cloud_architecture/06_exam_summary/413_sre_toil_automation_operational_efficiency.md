@@ -1,10 +1,9 @@
 ---
-title: "413. SRE 토일 자동화 운영 효율 (SRE Toil Automation Operational Efficiency)"
+title: "SRE Toil Automation Operational Efficiency"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

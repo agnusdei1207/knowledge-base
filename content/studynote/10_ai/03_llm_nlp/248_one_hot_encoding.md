@@ -1,10 +1,9 @@
 ---
-title: "248. 원-핫 인코딩 (One-Hot Encoding)"
+title: "One-Hot Encoding"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

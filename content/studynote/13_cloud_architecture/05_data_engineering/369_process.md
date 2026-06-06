@@ -1,10 +1,9 @@
 ---
-title: "369. 영지식 증명 블록체인 노드 검열 프라이버시 데이터 룸 결합 (Zero-Knowledge Proof)"
+title: "Zero-Knowledge Proof"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [영지식 증명](/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/) [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 노드 검열 프라이버시 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 룸 결합는 클라우드 시스템에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 표준화를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.

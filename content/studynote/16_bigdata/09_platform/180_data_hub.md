@@ -1,10 +1,9 @@
 ---
-title: "180. 데이터 허브 (Data Hub) — 중앙 데이터 집계 및 배포 계층"
+title: "180. Data Hub"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

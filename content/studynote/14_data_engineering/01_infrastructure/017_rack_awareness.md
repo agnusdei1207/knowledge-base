@@ -1,11 +1,10 @@
 ---
-title: "17. 랙 인지 (Rack Awareness) 알고리즘 - 데이터 복제 시 물리적으로 동일한 스위치 전원을 공유하는 랙에 전부 넣지 않고 분산 배치"
+title: "017. Rack Awareness"
 date: "2025-01-01"
 description: "분산 클러스터에서 스위치나 전원 장애 등 랙(Rack) 단위의 대규모 결함을 방어하기 위한 지능형 데이터 분산 배치 기법"
 tags:
   - "data_engineering"
 ---
-
 
 # 랙 인지 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Rack Awareness [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))
 

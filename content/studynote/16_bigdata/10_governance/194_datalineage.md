@@ -1,10 +1,9 @@
 ---
-title: "04. 데이터 리니지 (Data Lineage) - 데이터 계보 추적 시스템"
+title: "194. Datalineage"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"
 ---
-
 
 # [데이터 리니지](/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/) ([Data Lineage](/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/)) - [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보 추적 시스템
 

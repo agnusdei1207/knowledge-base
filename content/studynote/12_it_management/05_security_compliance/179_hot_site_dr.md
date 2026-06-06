@@ -1,10 +1,9 @@
 ---
-title: "179. 핫 사이트 (Hot Site)"
+title: "Hot Site"
 date: "2026-05-06"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

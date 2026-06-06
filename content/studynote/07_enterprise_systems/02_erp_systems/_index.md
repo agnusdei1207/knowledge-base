@@ -1,9 +1,8 @@
 ---
-title: "02. 전사적 자원 관리 (ERP) 시스템"
+title: "Enterprise Systems"
 tags:
   - "enterprise_systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

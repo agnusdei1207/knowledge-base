@@ -1,10 +1,9 @@
 ---
-title: "544. AAA 보안 모델 (Authentication 인증, Authorization 인가, Accounting 과금/로깅)"
+title: "Authentication , Authorization , Accounting /"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

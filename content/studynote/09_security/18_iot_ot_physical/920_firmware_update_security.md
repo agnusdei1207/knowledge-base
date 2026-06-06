@@ -1,10 +1,9 @@
 ---
-title: "920. 펌웨어 업데이트 보안 (Firmware Update Security)"
+title: "Firmware Update Security"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

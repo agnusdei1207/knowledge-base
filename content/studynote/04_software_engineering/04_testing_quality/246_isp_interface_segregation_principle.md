@@ -1,10 +1,9 @@
 ---
-title: "246. ISP (Interface Segregation Principle) - 인터페이스 분리 원칙"
+title: "246. Isp Interface Segregation Principle"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

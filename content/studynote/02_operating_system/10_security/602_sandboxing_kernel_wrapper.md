@@ -1,10 +1,9 @@
 ---
-title: "602. 샌드박싱 (Sandboxing) 기술 커널 래퍼"
+title: "602. Sandboxing Kernel Wrapper"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

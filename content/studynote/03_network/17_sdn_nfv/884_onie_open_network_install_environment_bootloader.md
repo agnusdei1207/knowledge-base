@@ -1,10 +1,9 @@
 ---
-title: "884. ONIE (오픈 네트워크 설치 환경)"
+title: "884. Onie Open Network Install Environment Bootloader"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

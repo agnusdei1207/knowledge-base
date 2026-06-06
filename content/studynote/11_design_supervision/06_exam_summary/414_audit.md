@@ -1,10 +1,9 @@
 ---
-title: "414. 리틀의 법칙 기반 스레드풀 성능감사 (Little's Law)"
+title: "Little's Law"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 1. **본질**: 리틀의 법칙 (Little's Law)은 평균 대기 수, 처리율, 체류 시간의 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 이용해 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)풀과 대기열의 적정성을 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)하는 정량 기준이다.

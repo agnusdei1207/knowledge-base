@@ -1,10 +1,9 @@
 ---
-title: "268. PaaS 락인 방지와 Kubernetes 이식성 (PaaS Lock in Prevention and Kubernetes Portability)"
+title: "PaaS Lock in Prevention and Kubernetes Portability"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

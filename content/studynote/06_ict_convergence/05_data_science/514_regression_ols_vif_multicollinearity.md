@@ -1,10 +1,9 @@
 ---
-title: "514. 회귀 분석: OLS, VIF, 다중공선성 (Regression OLS VIF Multicollinearity)"
+title: "Regression OLS VIF Multicollinearity"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

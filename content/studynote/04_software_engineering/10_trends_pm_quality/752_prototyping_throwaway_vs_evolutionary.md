@@ -1,10 +1,9 @@
 ---
-title: "752. 프로토타입 버리기 모델 vs 진화적 모델"
+title: "752. Prototyping Throwaway Vs Evolutionary"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

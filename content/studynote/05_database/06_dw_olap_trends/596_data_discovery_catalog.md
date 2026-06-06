@@ -1,10 +1,9 @@
 ---
-title: "596. 데이터 디스커버리 카탈로그 플랫폼 검색 큐레이션 거버넌스 워크플로우 지식 저장"
+title: "596. Data Discovery Catalog"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "397. Knative 쿠버네티스 서버리스 프레임워크 (Knative Kubernetes Serverless Framework)"
+title: "Knative Kubernetes Serverless Framework"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

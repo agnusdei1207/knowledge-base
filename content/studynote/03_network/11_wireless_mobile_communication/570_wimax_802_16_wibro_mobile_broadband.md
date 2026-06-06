@@ -1,10 +1,9 @@
 ---
-title: "570. WiMAX (IEEE 802.16) / 휴대인터넷(WiBro) 개요"
+title: "570. Wimax 802 16 Wibro Mobile Broadband"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

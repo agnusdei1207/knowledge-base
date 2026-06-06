@@ -1,10 +1,9 @@
 ---
-title: "675. 프로젝트 관리 WBS, CPM, PERT"
+title: "675. Project Management Wbs Cpm Pert"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

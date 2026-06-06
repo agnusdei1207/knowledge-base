@@ -1,10 +1,9 @@
 ---
-title: "670. 소프트웨어 오류 주입 (Fault Injection) 카오스 테스팅 시스템 커널 모듈 활용법"
+title: "670. Fault Injection Chaos Testing Kernel"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

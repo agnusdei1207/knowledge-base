@@ -1,10 +1,9 @@
 ---
-title: "609. ZigBee (지그비)"
+title: "609. Zigbee Ieee 802 15 4 Mesh Iot"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

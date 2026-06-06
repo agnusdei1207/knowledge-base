@@ -1,10 +1,9 @@
 ---
-title: "394. V-모델의 매핑 (요구사항-인수테스트, 기본설계-시스템테스트, 상세 설계-통합테스트, 코딩-단위테스트)"
+title: "394. V Model Testing Mapping"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

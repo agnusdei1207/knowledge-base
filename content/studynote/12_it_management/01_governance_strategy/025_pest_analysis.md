@@ -1,10 +1,9 @@
 ---
-title: "25. PEST 분석 (거시 환경 분석)"
+title: "025. Pest Analysis"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

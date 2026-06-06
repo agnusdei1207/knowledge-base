@@ -1,10 +1,9 @@
 ---
-title: "26. Kafka 토픽 파티션 (Topic Partition) — 분산 스트림 병렬 처리"
+title: "026. Topic Partition"
 date: "2026-04-29"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Kafka의 토픽 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(Topic [Partition](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))은 하나의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스트림(Topic)을 순서 보장이 가능한 독립적인 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 단위로 분할한 것으로, [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수를 늘릴수록 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))이 선형적으로 증가한다.

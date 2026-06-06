@@ -1,10 +1,9 @@
 ---
-title: "29. 세그먼트 트리 (Segment Tree)"
+title: "Segment Tree"
 date: "2026-04-29"
 tags:
   - "studynote-algorithm-stats"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [세그먼트 트리](/studynote/12_it_management/02_itsm_itil/075_combinatorics/)([Segment Tree](/studynote/12_it_management/02_itsm_itil/075_combinatorics/))는 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)의 구간 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)(범위 합, 최솟값, 최댓값, [GCD](/studynote/02_operating_system/10_security/663_macos_ios_gcd_grand_central_dispatch/))와 점 업데이트를 O(log n)에 처리하는 완전 [이진 트리](/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/) 자료구조다. [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)을 [분할 정복](/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)으로 [재귀](/studynote/08_algorithm_stats/01_basics/014_recursion/) 구성한다.

@@ -1,9 +1,8 @@
 ---
-title: "6. 블록의 구조 - 블록 헤더 (버전, 이전 블록 해시, 머클 루트, 타임스탬프, 난이도, 논스) + 바디"
+title: "006. Block Structure"
 tags:
   - "ict_convergence"
 ---
-
 
 # 06. 블록의 구조
 

@@ -1,10 +1,9 @@
 ---
-title: "594. 데이터 품질 감리 정합성 완전성 진단 (Data Quality Audit Consistency Completeness)"
+title: "Data Quality Audit Consistency Completeness"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

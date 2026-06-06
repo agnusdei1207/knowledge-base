@@ -1,10 +1,9 @@
 ---
-title: "451. 멀티클라우드 관리 CMP 통합 운영 (Multi Cloud Management CMP Unified Operations)"
+title: "Multi Cloud Management CMP Unified Operations"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

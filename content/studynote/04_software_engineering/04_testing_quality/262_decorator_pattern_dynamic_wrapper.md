@@ -1,10 +1,9 @@
 ---
-title: "262. 데코레이터 (Decorator) - 동적으로 책임(기능) 추가"
+title: "262. Decorator Pattern Dynamic Wrapper"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

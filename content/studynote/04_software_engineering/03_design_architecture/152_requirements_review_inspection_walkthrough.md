@@ -1,11 +1,10 @@
 ---
-title: "152. 요구사항 검토 (Review) - 워크쓰루(Walkthrough)와 인스펙션(Inspection) 도끼 찢기"
+title: "152. Requirements Review Inspection Walkthrough"
 date: "2026-05-03"
 description: "결함이 코드 쇳덩이(런타임 버그)로 파멸적 전이(Transfer)가 되기 직전! 문서(명세서) 페이퍼 종이 위에 누워있을 때 동료와 전문가의 집단 지성 스캐너로 사전에 모순을 찢고 록온 척살해 내는 가장 싸고 파괴적인 정적 테스트 쉴드"
 tags:
   - "software_engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [요구사항 검토](/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/)([Review](/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/))는 소프트웨어를 톰캣 서버에 올려 런타임 실행(Run)하지 않고!! 걍 기획자가 쓴 한글 텍스트 명세서(SRS) 설계도 문서 쪼가리를 사람의 뇌와 눈깔로 깐깐하게 엑스레이 스캔 심사하여 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 빵꾸([Defect](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/))를 찾아내는 <strong>가장 강력한 정적 <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>(Static <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">Verification</a>) 예방 의학 방폭문</strong>이다.

@@ -1,10 +1,9 @@
 ---
-title: "267. 스트리밍 ETL 실시간 파이프라인 설계 (Streaming ETL Real-time Pipeline Design)"
+title: "Streaming ETL Real-time Pipeline Design"
 date: "2026-05-09"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

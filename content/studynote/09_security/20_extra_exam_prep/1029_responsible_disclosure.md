@@ -1,10 +1,9 @@
 ---
-title: "1029. Responsible Disclosure (책임 있는 공개)"
+title: "1029. Responsible Disclosure"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

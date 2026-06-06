@@ -1,10 +1,9 @@
 ---
-title: "534. CLIP 멀티모달 대조 학습 이미지-텍스트 정렬 (CLIP Multimodal Contrastive Image-Text Alignment)"
+title: "CLIP Multimodal Contrastive Image-Text Alignment"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

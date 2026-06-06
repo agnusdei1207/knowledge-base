@@ -1,10 +1,9 @@
 ---
-title: "1033. 지그비 (Zigbee) 메쉬"
+title: "1033. Zigbee Mesh Network 802 15 4"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

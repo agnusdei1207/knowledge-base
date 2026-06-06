@@ -1,10 +1,9 @@
 ---
-title: "216. 스마트시티 빅데이터 (Smart City Big Data) — CCTV분석/교통신호최적화/에너지그리드"
+title: "221. Smart City Bigdata"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "662. 안드로이드 바인더(Binder) IPC 스레드 풀 및 객체 참조 매핑 메커니즘"
+title: "662. Android Binder Ipc Thread Pool"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

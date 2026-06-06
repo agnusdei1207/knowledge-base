@@ -1,10 +1,9 @@
 ---
-title: "132. Apache Cassandra — 마스터 없는 링 구조 분산 데이터베이스"
+title: "132. Cassandra"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: Cassandra는 모든 노드가 동등한 [마스](/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터리스(Masterless) 피어 링 토폴로지를 통해 [단일 장애점](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 없이 노드 추가만으로 선형적 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 확장을 실현하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)다.

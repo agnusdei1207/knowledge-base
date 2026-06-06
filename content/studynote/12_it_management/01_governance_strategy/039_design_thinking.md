@@ -1,10 +1,9 @@
 ---
-title: "039. 디자인 씽킹 (Design Thinking)"
+title: "Design Thinking"
 date: "2026-03-04"
 tags:
   - "studynote-it-management"
 ---
-
 
 > **핵심 인사이트**
 > 1. [디자인 씽킹](/studynote/12_it_management/01_governance_strategy/040_design_thinking/)([Design Thinking](/studynote/12_it_management/01_governance_strategy/040_design_thinking/))은 인간 중심(Human-Centered) 문제 해결 접근법으로, 기술 가능성(Feasibility)·사업 타당성(Viability)보다 사람의 요구(Desirability)를 먼저 이해하고, 빠른 프로토타이핑과 테스트로 해결책을 반복 개선한다.

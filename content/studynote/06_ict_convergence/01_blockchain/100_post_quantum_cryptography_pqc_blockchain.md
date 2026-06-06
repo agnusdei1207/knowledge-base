@@ -1,9 +1,8 @@
 ---
-title: "100. 양자 내성 블록체인 서명 체계 전환 연구"
+title: "100. Post Quantum Cryptography Pqc Blockchain"
 tags:
   - "ict_convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

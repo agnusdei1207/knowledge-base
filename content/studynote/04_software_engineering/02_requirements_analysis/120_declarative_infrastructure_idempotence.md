@@ -1,10 +1,9 @@
 ---
-title: "120. 선언적 인프라와 멱등성 (Declarative Infrastructure & Idempotence) - IaC 핵심 원칙"
+title: "120. Declarative Infrastructure Idempotence"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 선언적 인프라는 <strong>"무엇을 원하는가(What)"만 정의</strong>하면 도구가 현재->목표 상태로 자동 변환하며, [멱등성](/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)(Idempotence)은 <strong>같은 코드를 여러 번 실행해도 결과가 동일</strong>한 성질이다.

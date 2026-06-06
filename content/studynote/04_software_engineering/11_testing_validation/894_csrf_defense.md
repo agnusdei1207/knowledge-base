@@ -1,10 +1,9 @@
 ---
-title: "894. 크로스 사이트 요청 위조 (CSRF) 방어"
+title: "894. Csrf Defense"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "942. 사가 패턴 (Saga Pattern) - 로컬 트랜잭션들의 연속된 체인"
+title: "942. Saga Pattern"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

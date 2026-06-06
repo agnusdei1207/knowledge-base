@@ -1,10 +1,9 @@
 ---
-title: "753. 우선순위 역전 (Priority Inversion) 방지"
+title: "753. Priority Inversion Prevention"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

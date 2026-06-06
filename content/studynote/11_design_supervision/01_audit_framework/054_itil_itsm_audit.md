@@ -1,10 +1,9 @@
 ---
-title: "54. ITIL/ITSM 감사 (ITIL ITSM Audit)"
+title: "ITIL ITSM Audit"
 date: "2026-05-01"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

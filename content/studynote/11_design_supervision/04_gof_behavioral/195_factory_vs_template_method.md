@@ -1,10 +1,9 @@
 ---
-title: "195. 팩터리 메서드 vs 템플릿 메서드 (Factory Method vs Template Method)"
+title: "Factory Method vs Template Method"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

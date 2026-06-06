@@ -1,10 +1,9 @@
 ---
-title: "1093. MPLS VPN L3 경로 격리 라벨 스위치"
+title: "1093. Mpls Vpn L3Vpn Vrf Label Switching"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

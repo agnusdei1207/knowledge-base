@@ -1,10 +1,9 @@
 ---
-title: "489. 데이터 메시 도메인 기반 오너십 분산"
+title: "489. Data Mesh Domain Ownership"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "581. AI4SE (AI for Software 엔진ering) - AI를 활용한 SW 엔지니어링 패러다임 변화"
+title: "581. Ai4Se Ai Software Engineering Paradigm"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

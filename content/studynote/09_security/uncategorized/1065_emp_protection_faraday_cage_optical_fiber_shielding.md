@@ -1,10 +1,9 @@
 ---
-title: "1065. EMP 방호 통신망 (전자기 펄스 쉴딩 시스템)"
+title: "1065. Emp Protection Faraday Cage Optical Fiber Shielding"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

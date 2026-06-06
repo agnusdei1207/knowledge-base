@@ -1,10 +1,9 @@
 ---
-title: "1077. DDoS 반사 증폭 원조 (NTP, DNS 포트망)"
+title: "NTP, DNS"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

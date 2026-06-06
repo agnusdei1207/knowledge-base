@@ -1,10 +1,9 @@
 ---
-title: "268. 완전 연관 사상 (Fully Associative)"
+title: "Fully Associative"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "94. 배치 정규화 (Batch Normalization) - 미니배치 층간 정규화"
+title: "094. Batch Normalization Internal Covariate Shift"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

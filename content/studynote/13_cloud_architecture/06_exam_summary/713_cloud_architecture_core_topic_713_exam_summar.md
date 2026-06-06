@@ -1,10 +1,9 @@
 ---
-title: "713. 클라우드 아키텍처 핵심 토픽 713번 시험 요약 (Cloud Architecture Core Topic 713 Exam Summary)"
+title: "Cloud Architecture Core Topic 713 Exam Summary"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

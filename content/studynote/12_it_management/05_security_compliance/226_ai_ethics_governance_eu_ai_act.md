@@ -1,10 +1,9 @@
 ---
-title: "226. AI 거버넌스 및 윤리 (AI Ethics & Governance) 가이드라인 제정"
+title: "226. Ai Ethics Governance Eu Ai Act"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 거버넌스 및 윤리 ([AI Ethics](/studynote/10_ai/04_ai_ops_ethics/330_ai_ethics/) & Governance) 가이드라인 제정의 본질은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 편향성 제거, 공정성 확보, [저작권](/studynote/04_software_engineering/09_cloud_native_ai_architecture/583_ai_code_license_security_threats/) 이슈 (EU [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Act 컴플라이언스 대응)를 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 모델, 평가, 운영 통제까지 포함한 실행 체계로 만드는 데 있다.

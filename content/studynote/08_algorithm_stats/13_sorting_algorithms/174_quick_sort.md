@@ -1,10 +1,9 @@
 ---
-title: "퀵 정렬 (Quick Sort)"
+title: "Quick Sort"
 date: "2026-05-06"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

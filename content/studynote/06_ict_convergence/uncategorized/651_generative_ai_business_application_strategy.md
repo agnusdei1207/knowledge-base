@@ -1,10 +1,9 @@
 ---
-title: "651. 생성형 AI 비즈니스 적용 전략 (Generative AI Business Application Strategy)"
+title: "Generative AI Business Application Strategy"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

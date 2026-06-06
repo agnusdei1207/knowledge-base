@@ -1,10 +1,9 @@
 ---
-title: "625. SLA (Service Level Agreement) 하드웨어 가용성"
+title: "625. Sla Hardware Availability"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

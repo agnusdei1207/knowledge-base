@@ -1,10 +1,9 @@
 ---
-title: "565. 메시지 패싱 하드웨어 큐 (Message Passing Hardware Queue)"
+title: "Message Passing Hardware Queue"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

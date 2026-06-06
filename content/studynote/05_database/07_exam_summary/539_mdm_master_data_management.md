@@ -1,10 +1,9 @@
 ---
-title: "539. 마스터 데이터(MDM) 중복 배제 통합 기준 관리 체계"
+title: "539. Mdm Master Data Management"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

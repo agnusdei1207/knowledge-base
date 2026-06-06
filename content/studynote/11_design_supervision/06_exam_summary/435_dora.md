@@ -1,10 +1,9 @@
 ---
-title: "435. DORA 메트릭스 리드 타임 배포 빈도 지표 (DORA Metrics for Lead Time and Deployment Frequency)"
+title: "DORA Metrics for Lead Time and Deployment Frequency"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 1. **본질**: [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) ([DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) Research and Assessment) 메트릭스에서 [리드 타임](/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)과 배포 빈도는 소프트웨어 전달 흐름의 속도와 반복성을 가장 직관적으로 보여 주는 핵심 지표다.

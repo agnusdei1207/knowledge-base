@@ -1,10 +1,9 @@
 ---
-title: "763. 지속적 통합 테스트 빌드 자동화 서버"
+title: "763. Process"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

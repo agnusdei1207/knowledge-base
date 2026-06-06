@@ -1,10 +1,9 @@
 ---
-title: "790. POSIX 스레드 (pthreads) 표준 API"
+title: "790. Posix Threads Pthreads Standard Api"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

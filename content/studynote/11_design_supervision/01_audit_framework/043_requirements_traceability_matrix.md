@@ -1,10 +1,9 @@
 ---
-title: "043. 요구사항 추적성 매트릭스 (RTM)"
+title: "RTM"
 date: "2026-04-05"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 > **핵심 인사이트**
 > 1. [RTM](/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/)([Requirements Traceability Matrix](/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/), [요구사항 추적성](/studynote/04_software_engineering/03_design_architecture/156_requirements_traceability_vertical_horizontal/) 매트릭스)은 요구사항에서 설계, 구현, 테스트까지 각 산출물 간의 추적 관계를 매핑하는 문서로 — 단순한 표가 아니라 "변경 영향 분석"과 "요구사항 누락 탐지"를 위한 감리의 핵심 증거 도구이다.

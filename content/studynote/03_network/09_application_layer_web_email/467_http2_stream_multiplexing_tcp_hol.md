@@ -1,10 +1,9 @@
 ---
-title: "467. HTTP/2 스트림 (Stream) 다중화 (Multiplexing)"
+title: "Multiplexing"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

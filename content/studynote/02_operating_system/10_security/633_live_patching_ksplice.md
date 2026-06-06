@@ -1,10 +1,9 @@
 ---
-title: "633. 무정전 업데이트 (Ksplice 등 커널 재부팅 없는 패치망 체계 구조)"
+title: "Ksplice"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

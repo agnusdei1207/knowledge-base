@@ -1,10 +1,9 @@
 ---
-title: "295. 메모리 캐싱 (Caching) 기술 적용"
+title: "295. Olap Operations"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

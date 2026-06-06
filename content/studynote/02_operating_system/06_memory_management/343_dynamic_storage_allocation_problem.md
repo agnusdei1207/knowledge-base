@@ -1,10 +1,9 @@
 ---
-title: "343. 동적 메모리 할당 문제 (가변 분할 배치 알고리즘) (Dynamic Storage Allocation Problem)"
+title: "Dynamic Storage Allocation Problem"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "589. 웨어러블 디바이스 헬스케어 모니터링 (Wearable Device Healthcare Monitoring)"
+title: "Wearable Device Healthcare Monitoring"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

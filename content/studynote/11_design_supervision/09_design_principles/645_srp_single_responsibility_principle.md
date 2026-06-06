@@ -1,10 +1,9 @@
 ---
-title: "SRP (Single Responsibility Principle, 단일 책임 원칙)"
+title: "Single Responsibility Principle,"
 date: "2026-03-04"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

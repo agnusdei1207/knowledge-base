@@ -1,10 +1,9 @@
 ---
-title: "728. 해양 기술 심해 탐사 해양 에너지 (Ocean Technology Deep Sea Exploration Energy)"
+title: "Ocean Technology Deep Sea Exploration Energy"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 # 728. 해양 기술 심해 탐사 해양 에너지 (Ocean Technology Deep Sea Exploration Energy)
 

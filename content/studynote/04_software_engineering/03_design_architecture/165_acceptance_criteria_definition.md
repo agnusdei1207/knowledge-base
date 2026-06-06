@@ -1,10 +1,9 @@
 ---
-title: "165. 인수 기준 (Acceptance Criteria) 정의"
+title: "165. Acceptance Criteria Definition"
 date: "2026-04-03"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

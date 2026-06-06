@@ -1,10 +1,9 @@
 ---
-title: "751. 3GPP (3rd Generation Partnership Project) 표준 개발"
+title: "751. 3Gpp 3Rd Generation Partnership Project"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

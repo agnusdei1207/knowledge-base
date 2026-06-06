@@ -1,10 +1,9 @@
 ---
-title: "080. 하이퍼오토메이션 (Hyperautomation: RPA + AI)"
+title: "Hyperautomation: RPA + AI"
 date: "2026-05-05"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 하이퍼오토메이션([초자동화](/studynote/12_it_management/05_security_compliance/240_hyperautomation_hybrid_workforce/))은 단순 반복적인 마우스 클릭을 대신하던 무식한 매크로([RPA](/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/))에, 글씨를 읽고(OCR), 언어를 이해하며(NLP), 스스로 판단하는 지능(Machine [Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))을 <strong>레고 블록처럼 결합하여 인간의 '뇌'와 '손발'을 모두 통째로 자동화하는 궁극의 아키텍처</strong>다.

@@ -1,10 +1,9 @@
 ---
-title: "477. 침수 냉각 액체 냉각 데이터센터 (Immersion Cooling Liquid Cooling Data Center)"
+title: "Immersion Cooling Liquid Cooling Data Center"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

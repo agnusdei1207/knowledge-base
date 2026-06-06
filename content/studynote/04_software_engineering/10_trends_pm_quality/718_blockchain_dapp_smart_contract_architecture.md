@@ -1,10 +1,9 @@
 ---
-title: "718. 블록체인 DApp 스마트 컨트랙트 구조"
+title: "718. Blockchain Dapp Smart Contract Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

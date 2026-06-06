@@ -1,10 +1,9 @@
 ---
-title: "456. 스트랭글러 패턴 레거시 전환 (Strangler Fig Pattern Legacy Migration)"
+title: "Strangler Fig Pattern Legacy Migration"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "227. 멀티 클라우드 (Multi-Cloud) / 하이브리드 클라우드 랜딩 존 (Landing Zone) 설계 네트워크 통제"
+title: "227. Multi Cloud Landing Zone"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

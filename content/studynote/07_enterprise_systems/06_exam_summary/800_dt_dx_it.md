@@ -1,10 +1,9 @@
 ---
-title: "800. 차세대 전사 비즈니스 디지털 혁신(DT/DX) 및 IT 전략 총론 포괄 구조 프레임워크 맵"
+title: "800. Dt Dx It"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

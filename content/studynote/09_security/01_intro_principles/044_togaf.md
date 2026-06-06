@@ -1,10 +1,9 @@
 ---
-title: "044. TOGAF — 엔터프라이즈 아키텍처 프레임워크"
+title: "044. Togaf"
 date: "2026-04-05"
 tags:
   - "studynote-security"
 ---
-
 
 > **핵심 인사이트**
 > 1. [TOGAF](/studynote/12_it_management/03_ea_isp/113_togaf/)([The Open Group](/studynote/12_it_management/03_ea_isp/113_togaf/) [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/) Framework)는 엔터프라이즈 아키텍처([EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/))를 개발·관리하는 세계 표준 프레임워크로 — 비즈니스·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·애플리케이션·기술의 4개 아키텍처 도메인과 [ADM](/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/)([Architecture Development Method](/studynote/12_it_management/03_ea_isp/898_togaf_adm_architecture_development_method/)) 9단계 사이클로 구성된다.

@@ -1,10 +1,9 @@
 ---
-title: "627. 회귀 테스트 커버리지 도구"
+title: "627. Regression Testing Coverage Tools"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

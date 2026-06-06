@@ -1,10 +1,9 @@
 ---
-title: "398. 클라우드 이벤트 EventBridge 비동기 통신 (Cloud Event EventBridge Async Communication)"
+title: "Cloud Event EventBridge Async Communication"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

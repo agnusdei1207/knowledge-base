@@ -1,10 +1,9 @@
 ---
-title: "601. 사물인터넷 (IoT, Internet of Things)의 3대 요소 (디바이스, 네트워크, 클라우드/플랫폼)"
+title: "601. Iot Internet Of Things 3 Elements"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,9 +1,8 @@
 ---
-title: "164. 산란 (Scattering) / 반사 (Reflection)"
+title: "Reflection"
 tags:
   - "network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "713. 내부 단편화 고정/페이징 (Internal Fragmentation Fixed Paging)"
+title: "Internal Fragmentation Fixed Paging"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

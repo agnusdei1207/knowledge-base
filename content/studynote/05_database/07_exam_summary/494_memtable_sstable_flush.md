@@ -1,10 +1,9 @@
 ---
-title: "494. 멤테이블 (MemTable) 디스크 SStable 플러시"
+title: "494. Memtable Sstable Flush"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

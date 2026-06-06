@@ -1,10 +1,9 @@
 ---
-title: "205. 셔플·정렬 (Shuffle & Sort)과 YARN (Yet Another Resource Negotiator)"
+title: "Yet Another Resource Negotiator"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: MapReduce의 셔플(Shuffle)은 Map 출력을 키([Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))별로 Reduce에 전달하기 위해 네트워크 전체를 가로질러 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 재배치하는 단계로, 전체 Job 시간의 40~70%를 차지하는 핵심 병목이다.

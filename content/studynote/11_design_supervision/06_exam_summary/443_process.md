@@ -1,10 +1,9 @@
 ---
-title: "443. 지식 그래프 시맨틱 웹 온톨로지망 (Knowledge Graph Semantic Web Ontology)"
+title: "Knowledge Graph Semantic Web Ontology"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

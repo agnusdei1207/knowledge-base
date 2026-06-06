@@ -1,10 +1,9 @@
 ---
-title: "272. 데이터 레이블링 어노테이션 능동 학습 (Data Labeling Annotation Active Learning)"
+title: "Data Labeling Annotation Active Learning"
 date: "2026-05-09"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

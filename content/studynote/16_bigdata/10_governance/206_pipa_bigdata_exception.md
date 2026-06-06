@@ -1,10 +1,9 @@
 ---
-title: "200. 개인정보보호법 빅데이터 특례 (PIPA Big Data Exception) — 가명처리 허용 데이터 3법"
+title: "206. Pipa Bigdata Exception"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

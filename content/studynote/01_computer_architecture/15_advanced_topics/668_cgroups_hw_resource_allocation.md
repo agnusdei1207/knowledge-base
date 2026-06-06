@@ -1,10 +1,9 @@
 ---
-title: "668. cgroups (Control Groups) 자원 할당"
+title: "668. Cgroups Hw Resource Allocation"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

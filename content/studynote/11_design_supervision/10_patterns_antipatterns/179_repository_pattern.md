@@ -1,10 +1,9 @@
 ---
-title: "179. 레파지토리 패턴 (Repository Pattern)"
+title: "Repository Pattern"
 date: "2026-05-06"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

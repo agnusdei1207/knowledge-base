@@ -1,10 +1,9 @@
 ---
-title: "180. 드론 스웜 (Drone Swarm) - 군집 비행 제어 및 충돌 회피 알고리즘"
+title: "180. Drone Swarm Control Algorithm"
 date: "2026-05-06"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

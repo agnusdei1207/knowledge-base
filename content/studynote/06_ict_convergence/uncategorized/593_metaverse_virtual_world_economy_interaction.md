@@ -1,10 +1,9 @@
 ---
-title: "593. 메타버스 가상 세계 경제 인터랙션 (Metaverse Virtual World Economy Interaction)"
+title: "Metaverse Virtual World Economy Interaction"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

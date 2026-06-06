@@ -1,10 +1,9 @@
 ---
-title: "287. 상호운용성 (Interoperability) - 시스템 간 정보 교환 전술"
+title: "287. Interoperability Tactics"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

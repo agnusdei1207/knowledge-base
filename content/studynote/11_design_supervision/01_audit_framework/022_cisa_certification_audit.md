@@ -1,10 +1,9 @@
 ---
-title: "22. CISA (Certified Information Systems Auditor) - 국제 공인 정보시스템 감사사"
+title: "022. Cisa Certification Audit"
 date: "2026-04-02"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 > ⚠️ 이 문서는 전 세계 IT [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/), 통제, 보안 및 거버넌스 분야의 사실상 표준(De facto standard) 자격 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)인 ISACA의 'CISA'의 핵심 검정 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/), 감리 실무적 가치, 그리고 엔터프라이즈 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리 체계에서의 역할을 심층 분석합니다.
 

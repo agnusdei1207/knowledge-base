@@ -1,10 +1,9 @@
 ---
-title: "6. 기울기 하강법 (Gradient Descent) — 최적화 기본"
+title: "165. Gradient Descent"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

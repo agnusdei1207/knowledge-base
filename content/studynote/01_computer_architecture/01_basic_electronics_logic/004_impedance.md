@@ -1,10 +1,9 @@
 ---
-title: "4. 임피던스 (Impedance)"
+title: "Impedance"
 date: "2026-04-17"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 임피던스 (Impedance)는 고주파 및 교류 환경에서 순수 [저항](/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)뿐만 아니라 커패시터와 인덕터의 반응(리액턴스)이 합쳐져 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)의 흐름을 방해하는 복합 [저항](/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) 벡터다.

@@ -1,10 +1,9 @@
 ---
-title: "393. mTLS 상호 인증 서비스 간 암호화 (mTLS Mutual Authentication Service Encryption)"
+title: "mTLS Mutual Authentication Service Encryption"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

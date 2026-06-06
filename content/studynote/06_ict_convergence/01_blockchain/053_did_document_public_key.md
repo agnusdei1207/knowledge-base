@@ -1,10 +1,9 @@
 ---
-title: "53. DID 문서와 공개키 (DID Document Public Key)"
+title: "DID Document Public Key"
 date: "2026-05-01"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

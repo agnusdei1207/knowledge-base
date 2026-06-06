@@ -1,9 +1,8 @@
 ---
-title: "105. 제3정규형 (3NF) - 2NF 만족 및 이행적 함수 종속 제거"
+title: "105. Third Normal Form 3Nf Transitive"
 tags:
   - "database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

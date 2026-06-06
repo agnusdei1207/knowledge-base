@@ -1,10 +1,9 @@
 ---
-title: "213. 변이형 오토인코더 (VAE)"
+title: "VAE"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

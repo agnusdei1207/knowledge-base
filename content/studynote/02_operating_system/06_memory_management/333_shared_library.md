@@ -1,10 +1,9 @@
 ---
-title: "333. 공유 라이브러리 (Shared Library) 스터브 (Stub) 코드"
+title: "333. Shared Library"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

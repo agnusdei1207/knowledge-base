@@ -1,10 +1,9 @@
 ---
-title: "392. 파일 지원 메모리 (File-backed Memory) - 실행 파일, 공유 라이브러리"
+title: "392. File Backed Memory"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

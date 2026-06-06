@@ -1,10 +1,9 @@
 ---
-title: "307. 다차원 큐브 MOLAP ROLAP HOLAP 성능 튜닝 (Multidimensional OLAP)"
+title: "Multidimensional OLAP"
 date: "2026-04-21"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

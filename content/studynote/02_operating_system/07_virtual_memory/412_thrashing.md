@@ -1,10 +1,9 @@
 ---
-title: "412. 스래싱 (Thrashing) - 프로세스가 실제 실행보다 페이징(스와핑)에 더 많은 시간을 보내는 현상"
+title: "412. Thrashing"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

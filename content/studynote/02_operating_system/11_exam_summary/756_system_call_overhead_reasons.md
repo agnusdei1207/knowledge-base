@@ -1,10 +1,9 @@
 ---
-title: "756. 시스템 콜 오버헤드 이유 (System Call Overhead Reasons)"
+title: "System Call Overhead Reasons"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

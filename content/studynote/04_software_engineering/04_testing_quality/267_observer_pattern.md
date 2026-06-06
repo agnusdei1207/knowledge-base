@@ -1,10 +1,9 @@
 ---
-title: "267. 옵저버 (Observer) - 상태 변화 시 구독자에게 자동 알림"
+title: "267. Observer Pattern"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

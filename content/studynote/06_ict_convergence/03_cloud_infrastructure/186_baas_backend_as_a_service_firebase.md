@@ -1,10 +1,9 @@
 ---
-title: "186. BaaS (Backend as a Service) - 모바일/웹 앱용 백엔드(데이터베이스 (Database, DB), 인증, 푸시) 제공 (Firebase)"
+title: "Firebase"
 date: "2026-05-06"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

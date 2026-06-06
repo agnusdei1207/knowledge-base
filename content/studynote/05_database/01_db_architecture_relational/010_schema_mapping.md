@@ -1,11 +1,10 @@
 ---
-title: "10. 스키마 매핑 (Mapping) - 외부/개념 사상, 개념/내부 사상"
+title: "010. Schema Mapping"
 date: "2024-05-20"
 description: "데이터 독립성을 보장하는 3단계 스키마 간의 사상(Mapping) 메커니즘"
 tags:
   - "database"
 ---
-
 
 # [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 매핑 ([Schema](/studynote/05_database/04_transactions_concurrency/505_schema/) Mapping)
 #### 핵심 인사이트 (3줄 요약)

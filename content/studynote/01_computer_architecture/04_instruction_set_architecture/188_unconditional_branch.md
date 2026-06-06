@@ -1,10 +1,9 @@
 ---
-title: "188. 무조건 분기 (Unconditional Branch)"
+title: "Unconditional Branch"
 date: "2026-03-19"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

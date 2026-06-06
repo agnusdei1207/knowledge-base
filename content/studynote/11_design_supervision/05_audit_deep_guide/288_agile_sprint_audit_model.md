@@ -1,10 +1,9 @@
 ---
-title: "288. 애자일 스프린트 감리모델 (Agile Sprint Audit Model)"
+title: "Agile Sprint Audit Model"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

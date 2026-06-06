@@ -1,10 +1,9 @@
 ---
-title: "323. 상주 감리 예방적 통제 (Resident Audit Preventive Control)"
+title: "Resident Audit Preventive Control"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "665. 이상 탐지 비지도 학습 오토인코더 (Anomaly Detection Unsupervised Autoencoder)"
+title: "Anomaly Detection Unsupervised Autoencoder"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

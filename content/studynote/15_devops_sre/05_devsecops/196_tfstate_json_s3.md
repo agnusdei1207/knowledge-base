@@ -1,10 +1,9 @@
 ---
-title: "196. 테라폼 상태 파일 (tfstate 파일)"
+title: "tfstate"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

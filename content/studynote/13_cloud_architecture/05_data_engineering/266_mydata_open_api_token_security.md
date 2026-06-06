@@ -1,10 +1,9 @@
 ---
-title: "266. 마이데이터 오픈 API - 토큰 보안 인증 (MyData)"
+title: "MyData"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [마이데이터](/studynote/16_bigdata/01_intro/012_mydata/) 오픈 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) - 토큰 보안 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼에서 보안과 통제를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.

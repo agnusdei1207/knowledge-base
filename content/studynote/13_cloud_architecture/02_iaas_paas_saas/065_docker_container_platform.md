@@ -1,10 +1,9 @@
 ---
-title: "65. 도커 (Docker) - 컨테이너 기술을 대중화시킨 오픈소스 플랫폼"
+title: "065. Docker Container Platform"
 date: "2026-04-07"
 tags:
   - "studynote-cloud"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

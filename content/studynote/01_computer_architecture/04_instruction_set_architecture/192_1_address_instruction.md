@@ -1,10 +1,9 @@
 ---
-title: "192. 1-주소 명령어"
+title: "192. 1 Address Instruction"
 date: "2026-03-19"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

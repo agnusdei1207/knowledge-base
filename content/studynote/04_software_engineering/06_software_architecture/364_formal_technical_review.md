@@ -1,10 +1,9 @@
 ---
-title: "364. 정형 기술 검토 (FTR, Formal Technical Review) 의 지침"
+title: "364. Formal Technical Review"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

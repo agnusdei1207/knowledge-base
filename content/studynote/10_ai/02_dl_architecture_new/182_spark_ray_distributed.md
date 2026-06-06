@@ -1,10 +1,9 @@
 ---
-title: "182. 분산 처리 컴퓨팅 AI 훈련 인프라 (Apache Spark, Ray)"
+title: "Apache Spark, Ray"
 date: "2026-05-06"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

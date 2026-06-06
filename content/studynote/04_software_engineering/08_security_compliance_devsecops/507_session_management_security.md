@@ -1,10 +1,9 @@
 ---
-title: "507. 세션 관리 (Session Management) 보완 - 만료 시간, 재사용 방지, 세션 ID 추측 난해성"
+title: "507. Session Management Security"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

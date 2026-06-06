@@ -1,10 +1,9 @@
 ---
-title: "225. 쓰로틀링과 토큰 버킷 패턴 (Throttling / Token Bucket Pattern)"
+title: "Throttling / Token Bucket Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

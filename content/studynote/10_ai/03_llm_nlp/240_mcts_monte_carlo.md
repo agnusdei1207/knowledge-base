@@ -1,10 +1,9 @@
 ---
-title: "240. 몬테카를로 트리 탐색 (MCTS)"
+title: "MCTS"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

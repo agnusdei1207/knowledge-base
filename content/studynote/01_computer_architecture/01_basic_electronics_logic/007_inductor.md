@@ -1,10 +1,9 @@
 ---
-title: "7. 인덕터 (Inductor)"
+title: "Inductor"
 date: "2026-04-17"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 인덕터 (Inductor)는 구리 선을 코일 형태로 감아 만든 소자로, 흐르는 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)의 변화에 저항하며 전기에너지를 자기장(Magnetic Field) 형태로 임시 저장하는 전기적 관성(Inertia) 덩어리다.

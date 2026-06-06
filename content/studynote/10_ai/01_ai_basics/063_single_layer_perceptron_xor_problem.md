@@ -1,10 +1,9 @@
 ---
-title: "63. 단층 퍼셉트론 (Single-Layer Perceptron)과 XOR 문제"
+title: "063. Single Layer Perceptron Xor Problem"
 date: "2026-04-07"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

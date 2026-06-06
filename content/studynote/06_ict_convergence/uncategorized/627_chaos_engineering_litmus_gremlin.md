@@ -1,10 +1,9 @@
 ---
-title: "627. 카오스 엔지니어링 리트머스 그렘린 (Chaos Engineering Litmus Gremlin)"
+title: "Chaos Engineering Litmus Gremlin"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

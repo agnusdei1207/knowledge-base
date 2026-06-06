@@ -1,10 +1,9 @@
 ---
-title: "169. 기술 부채 통제 매트릭스 (Technical Debt Control Matrix)"
+title: "Technical Debt Control Matrix"
 date: "2026-04-21"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

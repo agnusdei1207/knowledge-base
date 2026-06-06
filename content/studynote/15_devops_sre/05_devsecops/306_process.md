@@ -1,10 +1,9 @@
 ---
-title: "306. 컨테이너 도커 이미지 레이어 (Container Docker Image Layer)"
+title: "Container Docker Image Layer"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

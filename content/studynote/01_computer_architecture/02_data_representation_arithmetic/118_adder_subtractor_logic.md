@@ -1,10 +1,9 @@
 ---
-title: "118. 가감산기 논리 (Adder-Subtractor Logic)"
+title: "Adder-Subtractor Logic"
 date: "2026-05-05"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 가감산기 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)는 덧셈기([Full Adder](/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/)) 회로 앞단에 <strong>XOR 게이트 하나를 융합</strong>하여, 외부 제어 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)(Sub)에 따라 덧셈과 뺄셈을 마음대로 스위칭하는 하드웨어 아키텍처다.

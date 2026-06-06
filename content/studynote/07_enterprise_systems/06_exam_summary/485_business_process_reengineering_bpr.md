@@ -1,10 +1,9 @@
 ---
-title: "485. 비즈니스 프로세스 리엔지니어링 BPR (Business Process Reengineering BPR)"
+title: "Business Process Reengineering BPR"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

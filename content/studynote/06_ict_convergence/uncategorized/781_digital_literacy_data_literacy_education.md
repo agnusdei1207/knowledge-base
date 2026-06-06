@@ -1,10 +1,9 @@
 ---
-title: "781. 디지털 리터러시 데이터 리터러시 교육 (Digital Literacy Data Literacy Education)"
+title: "Digital Literacy Data Literacy Education"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

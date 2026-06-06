@@ -1,10 +1,9 @@
 ---
-title: "429. 마이너 페이지 폴트 (Minor Page Fault) vs 메이저 페이지 폴트 (Major Page Fault / 디스크 I/O 동반)"
+title: "Major Page Fault / I/O"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

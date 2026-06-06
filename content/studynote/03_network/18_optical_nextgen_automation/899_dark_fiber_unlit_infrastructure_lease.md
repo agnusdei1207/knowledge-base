@@ -1,10 +1,9 @@
 ---
-title: "899. 다크 파이버 (Dark Fiber)"
+title: "Dark Fiber"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

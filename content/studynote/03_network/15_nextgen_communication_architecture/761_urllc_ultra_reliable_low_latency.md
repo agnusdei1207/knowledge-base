@@ -1,10 +1,9 @@
 ---
-title: "761. uRLLC (Ultra-Reliable and Low Latency Communications 초안정/초고신뢰 초저지연망 차량 제어/스마트 팩토리 통신 프로토콜 설계 1ms)"
+title: "Ultra-Reliable and Low Latency Communications / / 1ms"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "358. 서드파티 API 통신 폴백 지터 백오프 설계 (Third-party API Fallback Jitter and Exponential Backoff Design)"
+title: "Third-party API Fallback Jitter and Exponential Backoff Design"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

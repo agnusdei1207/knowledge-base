@@ -1,10 +1,9 @@
 ---
-title: "140. 고루틴 (Goroutine) - Go 언어의 경량 스레드 (M:N 모델)"
+title: "M:N"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

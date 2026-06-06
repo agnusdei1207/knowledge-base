@@ -1,10 +1,9 @@
 ---
-title: "399. 피처 스토어 머신러닝 변수 캐시 MLOps (Feature Store)"
+title: "Feature Store"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

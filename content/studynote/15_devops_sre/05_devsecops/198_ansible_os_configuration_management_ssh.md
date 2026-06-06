@@ -1,10 +1,9 @@
 ---
-title: "198. 앤서블 (Ansible)"
+title: "Ansible"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "247. 독립 변수 (피처) / 종속 변수 (라벨)"
+title: "247. Feature Label Variables"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

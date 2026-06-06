@@ -1,10 +1,9 @@
 ---
-title: "237. 액티비티 다이어그램 (Activity Diagram) - 처리 로직 및 워크플로우 (동적)"
+title: "237. Activity Diagram Dynamic Workflow Uml"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

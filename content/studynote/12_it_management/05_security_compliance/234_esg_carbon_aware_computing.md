@@ -1,10 +1,9 @@
 ---
-title: "234. 지속 가능한 IT / ESG 경영 탄소 인지 (Carbon-aware) 컴퓨팅 클라우드 스케줄링"
+title: "234. Esg Carbon Aware Computing"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 지속 가능한 IT / ESG 경영 탄소 인지 ([Carbon-aware](/studynote/12_it_management/05_security_compliance/1000_esg_carbon_aware_pue/)) 컴퓨팅 클라우드 스케줄링의 본질은 핵심 기술, 운영 조건, 위험 통제, 생태계 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 함께 봐야 신기술 도입이 유행이 아니라 사업 역량이 된다.

@@ -1,10 +1,9 @@
 ---
-title: "347. 임베딩 (Embedding) 모델"
+title: "347. Embedding Model"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

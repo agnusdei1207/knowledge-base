@@ -1,10 +1,9 @@
 ---
-title: "073. GitHub Actions 기반 CI/CD 워크플로우 (GitHub Actions CI/CD)"
+title: "GitHub Actions CI/CD"
 date: "2026-05-05"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: GitHub Actions는 소스 코드 저장소(GitHub) 안에서 특정 이벤트(Push, [PR](/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/))가 발생했을 때, 코드를 빌드하고 테스트한 뒤 클라우드 서버에 배포하는 모든 <strong><a href="/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>/CD <a href="/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인을 YAML <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 하나로 자동화하는 내장형 쇳덩어리 엔진</strong>이다.

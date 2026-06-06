@@ -1,11 +1,10 @@
 ---
-title: "11. 클린룸 소프트웨어 공학 (Cleanroom Software 엔진ering) - 통계적 품질 제어"
+title: "011. Cleanroom Software Engineering"
 date: "2024-05-01"
 description: "수학적 증명과 통계적 테스팅을 통해 결함을 사전에 예방하는 고신뢰성 소프트웨어 개발 방법론"
 tags:
   - "software_engineering"
 ---
-
 
 # 클린룸 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) (Cleanroom [Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/))
 

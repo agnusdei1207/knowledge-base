@@ -1,10 +1,9 @@
 ---
-title: "1046. 비밀번호 인증 (Password Authentication)"
+title: "Password Authentication"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "496. 클라우드 CI/CD CodePipeline Cloud Build (Cloud CICD CodePipeline Cloud Build)"
+title: "Cloud CICD CodePipeline Cloud Build"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

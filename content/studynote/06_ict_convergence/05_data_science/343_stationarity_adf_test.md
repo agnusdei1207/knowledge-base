@@ -1,10 +1,9 @@
 ---
-title: "343. 정상성 검정 (ADF Test) (Stationarity)"
+title: "Stationarity"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

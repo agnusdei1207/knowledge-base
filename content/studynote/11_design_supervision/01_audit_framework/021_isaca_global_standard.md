@@ -1,10 +1,9 @@
 ---
-title: "21. ISACA (Information Systems Audit and Control Association) - 정보시스템 감사 통제 협회"
+title: "021. Isaca Global Standard"
 date: "2026-04-02"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 # ISACA (Information Systems [Audit](/studynote/12_it_management/05_security_compliance/363_audit/) and Control Association) 글로벌 표준 체계
 

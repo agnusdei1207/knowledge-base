@@ -1,10 +1,9 @@
 ---
-title: "146. ESB (Enterprise Service Bus) - 엔터프라이즈 서비스 버스"
+title: "146. Esb Enterprise Service Bus Architecture"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: ESB는 <strong><a href="/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">Hub</a>-and-Spoke의 Hub를 <a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> <a href="/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>징 <a href="/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a>로 확장</strong>한 통합 미들웨어이며, [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 변환·[라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)·[오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)·[프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 중재·보안을 <strong>표준화된 <a href="/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a> 인프라</strong>에서 수행한다.

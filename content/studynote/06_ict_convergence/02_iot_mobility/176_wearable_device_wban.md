@@ -1,10 +1,9 @@
 ---
-title: "176. 웨어러블 디바이스 (Wearable Device) - 신체 부착형 기기 통신 체계 (WBAN, Wireless Body Area Network)"
+title: "WBAN, Wireless Body Area Network"
 date: "2026-05-06"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

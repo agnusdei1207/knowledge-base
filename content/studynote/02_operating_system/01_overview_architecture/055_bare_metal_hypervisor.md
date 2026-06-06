@@ -1,10 +1,9 @@
 ---
-title: "55. 베어메탈 하이퍼바이저 (Bare Metal Hypervisor)"
+title: "Bare Metal Hypervisor"
 date: "2026-05-01"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

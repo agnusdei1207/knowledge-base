@@ -1,11 +1,10 @@
 ---
-title: "78. DataStream API / Table API & SQL — Flink 두 계층"
+title: "078. Naive Bayes"
 date: "2026-04-05"
 description: "Naive Bayes 분류기의 확률적 원리, 조건부 독립 가정,贝叶斯定理 적용 방법, 텍스트 분류에서의 활용"
 tags:
   - "it_management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

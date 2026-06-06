@@ -1,10 +1,9 @@
 ---
-title: "1087. BBR 구글 TCP 동적 모델 지연 기반 혼잡"
+title: "1087. Bbr Google Tcp Congestion Control Delay Based"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

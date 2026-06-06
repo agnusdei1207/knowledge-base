@@ -1,10 +1,9 @@
 ---
-title: "392. 서비스 메시 Linkerd 경량 프록시 (Service Mesh Linkerd Lightweight Proxy)"
+title: "Service Mesh Linkerd Lightweight Proxy"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "적응형 쿼리 실행 (Adaptive Query Execution, AQE)"
+title: "Adaptive Query Execution, AQE"
 date: "2024-03-23"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 - AQE는 Spark 3.0의 핵심 기능으로, [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 실행 도중에 수집된 실제 통계 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 바탕으로 [실행 계획](/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 동적으로 변경한다.

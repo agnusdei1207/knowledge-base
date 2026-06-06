@@ -1,10 +1,9 @@
 ---
-title: "262. UI/UX 휴리스틱 감리 (UI UX Heuristic Audit)"
+title: "UI UX Heuristic Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

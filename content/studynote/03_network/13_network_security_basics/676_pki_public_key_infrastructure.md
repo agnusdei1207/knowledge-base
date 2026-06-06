@@ -1,10 +1,9 @@
 ---
-title: "676. 공개키 기반 구조 (PKI, Public Key Infrastructure) 아키텍처 보안 증명 시스템"
+title: "676. Pki Public Key Infrastructure"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "11. 정규 표현식 (Regex, Regular Expression) — NFA/DFA, 패턴 매칭"
+title: "104. Regex"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

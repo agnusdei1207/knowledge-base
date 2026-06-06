@@ -1,10 +1,9 @@
 ---
-title: "150. BIKE / HQC / Classic McEliece — 코드 기반 양자 내성 암호(PQC) 최후의 예비 방패"
+title: "150. Code Based Pqc Bike Hqc"
 date: "2026-05-03"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 코드 기반 암호([Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)-Based [Cryptography](/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/))는 우주 통신망에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 깨졌을 때 복구하는 <strong>'<a href="/studynote/08_algorithm_stats/09_info_theory/158_error_correcting_codes/">오류 정정 부호</a>(Error-Correction <a href="/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)'</strong> 이론을 흑마법으로 역이용하여, 평문에 일부러 엉망진창 노이즈(Error)를 섞고 숨겨 해커의 머리를 부숴버리는 키 교환([KEM](/studynote/09_security/03_network_security/134_kem_key_encapsulation/)) 메커니즘이다.

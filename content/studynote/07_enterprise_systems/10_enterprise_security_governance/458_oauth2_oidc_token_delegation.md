@@ -1,10 +1,9 @@
 ---
-title: "458. OAuth 2.0 / OIDC 토큰 위임 인증 인가 분산 (OAuth 2.0 / OpenID Connect)"
+title: "OAuth 2.0 / OpenID Connect"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

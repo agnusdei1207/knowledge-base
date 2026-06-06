@@ -1,10 +1,9 @@
 ---
-title: "2. 시간 복잡도 (Time Complexity) — Big-O / Ω / Θ 표기법"
+title: "002. Time Complexity"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 시간 복잡도는 입력 크기 n에 따른 연산 횟수 증가율을 수학적으로 표현하며, [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 성능의 언어다.

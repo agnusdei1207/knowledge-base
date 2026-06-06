@@ -1,10 +1,9 @@
 ---
-title: "763. 오픈 뱅킹 마이데이터 API 생태계 (Open Banking MyData API Ecosystem)"
+title: "Open Banking MyData API Ecosystem"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

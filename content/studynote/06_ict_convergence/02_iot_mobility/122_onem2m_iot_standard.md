@@ -1,10 +1,9 @@
 ---
-title: "122. oneM2M IoT 표준 - 글로벌 IoT 서비스 플랫폼 표준 아키텍처"
+title: "122. Onem2M Iot Standard"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: oneM2M은 <strong><a href="/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 플랫폼의 글로벌 표준 아키텍처</strong>로, 디바이스 관리·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장·구독/알림·보안 등 <strong>공통 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 기능(<a href="/studynote/12_it_management/01_governance_strategy/017_csf/">CSF</a>)</strong>을 표준화하여 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 애플리케이션 개발의 중복을 제거한다.

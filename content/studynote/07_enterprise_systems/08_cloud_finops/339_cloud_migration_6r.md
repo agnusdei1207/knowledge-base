@@ -1,10 +1,9 @@
 ---
-title: "339. 클라우드 마이그레이션 6R 전략 (Cloud Migration 6R Strategy)"
+title: "Cloud Migration 6R Strategy"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

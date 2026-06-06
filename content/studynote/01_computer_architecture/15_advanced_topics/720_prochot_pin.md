@@ -1,10 +1,9 @@
 ---
-title: "720. PROCHOT# 핀 (프로세서 핫 시그널)"
+title: "720. Prochot Pin"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "297. 레디스 (Redis) 자료구조"
+title: "297. Snowflake Schema"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

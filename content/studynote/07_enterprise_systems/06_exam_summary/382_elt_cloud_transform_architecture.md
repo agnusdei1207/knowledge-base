@@ -1,10 +1,9 @@
 ---
-title: "382. ELT 클라우드 내부 변환 아키텍처 (ELT: Extract-Load-Transform)"
+title: "ELT: Extract-Load-Transform"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

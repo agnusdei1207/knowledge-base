@@ -1,11 +1,10 @@
 ---
-title: "11. 데이터 경제 (Data Economy) — 데이터 자산화, 데이터 거래소"
+title: "011. Data Economy"
 date: "2024-05-23"
 description: "데이터 자산화, 데이터 거래소, 데이터 기반 비즈니스 모델의 진화와 실무적 가치 창출 방안"
 tags:
   - "bigdata"
 ---
-
 
 # [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경제 ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Economy)
 

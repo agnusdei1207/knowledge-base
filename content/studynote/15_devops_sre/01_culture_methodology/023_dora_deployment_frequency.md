@@ -1,10 +1,9 @@
 ---
-title: "23. DORA 배포 빈도 (DORA Deployment Frequency)"
+title: "DORA Deployment Frequency"
 date: "2026-04-29"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) ([DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) Research and Assessment) 배포 빈도([Deployment](/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) Frequency)는 조직이 프로덕션 환경에 코드를 배포하는 빈도를 측정하는 핵심 [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 성과 지표로, 팀의 소프트웨어 전달 역량(Software Delivery Capability)과 [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 성숙도를 직접적으로 반영한다.

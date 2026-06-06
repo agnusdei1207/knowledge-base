@@ -1,10 +1,9 @@
 ---
-title: "307. 서버 인증서 만료 모니터링 감리 (Server Certificate Expiration Monitoring Audit)"
+title: "Server Certificate Expiration Monitoring Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

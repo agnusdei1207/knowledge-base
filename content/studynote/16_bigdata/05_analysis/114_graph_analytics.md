@@ -1,10 +1,9 @@
 ---
-title: "111. 그래프 분석 (Graph Analytics) — PageRank/커뮤니티 탐지/최단 경로"
+title: "114. Graph Analytics"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 분석 ([Graph](/studynote/12_it_management/03_ea_isp/888_graph/) Analytics)은 노드 (Node)와 엣지 (Edge)로 구성된 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 구조 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 PageRank·커뮤니티 탐지·최단 경로·삼각형 수 (Triangle Count) 등의 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 적용하여 구조적 패턴과 영향력을 분석하는 기법이다.

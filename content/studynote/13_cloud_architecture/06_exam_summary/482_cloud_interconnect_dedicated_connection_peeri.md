@@ -1,10 +1,9 @@
 ---
-title: "482. 클라우드 인터커넥트 전용 연결 피어링 (Cloud Interconnect Dedicated Connection Peering)"
+title: "Cloud Interconnect Dedicated Connection Peering"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

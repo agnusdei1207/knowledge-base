@@ -1,10 +1,9 @@
 ---
-title: "810. 데이터 국외 이동 제약 (Data Localization)"
+title: "Data Localization"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "648. 양방향 스마트 계량기 (Smart Meter 통신 규격)"
+title: "Smart Meter"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

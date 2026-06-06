@@ -1,10 +1,9 @@
 ---
-title: "327. 객관적 증거 수집 인터뷰·문서·테스트 (Objective Evidence Collection)"
+title: "Objective Evidence Collection"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

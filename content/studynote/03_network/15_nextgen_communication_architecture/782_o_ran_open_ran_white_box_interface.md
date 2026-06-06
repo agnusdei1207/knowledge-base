@@ -1,10 +1,9 @@
 ---
-title: "782. O-RAN (Open RAN 기지국 장비 인터페이스 화웨이 등 벤더 종속성 탈피 개방형 오픈 API 표준 분할 조합 기술 화이트 박스 스위치 구성 통제망 자립 기지국 연합 관리 기능 체계 연계)"
+title: "Open RAN API"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

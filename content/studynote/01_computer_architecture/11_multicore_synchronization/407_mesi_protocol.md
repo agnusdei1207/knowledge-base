@@ -1,10 +1,9 @@
 ---
-title: "407. MESI 프로토콜 (Modified, Exclusive, Shared, Invalid)"
+title: "Modified, Exclusive, Shared, Invalid"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

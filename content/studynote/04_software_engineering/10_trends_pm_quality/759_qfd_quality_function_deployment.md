@@ -1,10 +1,9 @@
 ---
-title: "759. QFD 품질 기능 전개 요구사항 변환 기법"
+title: "759. Qfd Quality Function Deployment"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

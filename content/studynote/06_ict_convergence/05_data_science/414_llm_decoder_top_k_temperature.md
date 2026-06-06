@@ -1,10 +1,9 @@
 ---
-title: "414. LLM 디코더 탑-K , 템퍼리처 제어 생성 텍스트 소프트맥스 변화율 망 (Top-K)"
+title: "Top-K"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

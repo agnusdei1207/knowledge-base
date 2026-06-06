@@ -1,10 +1,9 @@
 ---
-title: "10. 편집 거리 (Edit Distance / Levenshtein Distance) — DP"
+title: "103. Edit Distance"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "489. BSC 균형 성과표 4대 관점 KPI (BSC Balanced Scorecard 4 Perspectives KPI)"
+title: "BSC Balanced Scorecard 4 Perspectives KPI"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

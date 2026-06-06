@@ -1,10 +1,9 @@
 ---
-title: "395. 서버리스 FaaS 이벤트 드리븐 아키텍처 (Serverless FaaS Event Driven Architecture)"
+title: "Serverless FaaS Event Driven Architecture"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "051. DID와 SSI (Decentralized Identity & Self-Sovereign Identity)"
+title: "Decentralized Identity & Self-Sovereign Identity"
 date: "2026-05-05"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 자기주권 신원(SSI)은 [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/)의 통제권을 거대 플랫폼(구글, 네이버)이나 국가가 아닌 '개인'이 온전히 쥐는 철학이며, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 신원 증명([DID](/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/))은 이를 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 기술을 통해 실현하는 구체적인 아키텍처 표준이다.

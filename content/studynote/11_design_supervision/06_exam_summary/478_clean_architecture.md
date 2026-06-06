@@ -1,10 +1,9 @@
 ---
-title: "478. 클린 아키텍처 의존성 역전 원칙 (Clean Architecture Dependency Inversion)"
+title: "Clean Architecture Dependency Inversion"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

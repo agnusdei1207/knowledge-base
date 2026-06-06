@@ -1,10 +1,9 @@
 ---
-title: "395. GitOps 보안 Git 기반 배포 보안 강화 (GitOps Security Sealed Secrets SOPS)"
+title: "GitOps Security Sealed Secrets SOPS"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

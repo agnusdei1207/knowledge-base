@@ -1,10 +1,9 @@
 ---
-title: "480. 슬라이스 다이스 차원 절단"
+title: "480. Slicing Dicing Olap"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

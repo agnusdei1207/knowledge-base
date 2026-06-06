@@ -1,10 +1,9 @@
 ---
-title: "67. Pull Request (PR) - 머지 리퀘스트 및 코드 리뷰 프로세스"
+title: "067. Pull Request Pr Merge Request Code Review"
 date: "2026-04-10"
 tags:
   - "studynote-devops"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

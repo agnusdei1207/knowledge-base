@@ -1,10 +1,9 @@
 ---
-title: "148. 5G 통신망의 3대 초격차 특성 - eMBB (초고속), uRLLC (초저지연/고신뢰 1ms), mMTC (초연결 IoT)"
+title: "IoT"
 date: "2026-05-03"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 통신망은 단순히 다운로드 속도만 높인 4G의 연장선이 아니라, 전혀 다른 성격의 3대 핵심 특성인 <strong>초고속/대용량(<a href="/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/">eMBB</a>), 초저지연/고신뢰(<a href="/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/">uRLLC</a>), 대규모 사물 초연결(<a href="/studynote/03_network/15_nextgen_communication_architecture/762_mmtc_massive_machine_type_communications/">mMTC</a>)</strong>을 단일 물리망에서 동시에 충족시키는 융합 인프라다.

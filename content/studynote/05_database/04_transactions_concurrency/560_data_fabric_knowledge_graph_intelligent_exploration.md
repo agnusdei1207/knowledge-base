@@ -1,10 +1,9 @@
 ---
-title: "560. 데이터 패브릭 지식 그래프 연동 지능형 데이터 탐색 메타 계층"
+title: "560. Data Fabric Knowledge Graph Intelligent Exploration"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

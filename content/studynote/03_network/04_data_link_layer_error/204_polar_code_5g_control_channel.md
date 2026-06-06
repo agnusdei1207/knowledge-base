@@ -1,10 +1,9 @@
 ---
-title: "204. 폴라 코드 (Polar Code)"
+title: "Polar Code"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

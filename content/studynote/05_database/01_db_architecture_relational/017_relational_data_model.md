@@ -1,11 +1,10 @@
 ---
-title: "17. 관계형 데이터 모델 (Relational Model) - 테이블 구조, E.F. Codd 제안"
+title: "017. Relational Data Model"
 date: "2026-03-04"
 description: "E.F. Codd가 제안한 테이블 구조 기반의 수학적 논리 데이터 모델"
 tags:
   - "database"
 ---
-
 
 # 17. [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터 모델](/studynote/05_database/01_db_architecture_relational/014_data_model_components/) (Relational [Data Model](/studynote/05_database/01_db_architecture_relational/014_data_model_components/))
 

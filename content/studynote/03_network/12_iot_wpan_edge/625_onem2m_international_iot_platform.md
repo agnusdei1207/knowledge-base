@@ -1,10 +1,9 @@
 ---
-title: "625. oneM2M 아키텍처 (국제 표준 통합 M2M 구조화 플랫폼)"
+title: "M2M"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

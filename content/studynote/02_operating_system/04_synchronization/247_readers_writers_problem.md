@@ -1,10 +1,9 @@
 ---
-title: "247. 독자-저자 문제 (Readers-Writers Problem) - 제1유형(독자 우선), 제2유형(저자 우선)"
+title: "247. Readers Writers Problem"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

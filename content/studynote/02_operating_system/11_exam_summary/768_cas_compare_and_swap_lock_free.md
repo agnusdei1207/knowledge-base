@@ -1,10 +1,9 @@
 ---
-title: "768. CAS (Compare And Swap) 명령어 기초"
+title: "768. Cas Compare And Swap Lock Free"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

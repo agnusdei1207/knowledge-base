@@ -1,10 +1,9 @@
 ---
-title: "121. 어텐션 메커니즘 (Attention Mechanism) - Seq2Seq 병목 해소·가중 컨텍스트"
+title: "121. Attention Mechanism"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Attention은 [디코더](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)가 출력을 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 때, [인코더](/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)의 <strong>모든 Hidden State에 <a href="/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>(Attention <a href="/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">Weight</a>)를 부여하여 동적으로 <a href="/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a></strong>하는 메커니즘으로, 고정 [컨텍스트 벡터](/studynote/10_ai/02_dl_architecture_new/120_context_vector/)의 정보 병목을 해소한다.

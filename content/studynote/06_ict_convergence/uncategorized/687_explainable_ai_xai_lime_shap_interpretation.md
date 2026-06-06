@@ -1,10 +1,9 @@
 ---
-title: "687. 설명 가능 AI XAI LIME SHAP 해석 (Explainable AI XAI LIME SHAP Interpretation)"
+title: "Explainable AI XAI LIME SHAP Interpretation"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

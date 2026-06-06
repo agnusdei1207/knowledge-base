@@ -1,9 +1,8 @@
 ---
-title: "17. 삽입 정렬 (Insertion Sort) — O(n^)/O(n) 최선, 안정, 소규모 효율"
+title: "026. Insertion Sort"
 tags:
   - "algorithm_stats"
 ---
-
 
 # 17. [삽입 정렬](/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/) ([Insertion Sort](/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/))
 

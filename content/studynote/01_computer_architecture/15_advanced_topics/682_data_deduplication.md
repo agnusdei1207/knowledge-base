@@ -1,10 +1,9 @@
 ---
-title: "682. 데이터 중복 제거 (Data Deduplication)"
+title: "Data Deduplication"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

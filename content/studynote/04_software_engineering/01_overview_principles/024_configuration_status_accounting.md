@@ -1,10 +1,9 @@
 ---
-title: "24. 형상 상태 기록 (CSA, Configuration Status Accounting)"
+title: "CSA, Configuration Status Accounting"
 date: "2026-04-29"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CSA (Configuration Status Accounting, 형상 상태 기록)은 [SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/), [소프트웨어 형상 관리](/studynote/04_software_engineering/10_trends_pm_quality/648_ccb_configuration_control_board/))의 4대 활동 중 하나로, 형상 항목([CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/), [Configuration Item](/studynote/12_it_management/02_itsm_itil/874_configuration_item/))의 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)·변경·승인 이력을 체계적으로 기록하고 이해관계자에게 보고하는 가시성(Visibility) 확보 활동이다.

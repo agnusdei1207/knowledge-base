@@ -1,10 +1,9 @@
 ---
-title: "874. 데이터 평면 프로그래밍 모델 (P4)"
+title: "P4"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

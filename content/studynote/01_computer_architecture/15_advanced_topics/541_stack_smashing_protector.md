@@ -1,10 +1,9 @@
 ---
-title: "541. 스택 스매싱 프로텍터 (Stack Smashing Protector)"
+title: "Stack Smashing Protector"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

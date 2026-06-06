@@ -1,10 +1,9 @@
 ---
-title: "86. 레플리카셋 (ReplicaSet) - 파드 수 유지와 자가 치유"
+title: "086. Replicaset Kubernetes Controller Self Healing"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

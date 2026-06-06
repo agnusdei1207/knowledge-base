@@ -1,10 +1,9 @@
 ---
-title: "261. 카프카 로그 컴팩션 (Log Compaction)"
+title: "Log Compaction"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [카프카](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 컴팩션는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼에서 복잡한 운영의 질서화를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.

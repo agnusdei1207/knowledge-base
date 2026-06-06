@@ -1,10 +1,9 @@
 ---
-title: "046. IT 서비스 관리 — ITSM 심화"
+title: "046. Itsm It Service Management"
 date: "2026-04-05"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 > **핵심 인사이트**
 > 1. [ITSM](/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/)([IT Service Management](/studynote/12_it_management/02_itsm_itil/845_itsm/))은 IT [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 비즈니스 관점에서 설계·제공·개선하는 통합 접근법 — 기술 운영(Technology Operations)이 아닌 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가치 창출에 초점을 맞추며, ITIL이 사실상 표준 프레임워크를 제공한다.

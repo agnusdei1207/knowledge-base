@@ -1,10 +1,9 @@
 ---
-title: "483. CORS Preflight (교차 출처 리소스 공유 사전 요청)"
+title: "483. Cors Preflight"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

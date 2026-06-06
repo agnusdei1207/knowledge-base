@@ -1,10 +1,9 @@
 ---
-title: "258. 정책 애즈 코드 (Policy as Code / OPA Gatekeeper)"
+title: "Policy as Code / OPA Gatekeeper"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

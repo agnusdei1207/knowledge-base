@@ -1,10 +1,9 @@
 ---
-title: "222. 스키마 온 라이트 (Schema-on-Write)"
+title: "Schema-on-Write"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [스키마 온 라이트](/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/)([Schema-on-Write](/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장하기 **전에** 정형 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)를 강제 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하여 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질을 보장하는 전통적 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.

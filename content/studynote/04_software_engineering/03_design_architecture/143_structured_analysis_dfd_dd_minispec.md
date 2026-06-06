@@ -1,10 +1,9 @@
 ---
-title: "143. 구조적 분석 (Structured Analysis) - DFD·DD·Mini-Spec"
+title: "143. Structured Analysis Dfd Dd Minispec"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 구조적 분석은 <strong><a href="/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/">DFD</a>(<a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 흐름도)·<a href="/studynote/04_software_engineering/10_trends_pm_quality/769_architecture/">DD</a>(<a href="/studynote/05_database/07_exam_summary/393_data_dictionary/">데이터 사전</a>)·<a href="/studynote/04_software_engineering/03_design_architecture/145_1_mini_spec/">Mini-Spec</a>(<a href="/studynote/04_software_engineering/03_design_architecture/145_1_mini_spec/">프로세스 명세서</a>)</strong>로 시스템의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름과 변환을 체계적으로 분석하는 전통적 방법론(DeMarco, 1978)이다.

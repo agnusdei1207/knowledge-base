@@ -1,10 +1,9 @@
 ---
-title: "469. XAI, LIME, SHAP: 국소/전역 기여도 해석 (XAI LIME SHAP Local Global Attribution)"
+title: "XAI LIME SHAP Local Global Attribution"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

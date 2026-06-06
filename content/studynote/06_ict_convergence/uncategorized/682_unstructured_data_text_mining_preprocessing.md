@@ -1,10 +1,9 @@
 ---
-title: "682. 비정형 데이터 텍스트 마이닝 전처리 (Unstructured Data Text Mining Preprocessing)"
+title: "Unstructured Data Text Mining Preprocessing"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

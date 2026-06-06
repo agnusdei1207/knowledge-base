@@ -1,10 +1,9 @@
 ---
-title: "306. 셰어드 낫띵 (Shared Nothing) 아키텍처"
+title: "306. Embedding Model"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

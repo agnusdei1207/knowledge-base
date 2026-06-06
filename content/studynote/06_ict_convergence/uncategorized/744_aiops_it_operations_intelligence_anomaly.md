@@ -1,10 +1,9 @@
 ---
-title: "744. AIOps IT 운영 지능화 이상 탐지 (AIOps IT Operations Intelligence Anomaly)"
+title: "AIOps IT Operations Intelligence Anomaly"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "987. NIST PQC 표준 (Kyber, Dilithium, etc.)"
+title: "Kyber, Dilithium, etc."
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

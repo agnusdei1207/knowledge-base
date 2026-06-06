@@ -1,10 +1,9 @@
 ---
-title: "166. 엡실론-그리디 (Epsilon-Greedy)"
+title: "Epsilon-Greedy"
 date: "2026-04-17"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

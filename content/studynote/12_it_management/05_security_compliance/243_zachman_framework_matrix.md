@@ -1,10 +1,9 @@
 ---
-title: "243. 잭맨 프레임워크 (Zachman) 매트릭스"
+title: "243. Zachman Framework Matrix"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [잭맨 프레임워크](/studynote/12_it_management/03_ea_isp/112_zachman_framework/) (Zachman) 매트릭스의 본질은 현행 구조, 목표 구조, 전환 과제의 추적성이 확보되어야 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서가 실제 투자와 아키텍처 변화로 이어진다.

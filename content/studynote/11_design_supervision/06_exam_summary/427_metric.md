@@ -1,10 +1,9 @@
 ---
-title: "427. 소프트웨어 개발비 산정과 기능점수 (Simple/Detailed Estimation, Function Point)"
+title: "Simple/Detailed Estimation, Function Point"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 개발비 산정은 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)의 빠른 추정과 후반의 정밀 산정을 구분하고, [기능점수](/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/)([FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/))로 규모를 객관화해 비용과 정산 근거를 만드는 활동이다.

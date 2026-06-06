@@ -1,9 +1,8 @@
 ---
-title: "05. 비즈니스 인텔리전스 (BI) 및 데이터 시각화"
+title: "Enterprise Systems"
 tags:
   - "enterprise_systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

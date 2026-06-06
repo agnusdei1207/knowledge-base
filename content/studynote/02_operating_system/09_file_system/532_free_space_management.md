@@ -1,10 +1,9 @@
 ---
-title: "532. 빈 공간 관리 (Free-Space Management) 알고리즘"
+title: "532. Free Space Management"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

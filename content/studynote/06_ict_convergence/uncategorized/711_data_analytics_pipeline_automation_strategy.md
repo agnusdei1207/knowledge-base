@@ -1,10 +1,9 @@
 ---
-title: "711. 데이터 분석 파이프라인 자동화 전략 (Data Analytics Pipeline Automation Strategy)"
+title: "Data Analytics Pipeline Automation Strategy"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

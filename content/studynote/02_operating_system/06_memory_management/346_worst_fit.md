@@ -1,10 +1,9 @@
 ---
-title: "346. 최악 적합 (Worst-Fit) - 가장 큰 공간 할당 (큰 가용 공간 남김)"
+title: "346. Worst Fit"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

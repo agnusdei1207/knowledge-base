@@ -1,10 +1,9 @@
 ---
-title: "423. 송신 버퍼 (Send Buffer) / 수신 버퍼 (Receive Buffer)"
+title: "Receive Buffer"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

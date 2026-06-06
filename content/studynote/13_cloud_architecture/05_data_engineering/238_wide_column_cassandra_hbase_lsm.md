@@ -1,10 +1,9 @@
 ---
-title: "238. 와이드 컬럼 저장소 (Wide-Column Store) - Cassandra / HBase"
+title: "238. Wide Column Cassandra Hbase Lsm"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [와이드 컬럼 저장소](/studynote/14_data_engineering/01_infrastructure/038_wide_column/)(Wide-Column Store)는 행 키(Row [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 기반으로 컬럼 패밀리를 구성하며, <strong>페타바이트 규모의 시계열·이벤트 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 초당 수십만 건 <a href="/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a></strong>에 최적화된 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) DB다.

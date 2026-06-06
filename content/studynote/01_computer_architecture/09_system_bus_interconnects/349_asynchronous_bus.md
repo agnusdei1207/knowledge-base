@@ -1,10 +1,9 @@
 ---
-title: "349. 비동기식 버스 (Asynchronous Bus)"
+title: "Asynchronous Bus"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

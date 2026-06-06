@@ -1,10 +1,9 @@
 ---
-title: "410. 메모리 일관성 모델 (Memory Consistency Model)"
+title: "Memory Consistency Model"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 # 메모리 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 모델 (Memory [Consistency](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) Model)
 

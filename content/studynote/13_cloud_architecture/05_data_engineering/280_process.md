@@ -1,10 +1,9 @@
 ---
-title: "280. 디플로이먼트 롤링 업데이트 배포 (Deployment Rolling Update)"
+title: "Deployment Rolling Update"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [디플로이먼트](/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) [롤링 업데이트](/studynote/04_software_engineering/02_requirements_analysis/117_rolling_update_deployment/) 배포는 클라우드 시스템에서 안전한 배포를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.

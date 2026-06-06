@@ -1,10 +1,9 @@
 ---
-title: "197. K-익명성, L-다양성, T-근접성 프라이버시 보호 모델"
+title: "197. K Anonymity L Diversity T Closeness"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: K-익명성, L-다양성, T-근접성 프라이버시 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 모델의 본질은 자산, 위협, [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 통제, 운영 증적이 한 체계로 연결되어야 보안과 규제 대응이 일회성 캠페인으로 끝나지 않는다.

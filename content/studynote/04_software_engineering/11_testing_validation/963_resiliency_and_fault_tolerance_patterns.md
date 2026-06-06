@@ -1,10 +1,9 @@
 ---
-title: "963. 탄력성 (Resiliency) 및 결함 허용 (Fault Tolerance) 패턴"
+title: "963. Resiliency And Fault Tolerance Patterns"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "1065. HTTP/3 QUIC 혼잡 윈도우 이식"
+title: "1065. Http3 Quic Congestion Control Recovery"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

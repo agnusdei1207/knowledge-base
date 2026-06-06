@@ -1,10 +1,9 @@
 ---
-title: "232. TF-IDF (Term Frequency-Inverse Document Frequency) 코사인 유사도 텍스트 임베딩 혼동 행렬"
+title: "232. Tfidf Cosine Similarity Text Embedding Confusion Matrix"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: TF-IDF(Term Frequency-Inverse [Document](/studynote/14_data_engineering/01_infrastructure/037_document/) Frequency)는 단어의 문서 내 빈도와 전체 문서 집합에서의 희귀성을 곱해 그 단어가 해당 문서를 얼마나 잘 대표하는지를 수치화한다.

@@ -1,10 +1,9 @@
 ---
-title: "409. 양자 내성 암호 PQC 전환 계획 (Post Quantum Cryptography PQC Transition)"
+title: "Post Quantum Cryptography PQC Transition"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

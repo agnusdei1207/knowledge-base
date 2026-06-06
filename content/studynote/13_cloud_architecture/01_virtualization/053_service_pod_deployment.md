@@ -1,10 +1,9 @@
 ---
-title: "53. 서비스와 파드 배포 (Service Pod Deployment)"
+title: "Service Pod Deployment"
 date: "2026-05-01"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

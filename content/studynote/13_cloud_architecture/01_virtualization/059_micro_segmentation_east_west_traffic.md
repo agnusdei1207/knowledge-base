@@ -1,10 +1,9 @@
 ---
-title: "59. 마이크로 세그멘테이션 (Micro-segmentation) - 동서(East-West) 트래픽 차단"
+title: "059. Micro Segmentation East West Traffic"
 date: "2026-04-07"
 tags:
   - "studynote-cloud"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

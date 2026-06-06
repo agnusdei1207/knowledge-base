@@ -1,9 +1,8 @@
 ---
-title: "854. Union-Find (합집합 찾기)"
+title: "854. Union Find"
 tags:
   - "it_management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

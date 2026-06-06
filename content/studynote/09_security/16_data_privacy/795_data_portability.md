@@ -1,10 +1,9 @@
 ---
-title: "795. Data Portability (데이터 이동권 (Data Portability)"
+title: "Data Portability"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

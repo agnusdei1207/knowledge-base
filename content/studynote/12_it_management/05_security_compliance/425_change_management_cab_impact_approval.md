@@ -1,10 +1,9 @@
 ---
-title: "425. 변경 관리 CAB 영향 분석 승인 (Change Management CAB Impact Approval)"
+title: "Change Management CAB Impact Approval"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

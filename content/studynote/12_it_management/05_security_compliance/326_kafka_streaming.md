@@ -1,10 +1,9 @@
 ---
-title: "326. 카프카 분산 메시지 큐 스트리밍 토픽"
+title: "326. Kafka Streaming"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [카프카](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 메시지 큐 스트리밍 토픽의 본질은 현행 구조, 목표 구조, 전환 과제의 추적성이 확보되어야 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서가 실제 투자와 아키텍처 변화로 이어진다.

@@ -1,10 +1,9 @@
 ---
-title: "299. 사설 IP (Private IP) 영역: 10.x, 172.16.x~172.31.x, 192.168.x"
+title: "299. Private Ip Ranges 10 172 192"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

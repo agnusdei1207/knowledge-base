@@ -1,10 +1,9 @@
 ---
-title: "232. 비선점 (No Preemption)"
+title: "No Preemption"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

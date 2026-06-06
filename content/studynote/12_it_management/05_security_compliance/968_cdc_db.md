@@ -1,10 +1,9 @@
 ---
-title: "968. CDC 변경 데이터 캡처 DB 동기화"
+title: "968. Cdc Db"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [CDC](/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) [변경 데이터 캡처](/studynote/12_it_management/05_security_compliance/218_cdc_change_data_capture/) DB 동기화의 본질은 수집, 저장, 품질, 활용, 거버넌스가 분리되지 않아야 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산이 실제 의사결정 가치로 전환된다.

@@ -1,10 +1,9 @@
 ---
-title: "892. 서픽스 트리와 서픽스 배열 (Suffix Tree & Array)"
+title: "Suffix Tree & Array"
 date: "2026-04-10"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 서픽스 트리(Suffix Tree)와 서픽스 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)(Suffix [Array](/studynote/08_algorithm_stats/04_datastructure/055_array/))은 특정 문자열의 모든 '접미사(Suffix)'를 추출하여 트리나 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 형태로 정렬해 둔 '문자열 검색용 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)([Index](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) 사전'이다.

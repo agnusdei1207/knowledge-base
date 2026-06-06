@@ -1,10 +1,9 @@
 ---
-title: "779. 부하 균등화 (Load Balancing) 큐 이주"
+title: "779. Load Balancing Queue Migration"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

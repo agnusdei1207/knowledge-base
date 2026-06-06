@@ -1,10 +1,9 @@
 ---
-title: "59. 블룸 필터 (Bloom Filter) - 디스크 I/O 최적화 확률적 검색"
+title: "059. Bloom Filter False Positive Disk Io"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "1040. 메모리 관리 보안 (Memory Management Security)"
+title: "Memory Management Security"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

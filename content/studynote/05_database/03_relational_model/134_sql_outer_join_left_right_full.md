@@ -1,10 +1,9 @@
 ---
-title: "134. SQL OUTER JOIN (LEFT·RIGHT·FULL) - 비매칭 행도 포함하는 결합"
+title: "134. Sql Outer Join Left Right Full"
 date: "2026-04-19"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: OUTER JOIN은 <strong>매칭되지 않는 행도 NULL로 채워서 포함</strong>하는 JOIN이며, LEFT(왼쪽 전체)·RIGHT(오른쪽 전체)·FULL(양쪽 전체)로 구분된다.

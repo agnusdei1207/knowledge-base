@@ -1,10 +1,9 @@
 ---
-title: "332. 최대 우도 추정법 (MLE, Maximum Likelihood Estimation)"
+title: "MLE, Maximum Likelihood Estimation"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "109. 조인 종속성 (Join Dependency, JD) - 제5정규형(5NF)의 수학적 토대"
+title: "109. Join Dependency Jd"
 date: "2026-04-19"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 조인 [종속성](/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)(JD, [Join](/studynote/05_database/04_transactions_concurrency/521_join/) Dependency)은 [릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) R을 <strong>3개 이상의 투영(Projection)으로 분해한 뒤 <a href="/studynote/05_database/07_exam_summary/413_natural_join/">자연 조인</a>(<a href="/studynote/05_database/07_exam_summary/413_natural_join/">Natural Join</a>)으로 재결합했을 때 원본과 100% 동일하게 복원되는 <a href="/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/">무손실 분해</a> 성질</strong>을 기술하는 [종속성](/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)이다.

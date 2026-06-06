@@ -1,10 +1,9 @@
 ---
-title: "714. 원격 미디어 마운트"
+title: "714. Virtual Media Mount"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

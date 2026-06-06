@@ -1,10 +1,9 @@
 ---
-title: "181. 콜드 사이트 (Cold Site)"
+title: "Cold Site"
 date: "2026-05-06"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

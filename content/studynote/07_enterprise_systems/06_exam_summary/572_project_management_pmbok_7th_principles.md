@@ -1,10 +1,9 @@
 ---
-title: "572. 프로젝트 관리 PMBOK 7판 원칙 (Project Management PMBOK 7th Principles)"
+title: "Project Management PMBOK 7th Principles"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 프로젝트 관리 PMBOK 7판 원칙은(는) 가치 전달과 원칙 기반 사고를 중심으로 프로젝트 성과를 관리하는 PMBOK 7판 접근이다.

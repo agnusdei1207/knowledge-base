@@ -1,10 +1,9 @@
 ---
-title: "511. 정규 분포, 중심 극한 정리, 대수의 법칙 (Normal Distribution CLT Law of Large Numbers)"
+title: "Normal Distribution CLT Law of Large Numbers"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

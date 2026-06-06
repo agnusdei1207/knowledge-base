@@ -1,10 +1,9 @@
 ---
-title: "241. 검사점 회복 기법 (Checkpoint / Checkpointing)"
+title: "Checkpoint / Checkpointing"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

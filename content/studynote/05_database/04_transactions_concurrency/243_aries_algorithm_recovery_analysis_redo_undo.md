@@ -1,10 +1,9 @@
 ---
-title: "243. ARIES 알고리즘 (ARIES Algorithm Recovery Analysis Redo Undo)"
+title: "ARIES Algorithm Recovery Analysis Redo Undo"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

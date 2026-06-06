@@ -1,10 +1,9 @@
 ---
-title: "534. 예측 분석 머신러닝 비즈니스 인사이트 (Predictive Analytics ML Business Insight)"
+title: "Predictive Analytics ML Business Insight"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 예측 분석 ML 비즈니스 인사이트은(는) 과거 데이터와 머신러닝 모델로 수요, 이탈, 장애, 매출 등 미래 가능성을 추정하는 분석이다.

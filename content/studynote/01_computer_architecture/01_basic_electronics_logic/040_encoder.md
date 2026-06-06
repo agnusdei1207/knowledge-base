@@ -1,10 +1,9 @@
 ---
-title: "040. 인코더 (Encoder)"
+title: "Encoder"
 date: "2026-03-19"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 > **핵심 인사이트**
 > 1. 인코더(Encoder)는 2ⁿ개의 입력선 중 정확히 하나가 활성화될 때 n비트 이진 코드를 출력하는 조합 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로로, [디코더](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)([Decoder](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))의 역(逆) 기능을 수행하며 키보드·우선순위 제어·주소 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 등에 핵심적으로 활용된다.

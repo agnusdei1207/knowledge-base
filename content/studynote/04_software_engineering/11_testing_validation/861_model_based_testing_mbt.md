@@ -1,10 +1,9 @@
 ---
-title: "861. 모델 기반 테스팅 (MBT, Model-Based Testing)"
+title: "MBT, Model-Based Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

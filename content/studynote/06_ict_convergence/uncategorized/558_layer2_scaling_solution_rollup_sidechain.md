@@ -1,10 +1,9 @@
 ---
-title: "558. 레이어2 확장 솔루션 롤업 사이드체인 (Layer2 Scaling Solution Rollup Sidechain)"
+title: "Layer2 Scaling Solution Rollup Sidechain"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

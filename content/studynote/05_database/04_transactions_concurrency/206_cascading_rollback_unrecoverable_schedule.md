@@ -1,10 +1,9 @@
 ---
-title: "206. 연쇄 복귀 (Cascading Rollback)"
+title: "Cascading Rollback"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

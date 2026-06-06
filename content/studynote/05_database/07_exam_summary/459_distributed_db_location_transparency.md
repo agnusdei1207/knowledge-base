@@ -1,10 +1,9 @@
 ---
-title: "459. 분산 DB 위치 투명성"
+title: "459. Distributed Db Location Transparency"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "11. 버킷 정렬 (Bucket Sort) — O(n) 평균, 균등 분포"
+title: "018. Bucket Sort"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 버킷 정렬은 입력 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 구간(버킷)으로 분산시킨 후 각 버킷을 개별 정렬하고 합치는 방식으로, 균등 분포 조건에서 O(n) 평균 시간을 달성한다.

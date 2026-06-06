@@ -1,10 +1,9 @@
 ---
-title: "124. 폰 노이만 아키텍처 (Von Neumann Architecture)"
+title: "Von Neumann Architecture"
 date: "2026-05-05"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 폰 노이만 아키텍처는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))뿐만 아니라 그것을 조작하는 <strong><a href="/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>(Program <a href="/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">Instruction</a>)까지 하나의 동일한 메모리(Memory)에 내장(Stored-program)</strong>하여 읽고 실행하는 컴퓨터 설계 철학이다.

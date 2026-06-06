@@ -1,10 +1,9 @@
 ---
-title: "257. 디지털 트랜스포메이션 성공 3요소 (DX Success: Leadership / Culture / Data-Driven)"
+title: "DX Success: Leadership / Culture / Data-Driven"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

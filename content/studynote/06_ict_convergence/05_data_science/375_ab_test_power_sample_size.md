@@ -1,10 +1,9 @@
 ---
-title: "375. A/B 테스트 검정력 계산 및 샘플 사이즈 결정 모형 (AB TEST Power Sample SIZE)"
+title: "AB TEST Power Sample SIZE"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

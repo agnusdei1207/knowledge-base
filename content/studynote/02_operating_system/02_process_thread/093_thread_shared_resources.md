@@ -1,10 +1,9 @@
 ---
-title: "93. 스레드의 자원 공유 - Code, Data, Heap, 열린 파일"
+title: "093. Thread Shared Resources"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) ([Thread](/studynote/02_operating_system/02_process_thread/092_thread_lwp/))의 자원 공유는 단일 프로세스 ([Process](/studynote/12_it_management/05_security_compliance/943_process/)) 내에서 동작하는 여러 실행 흐름이 주소 공간 중 코드 ([Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)), [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)), 힙 ([Heap](/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 영역과 열린 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) (Open Files)을 공동으로 소유하고 직접 접근하는 메커니즘이다.

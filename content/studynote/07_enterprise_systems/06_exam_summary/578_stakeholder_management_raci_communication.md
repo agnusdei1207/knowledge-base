@@ -1,10 +1,9 @@
 ---
-title: "578. 이해관계자 관리 RACI 커뮤니케이션 (Stakeholder Management RACI Communication)"
+title: "Stakeholder Management RACI Communication"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 이해관계자 관리 RACI 커뮤니케이션은(는) 프로젝트 이해관계자의 기대, 영향력, 책임, 의사소통 방식을 관리하는 활동이다.

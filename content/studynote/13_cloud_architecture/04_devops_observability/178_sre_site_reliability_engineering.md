@@ -1,10 +1,9 @@
 ---
-title: "178. SRE (Site Reliability 엔진ering, 사이트 신뢰성 공학)"
+title: "Site Reliability ering,"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "364. 세그멘테이션 (Segmentation) - 사용자 관점의 가변 크기 논리적 단위(함수, 객체) 분할"
+title: "364. Segmentation"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

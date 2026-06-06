@@ -1,10 +1,9 @@
 ---
-title: "71. 젠킨스 (Jenkins) - 오픈소스 CI/CD 자동화 빌드 서버"
+title: "071. Jenkins Ci Cd Pipeline Automation"
 date: "2026-04-10"
 tags:
   - "studynote-devops"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

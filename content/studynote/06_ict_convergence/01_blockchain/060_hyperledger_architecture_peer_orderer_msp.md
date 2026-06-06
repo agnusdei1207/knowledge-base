@@ -1,10 +1,9 @@
 ---
-title: "60. 하이퍼레저 아키텍처 - 피어(Peer), 오더러(Orderer), MSP(Membership Service Provider)"
+title: "Membership Service Provider"
 date: "2026-04-10"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "27. 위험 식별 (Risk Identification) — 정보보호 위험 분석 1단계"
+title: "027. Risk Identification"
 date: "2026-04-29"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 위험 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)([Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) [Identification](/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/))은 정보보호 위험 관리 프로세스의 첫 번째 단계로, 자산(Asset)·위협(Threat)·취약점(Vulnerability)을 체계적으로 목록화하여 잠재적 보안 위험을 발견하는 활동이다. ISO 27001, NIST [SP](/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) 800-30, [ISMS-P](/studynote/12_it_management/05_security_compliance/171_isms_p/) 모두 위험 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)을 위험 관리의 출발점으로 정의한다.

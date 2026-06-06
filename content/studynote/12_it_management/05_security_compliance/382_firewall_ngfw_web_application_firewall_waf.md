@@ -1,10 +1,9 @@
 ---
-title: "382. 방화벽 차세대 NGFW 웹 방화벽 WAF (Firewall NGFW Web Application Firewall WAF)"
+title: "Firewall NGFW Web Application Firewall WAF"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

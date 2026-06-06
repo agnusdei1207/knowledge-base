@@ -1,10 +1,9 @@
 ---
-title: "749. 피처 엔지니어링 자동 특성 생성 (Feature Engineering Auto Feature Generation)"
+title: "Feature Engineering Auto Feature Generation"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

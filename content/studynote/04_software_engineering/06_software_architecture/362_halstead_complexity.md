@@ -1,10 +1,9 @@
 ---
-title: "362. 할스테드 (Halstead) 복잡도 - 연산자(Operator)와 피연산자(Operand) 수 기반 측정"
+title: "362. Halstead Complexity"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

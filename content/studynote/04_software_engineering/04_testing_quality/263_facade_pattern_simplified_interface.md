@@ -1,10 +1,9 @@
 ---
-title: "263. 퍼사드 (Facade) - 서브시스템에 대한 단순한 단일 인터페이스 제공"
+title: "263. Facade Pattern Simplified Interface"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "692. 데이터 엔지니어링 아키텍처 종합 요약 (Data Engineering Architecture Summary)"
+title: "Data Engineering Architecture Summary"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "357. PCIe 레인 (Lanes - x1, x4, x8, x16)"
+title: "Lanes - x1, x4, x8, x16"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

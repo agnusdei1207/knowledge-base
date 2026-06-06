@@ -1,10 +1,9 @@
 ---
-title: "239. 미니맥스 (Minimax)와 알파베타 가지치기"
+title: "239. Minimax Alpha Beta Pruning"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

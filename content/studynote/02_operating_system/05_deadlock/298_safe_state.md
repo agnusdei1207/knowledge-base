@@ -1,10 +1,9 @@
 ---
-title: "298. 안전 상태 (Safe State) - 모든 프로세스가 정상 종료될 수 있는 안전 순서(Safe Sequence)가 존재"
+title: "298. Safe State"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

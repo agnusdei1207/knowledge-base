@@ -1,10 +1,9 @@
 ---
-title: "375. GAN 손실 함수 미니맥스 (Minimax Loss)"
+title: "Minimax Loss"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

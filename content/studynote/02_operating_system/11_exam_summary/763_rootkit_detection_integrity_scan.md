@@ -1,10 +1,9 @@
 ---
-title: "763. 루트킷 탐지 무결성 스캔 (Rootkit Detection Integrity Scan)"
+title: "Rootkit Detection Integrity Scan"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

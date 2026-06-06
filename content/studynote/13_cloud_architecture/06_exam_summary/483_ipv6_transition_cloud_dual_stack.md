@@ -1,10 +1,9 @@
 ---
-title: "483. IPv6 전환 클라우드 듀얼 스택 (IPv6 Transition Cloud Dual Stack)"
+title: "IPv6 Transition Cloud Dual Stack"
 date: 2026-05-09
 tags:
   - "studynote-cloud-architecture"
----
-## 핵심 인사이트 (3줄 요약)
+---## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IPv6 전환 클라우드 듀얼 스택은 클라우드 인프라(VPC/VNet/VPC) 내에서 IPv4와 IPv6를 동시 운용하는 아키텍처로, AWS Egress-only Internet Gateway, Azure NAT Gateway, GCP Cloud NAT의 IPv6 지원, Kubernetes Dual-stack CNI(Cilium, Calico), Istio mTLS Dual-listener 등 클라우드 네이티브 계층 전반에서 양 프로토콜을 Native하게 처리하는 통합 라우팅 및 주소 정책 체계이다.
 > 2. **가치**: IPv4 주소 고갈(ARIN/RIPE NCC의 /8 할당 종료), 5G/IoT 디바이스 폭증으로 인한 엔드포인트 확장성 한계, RFC 8305 Happy Eyeballs 기반의 Dual-stack Latency Advantage(연결 수립 시간 평균 30~45% 단축), 클라우드 egress 비용 절감(IPv6 egress는 AWS 기준 50% 저렴), 그리고 Zero-trust 보안 모델의 양방향 검증 구현을 가능케 한다.

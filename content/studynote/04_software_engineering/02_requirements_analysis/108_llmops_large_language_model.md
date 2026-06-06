@@ -1,10 +1,9 @@
 ---
-title: "108. LLMOps (대규모 언어 모델 운영)"
+title: "108. Llmops Large Language Model"
 date: "2026-04-10"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [LLMOps](/studynote/12_it_management/05_security_compliance/221_llmops_large_language_model_ops/)([Large Language Model](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) Operations)는 수백억 파라미터를 가진 초거대 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 언어 모델을 비즈니스 시스템에 안정적으로 통합하고, [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)형 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 특유의 [환각](/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)([Hallucination](/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/)) 현상과 막대한 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 비용을 통제하기 위해 구축하는 거대 모델 전용 운영 파이프라인이다.

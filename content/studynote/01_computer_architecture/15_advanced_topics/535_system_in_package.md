@@ -1,10 +1,9 @@
 ---
-title: "535. 시스템 온 패키지 (SiP)"
+title: "SiP"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

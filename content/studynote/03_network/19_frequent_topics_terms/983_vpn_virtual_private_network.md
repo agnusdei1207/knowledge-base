@@ -1,10 +1,9 @@
 ---
-title: "983. VPN (가상 사설망)"
+title: "983. Vpn Virtual Private Network"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

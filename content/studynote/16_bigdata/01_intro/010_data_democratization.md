@@ -1,11 +1,10 @@
 ---
-title: "10. 데이터 민주화 (Data Democratization) — 셀프서비스 분석, 시민 데이터 과학자"
+title: "010. Data Democratization"
 date: "2024-05-20"
 description: "현업 주도의 데이터 분석을 가능케 하는 셀프서비스 BI 플랫폼과 데이터 거버넌스의 융합"
 tags:
   - "bigdata"
 ---
-
 
 # [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 민주화 ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Democratization)
 

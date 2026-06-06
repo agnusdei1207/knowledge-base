@@ -1,10 +1,9 @@
 ---
-title: "15. 외부 정렬 (External Sort) — 대용량 데이터, 멀티웨이 합병"
+title: "023. External Sort"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 외부 정렬은 주기억장치(RAM)에 올라오지 않는 대용량 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 디스크 I/O를 최소화하면서 정렬하는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 핵심은 비교 연산이 아닌 I/O 횟수다.

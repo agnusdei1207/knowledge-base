@@ -1,10 +1,9 @@
 ---
-title: "424. 형상 관리 CMDB 구성 항목 관리 (Configuration Management CMDB CI)"
+title: "Configuration Management CMDB CI"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

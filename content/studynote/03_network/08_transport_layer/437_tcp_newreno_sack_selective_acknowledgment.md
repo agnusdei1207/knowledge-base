@@ -1,10 +1,9 @@
 ---
-title: "437. TCP NewReno / SACK (선택적 확인응답 옵션, 블록 다중유실 회복)"
+title: "437. Tcp Newreno Sack Selective Acknowledgment"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

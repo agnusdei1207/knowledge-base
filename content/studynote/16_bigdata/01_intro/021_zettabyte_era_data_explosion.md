@@ -1,10 +1,9 @@
 ---
-title: "21. 제타바이트 시대 — 2025년 전 세계 생성 데이터 ~175 ZB"
+title: "021. Zettabyte Era Data Explosion"
 date: "2026-04-02"
 tags:
   - "studynote-bigdata"
 ---
-
 
 # [제타바이트 시대](/studynote/16_bigdata/01_intro/004_bigdata_necessity/) ([Zettabyte Era](/studynote/16_bigdata/13_intro_trends/253_zettabyte_era/))
 

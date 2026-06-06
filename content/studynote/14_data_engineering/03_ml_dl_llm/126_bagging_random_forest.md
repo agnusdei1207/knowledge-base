@@ -1,10 +1,9 @@
 ---
-title: "126. Bagging & Random Forest - 배깅 앙상블과 랜덤 포레스트"
+title: "126. Bagging Random Forest"
 date: "2026-04-19"
 tags:
   - "studynote-dataengineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [Bagging](/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)(Bootstrap Aggregating)은 <strong>학습 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 부트스트랩(복원 추출)으로 여러 부분 집합을 만들고, 각 부분 집합으로 독립 모델을 학습 -> 다수결/평균으로 결합</strong>하는 [앙상블](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 기법이다.

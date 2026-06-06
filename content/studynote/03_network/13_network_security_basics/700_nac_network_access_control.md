@@ -1,10 +1,9 @@
 ---
-title: "700. NAC (Network Access Control 시스템) 내부 접근 단말기 관리 무결성 진단"
+title: "700. Nac Network Access Control"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

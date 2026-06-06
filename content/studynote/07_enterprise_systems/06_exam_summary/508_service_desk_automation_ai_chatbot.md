@@ -1,10 +1,9 @@
 ---
-title: "508. 서비스 데스크 자동화 AI 챗봇 (Service Desk Automation AI Chatbot)"
+title: "Service Desk Automation AI Chatbot"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "973. 소프트웨어 비용 산정 COCOMO"
+title: "973. Software Cost Estimation Cocomo"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

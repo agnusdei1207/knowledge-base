@@ -1,10 +1,9 @@
 ---
-title: "735. 드론 군집 비행 무인 물류 배송 (Drone Swarm Flight Unmanned Logistics)"
+title: "Drone Swarm Flight Unmanned Logistics"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

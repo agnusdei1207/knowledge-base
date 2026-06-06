@@ -1,10 +1,9 @@
 ---
-title: "042. 디멀티플렉서 (Demultiplexer, DEMUX)"
+title: "Demultiplexer, DEMUX"
 date: "2026-04-05"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 > **핵심 인사이트**
 > 1. 디멀티플렉서(DEMUX)는 하나의 입력 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 선택 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)([Select](/studynote/05_database/04_transactions_concurrency/520_select/))에 따라 여러 출력 중 하나로 분배하는 조합 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로로, [멀티플렉서](/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/)([MUX](/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/))의 역 연산이며 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분배기([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Distributor)라고도 한다.

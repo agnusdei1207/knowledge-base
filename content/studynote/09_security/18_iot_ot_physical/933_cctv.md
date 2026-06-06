@@ -1,10 +1,9 @@
 ---
-title: "933. CCTV (폐쇄 회로텔레비전)"
+title: "933. Cctv"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

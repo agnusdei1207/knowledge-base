@@ -1,10 +1,9 @@
 ---
-title: "377. 다중 인증 MFA 생체 인증 패스키 (Multi-Factor Authentication MFA Biometric)"
+title: "Multi-Factor Authentication MFA Biometric"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

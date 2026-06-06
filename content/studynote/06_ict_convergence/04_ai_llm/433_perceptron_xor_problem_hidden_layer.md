@@ -1,10 +1,9 @@
 ---
-title: "433. 퍼셉트론 XOR 한계 은닉층 (Perceptron XOR Problem Hidden Layer)"
+title: "Perceptron XOR Problem Hidden Layer"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

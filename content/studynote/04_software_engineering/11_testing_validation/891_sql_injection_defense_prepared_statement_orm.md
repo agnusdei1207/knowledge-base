@@ -1,10 +1,9 @@
 ---
-title: "891. SQL 인젝션 방어 - Prepared Statement, ORM"
+title: "891. Sql Injection Defense Prepared Statement Orm"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

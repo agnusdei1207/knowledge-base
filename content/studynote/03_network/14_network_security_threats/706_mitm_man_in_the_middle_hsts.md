@@ -1,10 +1,9 @@
 ---
-title: "706. 중간자 공격 (MitM, Man-in-the-Middle) 도청 흐름과 통제 조치 (TLS 암호 검증 중요성, HSTS 설정 이유)"
+title: "TLS , HSTS"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

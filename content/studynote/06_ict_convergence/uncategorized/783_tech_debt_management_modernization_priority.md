@@ -1,10 +1,9 @@
 ---
-title: "783. 기술 부채 관리 현대화 전략 우선순위 (Tech Debt Management Modernization Priority)"
+title: "Tech Debt Management Modernization Priority"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

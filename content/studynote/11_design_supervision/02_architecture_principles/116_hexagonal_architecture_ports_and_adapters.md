@@ -1,10 +1,9 @@
 ---
-title: "116. 헥사고날 아키텍처 (Hexagonal Architecture / Ports and Adapters)"
+title: "Hexagonal Architecture / Ports and Adapters"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

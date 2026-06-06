@@ -1,10 +1,9 @@
 ---
-title: "528. 유닉스 i-node (Index Node) 매커니즘 - 파일 메타데이터 및 다중 접근 포인터 보유"
+title: "528. Unix Inode Mechanism"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

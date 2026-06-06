@@ -1,10 +1,9 @@
 ---
-title: "660. 커널 덤프 (Kdump) 시스템 크래시 원인 분석 커널 구조"
+title: "660. Kernel Crash Dump Kdump Architecture"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

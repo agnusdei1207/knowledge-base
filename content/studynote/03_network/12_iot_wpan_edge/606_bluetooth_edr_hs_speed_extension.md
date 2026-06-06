@@ -1,10 +1,9 @@
 ---
-title: "606. 블루투스 버전"
+title: "606. Bluetooth Edr Hs Speed Extension"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

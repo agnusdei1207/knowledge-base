@@ -1,10 +1,9 @@
 ---
-title: "136. 브레인스토밍 & JAD - 그룹 기반 요구 도출 기법"
+title: "136. Brainstorming Jad Requirements"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 브레인스토밍은 <strong>비판 없이 자유롭게 아이디어를 발산</strong>하는 기법이고, JAD(Joint Application Development)는 <strong><a href="/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/">이해관계자</a>·개발자가 함께 모여 구조화된 워크숍으로 요구사항을 합의</strong>하는 기법이다.

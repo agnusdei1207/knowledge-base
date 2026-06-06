@@ -1,10 +1,9 @@
 ---
-title: "531. 에뮬레이션 지연"
+title: "531. Emulation Latency"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

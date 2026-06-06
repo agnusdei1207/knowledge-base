@@ -1,10 +1,9 @@
 ---
-title: "280. 드롭아웃 (Dropout)"
+title: "Dropout"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

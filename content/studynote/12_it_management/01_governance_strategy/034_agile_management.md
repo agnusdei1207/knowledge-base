@@ -1,10 +1,9 @@
 ---
-title: "34. 애자일 경영 (Agile Management)"
+title: "Agile Management"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "877. Software and Data Integrity Failures (소프트웨어 및 데이터 무결성 실패)"
+title: "877. Software And Data Integrity Failures"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

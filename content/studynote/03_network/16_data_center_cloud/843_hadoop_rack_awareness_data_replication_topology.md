@@ -1,10 +1,9 @@
 ---
-title: "843. 하둡 (Hadoop) 랙 인식"
+title: "843. Hadoop Rack Awareness Data Replication Topology"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

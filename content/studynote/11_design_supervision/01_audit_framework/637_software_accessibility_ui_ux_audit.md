@@ -1,10 +1,9 @@
 ---
-title: "637. 소프트웨어 접근성 (Software Accessibility) 점검"
+title: "637. Software Accessibility Ui Ux Audit"
 date: "2026-04-10"
 tags:
   - "studynote-design"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

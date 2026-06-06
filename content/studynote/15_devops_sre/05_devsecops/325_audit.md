@@ -1,10 +1,9 @@
 ---
-title: "325. DevSecOps 시프트 레프트 보안 조기 점검 (DevSecOps Shift-Left Security STRIDE Threat Modeling)"
+title: "DevSecOps Shift-Left Security STRIDE Threat Modeling"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

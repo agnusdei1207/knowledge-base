@@ -1,10 +1,9 @@
 ---
-title: "298. 페이지 부재 (Page Fault)"
+title: "Page Fault"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

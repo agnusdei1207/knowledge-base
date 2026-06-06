@@ -1,11 +1,10 @@
 ---
-title: "15. CMMI (Capability Maturity Model Integration) - 단계형/연속형 모델"
+title: "015. Cmmi"
 date: "2024-05-01"
 description: "조직의 개발 및 서비스 프로세스 역량을 5단계로 평가하고 지속적으로 개선하기 위한 통합 성숙도 모델"
 tags:
   - "software_engineering"
 ---
-
 
 # [CMMI](/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) (Capability [Maturity Model](/studynote/12_it_management/01_governance_strategy/011_maturity_model/) Integration)
 

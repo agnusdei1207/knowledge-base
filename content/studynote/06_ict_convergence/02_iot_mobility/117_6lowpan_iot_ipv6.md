@@ -1,10 +1,9 @@
 ---
-title: "117. 6LoWPAN (IPv6 over Low-Power WPAN) - IoT IPv6 압축·적응 계층"
+title: "117. 6Lowpan Iot Ipv6"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 6LoWPAN은 IEEE 802.15.4의 **127바이트 MTU 제약** 위에서 [IPv6](/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/)(최소 1280바이트 MTU)를 동작시키기 위해 <strong>헤더 <a href="/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>·<a href="/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">단편화</a>·<a href="/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a> <a href="/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a></strong>을 수행하는 적응 계층이다.

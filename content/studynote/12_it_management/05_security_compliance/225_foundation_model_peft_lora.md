@@ -1,10 +1,9 @@
 ---
-title: "225. 파운데이션 모델 (Foundation Model) 전이 학습 및 파라미터 효율적 미세 조정 (PEFT / LoRA 기법) 도입 경제성 검토"
+title: "225. Foundation Model Peft Lora"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 파운데이션 모델 (Foundation Model) [전이 학습](/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/) 및 파라미터 효율적 [미세 조정](/studynote/10_ai/02_dl_architecture_new/133_fine_tuning/) ([PEFT](/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/) / [LoRA](/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) 기법) 도입 경제성 검토의 본질은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 모델, 평가, 배포, 책임 통제가 함께 굴러가야 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 실험을 넘어 운영 자산이 된다.

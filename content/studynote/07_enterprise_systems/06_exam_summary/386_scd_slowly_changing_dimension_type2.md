@@ -1,10 +1,9 @@
 ---
-title: "386. SCD 서서히 변하는 차원 이력 관리 타입2 (SCD: Slowly Changing Dimension)"
+title: "SCD: Slowly Changing Dimension"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

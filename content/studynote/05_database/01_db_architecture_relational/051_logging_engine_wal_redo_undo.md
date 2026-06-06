@@ -1,10 +1,9 @@
 ---
-title: "51. 로깅 엔진 (Logging 엔진)"
+title: "Logging"
 date: "2026-04-30"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

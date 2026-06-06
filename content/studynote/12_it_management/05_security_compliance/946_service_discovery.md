@@ -1,10 +1,9 @@
 ---
-title: "946. 서비스 디스커버리 동적 IP 라우팅"
+title: "946. Service Discovery"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [서비스 디스커버리](/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/) 동적 IP 라우팅의 본질은 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 정의, 운영 절차, 품질 측정, 개선 루프가 연결되어야 사용자가 체감하는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준을 안정적으로 유지할 수 있다.

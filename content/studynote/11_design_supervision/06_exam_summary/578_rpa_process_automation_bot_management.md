@@ -1,10 +1,9 @@
 ---
-title: "578. RPA 프로세스 자동화 봇 관리 (RPA Process Automation Bot Management)"
+title: "RPA Process Automation Bot Management"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

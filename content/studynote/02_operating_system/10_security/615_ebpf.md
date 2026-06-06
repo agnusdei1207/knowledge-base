@@ -1,10 +1,9 @@
 ---
-title: "615. eBPF 네트워크/보안/모니터링 이벤트 커널 안전 훅 매커니즘"
+title: "615. Ebpf"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

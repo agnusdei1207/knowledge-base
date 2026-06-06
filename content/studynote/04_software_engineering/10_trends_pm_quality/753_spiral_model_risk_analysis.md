@@ -1,10 +1,9 @@
 ---
-title: "753. 나선형 위험 분석 4단계 루프"
+title: "753. Spiral Model Risk Analysis"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

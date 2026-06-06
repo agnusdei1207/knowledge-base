@@ -1,9 +1,8 @@
 ---
-title: "83. MRP II (Manufacturing Resource Planning) - 자재뿐 아니라 설비, 인력 등 생산 자원 전체 포괄 계획 (1980년대)"
+title: "083. Mrp 2 Manufacturing Resource Planning"
 tags:
   - "enterprise_systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

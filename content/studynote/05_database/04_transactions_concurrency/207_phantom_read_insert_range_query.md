@@ -1,10 +1,9 @@
 ---
-title: "207. 유령 읽기 (Phantom Read)"
+title: "Phantom Read"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

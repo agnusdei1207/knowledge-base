@@ -1,10 +1,9 @@
 ---
-title: "765. 슈퍼앱 플랫폼 전략 미니 프로그램 (Super App Platform Strategy Mini Program)"
+title: "Super App Platform Strategy Mini Program"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

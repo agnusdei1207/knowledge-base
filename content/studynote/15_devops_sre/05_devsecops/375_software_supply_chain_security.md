@@ -1,10 +1,9 @@
 ---
-title: "375. 소프트웨어 공급망 보안 SBOM 의존성 관리 (Software Supply Chain Security SBOM CycloneDX)"
+title: "Software Supply Chain Security SBOM CycloneDX"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "90. 배정밀도 (Double Precision, FP64)"
+title: "Double Precision, FP64"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

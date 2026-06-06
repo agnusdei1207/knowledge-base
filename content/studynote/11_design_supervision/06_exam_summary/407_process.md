@@ -1,10 +1,9 @@
 ---
-title: "407. 백오프 리트라이와 서킷 브레이커 (Backoff Retry and Circuit Breaker)"
+title: "Backoff Retry and Circuit Breaker"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

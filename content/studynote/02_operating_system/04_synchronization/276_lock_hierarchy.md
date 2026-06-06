@@ -1,10 +1,9 @@
 ---
-title: "276. 데드락 회피를 위한 Lock Hierarchy (락 순서화)"
+title: "276. Lock Hierarchy"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "691. 패킷 필터 (Packet Filter 라우터/L3,L4), 애플리케이션 상태 필터 및 프록시"
+title: "691. Packet Filter Application Proxy"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

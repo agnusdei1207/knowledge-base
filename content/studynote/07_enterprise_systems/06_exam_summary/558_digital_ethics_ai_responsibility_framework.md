@@ -1,10 +1,9 @@
 ---
-title: "558. 디지털 윤리 AI 책임 프레임워크 (Digital Ethics AI Responsibility Framework)"
+title: "Digital Ethics AI Responsibility Framework"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 디지털 윤리 AI 책임성 프레임워크은(는) AI와 디지털 기술이 공정성, 투명성, 안전성을 지키도록 원칙과 통제를 정의하는 체계이다.

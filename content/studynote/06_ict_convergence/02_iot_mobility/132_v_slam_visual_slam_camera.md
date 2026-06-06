@@ -1,10 +1,9 @@
 ---
-title: "132. Visual SLAM (V-SLAM) - 카메라 기반 동시 위치 추정과 지도 작성"
+title: "132. V Slam Visual Slam Camera"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: V-[SLAM](/studynote/06_ict_convergence/02_iot_mobility/131_slam_simultaneous_localization_mapping/)(Visual [SLAM](/studynote/06_ict_convergence/02_iot_mobility/131_slam_simultaneous_localization_mapping/))은 <strong>카메라 영상만으로 특징점을 추출·매칭하여 3D 지도를 작성하면서 동시에 카메라 위치를 추정</strong>하는 기술이며, XR 헤드셋(Quest·Vision Pro)의 Inside-Out 트래킹 핵심이다.

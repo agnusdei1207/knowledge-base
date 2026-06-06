@@ -1,10 +1,9 @@
 ---
-title: "388. 플라이웨이트 패턴 (Flyweight Pattern)"
+title: "Flyweight Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

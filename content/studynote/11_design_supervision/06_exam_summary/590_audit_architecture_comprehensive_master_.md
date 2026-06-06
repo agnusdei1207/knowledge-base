@@ -1,10 +1,9 @@
 ---
-title: "590. 감리 설계 아키텍처 종합 마스터 정리 (Audit Architecture Comprehensive Master Summary)"
+title: "Audit Architecture Comprehensive Master Summary"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

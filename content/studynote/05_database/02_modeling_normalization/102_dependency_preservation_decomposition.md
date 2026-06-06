@@ -1,9 +1,8 @@
 ---
-title: "102. 종속성 보존 (Dependency Preservation) - 분해 후에도 FD가 유지됨"
+title: "102. Dependency Preservation Decomposition"
 tags:
   - "database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "65. Shuffle 최적화 — spark.sql.shuffle.partitions, AQE 코어리스"
+title: "065. Central Tendency Dispersion"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

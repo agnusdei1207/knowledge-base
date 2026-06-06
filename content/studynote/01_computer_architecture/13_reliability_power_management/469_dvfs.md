@@ -1,10 +1,9 @@
 ---
-title: "469. DVFS (동적 전압 및 주파수 스케일링)"
+title: "469. Dvfs"
 date: "2026-03-22"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

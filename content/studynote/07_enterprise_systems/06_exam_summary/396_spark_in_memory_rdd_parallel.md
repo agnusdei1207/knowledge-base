@@ -1,10 +1,9 @@
 ---
-title: "396. 스파크 인메모리 RDD 병렬 처리 (Apache Spark: RDD)"
+title: "Apache Spark: RDD"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "563. 분리 트랜잭션 버스 (Split Transaction)"
+title: "Split Transaction"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

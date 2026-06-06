@@ -1,10 +1,9 @@
 ---
-title: "688. SAST / DAST / IAST 보안 테스팅 도구 비교"
+title: "688. Sast Dast Iast Security Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

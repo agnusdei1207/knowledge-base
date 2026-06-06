@@ -1,10 +1,9 @@
 ---
-title: "407. 알파 테스트 (Alpha Test) - 개발자 통제 환경에서의 시뮬레이션"
+title: "407. Alpha Test"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

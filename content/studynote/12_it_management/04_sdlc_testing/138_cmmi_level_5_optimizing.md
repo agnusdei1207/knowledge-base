@@ -1,10 +1,9 @@
 ---
-title: "138. CMMI 레벨 5 (Optimizing, 최적화)"
+title: "Optimizing,"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [CMMI](/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 레벨 5 (Optimizing, 최적화)의 본질은 정량적 피드백을 기반으로 지속적 프로세스 혁신을 단계별 산출물과 품질 게이트로 관리하는 데 있다.

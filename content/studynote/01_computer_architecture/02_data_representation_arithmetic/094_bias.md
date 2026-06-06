@@ -1,10 +1,9 @@
 ---
-title: "94. 편향 지수 (Bias)"
+title: "Bias"
 date: "2026-03-26"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 편향 지수 (Biased Exponent, Excess-K) 제도는 다루기 까다로운 음수 (Negative) 지수 데이터를 2의 보수 (2's Complement) 없이, 강제로 양수 (Positive) 영역으로 끌어올려 (Shift) 모든 지수 공간을 순수 양수 (Unsigned) 체계로 덮어쓰는 하드웨어 인코딩 매핑 기술이다.

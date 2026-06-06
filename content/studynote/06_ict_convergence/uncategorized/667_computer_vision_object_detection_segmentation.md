@@ -1,10 +1,9 @@
 ---
-title: "667. 컴퓨터 비전 객체 탐지 세그멘테이션 (Computer Vision Object Detection Segmentation)"
+title: "Computer Vision Object Detection Segmentation"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

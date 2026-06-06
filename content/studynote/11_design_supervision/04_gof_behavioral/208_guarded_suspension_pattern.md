@@ -1,10 +1,9 @@
 ---
-title: "208. 가드 서스펜션 패턴 (Guarded Suspension Pattern)"
+title: "Guarded Suspension Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

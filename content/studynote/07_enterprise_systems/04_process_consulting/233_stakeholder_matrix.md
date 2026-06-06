@@ -1,10 +1,9 @@
 ---
-title: "233. 이해관계자 (Stakeholder) 식별 매트릭스 (영향력-관심도 행렬 맵)"
+title: "233. Stakeholder Matrix"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

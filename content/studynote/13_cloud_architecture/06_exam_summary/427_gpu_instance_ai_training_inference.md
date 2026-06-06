@@ -1,10 +1,9 @@
 ---
-title: "427. GPU 인스턴스 AI 학습 추론 최적화 (GPU Instance AI Training Inference)"
+title: "GPU Instance AI Training Inference"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

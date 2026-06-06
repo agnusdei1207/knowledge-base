@@ -1,12 +1,11 @@
 ---
-title: "#95 DataEng (데이터엔지니어링)개념"
+title: "095. Concept"
 description: "Study note #95 for DataEng (데이터엔지니어링)"
 tags:
   - "14_data_engineering"
   - "education"
   - "study"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

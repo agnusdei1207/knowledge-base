@@ -1,10 +1,9 @@
 ---
-title: "459. 세션 ID 노출 (Session Id Exposure)"
+title: "Session Id Exposure"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

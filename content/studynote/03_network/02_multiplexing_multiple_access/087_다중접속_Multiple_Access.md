@@ -1,11 +1,10 @@
 ---
-title: "87. 다중 접속 (Multiple Access) 개념 (MAC 계층 연관)"
+title: "MAC"
 date: "2026-03-30"
 description: "중앙 통제가 없는 공유 매체 환경에서 충돌을 극복하고 자원을 분배하는 MAC 계층의 매체 접근 제어 원리"
 tags:
   - "network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

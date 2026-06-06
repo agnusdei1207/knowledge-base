@@ -1,10 +1,9 @@
 ---
-title: "168. Grafana — 메트릭/로그/추적 통합 관측성 시각화"
+title: "168. Grafana"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

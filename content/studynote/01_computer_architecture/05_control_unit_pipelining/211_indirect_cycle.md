@@ -1,10 +1,9 @@
 ---
-title: "211. 간접 사이클 (Indirect Cycle)"
+title: "Indirect Cycle"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

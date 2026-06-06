@@ -1,10 +1,9 @@
 ---
-title: "359. OSPF Area 계층적 구조"
+title: "359. Ospf Hierarchical Area Structure Abr Asbr"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

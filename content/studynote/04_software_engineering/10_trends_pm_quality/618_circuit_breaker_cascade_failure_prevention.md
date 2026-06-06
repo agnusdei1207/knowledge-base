@@ -1,10 +1,9 @@
 ---
-title: "618. 서킷 브레이커 장애 연쇄 차단 메커니즘"
+title: "618. Circuit Breaker Cascade Failure Prevention"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

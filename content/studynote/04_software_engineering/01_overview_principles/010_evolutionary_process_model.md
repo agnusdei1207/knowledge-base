@@ -1,11 +1,10 @@
 ---
-title: "10. 진화적 프로세스 모델 (Evolutionary Process Model)"
+title: "Evolutionary Process Model"
 date: "2026-03-04"
 description: "초기 핵심 기능 배포 후 지속적인 사용자 피드백을 통해 시스템의 외연과 내실을 확장해 나가는 생명주기"
 tags:
   - "software_engineering"
 ---
-
 
 # [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). 진화적 프로세스 모델 (Evolutionary [Process](/studynote/12_it_management/05_security_compliance/943_process/) Model)
 

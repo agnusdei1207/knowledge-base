@@ -1,10 +1,9 @@
 ---
-title: "616. 서비스 메시 Istio Envoy 데이터 플레인 (Service Mesh Istio Envoy Data Plane)"
+title: "Service Mesh Istio Envoy Data Plane"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

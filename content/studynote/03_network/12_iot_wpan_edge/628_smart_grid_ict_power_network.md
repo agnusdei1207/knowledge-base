@@ -1,10 +1,9 @@
 ---
-title: "628. 스마트 그리드 (Smart Grid 파워 네트워크 통신 인프라)"
+title: "Smart Grid"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

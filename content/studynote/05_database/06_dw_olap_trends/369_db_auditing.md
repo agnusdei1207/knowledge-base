@@ -1,10 +1,9 @@
 ---
-title: "369. 데이터베이스 감사 (DB Auditing) 추적 로그"
+title: "369. Db Auditing"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

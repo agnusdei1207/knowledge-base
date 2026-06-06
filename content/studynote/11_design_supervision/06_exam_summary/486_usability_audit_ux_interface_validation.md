@@ -1,10 +1,9 @@
 ---
-title: "486. 사용성 감리 UX 인터페이스 검증 (Usability Audit UX Interface Validation)"
+title: "Usability Audit UX Interface Validation"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "529. i-node 직접 블록 (Direct Blocks) - 보통 12~15개, 작은 파일 고속 접근"
+title: "529. Inode Direct Blocks"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

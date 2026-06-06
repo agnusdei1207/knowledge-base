@@ -1,10 +1,9 @@
 ---
-title: "1003. 처리량 (Throughput) 수식화"
+title: "1003. Throughput Goodput Bandwidth Formula"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

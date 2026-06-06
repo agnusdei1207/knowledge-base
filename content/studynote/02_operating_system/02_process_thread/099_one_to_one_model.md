@@ -1,10 +1,9 @@
 ---
-title: "99. 일대일 (One-to-One) 스레드 모델"
+title: "099. One To One Model"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

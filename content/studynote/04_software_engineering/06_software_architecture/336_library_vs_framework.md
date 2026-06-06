@@ -1,10 +1,9 @@
 ---
-title: "336. 라이브러리 (Library) vs 프레임워크 (Framework) - 제어의 역전 (IoC, Inversion of Control) 차이"
+title: "336. Library Vs Framework"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

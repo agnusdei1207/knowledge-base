@@ -1,10 +1,9 @@
 ---
-title: "081. 고밀도 파장 분할 다중화 (DWDM, Dense Wavelength Division Multiplexing)"
+title: "DWDM, Dense Wavelength Division Multiplexing"
 date: "2026-05-05"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: DWDM(Dense WDM)은 한 가닥의 머리카락 굵기 광섬유 안에 <strong>수십~수백 개의 다른 색깔(파장)의 레이저 빛을 0.8nm(나노미터) 이하의 극도로 촘촘한 간격으로 <a href="/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a></strong>하여 동시에 쏘아 보내는 최고급 [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 광통신 아키텍처다.

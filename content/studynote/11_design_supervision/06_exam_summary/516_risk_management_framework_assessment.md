@@ -1,10 +1,9 @@
 ---
-title: "516. 위험 관리 프레임워크 리스크 평가 (Risk Management Framework Assessment)"
+title: "Risk Management Framework Assessment"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 # 516. 위험 관리 프레임워크 리스크 평가 (RMF Risk Assessment)
 

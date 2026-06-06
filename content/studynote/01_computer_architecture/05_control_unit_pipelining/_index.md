@@ -1,9 +1,8 @@
 ---
-title: "05. 제어 장치 및 파이프라이닝"
+title: "Computer Architecture"
 tags:
   - "computer_architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

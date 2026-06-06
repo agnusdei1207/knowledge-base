@@ -1,10 +1,9 @@
 ---
-title: "655. CPU 캐시 일관성 정책 (MESI 프로토콜) 이 커널 락(Lock)에 미치는 캐시라인 핑퐁(Ping-pong) 문제"
+title: "655. Cpu Cache Coherence Mesi Pingpong"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

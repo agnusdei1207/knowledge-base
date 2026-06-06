@@ -1,10 +1,9 @@
 ---
-title: "271. 스레드 풀 스케줄링 락 경합 (Work Stealing)"
+title: "Work Stealing"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

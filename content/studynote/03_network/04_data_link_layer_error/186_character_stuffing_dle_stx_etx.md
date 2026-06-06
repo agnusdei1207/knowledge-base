@@ -1,10 +1,9 @@
 ---
-title: "186. 플래그(Flag) 방식 - 문자 삽입 (Character/Byte Stuffing) - DLE, STX, ETX"
+title: "186. Character Stuffing Dle Stx Etx"
 date: "2026-05-06"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

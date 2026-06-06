@@ -1,10 +1,9 @@
 ---
-title: "657. 가상화 I/O 패스스루 (Passthrough) VFIO 프레임워크"
+title: "657. Vfio Virtual Function Io Passthrough"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

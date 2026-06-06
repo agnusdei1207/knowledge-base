@@ -1,10 +1,9 @@
 ---
-title: "165. Power BI — Microsoft 생태계 통합 DAX 비즈니스 인텔리전스"
+title: "165. Power Bi"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

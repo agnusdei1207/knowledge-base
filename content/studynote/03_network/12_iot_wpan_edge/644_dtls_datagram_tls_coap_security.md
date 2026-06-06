@@ -1,10 +1,9 @@
 ---
-title: "644. DTLS (Datagram TLS) 프로토콜 CoAP 결합"
+title: "644. Dtls Datagram Tls Coap Security"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

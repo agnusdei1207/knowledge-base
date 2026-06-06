@@ -1,10 +1,9 @@
 ---
-title: "213. 마이크로 오퍼레이션 (Micro-operation)"
+title: "Micro-operation"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "665. 메모리 포렌식 (Memory Forensics)"
+title: "Memory Forensics"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

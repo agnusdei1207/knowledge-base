@@ -1,10 +1,9 @@
 ---
-title: "184. 산술 연산 명령어 (Arithmetic Instructions)"
+title: "Arithmetic Instructions"
 date: "2026-05-06"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

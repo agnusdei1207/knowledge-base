@@ -1,10 +1,9 @@
 ---
-title: "232. 오픈소스 포맷 경쟁 (Apache Iceberg 사실상 표준화 움직임)"
+title: "Apache Iceberg"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

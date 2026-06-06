@@ -1,10 +1,9 @@
 ---
-title: "606. MQTT CoAP IoT 프로토콜 비교 (MQTT CoAP IoT Protocol Comparison)"
+title: "MQTT CoAP IoT Protocol Comparison"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "2. 행렬 분해 (Matrix Decomposition) — LU / QR / SVD"
+title: "161. Matrix Decomposition"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

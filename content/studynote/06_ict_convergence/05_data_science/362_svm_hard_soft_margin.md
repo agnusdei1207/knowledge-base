@@ -1,10 +1,9 @@
 ---
-title: "362. 서포트 벡터 머신 의 하드 마진 (Hard Margin) vs 소프트 마진 (Soft Margin / 슬랙 변수 허용) (SVM)"
+title: "SVM"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

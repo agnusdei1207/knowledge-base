@@ -1,10 +1,9 @@
 ---
-title: "582. 리눅스 보안 모듈 (LSM, Linux Security Modules) - 플러그인 훅 구조"
+title: "582. Linux Security Modules Lsm"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

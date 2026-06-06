@@ -1,10 +1,9 @@
 ---
-title: "180. CDC (Change Data Capture)와 Debezium 기반 Binlog 실시간 동기화"
+title: "180. Cdc Debezium Binlog Realtime Sync"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

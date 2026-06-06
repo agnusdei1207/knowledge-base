@@ -1,10 +1,9 @@
 ---
-title: "122. 순환 시프트 (Circular Shift / Rotate)"
+title: "Circular Shift / Rotate"
 date: "2026-05-05"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 순환 시프트(Rotate)는 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 열을 좌우로 밀어낼 때, <strong><a href="/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a> 밖으로 밀려나 추락하는 <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>를 주워다가 반대편 텅 빈자리에 다시 쑤셔 넣는 닫힌 궤도</strong>의 이동 연산이다.

@@ -1,9 +1,8 @@
 ---
-title: "87. ERP 패키지의 장점 - 베스트 프랙티스(Best Practice) 내재화, 통합 데이터베이스 구축, 유지보수 용이"
+title: "087. Erp Package Advantages Best Practice"
 tags:
   - "enterprise_systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

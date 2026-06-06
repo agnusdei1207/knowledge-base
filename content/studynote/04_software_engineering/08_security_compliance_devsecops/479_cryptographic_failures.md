@@ -1,10 +1,9 @@
 ---
-title: "479. Cryptographic Failures (암호화 실패 / 민감 데이터 노출)"
+title: "479. Cryptographic Failures"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

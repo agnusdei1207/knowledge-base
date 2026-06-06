@@ -1,10 +1,9 @@
 ---
-title: "509. ISO 25010 소프트웨어 품질 모델 (ISO 25010 Software Quality Model)"
+title: "ISO 25010 Software Quality Model"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

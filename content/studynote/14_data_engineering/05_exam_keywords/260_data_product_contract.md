@@ -1,10 +1,9 @@
 ---
-title: "260. 데이터 프로덕트 데이터 서비스 계약 (Data Product Data Contract SLA)"
+title: "Data Product Data Contract SLA"
 date: "2026-05-09"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

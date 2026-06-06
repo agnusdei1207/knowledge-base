@@ -1,10 +1,9 @@
 ---
-title: "760. eMBB (Enhanced Mobile Broadband 초고속 광대역 대용량 증강 기술 적용) AR/VR 기술 지원 파급 체계 지원"
+title: "760. Embb Enhanced Mobile Broadband Vr Ar"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

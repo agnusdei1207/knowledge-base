@@ -1,10 +1,9 @@
 ---
-title: "476. OLAP 비정규화 읽기 다차원"
+title: "476. Olap Denormalization"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

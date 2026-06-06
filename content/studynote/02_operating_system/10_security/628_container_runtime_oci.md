@@ -1,10 +1,9 @@
 ---
-title: "628. 컨테이너 런타임 (runc, containerd) OCI 규격 표준화"
+title: "628. Container Runtime Oci"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

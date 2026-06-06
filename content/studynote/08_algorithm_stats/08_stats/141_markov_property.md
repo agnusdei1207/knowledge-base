@@ -1,10 +1,9 @@
 ---
-title: "12. 마르코프 성질 (Markov Property) — 미래 ⊥ 과거 | 현재"
+title: "141. Markov Property"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트
 

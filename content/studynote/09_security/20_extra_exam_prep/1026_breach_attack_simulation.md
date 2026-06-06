@@ -1,10 +1,9 @@
 ---
-title: "1026. 침해 시뮬레이션 (Breach & Attack Simulation (Breach Attack Simulation)"
+title: "Breach Attack Simulation"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

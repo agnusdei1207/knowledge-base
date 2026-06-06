@@ -1,10 +1,9 @@
 ---
-title: "264. 감리 시정조치 Major/Minor 분리 (Audit Corrective Action Major Minor Classification)"
+title: "Audit Corrective Action Major Minor Classification"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "112. 체크섬 (Checksum)"
+title: "Checksum"
 date: "2026-05-05"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 체크섬(Checksum)은 전송할 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덩어리(Block) 안의 숫자들을 모조리 더한 후 1의 보수(반전)를 취해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 꼬리에 붙여 보내는 <strong>총합 기반의 <a href="/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 값</strong>이다.

@@ -1,10 +1,9 @@
 ---
-title: "229. Text-to-SQL on BigData (LLM으로 자연어 쿼리 자동 생성)"
+title: "LLM"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

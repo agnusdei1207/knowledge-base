@@ -1,11 +1,10 @@
 ---
-title: "18. 데이터 주권 (Data Sovereignty) — 국가별 데이터 현지화 규제"
+title: "018. Data Sovereignty"
 date: "2024-05-24"
 description: "클라우드 환경에서의 국가 간 데이터 관할권 충돌, 데이터 로컬라이제이션(현지화) 규제 및 아키텍처 대응 전략"
 tags:
   - "bigdata"
 ---
-
 
 # 18. [데이터 주권](/studynote/09_security/16_data_privacy/809_data_sovereignty/) ([Data Sovereignty](/studynote/06_ict_convergence/05_data_science/410_ai_intellectual_property_data_sovereignty_data_act/))과 현지화 규제
 

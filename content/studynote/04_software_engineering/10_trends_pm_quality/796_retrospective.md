@@ -1,10 +1,9 @@
 ---
-title: "796. 스크럼 스프린트 회고(Retrospective) 개선 액션 도출"
+title: "796. Retrospective"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

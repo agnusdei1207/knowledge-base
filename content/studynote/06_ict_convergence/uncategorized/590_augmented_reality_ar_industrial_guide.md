@@ -1,10 +1,9 @@
 ---
-title: "590. 증강현실 AR 산업 현장 가이드 (Augmented Reality AR Industrial Guide)"
+title: "Augmented Reality AR Industrial Guide"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

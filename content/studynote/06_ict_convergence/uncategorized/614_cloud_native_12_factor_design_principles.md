@@ -1,10 +1,9 @@
 ---
-title: "614. 클라우드 네이티브 12팩터 설계 원칙 (Cloud Native 12 Factor Design Principles)"
+title: "Cloud Native 12 Factor Design Principles"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

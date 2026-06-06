@@ -1,11 +1,10 @@
 ---
-title: "89. TDMA (Time Division Multiple Access) - 슬롯 할당"
+title: "089. 시분할 다중접속 Tdma"
 date: "2026-03-30"
 description: "디지털 압축을 통해 하나의 주파수를 시간표로 쪼개어 다수의 사용자를 수용하는 TDMA의 원리와 타이밍 동기화"
 tags:
   - "network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

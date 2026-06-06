@@ -1,10 +1,9 @@
 ---
-title: "28. 플랫폼 엔지니어링과 IDP (Platform 엔진ering & Internal Developer Platform)"
+title: "Platform ering & Internal Developer Platform"
 date: "2026-04-29"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [플랫폼 엔지니어링](/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)([Platform 엔진ering](/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/))은 [개발자 경험](/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/)(Developer Experience, [DX](/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/))을 향상시키기 위해 [내부 개발자 플랫폼](/studynote/04_software_engineering/02_requirements_analysis/110_idp_internal_developer_platform_backstage/)([IDP](/studynote/09_security/11_iam_access_control/536_idp_identity_provider/), [Internal Developer Platform](/studynote/13_cloud_architecture/04_devops_observability/200_internal_developer_platform_backstage/))을 구축·운영하는 전문 엔지니어링 분야다. 개발팀이 인프라를 직접 관리하지 않고 셀프 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 사용할 수 있는 "황금 경로(Golden Path)"를 제공한다.

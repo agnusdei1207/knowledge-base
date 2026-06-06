@@ -1,9 +1,8 @@
 ---
-title: "66. NULL 값 - 아직 알려지지 않거나 해당 없는 값 (0이나 공백과 다름)"
+title: "066. Null Value Three Valued Logic"
 tags:
   - "database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

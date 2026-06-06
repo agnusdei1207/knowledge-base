@@ -1,10 +1,9 @@
 ---
-title: "202. 데이터 비식별화 기법 (Data De-identification Techniques) — 마스킹/가명화/집계화"
+title: "208. Data Deidentification Techniques"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

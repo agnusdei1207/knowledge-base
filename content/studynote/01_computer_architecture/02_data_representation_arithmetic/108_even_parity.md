@@ -1,10 +1,9 @@
 ---
-title: "108. 짝수 패리티 (Even Parity)"
+title: "Even Parity"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 짝수 패리티(Even Parity)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)들 사이의 1의 개수를 무조건 '짝수(Even)'로 맞추기 위해, 1의 개수가 홀수 개면 제일 끝에 `1`을 붙이고 합이 짝수 개면 `0`을 붙이는 하드웨어 게이트 레벨 통신 약속이다.

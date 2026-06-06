@@ -1,10 +1,9 @@
 ---
-title: "460. 패킷 손실 복구 메커니즘 개선"
+title: "460. Quic Packet Loss Recovery Unique Packet Number"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

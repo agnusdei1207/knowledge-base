@@ -1,10 +1,9 @@
 ---
-title: "142. 트랜잭션 기능 (Transaction Functions)"
+title: "Transaction Functions"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 기능 ([Transaction](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Functions)의 본질은 EI (외부 입력, Insert/Update), EO (외부 출력, 수식/계산 동반 조회), EQ (외부 조회, 단순 [Select](/studynote/05_database/04_transactions_concurrency/520_select/))를 단계별 산출물과 품질 게이트로 관리하는 데 있다.

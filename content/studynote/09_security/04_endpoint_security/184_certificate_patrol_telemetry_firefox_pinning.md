@@ -1,10 +1,9 @@
 ---
-title: "184. Certificate Patrol / Security Telemetry — Firefox 브라우저 핀닝"
+title: "184. Certificate Patrol Telemetry Firefox Pinning"
 date: "2026-05-06"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

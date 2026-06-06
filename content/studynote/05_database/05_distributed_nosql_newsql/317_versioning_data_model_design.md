@@ -1,10 +1,9 @@
 ---
-title: "317. 버저닝 (Versioning) 데이터 모델 설계"
+title: "317. Versioning Data Model Design"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,9 +1,8 @@
 ---
-title: "101. 에러 예산 (Error Budget) - 안정성 vs 속도 트레이드 오프"
+title: "101. Error Budget Sre"
 tags:
   - "software_engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 에러 예산 (Error Budget)은 [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)(사이트 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 공학) 철학의 핵심으로, 시스템이 일정 기간 동안 합법적으로 실패(다운타임)해도 허용되는 '수학적 여유 시간'을 의미한다.

@@ -1,10 +1,9 @@
 ---
-title: "510. CMMI 프로세스 성숙도 모델 (CMMI Process Maturity Model)"
+title: "CMMI Process Maturity Model"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

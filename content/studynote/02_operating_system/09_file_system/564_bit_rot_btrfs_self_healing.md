@@ -1,10 +1,9 @@
 ---
-title: "564. 데이터 파손 (Data Corruption / Bit Rot) 대응 Btrfs 자가 치유(Self-healing) 기능"
+title: "564. Bit Rot Btrfs Self Healing"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

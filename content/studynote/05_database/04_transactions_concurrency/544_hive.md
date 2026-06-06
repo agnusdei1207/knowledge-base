@@ -1,10 +1,9 @@
 ---
-title: "544. SQL 인젝션 논리 에러/타임베이스 블라인드 주입 체계망"
+title: "544. Hive"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "497. 클라우드 모니터링 CloudWatch Azure Monitor (Cloud Monitoring CloudWatch Azure Monitor)"
+title: "Cloud Monitoring CloudWatch Azure Monitor"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

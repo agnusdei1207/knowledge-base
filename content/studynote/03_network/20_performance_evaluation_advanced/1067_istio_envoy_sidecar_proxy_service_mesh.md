@@ -1,10 +1,9 @@
 ---
-title: "1067. 이스티오(Istio) 사이드카 프록시"
+title: "1067. Istio Envoy Sidecar Proxy Service Mesh"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

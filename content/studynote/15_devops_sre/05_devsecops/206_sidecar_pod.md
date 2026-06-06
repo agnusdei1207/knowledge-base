@@ -1,10 +1,9 @@
 ---
-title: "206. 사이드카 (Sidecar) 패턴"
+title: "206. Sidecar Pod"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

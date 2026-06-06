@@ -1,10 +1,9 @@
 ---
-title: "604. TinyML 초소형 머신러닝 임베디드 (TinyML Ultra Small ML Embedded)"
+title: "TinyML Ultra Small ML Embedded"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

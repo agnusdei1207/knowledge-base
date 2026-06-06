@@ -1,10 +1,9 @@
 ---
-title: "29. 드롭아웃 (Dropout)"
+title: "Dropout"
 date: "2026-04-29"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [드롭아웃](/studynote/10_ai/03_llm_nlp/280_dropout/)([Dropout](/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/))은 학습 시 각 뉴런을 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) p로 무작위로 비활성화하여 신경망 과적합을 방지하는 [정규화 기법](/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/)이다. 매 미니배치마다 다른 서브 네트워크를 학습하여 [앙상블](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)([Ensemble](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)) 효과를 낸다.

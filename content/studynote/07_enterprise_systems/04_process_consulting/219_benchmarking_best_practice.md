@@ -1,10 +1,9 @@
 ---
-title: "219. 벤치마킹 (Benchmarking) - 업계 최고 수준(Best Practice) 타사와의 지표 비교 분석"
+title: "219. Benchmarking Best Practice"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "362. 지금 필요하지 않은 기능 배제 (You Aren't Gonna Need It, YAGNI)"
+title: "You Aren't Gonna Need It, YAGNI"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

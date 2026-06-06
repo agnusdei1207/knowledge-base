@@ -1,10 +1,9 @@
 ---
-title: "602. LPWAN LoRa Sigfox NB-IoT 비교 (LPWAN LoRa Sigfox NB-IoT Comparison)"
+title: "LPWAN LoRa Sigfox NB-IoT Comparison"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

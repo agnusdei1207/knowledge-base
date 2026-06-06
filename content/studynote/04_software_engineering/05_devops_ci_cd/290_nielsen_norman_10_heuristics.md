@@ -1,10 +1,9 @@
 ---
-title: "290. 니코보코 (Nielsen-Norman) 10대 휴리스틱 원칙"
+title: "290. Nielsen Norman 10 Heuristics"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

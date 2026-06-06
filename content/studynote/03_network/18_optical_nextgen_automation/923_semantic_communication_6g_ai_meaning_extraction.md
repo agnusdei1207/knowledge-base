@@ -1,10 +1,9 @@
 ---
-title: "923. 시맨틱 통신 망"
+title: "923. Semantic Communication 6G Ai Meaning Extraction"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "791. ICT 융합 기술 최신 동향 기술사 마스터 (ICT Convergence Latest Trends PE Master)"
+title: "ICT Convergence Latest Trends PE Master"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "205. 데이터 윤리 (Data Ethics) — 알고리즘 편향/공정성/투명성"
+title: "211. Data Ethics"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

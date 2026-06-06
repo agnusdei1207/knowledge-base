@@ -1,10 +1,9 @@
 ---
-title: "358. TLB 적중 (TLB Hit) / TLB 미스 (TLB Miss)"
+title: "TLB Miss"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

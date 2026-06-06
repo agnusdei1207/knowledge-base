@@ -1,10 +1,9 @@
 ---
-title: "129. 로컬 프로시저 호출 (LPC, Local Procedure Call) / ALPC (Windows)"
+title: "Windows"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

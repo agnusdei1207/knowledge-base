@@ -1,10 +1,9 @@
 ---
-title: "458. 크리덴셜 풀링 (Credential Pooling)"
+title: "Credential Pooling"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

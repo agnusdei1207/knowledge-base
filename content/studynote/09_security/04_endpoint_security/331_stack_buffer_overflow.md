@@ -1,10 +1,9 @@
 ---
-title: "331. 스택 버퍼 오버플로우 (Stack Buffer Overflow)"
+title: "Stack Buffer Overflow"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

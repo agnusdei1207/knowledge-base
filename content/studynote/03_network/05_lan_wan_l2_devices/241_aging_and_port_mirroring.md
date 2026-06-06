@@ -1,10 +1,9 @@
 ---
-title: "241. 에이징 (Aging) / 포트 미러링 (Port Mirroring)"
+title: "Port Mirroring"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

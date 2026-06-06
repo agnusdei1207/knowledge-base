@@ -1,10 +1,9 @@
 ---
-title: "25. 카르노 맵 (Karnaugh Map) — 진리표의 시각적 논리 최적화"
+title: "025. Karnaugh Map"
 date: "2026-04-29"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 카르노 맵(Karnaugh Map, K-Map)은 2~6변수 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 함수의 최소화를 [그레이 코드](/studynote/01_computer_architecture/02_data_representation_arithmetic/102_gray_code/)([Gray Code](/studynote/01_computer_architecture/02_data_representation_arithmetic/102_gray_code/)) [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 격자에서 인접한 1들을 시각적으로 묶어 최소 SOP (Sum of Products) 또는 POS (Product of Sums) 표현을 도출하는 불 대수([Boolean Algebra](/studynote/01_computer_architecture/01_basic_electronics_logic/022_boolean_algebra/)) 최적화 도구다.

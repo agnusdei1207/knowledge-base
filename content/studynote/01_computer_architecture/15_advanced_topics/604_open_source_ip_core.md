@@ -1,10 +1,9 @@
 ---
-title: "604. 오픈 소스 IP 코어 (Open Source IP Core)"
+title: "Open Source IP Core"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

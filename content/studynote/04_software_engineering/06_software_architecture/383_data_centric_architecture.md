@@ -1,10 +1,9 @@
 ---
-title: "383. 데이터 중심(Data-Centric) 아키텍처의 품질 보증"
+title: "383. Data Centric Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

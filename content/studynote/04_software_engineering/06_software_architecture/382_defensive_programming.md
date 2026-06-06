@@ -1,10 +1,9 @@
 ---
-title: "382. 방어적 프로그래밍 (Defensive Programming) - 예외 처리, Assertion 적극 활용"
+title: "382. Defensive Programming"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

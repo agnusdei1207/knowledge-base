@@ -1,10 +1,9 @@
 ---
-title: "044. 관계 대수 — 나눗셈 연산"
+title: "044. Relational Algebra Division"
 date: "2026-04-05"
 tags:
   - "studynote-database"
 ---
-
 
 > **핵심 인사이트**
 > 1. [관계 대수](/studynote/05_database/01_db_architecture_relational/038_relational_algebra/)의 나눗셈([Division](/studynote/05_database/07_exam_summary/411_division_operation/), ÷) 연산은 "모든 조건을 만족하는 대상"을 구하는 연산으로 — "모든 과목을 수강한 학생", "모든 상품을 구매한 고객" 등 <strong>전체 집합 포함 여부</strong>를 묻는 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에 사용된다.

@@ -1,10 +1,9 @@
 ---
-title: "240. ReLU 기울기 소실 (Vanishing Gradient) 복원 소프트맥스 역전파 연쇄 법칙"
+title: "240. Relu Vanishing Gradient Softmax Backprop Chain"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [시그모이드](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)([Sigmoid](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)) [활성화 함수](/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)는 [기울기 소실](/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)(Vanishing Gradient) 문제를 유발해 깊은 신경망 학습을 어렵게 하며, [ReLU](/studynote/10_ai/03_llm_nlp/269_relu_activation/)([Rectified Linear Unit](/studynote/10_ai/03_llm_nlp/269_relu_activation/))가 이를 해결하는 핵심 대안이다.

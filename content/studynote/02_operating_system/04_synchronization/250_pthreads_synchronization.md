@@ -1,10 +1,9 @@
 ---
-title: "250. Pthreads 동기화 (Pthreads Synchronization)"
+title: "Pthreads Synchronization"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

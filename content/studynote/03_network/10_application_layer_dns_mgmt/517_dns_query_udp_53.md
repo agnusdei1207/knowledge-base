@@ -1,10 +1,9 @@
 ---
-title: "517. 일반 DNS 질의"
+title: "517. Dns Query Udp 53"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

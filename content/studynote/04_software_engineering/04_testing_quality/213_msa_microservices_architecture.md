@@ -1,10 +1,9 @@
 ---
-title: "213. 마이크로서비스 아키텍처 (MSA, Microservices Architecture)"
+title: "MSA, Microservices Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

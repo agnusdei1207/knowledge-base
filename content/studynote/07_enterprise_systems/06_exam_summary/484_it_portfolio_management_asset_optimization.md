@@ -1,10 +1,9 @@
 ---
-title: "484. IT 포트폴리오 관리 자산 최적화 (IT Portfolio Management Asset Optimization)"
+title: "IT Portfolio Management Asset Optimization"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "436. 테스트 오라클 (Test Oracle)"
+title: "Test Oracle"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

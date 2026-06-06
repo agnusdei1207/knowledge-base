@@ -1,10 +1,9 @@
 ---
-title: "662. 벡터 데이터베이스 Pinecone Weaviate (Vector Database Pinecone Weaviate)"
+title: "Vector Database Pinecone Weaviate"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "62. 컨테이너 vs 가상머신(VM)"
+title: "VM"
 date: "2026-04-07"
 tags:
   - "studynote-cloud"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

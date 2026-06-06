@@ -1,10 +1,9 @@
 ---
-title: "150. Unity Catalog (Databricks) — 레이크하우스 통합 거버넌스"
+title: "150. Unity Catalog"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 1. Unity Catalog는 Databricks의 통합 거버넌스 솔루션으로, <strong>3-수준 <a href="/studynote/02_operating_system/01_overview_architecture/061_namespace/">네임스페이스</a>(<a href="/studynote/05_database/07_exam_summary/394_catalog_metadata/">catalog</a>.<a href="/studynote/05_database/04_transactions_concurrency/505_schema/">schema</a>.table)</strong>를 통해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·ML 모델·[파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 단일 제어 지점에서 관리한다.

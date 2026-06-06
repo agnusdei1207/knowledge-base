@@ -1,10 +1,9 @@
 ---
-title: "375. 쿠버네티스 시크릿 관리 볼트 연동 (Kubernetes Secret Management Vault Integration)"
+title: "Kubernetes Secret Management Vault Integration"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

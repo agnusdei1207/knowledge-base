@@ -1,10 +1,9 @@
 ---
-title: "626. 엣지 컴퓨팅 (Edge Computing, 포그 컴퓨팅 구분)"
+title: "Edge Computing,"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

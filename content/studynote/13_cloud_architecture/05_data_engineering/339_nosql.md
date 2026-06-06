@@ -1,10 +1,9 @@
 ---
-title: "339. NoSQL 키값 도큐먼트 컬럼 패밀리 그래프 분산 (NoSQL)"
+title: "NoSQL"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/) 키값 도큐먼트 컬럼 패밀리 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼에서 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 운영를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.

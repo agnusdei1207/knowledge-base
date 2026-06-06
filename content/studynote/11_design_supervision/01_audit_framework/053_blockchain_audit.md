@@ -1,10 +1,9 @@
 ---
-title: "53. 블록체인 감사 (Blockchain Audit)"
+title: "Blockchain Audit"
 date: "2026-05-01"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

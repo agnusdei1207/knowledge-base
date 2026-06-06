@@ -1,10 +1,9 @@
 ---
-title: "422. 인덱스 B+Tree 리프 노드 순차 연결"
+title: "422. Index Btree Leaf Node"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

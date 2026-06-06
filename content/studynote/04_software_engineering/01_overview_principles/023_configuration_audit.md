@@ -1,10 +1,9 @@
 ---
-title: "23. 형상 감사 (Configuration Audit)"
+title: "Configuration Audit"
 date: "2026-04-29"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 형상 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)(Configuration [Audit](/studynote/12_it_management/05_security_compliance/363_audit/))는 변경이 승인된 절차대로 정확히 구현되었는지, 요구사항 문서와 실제 산출물 간 불일치를 찾아내는 소프트웨어 [무결성](/studynote/09_security/01_intro_principles/003_integrity/) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 과정이다.

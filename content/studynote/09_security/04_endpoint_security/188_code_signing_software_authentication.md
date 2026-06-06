@@ -1,10 +1,9 @@
 ---
-title: "188. Code Signing (코드 서명)"
+title: "188. Code Signing Software Authentication"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

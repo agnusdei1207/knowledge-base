@@ -1,10 +1,9 @@
 ---
-title: "374. 주소 공간 무작위 배치 (ASLR, Address Space Layout Randomization)"
+title: "ASLR, Address Space Layout Randomization"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

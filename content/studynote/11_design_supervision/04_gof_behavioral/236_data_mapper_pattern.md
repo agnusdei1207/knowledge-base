@@ -1,10 +1,9 @@
 ---
-title: "236. 데이터 매퍼 패턴 (Data Mapper Pattern)"
+title: "Data Mapper Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

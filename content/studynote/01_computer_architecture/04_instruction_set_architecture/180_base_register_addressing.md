@@ -1,10 +1,9 @@
 ---
-title: "180. 베이스 레지스터 주소 지정 (Base Register)"
+title: "Base Register"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

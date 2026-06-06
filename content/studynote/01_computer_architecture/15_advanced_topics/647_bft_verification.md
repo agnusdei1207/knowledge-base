@@ -1,10 +1,9 @@
 ---
-title: "647. 비잔틴 장애 허용 (BFT) 분산 시스템 검증"
+title: "647. Bft Verification"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

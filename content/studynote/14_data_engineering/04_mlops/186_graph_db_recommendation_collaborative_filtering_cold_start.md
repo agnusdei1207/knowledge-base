@@ -1,10 +1,9 @@
 ---
-title: "186. 그래프 DB 추천 알고리즘 협업 필터링 (Collaborative Filtering) 콜드 스타트"
+title: "186. Graph Db Recommendation Collaborative Filtering Cold Start"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

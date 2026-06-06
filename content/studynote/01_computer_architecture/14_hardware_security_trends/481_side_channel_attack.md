@@ -1,10 +1,9 @@
 ---
-title: "481. 사이드 채널 공격 (Side-channel Attack)"
+title: "Side-channel Attack"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

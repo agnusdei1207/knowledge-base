@@ -1,10 +1,9 @@
 ---
-title: "449. 브로드캐스트 / 멀티캐스트 전송은 UDP만 가능"
+title: "449. Broadcast Multicast Udp Only"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "405. 시스템 테스트 (System Test) - 전체 시스템의 기능 및 비기능 검증"
+title: "405. System Test"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "642. GPT 대규모 언어 모델 사전 학습 (GPT Large Language Model Pre-training)"
+title: "GPT Large Language Model Pre-training"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "191. 람다/카파 아키텍처 재현 (Event Sourcing Replay - Lambda/Kappa Architecture)"
+title: "Event Sourcing Replay - Lambda/Kappa Architecture"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [이벤트 소싱](/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)([Event Sourcing](/studynote/12_it_management/05_security_compliance/307_event_sourcing/))은 시스템 상태를 이벤트 스트림으로 저장해 언제든 과거 시점으로 재현(Replay)하는 패턴이다.

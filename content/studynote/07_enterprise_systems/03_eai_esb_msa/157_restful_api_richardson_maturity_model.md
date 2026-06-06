@@ -1,10 +1,9 @@
 ---
-title: "157. RESTful API 성숙도 모델 (Richardson Maturity Model)"
+title: "Richardson Maturity Model"
 date: "2026-05-05"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트
 

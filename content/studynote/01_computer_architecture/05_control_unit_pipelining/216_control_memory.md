@@ -1,10 +1,9 @@
 ---
-title: "216. 제어 메모리 (Control Memory)"
+title: "Control Memory"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "121. PRM (Performance Reference Model, 성과 참조 모델)"
+title: "Performance Reference Model,"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [PRM](/studynote/12_it_management/03_ea_isp/905_prm_performance_reference_model_it_roi/) ([Performance](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [Reference Model](/studynote/12_it_management/03_ea_isp/116_reference_model/), 성과 [참조 모델](/studynote/12_it_management/03_ea_isp/116_reference_model/))의 본질은 IT 투자 성과 평가 지표 모델을 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.

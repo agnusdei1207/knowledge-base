@@ -1,10 +1,9 @@
 ---
-title: "159. 클러스터드 인덱스 (Clustered Index) - 물리적 데이터 정렬 기준, 테이블당 1개 (보통 PK)"
+title: "PK"
 date: "2026-05-05"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트
 

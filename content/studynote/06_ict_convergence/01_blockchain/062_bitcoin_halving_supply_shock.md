@@ -1,9 +1,8 @@
 ---
-title: "62. 비트코인 반감기 (Halving) - 약 4년마다 채굴 보상이 절반으로 줄어드는 메커니즘"
+title: "062. Bitcoin Halving Supply Shock"
 tags:
   - "ict_convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

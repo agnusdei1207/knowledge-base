@@ -1,10 +1,9 @@
 ---
-title: "320. 엣지 컴퓨팅 (Edge Computing) 분산 아키텍처 설계"
+title: "320. Edge Computing Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

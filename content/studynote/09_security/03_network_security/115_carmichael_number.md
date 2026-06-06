@@ -1,10 +1,9 @@
 ---
-title: "115. 카마이클 수 (Carmichael Number)"
+title: "Carmichael Number"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "462. TDD BDD 행동 주도 개발 객체 지향 구현 (TDD, BDD, Behavior-Driven Development)"
+title: "TDD, BDD, Behavior-Driven Development"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

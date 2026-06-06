@@ -1,10 +1,9 @@
 ---
-title: "699. 포렌식 이미지 (Forensic Image)"
+title: "Forensic Image"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

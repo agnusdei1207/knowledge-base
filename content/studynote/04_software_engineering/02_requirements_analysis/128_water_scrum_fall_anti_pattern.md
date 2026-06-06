@@ -1,10 +1,9 @@
 ---
-title: "128. Water-Scrum-Fall (안티패턴) - 하이브리드 Agile의 함정"
+title: "128. Water Scrum Fall Anti Pattern"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Water-[Scrum](/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/)-Fall은 <strong>요구사항은 Waterfall식(상의하달), 개발만 <a href="/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/">Scrum</a>, 배포는 다시 Waterfall식(긴 릴리스 주기)</strong>으로 운영되는 안티패턴이며, Agile의 외형만 차용하고 핵심 원칙은 실행하지 않는다.

@@ -1,10 +1,9 @@
 ---
-title: "442. CNN 스트라이드 패딩 필터 (CNN Stride Padding Filter)"
+title: "CNN Stride Padding Filter"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

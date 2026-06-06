@@ -1,10 +1,9 @@
 ---
-title: "370. 파편화 관리 및 조각 모음 - 리눅스 메모리 컴팩션 (Memory Compaction)"
+title: "Memory Compaction"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

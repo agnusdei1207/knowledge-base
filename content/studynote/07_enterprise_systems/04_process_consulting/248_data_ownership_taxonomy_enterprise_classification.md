@@ -1,10 +1,9 @@
 ---
-title: "248. 데이터 오너십 및 전사 분류 체계 (Data Ownership / Enterprise Data Taxonomy)"
+title: "Data Ownership / Enterprise Data Taxonomy"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

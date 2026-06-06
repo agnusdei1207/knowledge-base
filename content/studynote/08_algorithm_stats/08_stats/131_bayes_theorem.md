@@ -1,10 +1,9 @@
 ---
-title: "2. 베이즈 정리 (Bayes' Theorem) — 사전/사후 확률 업데이트"
+title: "131. Bayes Theorem"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트
 

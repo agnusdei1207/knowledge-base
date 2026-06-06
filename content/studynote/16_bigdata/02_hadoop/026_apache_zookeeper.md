@@ -1,10 +1,9 @@
 ---
-title: "04. Apache ZooKeeper - 분산 코디네이션의 간호사"
+title: "026. Apache Zookeeper"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"
 ---
-
 
 # [Apache ZooKeeper](/studynote/14_data_engineering/01_infrastructure/029_apache_zookeeper/) - [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 코디네이션의 간호사
 

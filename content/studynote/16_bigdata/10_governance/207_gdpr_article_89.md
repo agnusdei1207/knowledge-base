@@ -1,10 +1,9 @@
 ---
-title: "201. GDPR Article 89 — 과학적 연구 목적 빅데이터 처리 특례"
+title: "207. Gdpr Article 89"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

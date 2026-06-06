@@ -1,10 +1,9 @@
 ---
-title: "62. 퍼셉트론 (Perceptron) - 단층 신경망"
+title: "062. Perceptron Rosenblatt Single Layer"
 date: "2026-04-07"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

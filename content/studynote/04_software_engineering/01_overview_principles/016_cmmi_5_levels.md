@@ -1,11 +1,10 @@
 ---
-title: "16. CMMI 5단계 - 초기, 관리, 정의, 정량적 관리, 최적화"
+title: "016. Cmmi 5 Levels"
 date: "2026-03-04"
 description: "소프트웨어 프로세스 성숙도를 평가하고 개선하는 CMMI 5단계 프레임워크의 심층 분석과 실무 적용 전략"
 tags:
   - "software_engineering"
 ---
-
 
 # 16. [CMMI](/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 5단계 - [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/), 관리, 정의, 정량적 관리, 최적화
 

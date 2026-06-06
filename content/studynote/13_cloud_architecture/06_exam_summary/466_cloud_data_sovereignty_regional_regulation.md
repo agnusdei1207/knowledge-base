@@ -1,10 +1,9 @@
 ---
-title: "466. 클라우드 데이터 주권 지역 규제 대응 (Cloud Data Sovereignty Regional Regulation)"
+title: "Cloud Data Sovereignty Regional Regulation"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

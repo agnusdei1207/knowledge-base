@@ -1,10 +1,9 @@
 ---
-title: "788. 뇌 과학 AI 인지 컴퓨팅 신경 모방 (Brain Science AI Cognitive Computing Neuro)"
+title: "Brain Science AI Cognitive Computing Neuro"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "712. 증거 기반 의사결정 분석 프레임워크 (Evidence Based Decision Analytics Framework)"
+title: "Evidence Based Decision Analytics Framework"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 # 712. 증거 기반 의사결정 분석 프레임워크 (Evidence-Based Decision Analytics Framework)
 

@@ -1,10 +1,9 @@
 ---
-title: "259. 데이터 패브릭 통합 메타데이터 자동화 (Data Fabric Unified Metadata Automation)"
+title: "Data Fabric Unified Metadata Automation"
 date: "2026-05-09"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 데이터 패브릭(Data Fabric)은 이기종 데이터 소스를 활성 메타데이터(Active Metadata)와 지식 그래프로 자동 연결하여, 사용자에게 단일 통합 뷰를 제공하는 기술 중심 아키텍처이다.

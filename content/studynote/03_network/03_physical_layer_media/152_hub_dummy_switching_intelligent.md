@@ -1,10 +1,9 @@
 ---
-title: "152. 허브 (Hub) - 더미 허브, 스위칭 허브, 인텔리전트 허브의 진화 뼈대"
+title: "152. Hub Dummy Switching Intelligent"
 date: "2026-05-03"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 허브(Hub) 3형제는 사무실 [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 여러 대를 하나로 묶어 거대한 로컬 네트워크(LAN)를 창조하는 문어발 젠더 장비지만, <strong>이 쇳덩이 대가리(뇌)에 주소(<a href="/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a>)를 판독하는 해독 칩이 박혀 있느냐 없느냐에 따라 1계층 쓰레기와 2계층 절대 신으로 운명이 갈라진다.</strong>

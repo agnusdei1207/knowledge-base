@@ -1,10 +1,9 @@
 ---
-title: "570. 플랫폼 엔지니어링 내부 개발자 포탈 (Platform Engineering Internal Developer Portal)"
+title: "Platform Engineering Internal Developer Portal"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "233. 뷰헬퍼 커스텀 태그 패턴 (View Helper Custom Tag Pattern)"
+title: "View Helper Custom Tag Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

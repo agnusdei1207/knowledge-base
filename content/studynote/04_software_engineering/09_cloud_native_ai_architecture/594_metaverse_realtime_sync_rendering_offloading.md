@@ -1,10 +1,9 @@
 ---
-title: "594. 메타버스 (Metaverse) 실시간 동기화 아키텍처 및 렌더링 오프로딩"
+title: "594. Metaverse Realtime Sync Rendering Offloading"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

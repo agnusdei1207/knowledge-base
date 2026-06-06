@@ -1,10 +1,9 @@
 ---
-title: "82. 선형 판별 분석 (LDA: Linear Discriminant Analysis)"
+title: "LDA: Linear Discriminant Analysis"
 date: "2026-04-13"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 선형 판별 분석(LDA)은 PCA와 같은 [차원 축소](/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/) 기법이지만, 정답 라벨(Y)을 활용하여 "클래스(집단)를 가장 잘 구별할 수 있는 축"을 찾아내는 <strong><a href="/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/">지도 학습</a>(<a href="/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/">Supervised Learning</a>)</strong> 기반의 [차원 축소](/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/) 및 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)([Classification](/studynote/12_it_management/03_ea_isp/107_classification/)) 알고리즘이다.

@@ -1,9 +1,8 @@
 ---
-title: "01. 정보시스템 감리 프레임워크 및 법제도"
+title: "Design & Supervision"
 tags:
   - "design_supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

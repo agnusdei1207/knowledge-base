@@ -1,10 +1,9 @@
 ---
-title: "471. 소프트웨어 개발 보안 (Secure SDLC) - 기획, 설계, 구현, 테스트 전 단계 보안 활동"
+title: "471. Secure Sdlc"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

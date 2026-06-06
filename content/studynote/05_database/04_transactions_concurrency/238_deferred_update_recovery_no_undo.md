@@ -1,10 +1,9 @@
 ---
-title: "238. 지연 갱신 (Deferred Update)"
+title: "Deferred Update"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "455. 클라우드 거버넌스 정책 프레임워크 (Cloud Governance Policy Framework)"
+title: "Cloud Governance Policy Framework"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

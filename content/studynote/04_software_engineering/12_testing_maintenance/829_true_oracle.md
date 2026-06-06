@@ -1,10 +1,9 @@
 ---
-title: "829. 참 오라클 (True Oracle) - 모든 입력에 대해 기대 결과 제공"
+title: "829. True Oracle"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "314. 인터럽트 구동 I/O (Interrupt-driven I/O)"
+title: "Interrupt-driven I/O"
 date: "2026-03-26"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "828. MVP (Minimum Viable Product, 최소 존립 제품)"
+title: "Minimum Viable Product,"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "496. IoT 시스템 감리 연결성 보안 평가 (IoT System Audit Connectivity Security)"
+title: "IoT System Audit Connectivity Security"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

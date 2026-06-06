@@ -1,10 +1,9 @@
 ---
-title: "756. 배스터브 곡선 (Bathtub Curve) 고장률"
+title: "756. Bathtub Curve"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

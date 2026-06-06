@@ -1,10 +1,9 @@
 ---
-title: "322. 데이터 드리프트 (Data Drift) / 컨셉 드리프트 (Concept Drift)"
+title: "Concept Drift"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

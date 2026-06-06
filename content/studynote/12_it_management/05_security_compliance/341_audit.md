@@ -1,10 +1,9 @@
 ---
-title: "341. 컨테이너 쿠버네티스 오케스트레이션 오토스케일링 진단"
+title: "341. Audit"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 오토스케일링 진단의 본질은 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/), 역할, 통제, 증빙이 같은 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/) 위에서 움직여야 경영 리스크와 실행 속도를 동시에 관리할 수 있다.

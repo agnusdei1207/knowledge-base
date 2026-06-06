@@ -1,11 +1,10 @@
 ---
-title: "2. 기밀성 (Confidentiality) — 암호화, 접근 제어, DRM, 분류"
+title: "002. Confidentiality"
 date: "2023-10-24"
 description: "인가되지 않은 정보 접근 및 유출을 차단하기 위한 기밀성의 핵심 원리, 암호화, 접근 제어 및 실무 적용 방안"
 tags:
   - "security"
 ---
-
 
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 기밀성은 '알 권리([Need-to-Know](/studynote/09_security/01_intro_principles/013_need_to_know/))'가 없는 주체로부터 정보 자산을 숨기고 유출을 차단하는 정보보안의 1차 방어선이다.

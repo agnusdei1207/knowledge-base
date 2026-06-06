@@ -1,10 +1,9 @@
 ---
-title: "387. 블록체인 기반의 영지식 증명(ZKP) 데이터 질의 프레임워크 연구 모델"
+title: "387. Zkp Blockchain Data Query"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

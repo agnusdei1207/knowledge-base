@@ -1,10 +1,9 @@
 ---
-title: "378. 소프트웨어 문서화 (Documentation) 표준 및 지식 관리 (Wiki, Confluence)"
+title: "Wiki, Confluence"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

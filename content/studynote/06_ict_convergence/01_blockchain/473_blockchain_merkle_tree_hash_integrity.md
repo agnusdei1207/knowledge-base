@@ -1,10 +1,9 @@
 ---
-title: "473. 블록체인 머클 트리와 해시 무결성 (Blockchain Merkle Tree and Hash Integrity)"
+title: "Blockchain Merkle Tree and Hash Integrity"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

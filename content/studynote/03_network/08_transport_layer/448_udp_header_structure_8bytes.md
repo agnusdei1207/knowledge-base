@@ -1,10 +1,9 @@
 ---
-title: "448. UDP 헤더 구조"
+title: "448. Udp Header Structure 8Bytes"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

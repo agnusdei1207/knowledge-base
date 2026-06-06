@@ -1,10 +1,9 @@
 ---
-title: "245. ModSecurity (오픈소스 WAF)"
+title: "WAF"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

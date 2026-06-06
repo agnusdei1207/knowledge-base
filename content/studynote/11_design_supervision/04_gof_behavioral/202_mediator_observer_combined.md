@@ -1,10 +1,9 @@
 ---
-title: "202. 미디에이터·옵저버 통합 설계 (Mediator and Observer Combined)"
+title: "Mediator and Observer Combined"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

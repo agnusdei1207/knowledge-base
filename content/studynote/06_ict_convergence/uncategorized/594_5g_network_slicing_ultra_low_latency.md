@@ -1,10 +1,9 @@
 ---
-title: "594. 5G 네트워크 슬라이싱 초저지연 (5G Network Slicing Ultra Low Latency)"
+title: "5G Network Slicing Ultra Low Latency"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

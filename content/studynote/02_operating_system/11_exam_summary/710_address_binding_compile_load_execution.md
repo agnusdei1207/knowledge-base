@@ -1,10 +1,9 @@
 ---
-title: "710. 주소 바인딩 컴파일/로드/실행 (Address Binding Compile Load Execution)"
+title: "Address Binding Compile Load Execution"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

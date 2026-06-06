@@ -1,10 +1,9 @@
 ---
-title: "129. 굴절률 (Refractive Index), 전반사 (Total Internal Reflection)"
+title: "Total Internal Reflection"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

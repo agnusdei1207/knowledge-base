@@ -1,10 +1,9 @@
 ---
-title: "258. 구조 패턴 (Structural Patterns) - 클래스/객체 조합"
+title: "258. Structural Patterns Overview"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

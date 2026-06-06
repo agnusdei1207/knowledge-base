@@ -1,9 +1,8 @@
 ---
-title: "85. ERP 구축 생명주기 - 패키지 선정 -> 커스터마이징 / CBO (Custom Built Object) -> 데이터 이관 -> 빅뱅/점진적 오픈"
+title: "085. Erp Implementation Lifecycle"
 tags:
   - "enterprise_systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

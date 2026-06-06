@@ -1,10 +1,9 @@
 ---
-title: "188. 감리 프레임워크 3대 관점"
+title: "188. Audit Framework 3 Perspectives"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [감리 프레임워크](/studynote/11_design_supervision/01_audit_framework/006_audit_framework_3dimensional/) 3대 관점의 본질은 절차(Procedure), 산출물(Deliverables), 성과([Performance](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)) 관점을 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·조직·프로세스에 내재화하는 데 있다.

@@ -1,10 +1,9 @@
 ---
-title: "129. Position-wise FFN - Transformer 내 2층 MLP 비선형 변환"
+title: "129. Position Wise Feed Forward Ffnn"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Position-wise FFN은 [Transformer](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 블록에서 [Self-Attention](/studynote/10_ai/02_dl_architecture_new/124_self_attention/) 후 <strong>각 위치에 독립적으로 적용되는 2층 MLP(Linear-><a href="/studynote/10_ai/03_llm_nlp/269_relu_activation/">ReLU</a>->Linear)</strong>이며, 비선형 변환과 표현력 확장을 담당한다.

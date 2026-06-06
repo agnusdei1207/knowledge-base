@@ -1,10 +1,9 @@
 ---
-title: "751. SMP 캐시 일관성 폴스 셰어링 (SMP Cache Coherence False Sharing)"
+title: "SMP Cache Coherence False Sharing"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

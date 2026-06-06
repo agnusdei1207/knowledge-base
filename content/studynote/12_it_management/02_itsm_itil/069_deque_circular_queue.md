@@ -1,9 +1,8 @@
 ---
-title: "69. 데크/원형 큐 (Deque / Circular Queue)"
+title: "Deque / Circular Queue"
 tags:
   - "it_management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

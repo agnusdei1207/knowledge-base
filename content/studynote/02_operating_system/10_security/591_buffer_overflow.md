@@ -1,10 +1,9 @@
 ---
-title: "591. 버퍼 오버플로우 (Buffer Overflow) 원리 - C언어 취약 함수 악용 리턴 주소 덮어쓰기"
+title: "591. Buffer Overflow"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

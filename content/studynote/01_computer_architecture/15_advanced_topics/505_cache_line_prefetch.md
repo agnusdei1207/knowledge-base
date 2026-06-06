@@ -1,10 +1,9 @@
 ---
-title: "505. 캐시 라인 프리패치 (Cache Line Prefetching)"
+title: "Cache Line Prefetching"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "316. CDC 트랜잭션 로그 기반 데이터 실시간 변경 캡처 (CDC)"
+title: "CDC"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [CDC](/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 실시간 변경 캡처는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 표준화를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.

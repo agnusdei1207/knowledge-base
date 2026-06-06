@@ -1,10 +1,9 @@
 ---
-title: "037. 애자일 PMO (Agile PMO)"
+title: "Agile PMO"
 date: "2026-03-03"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 > **핵심 인사이트**
 > 1. [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [PMO](/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/)([Agile](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [Project Management Office](/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/))는 전통적 PMO의 통제·감시 기능에서 벗어나 팀의 자율성을 존중하면서 조직 수준의 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 확장·장애물 제거·[전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 정렬을 지원하는 가치 전달 [허브](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)다.

@@ -1,10 +1,9 @@
 ---
-title: "392. 릴레이션 인스턴스 (외연 / Extension) 값"
+title: "392. Relation Instance Extension"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

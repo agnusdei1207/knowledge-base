@@ -1,9 +1,8 @@
 ---
-title: "175. 유효 등방성 복사 전력 (EIRP, Effective Isotropic Radiated Power)"
+title: "EIRP, Effective Isotropic Radiated Power"
 tags:
   - "network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "763. 소프트웨어 회춘 (Software Rejuvenation)과 HW 리부트"
+title: "763. Software Rejuvenation"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

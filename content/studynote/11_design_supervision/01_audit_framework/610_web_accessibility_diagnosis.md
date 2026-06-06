@@ -1,10 +1,9 @@
 ---
-title: "웹 접근성 진단 (Web Accessibility Diagnosis)"
+title: "Web Accessibility Diagnosis"
 date: "2026-03-03"
 tags:
   - "studynote-design"
 ---
-
 
 > **핵심 인사이트 3줄**
 > 1. 웹 [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)(Web [Accessibility](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/))은 장애인·고령자를 포함한 모든 사용자가 웹 콘텐츠를 동등하게 이용할 수 있도록 보장하는 품질 기준으로, WCAG 2.1 기반 4대 원칙(POUR)이 국제 표준이다.

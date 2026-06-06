@@ -1,10 +1,9 @@
 ---
-title: "709. 브로커 패턴 분산 시스템 미들웨어"
+title: "709. Broker Pattern Distributed Middleware"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

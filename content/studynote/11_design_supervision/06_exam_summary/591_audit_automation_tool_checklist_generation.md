@@ -1,10 +1,9 @@
 ---
-title: "591. 감리 자동화 도구 체크리스트 생성 (Audit Automation Tool Checklist Generation)"
+title: "Audit Automation Tool Checklist Generation"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

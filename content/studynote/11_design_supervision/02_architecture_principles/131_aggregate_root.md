@@ -1,10 +1,9 @@
 ---
-title: "131. 에그리게이트 루트 (Aggregate Root)"
+title: "Aggregate Root"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "040. 감리인 독립성 (Auditor Independence)"
+title: "Auditor Independence"
 date: "2026-03-19"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 > **핵심 인사이트**
 > 1. 감리인 독립성(Auditor [Independence](/studynote/08_algorithm_stats/08_stats/133_independence/))은 감리가 형식이 아닌 실질적 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기능을 하기 위한 전제 조건으로, 발주자·사업자로부터 독립된 제3자가 객관적 평가를 수행해야만 감리 결과에 신뢰성이 부여된다.

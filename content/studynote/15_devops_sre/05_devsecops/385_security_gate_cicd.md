@@ -1,10 +1,9 @@
 ---
-title: "385. 보안 게이트 CI CD 파이프라인 품질 관문 (Security Gate CI CD Pipeline Quality Gate)"
+title: "Security Gate CI CD Pipeline Quality Gate"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

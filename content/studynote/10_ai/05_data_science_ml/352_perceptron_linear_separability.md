@@ -1,10 +1,9 @@
 ---
-title: "352. 퍼셉트론 (Perceptron)"
+title: "Perceptron"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

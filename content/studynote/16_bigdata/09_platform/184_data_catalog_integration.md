@@ -1,10 +1,9 @@
 ---
-title: "184. 데이터 카탈로그 통합 (Data Catalog Integration) - Glue · DataHub · OpenMetadata"
+title: "184. Data Catalog Integration"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

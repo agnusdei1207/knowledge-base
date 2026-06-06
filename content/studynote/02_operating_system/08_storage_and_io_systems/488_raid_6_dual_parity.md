@@ -1,10 +1,9 @@
 ---
-title: "488. RAID 6 (분산 이중 패리티) (RAID 6 Dual Parity)"
+title: "RAID 6 Dual Parity"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

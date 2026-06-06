@@ -1,10 +1,9 @@
 ---
-title: "907. 쿠버네티스 (Kubernetes) 보안"
+title: "907. Kubernetes Security"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

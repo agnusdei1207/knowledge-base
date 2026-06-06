@@ -1,10 +1,9 @@
 ---
-title: "783. 안티 탬퍼 (Anti-Tamper) 메시/쉴드"
+title: "783. Anti Tamper Mesh"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

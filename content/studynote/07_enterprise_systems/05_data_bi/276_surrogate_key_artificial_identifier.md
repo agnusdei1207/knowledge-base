@@ -1,10 +1,9 @@
 ---
-title: "276. 서로게이트 키 (Surrogate Key) - PK 충돌 방지 인조 식별자"
+title: "276. Surrogate Key Artificial Identifier"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

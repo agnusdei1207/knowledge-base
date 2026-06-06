@@ -1,9 +1,8 @@
 ---
-title: "07. 시험 빈출 핵심 요약 (Database)"
+title: "Database"
 tags:
   - "database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

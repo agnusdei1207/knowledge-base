@@ -1,10 +1,9 @@
 ---
-title: "539. 데이터 카탈로그 메타데이터 관리 검색 (Data Catalog Metadata Management Discovery)"
+title: "Data Catalog Metadata Management Discovery"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 데이터 카탈로그 메타데이터 관리 탐색은(는) 데이터 자산의 위치, 의미, 품질, 계보, 소유자를 메타데이터로 관리해 탐색성을 높이는 체계이다.

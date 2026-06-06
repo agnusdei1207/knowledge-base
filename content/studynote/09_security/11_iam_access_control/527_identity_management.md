@@ -1,10 +1,9 @@
 ---
-title: "527. 신원 관리 (Identity Management)"
+title: "Identity Management"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

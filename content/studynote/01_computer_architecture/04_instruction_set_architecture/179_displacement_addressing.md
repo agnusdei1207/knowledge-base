@@ -1,10 +1,9 @@
 ---
-title: "179. 변위 주소 지정 (Displacement)"
+title: "Displacement"
 date: "2026-03-19"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

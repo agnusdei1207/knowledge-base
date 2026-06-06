@@ -1,10 +1,9 @@
 ---
-title: "261. L2 캐시 (Level 2 Cache)"
+title: "Level 2 Cache"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

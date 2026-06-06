@@ -1,10 +1,9 @@
 ---
-title: "319. ICMP 메시지 종류"
+title: "319. Icmp Message Types Query Error Reporting"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

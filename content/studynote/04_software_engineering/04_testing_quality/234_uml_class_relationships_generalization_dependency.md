@@ -1,10 +1,9 @@
 ---
-title: "234. 클래스 간 관계 - 일반화(상속), 실체화(인터페이스), 의존, 연관, 집합, 합성"
+title: "234. Uml Class Relationships Generalization Dependency"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

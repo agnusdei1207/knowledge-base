@@ -1,10 +1,9 @@
 ---
-title: "469. SSRF 메타데이터 (SSRF Metadata)"
+title: "SSRF Metadata"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

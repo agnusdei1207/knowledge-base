@@ -1,10 +1,9 @@
 ---
-title: "262. 데이터 리니지 혈통 추적 영향도 분석 (Data Lineage Impact Analysis Provenance)"
+title: "Data Lineage Impact Analysis Provenance"
 date: "2026-05-09"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

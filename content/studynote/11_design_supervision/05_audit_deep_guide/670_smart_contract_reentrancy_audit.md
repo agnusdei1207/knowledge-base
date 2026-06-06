@@ -1,10 +1,9 @@
 ---
-title: "670. 스마트 컨트랙트 재진입 방지 패턴 감리 (Smart Contract Reentrancy Defense Audit)"
+title: "Smart Contract Reentrancy Defense Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

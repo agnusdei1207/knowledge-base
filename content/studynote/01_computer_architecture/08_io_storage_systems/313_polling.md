@@ -1,10 +1,9 @@
 ---
-title: "313. 폴링 (Polling)"
+title: "Polling"
 date: "2026-03-26"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

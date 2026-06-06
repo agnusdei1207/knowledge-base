@@ -1,10 +1,9 @@
 ---
-title: "479. Double Submit Cookie (이중 제출 쿠키)"
+title: "479. Double Submit Cookie"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

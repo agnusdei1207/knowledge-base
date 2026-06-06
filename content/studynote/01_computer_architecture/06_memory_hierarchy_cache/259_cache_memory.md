@@ -1,10 +1,9 @@
 ---
-title: "259. 캐시 메모리 (Cache Memory)"
+title: "Cache Memory"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

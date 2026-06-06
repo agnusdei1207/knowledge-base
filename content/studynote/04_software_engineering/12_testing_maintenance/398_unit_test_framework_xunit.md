@@ -1,10 +1,9 @@
 ---
-title: "398. 단위 테스트 프레임워크 (JUnit, pytest, NUnit 등)"
+title: "JUnit, pytest, NUnit"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

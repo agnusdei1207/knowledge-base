@@ -1,10 +1,9 @@
 ---
-title: "664. Chain of Custody (증거 관리 연속성)"
+title: "664. Chain Of Custody"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

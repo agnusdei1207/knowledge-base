@@ -1,10 +1,9 @@
 ---
-title: "155. 동료 검토 (Peer Review) - 좆목질 사일로를 찢어버린 애자일 집단 지성 스캐너"
+title: "155. Peer Review"
 date: "2026-05-03"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [동료 검토](/studynote/12_it_management/04_sdlc_testing/163_peer_review/)([Peer Review](/studynote/12_it_management/04_sdlc_testing/163_peer_review/))는 수십 명이 회의실에 감금되어 피 터지게 팩폭 린치를 치는 [인스펙션](/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)(Inspection)의 쇳덩이 군대식 야만을 찢어발기고!! -> <strong>작성자가 자기 코드를 바로 옆자리 동료(<a href="/studynote/06_ict_convergence/01_blockchain/060_hyperledger_architecture_peer_orderer_msp/">Peer</a>)에게 툭 던져, 커피 마시며 가볍게 <a href="/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 빵꾸(<a href="/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">Defect</a>)를 짚어주고 1초 컷 핑퐁 훈수(Feedback)를 두는 가장 비공식적이고 민첩한(<a href="/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">Agile</a>) 정적 테스트 방어막 텐트</strong>다.

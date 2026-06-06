@@ -1,10 +1,9 @@
 ---
-title: "299. 데브섹옵스 시프트 레프트 초기 보안 (DevSecOps)"
+title: "DevSecOps"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데브섹옵스](/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) [시프트 레프트](/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 보안는 변경 관리와 운영 자동화에서 보안과 통제를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.

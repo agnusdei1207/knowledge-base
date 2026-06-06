@@ -1,10 +1,9 @@
 ---
-title: "112. 텍스트 요약 (Text Summarization) — 추출적/추상적 요약"
+title: "115. Text Summarization"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 텍스트 요약 (Text Summarization)은 긴 문서를 짧고 핵심적인 텍스트로 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)하는 NLP 기법으로, 원문 문장을 그대로 추출하는 추출적 (Extractive) 방법과 새로운 문장을 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 추상적 (Abstractive) 방법으로 구분된다.

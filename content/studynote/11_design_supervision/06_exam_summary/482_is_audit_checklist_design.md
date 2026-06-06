@@ -1,10 +1,9 @@
 ---
-title: "482. 정보시스템 감리 점검표 설계 (IS Audit Checklist Design)"
+title: "IS Audit Checklist Design"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

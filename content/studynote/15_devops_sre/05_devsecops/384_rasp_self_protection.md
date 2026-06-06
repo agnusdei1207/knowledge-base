@@ -1,10 +1,9 @@
 ---
-title: "384. RASP 런타임 자가 보호 인라인 방어 (Runtime Application Self-Protection RASP)"
+title: "Runtime Application Self-Protection RASP"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "188. 보장 스케줄링 (Guaranteed Scheduling)"
+title: "Guaranteed Scheduling"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

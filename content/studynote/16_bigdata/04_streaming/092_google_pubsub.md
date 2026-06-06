@@ -1,10 +1,9 @@
 ---
-title: "17. Google Pub/Sub — GCP 글로벌 분산 메시지 서비스"
+title: "092. Google Pubsub"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "71. 소스코드 난독화 적용 여부 점검 - 금융/모바일 앱 보안"
+title: "071. Source Code Obfuscation Audit"
 date: "2026-04-10"
 tags:
   - "studynote-design"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

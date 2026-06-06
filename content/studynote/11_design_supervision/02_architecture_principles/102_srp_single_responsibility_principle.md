@@ -1,10 +1,9 @@
 ---
-title: "102. 단일 책임 원칙 (Single Responsibility Principle, SRP)"
+title: "Single Responsibility Principle, SRP"
 date: "2026-05-08"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

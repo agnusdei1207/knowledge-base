@@ -1,10 +1,9 @@
 ---
-title: "1103. 보안 카오스 공학 (Security Chaos 엔진ering, SCE)"
+title: "Security Chaos ering, SCE"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,9 +1,8 @@
 ---
-title: "87. 계정 추상화 (Account Abstraction, ERC-4337) - 이더리움 지갑(EOA)을 스마트 컨트랙트(CA)처럼 프로그래밍 가능하게 만들어 소셜 복구, 가스비 대납 등을 지원"
+title: "087. Account Abstraction Erc 4337"
 tags:
   - "ict_convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

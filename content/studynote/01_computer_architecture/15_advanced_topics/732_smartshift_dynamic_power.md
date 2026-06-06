@@ -1,10 +1,9 @@
 ---
-title: "732. 스마트 시프트 (SmartShift)"
+title: "SmartShift"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

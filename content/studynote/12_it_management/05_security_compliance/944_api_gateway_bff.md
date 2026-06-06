@@ -1,10 +1,9 @@
 ---
-title: "944. API 게이트웨이 / BFF 패턴"
+title: "944. Api Gateway Bff"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 / [BFF](/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/) 패턴의 본질은 자산, 위협, [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 통제, 운영 증적이 한 체계로 연결되어야 보안과 규제 대응이 일회성 캠페인으로 끝나지 않는다.

@@ -1,10 +1,9 @@
 ---
-title: "198. x86 아키텍처"
+title: "198. X86 Architecture"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

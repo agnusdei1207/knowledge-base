@@ -1,10 +1,9 @@
 ---
-title: "26. HDFS ViewFS — Hadoop 연합 네임스페이스 통합 뷰"
+title: "048. Hdfs Viewfs"
 date: "2026-04-29"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [HDFS](/studynote/14_data_engineering/01_infrastructure/013_hdfs/) ViewFS ([View](/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) [File](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) System)는 [HDFS](/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 연합([Federation](/studynote/09_security/11_iam_access_control/543_federation/)) 환경에서 여러 독립 [NameNode](/studynote/14_data_engineering/01_infrastructure/014_namenode/) 클러스터를 단일 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) [네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/) `/user`, `/data`, `/tmp` 등으로 [마운트](/studynote/02_operating_system/09_file_system/516_mount_mechanism/)하여 통합 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 뷰를 제공하는 클라이언트 측 가상 [마운트](/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 레이어다.

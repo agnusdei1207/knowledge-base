@@ -1,10 +1,9 @@
 ---
-title: "267. 다이얼업 다중화, X.25 (패킷 교환 망 원조)"
+title: "267. Dial Up Multiplexing X25 Packet Switching"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

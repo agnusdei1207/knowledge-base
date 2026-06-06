@@ -1,10 +1,9 @@
 ---
-title: "047. SLA 심화 — 계약 구조와 거버넌스"
+title: "047. Sla Service Level Agreement"
 date: "2026-04-05"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 > **핵심 인사이트**
 > 1. [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/)([Service Level Agreement](/studynote/12_it_management/02_itsm_itil/869_sla/))는 기술 지표가 아닌 비즈니스 계약 — [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자와 고객 간 상호 의무와 기대를 법적으로 구속하는 문서이며, "무엇을 보장하고 위반 시 어떻게 보상하는가"가 핵심이다.

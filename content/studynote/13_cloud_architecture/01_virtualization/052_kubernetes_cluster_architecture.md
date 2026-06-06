@@ -1,10 +1,9 @@
 ---
-title: "52. 쿠버네티스 클러스터 아키텍처 (Kubernetes Cluster Architecture)"
+title: "Kubernetes Cluster Architecture"
 date: "2026-05-01"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

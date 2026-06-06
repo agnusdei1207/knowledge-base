@@ -1,10 +1,9 @@
 ---
-title: "258. 부하 테스트 병목 진단 (Load Test Bottleneck Diagnosis)"
+title: "Load Test Bottleneck Diagnosis"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

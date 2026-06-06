@@ -1,10 +1,9 @@
 ---
-title: "299. 데이터 엔지니어링 기술사 종합 아키텍처 마스터 맵 (Data Engineering PE Master Architecture Map)"
+title: "Data Engineering PE Master Architecture Map"
 date: "2026-05-09"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

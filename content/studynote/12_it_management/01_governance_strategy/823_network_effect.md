@@ -1,10 +1,9 @@
 ---
-title: "823. 네트워크 효과 — 사용자가 늘수록 가치가 커지는 법칙"
+title: "823. Network Effect"
 date: "2026-04-29"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [네트워크 효과](/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/)([Network Effect](/studynote/12_it_management/01_governance_strategy/824_network_effect/))는 제품·[서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 가치가 사용자 수가 증가할수록 기하급수적으로 커지는 현상이다. [메트칼프](/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/) 법칙(Metcalfe's Law)은 네트워크 가치가 사용자 수(N)의 제곱(N^)에 비례한다고 주장한다.

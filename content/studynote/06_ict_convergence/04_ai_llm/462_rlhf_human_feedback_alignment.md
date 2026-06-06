@@ -1,10 +1,9 @@
 ---
-title: "462. RLHF (인간 피드백 기반 강화학습)와 모델 정렬 (Alignment)"
+title: "Alignment"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

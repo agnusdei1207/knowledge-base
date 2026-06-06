@@ -1,10 +1,9 @@
 ---
-title: "97. CBAM (Cost Benefit Analysis Method) - 아키텍처 경제성 ROI 평가"
+title: "097. Cbam Cost Benefit Analysis Method Architecture Roi"
 date: "2026-04-10"
 tags:
   - "studynote-design"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

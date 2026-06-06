@@ -1,10 +1,9 @@
 ---
-title: "111. 관측 가능성 (Observability) - Metrics·Logs·Traces 3대 신호와 SRE 실천"
+title: "111. Observability Metrics Logs Traces"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 관측 가능성([Observability](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/))은 시스템의 <strong>외부 출력(<a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/">Metrics</a>·<a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">Logs</a>·Traces)만으로 내부 상태를 추론</strong>할 수 있는 능력이며, 기존 모니터링(알려진 문제 감시)을 넘어 <strong>"몰랐던 문제(Unknown Unknowns)"까지 진단</strong>하는 패러다임이다.

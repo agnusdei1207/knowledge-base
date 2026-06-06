@@ -1,10 +1,9 @@
 ---
-title: "335. 형상 베이스라인 변경 심의 (Configuration Baseline Change Review)"
+title: "Configuration Baseline Change Review"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

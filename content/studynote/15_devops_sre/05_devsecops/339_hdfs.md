@@ -1,10 +1,9 @@
 ---
-title: "339. Hadoop HDFS MapReduce Spark 빅데이터 분산 처리 (Hadoop HDFS MapReduce vs Spark RDD In-Memory Processing)"
+title: "Hadoop HDFS MapReduce vs Spark RDD In-Memory Processing"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

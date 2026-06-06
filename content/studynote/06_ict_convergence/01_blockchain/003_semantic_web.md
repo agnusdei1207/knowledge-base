@@ -1,9 +1,8 @@
 ---
-title: "3. 시맨틱 웹 (Semantic Web) - 온톨로지(Ontology) 기반 의미 연결망"
+title: "003. Semantic Web"
 tags:
   - "ict_convergence"
 ---
-
 
 # 03. 시맨틱 웹 (Semantic Web)
 

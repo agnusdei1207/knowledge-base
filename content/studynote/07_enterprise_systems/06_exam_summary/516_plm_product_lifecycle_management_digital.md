@@ -1,10 +1,9 @@
 ---
-title: "516. PLM 제품 수명주기 관리 디지털 (PLM Product Lifecycle Management Digital)"
+title: "PLM Product Lifecycle Management Digital"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "477. 헥사고날 아키텍처 포트 어댑터 (Hexagonal Architecture Port Adapter)"
+title: "Hexagonal Architecture Port Adapter"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

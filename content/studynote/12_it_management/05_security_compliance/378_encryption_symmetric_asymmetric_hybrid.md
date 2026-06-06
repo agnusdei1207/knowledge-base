@@ -1,10 +1,9 @@
 ---
-title: "378. 암호화 기술 대칭 비대칭 하이브리드 (Encryption Symmetric Asymmetric Hybrid)"
+title: "Encryption Symmetric Asymmetric Hybrid"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

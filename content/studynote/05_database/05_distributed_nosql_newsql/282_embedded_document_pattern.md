@@ -1,10 +1,9 @@
 ---
-title: "282. 해시 샤딩 (Hash Sharding)"
+title: "Hash Sharding"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

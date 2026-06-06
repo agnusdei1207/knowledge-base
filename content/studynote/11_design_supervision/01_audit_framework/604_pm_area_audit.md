@@ -1,10 +1,9 @@
 ---
-title: "604. 사업 관리 영역 감리 (Project Management Area Audit)"
+title: "Project Management Area Audit"
 date: "2026-05-08"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

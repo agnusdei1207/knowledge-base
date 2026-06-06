@@ -1,10 +1,9 @@
 ---
-title: "553. 애자일 전환 조직 문화 변혁 관리 (Agile Transformation Culture Change Management)"
+title: "Agile Transformation Culture Change Management"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 애자일 전환 문화 변화관리은(는) 반복 개발, 고객 피드백, 자율 팀 기반으로 조직 운영 방식을 바꾸는 변화관리이다.

@@ -1,10 +1,9 @@
 ---
-title: "563. 쿠버네티스 (Kubernetes) 오브젝트 아키텍처 (Pod, Service, Deployment, Ingress)"
+title: "Pod, Service, Deployment, Ingress"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

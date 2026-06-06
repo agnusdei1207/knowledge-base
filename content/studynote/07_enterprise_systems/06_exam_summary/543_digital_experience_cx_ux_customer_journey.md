@@ -1,10 +1,9 @@
 ---
-title: "543. 디지털 경험 CX UX 고객 여정 맵 (Digital Experience CX UX Customer Journey)"
+title: "Digital Experience CX UX Customer Journey"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 디지털 경험 CX UX 고객 여정은(는) 고객이 인지-탐색-구매-사용-지원 단계에서 경험하는 접점을 데이터와 디자인으로 최적화하는 체계이다.

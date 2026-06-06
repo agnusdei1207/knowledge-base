@@ -1,10 +1,9 @@
 ---
-title: "708. AI 칩 NPU TPU GPU 가속기 비교 (AI Chip NPU TPU GPU Accelerator Comparison)"
+title: "AI Chip NPU TPU GPU Accelerator Comparison"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

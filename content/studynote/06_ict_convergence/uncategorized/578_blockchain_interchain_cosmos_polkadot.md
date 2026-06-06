@@ -1,10 +1,9 @@
 ---
-title: "578. 블록체인 인터체인 코스모스 폴카닷 (Blockchain Interchain Cosmos Polkadot)"
+title: "Blockchain Interchain Cosmos Polkadot"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

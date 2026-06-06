@@ -1,10 +1,9 @@
 ---
-title: "977. DHCP 릴레이 에이전트"
+title: "977. Dhcp Relay Agent Broadcast Unicast Ip Helper"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "333. CNAPP 클라우드 통합 보안 플랫폼 (CNAPP Cloud Native Application Protection Platform CSPM CWPP Risk Graph Wiz Agentless)"
+title: "CNAPP Cloud Native Application Protection Platform CSPM CWPP Risk Graph Wiz Agentless"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

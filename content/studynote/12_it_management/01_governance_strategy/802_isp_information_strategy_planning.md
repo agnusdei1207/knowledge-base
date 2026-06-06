@@ -1,10 +1,9 @@
 ---
-title: "802. ISP (Information Strategy Planning, 정보화 전략 계획)"
+title: "Information Strategy Planning,"
 date: "2026-05-05"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/)([정보화 전략 계획](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/))는 기업의 비즈니스 목표(매출, 시장점유율)를 달성하기 위해, 수백억 원짜리 IT 시스템을 언제, 어떻게, 어떤 기술로 구축할 것인지 밑그림을 그리는 <strong>전사적 마스터플랜(최상위 아키텍처 청사진)</strong>이다.

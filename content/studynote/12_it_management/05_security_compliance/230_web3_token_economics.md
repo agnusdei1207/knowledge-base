@@ -1,10 +1,9 @@
 ---
-title: "230. 웹 3.0 (Web 3.0) 분산 경제 플랫폼 및 토큰 이코노믹스 비즈니스 접목"
+title: "230. Web3 Token Economics"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 웹 3.0 (Web 3.0) [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 경제 플랫폼 및 토큰 이코노믹스 비즈니스 접목의 본질은 신원, 합의, 자산, 거버넌스가 함께 설계되어야 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서도 신뢰를 유지할 수 있다.

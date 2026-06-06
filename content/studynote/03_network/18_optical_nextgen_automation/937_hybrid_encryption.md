@@ -1,10 +1,9 @@
 ---
-title: "937. 하이브리드 암호 시스템"
+title: "937. Hybrid Encryption"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

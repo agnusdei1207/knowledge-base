@@ -1,10 +1,9 @@
 ---
-title: "575. 보안 토큰 STO 디지털 증권 (Security Token Offering STO Digital Securities)"
+title: "Security Token Offering STO Digital Securities"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

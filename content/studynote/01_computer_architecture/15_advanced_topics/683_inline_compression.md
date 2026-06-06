@@ -1,10 +1,9 @@
 ---
-title: "683. 인라인 압축 (Inline Compression)"
+title: "Inline Compression"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

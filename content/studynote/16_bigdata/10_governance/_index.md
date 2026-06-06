@@ -1,9 +1,8 @@
 ---
-title: "10. 데이터 거버넌스 및 최신 아키텍처"
+title: "Big Data"
 tags:
   - "bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

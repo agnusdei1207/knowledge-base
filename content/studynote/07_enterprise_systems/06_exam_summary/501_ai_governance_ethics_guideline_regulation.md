@@ -1,10 +1,9 @@
 ---
-title: "501. AI 거버넌스 윤리 가이드라인 규제 (AI Governance Ethics Guideline Regulation)"
+title: "AI Governance Ethics Guideline Regulation"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

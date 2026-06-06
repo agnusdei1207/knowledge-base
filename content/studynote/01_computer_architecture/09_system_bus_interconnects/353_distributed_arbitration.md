@@ -1,10 +1,9 @@
 ---
-title: "353. 분산식 중재"
+title: "353. Distributed Arbitration"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "520. 그룹웨어 협업 플랫폼 디지털 워크 (Groupware Collaboration Platform Digital Work)"
+title: "Groupware Collaboration Platform Digital Work"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

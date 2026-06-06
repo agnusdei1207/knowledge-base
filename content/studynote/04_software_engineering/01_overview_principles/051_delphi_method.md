@@ -1,10 +1,9 @@
 ---
-title: "51. 델파이 기법 (Delphi Method)"
+title: "Delphi Method"
 date: "2026-04-30"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

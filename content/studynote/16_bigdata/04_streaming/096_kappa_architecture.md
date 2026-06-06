@@ -1,10 +1,9 @@
 ---
-title: "21. 카파 아키텍처 (Kappa Architecture) — 스트리밍 단일화"
+title: "096. Kappa Architecture"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

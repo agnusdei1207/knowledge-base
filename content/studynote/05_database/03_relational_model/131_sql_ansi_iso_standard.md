@@ -1,10 +1,9 @@
 ---
-title: "131. SQL 표준 (ANSI/ISO SQL) - 관계형 데이터베이스 질의 언어 표준"
+title: "131. Sql Ansi Iso Standard"
 date: "2026-04-19"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SQL(Structured Query Language)은 <strong><a href="/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>형 <a href="/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a>를 정의(<a href="/studynote/05_database/01_db_architecture_relational/020_ddl/">DDL</a>)·조작(<a href="/studynote/12_it_management/02_itsm_itil/867_dml/">DML</a>)·제어(<a href="/studynote/05_database/01_db_architecture_relational/022_dcl/">DCL</a>)</strong>하는 ANSI/ISO 국제 표준 언어이며, SQL-86부터 SQL:2023까지 지속 발전하고 있다.

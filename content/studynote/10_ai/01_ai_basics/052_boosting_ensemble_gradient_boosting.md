@@ -1,10 +1,9 @@
 ---
-title: "52. 부스팅 (Boosting) - AdaBoost, GBM, XGBoost, LightGBM"
+title: "052. Boosting Ensemble Gradient Boosting"
 date: "2026-05-01"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

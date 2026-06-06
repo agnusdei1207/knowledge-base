@@ -1,10 +1,9 @@
 ---
-title: "956. DSSS (직접 확산)"
+title: "956. Dsss Direct Sequence Spread Spectrum Chipping Code"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

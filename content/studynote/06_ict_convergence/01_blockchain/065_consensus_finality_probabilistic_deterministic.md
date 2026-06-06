@@ -1,9 +1,8 @@
 ---
-title: "65. 합의 완결성 (Finality) - 블록이 체인에 기록되어 뒤집히지 않음이 보장되는 상태 (PoW는 확률적 완결성, BFT는 즉각적 완결성)"
+title: "PoW , BFT"
 tags:
   - "ict_convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "791. 자율 주행 넷망 (AIOps, AI for Network 통제망 유지보수 자동화 의도 반영 정책 IBN 설계 융합 6G 통합 자력 제어 제로 터치 네트워크 구현 모델)"
+title: "AIOps, AI for Network IBN 6G"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

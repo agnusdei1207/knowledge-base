@@ -1,10 +1,9 @@
 ---
-title: "24. Apache Flink — 네이티브 실시간 스트림 처리 엔진"
+title: "024. Apache Flink Stream Processing"
 date: "2026-04-29"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Apache Flink는 이벤트 시간(Event Time) 기반 상태 저장(Stateful) [스트림 처리](/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/) 엔진으로, 배치를 스트림의 특수 케이스로 통합(Unified Processing)하며 밀리초 단위 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))과 Exactly-once 시맨틱(Semantics)을 동시에 제공하는 진정한 실시간 처리 플랫폼이다.

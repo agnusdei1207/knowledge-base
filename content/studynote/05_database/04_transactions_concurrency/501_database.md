@@ -1,10 +1,9 @@
 ---
-title: "501. 스토리지 컴퓨팅 분리 클라우드 네이티브 DW 특장점 (Database)"
+title: "Database"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "721. 클린 아키텍처 Usecase Interactor 설계"
+title: "721. Clean Architecture Usecase Interactor"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

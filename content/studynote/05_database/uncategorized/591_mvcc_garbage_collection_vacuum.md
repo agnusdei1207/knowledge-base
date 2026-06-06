@@ -1,10 +1,9 @@
 ---
-title: "591. 가비지 컬렉터 (MVCC Undo/Redo 블록 회수 진공 프로세스 Vacuum) 데이터 정리"
+title: "591. Mvcc Garbage Collection Vacuum"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

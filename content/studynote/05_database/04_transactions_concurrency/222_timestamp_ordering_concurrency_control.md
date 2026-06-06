@@ -1,10 +1,9 @@
 ---
-title: "222. 타임스탬프 순서 기법 (Timestamp Ordering)"
+title: "Timestamp Ordering"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

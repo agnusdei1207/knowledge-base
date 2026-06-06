@@ -1,10 +1,9 @@
 ---
-title: "170. 조달 계약 방식 (Procurement Contract Types)"
+title: "Procurement Contract Types"
 date: "2026-04-21"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "579. 하이퍼오토메이션 AI 융합 자동화 (Hyperautomation AI Convergence Automation)"
+title: "Hyperautomation AI Convergence Automation"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

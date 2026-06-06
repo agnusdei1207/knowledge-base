@@ -1,10 +1,9 @@
 ---
-title: "625. 클라우드 아키텍처 핵심 토픽 625번 시험 요약 (Cloud Architecture Core Topic 625 Exam Summary)"
+title: "Cloud Architecture Core Topic 625 Exam Summary"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 # 625. 클라우드 아키텍처 핵심 토픽 — 시험 요약
 

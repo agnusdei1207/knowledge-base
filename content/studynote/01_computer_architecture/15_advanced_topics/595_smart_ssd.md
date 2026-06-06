@@ -1,10 +1,9 @@
 ---
-title: "595. 스마트 SSD (Smart Solid-State Drive)"
+title: "Smart Solid-State Drive"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

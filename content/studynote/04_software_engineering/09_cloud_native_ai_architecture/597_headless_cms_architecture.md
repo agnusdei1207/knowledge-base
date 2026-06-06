@@ -1,10 +1,9 @@
 ---
-title: "597. 헤드리스 (Headless) CMS 아키텍처 - 프론트엔드와 백엔드 분리 유연성 제공"
+title: "597. Headless Cms Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "461. 제로 트러스트 클라우드 마이크로세그먼트 (Zero Trust Cloud Microsegmentation)"
+title: "Zero Trust Cloud Microsegmentation"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

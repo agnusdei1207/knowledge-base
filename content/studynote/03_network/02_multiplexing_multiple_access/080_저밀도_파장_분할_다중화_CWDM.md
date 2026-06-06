@@ -1,10 +1,9 @@
 ---
-title: "080. 저밀도 파장 분할 다중화 (CWDM, Coarse Wavelength Division Multiplexing)"
+title: "CWDM, Coarse Wavelength Division Multiplexing"
 date: "2026-05-05"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CWDM(Coarse WDM)은 광케이블 하나에 여러 색깔의 레이저 빛(파장)을 섞어 쏠 때, 파장 사이의 <strong>간격을 듬성듬성(약 20nm) 넓게 벌려 간섭을 막아낸 저비용 <a href="/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">다중화</a> 아키텍처</strong>다.

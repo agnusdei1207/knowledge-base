@@ -1,10 +1,9 @@
 ---
-title: "347. 압축 (Compaction) - 외부 단편화 해결, 동적 재배치 시에만 가능, 오버헤드 막심"
+title: "347. Compaction"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

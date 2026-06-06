@@ -1,9 +1,8 @@
 ---
-title: "72. 번다운 차트 (Burndown Chart) / 번업 차트 (Burnup Chart)"
+title: "Burnup Chart"
 tags:
   - "software_engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

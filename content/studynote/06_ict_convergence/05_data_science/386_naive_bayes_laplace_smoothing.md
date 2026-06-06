@@ -1,10 +1,9 @@
 ---
-title: "386. 나이브 베이즈 모델 스무딩 기법 (라플라스 스무딩 빈도 0 방어)"
+title: "386. Naive Bayes Laplace Smoothing"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

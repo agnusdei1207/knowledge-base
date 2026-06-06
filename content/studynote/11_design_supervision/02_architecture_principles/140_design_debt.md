@@ -1,10 +1,9 @@
 ---
-title: "140. 설계 부채 (Design Debt / Technical Debt)"
+title: "Design Debt / Technical Debt"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

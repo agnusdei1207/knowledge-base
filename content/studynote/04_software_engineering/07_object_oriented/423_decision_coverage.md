@@ -1,10 +1,9 @@
 ---
-title: "423. 결정 커버리지 (Decision Coverage / 분기 커버리지) - 분기문(If, While 등)의 참/거짓을 최소 한 번씩 실행"
+title: "423. Decision Coverage"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

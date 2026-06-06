@@ -1,10 +1,9 @@
 ---
-title: "642. 사용자 만족도 조사 분석 및 개선 조치 (운영 이관 감리)"
+title: "642. User Satisfaction Csat Remediation Audit"
 date: "2026-04-10"
 tags:
   - "studynote-design"
 ---
-
 
 # 사용자 만족도 조사 분석 및 개선 조치 (CSAT Remediation [Audit](/studynote/12_it_management/05_security_compliance/363_audit/))
 

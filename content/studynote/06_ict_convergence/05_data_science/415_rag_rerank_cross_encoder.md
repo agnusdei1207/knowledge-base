@@ -1,10 +1,9 @@
 ---
-title: "415. RAG 리랭크 크로스 인코더 결합 문서 적합도 재배열 알고리즘 (Re-rank)"
+title: "Re-rank"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

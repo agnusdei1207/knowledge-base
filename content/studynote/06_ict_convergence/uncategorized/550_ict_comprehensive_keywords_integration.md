@@ -1,10 +1,9 @@
 ---
-title: "550. 정보통신기술사 ICT 신기술 통합 정리 (PE ICT Emerging Technologies Comprehensive Review)"
+title: "PE ICT Emerging Technologies Comprehensive Review"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

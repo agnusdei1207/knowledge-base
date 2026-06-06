@@ -1,10 +1,9 @@
 ---
-title: "295. 시스템 신뢰성 모델링 - 직렬 모델, 병렬 모델"
+title: "295. System Reliability Models"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

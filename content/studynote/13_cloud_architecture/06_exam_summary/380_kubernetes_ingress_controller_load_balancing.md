@@ -1,10 +1,9 @@
 ---
-title: "380. 쿠버네티스 인그레스 컨트롤러 로드 밸런싱 (Kubernetes Ingress Controller Load Balancing)"
+title: "Kubernetes Ingress Controller Load Balancing"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "830. 피벗과 린 스타트업 (Pivot & Lean Startup)"
+title: "Pivot & Lean Startup"
 date: "2026-03-03"
 tags:
   - "studynote-it-management"
 ---
-
 
 > **핵심 인사이트**
 > 1. [피벗](/studynote/12_it_management/01_governance_strategy/829_pivot/)([Pivot](/studynote/12_it_management/01_governance_strategy/829_pivot/))은 실패가 아니라 학습에 기반한 전략적 방향 전환으로, Eric Ries의 [린 스타트업](/studynote/12_it_management/01_governance_strategy/827_lean_startup/) 프레임워크에서 "가설이 틀렸음이 검증되었을 때 핵심 요소는 유지하면서 다른 요소를 바꾸는 것"으로 정의된다.

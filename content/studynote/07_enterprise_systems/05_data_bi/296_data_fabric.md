@@ -1,10 +1,9 @@
 ---
-title: "296. 데이터 패브릭 (Data Fabric)"
+title: "Data Fabric"
 date: "2026-03-04"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)된 다양한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 원천을 물리적으로 통합하지 않고, 지능적인 [메타데이터 관리](/studynote/16_bigdata/10_governance/203_metadata_management/)와 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기술을 통해 마치 하나의 통합된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)망처럼 연결하는 아키텍처다.

@@ -1,10 +1,9 @@
 ---
-title: "272. CISA 도메인 지식 응용 (CISA Domain Knowledge Application)"
+title: "CISA Domain Knowledge Application"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

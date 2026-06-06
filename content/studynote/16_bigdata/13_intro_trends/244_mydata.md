@@ -1,10 +1,9 @@
 ---
-title: "마이데이터 (MyData)"
+title: "MyData"
 date: "2026-03-03"
 tags:
   - "studynote-bigdata"
 ---
-
 
 > **핵심 인사이트 3줄**
 > 1. [마이데이터](/studynote/16_bigdata/01_intro/012_mydata/)([MyData](/studynote/13_cloud_architecture/05_data_engineering/266_mydata_open_api_token_security/))는 개인이 자신의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집·이용·제공을 직접 통제하는 [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) 자기결정권 기반 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유통 패러다임이다.

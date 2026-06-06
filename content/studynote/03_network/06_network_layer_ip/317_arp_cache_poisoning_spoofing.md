@@ -1,10 +1,9 @@
 ---
-title: "317. ARP 캐시 오염 (ARP Cache Poisoning, 스푸핑 공격)"
+title: "ARP Cache Poisoning,"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

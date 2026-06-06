@@ -1,11 +1,10 @@
 ---
-title: "4. COBIT (Control Objectives for Information and Related Technologies) - ISACA 제정 IT 거버넌스 통제 프레임워크"
+title: "004. Cobit"
 date: "2026-03-04"
 description: "IT 거버넌스 및 관리를 실무에 적용하기 위해 ISACA가 제정한 글로벌 베스트 프랙티스 통제 프레임워크"
 tags:
   - "it_management"
 ---
-
 
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: COBIT은 비즈니스 목표를 IT 목표로, 다시 IT 목표를 구체적인 프로세스와 통제(Control) 목표로 번역해 주는 IT 거버넌스의 실무 '실행 지침서'이다.

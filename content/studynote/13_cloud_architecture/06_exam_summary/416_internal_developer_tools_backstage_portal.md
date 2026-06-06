@@ -1,10 +1,9 @@
 ---
-title: "416. 내부 개발자 도구 백스테이지 포탈 (Internal Developer Tools Backstage Portal)"
+title: "Internal Developer Tools Backstage Portal"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

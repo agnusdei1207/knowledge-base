@@ -1,10 +1,9 @@
 ---
-title: "480. CQRS 명령 조회 분리 패턴 심화 (CQRS Command Query Separation Advanced)"
+title: "CQRS Command Query Separation Advanced"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

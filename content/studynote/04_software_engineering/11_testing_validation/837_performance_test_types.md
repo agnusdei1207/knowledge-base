@@ -1,10 +1,9 @@
 ---
-title: "837. 성능 테스트 (Performance Test) 4가지 유형"
+title: "837. Performance Test Types"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

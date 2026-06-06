@@ -1,10 +1,9 @@
 ---
-title: "487. 이메일 아키텍처"
+title: "487. Email Architecture Mua Mta Mda"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

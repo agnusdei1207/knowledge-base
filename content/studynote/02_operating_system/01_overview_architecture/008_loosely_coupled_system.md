@@ -1,10 +1,9 @@
 ---
-title: "8. 약결합 시스템 (Loosely Coupled System) / 분산 시스템"
+title: "008. Loosely Coupled System"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 약결합 시스템 (Loosely Coupled System)은 각 프로세서가 자신만의 독립된 메모리(Local Memory)를 가지며, 네트워크를 통한 메시지 패싱([Message Passing](/studynote/02_operating_system/02_process_thread/119_message_passing/)) 방식으로 협업하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 컴퓨팅 시스템이다.

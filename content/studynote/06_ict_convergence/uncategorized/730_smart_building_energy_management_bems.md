@@ -1,10 +1,9 @@
 ---
-title: "730. 스마트 빌딩 에너지 관리 BEMS 자동화 (Smart Building Energy Management BEMS)"
+title: "Smart Building Energy Management BEMS"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

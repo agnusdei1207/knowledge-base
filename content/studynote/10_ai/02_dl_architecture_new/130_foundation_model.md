@@ -1,10 +1,9 @@
 ---
-title: "130. Foundation Model (파운데이션 모델) - 대규모 사전 학습 범용 AI 모델"
+title: "130. Foundation Model"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Foundation Model은 <strong>대규모 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>로 사전 학습(Pre-<a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/">training</a>)된 범용 <a href="/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 모델</strong>로, 다양한 하위 작업(NLP·Vision·코드)에 [Fine-tuning](/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/) 또는 Prompting으로 적응 가능하며, [GPT](/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)·[BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)·Stable Diffusion이 대표이다.

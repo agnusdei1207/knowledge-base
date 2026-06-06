@@ -1,10 +1,9 @@
 ---
-title: "575. 비용 관리 EVM 획득가치 분석 (Cost Management EVM Earned Value Analysis)"
+title: "Cost Management EVM Earned Value Analysis"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 원가관리 EVM 획득가치 분석은(는) 예산, 일정, 실제 성과를 통합해 프로젝트 원가와 진척을 정량적으로 관리하는 기법이다.

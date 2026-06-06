@@ -1,10 +1,9 @@
 ---
-title: "443. 고립성 (병행제어 보장)"
+title: "443. Isolation Concurrency Control"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

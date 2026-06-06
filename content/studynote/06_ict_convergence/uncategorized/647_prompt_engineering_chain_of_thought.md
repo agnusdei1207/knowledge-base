@@ -1,10 +1,9 @@
 ---
-title: "647. 프롬프트 엔지니어링 체인 오브 쏘트 (Prompt Engineering Chain of Thought)"
+title: "Prompt Engineering Chain of Thought"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

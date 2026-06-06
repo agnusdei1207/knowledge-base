@@ -1,10 +1,9 @@
 ---
-title: "322. Echo Request/Reply (Ping 원리) / Source Quench (혼잡 제어, 구형)"
+title: "322. Echo Request Reply Ping Source Quench"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

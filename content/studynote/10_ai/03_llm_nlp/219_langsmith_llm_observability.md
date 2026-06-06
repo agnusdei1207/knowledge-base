@@ -1,10 +1,9 @@
 ---
-title: "219. LangSmith 로그 평가 프롬프트 디버깅 (Langsmith Observability)"
+title: "Langsmith Observability"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

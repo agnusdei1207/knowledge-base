@@ -1,9 +1,8 @@
 ---
-title: "104. 제2정규형 (2NF) - 1NF 만족 및 부분 함수 종속 제거 (완전 함수 종속화)"
+title: "104. Second Normal Form 2Nf Full Fd"
 tags:
   - "database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 제2정규형 (2NF, [Second Normal Form](/studynote/05_database/04_transactions_concurrency/527_second_normal_form/))은 릴레이션의 모든 일반 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 [기본 키](/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/) (PK, Primary [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 전체에 완전히 종속되도록 '부분 함수 종속 ([Partial Functional Dependency](/studynote/05_database/02_modeling_normalization/097_partial_functional_dependency/))'을 제거하는 과정이다.

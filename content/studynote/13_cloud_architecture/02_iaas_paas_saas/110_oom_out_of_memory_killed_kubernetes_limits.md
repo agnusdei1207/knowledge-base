@@ -1,10 +1,9 @@
 ---
-title: "110. OOM Killed (Out of Memory) - K8s 파드 메모리 초과 강제 종료와 QoS 생존 전략"
+title: "110. Oom Out Of Memory Killed Kubernetes Limits"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [OOM](/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killed는 [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 `resources.limits.memory`로 선언한 메모리 상한을 초과하는 순간, 리눅스 커널의 <strong><a href="/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> Killer가 SIGKILL(9번 시그널)로 프로세스를 즉시 사살</strong>하는 [cgroups](/studynote/02_operating_system/01_overview_architecture/062_cgroups/) 기반 자원 통제 메커니즘이다.

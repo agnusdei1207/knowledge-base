@@ -1,10 +1,9 @@
 ---
-title: "249. 인스트럭션 파인튜닝 (Instruction Fine-Tuning) PEFT LoRA 저차원 어댑터"
+title: "249. Instruction Finetuning Peft Lora Low Rank Adapter"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [PEFT](/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/)([Parameter-Efficient Fine-Tuning](/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/))는 수십~수천억 파라미터 [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)([Large Language Model](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))의 전체 파인튜닝 대신 <strong>극소수 파라미터만 업데이트</strong>하여 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리와 학습 비용을 수십 배 절감하는 기술이다.

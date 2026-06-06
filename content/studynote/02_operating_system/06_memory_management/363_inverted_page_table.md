@@ -1,10 +1,9 @@
 ---
-title: "363. 역 페이지 테이블 (Inverted Page Table) - 시스템 내 단 하나의 페이지 테이블, 프레임 중심"
+title: "363. Inverted Page Table"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

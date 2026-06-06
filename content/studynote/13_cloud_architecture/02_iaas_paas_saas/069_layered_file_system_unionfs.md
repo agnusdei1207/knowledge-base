@@ -1,10 +1,9 @@
 ---
-title: "69. 레이어드 파일 시스템 (Layered File System / UnionFS) - 도커 이미지의 핵심. 변경된 레이어(Layer)만 겹겹이 쌓아올리고 다운로드하여 스토리지 중복 방지 및 빌드 속도 향상 (Copy-on-Write)"
+title: "Copy-on-Write"
 date: "2026-04-07"
 tags:
   - "studynote-cloud"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

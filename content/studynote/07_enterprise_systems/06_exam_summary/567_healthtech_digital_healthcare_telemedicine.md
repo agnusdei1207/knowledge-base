@@ -1,10 +1,9 @@
 ---
-title: "567. 헬스테크 디지털 헬스케어 원격의료 (HealthTech Digital Healthcare Telemedicine)"
+title: "HealthTech Digital Healthcare Telemedicine"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 헬스테크 디지털 헬스케어 원격진료은(는) 의료 데이터와 원격 채널을 활용해 진단, 상담, 모니터링, 건강관리를 지원하는 디지털 의료 서비스이다.

@@ -1,10 +1,9 @@
 ---
-title: "837. ISMS 인증 절차 (Certification Process)"
+title: "Certification Process"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

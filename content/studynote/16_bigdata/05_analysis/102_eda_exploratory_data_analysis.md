@@ -1,10 +1,9 @@
 ---
-title: "탐색적 데이터 분석 (EDA, Exploratory Data Analysis)"
+title: "EDA, Exploratory Data Analysis"
 date: "2025-05-22"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 - <strong><a href="/studynote/12_it_management/02_itsm_itil/064_eda/">EDA</a> (<a href="/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/">Exploratory Data Analysis</a>)</strong>: 수집된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 편견 없이 들여다보며 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 구조, 특징, [이상치](/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 및 변수 간 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 시각적으로 탐색하는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석의 첫 단계.

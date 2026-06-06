@@ -1,10 +1,9 @@
 ---
-title: "583. 프로시저 플랜 캐시 스니핑 (Parameter Sniffing) 캐시 오염 실행 계획 악화"
+title: "583. Parameter Sniffing Execution Plan Cache Pollution"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

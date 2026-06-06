@@ -1,11 +1,10 @@
 ---
-title: "11. 후향 추론 (Backward Chaining) - 가설/목표에서 시작하여 조건 데이터 검증 (목표 주도)"
+title: "011. Backward Chaining"
 date: "2024-05-24"
 description: "가설이나 목표에서 출발하여 조건 데이터를 역으로 검증해 나가는 전문가 시스템의 목표 주도 추론 방식"
 tags:
   - "ai"
 ---
-
 # [11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). 후향 추론 (Backward [Chaining](/studynote/12_it_management/03_ea_isp/887_chaining/))
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 목표(Goal)나 가설을 먼저 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)하고, 이를 증명하기 위해 필요한 조건(Premise)을 규칙 베이스에서 역으로 탐색하는 목표 주도(Goal-Driven) 추론 메커니즘.

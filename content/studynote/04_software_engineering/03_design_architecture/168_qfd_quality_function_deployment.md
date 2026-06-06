@@ -1,10 +1,9 @@
 ---
-title: "168. 품질 기능 전개 (QFD, Quality Function Deployment)"
+title: "QFD, Quality Function Deployment"
 date: "2026-04-03"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

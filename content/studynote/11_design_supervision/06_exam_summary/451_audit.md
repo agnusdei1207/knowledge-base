@@ -1,10 +1,9 @@
 ---
-title: "451. 정보관리·시스템 감리 평가 빈출 키워드 100% 매핑 요약 연결망 (High-Frequency Information Management and System Audit Keyword Mapping Network)"
+title: "High-Frequency Information Management and System Audit Keyword Mapping Network"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 1. **본질**: 정보관리·시스템 감리 평가 빈출 키워드 100% 매핑 요약 연결망은 개별 용어 암기를 넘어서, 빈출 키워드를 생명주기·통제·증적 축에 묶어 빠르게 회상하고 답안으로 전개하기 위한 지식 구조다.

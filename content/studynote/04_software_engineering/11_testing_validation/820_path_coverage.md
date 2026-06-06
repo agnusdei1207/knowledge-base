@@ -1,10 +1,9 @@
 ---
-title: "820. 경로 커버리지 (Path Coverage)"
+title: "Path Coverage"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

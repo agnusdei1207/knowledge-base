@@ -1,10 +1,9 @@
 ---
-title: "161. 인스펙션 (Inspection, 공식 검토)"
+title: "Inspection,"
 date: "2026-04-21"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트
 

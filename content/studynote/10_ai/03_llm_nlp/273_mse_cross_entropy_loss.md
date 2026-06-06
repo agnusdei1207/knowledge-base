@@ -1,10 +1,9 @@
 ---
-title: "273. MSE / 크로스 엔트로피 (Cross-Entropy) 손실 함수"
+title: "273. Mse Cross Entropy Loss"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

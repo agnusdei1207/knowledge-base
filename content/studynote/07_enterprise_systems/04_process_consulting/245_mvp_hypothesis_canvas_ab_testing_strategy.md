@@ -1,10 +1,9 @@
 ---
-title: "245. MVP 가설 캔버스 및 AB 테스팅 실험 전략 (MVP Hypothesis Canvas / A/B Testing)"
+title: "MVP Hypothesis Canvas / A/B Testing"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

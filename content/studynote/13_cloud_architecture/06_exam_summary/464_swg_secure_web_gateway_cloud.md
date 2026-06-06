@@ -1,10 +1,9 @@
 ---
-title: "464. SWG 보안 웹 게이트웨이 클라우드 (SWG Secure Web Gateway Cloud)"
+title: "SWG Secure Web Gateway Cloud"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

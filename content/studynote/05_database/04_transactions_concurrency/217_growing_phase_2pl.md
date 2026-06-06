@@ -1,10 +1,9 @@
 ---
-title: "217. 확장 단계 (Growing Phase)"
+title: "Growing Phase"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

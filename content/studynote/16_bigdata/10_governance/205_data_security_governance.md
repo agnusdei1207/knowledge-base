@@ -1,10 +1,9 @@
 ---
-title: "199. 데이터 보안 거버넌스 (Data Security Governance) — 암호화/접근제어/감사로그"
+title: "205. Data Security Governance"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

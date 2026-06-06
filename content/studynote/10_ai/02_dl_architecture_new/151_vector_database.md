@@ -1,10 +1,9 @@
 ---
-title: "151. 벡터 데이터베이스 (Vector Database) - AI의 무한한 시맨틱 기억 저장소"
+title: "151. Vector Database"
 date: "2026-05-03"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [벡터 데이터베이스](/studynote/12_it_management/05_security_compliance/223_vector_database_embedding/)([Vector DB](/studynote/14_data_engineering/03_ml_dl_llm/151_vector_database_embedding_ann_search/))는 텍스트나 이미지 같은 [비정형 데이터](/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)를 단순한 글자가 아닌, [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 이해할 수 있는 고차원 실수 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)인 <strong>'<a href="/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">임베딩</a>(<a href="/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">Embedding</a>) 벡터 공간의 좌표 점'</strong>으로 변환하여 저장하는 4차원 기하학적 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 창고다.

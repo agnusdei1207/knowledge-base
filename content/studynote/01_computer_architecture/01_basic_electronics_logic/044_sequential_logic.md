@@ -1,10 +1,9 @@
 ---
-title: "044. 순서 논리 회로 — Sequential Logic"
+title: "044. Sequential Logic"
 date: "2026-04-05"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 > **핵심 인사이트**
 > 1. 순서 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로(Sequential Logic Circuit)는 현재 입력과 <strong>이전 상태(메모리)</strong>에 따라 출력이 결정되는 회로로 — 조합 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)([Combinational Logic](/studynote/01_computer_architecture/01_basic_electronics_logic/032_combinational_logic/))와 달리 피드백 루프와 기억 소자([Flip-Flop](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/), [Latch](/studynote/01_computer_architecture/01_basic_electronics_logic/048_latch/))를 포함하여 시간 의존성을 갖는다.

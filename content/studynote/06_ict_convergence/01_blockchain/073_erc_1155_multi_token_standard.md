@@ -1,9 +1,8 @@
 ---
-title: "73. ERC-1155 (다중 토큰 표준 - NFT와 FT 동시 발행 가능, 게임 아이템에 유리)"
+title: "- NFT FT ,"
 tags:
   - "ict_convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

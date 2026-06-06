@@ -1,9 +1,8 @@
 ---
-title: "61. 애자일 선언문 (Agile Manifesto) - 4가지 가치, 12가지 원칙"
+title: "061. Agile Manifesto"
 tags:
   - "software_engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

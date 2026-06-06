@@ -1,10 +1,9 @@
 ---
-title: "530. Serializable 성능 저하 임계 영역 데드락 방어"
+title: "530. Anomaly"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

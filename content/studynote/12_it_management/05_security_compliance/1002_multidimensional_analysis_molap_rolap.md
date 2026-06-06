@@ -1,10 +1,9 @@
 ---
-title: "1002. 다차원 분석 큐브 몰랩 롤랩 (MOLAP ROLAP) 구조 진단"
+title: "1002. Multidimensional Analysis Molap Rolap"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 다차원 분석 큐브 몰랩 롤랩 ([MOLAP](/studynote/05_database/06_dw_olap_trends/336_molap/) [ROLAP](/studynote/05_database/06_dw_olap_trends/337_rolap/)) 구조 진단의 본질은 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 정의, 운영 절차, 품질 측정, 개선 루프가 연결되어야 사용자가 체감하는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준을 안정적으로 유지할 수 있다.

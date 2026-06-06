@@ -1,10 +1,9 @@
 ---
-title: "61. CBDC (Central Bank Digital Currency) - 중앙은행 디지털 화폐"
+title: "061. Cbdc Central Bank Digital Currency"
 date: "2026-04-07"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

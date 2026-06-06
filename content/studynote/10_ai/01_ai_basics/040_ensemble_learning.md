@@ -1,10 +1,9 @@
 ---
-title: "040. 앙상블 학습 (Ensemble Learning)"
+title: "Ensemble Learning"
 date: "2026-04-05"
 tags:
   - "studynote-ai"
 ---
-
 
 > **핵심 인사이트**
 > 1. [앙상블 학습](/studynote/14_data_engineering/03_ml_dl_llm/125_ensemble_learning/)([Ensemble Learning](/studynote/14_data_engineering/03_ml_dl_llm/125_ensemble_learning/))은 여러 약한 학습기(Weak Learner)를 결합하여 단일 강한 학습기보다 우수한 예측 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 달성하는 기법으로, "다수결의 지혜"를 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 구현한 것이다.

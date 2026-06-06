@@ -1,10 +1,9 @@
 ---
-title: "559. 지속가능 IT ESG 그린 컴퓨팅 (Sustainable IT ESG Green Computing)"
+title: "Sustainable IT ESG Green Computing"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 지속가능 IT ESG 그린 컴퓨팅은(는) IT 인프라와 서비스 운영에서 에너지, 탄소, 폐기물 영향을 줄이고 ESG 목표와 연결하는 접근이다.

@@ -1,10 +1,9 @@
 ---
-title: "828. 테스트 오라클 (Test Oracle) - 테스트 결과 참/거짓 판단 기준"
+title: "828. Test Oracle"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,9 +1,8 @@
 ---
-title: "179. 전력선 통신 (PLC, Power Line Communication)"
+title: "PLC, Power Line Communication"
 tags:
   - "network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

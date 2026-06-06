@@ -1,10 +1,9 @@
 ---
-title: "313. 후퇴 (Rollback) - 프로세스를 안전한 상태로 롤백 후 재시작"
+title: "313. Rollback"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

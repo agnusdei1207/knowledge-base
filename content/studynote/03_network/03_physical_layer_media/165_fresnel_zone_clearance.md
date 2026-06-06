@@ -1,9 +1,8 @@
 ---
-title: "165. 프레넬 영역 (Fresnel Zone)"
+title: "Fresnel Zone"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

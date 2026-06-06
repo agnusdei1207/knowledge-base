@@ -1,10 +1,9 @@
 ---
-title: "313. HTAP 하이브리드 트랜잭션 분석 처리 인메모리 아키텍처 (HTAP In-Memory Architecture)"
+title: "HTAP In-Memory Architecture"
 date: "2026-04-21"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "305. 대기 그래프 (Wait-for Graph) - 자원 정점을 제거하고 프로세스 간 간선만 남긴 그래프 (단일 자원 탐지용)"
+title: "305. Wait For Graph"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "573. 리스크 관리 정량적 정성적 분석 (Risk Management Quantitative Qualitative)"
+title: "Risk Management Quantitative Qualitative"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 위험관리 정성 정량 분석은(는) 프로젝트와 IT 운영의 불확실성을 식별·분석·대응·감시하는 관리 활동이다.

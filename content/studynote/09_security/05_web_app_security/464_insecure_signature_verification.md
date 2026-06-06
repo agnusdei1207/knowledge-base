@@ -1,10 +1,9 @@
 ---
-title: "464. 잘못된 서명 검증 (Insecure Signature Verification)"
+title: "Insecure Signature Verification"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

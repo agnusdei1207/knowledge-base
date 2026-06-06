@@ -1,10 +1,9 @@
 ---
-title: "52. 위험 완화 (Risk Mitigation)"
+title: "Risk Mitigation"
 date: "2026-05-01"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

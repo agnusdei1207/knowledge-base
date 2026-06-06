@@ -1,10 +1,9 @@
 ---
-title: "25. SDS (Software Defined Storage) — 소프트웨어 정의 스토리지"
+title: "025. Sds Software Defined Storage"
 date: "2026-04-29"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [SDS](/studynote/01_computer_architecture/15_advanced_topics/632_sds/) ([Software Defined Storage](/studynote/01_computer_architecture/15_advanced_topics/632_sds/), 소프트웨어 정의 스토리지)는 스토리지 하드웨어([HDD](/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/), [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/), [NVMe](/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/))와 제어 소프트웨어를 분리(Disaggregation)하여, 이기종 하드웨어를 추상화하고 단일 API로 제어하는 스토리지 아키텍처다.

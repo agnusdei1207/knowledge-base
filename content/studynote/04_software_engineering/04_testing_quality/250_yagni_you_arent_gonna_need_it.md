@@ -1,10 +1,9 @@
 ---
-title: "250. YAGNI (You Aren't Gonna Need It) 원칙"
+title: "250. Yagni You Arent Gonna Need It"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

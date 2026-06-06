@@ -1,11 +1,10 @@
 ---
-title: "77. 비대칭키 암호 (Asymmetric Encryption) — 공개키/비밀키 쌍"
+title: "077. Asymmetric Encryption"
 date: "2026-03-26"
 description: "공개키와 개인키 쌍을 사용하여 암호화와 복호화를 수행하는 공개키 암호 시스템"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 비대칭키 암호는 공개키로 암호화/[검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고 개인키로 복호화/서명하는 키 쌍 기반 구조다.

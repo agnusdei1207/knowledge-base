@@ -1,10 +1,9 @@
 ---
-title: "233. 동적 분기 예측 (Dynamic Prediction)"
+title: "Dynamic Prediction"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

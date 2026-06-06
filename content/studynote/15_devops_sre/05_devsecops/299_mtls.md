@@ -1,10 +1,9 @@
 ---
-title: "299. mTLS 상호 인증 제로 트러스트 (Mutual TLS)"
+title: "Mutual TLS"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

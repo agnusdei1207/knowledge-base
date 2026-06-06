@@ -1,10 +1,9 @@
 ---
-title: "941. 2PC (Two-Phase Commit)의 MSA 적용 한계"
+title: "941. Two Phase Commit Limitations"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

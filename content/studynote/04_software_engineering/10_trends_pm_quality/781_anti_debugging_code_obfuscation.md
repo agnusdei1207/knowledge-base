@@ -1,10 +1,9 @@
 ---
-title: "781. 안티 디버깅 코드 난독화 리버스엔지니어링 차단"
+title: "781. Anti Debugging Code Obfuscation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

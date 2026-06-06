@@ -1,10 +1,9 @@
 ---
-title: "420. ISO/IEC 42001 AI 경영시스템 (AI Management System, AIMS)"
+title: "AI Management System, AIMS"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "516. 이종 컴퓨팅 메모리 공유 (Heterogeneous Memory Sharing)"
+title: "Heterogeneous Memory Sharing"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

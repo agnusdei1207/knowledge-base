@@ -1,10 +1,9 @@
 ---
-title: "155. RLHF (인간 피드백 기반 강화학습)"
+title: "155. Rlhf"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

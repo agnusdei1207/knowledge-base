@@ -1,10 +1,9 @@
 ---
-title: "528. 코드 리뷰 정적 분석 품질 관문 (Code Review Static Analysis Quality Gate)"
+title: "Code Review Static Analysis Quality Gate"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

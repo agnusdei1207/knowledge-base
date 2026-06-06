@@ -1,10 +1,9 @@
 ---
-title: "651. 서버 랙 PDU (Power Distribution Unit)"
+title: "Power Distribution Unit"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

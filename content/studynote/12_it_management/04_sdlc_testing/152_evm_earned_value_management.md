@@ -1,10 +1,9 @@
 ---
-title: "152. EVM (Earned Value Management, 획득 가치 관리) - 3차원 비용/일정 엑스레이 스캐너"
+title: "152. Evm Earned Value Management"
 date: "2026-05-03"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: EVM([Earned Value Management](/studynote/04_software_engineering/01_overview_principles/040_evm/))은 "사장님 통장에 돈 50% 썼으니 일도 50% 끝났겠지 ㅋ" 라는 멍청한 뇌피셜 희망 회로(Hope)를 도끼로 찢어발기고 -> <strong>계획한 예산(<a href="/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/">PV</a>), 실제로 쓴 돈(<a href="/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/">AC</a>), 그리고 진짜 삽질해서 완성해 낸 쇳덩이 가치(<a href="/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/">EV</a>)</strong> 3차원 십자 융합 지표로 프로젝트의 피 터지는 생존 건강 상태를 실시간 스캔 치는 엑스레이 레이더다.

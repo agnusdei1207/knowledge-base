@@ -1,10 +1,9 @@
 ---
-title: "377. 멀티 테넌트 SaaS 인스턴스 공유망 (Multi-tenant SaaS)"
+title: "Multi-tenant SaaS"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

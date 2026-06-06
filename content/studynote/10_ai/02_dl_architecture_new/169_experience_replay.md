@@ -1,10 +1,9 @@
 ---
-title: "169. 경험 재생 (Experience Replay)"
+title: "Experience Replay"
 date: "2026-04-17"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

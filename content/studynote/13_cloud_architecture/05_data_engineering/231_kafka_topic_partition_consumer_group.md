@@ -1,10 +1,9 @@
 ---
-title: "231. 카프카 토픽 / 파티션 / 컨슈머 그룹"
+title: "231. Kafka Topic Partition Consumer Group"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 카프카의 Topic([논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 채널)·[Partition](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(물리 분할)·[Consumer Group](/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/)([병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 소비)은 <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a> 확장과 메시지 순서 보장을 동시에 달성</strong>하기 위한 3-Layer 설계다.

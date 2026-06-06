@@ -1,10 +1,9 @@
 ---
-title: "483. Vulnerable and Outdated Components (취약하고 만료된 컴포넌트)"
+title: "483. Vulnerable And Outdated Components"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

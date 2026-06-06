@@ -1,10 +1,9 @@
 ---
-title: "1035. RFID 충돌 방지 알고리즘"
+title: "1035. Rfid Anti Collision Aloha Tree Algorithm"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

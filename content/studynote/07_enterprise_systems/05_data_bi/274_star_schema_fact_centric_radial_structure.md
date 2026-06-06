@@ -1,10 +1,9 @@
 ---
-title: "274. 스타 스키마 (Star Schema) - 팩트 중심 방사형 구조"
+title: "274. Star Schema Fact Centric Radial Structure"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "602. 정보 은닉(Information Hiding) 캡슐화 연계"
+title: "602. Information Hiding Encapsulation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

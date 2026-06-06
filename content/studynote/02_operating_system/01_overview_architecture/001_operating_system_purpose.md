@@ -1,10 +1,9 @@
 ---
-title: "1. 운영체제 (Operating System)의 목적 - 자원 관리, 편의성, 성능 향상"
+title: "001. Operating System Purpose"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 운영체제 (Operating System)는 사용자에게는 하드웨어 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) (Hardware [Abstraction](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))를 통한 편의성을 제공하고, 시스템 측면에서는 한정된 자원을 최적으로 배분하는 [중재자](/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/) 역할을 수행한다.

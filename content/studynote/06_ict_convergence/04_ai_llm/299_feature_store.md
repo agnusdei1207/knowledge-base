@@ -1,10 +1,9 @@
 ---
-title: "299. 피처 스토어 (Feature Store)"
+title: "Feature Store"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

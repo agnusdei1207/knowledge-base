@@ -1,10 +1,9 @@
 ---
-title: "604. 사용자 인증 (Authentication) 요소 - Something you know, have, are"
+title: "604. Authentication Factors"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

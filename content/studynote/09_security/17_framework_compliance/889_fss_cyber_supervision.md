@@ -1,10 +1,9 @@
 ---
-title: "889. 금융감독원 (FSS) Cyber Supervision (Fss Cyber Supervision)"
+title: "Fss Cyber Supervision"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

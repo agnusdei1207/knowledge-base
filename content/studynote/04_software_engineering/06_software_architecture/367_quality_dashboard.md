@@ -1,10 +1,9 @@
 ---
-title: "367. 품질 대시보드 (Quality Dashboard) 구축"
+title: "367. Quality Dashboard"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

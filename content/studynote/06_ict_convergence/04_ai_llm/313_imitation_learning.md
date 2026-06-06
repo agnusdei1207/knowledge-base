@@ -1,10 +1,9 @@
 ---
-title: "313. 자율주행 강화학습 모방 학습 (Imitation Learning / Behavior Cloning)"
+title: "Imitation Learning / Behavior Cloning"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

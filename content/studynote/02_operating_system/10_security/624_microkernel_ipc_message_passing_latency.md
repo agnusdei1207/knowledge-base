@@ -1,10 +1,9 @@
 ---
-title: "624. 마이크로커널 IPC 메시지 패싱 지연 단축 기법 구조 설계 (Microkernel IPC Message Passing Latency)"
+title: "Microkernel IPC Message Passing Latency"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

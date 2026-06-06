@@ -1,10 +1,9 @@
 ---
-title: "732. 스마트 그리드 수요 반응 DR 가상발전 (Smart Grid Demand Response DR VPP)"
+title: "Smart Grid Demand Response DR VPP"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

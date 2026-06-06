@@ -1,10 +1,9 @@
 ---
-title: "393. 데이터 사전 (Data Dictionary) 질의"
+title: "393. Data Dictionary"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

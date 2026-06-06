@@ -1,9 +1,8 @@
 ---
-title: "03. 엔터프라이즈 아키텍처 (EA) 및 ISP"
+title: "IT Management"
 tags:
   - "it_management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

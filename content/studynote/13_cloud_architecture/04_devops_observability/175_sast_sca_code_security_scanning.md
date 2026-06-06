@@ -1,10 +1,9 @@
 ---
-title: "175. 코드 정적 스캐닝 및 종속성 취약점 스캐닝 (Static Application Security Testing, Software Composition Analysis; SAST, SCA)"
+title: "Static Application Security Testing, Software Composition Analysis; SAST, SCA"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

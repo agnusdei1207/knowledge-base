@@ -1,10 +1,9 @@
 ---
-title: "333. 데이터 품질 6대 지표 (Six Data Quality Metrics)"
+title: "Six Data Quality Metrics"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

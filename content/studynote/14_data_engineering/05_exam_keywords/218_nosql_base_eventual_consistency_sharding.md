@@ -1,10 +1,9 @@
 ---
-title: "218. NoSQL BASE (Basically Available, Soft-state, Eventually Consistent) 결과적 일관성 샤딩"
+title: "218. Nosql Base Eventual Consistency Sharding"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: NoSQL의 BASE(Basically Available, Soft-state, Eventually Consistent) [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 RDBMS의 ACID([Atomicity](/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)·[Consistency](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)·[Isolation](/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)·[Durability](/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/))와 정반대로, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 강한 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 대신 [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)과 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 택하는 설계 철학이다.

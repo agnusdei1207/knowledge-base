@@ -1,11 +1,10 @@
 ---
-title: "14. 감리 계획 수립 (Audit Planning) - 예비조사, 감리 일정 및 인력 배치, 감리 계획서 작성"
+title: "014. Audit Planning"
 date: "2024-05-20"
 description: "예비조사를 통한 주안점 도출부터 리스크 기반 일정 및 인력 배치까지, 정보시스템 감리의 성공을 좌우하는 감리 계획 수립 아키텍처"
 tags:
   - "design_supervision"
 ---
-
 
 # 14. 감리 계획 수립 ([Audit Planning](/studynote/11_design_supervision/01_audit_framework/013_audit_planning/))
 

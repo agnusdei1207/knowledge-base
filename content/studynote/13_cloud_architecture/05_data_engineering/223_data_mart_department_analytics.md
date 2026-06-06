@@ -1,10 +1,9 @@
 ---
-title: "223. 데이터 마트 (Data Mart)"
+title: "Data Mart"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터 마트](/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/)([Data Mart](/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/))는 전사 DW에서 특정 부서(영업·재무·마케팅)가 필요로 하는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 추출·요약한 <strong>부서 전용 소규모 분석 저장소</strong>다.

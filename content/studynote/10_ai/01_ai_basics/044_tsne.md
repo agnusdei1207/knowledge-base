@@ -1,10 +1,9 @@
 ---
-title: "044. t-SNE — 고차원 데이터 시각화"
+title: "044. Tsne"
 date: "2026-04-05"
 tags:
   - "studynote-ai"
 ---
-
 
 > **핵심 인사이트**
 > 1. t-SNE(t-distributed Stochastic Neighbor [Embedding](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))는 고차원 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 국소적 구조(Local Structure)를 2~3차원으로 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)하는 비선형 [차원 축소](/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/) 기법으로 — 유사한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인트를 가깝게, 상이한 포인트를 멀리 배치하여 클러스터 구조를 직관적으로 드러낸다.

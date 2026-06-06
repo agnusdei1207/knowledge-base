@@ -1,10 +1,9 @@
 ---
-title: "478. CSRF 토큰 (CSRF Token)"
+title: "CSRF Token"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

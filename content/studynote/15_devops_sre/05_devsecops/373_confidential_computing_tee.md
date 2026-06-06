@@ -1,10 +1,9 @@
 ---
-title: "373. 컨피덴셜 컴퓨팅 TEE 하드웨어 기반 데이터 보호 (Confidential Computing TEE SGX TrustZone)"
+title: "Confidential Computing TEE SGX TrustZone"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "415. DDL (CREATE, ALTER, DROP, TRUNCATE 롤백 불가)"
+title: "CREATE, ALTER, DROP, TRUNCATE"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

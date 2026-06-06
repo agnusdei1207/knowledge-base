@@ -1,10 +1,9 @@
 ---
-title: "664. 대규모 애자일 SAFe, LeSS"
+title: "664. Scaled Agile Safe Less"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

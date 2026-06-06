@@ -1,10 +1,9 @@
 ---
-title: "904. TRM (Technical Reference Model, 기술 참조 모델)"
+title: "Technical Reference Model,"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [TRM](/studynote/12_it_management/03_ea_isp/120_trm_technical_reference_model/) (Technical [Reference Model](/studynote/12_it_management/03_ea_isp/116_reference_model/), 기술 [참조 모델](/studynote/12_it_management/03_ea_isp/116_reference_model/))의 본질은 기술 인프라 요소 및 표준 규격 명세를 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가치와 운영 절차로 연결하는 데 있다.

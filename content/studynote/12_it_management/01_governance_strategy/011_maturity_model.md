@@ -1,11 +1,10 @@
 ---
-title: "11. 자가 진단 및 성숙도 모델 (Maturity Model) - CMMI, SPICE 연계 조직 진단"
+title: "011. Maturity Model"
 date: "2024-05-20"
 description: "조직의 역량 및 프로세스 성숙도를 진단하는 CMMI 및 SPICE 모델 분석"
 tags:
   - "it_management"
 ---
-
 
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 조직이 목적을 달성하기 위한 프로세스의 표준화, 측정, 통제, 최적화 수준을 정량적으로 평가하고 개선하는 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 프레임워크.

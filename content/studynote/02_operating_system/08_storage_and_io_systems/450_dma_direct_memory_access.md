@@ -1,10 +1,9 @@
 ---
-title: "450. 직접 메모리 접근 (DMA, Direct Memory Access) - CPU 개입 없이 장치와 메모리 간 직접 데이터 전송"
+title: "450. Dma Direct Memory Access"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "665. ECDSA, Ed25519 (고성능 차세대 공개키 디지털 전자서명 방식)"
+title: "665. Ecdsa Ed25519 Digital Signature Algorithm"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

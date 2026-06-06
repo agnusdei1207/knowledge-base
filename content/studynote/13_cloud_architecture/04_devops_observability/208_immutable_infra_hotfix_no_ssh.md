@@ -1,10 +1,9 @@
 ---
-title: "208. 인프라 불변성 원칙과 핫픽스 금지 (Immutable Infrastructure)"
+title: "Immutable Infrastructure"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "175. 시스템 경계 완충지대 텔레메트리 (Buffer/Queue Telemetry)"
+title: "Buffer/Queue Telemetry"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

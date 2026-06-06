@@ -1,11 +1,10 @@
 ---
-title: "63. DPCM (Differential PCM) - 차분 펄스 부호 변조"
+title: "063. Dpcm 차분 펄스 부호 변조"
 date: "2024-05-15"
 description: "인접한 표본 간의 높은 상관성을 활용하여 데이터 전송량을 절감하는 예측 부호화 기반의 차분 펄스 부호 변조 원리"
 tags:
   - "network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

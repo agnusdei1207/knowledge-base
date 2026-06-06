@@ -1,10 +1,9 @@
 ---
-title: "550. 스마트 팩토리 엣지 게이트웨이 HW"
+title: "550. Smart Factory Gateway"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

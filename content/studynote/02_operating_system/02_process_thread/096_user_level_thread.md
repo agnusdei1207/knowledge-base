@@ -1,10 +1,9 @@
 ---
-title: "96. 사용자 수준 스레드 (User-level Thread) - 스레드 라이브러리가 관리, 커널 비개입"
+title: "096. User Level Thread"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 사용자 수준 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) (User-Level [Thread](/studynote/02_operating_system/02_process_thread/092_thread_lwp/))는 OS [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 개입 없이 사용자 영역(User Space)의 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)에 의해 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 스케줄링, 소멸이 통제되는 경량화된 실행 흐름이다.

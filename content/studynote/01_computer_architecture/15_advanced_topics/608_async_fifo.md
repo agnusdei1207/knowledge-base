@@ -1,10 +1,9 @@
 ---
-title: "608. 비동기식 FIFO (First-In First-Out) 버퍼"
+title: "608. Async Fifo"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

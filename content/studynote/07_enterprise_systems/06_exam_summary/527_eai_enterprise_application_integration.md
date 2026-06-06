@@ -1,10 +1,9 @@
 ---
-title: "527. EAI 엔터프라이즈 통합 미들웨어 (EAI Enterprise Application Integration)"
+title: "EAI Enterprise Application Integration"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: EAI 엔터프라이즈 통합 미들웨어은(는) ERP, CRM, SCM 등 이기종 엔터프라이즈 애플리케이션을 메시징과 어댑터로 연계하는 통합 미들웨어이다.

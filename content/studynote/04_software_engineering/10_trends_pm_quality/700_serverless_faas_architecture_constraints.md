@@ -1,10 +1,9 @@
 ---
-title: "700. 서버리스 FaaS 아키텍처 제약"
+title: "700. Serverless Faas Architecture Constraints"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

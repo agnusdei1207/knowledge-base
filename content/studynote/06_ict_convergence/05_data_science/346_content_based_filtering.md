@@ -1,10 +1,9 @@
 ---
-title: "346. 콘텐츠 기반 필터링 (Content-based Filtering)"
+title: "Content-based Filtering"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

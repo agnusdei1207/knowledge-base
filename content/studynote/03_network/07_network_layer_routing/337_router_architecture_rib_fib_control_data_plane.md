@@ -1,10 +1,9 @@
 ---
-title: "337. 라우터 구조 판단"
+title: "337. Router Architecture Rib Fib Control Data Plane"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

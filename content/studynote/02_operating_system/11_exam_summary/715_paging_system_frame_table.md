@@ -1,10 +1,9 @@
 ---
-title: "715. 페이징 시스템 프레임 테이블 (Paging System Frame Table)"
+title: "Paging System Frame Table"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

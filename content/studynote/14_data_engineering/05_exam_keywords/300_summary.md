@@ -1,10 +1,9 @@
 ---
-title: "300. 데이터 및 AI 아키텍트 전용 고득점 암기 단어장 집대성"
+title: "300. Summary"
 date: "2026-04-28"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

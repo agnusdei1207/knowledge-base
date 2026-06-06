@@ -1,10 +1,9 @@
 ---
-title: "586. 트로이 목마 (Trojan Horse) / 래퍼 (Wrapper)"
+title: "Wrapper"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

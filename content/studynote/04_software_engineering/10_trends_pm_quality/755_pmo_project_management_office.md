@@ -1,10 +1,9 @@
 ---
-title: "755. PMO 전사 품질 통제 및 감사 조직"
+title: "755. Pmo Project Management Office"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

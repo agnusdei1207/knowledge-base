@@ -1,10 +1,9 @@
 ---
-title: "639. A/B 테스팅"
+title: "639. Ab Testing Hypothesis Validation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

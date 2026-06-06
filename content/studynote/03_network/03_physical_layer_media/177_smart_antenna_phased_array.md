@@ -1,9 +1,8 @@
 ---
-title: "177. 스마트 안테나 (Smart Antenna) / 위상 배열 안테나 (Phased Array)"
+title: "Phased Array"
 tags:
   - "network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

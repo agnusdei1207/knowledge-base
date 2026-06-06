@@ -1,10 +1,9 @@
 ---
-title: "270. ROI, NPV, IRR, PP 타당성 분석 지표"
+title: "270. Investment Analysis Roi Npv"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [ROI](/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/), [NPV](/studynote/12_it_management/01_governance_strategy/013_npv/), [IRR](/studynote/12_it_management/01_governance_strategy/809_irr_internal_rate_of_return/), [PP](/studynote/12_it_management/01_governance_strategy/015_payback_period/) 타당성 분석 지표의 본질은 측정식의 의미와 해석 기준을 정확히 이해해야 숫자가 보고용 장식이 아니라 실제 투자·운영 판단 도구가 된다.

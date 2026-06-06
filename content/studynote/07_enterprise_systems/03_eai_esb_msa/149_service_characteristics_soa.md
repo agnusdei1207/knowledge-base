@@ -1,10 +1,9 @@
 ---
-title: "149. 서비스 (Service)의 특징 - SOA/MSA 비즈니스 단위 모듈, 느슨한 결합(Loose Coupling)"
+title: "Loose Coupling"
 date: "2026-05-03"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 엔터프라이즈 아키텍처([SOA](/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/)/[MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))에서 말하는 '[서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)([Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))'는 단순한 자바 클래스나 함수 덩어리가 아니다. 스스로 독립적인 비즈니스 의미(예: 결제 승인)를 가지며, 타 시스템과 네트워크 껍데기([API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/))로만 소통하는 살아 숨 쉬는 독립적인 배포(Deploy) 생명체다.

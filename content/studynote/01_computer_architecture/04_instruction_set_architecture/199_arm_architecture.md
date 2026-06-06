@@ -1,10 +1,9 @@
 ---
-title: "199. ARM 아키텍처"
+title: "199. Arm Architecture"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

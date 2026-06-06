@@ -1,10 +1,9 @@
 ---
-title: "959. 스패닝 트리"
+title: "959. Spanning Tree Protocol Stp Loop Avoidance"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

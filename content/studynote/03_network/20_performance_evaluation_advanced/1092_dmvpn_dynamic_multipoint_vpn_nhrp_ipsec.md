@@ -1,10 +1,9 @@
 ---
-title: "1092. DMVPN 동적 라우팅 결합형 지점"
+title: "1092. Dmvpn Dynamic Multipoint Vpn Nhrp Ipsec"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

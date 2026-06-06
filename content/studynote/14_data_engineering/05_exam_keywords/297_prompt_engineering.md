@@ -1,10 +1,9 @@
 ---
-title: "297. 프롬프트 엔지니어링 인컨텍스트 학습 전략 (Prompt Engineering In-Context Learning)"
+title: "Prompt Engineering In-Context Learning"
 date: "2026-05-09"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

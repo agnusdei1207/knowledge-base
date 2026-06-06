@@ -1,10 +1,9 @@
 ---
-title: "119. 시프트 연산 (Shift Operations)"
+title: "Shift Operations"
 date: "2026-05-05"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 시프트 연산(Shift Operations)은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 내의 이진수 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 열 전체를 <strong>좌측 또는 우측으로 밀어내는 <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 단위 위치 이동 <a href="/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a></strong>의 집합이다.

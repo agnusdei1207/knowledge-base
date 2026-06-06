@@ -1,10 +1,9 @@
 ---
-title: "683. PCB 구성 요소 필수 암기 (PCB Process Control Block Components)"
+title: "PCB Process Control Block Components"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "513. FPA 기능점 분석 규모 산정 (FPA Function Point Analysis Size Estimation)"
+title: "FPA Function Point Analysis Size Estimation"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

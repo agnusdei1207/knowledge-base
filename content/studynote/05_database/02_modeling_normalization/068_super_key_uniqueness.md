@@ -1,9 +1,8 @@
 ---
-title: "68. 슈퍼 키 (Super Key) - 유일성은 만족하나 최소성은 만족하지 않는 속성 집합"
+title: "068. Super Key Uniqueness"
 tags:
   - "database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

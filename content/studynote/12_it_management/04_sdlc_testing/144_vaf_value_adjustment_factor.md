@@ -1,10 +1,9 @@
 ---
-title: "144. 보정 계수"
+title: "144. Vaf Value Adjustment Factor"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 보정 계수의 본질은 규모 산정 후 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 다중 사이트, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 등 기술적 난이도를 반영해 규모 보정 (VAF, Value Adjustment Factor)를 단계별 산출물과 품질 게이트로 관리하는 데 있다.

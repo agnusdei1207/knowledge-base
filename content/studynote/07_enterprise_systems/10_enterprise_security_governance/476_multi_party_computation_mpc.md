@@ -1,10 +1,9 @@
 ---
-title: "476. 다자간 보안 연산 (Multi-Party Computation, MPC)"
+title: "Multi-Party Computation, MPC"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

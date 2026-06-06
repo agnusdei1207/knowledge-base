@@ -1,10 +1,9 @@
 ---
-title: "551. AI 퍼스트 전략 지능형 자동화 (AI First Strategy Intelligent Automation)"
+title: "AI First Strategy Intelligent Automation"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: AI First 전략 지능형 자동화은(는) 제품, 업무, 의사결정 프로세스에 AI 적용 가능성을 우선 검토하고 자동화 수준을 높이는 전략이다.

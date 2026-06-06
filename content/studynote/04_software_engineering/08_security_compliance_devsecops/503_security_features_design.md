@@ -1,10 +1,9 @@
 ---
-title: "503. 보안 기능 (Security Features)의 설계"
+title: "503. Security Features Design"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

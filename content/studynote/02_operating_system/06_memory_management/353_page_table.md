@@ -1,10 +1,9 @@
 ---
-title: "353. 페이지 테이블 (Page Table) - 페이지 번호를 프레임 번호로 매핑"
+title: "353. Page Table"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "309. 코사인 어닐링 및 학습률 스케줄링 튜닝 (Cosine Annealing)"
+title: "Cosine Annealing"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

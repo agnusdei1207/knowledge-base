@@ -1,10 +1,9 @@
 ---
-title: "071. 단일 치환 암호 — 하나의 알파벳을 하나의 문자로 치환"
+title: "071. Monoalphabetic Cipher"
 date: "2026-04-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

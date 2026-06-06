@@ -1,11 +1,10 @@
 ---
-title: "9. 사고 대응 (Incident Response)"
+title: "Incident Response"
 date: "2026-03-26"
 description: "보안 사고 발생 시 체계적인 대응 절차와 방법론"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 # 사고 대응 ([Incident Response](/studynote/09_security/16_data_privacy/806_incident_response/))
 

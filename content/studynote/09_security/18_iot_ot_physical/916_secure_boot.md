@@ -1,10 +1,9 @@
 ---
-title: "916. Secure Boot (부팅 무결성)"
+title: "916. Secure Boot"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

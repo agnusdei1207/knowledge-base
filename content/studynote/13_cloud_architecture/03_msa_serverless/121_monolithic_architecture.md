@@ -1,10 +1,9 @@
 ---
-title: "121. 모놀리식 아키텍처 (Monolithic Architecture) - 단일체 구조의 특징과 한계"
+title: "121. Monolithic Architecture"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 모놀리식 아키텍처는 <strong>전체 애플리케이션이 하나의 <a href="/studynote/15_devops_sre/01_culture_methodology/007_codebase/">코드베이스</a>·빌드·배포 단위로 구성</strong>되는 전통적 구조이며, 모든 기능(UI·비즈니스 로직·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근)이 하나의 프로세스에서 실행된다.

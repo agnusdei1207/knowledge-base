@@ -1,9 +1,8 @@
 ---
-title: "99. BRC-20 표준 - 비트코인 네트워크 상에서의 토큰 발행 프로토콜 (오디널스 Ordinals)"
+title: "Ordinals"
 tags:
   - "ict_convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "969. 애자일 스크럼 (Scrum) 역할 분담"
+title: "969. Agile Scrum Roles"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

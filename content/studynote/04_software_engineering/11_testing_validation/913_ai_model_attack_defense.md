@@ -1,10 +1,9 @@
 ---
-title: "913. 인공지능 모델 공격 방어"
+title: "913. Ai Model Attack Defense"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

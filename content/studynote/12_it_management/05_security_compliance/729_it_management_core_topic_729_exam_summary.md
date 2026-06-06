@@ -1,10 +1,9 @@
 ---
-title: "729. IT 경영 관리 핵심 토픽 729번 시험 요약 (IT Management Core Topic 729 Exam Summary)"
+title: "IT Management Core Topic 729 Exam Summary"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 # ⚠️ 주제 특정 불가 - 작성 보류 안내
 

@@ -1,9 +1,8 @@
 ---
-title: "72. ERC-20 (이더리움 대체 가능 토큰 표준)"
+title: "072. Erc 20 Fungible Token Standard"
 tags:
   - "ict_convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

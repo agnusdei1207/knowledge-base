@@ -1,10 +1,9 @@
 ---
-title: "363. LLM 캐싱 프롬프트 토큰 반복 요금 레이턴시 방어 계층 (LLM)"
+title: "LLM"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 프롬프트 토큰 반복 요금 레이턴시 방어 계층는 클라우드 인프라에서 복잡한 운영의 질서화를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.

@@ -1,10 +1,9 @@
 ---
-title: "405. 모바일 보안 MDM MAM 앱 보호 (Mobile Security MDM MAM App Protection)"
+title: "Mobile Security MDM MAM App Protection"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

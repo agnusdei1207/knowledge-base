@@ -1,10 +1,9 @@
 ---
-title: "648. AI 에이전트 도구 사용 자율 계획 (AI Agent Tool Use Autonomous Planning)"
+title: "AI Agent Tool Use Autonomous Planning"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

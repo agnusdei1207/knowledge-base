@@ -1,10 +1,9 @@
 ---
-title: "169. 도플러 효과 (Doppler Effect) / 고속 이동체 통신"
+title: "169. Doppler Effect Fast Fading"
 date: "2026-05-05"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

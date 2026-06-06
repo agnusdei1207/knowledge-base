@@ -1,10 +1,9 @@
 ---
-title: "186. 스페이스 기반 아키텍처 (Space-Based Architecture)"
+title: "Space-Based Architecture"
 date: "2026-04-21"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

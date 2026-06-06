@@ -1,10 +1,9 @@
 ---
-title: "583. MLOps 머신러닝 운영 자동화 파이프라인 (MLOps Machine Learning Operations Pipeline)"
+title: "MLOps Machine Learning Operations Pipeline"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

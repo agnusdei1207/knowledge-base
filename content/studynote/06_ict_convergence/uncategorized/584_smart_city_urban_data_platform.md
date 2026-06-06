@@ -1,10 +1,9 @@
 ---
-title: "584. 스마트 시티 도시 데이터 플랫폼 (Smart City Urban Data Platform)"
+title: "Smart City Urban Data Platform"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

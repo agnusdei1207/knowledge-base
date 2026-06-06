@@ -1,10 +1,9 @@
 ---
-title: "176. 컨셉 드리프트 (Concept Drift)"
+title: "Concept Drift"
 date: "2026-04-17"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

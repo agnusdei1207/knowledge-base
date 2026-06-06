@@ -1,10 +1,9 @@
 ---
-title: "177. 서버리스 옵저버빌리티 (Serverless Observability) - AWS X-Ray"
+title: "177. Serverless Observability Xray"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

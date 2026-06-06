@@ -1,10 +1,9 @@
 ---
-title: "429. 인덱스 레인지 스캔 (Index Range Scan)"
+title: "Index Range Scan"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

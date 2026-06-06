@@ -1,10 +1,9 @@
 ---
-title: "1076. ARP 스푸핑 중간자 방어 (동적 검사 체계)"
+title: "1076. Arp Spoofing Mitm Dynamic Arp Inspection Dai"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

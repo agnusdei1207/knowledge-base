@@ -1,10 +1,9 @@
 ---
-title: "705. SAM Hive 추출 (reg save)"
+title: "reg save"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

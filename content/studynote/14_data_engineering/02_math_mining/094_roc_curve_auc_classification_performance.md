@@ -1,10 +1,9 @@
 ---
-title: "ROC-AUC: 분류 모델의 종합 변별력 측정표"
+title: "094. Roc Curve Auc Classification Performance"
 date: "2026-03-04"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

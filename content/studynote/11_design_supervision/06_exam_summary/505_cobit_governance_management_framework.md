@@ -1,10 +1,9 @@
 ---
-title: "505. COBIT 거버넌스 관리 프레임워크 (COBIT Governance Management Framework)"
+title: "COBIT Governance Management Framework"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

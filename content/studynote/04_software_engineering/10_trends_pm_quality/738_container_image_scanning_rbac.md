@@ -1,10 +1,9 @@
 ---
-title: "738. 컨테이너 이미지 스캐닝 권한 통제"
+title: "738. Container Image Scanning Rbac"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

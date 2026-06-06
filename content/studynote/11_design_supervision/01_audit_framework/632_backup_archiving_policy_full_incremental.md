@@ -1,10 +1,9 @@
 ---
-title: "632. 백업 및 아카이빙 정책 - Full/Incremental/Differential 점검"
+title: "632. Backup Archiving Policy Full Incremental"
 date: "2026-04-10"
 tags:
   - "studynote-design"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

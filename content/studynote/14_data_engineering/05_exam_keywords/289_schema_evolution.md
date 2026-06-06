@@ -1,10 +1,9 @@
 ---
-title: "289. 스키마 진화 호환성 레지스트리 관리 (Schema Evolution Compatibility Registry)"
+title: "Schema Evolution Compatibility Registry"
 date: "2026-05-09"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

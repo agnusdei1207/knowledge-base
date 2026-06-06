@@ -1,10 +1,9 @@
 ---
-title: "767. 객체지향 추상화 자료/제어/과정 분리"
+title: "767. Oo Abstraction Data Control"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

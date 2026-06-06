@@ -1,9 +1,8 @@
 ---
-title: "58. 방법론 테일러링 (Tailoring) - 표준 프로세스를 프로젝트에 맞게 최적화"
+title: "058. Methodology Tailoring"
 tags:
   - "software_engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

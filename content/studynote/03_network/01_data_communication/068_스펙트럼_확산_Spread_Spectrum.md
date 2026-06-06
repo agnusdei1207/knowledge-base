@@ -1,11 +1,10 @@
 ---
-title: "68. 스펙트럼 확산 (Spread Spectrum)"
+title: "Spread Spectrum"
 date: "2024-05-24"
 description: "전송 신호의 대역폭을 의도적으로 넓혀 잡음 강인성과 보안성을 확보하는 통신 기술"
 tags:
   - "network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

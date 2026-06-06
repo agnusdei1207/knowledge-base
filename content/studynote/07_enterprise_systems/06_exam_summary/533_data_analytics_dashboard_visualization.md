@@ -1,10 +1,9 @@
 ---
-title: "533. 데이터 분석 대시보드 시각화 전략 (Data Analytics Dashboard Visualization)"
+title: "Data Analytics Dashboard Visualization"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 데이터 분석 대시보드 시각화은(는) 핵심 지표와 분석 결과를 차트, 테이블, 알림으로 표현해 상태 파악과 의사결정을 지원하는 방식이다.

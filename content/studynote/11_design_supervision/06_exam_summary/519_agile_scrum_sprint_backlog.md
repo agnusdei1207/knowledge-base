@@ -1,10 +1,9 @@
 ---
-title: "519. 애자일 스크럼 스프린트 백로그 (Agile Scrum Sprint Backlog)"
+title: "Agile Scrum Sprint Backlog"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "140. 일관성 수준 선택 (Consistency Levels) — Strong/Eventual/Bounded Staleness"
+title: "140. Consistency Levels"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템의 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 수준은 "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 얼마나 최신이어야 하는가"와 "그 대가로 얼마나 느리고 [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)이 낮아지는가"의 연속적 트레이드오프 스펙트럼이다.

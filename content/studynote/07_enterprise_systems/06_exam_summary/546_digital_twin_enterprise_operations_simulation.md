@@ -1,10 +1,9 @@
 ---
-title: "546. 디지털 트윈 기업 운영 시뮬레이션 (Digital Twin Enterprise Operations Simulation)"
+title: "Digital Twin Enterprise Operations Simulation"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 디지털 트윈 기업 운영 시뮬레이션은(는) 현실 자산·공정·운영 상태를 가상 모델로 복제해 모니터링과 시뮬레이션을 수행하는 방식이다.

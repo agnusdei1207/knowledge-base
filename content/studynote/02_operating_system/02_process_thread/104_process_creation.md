@@ -1,10 +1,9 @@
 ---
-title: "104. 프로세스 생성 (Process Creation) - fork(), exec() 시스템 콜"
+title: "104. Process Creation"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 프로세스 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) ([Process](/studynote/12_it_management/05_security_compliance/943_process/) Creation)은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 실행 중인 프로그램을 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하고 새로운 작업을 지시하는 메커니즘으로, 유닉스(Unix) 계열에서는 `fork()`와 `exec()` 시스템 콜의 조합으로 이루어진다.

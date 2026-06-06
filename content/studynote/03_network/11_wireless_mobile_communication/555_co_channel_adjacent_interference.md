@@ -1,10 +1,9 @@
 ---
-title: "555. Co-channel Interference (동일 채널 간섭) / Adjacent Channel Interference (인접 채널 간섭)"
+title: "555. Co Channel Adjacent Interference"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

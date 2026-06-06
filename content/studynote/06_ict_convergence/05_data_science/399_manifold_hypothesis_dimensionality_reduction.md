@@ -1,10 +1,9 @@
 ---
-title: "399. 딥러닝 비용 함수 다차원 표면 매니폴드 매핑 (Manifold Hypothesis)"
+title: "Manifold Hypothesis"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

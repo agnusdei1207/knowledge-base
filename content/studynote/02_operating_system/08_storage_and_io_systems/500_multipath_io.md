@@ -1,10 +1,9 @@
 ---
-title: "500. 이중 경로 (Multipath) I/O 페일오버 및 로드밸런싱 구조"
+title: "500. Multipath Io"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

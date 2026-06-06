@@ -1,10 +1,9 @@
 ---
-title: "서포트 벡터 머신 (SVM, Support Vector Machine)"
+title: "SVM, Support Vector Machine"
 date: "2024-05-22"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

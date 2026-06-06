@@ -1,10 +1,9 @@
 ---
-title: "789. 라이브 패칭 (Kpatch) 커널 정지 없는 보안"
+title: "789. Live Patching Kpatch No Downtime"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "265. 데이터 거버넌스 프레임워크 정책 표준 (Data Governance Framework DAMA DMBOK)"
+title: "Data Governance Framework DAMA DMBOK"
 date: "2026-05-09"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

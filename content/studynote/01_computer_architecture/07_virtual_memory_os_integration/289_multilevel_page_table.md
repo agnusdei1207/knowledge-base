@@ -1,10 +1,9 @@
 ---
-title: "289. 다단계 페이지 테이블 (Multilevel Page Table)"
+title: "Multilevel Page Table"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 # 289. 다단계 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/) (Multilevel [Page Table](/studynote/02_operating_system/06_memory_management/353_page_table/))
 

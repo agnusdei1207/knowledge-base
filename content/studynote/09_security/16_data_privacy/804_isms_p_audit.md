@@ -1,10 +1,9 @@
 ---
-title: "804. ISMS-P 심사 (Isms P Audit)"
+title: "Isms P Audit"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

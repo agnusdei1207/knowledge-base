@@ -1,10 +1,9 @@
 ---
-title: "256. 락-프리 (Lock-free) 자료구조 - CAS 연산 적극 활용"
+title: "256. Lock Free Data Structures"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

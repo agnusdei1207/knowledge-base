@@ -1,10 +1,9 @@
 ---
-title: "892. ASON (자동 교환 광네트워크)"
+title: "892. Ason Automatically Switched Optical Network Gmpls"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

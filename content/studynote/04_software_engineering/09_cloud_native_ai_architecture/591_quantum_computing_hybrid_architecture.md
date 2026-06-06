@@ -1,10 +1,9 @@
 ---
-title: "591. 양자 컴퓨팅 (Quantum Computing) 알고리즘 (쇼어 알고리즘 등)에 대비한 하이브리드 아키텍처 연구"
+title: "591. Quantum Computing Hybrid Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "736. 히트스프레더 (IHS, Integrated Heat Spreader)"
+title: "IHS, Integrated Heat Spreader"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "926. 하위 도메인에 따른 분해 (DDD 기반)"
+title: "DDD"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

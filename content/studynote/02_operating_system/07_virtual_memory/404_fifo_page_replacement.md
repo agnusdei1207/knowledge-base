@@ -1,10 +1,9 @@
 ---
-title: "404. FIFO (First-In, First-Out) 교체 - 가장 먼저 들어온 페이지 교체 (벨라디 모순 발생)"
+title: "404. Fifo Page Replacement"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,9 +1,8 @@
 ---
-title: "01. 디지털 논리 회로 및 컴퓨터 기초"
+title: "Computer Architecture"
 tags:
   - "computer_architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

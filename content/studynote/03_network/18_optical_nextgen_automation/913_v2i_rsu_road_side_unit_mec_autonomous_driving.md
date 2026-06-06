@@ -1,10 +1,9 @@
 ---
-title: "913. V2I 노변 기지국 (RSU)"
+title: "RSU"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

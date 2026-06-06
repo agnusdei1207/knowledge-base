@@ -1,10 +1,9 @@
 ---
-title: "255. XAI (Explainable AI) 설명 가능 AI LIME SHAP 기여도 분할"
+title: "255. Xai Lime Shap Explainable Contribution"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [XAI](/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/)(Explainable [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))는 블랙박스 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델의 예측 근거를 인간이 이해할 수 있는 방식으로 설명하는 기술 체계로, 신뢰·디버깅·규제 준수의 세 가지 요구를 동시에 충족한다.

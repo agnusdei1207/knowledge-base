@@ -1,10 +1,9 @@
 ---
-title: "208. 데이터 웨어하우스 (Data Warehouse) 스키마 온 라이트 Inmon 설계"
+title: "208. Data Warehouse Schema On Write Inmon"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터 웨어하우스](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Warehouse)는 여러 운영 시스템의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주제 지향적(Subject-Oriented)으로 통합·정제하여 의사결정 지원에 최적화된 분석용 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스다.

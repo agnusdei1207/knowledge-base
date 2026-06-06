@@ -1,10 +1,9 @@
 ---
-title: "387. 블루그린 배포 무중단 전환 전략 (Blue Green Deployment Zero Downtime Switch)"
+title: "Blue Green Deployment Zero Downtime Switch"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

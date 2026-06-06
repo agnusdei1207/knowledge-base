@@ -1,10 +1,9 @@
 ---
-title: "320. 엣지 컴퓨팅 기반 온디바이스 SLM 구동 경량 아키텍처 (ON Device SLM)"
+title: "ON Device SLM"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

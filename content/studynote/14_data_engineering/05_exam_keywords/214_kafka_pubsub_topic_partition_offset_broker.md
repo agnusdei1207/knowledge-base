@@ -1,10 +1,9 @@
 ---
-title: "214. 아파치 카프카 (Apache Kafka) Pub-Sub 토픽 파티션 오프셋 브로커"
+title: "214. Kafka Pubsub Topic Partition Offset Broker"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Apache Kafka는 Pub-Sub(Publish-Subscribe) 메시징 패턴 기반의 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 이벤트 스트리밍 플랫폼으로, 토픽(Topic)을 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)([Partition](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))으로 분할해 수평 확장하며, 오프셋(Offset)으로 각 컨슈머의 읽기 위치를 독립적으로 추적한다.

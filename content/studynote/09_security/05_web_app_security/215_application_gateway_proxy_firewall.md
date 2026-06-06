@@ -1,10 +1,9 @@
 ---
-title: "215. 애플리케이션 게이트웨이 방화벽 (Proxy Firewall)"
+title: "Proxy Firewall"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

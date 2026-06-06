@@ -1,10 +1,9 @@
 ---
-title: "420. 클라우드 비용 거버넌스 예산 알림 (Cloud Cost Governance Budget Alerting)"
+title: "Cloud Cost Governance Budget Alerting"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

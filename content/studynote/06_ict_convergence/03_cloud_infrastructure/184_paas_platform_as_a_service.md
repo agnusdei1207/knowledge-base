@@ -1,10 +1,9 @@
 ---
-title: "184. PaaS (Platform as a Service) - 애플리케이션 실행 플랫폼 제공"
+title: "184. Paas Platform As A Service"
 date: "2026-05-06"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "486. 클라우드 블록 스토리지 EBS 디스크 (Cloud Block Storage EBS Disk)"
+title: "Cloud Block Storage EBS Disk"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

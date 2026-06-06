@@ -1,10 +1,9 @@
 ---
-title: "17. 하드웨어 인터럽트 (비동기적)"
+title: "017. Hardware Interrupt"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
 ---
-
 
 # 하드웨어 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) (Hardware [Interrupt](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))
 

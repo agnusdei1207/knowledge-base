@@ -1,10 +1,9 @@
 ---
-title: "745. 디지털 트윈 동기화 인터페이스 모델"
+title: "745. Digital Twin Synchronization Model"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

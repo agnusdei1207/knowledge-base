@@ -1,10 +1,9 @@
 ---
-title: "498. 빅데이터 감리 파이프라인 품질 검증 (Big Data Audit Pipeline Quality)"
+title: "Big Data Audit Pipeline Quality"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

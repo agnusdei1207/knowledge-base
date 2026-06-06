@@ -1,10 +1,9 @@
 ---
-title: "450. 하이브리드 클라우드 온프레미스 연동 (Hybrid Cloud On-premise Integration)"
+title: "Hybrid Cloud On-premise Integration"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

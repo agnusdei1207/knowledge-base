@@ -1,10 +1,9 @@
 ---
-title: "154. 서버리스 상태 비저장 제약 (Stateless Serverless) - 무한 스케일 아웃의 물리적 댓가"
+title: "154. Stateless Serverless External Storage"
 date: "2026-05-03"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)([Serverless](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)/AWS [Lambda](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)) 함수 봇은 유저가 핑을 찌르는 단 0.1초의 찰나에만 허공에 켜져 연산을 치고 -> 일이 끝나면 1초의 미련도 없이 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)와 램(RAM) 메모리를 100% 완전 소각 삭제(Terminate) 자살해 버리는 <strong>태생적 '상태 비저장(<a href="/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a> 기억 상실)' 깡통 뇌 구조</strong>를 가진다.

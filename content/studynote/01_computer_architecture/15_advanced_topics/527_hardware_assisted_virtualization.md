@@ -1,10 +1,9 @@
 ---
-title: "527. 가상화 오버헤드 감소 (하드웨어 보조)"
+title: "527. Hardware Assisted Virtualization"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

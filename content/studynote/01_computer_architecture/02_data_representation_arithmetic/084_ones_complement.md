@@ -1,10 +1,9 @@
 ---
-title: "84. 1의 보수 (1's Complement)"
+title: "1's Complement"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

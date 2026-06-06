@@ -1,10 +1,9 @@
 ---
-title: "55. 교정 통제 (Corrective Controls)"
+title: "Corrective Controls"
 date: "2026-05-01"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

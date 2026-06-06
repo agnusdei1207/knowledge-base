@@ -1,10 +1,9 @@
 ---
-title: "615. 애그리게이트 루트 트랜잭션 경계"
+title: "615. Aggregate Root Transaction Boundary"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "376. NoSQL 파티션 톨러런스 복구 (Hinted Handoff, Anti-entropy 매커니즘 / 머클 트리(Merkle Tree) 비교)"
+title: "376. Nosql Hinted Handoff Merkle Tree"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

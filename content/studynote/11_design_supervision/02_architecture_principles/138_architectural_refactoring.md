@@ -1,10 +1,9 @@
 ---
-title: "138. 아키텍처 리팩터링 (Architectural Refactoring)"
+title: "Architectural Refactoring"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

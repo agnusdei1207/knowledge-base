@@ -1,10 +1,9 @@
 ---
-title: "98. 다대일 (Many-to-One) 스레드 모델"
+title: "098. Many To One Model"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

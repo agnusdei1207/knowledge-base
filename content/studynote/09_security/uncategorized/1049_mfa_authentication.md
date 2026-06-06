@@ -1,10 +1,9 @@
 ---
-title: "1049. 다요소 인증 (Multi-Factor Authentication, MFA)"
+title: "Multi-Factor Authentication, MFA"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

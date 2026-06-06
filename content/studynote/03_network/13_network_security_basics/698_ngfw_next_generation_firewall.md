@@ -1,10 +1,9 @@
 ---
-title: "698. NGFW (Next-Generation Firewall, 차세대 방화벽 시그니처 융합 모델 딥 패킷 파싱 애플리케이션 ID 제어 적용)"
+title: "Next-Generation Firewall, ID"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

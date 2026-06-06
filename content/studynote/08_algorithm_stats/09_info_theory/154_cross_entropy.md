@@ -1,10 +1,9 @@
 ---
-title: "5. 크로스 엔트로피 (Cross-Entropy) — 분류 손실 함수"
+title: "154. Cross Entropy"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

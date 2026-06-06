@@ -1,10 +1,9 @@
 ---
-title: "정밀도와 재현율의 트레이드오프: 임계값 조절 전략"
+title: "091. Precision Vs Recall Tradeoff"
 date: "2026-03-04"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

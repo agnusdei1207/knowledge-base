@@ -1,10 +1,9 @@
 ---
-title: "088. 블록 암호 모드 — ECB/CBC/CFB/OFB/CTR"
+title: "088. Block Cipher Modes"
 date: "2026-04-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

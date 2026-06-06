@@ -1,10 +1,9 @@
 ---
-title: "150. 할루시네이션(Hallucination)과 RAG(검색 증강 생성) 융합 방어막"
+title: "150. Hallucination Rag Retrieval Augmented Generation"
 date: "2026-05-03"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [할루시네이션](/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)([Hallucination](/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/))은 거대 언어 모델([LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))이 자신이 모르는 빈칸 지식을 그럴싸한 통계 확률로 뇌피셜 지어내어 뱉는 기만적 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이며, <strong><a href="/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/">RAG</a>(<a href="/studynote/12_it_management/05_security_compliance/222_rag_retrieval_augmented_generation/">검색 증강 생성</a>)</strong>는 이를 척살하기 위해 모델이 대답하기 직전에 사내 DB 문서 팩트를 먼저 1초 컷 스캔 쳐서 입에 떠먹여 주는(오픈북 커닝) 실무 표준 방패다.

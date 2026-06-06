@@ -1,10 +1,9 @@
 ---
-title: "224. 데이터 리니지 (Data Lineage) 흐름 족보 카탈로그 태그 거버넌스"
+title: "224. Data Lineage Flow Catalog Tagging"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터 리니지](/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/)([Data Lineage](/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디서 왔고(Origin), 어떻게 변환됐고(Transformation), 어디로 흘러갔는지(Destination)를 추적하는 "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 족보"로, 신뢰할 수 있는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석의 전제조건이다.

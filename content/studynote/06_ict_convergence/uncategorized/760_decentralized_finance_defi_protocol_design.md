@@ -1,10 +1,9 @@
 ---
-title: "760. 탈중앙화 금융 DeFi 프로토콜 설계 (Decentralized Finance DeFi Protocol Design)"
+title: "Decentralized Finance DeFi Protocol Design"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

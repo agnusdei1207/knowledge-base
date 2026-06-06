@@ -1,10 +1,9 @@
 ---
-title: "158. gRPC와 프로토콜 버퍼 (gRPC / Protocol Buffers / HTTP2)"
+title: "gRPC / Protocol Buffers / HTTP2"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [gRPC](/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) (Google [Remote Procedure Call](/studynote/02_operating_system/02_process_thread/126_rpc/))는 [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 위에서 [Protocol Buffers](/studynote/04_software_engineering/09_cloud_native_ai_architecture/535_sync_communication_rest_grpc/) (바이너리 직렬화)를 사용해 [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 간 내부 동기 통신을 [REST](/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/)/JSON보다 최대 5~10배 빠르게 처리하는 고성능 [RPC](/studynote/02_operating_system/02_process_thread/126_rpc/) 프레임워크다.

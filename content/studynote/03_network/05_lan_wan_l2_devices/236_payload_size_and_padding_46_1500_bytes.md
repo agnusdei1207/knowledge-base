@@ -1,10 +1,9 @@
 ---
-title: "236. 페이로드 크기 (46 ~ 1500 bytes), 패딩(Padding)"
+title: "Padding"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

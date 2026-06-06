@@ -1,10 +1,9 @@
 ---
-title: "1064. ESNI (TLS 1.3 평문 노출 보안)"
+title: "TLS 1.3"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

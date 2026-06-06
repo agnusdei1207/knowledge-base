@@ -1,10 +1,9 @@
 ---
-title: "766. NSA (Non-Standalone 코어는 LTE EPC / 기지국 제어 무선 NR 결합 구축 진보 비용 최소 고속도 망 적용 구조 융합 통신 모델)"
+title: "Non-Standalone LTE EPC / NR"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "725. 수소 경제 그린 수소 연료 전지 (Hydrogen Economy Green Hydrogen Fuel Cell)"
+title: "Hydrogen Economy Green Hydrogen Fuel Cell"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

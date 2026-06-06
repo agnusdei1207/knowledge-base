@@ -1,10 +1,9 @@
 ---
-title: "717. 이미지 인식 CNN 객체 탐지 분할 (Image Recognition CNN Object Detection)"
+title: "Image Recognition CNN Object Detection"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "793. ICT 융합 시험 빈출 핵심 100선 요약 (ICT Convergence Exam Top 100 Summary)"
+title: "ICT Convergence Exam Top 100 Summary"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

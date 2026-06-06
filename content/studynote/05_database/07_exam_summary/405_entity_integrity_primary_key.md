@@ -1,10 +1,9 @@
 ---
-title: "405. 개체 무결성 (Entity Integrity) 기본키 NULL 불가"
+title: "405. Entity Integrity Primary Key"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

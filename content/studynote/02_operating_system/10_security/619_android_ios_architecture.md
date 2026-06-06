@@ -1,10 +1,9 @@
 ---
-title: "619. 모바일 OS 특징 (Android vs iOS 아키텍처 비교)"
+title: "Android vs iOS"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

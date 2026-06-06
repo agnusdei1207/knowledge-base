@@ -1,10 +1,9 @@
 ---
-title: "771. 스마트 정부 디지털 공공 서비스 혁신 (Smart Government Digital Public Innovation)"
+title: "Smart Government Digital Public Innovation"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

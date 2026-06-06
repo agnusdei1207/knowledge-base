@@ -1,10 +1,9 @@
 ---
-title: "202. 명령어 집합 확장 (ISA Extensions)"
+title: "ISA Extensions"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

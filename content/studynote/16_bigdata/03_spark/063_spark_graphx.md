@@ -1,10 +1,9 @@
 ---
-title: "스파크 그래프엑스 (Spark GraphX) - 분산 그래프 분석"
+title: "063. Spark Graphx"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 1. <strong>스파크 <a href="/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a>엑스 (Spark GraphX)</strong>는 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)([Graph](/studynote/12_it_management/03_ea_isp/888_graph/)) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 컬렉션(Collection) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 통합하여 처리하는 스파크의 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 처리 엔진이다.

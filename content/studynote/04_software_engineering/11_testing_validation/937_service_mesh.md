@@ -1,10 +1,9 @@
 ---
-title: "937. 서비스 메시 (Service Mesh) - 애플리케이션 외부(인프라 계층)에서 통신 제어"
+title: "937. Service Mesh"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

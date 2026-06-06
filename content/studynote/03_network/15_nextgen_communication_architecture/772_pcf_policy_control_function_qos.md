@@ -1,10 +1,9 @@
 ---
-title: "772. PCF (Policy Control Function 사용자 정책 적용 자원 대조 통제 구조 연동 통합 기능 기능망 제어 분산 룰 구조 통제 프로비저닝 데이터베이스)"
+title: "Policy Control Function"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

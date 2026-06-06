@@ -1,9 +1,8 @@
 ---
-title: "98. TMS (Transportation Management System) - 운송 관리 시스템"
+title: "098. Tms Transportation Management System"
 tags:
   - "enterprise_systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

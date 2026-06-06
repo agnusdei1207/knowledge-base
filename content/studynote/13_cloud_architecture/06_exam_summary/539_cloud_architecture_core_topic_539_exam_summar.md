@@ -1,10 +1,9 @@
 ---
-title: "539. 클라우드 아키텍처 핵심 토픽 539번 시험 요약 (Cloud Architecture Core Topic 539 Exam Summary)"
+title: "Cloud Architecture Core Topic 539 Exam Summary"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 # 📘 기술사 시험 대비 – 클라우드 아키텍처 핵심 토픽 (539번) 요약
 

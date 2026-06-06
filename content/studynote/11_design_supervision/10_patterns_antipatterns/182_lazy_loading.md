@@ -1,10 +1,9 @@
 ---
-title: "182. 지연 로딩 (Lazy Loading)"
+title: "Lazy Loading"
 date: "2026-05-06"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "1062. DNSSEC 존"
+title: "1062. Dnssec Zone Signing Chain Of Trust"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

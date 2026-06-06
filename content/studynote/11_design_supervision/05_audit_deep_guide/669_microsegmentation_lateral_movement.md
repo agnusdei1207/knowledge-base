@@ -1,10 +1,9 @@
 ---
-title: "669. 마이크로세그멘테이션과 수평 이동 방어 (Micro-Segmentation for Lateral Movement Defense)"
+title: "Micro-Segmentation for Lateral Movement Defense"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "CI/CD 메트릭 대시보드: 배포 성능 분석 및 병목 탐지"
+title: "103. Cicd Metrics Dashboard Deployment Analytics"
 date: "2026-03-04"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

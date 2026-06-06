@@ -1,11 +1,10 @@
 ---
-title: "5. 초인공지능 (ASI, Artificial Super Intelligence) - 모든 면에서 인간을 초월한 지능"
+title: "005. Artificial Super Intelligence"
 date: "2026-03-04"
 description: "인류 전체의 지성을 아득히 초월하여 스스로 진화하는 특이점 이후의 절대 지능"
 tags:
   - "ai"
 ---
-
 
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 닉 보스트롬(Nick Bostrom)의 정의에 따라 과학적 창조, 일반 지혜, 사회적 기술 등 사실상 모든 지적 영역에서 인간 최고 천재들의 지능을 종합한 것보다 훨씬 더 뛰어난 초월적 인지 시스템이다.

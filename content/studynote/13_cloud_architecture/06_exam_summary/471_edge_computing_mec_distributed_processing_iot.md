@@ -1,10 +1,9 @@
 ---
-title: "471. 엣지 컴퓨팅 MEC 분산 처리 IoT (Edge Computing MEC Distributed Processing IoT)"
+title: "Edge Computing MEC Distributed Processing IoT"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

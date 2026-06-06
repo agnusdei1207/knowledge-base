@@ -1,9 +1,8 @@
 ---
-title: "88. EOA (Externally Owned Account) - 개인키로 통제되는 일반 사용자 계정"
+title: "088. Eoa Vs 89 Ca Ethereum Accounts"
 tags:
   - "ict_convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

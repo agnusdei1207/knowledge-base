@@ -1,10 +1,9 @@
 ---
-title: "12. IT 경영 및 서비스 관리 (ITSM) 키워드 목록"
+title: "Keyword List"
 date: "2026-03-04"
 tags:
   - "studynote-it-management"
 ---
-
 [weight](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) = 9999
 
 # IT 경영 및 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관리([ITSM](/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/)) 키워드 목록 (심화 확장판)

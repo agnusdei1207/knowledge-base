@@ -1,10 +1,9 @@
 ---
-title: "253. 예외 처리 정보 노출 감리 (Exception Handling Info Leak Audit)"
+title: "Exception Handling Info Leak Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

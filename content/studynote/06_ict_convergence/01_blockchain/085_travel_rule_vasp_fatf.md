@@ -1,9 +1,8 @@
 ---
-title: "85. 가상자산 사업자 (VASP) 트래블 룰 (Travel Rule) - 자금 세탁 방지를 위해 가상자산 송/수신자 정보를 확인하는 규제"
+title: "085. Travel Rule Vasp Fatf"
 tags:
   - "ict_convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

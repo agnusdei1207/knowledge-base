@@ -1,10 +1,9 @@
 ---
-title: "658. 블록 암호 운영 모드 (ECB 기본/취약 모드, CBC(IV 필요), CFB, OFB, CTR)"
+title: "658. Block Cipher Modes Ecb Cbc Ctr"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

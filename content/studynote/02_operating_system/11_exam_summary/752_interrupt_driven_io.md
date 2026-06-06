@@ -1,10 +1,9 @@
 ---
-title: "752. 인터럽트 구동 입출력 (Interrupt Driven I/O)"
+title: "Interrupt Driven I/O"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

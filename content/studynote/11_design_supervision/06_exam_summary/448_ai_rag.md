@@ -1,10 +1,9 @@
 ---
-title: "448. AI 환각 방지 RAG 벡터 인덱싱 파이프 (AI Hallucination Mitigation RAG Vector Indexing Pipeline)"
+title: "AI Hallucination Mitigation RAG Vector Indexing Pipeline"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

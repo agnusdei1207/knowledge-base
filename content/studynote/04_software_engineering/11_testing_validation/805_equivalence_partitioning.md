@@ -1,10 +1,9 @@
 ---
-title: "805. 동등 분할 (Equivalence Partitioning)"
+title: "Equivalence Partitioning"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

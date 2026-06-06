@@ -1,10 +1,9 @@
 ---
-title: "187. HRN (Highest Response Ratio Next) 스케줄링 - (대기시간+서비스시간)/서비스시간"
+title: "187. Hrn Scheduling"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

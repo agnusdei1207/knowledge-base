@@ -1,10 +1,9 @@
 ---
-title: "492. DevOps 환경 감리 자동화 검증 (DevOps Environment Audit Automation)"
+title: "DevOps Environment Audit Automation"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

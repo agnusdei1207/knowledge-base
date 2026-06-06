@@ -1,10 +1,9 @@
 ---
-title: "582. WPA2 (AES-CCMP 기반) 강력 암호화, 개인용(PSK)/기업용(Enterprise/RADIUS)"
+title: "Enterprise/RADIUS"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

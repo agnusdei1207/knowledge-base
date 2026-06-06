@@ -1,10 +1,9 @@
 ---
-title: "506. 비순차 메모리 접근 (Out-of-Order Memory Access)"
+title: "Out-of-Order Memory Access"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

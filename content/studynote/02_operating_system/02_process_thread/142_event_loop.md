@@ -1,10 +1,9 @@
 ---
-title: "142. 이벤트 루프 (Event Loop) 기반 비동기 처리 (Node.js)"
+title: "Node.js"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

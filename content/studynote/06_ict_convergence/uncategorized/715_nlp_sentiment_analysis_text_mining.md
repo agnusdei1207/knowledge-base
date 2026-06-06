@@ -1,10 +1,9 @@
 ---
-title: "715. 자연어 처리 감성 분석 텍스트 마이닝 (NLP Sentiment Analysis Text Mining)"
+title: "NLP Sentiment Analysis Text Mining"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

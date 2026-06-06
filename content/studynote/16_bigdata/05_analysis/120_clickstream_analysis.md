@@ -1,10 +1,9 @@
 ---
-title: "117. 클릭스트림 분석 (Clickstream Analysis) — 사용자 행동 패턴 최적화"
+title: "120. Clickstream Analysis"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 클릭스트림 분석 (Clickstream Analysis)은 사용자가 웹사이트·앱에서 클릭·스크롤·[페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 이동하는 행동 시퀀스를 수집·분석하여 퍼널 전환율 최적화, 이탈 지점 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/), 개인화 추천의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반을 구축하는 기법이다.

@@ -1,10 +1,9 @@
 ---
-title: "232. 공간 컴퓨팅 (Spatial Computing) 기반 디지털 트윈(Digital Twin) 시뮬레이션"
+title: "232. Spatial Computing Digital Twin"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 공간 컴퓨팅 (Spatial Computing) 기반 [디지털 트윈](/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)([Digital Twin](/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)) 시뮬레이션의 본질은 핵심 기술, 운영 조건, 위험 통제, 생태계 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 함께 봐야 신기술 도입이 유행이 아니라 사업 역량이 된다.

@@ -1,10 +1,9 @@
 ---
-title: "448. 큐비트 (Qubit)"
+title: "Qubit"
 date: "2026-03-28"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

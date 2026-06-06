@@ -1,11 +1,10 @@
 ---
-title: "100. 멀티 리전 (Multi-Region) 배포 파이프라인 - 글로벌 고가용성(DR) 및 레이턴시 최적화"
+title: "100. Multi Region Deployment Pipeline Disaster Recovery"
 date: "2026-03-04"
 tags:
   - "cicd-gitops"
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

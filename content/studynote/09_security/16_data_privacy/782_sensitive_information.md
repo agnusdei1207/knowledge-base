@@ -1,10 +1,9 @@
 ---
-title: "782. 민감정보 (Sensitive Information)"
+title: "Sensitive Information"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

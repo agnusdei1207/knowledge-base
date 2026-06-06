@@ -1,10 +1,9 @@
 ---
-title: "141. BERT Encoder - MLM 양방향 사전 학습 상세"
+title: "141. Bert Encoder Mlm Bidirectional"
 date: "2026-04-19"
 tags:
   - "studynote-dataengineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) Encoder는 <strong><a href="/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/">Transformer</a> Encoder를 12/24층 쌓아</strong> [MLM](/studynote/10_ai/02_dl_architecture_new/138_mlm_learning/)(15% 마스킹)과 NSP로 양방향 사전 학습한 모델이며, [CLS] 토큰으로 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)·유사도, 각 토큰 출력으로 [NER](/studynote/16_bigdata/05_analysis/117_ner/)·QA를 수행한다.

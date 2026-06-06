@@ -1,10 +1,9 @@
 ---
-title: "582. 클라우드 아키텍처 핵심 토픽 582번 시험 요약 (Cloud Architecture Core Topic 582 Exam Summary)"
+title: "Cloud Architecture Core Topic 582 Exam Summary"
 date: 2026-05-09
 tags:
   - "studynote-cloud-architecture"
----
-## 핵심 인사이트 (3줄 요약)
+---## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 아키텍처는 NIST 참조모델(CCRA)을 기반으로 **온디맨드 셀프서비스, 광대역 네트워크, 자원 풀링, 탄력성(Elasticity), 측정 가능한 서비스(Metered Service)**의 5대 필수 특성을 충족하기 위해 컴퓨팅·스토리지·네트워크·데이터 자원을 API 기반으로 추상화·오케스트레이션하는 통합 설계 체계임.
 > 2. **가치**: AWS Well-Architected Framework 6대 축(운영 우수성, 보안, 안정성, 성능 효율, 비용 최적화, 지속 가능성)을 준수할 경우 인프라 운영 비용 **30~50% 절감**, 배포 주기 **70% 단축(Time-to-Market)**, 가용성 **99.99%(Four 9s) 확보**, Auto Scaling을 통한 트래픽 피크 시 **10x 자동 확장** 가능.

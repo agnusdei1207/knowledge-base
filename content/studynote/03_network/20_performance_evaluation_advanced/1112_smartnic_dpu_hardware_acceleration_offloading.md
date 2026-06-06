@@ -1,10 +1,9 @@
 ---
-title: "1112. 스마트NIC 가속 오프로딩 시스템"
+title: "1112. Smartnic Dpu Hardware Acceleration Offloading"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

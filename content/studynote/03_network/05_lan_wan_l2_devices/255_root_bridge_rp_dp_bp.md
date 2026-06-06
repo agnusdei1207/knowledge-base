@@ -1,10 +1,9 @@
 ---
-title: "255. 루트 브리지 (Root Bridge), 루트 포트 (RP), 지정 포트 (DP), 차단 포트 (BP, Non-Designated)"
+title: "BP, Non-Designated"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

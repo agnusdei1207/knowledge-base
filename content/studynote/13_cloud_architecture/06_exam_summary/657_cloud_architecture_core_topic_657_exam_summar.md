@@ -1,10 +1,9 @@
 ---
-title: "657. 클라우드 아키텍처 핵심 토픽 657번 시험 요약 (Cloud Architecture Core Topic 657 Exam Summary)"
+title: "Cloud Architecture Core Topic 657 Exam Summary"
 date: 2026-05-09
 tags:
   - "studynote-cloud-architecture"
----
-## 핵심 인사이트 (3줄 요약)
+---## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 아키텍처는 AWS Well-Architected Framework의 5대 원칙(운영 우수성, 보안, 안정성, 성능 효율성, 비용 최적화)을 기반으로 **가용성·내결함성·확장성·보안·비용**을 Trade-off Matrix로 균형화하는 분산 시스템 설계 체계이며, SLO/SLI 기반의 정량적 의사결정과 Control Plane/Data Plane 분리가 핵심이다.
 > 2. **가치**: CAP 정리를 실증적으로 해소하여 **단일 리전 RDS 대비 Multi-Region Active-Active 구성으로 가용성 99.95%->99.99%(연간 다운타임 4.38h->52.6m)** 달성, Auto Scaling과 Spot Instance 조합으로 컴퓨팅 비용 **60~80% 절감**, Serverless 전환으로 운영 오버헤드 **70% 감소** 등 정량적 효과를 입증한다.

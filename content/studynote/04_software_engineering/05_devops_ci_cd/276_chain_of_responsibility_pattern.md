@@ -1,10 +1,9 @@
 ---
-title: "276. 책임 연쇄 (Chain of Responsibility) - 요청을 처리할 수 있는 객체를 찾을 때까지 고리 전달"
+title: "276. Chain Of Responsibility Pattern"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

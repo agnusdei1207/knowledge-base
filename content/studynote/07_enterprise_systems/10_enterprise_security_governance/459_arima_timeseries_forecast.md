@@ -1,10 +1,9 @@
 ---
-title: "459. 시계열 ARIMA 정상 데이터 평활 예측 모델 (ARIMA Time Series Forecasting)"
+title: "ARIMA Time Series Forecasting"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

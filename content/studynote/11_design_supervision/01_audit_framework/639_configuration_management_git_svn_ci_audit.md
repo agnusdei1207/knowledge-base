@@ -1,10 +1,9 @@
 ---
-title: "639. 형상 관리 저장소 및 CI 빌드 환경 평가 (Configuration Management and CI Audit)"
+title: "Configuration Management and CI Audit"
 date: "2026-05-08"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

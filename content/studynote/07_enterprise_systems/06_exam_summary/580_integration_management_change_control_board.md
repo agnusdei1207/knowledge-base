@@ -1,10 +1,9 @@
 ---
-title: "580. 통합 관리 변경 통제 위원회 CCB (Integration Management Change Control Board)"
+title: "Integration Management Change Control Board"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 통합관리 변경통제위원회 CCB은(는) 프로젝트 지식영역과 변경 요청을 통합해 전체 목표와 기준선을 관리하는 활동이다.

@@ -1,10 +1,9 @@
 ---
-title: "623. 서버리스 콜드 스타트 이슈"
+title: "623. Serverless Cold Start Issue"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

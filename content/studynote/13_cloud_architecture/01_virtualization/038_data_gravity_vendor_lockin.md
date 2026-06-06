@@ -1,10 +1,9 @@
 ---
-title: "038. 데이터 중력과 벤더 종속 (Data Gravity & Vendor Lock-in)"
+title: "Data Gravity & Vendor Lock-in"
 date: "2026-03-03"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 > **핵심 인사이트**
 > 1. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중력([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Gravity)은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 축적될수록 그 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하는 애플리케이션과 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있는 곳으로 끌려오는 현상으로, 클라우드 탈출 비용([Egress](/studynote/16_bigdata/09_platform/189_egress/) Cost)과 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 때문에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 이동하기 어려워져 특정 클라우드에 묶이는 [벤더 종속](/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/)의 핵심 원인이다.

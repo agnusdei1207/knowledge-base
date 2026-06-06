@@ -1,10 +1,9 @@
 ---
-title: "1019. 테라헤르츠 (THz) 대역"
+title: "1019. Thz Terahertz 6G Frequency Band Characteristics"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

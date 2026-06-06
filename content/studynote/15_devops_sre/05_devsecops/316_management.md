@@ -1,10 +1,9 @@
 ---
-title: "SRE Site Reliability 엔진ering"
+title: "316. Management"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 > **핵심 인사이트**
 > - [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))는 구글이 정의한 "소프트웨어 엔지니어링 방식으로 운영 문제를 해결하는 방법론"이다.

@@ -1,10 +1,9 @@
 ---
-title: "176. 코레오그래피 사가 (Choreography Saga) - 중앙 통제 없이 각 서비스가 비동기 이벤트를 발행/구독 (Pub/Sub, Publish/Subscribe)하며 자율적으로 체인 구성"
+title: "176. Choreography Saga Pub Sub"
 date: "2026-05-06"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

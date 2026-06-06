@@ -1,10 +1,9 @@
 ---
-title: "180. 우선순위 스케줄링 (Priority Scheduling) - 무한 대기 문제 발생 가능"
+title: "180. Priority Scheduling"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

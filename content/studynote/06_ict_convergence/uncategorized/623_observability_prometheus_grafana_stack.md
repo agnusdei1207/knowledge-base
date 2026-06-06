@@ -1,10 +1,9 @@
 ---
-title: "623. 관측 가능성 프로메테우스 그라파나 스택 (Observability Prometheus Grafana Stack)"
+title: "Observability Prometheus Grafana Stack"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

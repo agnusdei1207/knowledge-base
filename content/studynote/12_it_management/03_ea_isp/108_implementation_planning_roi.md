@@ -1,10 +1,9 @@
 ---
-title: "108. 이행 계획 수립"
+title: "108. Implementation Planning Roi"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 이행 계획 수립의 본질은 식별된 과제의 우선순위 산정, 일정/예산 편성 ([ROI](/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 분석)를 의미와 해석 기준을 분명히 해 실제 의사결정에 쓰이게 만드는 데 있다.

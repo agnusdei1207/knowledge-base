@@ -1,10 +1,9 @@
 ---
-title: "384. ArgoCD GitOps 선언적 지속 배포 (ArgoCD GitOps Declarative Continuous Delivery)"
+title: "ArgoCD GitOps Declarative Continuous Delivery"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

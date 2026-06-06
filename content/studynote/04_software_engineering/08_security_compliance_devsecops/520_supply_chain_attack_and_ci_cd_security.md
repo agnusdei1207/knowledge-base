@@ -1,10 +1,9 @@
 ---
-title: "520. 공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), CI 파이프라인 보호"
+title: "520. Supply Chain Attack And Ci Cd Security"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

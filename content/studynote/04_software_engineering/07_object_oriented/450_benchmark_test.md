@@ -1,10 +1,9 @@
 ---
-title: "450. 벤치마크 테스트 (BMT, Benchmark Test) - 동일한 환경에서 여러 제품의 성능을 비교"
+title: "450. Benchmark Test"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

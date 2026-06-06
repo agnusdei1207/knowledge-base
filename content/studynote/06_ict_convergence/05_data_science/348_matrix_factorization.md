@@ -1,10 +1,9 @@
 ---
-title: "348. 행렬 분해 (Matrix Factorization)"
+title: "Matrix Factorization"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "539. NetFlow (Cisco) / sFlow 트래픽 흐름 모니터링 분석 프로토콜"
+title: "539. Netflow Sflow Traffic Monitoring"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

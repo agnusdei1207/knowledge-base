@@ -1,10 +1,9 @@
 ---
-title: "28. 부트스트랩 프로그램 (Bootstrap Program) — 시스템 부팅의 첫 번째 코드"
+title: "028. Bootstrap Program"
 date: "2026-04-29"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 부트스트랩 프로그램(Bootstrap Program)은 컴퓨터 전원이 켜지거나 재시작될 때 [ROM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/)(BIOS/[UEFI](/studynote/01_computer_architecture/15_advanced_topics/706_uefi/))에 저장된 채 자동 실행되는 최초의 프로그램으로, 하드웨어를 초기화하고 스토리지에서 OS 커널을 메모리에 적재하는 역할을 한다.

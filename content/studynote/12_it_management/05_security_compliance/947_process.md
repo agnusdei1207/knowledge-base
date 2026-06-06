@@ -1,10 +1,9 @@
 ---
-title: "947. 서킷 브레이커 장애 연쇄 차단 폴백"
+title: "947. Process"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [서킷 브레이커](/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) 장애 연쇄 차단 폴백의 본질은 자산, 위협, [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 통제, 운영 증적이 한 체계로 연결되어야 보안과 규제 대응이 일회성 캠페인으로 끝나지 않는다.

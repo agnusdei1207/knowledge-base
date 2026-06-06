@@ -1,10 +1,9 @@
 ---
-title: "035. 코어 덤프 (Core Dump)"
+title: "Core Dump"
 date: "2026-03-03"
 tags:
   - "studynote-operating-system"
 ---
-
 
 > **핵심 인사이트**
 > 1. Core Dump는 프로세스가 비정상 종료(SIGSEGV, SIGABRT 등) 시 해당 시점의 메모리, [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 상태를 디스크에 저장한 스냅샷으로 사후 디버깅(Post-mortem Debugging)의 핵심 도구다.

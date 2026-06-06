@@ -1,10 +1,9 @@
 ---
-title: "221. ISACA (정보시스템 감사 통제 협회) 및 CISA (국제 공인 정보시스템 감사사) 프레임워크"
+title: "221. Isaca Cisa Framework"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

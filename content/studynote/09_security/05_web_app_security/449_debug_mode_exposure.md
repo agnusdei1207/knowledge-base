@@ -1,10 +1,9 @@
 ---
-title: "449. 개발 모드 및 디버그 페이지 노출 (Debug Mode & Exposed Debug Pages)"
+title: "Debug Mode & Exposed Debug Pages"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

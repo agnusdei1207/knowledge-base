@@ -1,10 +1,9 @@
 ---
-title: "925. 오픈API와 MaaS"
+title: "925. Maas Mobility As A Service Openapi Cloud Integration"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "645. 소형 안테나 시스템/초소형 센서 백스캐터 통신 (Ambient Backscatter 통신, 에너지 하베스팅)"
+title: "Ambient Backscatter ,"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

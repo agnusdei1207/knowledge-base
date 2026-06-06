@@ -1,10 +1,9 @@
 ---
-title: "574. 규제 기술 레그텍 컴플라이언스 자동화 (RegTech Regulatory Compliance Automation)"
+title: "RegTech Regulatory Compliance Automation"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

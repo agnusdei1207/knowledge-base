@@ -1,10 +1,9 @@
 ---
-title: "120. DORA Metrics (DevOps Research & Assessment) - 소프트웨어 배포 성과 4대 지표"
+title: "120. Concept"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) Metrics는 Google [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 팀이 정의한 **소프트웨어 배포 성과의 4대 핵심 지표**(배포 빈도·[리드 타임](/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)·변경 실패율·[MTTR](/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/))로, 팀의 [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 성숙도를 <strong>Elite·High·Medium·Low</strong>로 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)한다.

@@ -1,10 +1,9 @@
 ---
-title: "695. 사이버 레질리언스 시스템 생존성"
+title: "695. Cyber Resilience System Survivability"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "538. 동기화 I/O (O_SYNC / fsync)"
+title: "O_SYNC / fsync"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "430. 클라우드 캐시 Redis ElastiCache MemoryStore (Cloud Cache Redis ElastiCache MemoryStore)"
+title: "Cloud Cache Redis ElastiCache MemoryStore"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

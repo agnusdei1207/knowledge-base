@@ -1,9 +1,8 @@
 ---
-title: "98. 인프라로서의 코드 (IaC, Infrastructure as Code)"
+title: "IaC, Infrastructure as Code"
 tags:
   - "software_engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

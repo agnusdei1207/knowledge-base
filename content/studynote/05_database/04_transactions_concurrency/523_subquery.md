@@ -1,10 +1,9 @@
 ---
-title: "523. 정보 공학 방법론 데이터 주도적 생명 주기 (Subquery)"
+title: "Subquery"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

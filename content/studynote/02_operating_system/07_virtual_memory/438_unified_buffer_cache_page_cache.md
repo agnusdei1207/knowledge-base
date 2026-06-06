@@ -1,10 +1,9 @@
 ---
-title: "438. 파일시스템 버퍼 캐시(Buffer Cache)와 가상 메모리 페이지 캐시(Page Cache)의 통합 원리"
+title: "438. Unified Buffer Cache Page Cache"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

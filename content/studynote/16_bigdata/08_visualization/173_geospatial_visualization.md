@@ -1,10 +1,9 @@
 ---
-title: "173. 지리공간 시각화 (Geospatial Visualization) — Kepler.gl, Folium, Deck.gl"
+title: "173. Geospatial Visualization"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "1013. CoMP (협력 통신)"
+title: "1013. Comp Coordinated Multipoint Transmission"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

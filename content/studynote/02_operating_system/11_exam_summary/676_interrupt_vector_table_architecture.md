@@ -1,10 +1,9 @@
 ---
-title: "676. 인터럽트 벡터 테이블 구조화 (Interrupt Vector Table Architecture)"
+title: "Interrupt Vector Table Architecture"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

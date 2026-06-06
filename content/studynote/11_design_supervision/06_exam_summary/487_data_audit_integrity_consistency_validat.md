@@ -1,10 +1,9 @@
 ---
-title: "487. 데이터 감리 무결성 정합성 검증 (Data Audit Integrity Consistency Validation)"
+title: "Data Audit Integrity Consistency Validation"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

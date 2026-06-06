@@ -1,10 +1,9 @@
 ---
-title: "493. 차세대 비휘발성 메모리 (SCM: PRAM, MRAM, ReRAM)"
+title: "SCM: PRAM, MRAM, ReRAM"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "120. Pod Eviction과 QoS Class (K8s 리소스 관리) - Guaranteed·Burstable·BestEffort"
+title: "120. Pod Eviction Qos Class Kubernetes"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: K8s [QoS](/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) Class는 Pod의 리소스 요청(requests)·제한(limits) [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)에 따라 **Guaranteed·Burstable·BestEffort** 3등급으로 자동 분류되며, 노드 리소스 부족 시 <strong><a href="/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a> 등급이 낮은 Pod부터 Eviction(퇴거)</strong>된다.

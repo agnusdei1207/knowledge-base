@@ -1,9 +1,8 @@
 ---
-title: "03. 아파치 스파크 (Apache Spark) 및 인메모리 연산"
+title: "Big Data"
 tags:
   - "bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

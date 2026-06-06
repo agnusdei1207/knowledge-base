@@ -1,10 +1,9 @@
 ---
-title: "725. 스키밍 (Skimming) 공격"
+title: "725. Port Scanning Full Open Vs Stealth Half Open"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

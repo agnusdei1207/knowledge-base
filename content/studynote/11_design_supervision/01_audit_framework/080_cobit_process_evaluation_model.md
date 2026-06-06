@@ -1,10 +1,9 @@
 ---
-title: "80. COBIT 프로세스 평가 (APO, BAI, DSS, MEA) 모델 연계 통제 진단 (COBIT)"
+title: "COBIT"
 date: "2026-05-08"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

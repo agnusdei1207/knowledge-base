@@ -1,10 +1,9 @@
 ---
-title: "360. 클라우드 인프라 DPU/SmartNIC 오프로딩 가속망 효율 분석"
+title: "360. Dpu Smartnic"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 클라우드 인프라 [DPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/)/SmartNIC [오프로딩](/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 가속망 효율 분석의 본질은 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델, 자동화, 비용·보안 책임, 운영 관측성이 함께 설계되어야 클라우드 도입 효과가 지속된다.

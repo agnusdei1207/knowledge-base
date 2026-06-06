@@ -1,10 +1,9 @@
 ---
-title: "435. 클라우드 IAM 역할 정책 최소 권한 (Cloud IAM Role Policy Least Privilege)"
+title: "Cloud IAM Role Policy Least Privilege"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

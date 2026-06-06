@@ -1,10 +1,9 @@
 ---
-title: "209. 블랙보드 패턴 (Blackboard Pattern) - 음성/패턴 인식, 공용 데이터소스를 여러 지식 모듈이 참조"
+title: "209. Blackboard Pattern Ai Heuristic"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "803. 메모리 보호 (Memory Protection)"
+title: "Memory Protection"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

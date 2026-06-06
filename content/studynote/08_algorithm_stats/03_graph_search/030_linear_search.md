@@ -1,10 +1,9 @@
 ---
-title: "1. 선형 탐색 (Linear Search) — O(n)"
+title: "n"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

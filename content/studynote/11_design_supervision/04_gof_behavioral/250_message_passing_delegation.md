@@ -1,10 +1,9 @@
 ---
-title: "250. 메시지 패싱과 위임 (Message Passing & Delegation)"
+title: "Message Passing & Delegation"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

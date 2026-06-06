@@ -1,10 +1,9 @@
 ---
-title: "110. 최소 지식의 원칙 (Law of Demeter, Principle of Least Knowledge)"
+title: "Law of Demeter, Principle of Least Knowledge"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

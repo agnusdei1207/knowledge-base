@@ -1,11 +1,10 @@
 ---
-title: "5. 데이터 웨어하우스 (DW, Data Warehouse) - 전사적 관점의 비즈니스 인텔리전스(BI)를 위한 통합/주제별/시계열 데이터 저장소 (Inmon 모델)"
+title: "Inmon"
 date: "2024-05-24"
 description: "전사적 비즈니스 인텔리전스(BI)를 위한 통합/주제별/시계열적/비휘발성 데이터 저장소의 아키텍처와 Inmon/Kimball 모델"
 tags:
   - "data_engineering"
 ---
-
 
 # 05. [데이터 웨어하우스](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) ([DW](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/), [Data Warehouse](/studynote/14_data_engineering/05_exam_keywords/208_data_warehouse_schema_on_write_inmon/))
 

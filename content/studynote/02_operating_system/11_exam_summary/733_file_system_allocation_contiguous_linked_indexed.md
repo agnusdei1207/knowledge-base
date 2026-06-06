@@ -1,10 +1,9 @@
 ---
-title: "733. 파일 시스템 연속, 연결, 색인 할당 (File System Allocation Contiguous Linked Indexed)"
+title: "File System Allocation Contiguous Linked Indexed"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

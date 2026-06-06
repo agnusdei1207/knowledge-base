@@ -1,10 +1,9 @@
 ---
-title: "734. 방화벽 우회기법 (터널링 캡슐화 포트 우회/분산 패킷 망 회피)"
+title: "734. Firewall Bypass Tunneling Fragmentation"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

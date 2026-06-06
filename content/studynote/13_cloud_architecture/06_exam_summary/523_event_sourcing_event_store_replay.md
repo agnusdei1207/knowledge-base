@@ -1,10 +1,9 @@
 ---
-title: "523. 이벤트 소싱 이벤트 스토어 리플레이 (Event Sourcing Event Store Replay)"
+title: "Event Sourcing Event Store Replay"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

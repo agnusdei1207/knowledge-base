@@ -1,10 +1,9 @@
 ---
-title: "300. SRE 사이트 신뢰성 공학 에러 예산 토일 축소 (Toil)"
+title: "Toil"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 사이트 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 공학 [에러 예산](/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) [토일](/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) 축소는 변경 관리와 운영 자동화에서 복잡한 운영의 질서화를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.

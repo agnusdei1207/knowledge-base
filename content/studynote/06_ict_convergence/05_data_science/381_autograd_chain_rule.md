@@ -1,10 +1,9 @@
 ---
-title: "381. 딥러닝 미분 연쇄 법칙 자동 미분 원리 (Autograd)"
+title: "Autograd"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

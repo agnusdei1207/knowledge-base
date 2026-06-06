@@ -1,9 +1,8 @@
 ---
-title: "100. SRE (Site Reliability 엔진ering) - 구글의 운영 방식, 에러 예산"
+title: "100. Sre Site Reliability Engineering Error Budget"
 tags:
   - "software_engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

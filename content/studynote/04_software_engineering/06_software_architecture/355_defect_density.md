@@ -1,10 +1,9 @@
 ---
-title: "355. 결함 밀도 (Defect Density) - 코드 규모(KLOC) 대비 결함 수"
+title: "355. Defect Density"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

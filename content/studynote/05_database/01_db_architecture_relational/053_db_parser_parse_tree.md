@@ -1,10 +1,9 @@
 ---
-title: "53. DB 파서와 파스 트리 (DB Parser Parse Tree)"
+title: "DB Parser Parse Tree"
 date: "2026-05-01"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

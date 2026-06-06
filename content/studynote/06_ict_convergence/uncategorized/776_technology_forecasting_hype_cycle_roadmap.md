@@ -1,10 +1,9 @@
 ---
-title: "776. 기술 예측 하이프 사이클 기술 로드맵 (Technology Forecasting Hype Cycle Roadmap)"
+title: "Technology Forecasting Hype Cycle Roadmap"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

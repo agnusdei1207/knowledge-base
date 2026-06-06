@@ -1,10 +1,9 @@
 ---
-title: "069. 고전 암호 — 치환 암호, 전치 암호"
+title: "069. Classical Cipher"
 date: "2026-04-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

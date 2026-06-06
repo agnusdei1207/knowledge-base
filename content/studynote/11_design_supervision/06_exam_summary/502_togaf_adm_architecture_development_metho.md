@@ -1,10 +1,9 @@
 ---
-title: "502. TOGAF ADM 아키텍처 개발 방법 (TOGAF ADM Architecture Development Method)"
+title: "TOGAF ADM Architecture Development Method"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

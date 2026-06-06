@@ -1,10 +1,9 @@
 ---
-title: "207. 인프라스트럭처 애즈 코드 (IaC, Terraform)"
+title: "IaC, Terraform"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 인프라스트럭처 애즈 코드 ([IaC](/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/), [Terraform](/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/))의 본질은 [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) 연동 [불변 인프라](/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/)([Immutable Infrastructure](/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/)) 구축을 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델, 자동화, 책임 분담 기준으로 실현하는 데 있다.

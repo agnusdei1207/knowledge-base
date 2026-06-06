@@ -1,10 +1,9 @@
 ---
-title: "183. HPKP (HTTP Public Key Pinning) — deprecated, 동적 핀닝 권장"
+title: "183. Hpkp Http Public Key Pinning Deprecated"
 date: "2026-05-06"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

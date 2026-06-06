@@ -1,10 +1,9 @@
 ---
-title: "439. SW 아키텍처 평가 ATAM CBAM (SW Architecture Evaluation ATAM CBAM)"
+title: "SW Architecture Evaluation ATAM CBAM"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

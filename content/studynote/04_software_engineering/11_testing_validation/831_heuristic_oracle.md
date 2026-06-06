@@ -1,10 +1,9 @@
 ---
-title: "831. 휴리스틱 오라클 (Heuristic Oracle)"
+title: "Heuristic Oracle"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

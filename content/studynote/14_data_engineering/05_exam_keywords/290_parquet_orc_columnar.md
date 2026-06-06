@@ -1,10 +1,9 @@
 ---
-title: "290. 파케이 ORC 열 지향 저장 포맷 최적화 (Parquet ORC Columnar Storage Format)"
+title: "Parquet ORC Columnar Storage Format"
 date: "2026-05-09"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

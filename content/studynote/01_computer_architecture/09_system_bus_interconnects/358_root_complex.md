@@ -1,10 +1,9 @@
 ---
-title: "358. PCIe 루트 컴플렉스 (Root Complex)"
+title: "Root Complex"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

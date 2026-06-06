@@ -1,10 +1,9 @@
 ---
-title: "395. TPM 기능 (Trusted Platform Module)"
+title: "Trusted Platform Module"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

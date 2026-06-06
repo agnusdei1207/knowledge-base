@@ -1,10 +1,9 @@
 ---
-title: "570. 리눅스 inotify 시스템 (Inotify File Monitoring)"
+title: "Inotify File Monitoring"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

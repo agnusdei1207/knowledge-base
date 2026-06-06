@@ -1,11 +1,10 @@
 ---
-title: "1. 경영 정보 시스템 (MIS, Management Information System)의 정의"
+title: "001. Mis Definition"
 date: "2026-03-04"
 description: "조직의 목표 달성을 위해 비즈니스 프로세스와 정보 기술을 융합하는 MIS의 핵심 개념, 구조 및 실무 적용 방안"
 tags:
   - "enterprise_systems"
 ---
-
 
 # 경영 정보 시스템 (MIS, [Management](/studynote/12_it_management/05_security_compliance/1013_management/) Information System)
 #### 핵심 인사이트 (3줄 요약)

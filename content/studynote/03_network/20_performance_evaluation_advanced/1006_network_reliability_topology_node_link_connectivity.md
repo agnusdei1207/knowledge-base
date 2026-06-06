@@ -1,10 +1,9 @@
 ---
-title: "1006. 망 신뢰도 (네트워크 토폴로지 연결도 계산법)"
+title: "1006. Network Reliability Topology Node Link Connectivity"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

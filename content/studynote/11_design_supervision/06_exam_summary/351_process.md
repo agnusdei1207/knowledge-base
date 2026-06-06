@@ -1,10 +1,9 @@
 ---
-title: "351. 민감도 상충점 리스크 (Sensitivity Point and Tradeoff Risk)"
+title: "Sensitivity Point and Tradeoff Risk"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

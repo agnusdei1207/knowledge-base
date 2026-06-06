@@ -1,10 +1,9 @@
 ---
-title: "540. 메타데이터 저널링 vs 데이터 저널링 모드 (순서: 로그 기록 -> 커밋 -> 실제 파일시스템 반영) (Journaling Modes)"
+title: "Journaling Modes"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "366. iBGP (내부 맺음), eBGP (외부 맺음), BGP Split Horizon 룰"
+title: "366. Ibgp Ebgp Split Horizon Rule"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

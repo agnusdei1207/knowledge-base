@@ -1,10 +1,9 @@
 ---
-title: "595. 보안 감리 제로 트러스트 적합성 평가 (Security Audit Zero Trust Fitness)"
+title: "Security Audit Zero Trust Fitness"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 # 595. 보안 감리 제로 트러스트 적합성 평가 (Security Audit Zero Trust Fitness)
 

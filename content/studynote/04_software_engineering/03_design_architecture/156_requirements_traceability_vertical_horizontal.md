@@ -1,10 +1,9 @@
 ---
-title: "156. 요구사항 추적성 (Traceability) - 수직적/수평적 추적성"
+title: "156. Requirements Traceability Vertical Horizontal"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

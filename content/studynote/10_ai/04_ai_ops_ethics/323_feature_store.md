@@ -1,10 +1,9 @@
 ---
-title: "323. 피처 스토어 (Feature Store)"
+title: "Feature Store"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

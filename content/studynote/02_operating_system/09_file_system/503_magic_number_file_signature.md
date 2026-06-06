@@ -1,10 +1,9 @@
 ---
-title: "503. 매직 넘버 (Magic Number) - 파일 확장자 외 내용 식별자"
+title: "503. Magic Number File Signature"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

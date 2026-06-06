@@ -1,10 +1,9 @@
 ---
-title: "21. Spark History Server — 완료 작업 이력 조회"
+title: "072. Spark History Server"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

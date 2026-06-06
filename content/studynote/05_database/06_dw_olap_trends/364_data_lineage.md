@@ -1,10 +1,9 @@
 ---
-title: "364. 데이터 리니지 (Data Lineage)"
+title: "Data Lineage"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

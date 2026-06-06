@@ -1,10 +1,9 @@
 ---
-title: "941. 샤논-하틀리(Shannon-Hartley)"
+title: "Shannon-Hartley"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

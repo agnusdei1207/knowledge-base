@@ -1,10 +1,9 @@
 ---
-title: "237. 머신러닝 지도·비지도·강화학습 편향-분산 오류 종합"
+title: "237. Ml Supervised Unsupervised Reinforcement Bias Variance"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)의 세 패러다임—[지도 학습](/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)([Supervised Learning](/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)), [비지도 학습](/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/)([Unsupervised Learning](/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/)), [강화 학습](/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)([Reinforcement Learning](/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/))—은 "레이블(Label) 유무"와 "보상 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)(Reward [Signal](/studynote/02_operating_system/02_process_thread/130_signal/)) 유무"로 구분된다.

@@ -1,10 +1,9 @@
 ---
-title: "631. 메모리 KSM (Kernel Samepage Merging) 가상머신 간 중복 메모리 통합 절약"
+title: "631. Ksm Kernel Samepage Merging"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

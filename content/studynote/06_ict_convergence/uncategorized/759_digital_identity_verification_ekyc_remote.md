@@ -1,10 +1,9 @@
 ---
-title: "759. 디지털 신원 검증 eKYC 원격 인증 (Digital Identity Verification eKYC Remote)"
+title: "Digital Identity Verification eKYC Remote"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

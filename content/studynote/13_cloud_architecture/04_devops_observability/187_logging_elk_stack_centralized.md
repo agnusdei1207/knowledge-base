@@ -1,10 +1,9 @@
 ---
-title: "187. 로그 및 ELK Stack (Logs, Centralized Logging)"
+title: "Logs, Centralized Logging"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)([Logs](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))는 시스템과 애플리케이션에서 발생한 이벤트의 시간 순서 텍스트 기록으로, 장애 원인 분석(RCA)에 필수적인 상세 문맥을 제공하는 [옵저버빌리티](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)의 두 번째 기둥이다.

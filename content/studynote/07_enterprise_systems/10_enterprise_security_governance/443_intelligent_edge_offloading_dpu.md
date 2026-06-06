@@ -1,10 +1,9 @@
 ---
-title: "443. 지능형 엣지 오프로딩 DPU SmartNIC (Data Processing Unit / Smart Network Interface Card)"
+title: "Data Processing Unit / Smart Network Interface Card"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

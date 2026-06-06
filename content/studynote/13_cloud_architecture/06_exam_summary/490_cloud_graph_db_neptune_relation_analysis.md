@@ -1,10 +1,9 @@
 ---
-title: "490. 클라우드 그래프 DB Neptune 관계 분석 (Cloud Graph DB Neptune Relation Analysis)"
+title: "Cloud Graph DB Neptune Relation Analysis"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

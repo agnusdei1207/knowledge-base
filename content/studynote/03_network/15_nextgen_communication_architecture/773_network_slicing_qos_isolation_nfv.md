@@ -1,10 +1,9 @@
 ---
-title: "773. 네트워크 슬라이싱 (Network Slicing 물리적 동일망 복수의 이종 독립 논리적 인스턴스 전용망 분할 보안, QoS 격리(eMBB/URLLC/mMTC)"
+title: "eMBB/URLLC/mMTC"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

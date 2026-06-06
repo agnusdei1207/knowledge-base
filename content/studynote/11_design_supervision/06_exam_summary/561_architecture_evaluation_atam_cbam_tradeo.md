@@ -1,10 +1,9 @@
 ---
-title: "561. 아키텍처 평가 ATAM CBAM 트레이드오프 (Architecture Evaluation ATAM CBAM Tradeoff)"
+title: "Architecture Evaluation ATAM CBAM Tradeoff"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

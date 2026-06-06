@@ -1,10 +1,9 @@
 ---
-title: "836. VPC (가상 사설 클라우드망)"
+title: "836. Vpc Virtual Private Cloud Subnet Isolation"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

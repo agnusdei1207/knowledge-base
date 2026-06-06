@@ -1,10 +1,9 @@
 ---
-title: "432. 소트 머지 조인 (정렬 후 병합)"
+title: "432. Sort Merge Join"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

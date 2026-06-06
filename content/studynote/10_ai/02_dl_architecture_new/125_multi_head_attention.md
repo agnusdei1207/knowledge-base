@@ -1,10 +1,9 @@
 ---
-title: "125. Multi-Head Attention - 다관점 병렬 Attention으로 풍부한 표현 학습"
+title: "125. Multi Head Attention"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Multi-Head Attention은 <strong>QKV를 h개 헤드로 분할하여 각 헤드가 독립적으로 Attention을 수행</strong>한 후 결합(Concat+Linear)하는 구조이며, 단일 Attention보다 <strong>다양한 <a href="/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a> 패턴을 동시에 포착</strong>한다.

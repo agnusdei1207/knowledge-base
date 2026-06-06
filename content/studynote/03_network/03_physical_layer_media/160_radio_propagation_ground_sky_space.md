@@ -1,10 +1,9 @@
 ---
-title: "160. 지상파 (Ground Wave) / 천파 (Sky Wave) / 공간파 (Space Wave)"
+title: "Space Wave"
 date: "2026-05-05"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

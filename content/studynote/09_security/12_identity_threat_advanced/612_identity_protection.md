@@ -1,10 +1,9 @@
 ---
-title: "612. Identity Protection (Azure AD ID 보호)"
+title: "Azure AD ID"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

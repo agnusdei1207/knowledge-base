@@ -1,10 +1,9 @@
 ---
-title: "346. 유지보수성 (Maintainability) / 이식성 (Portability)"
+title: "Portability"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

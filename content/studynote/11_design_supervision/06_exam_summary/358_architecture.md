@@ -1,10 +1,9 @@
 ---
-title: "358. 인터페이스 분리 원칙 (Interface Segregation Principle, ISP)"
+title: "Interface Segregation Principle, ISP"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

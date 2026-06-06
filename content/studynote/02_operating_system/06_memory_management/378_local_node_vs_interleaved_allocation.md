@@ -1,10 +1,9 @@
 ---
-title: "378. 로컬 노드 할당 vs 인터리브 할당 (Local Node Vs Interleaved Allocation)"
+title: "Local Node Vs Interleaved Allocation"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "566. 하드웨어 락 엘리전 (Hardware Lock Elision, HLE)"
+title: "Hardware Lock Elision, HLE"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

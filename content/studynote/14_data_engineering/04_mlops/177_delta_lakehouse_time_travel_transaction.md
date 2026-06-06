@@ -1,10 +1,9 @@
 ---
-title: "177. 델타 레이크하우스 (Delta Lakehouse) - Time Travel과 트랜잭션"
+title: "177. Delta Lakehouse Time Travel Transaction"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

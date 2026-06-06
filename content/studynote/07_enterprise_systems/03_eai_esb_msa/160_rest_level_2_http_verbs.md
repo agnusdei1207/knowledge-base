@@ -1,10 +1,9 @@
 ---
-title: "160. Level 2 - HTTP 메서드의 적절한 분리 사용 (가장 대중적 단계)"
+title: "160. Rest Level 2 Http Verbs"
 date: "2026-05-05"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트
 

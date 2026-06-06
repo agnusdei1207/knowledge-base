@@ -1,10 +1,9 @@
 ---
-title: "586. 랭체인 (LangChain) 프레임워크 기반 AI 파이프라인 설계"
+title: "586. Langchain Ai Pipeline Framework"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

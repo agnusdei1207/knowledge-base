@@ -1,10 +1,9 @@
 ---
-title: "726. 클라우드 아키텍처 핵심 토픽 726번 시험 요약 (Cloud Architecture Core Topic 726 Exam Summary)"
+title: "Cloud Architecture Core Topic 726 Exam Summary"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ```markdown
 ## 핵심 인사이트 (3줄 요약)

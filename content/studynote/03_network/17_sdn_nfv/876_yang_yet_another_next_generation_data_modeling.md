@@ -1,10 +1,9 @@
 ---
-title: "876. YANG 데이터 모델링"
+title: "876. Yang Yet Another Next Generation Data Modeling"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

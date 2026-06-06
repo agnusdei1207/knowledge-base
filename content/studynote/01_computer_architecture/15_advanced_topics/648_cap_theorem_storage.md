@@ -1,10 +1,9 @@
 ---
-title: "648. 캡 정리 (CAP Theorem)와 분산 스토리지"
+title: "648. Cap Theorem Storage"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

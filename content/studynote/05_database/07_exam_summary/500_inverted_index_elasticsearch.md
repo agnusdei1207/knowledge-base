@@ -1,10 +1,9 @@
 ---
-title: "500. 역색인 (Inverted Index) 엘라스틱 서치 단어 포인터"
+title: "500. Inverted Index Elasticsearch"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "409. K-Means 최적 K 선택 (Kmeans Elbow Silhouette)"
+title: "Kmeans Elbow Silhouette"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

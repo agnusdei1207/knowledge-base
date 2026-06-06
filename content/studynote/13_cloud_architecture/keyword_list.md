@@ -1,10 +1,9 @@
 ---
-title: "13. 클라우드 컴퓨팅 및 아키텍처 키워드 목록"
+title: "Keyword List"
 date: "2026-03-04"
 tags:
   - "studynote-cloud"
 ---
-
 [weight](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) = 9999
 
 # [클라우드 컴퓨팅](/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/) 및 아키텍처 (Cloud [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/)) 키워드 목록 (심화 확장판)

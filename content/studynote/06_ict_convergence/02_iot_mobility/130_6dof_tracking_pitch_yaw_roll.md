@@ -1,10 +1,9 @@
 ---
-title: "130. 6DoF 트래킹 (Pitch·Yaw·Roll) - XR/공간 컴퓨팅의 움직임 추적"
+title: "130. 6Dof Tracking Pitch Yaw Roll"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 6DoF(Six Degrees of Freedom)는 <strong>3축 회전(Pitch·Yaw·Roll) + 3축 이동(X·Y·Z)</strong>의 6가지 자유도 추적이며, XR/공간 컴퓨팅에서 사용자의 머리·손·물체 위치를 정밀하게 파악한다.

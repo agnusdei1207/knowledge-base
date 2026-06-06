@@ -1,10 +1,9 @@
 ---
-title: "524. 스토리지 클래스 메모리 (SCM) 계층화"
+title: "524. Scm Tiering"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

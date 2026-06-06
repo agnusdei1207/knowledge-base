@@ -1,10 +1,9 @@
 ---
-title: "494. ITA 정보기술 아키텍처 참조 모델 (ITA IT Architecture Reference Model)"
+title: "ITA IT Architecture Reference Model"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

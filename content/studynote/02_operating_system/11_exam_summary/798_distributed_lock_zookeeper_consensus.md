@@ -1,10 +1,9 @@
 ---
-title: "798. 분산 락 주키퍼(ZooKeeper) 합의 동기화"
+title: "798. Distributed Lock Zookeeper Consensus"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

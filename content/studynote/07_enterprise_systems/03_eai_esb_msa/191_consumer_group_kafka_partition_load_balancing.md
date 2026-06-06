@@ -1,10 +1,9 @@
 ---
-title: "191. 컨슈머 그룹 (Consumer Group) - Kafka 파티션 병렬 처리와 부하 분산"
+title: "191. Consumer Group Kafka Partition Load Balancing"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

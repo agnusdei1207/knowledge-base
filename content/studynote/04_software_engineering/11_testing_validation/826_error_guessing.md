@@ -1,10 +1,9 @@
 ---
-title: "826. 오류 추정 (Error Guessing)"
+title: "Error Guessing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

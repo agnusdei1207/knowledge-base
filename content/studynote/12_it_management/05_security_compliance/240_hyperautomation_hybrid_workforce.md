@@ -1,10 +1,9 @@
 ---
-title: "240. 초자동화 (Hyperautomation) 프로세스 마이닝 + RPA + AI + 챗봇 결합 하이브리드 워크포스 통합 플랫폼"
+title: "240. Hyperautomation Hybrid Workforce"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 초자동화 (Hyperautomation) [프로세스 마이닝](/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/) + [RPA](/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) + [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) + 챗봇 결합 하이브리드 워크포스 통합 플랫폼의 본질은 자산, 위협, [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 통제, 운영 증적이 한 체계로 연결되어야 보안과 규제 대응이 일회성 캠페인으로 끝나지 않는다.

@@ -1,10 +1,9 @@
 ---
-title: "237. 조달 관리 입찰: RFP, RFI, RFQ 도입 비교"
+title: "237. Procurement Rfp Rfi Rfq"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

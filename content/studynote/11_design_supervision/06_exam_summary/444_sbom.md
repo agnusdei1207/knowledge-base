@@ -1,10 +1,9 @@
 ---
-title: "444. SBOM 소프트웨어 구성 명세 취약 방어 (Software Bill of Materials Vulnerability Defense)"
+title: "Software Bill of Materials Vulnerability Defense"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

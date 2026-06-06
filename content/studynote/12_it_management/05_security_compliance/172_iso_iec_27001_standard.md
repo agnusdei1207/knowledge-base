@@ -1,10 +1,9 @@
 ---
-title: "172. ISO/IEC 27001 (글로벌 정보보안 경영시스템 국제 표준 인증)"
+title: "172. Iso Iec 27001 Standard"
 date: "2026-03-04"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "501. XSS 유형 - Reflected XSS, Stored XSS, DOM-based XSS"
+title: "501. Xss Types"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

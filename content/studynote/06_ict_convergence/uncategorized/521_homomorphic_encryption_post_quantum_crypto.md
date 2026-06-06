@@ -1,10 +1,9 @@
 ---
-title: "521. 동형 암호와 양자 내성 암호 전환 (Homomorphic Encryption Post-Quantum Cryptography)"
+title: "Homomorphic Encryption Post-Quantum Cryptography"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

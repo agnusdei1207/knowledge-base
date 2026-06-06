@@ -1,10 +1,9 @@
 ---
-title: "1096. EIGRP DUAL 지연 스케일 분산"
+title: "1096. Eigrp Dual Algorithm Diffusing Update"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

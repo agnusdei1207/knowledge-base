@@ -1,10 +1,9 @@
 ---
-title: "581. 비바 모델 (Biba Model) - 무결성 위주 정책 (No Read Down, No Write Up)"
+title: "No Read Down, No Write Up"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

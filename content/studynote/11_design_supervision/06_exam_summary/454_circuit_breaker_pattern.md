@@ -1,10 +1,9 @@
 ---
-title: "454. 서킷 브레이커 패턴 장애 격리 (Circuit Breaker Pattern Fault Isolation)"
+title: "Circuit Breaker Pattern Fault Isolation"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

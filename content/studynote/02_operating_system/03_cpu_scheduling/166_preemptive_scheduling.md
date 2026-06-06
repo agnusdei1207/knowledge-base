@@ -1,10 +1,9 @@
 ---
-title: "166. 선점형 스케줄링 (Preemptive Scheduling)"
+title: "Preemptive Scheduling"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "394. SPIFFE SPIRE 서비스 신원 인증 (SPIFFE SPIRE Service Identity Authentication)"
+title: "SPIFFE SPIRE Service Identity Authentication"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

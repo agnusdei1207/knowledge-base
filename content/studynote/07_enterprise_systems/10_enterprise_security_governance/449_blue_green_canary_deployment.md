@@ -1,10 +1,9 @@
 ---
-title: "449. 블루/그린 카나리 배포 롤링 다운타임 제로 전략 (Blue/Green, Canary, Rolling Deployment)"
+title: "Blue/Green, Canary, Rolling Deployment"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

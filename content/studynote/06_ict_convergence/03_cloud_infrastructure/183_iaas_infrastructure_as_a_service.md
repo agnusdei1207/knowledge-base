@@ -1,10 +1,9 @@
 ---
-title: "183. IaaS (Infrastructure as a Service) - 서버, 스토리지, 네트워크 가상화 제공"
+title: "183. Iaas Infrastructure As A Service"
 date: "2026-05-06"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

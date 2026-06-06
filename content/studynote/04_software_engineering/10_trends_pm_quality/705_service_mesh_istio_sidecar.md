@@ -1,10 +1,9 @@
 ---
-title: "705. 서비스 메시 (Istio) 사이드카 통신 제어"
+title: "705. Service Mesh Istio Sidecar"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

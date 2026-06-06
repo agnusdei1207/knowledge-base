@@ -1,10 +1,9 @@
 ---
-title: "999. MEC (모바일 엣지 컴퓨팅)"
+title: "999. Mec Mobile Edge Computing"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

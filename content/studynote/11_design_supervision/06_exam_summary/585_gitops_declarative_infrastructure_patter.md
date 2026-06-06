@@ -1,10 +1,9 @@
 ---
-title: "585. GitOps 선언적 인프라 관리 패턴 (GitOps Declarative Infrastructure Pattern)"
+title: "GitOps Declarative Infrastructure Pattern"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "952. Membership Inference (멤버십 추론 공격)"
+title: "952. Membership Inference"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

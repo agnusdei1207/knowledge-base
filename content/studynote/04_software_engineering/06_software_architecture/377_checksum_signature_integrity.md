@@ -1,10 +1,9 @@
 ---
-title: "377. 체크섬(Checksum), 서명(Signature)을 통한 무결성(Integrity) 검증"
+title: "377. Checksum Signature Integrity"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

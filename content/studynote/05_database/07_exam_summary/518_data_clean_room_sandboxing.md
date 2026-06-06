@@ -1,10 +1,9 @@
 ---
-title: "518. 클린 룸 데이터 공유 샌드박싱 연동"
+title: "518. Data Clean Room Sandboxing"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "044. ZK-Rollup & 유효성 증명"
+title: "044. Zk Rollup Validity Proof"
 date: "2026-04-05"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 > **핵심 인사이트**
 > 1. ZK-[Rollup](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)(Zero-Knowledge [Rollup](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/))은 수천 건의 트랜잭션을 오프체인에서 처리하고 수학적 유효성 증명(zk-SNARK/zk-STARK)만 메인체인에 제출하는 Layer 2 확장 기술로 — 낙관적 [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)(Optimistic [Rollup](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/))과 달리 도전 기간 없이 즉시 최종성([Finality](/studynote/06_ict_convergence/01_blockchain/065_consensus_finality_probabilistic_deterministic/))을 달성한다.

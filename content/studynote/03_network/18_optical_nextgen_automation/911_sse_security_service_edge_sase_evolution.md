@@ -1,10 +1,9 @@
 ---
-title: "911. SSE (에지 보안 서비스)"
+title: "911. Sse Security Service Edge Sase Evolution"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

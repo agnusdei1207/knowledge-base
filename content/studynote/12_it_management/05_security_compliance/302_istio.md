@@ -1,10 +1,9 @@
 ---
-title: "302. 서비스 메시 (Istio) 사이드카 프록시"
+title: "302. Istio"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [서비스 메시](/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/) ([Istio](/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/)) [사이드카](/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 프록시의 본질은 자산, 위협, [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 통제, 운영 증적이 한 체계로 연결되어야 보안과 규제 대응이 일회성 캠페인으로 끝나지 않는다.

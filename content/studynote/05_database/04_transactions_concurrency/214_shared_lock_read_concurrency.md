@@ -1,10 +1,9 @@
 ---
-title: "214. 공유 락 (Shared Lock / Read Lock, S-Lock)"
+title: "Shared Lock / Read Lock, S-Lock"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

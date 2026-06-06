@@ -1,10 +1,9 @@
 ---
-title: "751. 카오스 엔지니어링 (Chaos 엔진ering) HW 모의"
+title: "751. Chaos Engineering"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

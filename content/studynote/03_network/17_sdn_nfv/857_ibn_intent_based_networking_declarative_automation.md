@@ -1,10 +1,9 @@
 ---
-title: "857. IBN (인텐트 기반 네트워킹)"
+title: "857. Ibn Intent Based Networking Declarative Automation"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

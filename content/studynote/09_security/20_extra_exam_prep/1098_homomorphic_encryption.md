@@ -1,10 +1,9 @@
 ---
-title: "1098. 동형 암호 (Homomorphic Encryption)"
+title: "Homomorphic Encryption"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

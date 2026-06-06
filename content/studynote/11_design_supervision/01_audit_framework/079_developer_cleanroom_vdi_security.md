@@ -1,10 +1,9 @@
 ---
-title: "79. 개발자 클린룸 망분리(VDI) 환경 및 보안 이동 경로 점검 (Security)"
+title: "Security"
 date: "2026-05-08"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

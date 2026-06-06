@@ -1,10 +1,9 @@
 ---
-title: "415. 메타버스 디지털 트윈 센서 동기화 (Metaverse & Digital Twin)"
+title: "Metaverse & Digital Twin"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "22. MCTS 4단계 - 선택(Selection) -> 확장(Expansion) -> 시뮬레이션(Simulation) -> 역전파(Backpropagation)"
+title: "Backpropagation"
 date: "2026-04-02"
 tags:
   - "studynote-ai"
 ---
-
 
 # [몬테카를로 트리 탐색](/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/) ([MCTS](/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/))의 4단계 라이프사이클
 

@@ -1,10 +1,9 @@
 ---
-title: "191. 하이퍼바이저 Type 1 (베어메탈 - ESXi, Xen) vs Type 2 (호스트형 - VMware Workstation) (Hypervisor)"
+title: "Hypervisor"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

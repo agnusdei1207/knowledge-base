@@ -1,10 +1,9 @@
 ---
-title: "584. 1X (PNAC, Port Based Network Access Control) 인증 및 EAP/RADIUS 체계"
+title: "584. 802 1X Pnac Eap Radius"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

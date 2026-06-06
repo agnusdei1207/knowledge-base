@@ -1,10 +1,9 @@
 ---
-title: "213. 데이터베이스 퍼 서비스 (Database per Service)"
+title: "Database per Service"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

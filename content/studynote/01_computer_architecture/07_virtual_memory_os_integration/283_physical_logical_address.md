@@ -1,10 +1,9 @@
 ---
-title: "283. 물리 주소와 논리 주소 (Physical vs Logical Address)"
+title: "Physical vs Logical Address"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

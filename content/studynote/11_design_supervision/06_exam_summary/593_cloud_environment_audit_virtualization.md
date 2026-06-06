@@ -1,10 +1,9 @@
 ---
-title: "593. 클라우드 환경 감리 가상화 검증 (Cloud Environment Audit Virtualization)"
+title: "Cloud Environment Audit Virtualization"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

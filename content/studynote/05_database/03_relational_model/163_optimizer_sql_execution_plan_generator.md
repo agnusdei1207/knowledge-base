@@ -1,10 +1,9 @@
 ---
-title: "163. 옵티마이저 (Optimizer) - SQL 실행 최적 경로(Execution Plan) 생성기"
+title: "163. Optimizer Sql Execution Plan Generator"
 date: "2026-05-05"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트
 

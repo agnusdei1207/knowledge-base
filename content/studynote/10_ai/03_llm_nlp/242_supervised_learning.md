@@ -1,10 +1,9 @@
 ---
-title: "242. 지도 학습 (Supervised Learning) : 분류와 회귀"
+title: "242. Supervised Learning"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

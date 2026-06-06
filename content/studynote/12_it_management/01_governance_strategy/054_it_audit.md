@@ -1,10 +1,9 @@
 ---
-title: "54. IT 감사 (IT Audit)"
+title: "IT Audit"
 date: "2026-05-01"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "586. AMI 지능형 검침 인프라 스마트 그리드 (AMI Advanced Metering Smart Grid)"
+title: "AMI Advanced Metering Smart Grid"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

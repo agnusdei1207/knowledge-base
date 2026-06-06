@@ -1,10 +1,9 @@
 ---
-title: "56. 표본화 (Sampling)"
+title: "Sampling"
 date: "2026-05-01"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

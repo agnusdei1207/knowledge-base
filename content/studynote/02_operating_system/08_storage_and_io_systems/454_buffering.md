@@ -1,10 +1,9 @@
 ---
-title: "454. 버퍼링 (Buffering) - 송수신자 간 데이터 전송 속도 차이, 전송 단위 차이 극복"
+title: "454. Buffering"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

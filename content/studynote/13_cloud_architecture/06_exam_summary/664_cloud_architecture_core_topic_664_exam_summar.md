@@ -1,10 +1,9 @@
 ---
-title: "664. 클라우드 아키텍처 핵심 토픽 664번 시험 요약 (Cloud Architecture Core Topic 664 Exam Summary)"
+title: "Cloud Architecture Core Topic 664 Exam Summary"
 date: 2026-05-09
 tags:
   - "studynote-cloud-architecture"
----
-## 핵심 인사이트 (3줄 요약)
+---## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 아키텍처는 IaaS(Compute/Storage/Network 가상화) -> PaaS(Managed K8s, Serverless) -> SaaS(API·구독형 서비스) 의 책임 분담 모델을 기반으로, **Well-Architected 5대 펠러(운영 우수성·보안·안정성·성능 효율·비용 최적화)** 와 **CNCF Cloud Native 트래일맵(컨테이너->오케스트레이션->서비스 메시->관측가능성)** 을 통해 워크로드의 탄력성·가용성·확장성을 확보하는 분산 시스템 설계 청사진이다.
 > 2. **가치**: AWS·Azure·GCP 3사 기준 동일 워크로드에서 **온프레미스 대비 30~70% TCO 절감**, Auto Scaling을 통한 **트래픽 피크 시 100배 확장**, 다중 AZ·리전 구성을 통한 **99.99%(52.6분/년) 가용성 SLA**, IaC(Terraform/Pulumi) 적용 시 배포 리드타임을 **수동 수 시간 -> 자동 수 분** 수준으로 단축한다.

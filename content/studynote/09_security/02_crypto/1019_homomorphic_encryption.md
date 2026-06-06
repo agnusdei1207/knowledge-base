@@ -1,10 +1,9 @@
 ---
-title: "1019. 동형 암호 (Homomorphic Encryption, HE)"
+title: "Homomorphic Encryption, HE"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

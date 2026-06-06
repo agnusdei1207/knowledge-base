@@ -1,10 +1,9 @@
 ---
-title: "345. LLM 파운데이션 모델 환각 (Hallucination) 방어 검증"
+title: "345. Llm Foundation Model Hallucination"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) [파운데이션 모델](/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/) [환각](/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) (Hallucination) 방어 검증의 본질은 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 정의, 운영 절차, 품질 측정, 개선 루프가 연결되어야 사용자가 체감하는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준을 안정적으로 유지할 수 있다.

@@ -1,10 +1,9 @@
 ---
-title: "867. Host Header Injection (호스트 헤더 인젝션)"
+title: "867. Host Header Injection"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

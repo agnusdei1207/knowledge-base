@@ -1,10 +1,9 @@
 ---
-title: "399. DevSecOps 기술사 핵심 통합 요약 마스터 맵 (DevSecOps PE Master Summary Integration Map)"
+title: "DevSecOps PE Master Summary Integration Map"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

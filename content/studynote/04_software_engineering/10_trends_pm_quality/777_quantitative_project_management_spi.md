@@ -1,10 +1,9 @@
 ---
-title: "777. 정량적 프로젝트 관리 SPI 통제 한계선"
+title: "777. Quantitative Project Management Spi"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

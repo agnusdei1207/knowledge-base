@@ -1,10 +1,9 @@
 ---
-title: "518. 가명 처리 및 비식별화 기술 (K-익명성, L-다양성, T-근접성) SW 적용"
+title: "518. Pseudonymization Kanonymity"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

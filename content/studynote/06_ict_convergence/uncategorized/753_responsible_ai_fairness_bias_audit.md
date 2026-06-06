@@ -1,10 +1,9 @@
 ---
-title: "753. 책임 있는 AI 공정성 편향 감사 (Responsible AI Fairness Bias Audit)"
+title: "Responsible AI Fairness Bias Audit"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

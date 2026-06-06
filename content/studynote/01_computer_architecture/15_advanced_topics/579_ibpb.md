@@ -1,10 +1,9 @@
 ---
-title: "579. 간접 분기 추측 제어 (IBPB, Indirect Branch Predictor Barrier)"
+title: "IBPB, Indirect Branch Predictor Barrier"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "500. 멀티 클라우드 전략과 벤더 종속성 회피 (Multi-Cloud Strategy and Vendor Lock-in Avoidance)"
+title: "Multi-Cloud Strategy and Vendor Lock-in Avoidance"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

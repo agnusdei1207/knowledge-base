@@ -1,10 +1,9 @@
 ---
-title: "228. 엣지 컴퓨팅 하드웨어 오프로딩 (SmartNIC / DPU - Data Processing Unit)"
+title: "SmartNIC / DPU - Data Processing Unit"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

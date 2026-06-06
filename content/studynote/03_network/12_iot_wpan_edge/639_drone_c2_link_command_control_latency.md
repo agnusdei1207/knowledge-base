@@ -1,10 +1,9 @@
 ---
-title: "639. 드론 통신 지연시간 관리 및 보안 C2 링크 (Command & Control)"
+title: "Command & Control"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

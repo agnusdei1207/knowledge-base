@@ -1,10 +1,9 @@
 ---
-title: "174. J2EE 프레임워크 패턴 (J2EE Framework Patterns)"
+title: "J2EE Framework Patterns"
 date: "2026-04-21"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

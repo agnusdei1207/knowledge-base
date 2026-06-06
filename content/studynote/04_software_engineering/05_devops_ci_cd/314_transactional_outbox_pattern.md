@@ -1,10 +1,9 @@
 ---
-title: "314. 트랜잭셔널 아웃박스 (Transactional Outbox) 패턴"
+title: "314. Transactional Outbox Pattern"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "39. 전자정부 표준 프레임워크 아키텍처 및 적용 기준 점검 (eGovFrame Architecture Audit)"
+title: "eGovFrame Architecture Audit"
 date: "2026-05-08"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

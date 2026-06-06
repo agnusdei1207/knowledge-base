@@ -1,10 +1,9 @@
 ---
-title: "366. 컬럼 레벨 암호화 / 블록 레벨 암호화"
+title: "366. Column Block Encryption"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

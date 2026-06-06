@@ -1,10 +1,9 @@
 ---
-title: "557. 하드 핸드오버 (Hard Handoff)"
+title: "Hard Handoff"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

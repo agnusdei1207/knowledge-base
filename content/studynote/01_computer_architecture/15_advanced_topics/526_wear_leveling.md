@@ -1,10 +1,9 @@
 ---
-title: "526. 비휘발성 메모리 마모 평준화 (Wear Leveling)"
+title: "Wear Leveling"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

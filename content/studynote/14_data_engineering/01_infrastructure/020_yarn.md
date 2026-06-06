@@ -1,11 +1,10 @@
 ---
-title: "20. YARN (Yet Another Resource Negotiator) - 하둡 2.0 클러스터 자원(CPU/Mem) 스케줄링 통합 관리자"
+title: "020. Yarn"
 date: "2025-01-01"
 description: "하둡 2.0 클러스터의 두뇌로, 자원(CPU/Memory) 관리와 애플리케이션 스케줄링을 완벽히 분리해낸 중앙 통합 리소스 관리자"
 tags:
   - "data_engineering"
 ---
-
 
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [하둡](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 1.0의 단일 [맵리듀스](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)([MapReduce](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)) 전용 엔진 한계를 타파하기 위해 등장한 [하둡](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 2.0의 심장으로, 클러스터 전체의 자원(CPU, 메모리) 할당 기능과 애플리케이션 실행/모니터링 기능을 완전히 분리한 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)급 리소스 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)입니다.

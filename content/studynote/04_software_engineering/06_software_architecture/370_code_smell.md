@@ -1,10 +1,9 @@
 ---
-title: "370. 코드 스멜 (Code Smell) - 리팩토링의 징후 (코드 중복, 거대 클래스, 긴 파라미터 목록)"
+title: "370. Code Smell"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

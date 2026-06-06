@@ -1,10 +1,9 @@
 ---
-title: "490. CDC 캡처 변경 로그 추출 스트림"
+title: "490. Cdc Change Data Capture"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

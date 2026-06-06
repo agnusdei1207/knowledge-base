@@ -1,10 +1,9 @@
 ---
-title: "473. 서멀 스로틀링 (Thermal Throttling)"
+title: "Thermal Throttling"
 date: "2026-03-22"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

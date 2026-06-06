@@ -1,10 +1,9 @@
 ---
-title: "754. 테일러링 프로젝트 맞춤형 프로세스 재단"
+title: "754. Tailoring Software Process"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

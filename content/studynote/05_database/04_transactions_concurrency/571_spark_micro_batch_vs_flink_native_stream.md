@@ -1,10 +1,9 @@
 ---
-title: "571. Spark 스트리밍 마이크로 배치 vs Flink 네이티브 스트림 인 메모리 DB"
+title: "571. Spark Micro Batch Vs Flink Native Stream"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

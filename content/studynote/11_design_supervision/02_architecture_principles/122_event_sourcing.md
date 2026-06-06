@@ -1,10 +1,9 @@
 ---
-title: "122. 이벤트 소싱 (Event Sourcing)"
+title: "Event Sourcing"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

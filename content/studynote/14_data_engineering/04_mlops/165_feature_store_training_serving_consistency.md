@@ -1,10 +1,9 @@
 ---
-title: "165. 피처 스토어 (Feature Store) - 훈련/서빙 피처 일관성"
+title: "165. Feature Store Training Serving Consistency"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 스토어 (Feature Store)는 ML [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)를 중앙에서 정의·저장·서빙하는 플랫폼으로, 훈련(Offline)과 서빙(Online) 간의 [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 계산 불일치인 Training-Serving Skew 문제를 근본적으로 해결한다.

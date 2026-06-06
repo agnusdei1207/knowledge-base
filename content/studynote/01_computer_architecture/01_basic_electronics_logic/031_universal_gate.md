@@ -1,10 +1,9 @@
 ---
-title: "31. 범용 게이트 — NAND와 NOR으로 모든 논리를"
+title: "031. Universal Gate"
 date: "2026-04-29"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: NAND와 NOR은 범용 게이트(Universal Gate)다. 이 두 게이트 중 하나만으로 AND·OR·NOT 등 모든 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 함수를 구현할 수 있다. 실제 집적 회로(IC) 제조에서 단일 게이트 유형으로 통일하면 생산 비용이 낮아진다.

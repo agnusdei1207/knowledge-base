@@ -1,10 +1,9 @@
 ---
-title: "21. 해밀턴 경로 (Hamiltonian Path) — NP-완전, 백트래킹"
+title: "049. Hamiltonian Path"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "391. 디퓨전 역과정 (Reverse Diffusion Process)"
+title: "Reverse Diffusion Process"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

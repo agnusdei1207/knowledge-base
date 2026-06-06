@@ -1,10 +1,9 @@
 ---
-title: "66. 도커 데몬 (Docker Daemon, dockerd) - 컨테이너 라이프사이클 관리 프로세스"
+title: "066. Docker Daemon Dockerd"
 date: "2026-04-07"
 tags:
   - "studynote-cloud"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

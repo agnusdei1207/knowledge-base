@@ -1,10 +1,9 @@
 ---
-title: "163. OCSP (Online Certificate Status Protocol) — 실시간 인증서 상태 질의"
+title: "163. Ocsp Online Certificate Status Protocol"
 date: "2026-05-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트
 

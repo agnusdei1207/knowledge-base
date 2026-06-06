@@ -1,10 +1,9 @@
 ---
-title: "492. 블록체인 스마트 컨트랙트 원장 DB 융합"
+title: "492. Blockchain Smart Contract Ledger Db"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

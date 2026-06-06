@@ -1,9 +1,8 @@
 ---
-title: "83. 플래닝 포커 (Planning Poker) - 다수 전문가 합의 기반 산정"
+title: "083. Planning Poker"
 tags:
   - "software_engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

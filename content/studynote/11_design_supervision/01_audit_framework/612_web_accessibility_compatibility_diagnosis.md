@@ -1,10 +1,9 @@
 ---
-title: "612. 웹 접근성 및 호환성 진단 (Web Accessibility and Compatibility Diagnosis)"
+title: "Web Accessibility and Compatibility Diagnosis"
 date: "2026-05-08"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

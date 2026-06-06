@@ -1,10 +1,9 @@
 ---
-title: "789. 도전-응답 쌍 (Challenge-Response Pair, CRP)"
+title: "Challenge-Response Pair, CRP"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

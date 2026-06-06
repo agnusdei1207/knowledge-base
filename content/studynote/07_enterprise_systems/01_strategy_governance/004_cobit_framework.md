@@ -1,11 +1,10 @@
 ---
-title: "4. COBIT (Control Objectives for Information and related Technology) - ISACA 주도 IT 거버넌스 통제 프레임워크 최상위 표준"
+title: "004. Cobit Framework"
 date: "2026-03-04"
 description: "ISACA가 제정한 엔터프라이즈 IT 거버넌스 및 통제 프레임워크인 COBIT의 원칙, 아키텍처 및 실무 도입 방안"
 tags:
   - "enterprise_systems"
 ---
-
 
 # [COBIT](/studynote/12_it_management/01_governance_strategy/004_cobit/) 프레임워크 (Control Objectives for Information and related Technology)
 #### 핵심 인사이트 (3줄 요약)

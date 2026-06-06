@@ -1,11 +1,10 @@
 ---
-title: "13. 상태 공간 탐색 (State Space Search)"
+title: "State Space Search"
 date: "2024-05-24"
 description: "문제 해결 과정을 초기 상태에서 목표 상태로 도달하기 위한 그래프 탐색으로 모델링하는 AI 탐색의 근본 패러다임"
 tags:
   - "ai"
 ---
-
 # 13. [상태 공간 탐색](/studynote/10_ai/03_llm_nlp/236_state_space_search_dfs_bfs/) ([State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Space Search)
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 복잡한 현실의 문제를 유한 또는 무한의 노드(상태)와 간선(연산자)으로 이루어진 수학적 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델로 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)하여, 목표 지점을 찾아가는 최적 경로 탐색 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 체계.

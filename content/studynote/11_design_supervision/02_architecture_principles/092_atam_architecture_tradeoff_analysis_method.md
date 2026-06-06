@@ -1,10 +1,9 @@
 ---
-title: "92. 아키텍처 평가 방법론 - ATAM (Architecture Trade-off Analysis Method)"
+title: "Architecture Trade-off Analysis Method"
 date: "2026-04-10"
 tags:
   - "studynote-design"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

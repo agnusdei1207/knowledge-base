@@ -1,10 +1,9 @@
 ---
-title: "536. 서비스 간 비동기 통신 - 메시지 큐 (RabbitMQ, Kafka), AMQP 프로토콜"
+title: "536. Asynchronous Communication Kafka Rabbitmq"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

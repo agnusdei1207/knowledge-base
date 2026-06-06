@@ -1,10 +1,9 @@
 ---
-title: "574. 스와핑 (Swapping) 메커니즘"
+title: "574. Swapping Mechanism"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "487. 루트 오브 트러스트 (Root of Trust)"
+title: "Root of Trust"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

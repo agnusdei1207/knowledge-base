@@ -1,10 +1,9 @@
 ---
-title: "606. 옵저버 패턴 (Pub/Sub 연계)"
+title: "Pub/Sub"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

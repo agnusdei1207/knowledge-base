@@ -1,10 +1,9 @@
 ---
-title: "550. IT 재무 관리 FinOps 비용 최적화 (IT Financial Management FinOps Cost Optimization)"
+title: "IT Financial Management FinOps Cost Optimization"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

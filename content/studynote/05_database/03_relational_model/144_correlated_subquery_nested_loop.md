@@ -1,10 +1,9 @@
 ---
-title: "144. 상관 서브쿼리 (Correlated Subquery) - 외부 참조 Nested Loop"
+title: "144. Correlated Subquery Nested Loop"
 date: "2026-04-19"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 상관 서브쿼리는 <strong>내부 서브쿼리가 외부 <a href="/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a>의 행을 <a href="/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a></strong>하여, 외부 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)의 <strong>각 행마다 서브쿼리가 반복 실행</strong>되는 구조이며, Nested Loop와 유사한 O(N×M) 특성을 가진다.

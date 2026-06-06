@@ -1,11 +1,10 @@
 ---
-title: "100. 공간 다중화 (Spatial Multiplexing)"
+title: "Spatial Multiplexing"
 date: "2026-03-04"
 description: "MIMO 시스템에서 서로 다른 독립적인 데이터 스트림을 다수의 공간 경로로 동시 전송하여, 주파수 추가 없이 통신 대역폭 한계를 돌파하는 핵심 기법"
 tags:
   - "network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

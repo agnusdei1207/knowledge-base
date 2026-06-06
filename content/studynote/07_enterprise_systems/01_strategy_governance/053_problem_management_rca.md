@@ -1,10 +1,9 @@
 ---
-title: "53. 문제 관리와 근본 원인 분석 (Problem Management RCA)"
+title: "Problem Management RCA"
 date: "2026-05-01"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

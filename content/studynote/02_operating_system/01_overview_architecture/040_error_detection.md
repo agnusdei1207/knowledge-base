@@ -1,10 +1,9 @@
 ---
-title: "040. 오류 탐지 (Error Detection)"
+title: "Error Detection"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
 ---
-
 
 > **핵심 인사이트**
 > 1. 오류 탐지(Error [Detection](/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송·저장 과정에서 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류를 발견하는 기술로, [패리티 비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)([Parity Bit](/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/))·[체크섬](/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)([Checksum](/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/))·[CRC](/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)([Cyclic Redundancy Check](/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/))는 중복 정보 추가량과 탐지 능력의 트레이드오프를 각각 다른 수준으로 구현한다.

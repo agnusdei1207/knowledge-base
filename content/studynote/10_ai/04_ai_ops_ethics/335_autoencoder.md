@@ -1,10 +1,9 @@
 ---
-title: "335. 오토인코더 (Autoencoder)"
+title: "Autoencoder"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

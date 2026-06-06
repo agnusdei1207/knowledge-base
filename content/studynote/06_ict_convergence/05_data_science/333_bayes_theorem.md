@@ -1,10 +1,9 @@
 ---
-title: "333. 베이즈 정리 (Bayes' Theorem)"
+title: "Bayes' Theorem"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

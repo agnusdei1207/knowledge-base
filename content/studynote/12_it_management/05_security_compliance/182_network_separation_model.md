@@ -1,10 +1,9 @@
 ---
-title: "182. 망분리 (Network Separation) 모델"
+title: "182. Network Separation Model"
 date: "2026-05-06"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

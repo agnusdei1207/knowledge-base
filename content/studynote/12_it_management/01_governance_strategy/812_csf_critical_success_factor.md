@@ -1,10 +1,9 @@
 ---
-title: "812. 핵심 성공 요인 (CSF, Critical Success Factor)"
+title: "CSF, Critical Success Factor"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

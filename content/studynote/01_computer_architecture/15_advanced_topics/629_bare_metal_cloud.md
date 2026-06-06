@@ -1,10 +1,9 @@
 ---
-title: "629. 베어메탈 클라우드 (Bare Metal Cloud)"
+title: "Bare Metal Cloud"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

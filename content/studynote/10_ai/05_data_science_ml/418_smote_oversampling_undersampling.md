@@ -1,10 +1,9 @@
 ---
-title: "418. 오버샘플링·언더샘플링·SMOTE (Synthetic Minority Over-sampling Technique)"
+title: "Synthetic Minority Over-sampling Technique"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

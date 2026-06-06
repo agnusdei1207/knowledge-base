@@ -1,10 +1,9 @@
 ---
-title: "511. 지식 관리 KMS 조직 학습 혁신 (Knowledge Management KMS Organizational Learning)"
+title: "Knowledge Management KMS Organizational Learning"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

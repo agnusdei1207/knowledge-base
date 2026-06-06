@@ -1,10 +1,9 @@
 ---
-title: "290. PERT 3점 추정"
+title: "290. Pert Three Point"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [PERT](/studynote/12_it_management/04_sdlc_testing/151_pert_three_point_estimation/) 3점 추정의 본질은 요구사항, 산출물, 품질 게이트, 일정·원가 지표가 한 흐름으로 연결되어야 프로젝트 통제가 가능하다.

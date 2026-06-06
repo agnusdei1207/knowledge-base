@@ -1,10 +1,9 @@
 ---
-title: "478. 스노우플레이크 차원 정규화 계층 트리"
+title: "478. Snowflake Schema Normalization"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

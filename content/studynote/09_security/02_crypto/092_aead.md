@@ -1,10 +1,9 @@
 ---
-title: "092. AEAD (Authenticated Encryption with Associated Data) — 암호화+인증 동시"
+title: "092. Aead"
 date: "2026-04-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: AEAD (Authenticated Encryption with Associated [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 해커가 볼 수 없게 숨기는 '암호화'와 중간에 조작되지 않았음을 보장하는 '[인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))'을 단일 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 묶어 처리하는 현대 암호학의 표준 프레임워크다.

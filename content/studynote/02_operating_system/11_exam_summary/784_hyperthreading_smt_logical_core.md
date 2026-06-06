@@ -1,10 +1,9 @@
 ---
-title: "784. 하이퍼스레딩 물리 코어 논리 코어 분할 구조 (Hyperthreading Smt Logical Core)"
+title: "Hyperthreading Smt Logical Core"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

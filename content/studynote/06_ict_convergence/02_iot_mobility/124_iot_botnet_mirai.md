@@ -1,10 +1,9 @@
 ---
-title: "124. IoT 봇넷 & Mirai - IoT 디바이스 대상 DDoS 봇넷 공격"
+title: "124. Iot Botnet Mirai"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [봇넷](/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/)은 <strong>보안이 취약한 <a href="/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 디바이스(IP 카메라·공유기 등)를 악성코드로 감염시켜 <a href="/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/">봇넷</a>을 구성</strong>하고, 이를 이용해 대규모 DDoS 공격을 수행하는 사이버 위협이다.

@@ -1,10 +1,9 @@
 ---
-title: "890. 광통신 네트워크 이더넷"
+title: "890. Optical Ethernet Carrier Ethernet Single Platform"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

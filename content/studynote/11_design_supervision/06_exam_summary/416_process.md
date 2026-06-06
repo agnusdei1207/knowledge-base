@@ -1,10 +1,9 @@
 ---
-title: "416. 보안 테스트 퍼징 기반 이상 패킷 자동 주입 (Security Fuzzing for Abnormal Packet Injection)"
+title: "Security Fuzzing for Abnormal Packet Injection"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

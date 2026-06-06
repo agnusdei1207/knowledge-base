@@ -1,10 +1,9 @@
 ---
-title: "189. 커스텀 메트릭 (Custom Metrics) 비즈니스 로직(결제 성공률 등) 프로메테우스 연동"
+title: "189. Custom Metrics"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

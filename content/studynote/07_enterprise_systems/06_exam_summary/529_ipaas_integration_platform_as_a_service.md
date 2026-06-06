@@ -1,10 +1,9 @@
 ---
-title: "529. iPaaS 통합 플랫폼 서비스 클라우드 (iPaaS Integration Platform as a Service)"
+title: "iPaaS Integration Platform as a Service"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: iPaaS 통합 플랫폼 서비스은(는) 클라우드 기반 커넥터와 플로우 디자이너로 SaaS, 온프레미스, 데이터 서비스를 연결하는 통합 플랫폼이다.

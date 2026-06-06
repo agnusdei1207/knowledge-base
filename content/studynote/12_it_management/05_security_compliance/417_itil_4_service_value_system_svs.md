@@ -1,10 +1,9 @@
 ---
-title: "417. ITIL 4 서비스 가치 시스템 SVS (ITIL 4 Service Value System SVS)"
+title: "ITIL 4 Service Value System SVS"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

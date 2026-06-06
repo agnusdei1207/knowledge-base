@@ -1,10 +1,9 @@
 ---
-title: "745. 시스템 클럭 타이머 틱 (System Clock Timer Tick)"
+title: "System Clock Timer Tick"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

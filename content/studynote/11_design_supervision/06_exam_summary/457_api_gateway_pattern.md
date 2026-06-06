@@ -1,10 +1,9 @@
 ---
-title: "457. API 게이트웨이 패턴 라우팅 인증 (API Gateway Pattern Routing Authentication)"
+title: "API Gateway Pattern Routing Authentication"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "202. BPM 라이프사이클 (Business Process Management Lifecycle)"
+title: "Business Process Management Lifecycle"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

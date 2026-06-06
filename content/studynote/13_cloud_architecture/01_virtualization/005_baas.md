@@ -1,11 +1,10 @@
 ---
-title: "5. BaaS (Backend as a Service) - 모바일/웹 앱을 위한 공통 백엔드 API (인증, 푸시, DB) 제공 (Firebase)"
+title: "Firebase"
 date: "2024-05-24"
 description: "모바일 및 웹 앱 개발을 가속화하기 위해 인증, DB, 푸시 알림 등 공통 백엔드 기능을 API로 제공하는 BaaS 패러다임"
 tags:
   - "cloud_architecture"
 ---
-
 
 # [BaaS](/studynote/06_ict_convergence/03_cloud_infrastructure/186_baas_backend_as_a_service_firebase/) (Backend [as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))
 

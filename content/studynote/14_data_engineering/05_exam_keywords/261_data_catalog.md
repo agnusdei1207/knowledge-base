@@ -1,10 +1,9 @@
 ---
-title: "261. 데이터 카탈로그 메타데이터 검색 자동 분류 (Data Catalog Metadata Discovery Auto Classification)"
+title: "Data Catalog Metadata Discovery Auto Classification"
 date: "2026-05-09"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ```markdown
 ## 핵심 인사이트 (3줄 요약)

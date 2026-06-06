@@ -1,10 +1,9 @@
 ---
-title: "423. MCTS 알파고 시뮬 트리 탐색 (MCTS Monte Carlo TREE Search)"
+title: "MCTS Monte Carlo TREE Search"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

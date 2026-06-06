@@ -1,10 +1,9 @@
 ---
-title: "433. 해시 조인 (메모리 해시 영역 빌드 프로브)"
+title: "433. Hash Join Build Probe"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

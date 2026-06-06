@@ -1,10 +1,9 @@
 ---
-title: "659. GCM (Galois/Counter Mode) 모드"
+title: "659. Gcm Galois Counter Mode Aead"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

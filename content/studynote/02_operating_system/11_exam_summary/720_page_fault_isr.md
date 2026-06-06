@@ -1,10 +1,9 @@
 ---
-title: "720. 페이지 폴트 (Page Fault) ISR"
+title: "720. Page Fault Isr"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "617. 쿠버네티스 오퍼레이터 커스텀 리소스 (Kubernetes Operator Custom Resource)"
+title: "Kubernetes Operator Custom Resource"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

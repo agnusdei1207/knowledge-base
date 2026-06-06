@@ -1,10 +1,9 @@
 ---
-title: "582. 자율주행 자동차 센서 퓨전 아키텍처 (Autonomous Vehicle Sensor Fusion Architecture)"
+title: "Autonomous Vehicle Sensor Fusion Architecture"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "261. 분산 데이터베이스 목표 (Distributed Database)"
+title: "Distributed Database"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

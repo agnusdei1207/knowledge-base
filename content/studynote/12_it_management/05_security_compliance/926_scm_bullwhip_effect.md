@@ -1,10 +1,9 @@
 ---
-title: "926. SCM 공급망 관리 채찍 효과"
+title: "926. Scm Bullwhip Effect"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 관리 채찍 효과의 본질은 자산, 위협, [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 통제, 운영 증적이 한 체계로 연결되어야 보안과 규제 대응이 일회성 캠페인으로 끝나지 않는다.

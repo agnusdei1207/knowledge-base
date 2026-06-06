@@ -1,10 +1,9 @@
 ---
-title: "511. 옵티마이저 힌트 사용 인덱스 강제 접근 (Two-phase Locking)"
+title: "Two-phase Locking"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

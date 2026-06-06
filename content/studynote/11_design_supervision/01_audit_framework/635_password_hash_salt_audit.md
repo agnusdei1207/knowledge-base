@@ -1,10 +1,9 @@
 ---
-title: "635. 비밀번호 암호화 저장 방식 진단 (Password Hash and Salt Audit)"
+title: "Password Hash and Salt Audit"
 date: "2026-05-08"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

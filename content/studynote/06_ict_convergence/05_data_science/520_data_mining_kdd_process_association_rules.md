@@ -1,10 +1,9 @@
 ---
-title: "520. 데이터 마이닝 KDD 프로세스와 연관 규칙 (Data Mining KDD Process Association Rules)"
+title: "Data Mining KDD Process Association Rules"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

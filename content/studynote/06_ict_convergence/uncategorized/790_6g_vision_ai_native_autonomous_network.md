@@ -1,10 +1,9 @@
 ---
-title: "790. 6G 비전 AI 네이티브 자율 네트워크 (6G Vision AI Native Autonomous Network)"
+title: "6G Vision AI Native Autonomous Network"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

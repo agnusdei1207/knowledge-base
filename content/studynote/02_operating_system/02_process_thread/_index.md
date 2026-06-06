@@ -1,9 +1,8 @@
 ---
-title: "02. 프로세스 및 스레드 관리"
+title: "Operating System"
 tags:
   - "operating_system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

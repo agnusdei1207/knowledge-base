@@ -1,10 +1,9 @@
 ---
-title: "479. 영지식 증명 ZKP와 프라이버시 보호 (ZKP Zero-Knowledge Proof Privacy)"
+title: "ZKP Zero-Knowledge Proof Privacy"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

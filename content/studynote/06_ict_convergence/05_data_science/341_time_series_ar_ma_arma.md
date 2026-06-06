@@ -1,10 +1,9 @@
 ---
-title: "341. 시계열 분석 (TIME Series AR MA ARMA)"
+title: "TIME Series AR MA ARMA"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

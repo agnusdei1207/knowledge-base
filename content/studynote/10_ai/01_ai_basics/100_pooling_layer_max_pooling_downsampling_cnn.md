@@ -1,10 +1,9 @@
 ---
-title: "100. 풀링 층 (Pooling Layer) - 해상도 압축과 불변성 확보"
+title: "100. Pooling Layer Max Pooling Downsampling Cnn"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: [풀링](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 층([Pooling Layer](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/))은 [합성곱 층](/studynote/10_ai/01_ai_basics/096_convolution_layer_filter_stride_padding/)(Conv Layer)이 추출한 고해상도 [특성 맵](/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)의 크기를 공간적으로 축소(Downsampling)하여 가장 두드러진 특징만 남기는 극단적인 [데이터 압축](/studynote/08_algorithm_stats/09_info_theory/159_compression/)기다.

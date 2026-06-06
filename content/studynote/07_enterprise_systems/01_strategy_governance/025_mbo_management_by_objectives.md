@@ -1,10 +1,9 @@
 ---
-title: "25. MBO (Management by Objectives) — 목표 관리"
+title: "025. Mbo Management By Objectives"
 date: "2026-04-29"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: MBO ([Management](/studynote/12_it_management/05_security_compliance/1013_management/) by Objectives, 목표 관리)는 피터 드러커(Peter Drucker)가 1954년 《경영의 실제(The Practice of [Management](/studynote/12_it_management/05_security_compliance/1013_management/))》에서 제시한 경영 방식으로, 조직 목표와 개인 목표를 일치시키고 목표 달성 결과를 기반으로 성과를 평가하는 참여적 목표 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 프로세스다.

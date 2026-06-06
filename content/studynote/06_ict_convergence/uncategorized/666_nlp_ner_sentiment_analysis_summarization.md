@@ -1,10 +1,9 @@
 ---
-title: "666. 자연어 처리 NER 감성 분석 요약 (NLP NER Sentiment Analysis Summarization)"
+title: "NLP NER Sentiment Analysis Summarization"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "705. 자율 에이전트 멀티에이전트 시스템 (Autonomous Agent Multi-Agent System)"
+title: "Autonomous Agent Multi-Agent System"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

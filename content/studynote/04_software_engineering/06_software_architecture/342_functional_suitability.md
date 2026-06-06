@@ -1,10 +1,9 @@
 ---
-title: "342. 기능 적합성 (Functional Suitability)"
+title: "Functional Suitability"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

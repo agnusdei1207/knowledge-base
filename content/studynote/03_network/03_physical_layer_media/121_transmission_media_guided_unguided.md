@@ -1,10 +1,9 @@
 ---
-title: "121. 매체(Media) 구분: 유도 매체 (Guided) vs 비유도 매체 (Unguided)"
+title: "Unguided"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

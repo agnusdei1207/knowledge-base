@@ -1,10 +1,9 @@
 ---
-title: "207. 데이터 레이크 (Data Lake) 스키마 온 리드 (Schema-on-Read)"
+title: "Schema-on-Read"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터 레이크](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)([Data Lake](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/))는 구조화·반구조화·비구조화 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 원시([Raw](/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/)) 형태로 저장하고, <strong>읽을 때 <a href="/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a>를 적용(<a href="/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/">Schema-on-Read</a>)</strong>하는 중앙 저장소이다.

@@ -1,10 +1,9 @@
 ---
-title: "388. 개인정보 영향 평가 PIA 방법론 (Privacy Impact Assessment PIA Methodology)"
+title: "Privacy Impact Assessment PIA Methodology"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

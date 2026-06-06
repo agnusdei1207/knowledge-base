@@ -1,10 +1,9 @@
 ---
-title: "218. 포터의 본원적 경쟁 전략 - 원가 우위, 차별화, 집중화"
+title: "218. Porter Generic Strategies"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

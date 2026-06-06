@@ -1,10 +1,9 @@
 ---
-title: "221. 벡터 차원 색인 ANN (HNSW / PQ)"
+title: "HNSW / PQ"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "358. 스마트 팩토리 산업 이더넷 TSN 결정론적 시간 보장 진단"
+title: "358. Audit"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [스마트 팩토리](/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/) 산업 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [TSN](/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/) 결정론적 시간 보장 진단의 본질은 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/), 역할, 통제, 증빙이 같은 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/) 위에서 움직여야 경영 리스크와 실행 속도를 동시에 관리할 수 있다.

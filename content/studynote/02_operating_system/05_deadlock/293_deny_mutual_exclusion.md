@@ -1,10 +1,9 @@
 ---
-title: "293. 상호 배제 부정 (Deny Mutual Exclusion)"
+title: "Deny Mutual Exclusion"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

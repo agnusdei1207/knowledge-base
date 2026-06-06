@@ -1,10 +1,9 @@
 ---
-title: "357. 리스코프 치환 원칙 (Liskov Substitution Principle, LSP)"
+title: "Liskov Substitution Principle, LSP"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

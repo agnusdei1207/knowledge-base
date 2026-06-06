@@ -1,10 +1,9 @@
 ---
-title: "548. IT 경영 관리 핵심 토픽 548번 시험 요약 (IT Management Core Topic 548 Exam Summary)"
+title: "IT Management Core Topic 548 Exam Summary"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 # 548. IT-Portfolio 기반 가치중심 투자관리 및 거버넌스 프레임워크 (Value-Driven IT Investment Management & Governance Framework)
 

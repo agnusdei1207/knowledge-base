@@ -1,10 +1,9 @@
 ---
-title: "56. 데이터 사전 캐시 (Data Dictionary Cache)"
+title: "Data Dictionary Cache"
 date: "2026-05-01"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

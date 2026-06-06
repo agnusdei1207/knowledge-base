@@ -1,10 +1,9 @@
 ---
-title: "511. 클라우드 이벤트 기반 아키텍처 패턴 (Cloud Event Based Architecture Pattern)"
+title: "Cloud Event Based Architecture Pattern"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

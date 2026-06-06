@@ -1,11 +1,10 @@
 ---
-title: "78. 하이브리드 암호 — 대칭+비대칭 결합 (키 교환+데이터 암호화)"
+title: "078. Hybrid Encryption"
 date: "2026-03-26"
 description: "대칭키 암호와 비대칭키 암호의 장점을 결합한 암호 시스템"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

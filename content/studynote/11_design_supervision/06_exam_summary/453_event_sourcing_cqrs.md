@@ -1,10 +1,9 @@
 ---
-title: "453. 이벤트 소싱 CQRS 설계 패턴 (Event Sourcing CQRS Design Pattern)"
+title: "Event Sourcing CQRS Design Pattern"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

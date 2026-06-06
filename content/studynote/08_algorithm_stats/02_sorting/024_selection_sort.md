@@ -1,9 +1,8 @@
 ---
-title: "16. 선택 정렬 (Selection Sort) — O(n^), 불안정, 제자리"
+title: "024. Selection Sort"
 tags:
   - "algorithm_stats"
 ---
-
 
 # 16. 선택 정렬 ([Selection](/studynote/10_ai/01_ai_basics/022_mcts_four_stages/) Sort)
 

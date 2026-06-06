@@ -1,10 +1,9 @@
 ---
-title: "525. FAT (File Allocation Table) - MS-DOS 기반, 포인터들을 별도의 테이블에 모아 캐싱하여 랜덤 접근 문제 완화"
+title: "525. Fat File Allocation Table"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

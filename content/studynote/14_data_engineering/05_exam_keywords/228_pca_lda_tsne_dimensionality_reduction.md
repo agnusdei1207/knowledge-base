@@ -1,10 +1,9 @@
 ---
-title: "228. PCA (Principal Component Analysis) LDA t-SNE 차원 축소"
+title: "228. Pca Lda Tsne Dimensionality Reduction"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [차원 축소](/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)([Dimensionality Reduction](/studynote/12_it_management/02_itsm_itil/863_dimensionality_reduction/))는 고차원 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 핵심 정보는 유지하면서 불필요한 차원을 제거하여, 차원의 저주([Curse of Dimensionality](/studynote/12_it_management/02_itsm_itil/864_curse_of_dimensionality/))를 극복하고 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)·모델 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 개선하는 기법이다.

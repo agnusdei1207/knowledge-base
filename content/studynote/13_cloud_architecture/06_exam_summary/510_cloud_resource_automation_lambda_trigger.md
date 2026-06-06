@@ -1,10 +1,9 @@
 ---
-title: "510. 클라우드 리소스 자동화 람다 트리거 (Cloud Resource Automation Lambda Trigger)"
+title: "Cloud Resource Automation Lambda Trigger"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

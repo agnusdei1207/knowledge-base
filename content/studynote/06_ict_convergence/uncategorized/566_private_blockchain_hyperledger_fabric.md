@@ -1,10 +1,9 @@
 ---
-title: "566. 프라이빗 블록체인 하이퍼레저 패브릭 (Private Blockchain Hyperledger Fabric)"
+title: "Private Blockchain Hyperledger Fabric"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

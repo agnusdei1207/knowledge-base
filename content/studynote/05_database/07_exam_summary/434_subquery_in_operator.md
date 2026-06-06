@@ -1,10 +1,9 @@
 ---
-title: "434. 서브쿼리 IN 연산자"
+title: "434. Subquery In Operator"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

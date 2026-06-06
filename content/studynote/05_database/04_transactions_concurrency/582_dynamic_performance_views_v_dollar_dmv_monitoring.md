@@ -1,10 +1,9 @@
 ---
-title: "582. 동적 성능 뷰 (V$, DMV) DBA 모니터링 병목 락 트레이싱 성능 지표 확인망"
+title: "582. Dynamic Performance Views V Dollar Dmv Monitoring"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

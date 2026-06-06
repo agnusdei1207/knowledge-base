@@ -1,10 +1,9 @@
 ---
-title: "200. BCH 코드 / 골레이(Golay) 코드"
+title: "200. Bch Golay Code Fec"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

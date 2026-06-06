@@ -1,10 +1,9 @@
 ---
-title: "712. 다크 패턴 기만적 UX 방지"
+title: "712. Dark Pattern Deceptive Ux"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "676. 정보시스템 보안 감리 통제 체계 총론 (Information System Security Audit Control Overview)"
+title: "Information System Security Audit Control Overview"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

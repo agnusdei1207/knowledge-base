@@ -1,10 +1,9 @@
 ---
-title: "253. 디지털 전환 (DT/DX, Digital Transformation)"
+title: "DT/DX, Digital Transformation"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

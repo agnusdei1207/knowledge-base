@@ -1,10 +1,9 @@
 ---
-title: "458. CSPM 클라우드 형상 관리 자동 교정 (CSPM Cloud Posture Management Auto Remediation)"
+title: "CSPM Cloud Posture Management Auto Remediation"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

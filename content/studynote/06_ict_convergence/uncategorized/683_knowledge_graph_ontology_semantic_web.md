@@ -1,10 +1,9 @@
 ---
-title: "683. 지식 그래프 온톨로지 시맨틱 웹 (Knowledge Graph Ontology Semantic Web)"
+title: "Knowledge Graph Ontology Semantic Web"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

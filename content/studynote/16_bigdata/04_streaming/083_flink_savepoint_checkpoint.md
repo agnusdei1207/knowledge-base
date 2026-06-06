@@ -1,10 +1,9 @@
 ---
-title: "08. Flink Savepoint / Checkpoint — 상태 저장 및 재시작 지점"
+title: "083. Flink Savepoint Checkpoint"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

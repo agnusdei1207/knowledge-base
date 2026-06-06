@@ -1,10 +1,9 @@
 ---
-title: "1090. RSVP 자원 예약 플로우"
+title: "1090. Rsvp Resource Reservation Protocol Qos"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

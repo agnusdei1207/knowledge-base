@@ -1,10 +1,9 @@
 ---
-title: "261. 파운데이션 모델 (Foundation Model)"
+title: "Foundation Model"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

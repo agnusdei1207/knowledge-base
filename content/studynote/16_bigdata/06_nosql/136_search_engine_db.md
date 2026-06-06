@@ -1,10 +1,9 @@
 ---
-title: "136. 검색 엔진 데이터베이스 (Search 엔진 DB) — Elasticsearch/OpenSearch"
+title: "136. Search Engine Db"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: 검색 엔진 DB는 [역색인](/studynote/05_database/07_exam_summary/500_inverted_index_elasticsearch/)([Inverted Index](/studynote/05_database/07_exam_summary/500_inverted_index_elasticsearch/)) 구조로 모든 단어가 어느 문서에 있는지를 미리 색인하여, 수억 개 문서에서도 키워드 검색을 밀리초 만에 처리하는 Lucene 기반 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 검색 엔진이다.

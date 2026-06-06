@@ -1,9 +1,8 @@
 ---
-title: "89. CA (Contract Account) - 코드에 의해 통제되는 컨트랙트 계정"
+title: "089. Contract Account Smart Contract"
 tags:
   - "ict_convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 이더리움 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에서 CA (Contract Account, 컨트랙트 계정)는 사람이 개인키로 직접 열고 닫는 지갑이 아니라, 네트워크에 영구적으로 배포된 <strong><a href="/studynote/06_ict_convergence/01_blockchain/022_smart_contract/">스마트 컨트랙트</a> 코드(<a href="/studynote/06_ict_convergence/01_blockchain/022_smart_contract/">Smart Contract</a> <a href="/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)에 의해 자율적으로 통제되는 로봇 계정</strong>이다.

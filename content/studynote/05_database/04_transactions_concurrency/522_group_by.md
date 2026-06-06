@@ -1,10 +1,9 @@
 ---
-title: "522. 데이터 거버넌스 3요소 (Group By)"
+title: "Group By"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

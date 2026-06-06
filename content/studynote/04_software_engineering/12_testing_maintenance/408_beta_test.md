@@ -1,10 +1,9 @@
 ---
-title: "408. 베타 테스트 (Beta Test) - 실제 환경에서 다수 사용자 수행 (필드 테스트)"
+title: "408. Beta Test"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "397. 프레임 할당 (Frame Allocation) 알고리즘"
+title: "397. Frame Allocation"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "145. 구스타프슨의 법칙 (Gustafson's Law)"
+title: "Gustafson's Law"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

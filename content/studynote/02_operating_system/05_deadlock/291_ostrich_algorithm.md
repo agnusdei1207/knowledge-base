@@ -1,10 +1,9 @@
 ---
-title: "291. 타조 알고리즘 (Ostrich Algorithm) - 대부분의 OS가 채택하는 무시 전략"
+title: "291. Ostrich Algorithm"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "173. 주소 지정 방식 (Addressing Modes)"
+title: "Addressing Modes"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

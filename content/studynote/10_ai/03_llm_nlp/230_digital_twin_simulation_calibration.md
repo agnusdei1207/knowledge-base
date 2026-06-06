@@ -1,10 +1,9 @@
 ---
-title: "230. 디지털 트윈 보정 (Calibration) 인프라"
+title: "230. Digital Twin Simulation Calibration"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

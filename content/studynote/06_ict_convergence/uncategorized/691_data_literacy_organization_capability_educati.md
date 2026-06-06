@@ -1,10 +1,9 @@
 ---
-title: "691. 데이터 리터러시 조직 역량 교육 (Data Literacy Organization Capability Education)"
+title: "Data Literacy Organization Capability Education"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

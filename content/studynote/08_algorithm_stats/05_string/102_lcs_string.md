@@ -1,10 +1,9 @@
 ---
-title: "9. 최장 공통 부분수열 (LCS, Longest Common Subsequence) — 문자열 비교"
+title: "102. Lcs String"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

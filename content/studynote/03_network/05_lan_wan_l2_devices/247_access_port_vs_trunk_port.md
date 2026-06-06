@@ -1,10 +1,9 @@
 ---
-title: "247. 접근 포트 (Access Port) / 트렁크 포트 (Trunk Port)"
+title: "Trunk Port"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

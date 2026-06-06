@@ -1,10 +1,9 @@
 ---
-title: "507. 클라우드 네트워크 허브 스포크 토폴로지 (Cloud Network Hub Spoke Topology)"
+title: "Cloud Network Hub Spoke Topology"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

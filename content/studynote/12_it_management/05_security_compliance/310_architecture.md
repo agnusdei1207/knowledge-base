@@ -1,10 +1,9 @@
 ---
-title: "310. 도메인 주도 설계 (DDD) 바운디드 컨텍스트 애그리게이트"
+title: "310. Architecture"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 주도 설계 (DDD) [바운디드 컨텍스트](/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) 애그리게이트의 본질은 현행 구조, 목표 구조, 전환 과제의 추적성이 확보되어야 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서가 실제 투자와 아키텍처 변화로 이어진다.

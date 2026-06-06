@@ -1,10 +1,9 @@
 ---
-title: "스킵 리스트 (Skip List)"
+title: "Skip List"
 date: "2026-03-03"
 tags:
   - "studynote-algorithm"
 ---
-
 
 > **핵심 인사이트 3줄**
 > 1. [스킵 리스트](/studynote/12_it_management/02_itsm_itil/851_skip_list/)([Skip List](/studynote/12_it_management/03_ea_isp/894_skip_list/))는 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적 다중 레벨 [연결 리스트](/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)로, 균형 [이진 탐색](/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) 트리와 동일한 O(log n) 평균 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 단순한 구조로 달성하는 자료구조다.

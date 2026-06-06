@@ -1,10 +1,9 @@
 ---
-title: "907. 화상 회의 지터 버퍼 (Jitter Buffer 패킷 도달 시간편차 무작위성 완충 재생 지연 최신 동기화 체계망 오디오 왜곡 관리 기술망 트러블슈팅 해법)"
+title: "Jitter Buffer"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "665. 시스템 레지스트리 (Windows Registry) 및 구성 데이터베이스 관리 구조"
+title: "665. Windows Registry Configuration Manager"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

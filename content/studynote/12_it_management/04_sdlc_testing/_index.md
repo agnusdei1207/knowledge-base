@@ -1,9 +1,8 @@
 ---
-title: "04. SDLC 관리 및 소프트웨어 품질 경영"
+title: "IT Management"
 tags:
   - "it_management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

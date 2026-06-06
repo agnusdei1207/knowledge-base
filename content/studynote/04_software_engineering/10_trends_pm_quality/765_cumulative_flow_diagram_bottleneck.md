@@ -1,10 +1,9 @@
 ---
-title: "765. 누적 흐름도 병목 지점 병목 분석"
+title: "765. Cumulative Flow Diagram Bottleneck"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

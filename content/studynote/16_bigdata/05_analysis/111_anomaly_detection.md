@@ -1,10 +1,9 @@
 ---
-title: "108. 이상 탐지 (Anomaly Detection) — 통계/ML/딥러닝 기반 이상치 감지"
+title: "111. Anomaly Detection"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [이상 탐지](/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) ([Anomaly](/studynote/05_database/04_transactions_concurrency/530_anomaly/) [Detection](/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 정상 패턴에서 유의미하게 벗어난 관측치를 자동으로 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하는 기법으로, 레이블 없는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서도 적용 가능한 비지도·준지도 학습의 핵심 응용 분야다.

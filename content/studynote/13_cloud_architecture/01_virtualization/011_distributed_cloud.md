@@ -1,11 +1,10 @@
 ---
-title: "11. 분산 클라우드 (Distributed Cloud) - 퍼블릭 클라우드 서비스를 다양한 물리적 위치(엣지, 고객사 데이터센터)에 분산 배포하되, CSP가 일괄 통제"
+title: "011. Distributed Cloud"
 date: "2026-03-04"
 description: "물리적 분산과 논리적 중앙 통제를 결합한 분산 클라우드의 아키텍처와 실무 적용"
 tags:
   - "cloud_architecture"
 ---
-
 
 # [분산 클라우드](/studynote/06_ict_convergence/03_cloud_infrastructure/242_distributed_cloud_edge_computing_aws_outposts/) ([Distributed Cloud](/studynote/06_ict_convergence/03_cloud_infrastructure/242_distributed_cloud_edge_computing_aws_outposts/))
 

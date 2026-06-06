@@ -1,10 +1,9 @@
 ---
-title: "473. LOOK 및 C-LOOK - 양 끝까지 가지 않고 마지막 요청까지만 이동 후 턴 (SCAN/C-SCAN 최적화)"
+title: "SCAN/C-SCAN"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

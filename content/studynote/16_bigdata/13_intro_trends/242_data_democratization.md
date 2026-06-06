@@ -1,10 +1,9 @@
 ---
-title: "30. 데이터 민주화 — 모든 사람을 위한 데이터 접근"
+title: "242. Data Democratization"
 date: "2026-04-29"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터 민주화](/studynote/16_bigdata/01_intro/010_data_democratization/)([Data Democratization](/studynote/16_bigdata/01_intro/010_data_democratization/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전문가만이 아닌 모든 조직 구성원이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 쉽게 접근하고 분석할 수 있는 환경을 만드는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 결정하는 문화"를 조직 전체로 확산한다.

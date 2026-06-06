@@ -1,10 +1,9 @@
 ---
-title: "567. 블록체인 거버넌스 온체인 오프체인 (Blockchain Governance On-chain Off-chain)"
+title: "Blockchain Governance On-chain Off-chain"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

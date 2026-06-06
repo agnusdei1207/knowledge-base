@@ -1,10 +1,9 @@
 ---
-title: "155. AI 에이전트 (AI Agents) 도구 함수 호출 (Function Calling) 자동 과업 루프"
+title: "155. Ai Agents Function Calling Agentic Loop"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 에이전트([AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Agent)는 LLM이 외부 도구(웹 검색, 코드 실행, DB [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 등)를 [함수 호출](/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)(Function Calling)로 자율적으로 사용하며 목표를 달성하는 ReAct (Reasoning + Acting) 루프 시스템이다.

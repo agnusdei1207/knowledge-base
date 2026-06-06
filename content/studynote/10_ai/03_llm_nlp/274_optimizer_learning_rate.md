@@ -1,10 +1,9 @@
 ---
-title: "274. 옵티마이저 (Optimizer)"
+title: "Optimizer"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

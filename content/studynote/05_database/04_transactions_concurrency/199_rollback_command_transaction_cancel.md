@@ -1,10 +1,9 @@
 ---
-title: "199. ROLLBACK 명령어 (Rollback Command Transaction Cancel)"
+title: "Rollback Command Transaction Cancel"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

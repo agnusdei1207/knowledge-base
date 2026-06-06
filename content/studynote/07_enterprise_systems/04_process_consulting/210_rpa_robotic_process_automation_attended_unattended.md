@@ -1,10 +1,9 @@
 ---
-title: "210. RPA (Robotic Process Automation) - Attended Bot과 Unattended Bot"
+title: "210. Rpa Robotic Process Automation Attended Unattended"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

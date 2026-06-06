@@ -1,10 +1,9 @@
 ---
-title: "218. HDLC 국(Station) 종류"
+title: "218. Hdlc Station Primary Secondary"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

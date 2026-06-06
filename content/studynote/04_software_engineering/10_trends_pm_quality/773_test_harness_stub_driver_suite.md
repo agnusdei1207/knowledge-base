@@ -1,10 +1,9 @@
 ---
-title: "773. 테스트 하네스 스텁, 드라이버, 슈트 포괄 환경"
+title: "773. Test Harness Stub Driver Suite"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

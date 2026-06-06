@@ -1,10 +1,9 @@
 ---
-title: "282. 비즈니스 인텔리전스 (BI, Business Intelligence) 기술 체계"
+title: "282. Business Intelligence Bi Technology Framework"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

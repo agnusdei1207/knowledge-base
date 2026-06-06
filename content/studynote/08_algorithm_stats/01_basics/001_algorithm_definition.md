@@ -1,9 +1,8 @@
 ---
-title: "1. 알고리즘 (Algorithm) 정의 — 유한성/확정성/입력/출력/효율성"
+title: "001. Algorithm Definition"
 tags:
   - "algorithm_stats"
 ---
-
 
 # 01. 알고리즘 (Algorithm) 정의
 

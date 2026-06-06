@@ -1,9 +1,8 @@
 ---
-title: "105. 엣지 컴퓨팅 (Edge Computing) - 클라우드로 모든 데이터를 보내지 않고 디바이스 주변(엣지)에서 데이터를 실시간 처리하여 지연 단축 및 대역폭 절감"
+title: "105. Edge Computing Zero Latency"
 tags:
   - "ict_convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

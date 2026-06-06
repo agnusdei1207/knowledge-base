@@ -1,10 +1,9 @@
 ---
-title: "63. 클라우드 벤더 락인 (Cloud Vendor Lock-in) 회피 전략"
+title: "063. Cloud Vendor Lock In Avoidance"
 date: "2026-04-07"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

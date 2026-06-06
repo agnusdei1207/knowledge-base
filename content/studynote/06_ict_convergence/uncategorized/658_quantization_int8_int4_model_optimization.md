@@ -1,10 +1,9 @@
 ---
-title: "658. 양자화 INT8 INT4 모델 최적화 (Quantization INT8 INT4 Model Optimization)"
+title: "Quantization INT8 INT4 Model Optimization"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

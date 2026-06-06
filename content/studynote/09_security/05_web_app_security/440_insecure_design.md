@@ -1,10 +1,9 @@
 ---
-title: "440. A04. 안전하지 않은 설계 (Insecure Design)"
+title: "Insecure Design"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

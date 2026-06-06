@@ -1,10 +1,9 @@
 ---
-title: "741. 소프트웨어 정의 모든것 SDx 추상화 (Software Defined Everything SDx Abstraction)"
+title: "Software Defined Everything SDx Abstraction"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

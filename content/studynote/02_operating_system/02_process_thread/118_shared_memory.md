@@ -1,10 +1,9 @@
 ---
-title: "118. 공유 메모리 (Shared Memory) 방식 - 빠름, 동기화 문제 발생"
+title: "118. Shared Memory"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

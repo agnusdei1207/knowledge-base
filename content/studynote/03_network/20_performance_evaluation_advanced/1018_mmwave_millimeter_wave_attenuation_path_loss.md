@@ -1,10 +1,9 @@
 ---
-title: "1018. 밀리미터파 (mmWave) 전파 감쇠"
+title: "1018. Mmwave Millimeter Wave Attenuation Path Loss"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

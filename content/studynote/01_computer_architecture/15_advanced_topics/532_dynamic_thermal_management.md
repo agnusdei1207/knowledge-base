@@ -1,10 +1,9 @@
 ---
-title: "532. 동적 써멀 관리 (DTM)"
+title: "DTM"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

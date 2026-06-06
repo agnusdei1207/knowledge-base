@@ -1,10 +1,9 @@
 ---
-title: "987. RAG 프라이빗 지식 벡터 DB 임베딩 무결성 구조"
+title: "987. Rag Private Knowledge Vector Db"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 프라이빗 지식 벡터 DB [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 구조의 본질은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 모델, 평가, 배포, 책임 통제가 함께 굴러가야 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 실험을 넘어 운영 자산이 된다.

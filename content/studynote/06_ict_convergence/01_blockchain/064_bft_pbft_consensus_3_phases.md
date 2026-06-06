@@ -1,9 +1,8 @@
 ---
-title: "64. BFT 합의의 3단계 - Pre-prepare, Prepare, Commit"
+title: "064. Bft Pbft Consensus 3 Phases"
 tags:
   - "ict_convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "516. WebSocket 실시간 양방향 통신 (WebSocket Real-time Bidirectional Communication)"
+title: "WebSocket Real-time Bidirectional Communication"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

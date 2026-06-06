@@ -1,10 +1,9 @@
 ---
-title: "799. 개인정보 해외 이전 (Cross-border Data Transfer)"
+title: "Cross-border Data Transfer"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

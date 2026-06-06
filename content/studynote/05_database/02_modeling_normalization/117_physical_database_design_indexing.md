@@ -1,10 +1,9 @@
 ---
-title: "117. 물리 데이터베이스 설계 (Physical DB Design) - 인덱스·파티셔닝·스토리지 최적화"
+title: "117. Physical Database Design Indexing"
 date: "2026-04-19"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 물리 설계는 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 설계의 [릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) 스키마를 <strong>특정 DBMS의 물리적 저장 구조(<a href="/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a>·<a href="/studynote/05_database/03_relational_model/179_table_partitioning_concept/">파티셔닝</a>·테이블스페이스·<a href="/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/">역정규화</a>)</strong>로 변환하여 <strong><a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>을 최적화</strong>하는 단계다.

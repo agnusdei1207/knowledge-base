@@ -1,10 +1,9 @@
 ---
-title: "408. 개선된 2차 기회 알고리즘 (Enhanced Second Chance Algorithm)"
+title: "Enhanced Second Chance Algorithm"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

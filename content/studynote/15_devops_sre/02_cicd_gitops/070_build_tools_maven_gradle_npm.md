@@ -1,10 +1,9 @@
 ---
-title: "70. 빌드 도구 (Build Tools) - Maven, Gradle (Java), npm (Node.js)"
+title: "Node.js"
 date: "2026-04-10"
 tags:
   - "studynote-devops"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

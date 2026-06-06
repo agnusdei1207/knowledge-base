@@ -1,10 +1,9 @@
 ---
-title: "555. 디지털 혁신 리더십 CxO 역할 (Digital Innovation Leadership CxO Role)"
+title: "Digital Innovation Leadership CxO Role"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 디지털 혁신 리더십 CXO 역할은(는) 경영진이 디지털 전략, 투자, 조직 변화, 리스크 관리를 통합적으로 이끄는 리더십 역할이다.

@@ -1,10 +1,9 @@
 ---
-title: "835. IT 아웃소싱 (ITO, IT Outsourcing) 전략"
+title: "835. It Outsourcing Strategy"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

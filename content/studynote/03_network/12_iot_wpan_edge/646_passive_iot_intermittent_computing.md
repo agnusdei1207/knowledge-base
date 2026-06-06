@@ -1,10 +1,9 @@
 ---
-title: "646. 무전원 통신 (Passive IoT 통신) 환경 적응"
+title: "646. Passive Iot Intermittent Computing"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

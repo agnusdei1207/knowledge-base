@@ -1,9 +1,8 @@
 ---
-title: "93. 갱신 이상 (Update Anomaly) - 중복 데이터 중 일부만 갱신되어 데이터 불일치 발생"
+title: "093. Update Anomaly"
 tags:
   - "database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

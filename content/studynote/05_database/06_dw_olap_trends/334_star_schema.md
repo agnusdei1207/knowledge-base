@@ -1,10 +1,9 @@
 ---
-title: "334. 스타 스키마 (Star Schema)"
+title: "Star Schema"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

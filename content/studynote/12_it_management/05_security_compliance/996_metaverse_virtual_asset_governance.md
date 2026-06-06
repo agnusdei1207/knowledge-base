@@ -1,10 +1,9 @@
 ---
-title: "996. 메타버스 가상 자산 통제망"
+title: "996. Metaverse Virtual Asset Governance"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [메타버스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/) 가상 자산 통제망의 본질은 신원, 합의, 자산, 거버넌스가 함께 설계되어야 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서도 신뢰를 유지할 수 있다.

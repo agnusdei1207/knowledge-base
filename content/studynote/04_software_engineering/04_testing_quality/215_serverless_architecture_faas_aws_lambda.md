@@ -1,10 +1,9 @@
 ---
-title: "215. 서버리스 아키텍처 (Serverless Architecture / FaaS)"
+title: "Serverless Architecture / FaaS"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

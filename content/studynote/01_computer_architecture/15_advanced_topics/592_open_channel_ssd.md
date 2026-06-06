@@ -1,10 +1,9 @@
 ---
-title: "592. 오픈 채널 SSD (Solid-State Drive) 구조"
+title: "592. Open Channel Ssd"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

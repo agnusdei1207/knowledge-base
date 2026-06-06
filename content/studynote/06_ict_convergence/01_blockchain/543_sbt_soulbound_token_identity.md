@@ -1,10 +1,9 @@
 ---
-title: "543. SBT 소울바운드 토큰과 신원 인증 (SBT Soulbound Token Identity Credential)"
+title: "SBT Soulbound Token Identity Credential"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

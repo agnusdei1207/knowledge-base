@@ -1,10 +1,9 @@
 ---
-title: "402. 최적 교체 알고리즘 (OPT, Optimal) - 앞으로 가장 오랫동안 안 쓸 페이지 교체 (구현 불가, 비교 기준)"
+title: "402. Optimal Page Replacement"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

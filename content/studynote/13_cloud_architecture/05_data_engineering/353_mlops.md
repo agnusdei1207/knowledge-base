@@ -1,10 +1,9 @@
 ---
-title: "353. 컨셉 드리프트 데이터 드리프트 모델 피처 MLOps 모니터링 (Concept Drift)"
+title: "Concept Drift"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [컨셉 드리프트](/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/) [데이터 드리프트](/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/) 모델 [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) [MLOps](/studynote/12_it_management/05_security_compliance/348_mlops/) 모니터링는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 표준화를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.

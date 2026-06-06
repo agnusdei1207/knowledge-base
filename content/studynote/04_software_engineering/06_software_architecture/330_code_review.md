@@ -1,10 +1,9 @@
 ---
-title: "330. 코드 리뷰 (Code Review) - 동료 검토 (Peer Review), 풀 리퀘스트 (PR) 기반 검토"
+title: "330. Code Review"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

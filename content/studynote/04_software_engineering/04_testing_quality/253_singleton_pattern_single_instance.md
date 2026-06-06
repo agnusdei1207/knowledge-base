@@ -1,10 +1,9 @@
 ---
-title: "253. 싱글톤 (Singleton) - 오직 하나의 인스턴스"
+title: "253. Singleton Pattern Single Instance"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

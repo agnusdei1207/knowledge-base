@@ -1,10 +1,9 @@
 ---
-title: "796. ICT 융합 기술 종합 마스터 아키텍처 정리 (ICT Convergence Master Architecture Final)"
+title: "ICT Convergence Master Architecture Final"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "437. PEFT LoRA 저차원 가중치 효율적 파인튜닝 (PEFT / LoRA)"
+title: "PEFT / LoRA"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

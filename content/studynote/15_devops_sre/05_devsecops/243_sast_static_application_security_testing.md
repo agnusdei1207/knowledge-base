@@ -1,10 +1,9 @@
 ---
-title: "243. 소스코드 정적 보안 분석 (SAST, Static Application Security Testing)"
+title: "SAST, Static Application Security Testing"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

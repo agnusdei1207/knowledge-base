@@ -1,10 +1,9 @@
 ---
-title: "761. 워크스루 비공식 기술 검토 회의"
+title: "761. Walkthrough Informal Technical Review"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

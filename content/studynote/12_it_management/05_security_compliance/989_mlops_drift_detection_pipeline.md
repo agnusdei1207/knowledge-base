@@ -1,10 +1,9 @@
 ---
-title: "989. MLOps 드리프트 탐지 파이프라인 모니터링 감사"
+title: "989. Mlops Drift Detection Pipeline"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [MLOps](/studynote/12_it_management/05_security_compliance/348_mlops/) 드리프트 탐지 파이프라인 모니터링 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)의 본질은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 모델, 평가, 배포, 책임 통제가 함께 굴러가야 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 실험을 넘어 운영 자산이 된다.

@@ -1,10 +1,9 @@
 ---
-title: "411. IT 전략 수립 ISP BPR ISP 방법론 (IT Strategy Planning ISP BPR Methodology)"
+title: "IT Strategy Planning ISP BPR Methodology"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

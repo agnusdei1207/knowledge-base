@@ -1,10 +1,9 @@
 ---
-title: "273. BCP/DRP 모의훈련 감리 (BCP DRP Mock Drill Audit)"
+title: "BCP DRP Mock Drill Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

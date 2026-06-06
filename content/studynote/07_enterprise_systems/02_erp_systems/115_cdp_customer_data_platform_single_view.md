@@ -1,10 +1,9 @@
 ---
-title: "115. CDP (C고객 Data Platform) - 통합 고객 프로파일·Single C고객 View"
+title: "115. Cdp Customer Data Platform Single View"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [CDP](/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/)([C고객](/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/) [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Platform)는 웹·앱·매장·[CRM](/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)·소셜 등 <strong><a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>된 모든 고객 접점 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 수집하여 통합 고객 프로파일(Single <a href="/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/">C고객</a> <a href="/studynote/05_database/03_relational_model/151_sql_view_virtual_table/">View</a>)</strong>을 구축하는 패키지 소프트웨어다.

@@ -1,10 +1,9 @@
 ---
-title: "782. IT 인재 양성 리스킬링 디지털 전환 (IT Talent Development Reskilling Digital)"
+title: "IT Talent Development Reskilling Digital"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "523. 로우코드 노코드 시민 개발 플랫폼 (Low Code No Code Citizen Developer Platform)"
+title: "Low Code No Code Citizen Developer Platform"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 로우코드 노코드 시민 개발 플랫폼은(는) 전문 개발자가 아닌 현업 사용자가 시각적 모델링과 템플릿으로 업무 앱과 자동화를 구현하는 플랫폼이다.

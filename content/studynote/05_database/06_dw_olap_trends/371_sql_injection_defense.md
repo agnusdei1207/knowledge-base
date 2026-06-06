@@ -1,10 +1,9 @@
 ---
-title: "371. SQL 인젝션 (SQL Injection) 공격 및 방어 수단 (Prepared Statement / 바인드 파라미터)"
+title: "Prepared Statement /"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

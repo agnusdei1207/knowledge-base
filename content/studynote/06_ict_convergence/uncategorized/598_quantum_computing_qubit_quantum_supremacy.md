@@ -1,10 +1,9 @@
 ---
-title: "598. 양자 컴퓨팅 큐빗 양자 우위 (Quantum Computing Qubit Quantum Supremacy)"
+title: "Quantum Computing Qubit Quantum Supremacy"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "505. 비즈니스 연속성 BCP DRP 복구 전략 (Business Continuity BCP DRP Recovery)"
+title: "Business Continuity BCP DRP Recovery"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

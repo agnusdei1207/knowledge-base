@@ -1,10 +1,9 @@
 ---
-title: "286. SOW 범위관리 감리 (SOW Scope Management Audit)"
+title: "SOW Scope Management Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

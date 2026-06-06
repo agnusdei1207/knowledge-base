@@ -1,10 +1,9 @@
 ---
-title: "860. Deserialization 취약점 (Insecure Deserialization)"
+title: "Insecure Deserialization"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "447. 양자 컴퓨터 (Quantum Computer) 기초"
+title: "447. Quantum Computer"
 date: "2026-03-28"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

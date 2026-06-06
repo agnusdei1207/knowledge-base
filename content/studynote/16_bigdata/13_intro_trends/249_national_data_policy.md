@@ -1,10 +1,9 @@
 ---
-title: "037. 국가 데이터 정책 — 데이터기본법 · 데이터 산업 진흥법"
+title: "249. National Data Policy"
 date: "2026-03-03"
 tags:
   - "studynote-bigdata"
 ---
-
 
 > **핵심 인사이트**
 > 1. 「[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 산업진흥 및 이용촉진에 관한 기본법」([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)기본법, 2022년 시행)은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 국가 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 자산으로 선언하고, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 생산·거래·활용의 기본 원칙과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 산업 생태계 육성 체계를 규정한 한국 최초의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기본법이다.

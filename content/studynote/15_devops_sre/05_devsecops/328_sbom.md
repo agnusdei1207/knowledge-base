@@ -1,10 +1,9 @@
 ---
-title: "328. SBOM 소프트웨어 구성 자재 명세 공급망 방어 (Software Bill of Materials Supply Chain Defense SPDX CycloneDX VEX)"
+title: "Software Bill of Materials Supply Chain Defense SPDX CycloneDX VEX"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

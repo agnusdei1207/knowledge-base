@@ -1,10 +1,9 @@
 ---
-title: "565. 블록체인 오라클 오프체인 데이터 연동 (Blockchain Oracle Off-chain Data Integration)"
+title: "Blockchain Oracle Off-chain Data Integration"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

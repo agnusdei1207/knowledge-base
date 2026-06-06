@@ -1,11 +1,10 @@
 ---
-title: "75. 현대 암호학 기본 가정 — computationally infeasible"
+title: "075. Computational Infeasibility"
 date: "2026-03-26"
 description: "현대 암호算法的安全性的数学基础：计算上不可能"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

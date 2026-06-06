@@ -1,10 +1,9 @@
 ---
-title: "171. 프림 알고리즘 (Prim's Algorithm)"
+title: "Prim's Algorithm"
 date: "2026-05-06"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

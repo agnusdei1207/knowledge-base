@@ -1,10 +1,9 @@
 ---
-title: "235. 분산 NoSQL 데이터베이스 종류 개요"
+title: "235. Nosql Database Types Overview"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스는 "[Not Only SQL](/studynote/05_database/05_distributed_nosql_newsql/274_nosql/)"로, RDBMS의 강직한 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)와 수직 확장 한계를 극복하기 위해 <strong>키-값·도큐먼트·와이드컬럼·<a href="/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a></strong> 4가지 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델로 특화된 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 저장소다.

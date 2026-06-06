@@ -1,10 +1,9 @@
 ---
-title: "494. 컨테이너 감리 오케스트레이션 검증 (Container Audit Orchestration Validation)"
+title: "Container Audit Orchestration Validation"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "436. 커널 페이지 테이블 격리 (KPTI, Kernel Page-Table Isolation) - Meltdown 취약점 대응망"
+title: "436. Kpti Kernel Page Table Isolation"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "658. 클라우드 아키텍처 핵심 토픽 658번 시험 요약 (Cloud Architecture Core Topic 658 Exam Summary)"
+title: "Cloud Architecture Core Topic 658 Exam Summary"
 date: 2026-05-09
 tags:
   - "studynote-cloud-architecture"
----
-## 핵심 인사이트 (3줄 요약)
+---## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 아키텍처는 **IaaS/PaaS/SaaS/FaaS/CaaS**의 서비스 모델과 **Public/Private/Hybrid/Multi-Cloud** 배치 모델을 기반으로, **Well-Architected Framework**(보안·신뢰성·성능 효율·비용 최적화·운영 우수성·지속 가능성)의 6대 필러를 동시 만족시키는 **분산 시스템 설계의 종합 학문**이다.
 > 2. **가치**: 온프레미스 대비 **CapEx->OpEx 전환**, Auto Scaling을 통한 **사용량 기반 비용 30~70% 절감**, Region/AZ 다중화를 통한 **가용성 99.99%(Four Nines) 확보**, MTTR 평균 **60% 단축**, 배포 주기 **D+1 -> Hourly/Minute-level**로 단축 가능하다.

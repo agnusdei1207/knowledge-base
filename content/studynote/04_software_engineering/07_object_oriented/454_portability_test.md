@@ -1,10 +1,9 @@
 ---
-title: "454. 이식성 테스트 (Portability Test) - 다른 환경으로 시스템을 이전했을 때의 동작 확인"
+title: "454. Portability Test"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

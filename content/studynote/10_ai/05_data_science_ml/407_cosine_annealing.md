@@ -1,10 +1,9 @@
 ---
-title: "407. 코사인 어닐링 (Cosine Annealing Scheduler)"
+title: "Cosine Annealing Scheduler"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

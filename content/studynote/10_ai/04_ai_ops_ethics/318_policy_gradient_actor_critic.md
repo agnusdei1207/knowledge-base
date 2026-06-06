@@ -1,10 +1,9 @@
 ---
-title: "318. 정책 경사 (Policy Gradient)"
+title: "Policy Gradient"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

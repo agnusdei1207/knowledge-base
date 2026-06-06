@@ -1,10 +1,9 @@
 ---
-title: "037. 양손잡이 조직 (Ambidextrous Organization)"
+title: "Ambidextrous Organization"
 date: "2026-03-03"
 tags:
   - "studynote-it-management"
 ---
-
 
 > **핵심 인사이트**
 > 1. 양손잡이 조직(Ambidextrous Organization)은 기존 사업의 효율적 운영(활용, Exploitation)과 혁신적 신사업 탐색(탐색, [Exploration](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/))을 동시에 수행할 수 있는 이중 역량을 가진 조직 구조를 말한다.

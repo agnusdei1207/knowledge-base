@@ -1,11 +1,10 @@
 ---
-title: "13. 데이터 디렉터리 (Data Directory) - 시스템만 접근 가능한 카탈로그 부분"
+title: "013. Data Directory"
 date: "2024-05-18"
 description: "DBMS 시스템 내부에서만 접근 가능한 카탈로그의 은닉 영역이자 핵심 제어 구조"
 tags:
   - "database"
 ---
-
 
 # 13. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [디렉터리](/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Directory](/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/))
 

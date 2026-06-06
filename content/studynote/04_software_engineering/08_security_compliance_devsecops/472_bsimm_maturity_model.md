@@ -1,10 +1,9 @@
 ---
-title: "472. BSIMM (Building Security In Maturity Model) - SW 보안 성숙도 평가 모델"
+title: "472. Bsimm Maturity Model"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

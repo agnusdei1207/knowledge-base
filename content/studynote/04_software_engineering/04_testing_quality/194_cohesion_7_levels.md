@@ -1,10 +1,9 @@
 ---
-title: "194. 응집도 단계 - 우연적, 논리적, 시간적, 절차적, 통신적, 순차적, 기능적 응집도"
+title: "194. Cohesion 7 Levels"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "620. 클라우드 아키텍처 핵심 토픽 620번 시험 요약 (Cloud Architecture Core Topic 620 Exam Summary)"
+title: "Cloud Architecture Core Topic 620 Exam Summary"
 date: 2026-05-09
 tags:
   - "studynote-cloud-architecture"
----
-## 핵심 인사이트 (3줄 요약)
+---## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 아키텍처는 온프레미스 모놀리식 자원의 수직 확장(Scale-Up) 한계를 컨테이너 오케스트레이션(Kubernetes), 선언형 API(IaC), 분산 시스템 패턴(MSA, Event-Driven, CQRS, SAGA)을 통해 **탄력성(Elasticity)·가용성(High Availability)·무중단 배포(Zero-Downtime Deployment)**로 전환하는 시스템 설계 패러다임이다.
 > 2. **가치**: AWS/Azure/GCP 기준 적절한 Well-Architected Framework 적용 시 **TCO 30~70% 절감, SLA 99.99%(Four-Nines) 달성, 배포 주기(DORA Lead Time) 2,000% 단축, MTTR 90% 감소** 등 정량적 가치를 제공하며, CAPEX를 OPEX로 전환하여 비즈니스 민첩성(Business Agility)을 확보한다.

@@ -1,10 +1,9 @@
 ---
-title: "308. 폴리글랏 퍼시스턴스 (Polyglot Persistence)"
+title: "Polyglot Persistence"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "475. STRIDE 모델 - Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege"
+title: "475. Stride Threat Modeling"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

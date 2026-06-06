@@ -1,10 +1,9 @@
 ---
-title: "807. East-West 트래픽 (데이터센터 내부 서버-서버/마이크로서비스 간 가상 통신 흐름)"
+title: "807. East West Traffic Data Center Microservice Spine Leaf"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

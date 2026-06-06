@@ -1,10 +1,9 @@
 ---
-title: "377. NUMA (Non-Uniform Memory Access) 아키텍처와 메모리 할당 정책"
+title: "377. Numa Allocation"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

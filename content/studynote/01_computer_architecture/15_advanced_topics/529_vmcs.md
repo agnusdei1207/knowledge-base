@@ -1,10 +1,9 @@
 ---
-title: "529. 가상 머신 제어 구조 (VMCS)"
+title: "VMCS"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

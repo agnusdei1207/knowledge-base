@@ -1,10 +1,9 @@
 ---
-title: "900. 참조 모델 (Reference Model)"
+title: "Reference Model"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [참조 모델](/studynote/12_it_management/03_ea_isp/116_reference_model/) ([Reference Model](/studynote/12_it_management/03_ea_isp/116_reference_model/))의 본질은 아키텍처 구성 시 가이드가 되는 범용적 표준 모델을 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.

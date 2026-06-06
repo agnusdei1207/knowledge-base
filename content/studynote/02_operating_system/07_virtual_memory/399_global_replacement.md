@@ -1,10 +1,9 @@
 ---
-title: "399. 전역 교체 (Global Replacement) - 전체 프로세스 프레임 대상 (처리량 높음, 주로 사용)"
+title: "399. Global Replacement"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

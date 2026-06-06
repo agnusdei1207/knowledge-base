@@ -1,10 +1,9 @@
 ---
-title: "724. 배터리 기술 고체 전지 에너지 저장 (Battery Technology Solid State Energy Storage)"
+title: "Battery Technology Solid State Energy Storage"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,9 +1,8 @@
 ---
-title: "176. 야기우다 안테나, 파라볼라 안테나 (Parabolic), 패치 안테나"
+title: "176. Antenna Yagi Parabolic Patch"
 tags:
   - "network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

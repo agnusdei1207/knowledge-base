@@ -1,10 +1,9 @@
 ---
-title: "12. 팀 정렬 (Timsort) — Python/Java 기본, 합병+삽입 혼합"
+title: "019. Timsort"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Timsort는 실제 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 자연스럽게 존재하는 정렬된 구간(Run)을 탐지하고, 병합 정렬과 [삽입 정렬](/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)을 결합해 현실적 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 최고 성능을 발휘하는 적응형 정렬이다.

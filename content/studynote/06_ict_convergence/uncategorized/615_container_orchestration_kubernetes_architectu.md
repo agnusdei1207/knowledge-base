@@ -1,10 +1,9 @@
 ---
-title: "615. 컨테이너 오케스트레이션 쿠버네티스 아키텍처 (Container Orchestration Kubernetes Architecture)"
+title: "Container Orchestration Kubernetes Architecture"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "128. 마이크로 프론트엔드 (Micro Frontends)"
+title: "Micro Frontends"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

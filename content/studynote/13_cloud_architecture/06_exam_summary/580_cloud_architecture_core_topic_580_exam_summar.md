@@ -1,10 +1,9 @@
 ---
-title: "580. 클라우드 아키텍처 핵심 토픽 580번 시험 요약 (Cloud Architecture Core Topic 580 Exam Summary)"
+title: "Cloud Architecture Core Topic 580 Exam Summary"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

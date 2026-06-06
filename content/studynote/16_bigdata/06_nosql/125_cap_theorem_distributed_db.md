@@ -1,10 +1,9 @@
 ---
-title: "CAP 정리 (CAP Theorem)"
+title: "CAP Theorem"
 date: "2024-05-22"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 - <strong><a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>의 불가능성:</strong> [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)(C), [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)(A), [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 감내(P) 세 가지를 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서 동시에 완벽하게 만족할 수 없다는 에릭 브루어의 이론임.

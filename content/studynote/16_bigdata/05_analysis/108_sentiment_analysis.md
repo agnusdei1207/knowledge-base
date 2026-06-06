@@ -1,10 +1,9 @@
 ---
-title: "105. 감성 분석 (Sentiment Analysis) — 긍부정 감정 자동 분류"
+title: "108. Sentiment Analysis"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [감성 분석](/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/) ([Sentiment Analysis](/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/))은 텍스트 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 필자의 감정·태도·의견을 자동으로 추출·[분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 NLP (Natural Language Processing) 기법으로, 제품 리뷰·SNS 포스트·뉴스 기사 등에서 긍정/부정/중립을 판별한다.

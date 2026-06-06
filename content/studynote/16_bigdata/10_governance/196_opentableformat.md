@@ -1,10 +1,9 @@
 ---
-title: "06. 오픈 테이블 포맷 (Open Table Format) - 레이크하우스의 핵심 기반 기술"
+title: "196. Opentableformat"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"
 ---
-
 
 # [오픈 테이블 포맷](/studynote/14_data_engineering/01_infrastructure/054_open_table_format_iceberg_delta_hudi/) (Open Table Format) - [레이크하우스](/studynote/16_bigdata/07_data_lake/146_lakehouse/)의 핵심 기반 기술
 

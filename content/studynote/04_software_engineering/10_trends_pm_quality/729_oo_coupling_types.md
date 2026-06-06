@@ -1,10 +1,9 @@
 ---
-title: "729. 객체지향 결합도 (내용, 공통, 제어, 스탬프, 자료)"
+title: "729. Oo Coupling Types"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

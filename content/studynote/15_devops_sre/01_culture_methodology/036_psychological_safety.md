@@ -1,10 +1,9 @@
 ---
-title: "036. 심리적 안전 (Psychological Safety)"
+title: "Psychological Safety"
 date: "2026-03-03"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 > **핵심 인사이트**
 > 1. 심리적 안전(Psychological Safety)은 팀 내에서 의견 제시·질문·실수 인정 시 처벌이나 비난을 받지 않을 것이라는 구성원의 신뢰 상태로, Google [Project](/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) Aristotle이 고성과 팀의 제1 요소로 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)했다.

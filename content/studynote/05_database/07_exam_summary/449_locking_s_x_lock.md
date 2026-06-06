@@ -1,10 +1,9 @@
 ---
-title: "449. 동시성 제어 잠금 (Locking) S-락 / X-락"
+title: "449. Locking S X Lock"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

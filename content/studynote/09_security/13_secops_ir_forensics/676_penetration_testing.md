@@ -1,10 +1,9 @@
 ---
-title: "676. 침투 테스트 (Penetration Testing)"
+title: "Penetration Testing"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "605. Golden/Silver Ticket 방어 (Mitigation)"
+title: "Mitigation"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

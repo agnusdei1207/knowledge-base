@@ -1,10 +1,9 @@
 ---
-title: "97. 커널 수준 스레드 (Kernel-level Thread) - OS가 직접 관리"
+title: "097. Kernel Level Thread"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 수준 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) (Kernel-level [Thread](/studynote/02_operating_system/02_process_thread/092_thread_lwp/), KLT)는 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 직접 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 스케줄링, 소멸을 관리하며 TCB ([Thread](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Control Block)를 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간에 유지하는 실행 단위이다.

@@ -1,9 +1,8 @@
 ---
-title: "76. 도메인 무결성 (Domain Integrity) - 속성 값은 정의된 도메인에 속해야 함"
+title: "076. Domain Integrity"
 tags:
   - "database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

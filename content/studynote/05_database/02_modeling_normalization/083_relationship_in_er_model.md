@@ -1,9 +1,8 @@
 ---
-title: "83. 관계 (Relationship) - 마름모, 개체 간 연관성"
+title: "083. Relationship In Er Model"
 tags:
   - "database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

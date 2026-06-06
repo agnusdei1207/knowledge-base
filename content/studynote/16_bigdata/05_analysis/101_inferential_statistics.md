@@ -1,10 +1,9 @@
 ---
-title: "추론 통계 (Inferential Statistics)"
+title: "Inferential Statistics"
 date: "2025-05-22"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 - <strong>추론 통계 (Inferential <a href="/studynote/05_database/03_relational_model/168_clustering_factor_index_physical_alignment/">Statistics</a>)</strong>: 전체 모집단을 조사할 수 없는 상황에서, 무작위로 추출한 '표본(Sample)'의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석하여 '모집단(Population)'의 특성을 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 추측하는 방법론.

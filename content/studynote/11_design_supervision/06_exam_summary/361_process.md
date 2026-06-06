@@ -1,10 +1,9 @@
 ---
-title: "361. 중복 배제 원칙 (Don't Repeat Yourself, DRY)"
+title: "Don't Repeat Yourself, DRY"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "774. 부채널 공격 - 캐시 타이밍 공격"
+title: "774. Cache Timing Attack"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

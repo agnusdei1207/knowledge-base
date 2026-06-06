@@ -1,10 +1,9 @@
 ---
-title: "123. PDM (Product Data Management) - 제품 데이터 관리 시스템"
+title: "123. Pdm Product Data Management"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: PDM은 CAD 도면·[BOM](/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/)·설계 문서 등 <strong>제품 설계 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 <a href="/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> 관리·접근 제어·변경 이력 추적</strong>을 수행하는 시스템으로, PLM의 핵심 하위 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이다.

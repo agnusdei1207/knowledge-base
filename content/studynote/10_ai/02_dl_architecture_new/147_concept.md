@@ -1,10 +1,9 @@
 ---
-title: "147. ToT (Tree-of-Thought) - 분기 사고 구조 탐색망 추론 기법"
+title: "147. Concept"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: ToT(Tree-of-Thought, 사고 트리)는 [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)([Large Language Model](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/), [대규모 언어 모델](/studynote/04_software_engineering/09_cloud_native_ai_architecture/582_llm_based_code_generation_tools/))이 문제를 해결할 때 단선(Chain)이 아닌 <strong>트리 구조로 여러 사고 경로를 분기·탐색·<a href="/studynote/08_algorithm_stats/01_basics/010_backtracking/">백트래킹</a>(<a href="/studynote/08_algorithm_stats/01_basics/010_backtracking/">Backtracking</a>)하며 최적 답을 찾는 추론 프레임워크</strong>다.

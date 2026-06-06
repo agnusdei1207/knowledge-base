@@ -1,10 +1,9 @@
 ---
-title: "427. 인시던트 관리 에스컬레이션 대응 (Incident Management Escalation Response)"
+title: "Incident Management Escalation Response"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

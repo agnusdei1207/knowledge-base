@@ -1,10 +1,9 @@
 ---
-title: "312. SSH 터널/포트 포워딩 (SSH Tunnel/Port Forwarding)"
+title: "SSH Tunnel/Port Forwarding"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

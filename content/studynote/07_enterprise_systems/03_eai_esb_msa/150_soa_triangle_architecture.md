@@ -1,10 +1,9 @@
 ---
-title: "150. SOA 3요소 아키텍처 - 서비스 제공자(Provider), 요청자(Requester), 레지스트리(Registry)"
+title: "Registry"
 date: "2026-05-03"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [SOA](/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/) 3요소 아키텍처는 **[서비스 제공자 Provider]**, **[서비스 요청자 Requester]**, <strong><a href="/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/">서비스 [레지스트리</a> <a href="/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/">Registry</a>]</strong>라는 3개의 액터(Actor)가 각자의 책임을 100% 분할하여 거대한 통신 생태계를 이루는 [트라이](/studynote/08_algorithm_stats/04_datastructure/087_trie/)앵글(Triangle) 구조다.

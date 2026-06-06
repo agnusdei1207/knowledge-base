@@ -1,11 +1,10 @@
 ---
-title: "15. 휴리스틱 탐색 (Heuristic Search / Informed Search) - 직관이나 경험 기반 정보(휴리스틱 함수)를 활용한 최적 탐색"
+title: "015. Heuristic Search"
 date: "2024-05-24"
 description: "경험적 지식과 거리 추정 함수를 이용해 유망한 노드를 우선적으로 탐색하여 연산 효율을 극대화하는 정보 기반 탐색"
 tags:
   - "ai"
 ---
-
 # 15. [휴리스틱](/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 탐색 ([Heuristic](/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/) Search)
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 목적지까지 남아있는 거리를 어림짐작하는 평가 함수, 즉 [휴리스틱](/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 함수([Heuristic](/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/) Function, $h(n)$)를 도입하여 탐색 공간을 극적으로 축소시키는 정보 기반(Informed) 탐색 기법.

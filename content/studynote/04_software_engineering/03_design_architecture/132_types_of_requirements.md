@@ -1,10 +1,9 @@
 ---
-title: "132. 요구사항 유형 (기능·비기능·제약사항) - FR·NFR·Constraints 분류"
+title: "132. Types Of Requirements"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 요구사항은 **기능 요구사항(FR, 시스템이 해야 하는 것)**·<strong><a href="/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/">비기능 요구사항</a>(<a href="/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/">NFR</a>, <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>·보안·<a href="/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a> 등 품질 <a href="/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a>)</strong>·<strong>제약사항(Constraints, 기술·법적 제한)</strong>의 3가지로 분류된다.

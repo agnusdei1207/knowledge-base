@@ -1,10 +1,9 @@
 ---
-title: "1107. 산업용 이더넷 PROFINET 망"
+title: "1107. Industrial Ethernet Profinet Ot Network"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

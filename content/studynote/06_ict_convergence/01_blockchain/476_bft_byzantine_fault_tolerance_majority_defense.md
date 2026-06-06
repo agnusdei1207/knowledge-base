@@ -1,10 +1,9 @@
 ---
-title: "476. BFT 비잔틴 장애 허용과 다수결 방어 (Byzantine Fault Tolerance Majority Defense)"
+title: "Byzantine Fault Tolerance Majority Defense"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,9 +1,8 @@
 ---
-title: "9. 해시 포인터 (Hash Pointer) - 데이터의 위치와 무결성 정보를 동시에 지님"
+title: "009. Hash Pointer"
 tags:
   - "ict_convergence"
 ---
-
 
 # 09. 해시 포인터 (Hash Pointer)
 

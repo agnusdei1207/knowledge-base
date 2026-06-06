@@ -1,10 +1,9 @@
 ---
-title: "268. 전략 (Strategy) - 알고리즘을 캡슐화하여 동적으로 교체 가능"
+title: "268. Strategy Pattern"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

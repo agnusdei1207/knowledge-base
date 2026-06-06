@@ -1,10 +1,9 @@
 ---
-title: "1. 배열 (Array) — 연속 메모리, O(1) 랜덤 접근"
+title: "055. Array"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "10. 인공지능 (AI) 및 머신러닝 키워드 목록"
+title: "Keyword List"
 date: "2026-03-04"
 tags:
   - "studynote-ai"
 ---
-
 [weight](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) = 9999
 
 # [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) ([AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) / [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) / 딥러닝 키워드 목록 (심화 확장판)

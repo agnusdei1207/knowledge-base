@@ -1,10 +1,9 @@
 ---
-title: "438. 품질 관리 ISO 25010 품질 특성 (Quality Management ISO 25010 Characteristics)"
+title: "Quality Management ISO 25010 Characteristics"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

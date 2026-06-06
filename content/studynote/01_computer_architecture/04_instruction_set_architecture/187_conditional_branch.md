@@ -1,10 +1,9 @@
 ---
-title: "187. 조건부 분기 (Conditional Branch)"
+title: "Conditional Branch"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

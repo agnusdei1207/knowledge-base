@@ -1,10 +1,9 @@
 ---
-title: "145. RLHF (Reinforcement Learning from Human Feedback) - 인간 정렬"
+title: "145. Concept"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: RLHF는 <strong>인간 평가자의 선호도 피드백으로 보상 모델(<a href="/studynote/10_ai/05_data_science_ml/403_rlhf_reward_model/">Reward Model</a>)을 학습</strong>하고, 이를 기반으로 <strong><a href="/studynote/10_ai/05_data_science_ml/395_ppo_clipping/">PPO</a>(<a href="/studynote/10_ai/05_data_science_ml/395_ppo_clipping/">Proximal Policy Optimization</a>) 강화학습</strong>으로 LLM을 인간 의도에 정렬(Align)하는 기법이다.

@@ -1,10 +1,9 @@
 ---
-title: "536. LLVM IR 변환 (컴파일러-HW 인터페이스)"
+title: "-HW"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

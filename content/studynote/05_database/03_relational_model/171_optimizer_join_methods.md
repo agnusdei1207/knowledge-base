@@ -1,10 +1,9 @@
 ---
-title: "171. 옵티마이저 조인 기법 3가지"
+title: "171. Optimizer Join Methods"
 date: "2026-05-06"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

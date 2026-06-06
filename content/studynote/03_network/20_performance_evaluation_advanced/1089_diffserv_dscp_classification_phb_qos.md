@@ -1,10 +1,9 @@
 ---
-title: "1089. DiffServ DSCP 분류 PHB"
+title: "1089. Diffserv Dscp Classification Phb Qos"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

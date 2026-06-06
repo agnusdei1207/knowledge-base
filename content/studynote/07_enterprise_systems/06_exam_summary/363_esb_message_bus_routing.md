@@ -1,10 +1,9 @@
 ---
-title: "363. ESB 메시지 버스 라우팅 변환 (Enterprise Service Bus)"
+title: "Enterprise Service Bus"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

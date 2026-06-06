@@ -1,10 +1,9 @@
 ---
-title: "04. Spark SQL & DataFrame — 정형 데이터 처리 및 최적화"
+title: "055. Spark Sql Dataframe"
 date: "2026-04-14"
 tags:
   - "studynote-bigdata"
 ---
-
 
 # [Spark SQL](/studynote/16_bigdata/03_spark/056_spark_sql/) & DataFrame - [정형 데이터](/studynote/14_data_engineering/01_infrastructure/002_structured_data/) 처리 및 Catalyst 최적화
 

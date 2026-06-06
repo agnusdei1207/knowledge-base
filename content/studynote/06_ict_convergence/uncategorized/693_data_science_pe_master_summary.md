@@ -1,10 +1,9 @@
 ---
-title: "693. 데이터 사이언스 기술사 마스터 정리 (Data Science PE Master Summary)"
+title: "Data Science PE Master Summary"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

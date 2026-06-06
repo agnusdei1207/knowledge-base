@@ -1,10 +1,9 @@
 ---
-title: "706. LLM 미세 조정 PEFT QLoRA 전략 (LLM Fine Tuning PEFT QLoRA Strategy)"
+title: "LLM Fine Tuning PEFT QLoRA Strategy"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "436. 클라우드 KMS 키 관리 암호화 서비스 (Cloud KMS Key Management Encryption Service)"
+title: "Cloud KMS Key Management Encryption Service"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

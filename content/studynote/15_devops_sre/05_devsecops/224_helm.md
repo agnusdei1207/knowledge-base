@@ -1,10 +1,9 @@
 ---
-title: "224. 헬름 (Helm) 차트 템플릿 엔진 패키지 관리망"
+title: "224. Helm"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

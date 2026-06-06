@@ -1,10 +1,9 @@
 ---
-title: "629. 샘플링 감리 기법 (Sampling Audit Technique) - 표본으로 전체를 검증하기"
+title: "629. Sampling Audit Technique"
 date: "2026-04-05"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

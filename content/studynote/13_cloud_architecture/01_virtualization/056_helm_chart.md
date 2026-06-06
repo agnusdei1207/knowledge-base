@@ -1,10 +1,9 @@
 ---
-title: "56. Helm Chart - Kubernetes 패키지 매니저와 템플릿 배포"
+title: "056. Helm Chart"
 date: "2026-04-05"
 tags:
   - "cloud_architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

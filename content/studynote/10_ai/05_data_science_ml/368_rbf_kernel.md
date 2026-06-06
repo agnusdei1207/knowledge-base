@@ -1,10 +1,9 @@
 ---
-title: "368. RBF 커널 (Radial Basis Function Kernel)"
+title: "Radial Basis Function Kernel"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

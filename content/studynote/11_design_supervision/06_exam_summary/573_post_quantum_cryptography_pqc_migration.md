@@ -1,10 +1,9 @@
 ---
-title: "573. 양자 내성 암호 포스트 양자 전환 (Post Quantum Cryptography PQC Migration)"
+title: "Post Quantum Cryptography PQC Migration"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

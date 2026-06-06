@@ -1,10 +1,9 @@
 ---
-title: "443. 초과 기능 (Excess Functionality)"
+title: "Excess Functionality"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

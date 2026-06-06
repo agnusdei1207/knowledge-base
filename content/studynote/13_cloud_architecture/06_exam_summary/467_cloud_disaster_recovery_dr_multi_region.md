@@ -1,10 +1,9 @@
 ---
-title: "467. 클라우드 재해 복구 DR 다중 리전 (Cloud Disaster Recovery DR Multi Region)"
+title: "Cloud Disaster Recovery DR Multi Region"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

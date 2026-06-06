@@ -1,10 +1,9 @@
 ---
-title: "726. 모던 스탠바이 (Modern Standby, S0ix)"
+title: "Modern Standby, S0ix"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

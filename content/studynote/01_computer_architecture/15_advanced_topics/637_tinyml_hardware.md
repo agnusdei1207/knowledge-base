@@ -1,10 +1,9 @@
 ---
-title: "637. TinyML 하드웨어 제약"
+title: "637. Tinyml Hardware"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

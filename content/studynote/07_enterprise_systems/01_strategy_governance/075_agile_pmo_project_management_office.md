@@ -1,10 +1,9 @@
 ---
-title: "75. 애자일 PMO (Project Management Office) - 폭포수 통제를 넘어 애자일 지원 조직으로의 전환"
+title: "075. Agile Pmo Project Management Office"
 date: "2026-04-07"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

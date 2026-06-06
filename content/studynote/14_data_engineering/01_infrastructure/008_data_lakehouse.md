@@ -1,11 +1,10 @@
 ---
-title: "8. 데이터 레이크하우스 (Data Lakehouse) - 데이터 레이크의 유연성/저비용과 DW의 ACID 트랜잭션, SQL 성능을 단일 계층에 결합한 현대 아키텍처 (Databricks, Snowflake)"
+title: "Databricks, Snowflake"
 date: "2024-05-15"
 description: "데이터 레이크의 확장성과 DW의 신뢰성을 결합한 레이크하우스의 등장 배경, Iceberg/Delta 기반의 오픈 테이블 포맷 원리 및 실무 도입 전략을 분석합니다."
 tags:
   - "data_engineering"
 ---
-
 
 # [데이터 레이크하우스](/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/) ([Data Lakehouse](/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/))
 

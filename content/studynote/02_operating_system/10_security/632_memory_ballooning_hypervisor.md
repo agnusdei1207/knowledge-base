@@ -1,10 +1,9 @@
 ---
-title: "632. 벌루닝 (Ballooning) 하이퍼바이저 가상머신 동적 메모리 회수 기법 구조"
+title: "632. Memory Ballooning Hypervisor"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

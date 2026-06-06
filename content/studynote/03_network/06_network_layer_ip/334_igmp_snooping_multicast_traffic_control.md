@@ -1,10 +1,9 @@
 ---
-title: "334. IGMP Snooping (스위치가 멀티캐스트 트래픽 불필요한 포트에 차단)"
+title: "334. Igmp Snooping Multicast Traffic Control"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

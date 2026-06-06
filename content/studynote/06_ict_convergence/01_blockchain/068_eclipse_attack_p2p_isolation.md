@@ -1,9 +1,8 @@
 ---
-title: "68. 이클립스 공격 (Eclipse Attack) - 특정 노드의 주변 P2P 연결을 악성 노드가 장악하여 네트워크를 고립시키고 허위 정보를 주입하는 공격"
+title: "068. Eclipse Attack P2P Isolation"
 tags:
   - "ict_convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

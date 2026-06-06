@@ -1,10 +1,9 @@
 ---
-title: "316. 데이터 마이그레이션 백업·롤백 테스트 (Migration Backup and Rollback Test Audit)"
+title: "Migration Backup and Rollback Test Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

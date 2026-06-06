@@ -1,10 +1,9 @@
 ---
-title: "157. 테라헤르츠 (THz) - 6G 통신 대상 대역"
+title: "157. Terahertz Thz 6G"
 date: "2026-04-05"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

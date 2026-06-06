@@ -1,10 +1,9 @@
 ---
-title: "302. 클럭 알고리즘 (Clock Algorithm)"
+title: "Clock Algorithm"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

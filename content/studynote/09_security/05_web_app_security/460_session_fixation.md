@@ -1,10 +1,9 @@
 ---
-title: "460. 세션 고정 (Session Fixation)"
+title: "Session Fixation"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

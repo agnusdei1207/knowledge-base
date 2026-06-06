@@ -1,10 +1,9 @@
 ---
-title: "470. 카오스 엔지니어링 복원력 검증 (Chaos Engineering Resilience Validation)"
+title: "Chaos Engineering Resilience Validation"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

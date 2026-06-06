@@ -1,10 +1,9 @@
 ---
-title: "996. NFV 기반 가상화 VNF"
+title: "996. Nfv Virtual Network Function"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

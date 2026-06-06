@@ -1,10 +1,9 @@
 ---
-title: "Apache HBase: 하둡 기반의 고성능 분산 NoSQL 데이터베이스"
+title: "037. Apache Hbase Column Family"
 date: "2026-03-04"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 - 구글의 빅테이블(Bigtable)을 [벤치마킹](/studynote/07_enterprise_systems/04_process_consulting/219_benchmarking_best_practice/)하여 개발된, [HDFS](/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 위에서 동작하는 열 지향(Column-Oriented) [NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/) [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)임.

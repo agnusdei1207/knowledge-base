@@ -1,10 +1,9 @@
 ---
-title: "792. Google Titan 보안 칩 (Google Titan Security Chip)"
+title: "Google Titan Security Chip"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

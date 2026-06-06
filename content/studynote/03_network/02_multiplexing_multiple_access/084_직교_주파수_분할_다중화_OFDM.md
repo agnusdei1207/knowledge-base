@@ -1,11 +1,10 @@
 ---
-title: "84. 직교 주파수 분할 다중화 (OFDM, Orthogonal FDM)"
+title: "OFDM, Orthogonal FDM"
 date: "2026-03-30"
 description: "초고속 데이터를 수천 개의 저속 부반송파로 쪼개어 직교성 기반으로 빈틈없이 다중화한 5G와 Wi-Fi의 핵심 물리 아키텍처"
 tags:
   - "network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

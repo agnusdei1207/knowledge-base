@@ -1,10 +1,9 @@
 ---
-title: "422. 스레드 블록 (Thread Block)과 워프 (Warp)"
+title: "Warp"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

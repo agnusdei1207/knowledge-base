@@ -1,10 +1,9 @@
 ---
-title: "711. 클라우드 아키텍처 핵심 토픽 711번 시험 요약 (Cloud Architecture Core Topic 711 Exam Summary)"
+title: "Cloud Architecture Core Topic 711 Exam Summary"
 date: 2026-05-09
 tags:
   - "studynote-cloud-architecture"
----
-## 핵심 인사이트 (3줄 요약)
+---## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 아키텍처는 컨테이너 오케스트레이션(Kubernetes/서비스 메시), 선언적 IaC(Terraform/CloudFormation), 이벤트 기반 FaaS(Lambda/Cloud Functions), 그리고 12-Factor App 원칙을 통해 **탄력적 컴퓨팅·무상태 서비스·격리된 보안 경계**를 코드화한 컴퓨팅 패러다임의 결정체이다.
 > 2. **가치**: AWS Well-Architected Framework 5대 축(운영우수성·보안·신뢰성·성능효율·비용최적화) 적용 시 **가용성 99.99% SLA, MTTR 60% 단축, CapEx->OpEx 전환으로 TCO 30~50% 절감, Auto Scaling으로 트래픽 10배 변동 흡수** 등 정량적 효과를 입증한다.

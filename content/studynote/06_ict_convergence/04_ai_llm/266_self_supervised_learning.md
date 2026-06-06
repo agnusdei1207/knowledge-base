@@ -1,10 +1,9 @@
 ---
-title: "266. 자기 지도 학습 (Self-Supervised Learning)"
+title: "Self-Supervised Learning"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

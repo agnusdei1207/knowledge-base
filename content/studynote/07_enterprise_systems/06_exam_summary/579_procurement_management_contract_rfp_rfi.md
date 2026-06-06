@@ -1,10 +1,9 @@
 ---
-title: "579. 조달 관리 계약 유형 RFP RFI (Procurement Management Contract RFP RFI)"
+title: "Procurement Management Contract RFP RFI"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 조달관리 계약 RFP RFI은(는) 외부 공급자 선정, 계약, 납품, 검수, 위험을 관리하는 프로젝트 조달 활동이다.

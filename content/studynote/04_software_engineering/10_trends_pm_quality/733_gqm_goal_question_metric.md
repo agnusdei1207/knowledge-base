@@ -1,10 +1,9 @@
 ---
-title: "733. GQM 지표 측정 골 기반 구조"
+title: "733. Gqm Goal Question Metric"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

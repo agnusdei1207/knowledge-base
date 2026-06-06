@@ -1,10 +1,9 @@
 ---
-title: "56. 억제 통제 (Deterrent Controls) - 위협 행동 억제"
+title: "056. Deterrent Controls"
 date: "2026-04-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

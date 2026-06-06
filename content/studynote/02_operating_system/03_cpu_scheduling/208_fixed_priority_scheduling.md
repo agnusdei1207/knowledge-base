@@ -1,10 +1,9 @@
 ---
-title: "208. 비례 배분 스케줄링 (Proportionate Share Scheduling)"
+title: "Proportionate Share Scheduling"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

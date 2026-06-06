@@ -1,10 +1,9 @@
 ---
-title: "122. SLI (Service Level Indicator) - 서비스 수준 측정 지표"
+title: "122. Sli Service Level Indicator"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [SLI](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)([Service Level Indicator](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/))는 <strong>사용자 경험 관점에서 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 품질을 정량적으로 측정</strong>하는 지표이며, "좋은 이벤트 수 / 전체 이벤트 수"의 <strong>비율(0~100%)</strong>로 표현된다.

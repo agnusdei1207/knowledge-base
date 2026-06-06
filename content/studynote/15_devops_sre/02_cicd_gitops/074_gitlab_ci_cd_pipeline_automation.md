@@ -1,10 +1,9 @@
 ---
-title: "74. GitLab CI/CD - 파이프라인 자동화"
+title: "074. Gitlab Ci Cd Pipeline Automation"
 date: "2026-04-10"
 tags:
   - "studynote-devops"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

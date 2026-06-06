@@ -1,9 +1,8 @@
 ---
-title: "95. SCP (Supply Chain Planning) - 공급망 계획 (수요 예측, 생산 계획)"
+title: "095. Scp Supply Chain Planning"
 tags:
   - "enterprise_systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [SCP](/studynote/01_computer_architecture/15_advanced_topics/747_scp/) ([Supply Chain](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) Planning)는 원자재 조달부터 최종 고객 인도까지의 [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 전체 흐름을 최적화하기 위해, [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)과 수학적 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 이용해 '수요를 예측하고 생산·물류 계획을 짜는' 거대한 두뇌 시스템이다.

@@ -1,10 +1,9 @@
 ---
-title: "596. 성능 감리 부하 테스트 병목 진단 (Performance Audit Load Test Bottleneck)"
+title: "Performance Audit Load Test Bottleneck"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

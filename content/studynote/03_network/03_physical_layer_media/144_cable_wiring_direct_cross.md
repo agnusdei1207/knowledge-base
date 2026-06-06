@@ -1,10 +1,9 @@
 ---
-title: "144. 케이블 배선: 다이렉트 케이블 (T568B) vs 크로스오버 케이블"
+title: "144. Cable Wiring Direct Cross"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "729. 스마트 교통 ITS 자율주행 V2X 신호 (Smart Transportation ITS Autonomous V2X)"
+title: "Smart Transportation ITS Autonomous V2X"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

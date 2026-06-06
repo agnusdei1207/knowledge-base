@@ -1,10 +1,9 @@
 ---
-title: "188. 피쳐 모델 (Feature Model) 가변성 트리"
+title: "188. Feature Model Variability Tree"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

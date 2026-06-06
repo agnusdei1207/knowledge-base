@@ -1,10 +1,9 @@
 ---
-title: "436. 프롬프트 엔지니어링 CoT ToT 퓨샷/제로샷 (Prompt 엔진ering)"
+title: "Prompt ering"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "119. Seq2Seq 모델 (Sequence-to-Sequence) - 인코더-디코더 시퀀스 변환 아키텍처"
+title: "119. Seq2Seq Model"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Seq2Seq은 <strong><a href="/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/">인코더</a> RNN이 입력 시퀀스를 고정 길이 <a href="/studynote/10_ai/02_dl_architecture_new/120_context_vector/">컨텍스트 벡터</a>로 <a href="/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a></strong>하고, <strong><a href="/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/">디코더</a> RNN이 이 벡터를 기반으로 출력 시퀀스를 <a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>하는 [인코더](/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)-[디코더](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) 아키텍처이다.

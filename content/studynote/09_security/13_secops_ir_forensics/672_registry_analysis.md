@@ -1,10 +1,9 @@
 ---
-title: "672. 레지스트리 분석 (Registry Analysis)"
+title: "Registry Analysis"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

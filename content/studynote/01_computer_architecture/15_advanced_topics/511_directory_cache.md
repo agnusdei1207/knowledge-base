@@ -1,10 +1,9 @@
 ---
-title: "511. 디렉터리 캐시 (Directory Cache)"
+title: "Directory Cache"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

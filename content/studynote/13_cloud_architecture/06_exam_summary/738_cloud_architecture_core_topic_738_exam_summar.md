@@ -1,10 +1,9 @@
 ---
-title: "738. 클라우드 아키텍처 핵심 토픽 738번 시험 요약 (Cloud Architecture Core Topic 738 Exam Summary)"
+title: "Cloud Architecture Core Topic 738 Exam Summary"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 # 738. 클라우드 아키텍처 핵심 토픽 — 클라우드 네이티브 및 분산 시스템 설계
 

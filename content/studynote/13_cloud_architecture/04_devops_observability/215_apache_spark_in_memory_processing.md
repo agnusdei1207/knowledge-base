@@ -1,10 +1,9 @@
 ---
-title: "215. 아파치 스파크 (Apache Spark)"
+title: "Apache Spark"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

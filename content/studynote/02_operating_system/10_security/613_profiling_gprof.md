@@ -1,10 +1,9 @@
 ---
-title: "613. 프로파일링 (Profiling) 도구 Gprof 커널 후킹 작동 원리"
+title: "613. Profiling Gprof"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

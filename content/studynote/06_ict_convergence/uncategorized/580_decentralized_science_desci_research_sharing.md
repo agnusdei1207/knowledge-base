@@ -1,10 +1,9 @@
 ---
-title: "580. 탈중앙화 과학 DeSci 연구 공유 (Decentralized Science DeSci Research Sharing)"
+title: "Decentralized Science DeSci Research Sharing"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "551. 맵리듀스 분산 처리 노드 작업 셔플/소트 단계"
+title: "551. Mapreduce Shuffle Sort Phase"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

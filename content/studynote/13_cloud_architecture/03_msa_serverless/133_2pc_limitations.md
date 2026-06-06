@@ -1,10 +1,9 @@
 ---
-title: "133. 2PC 한계와 MSA 분산 트랜잭션 - 왜 Saga가 필요한가"
+title: "133. 2Pc Limitations"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [2PC](/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/)([Two-Phase Commit](/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/))는 <strong><a href="/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/">분산 트랜잭션</a>의 원자성을 보장하는 <a href="/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>(Prepare->Commit/<a href="/studynote/02_operating_system/05_deadlock/313_rollback/">Rollback</a>)</strong>이지만, MSA에서는 <strong><a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 자율성 침해·<a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 저하·<a href="/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">단일 장애점</a>(<a href="/studynote/05_database/04_transactions_concurrency/250_coordinator_participant_2pc_roles/">Coordinator</a>)</strong> 문제로 부적합하다.

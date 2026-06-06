@@ -1,10 +1,9 @@
 ---
-title: "273. 데이터 증강 합성 데이터 생성 전략 (Data Augmentation Synthetic Data Generation)"
+title: "Data Augmentation Synthetic Data Generation"
 date: "2026-05-09"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

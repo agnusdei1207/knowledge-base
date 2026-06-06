@@ -1,10 +1,9 @@
 ---
-title: "348. 맥콜(McCall)의 품질 모델 - 제품 운영, 제품 수정, 제품 전이 관점"
+title: "348. Mccall Quality Model"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

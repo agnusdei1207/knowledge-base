@@ -1,10 +1,9 @@
 ---
-title: "967. TCP 슬라이딩 윈도우"
+title: "967. Tcp Sliding Window Flow Control Buffer Management"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

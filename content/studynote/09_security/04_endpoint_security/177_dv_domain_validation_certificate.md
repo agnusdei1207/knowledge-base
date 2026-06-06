@@ -1,10 +1,9 @@
 ---
-title: "177. DV (Domain Validation) 인증서"
+title: "177. Dv Domain Validation Certificate"
 date: "2026-05-06"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

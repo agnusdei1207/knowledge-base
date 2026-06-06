@@ -1,10 +1,9 @@
 ---
-title: "119. MQTT QoS 레벨 (QoS 0/1/2) - IoT 메시지 전달 보장 수준"
+title: "119. Mqtt Qos Levels"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [MQTT](/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) [QoS](/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)([Quality of Service](/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/))는 [메시지 전달](/studynote/02_operating_system/02_process_thread/119_message_passing/) 보장 수준을 3단계(0: 최대 1회, 1: 최소 1회, 2: 정확히 1회)로 정의하며, <strong>Publisher->Broker와 Broker->Subscriber 각각에 독립적으로 <a href="/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>된다.

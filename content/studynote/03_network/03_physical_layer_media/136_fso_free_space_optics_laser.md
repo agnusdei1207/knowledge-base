@@ -1,10 +1,9 @@
 ---
-title: "136. 자유 공간 광통신 (FSO, Free Space Optics) / 레이저 통신"
+title: "136. Fso Free Space Optics Laser"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "30. 데이터 무결성과 보안 — 데이터베이스 안전의 두 축"
+title: "030. Data Integrity Security"
 date: "2026-04-29"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/)([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Integrity](/studynote/09_security/01_intro_principles/003_integrity/))은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 정확하고 일관되게 유지되는 성질이며, [데이터베이스 보안](/studynote/09_security/16_data_privacy/830_db_security/)([DB Security](/studynote/09_security/16_data_privacy/830_db_security/))은 허가된 사용자만 접근할 수 있도록 하는 통제 체계다. [무결성](/studynote/09_security/01_intro_principles/003_integrity/)은 "올바른 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)", 보안은 "올바른 사람"을 보장한다.

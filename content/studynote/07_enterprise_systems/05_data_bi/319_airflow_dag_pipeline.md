@@ -1,10 +1,9 @@
 ---
-title: "319. Apache Airflow DAG 파이프라인 오케스트레이션"
+title: "319. Airflow Dag Pipeline"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

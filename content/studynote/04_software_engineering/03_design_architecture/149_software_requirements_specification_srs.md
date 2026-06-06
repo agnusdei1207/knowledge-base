@@ -1,10 +1,9 @@
 ---
-title: "149. 소프트웨어 요구사항 명세서 (SRS, Software Requirements Specification)"
+title: "SRS, Software Requirements Specification"
 date: "2026-05-03"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SRS(Software Requirements [Specification](/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/))는 요구공학 프로세스의 최종 산출물로, 시스템이 '무엇(What)'을 해야 하는지를 기능적/비기능적 요구사항, 다이어그램, 제약 조건으로 꼼꼼히 박제해 둔 소프트웨어 개발의 헌법이자 기준 도면이다.

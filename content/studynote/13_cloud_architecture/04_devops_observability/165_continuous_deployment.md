@@ -1,10 +1,9 @@
 ---
-title: "165. 지속적 배포 (Continuous Deployment)"
+title: "Continuous Deployment"
 date: "2026-03-04"
 tags:
   - "studynote-cloud"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 - [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인의 최종 단계까지 100% 자동화하여 수동 승인 없이 운영 환경에 즉시 반영하는 관행임.

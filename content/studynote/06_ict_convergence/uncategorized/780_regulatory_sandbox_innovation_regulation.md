@@ -1,10 +1,9 @@
 ---
-title: "780. 규제 샌드박스 혁신 규제 완화 전략 (Regulatory Sandbox Innovation Regulation)"
+title: "Regulatory Sandbox Innovation Regulation"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

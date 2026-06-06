@@ -1,10 +1,9 @@
 ---
-title: "447. 리테인 현행 유지 하이브리드 전략 (Retain Hybrid Strategy Assessment)"
+title: "Retain Hybrid Strategy Assessment"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

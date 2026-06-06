@@ -1,10 +1,9 @@
 ---
-title: "308. AI BI 증강 분석 자동화 (Augmented Analytics)"
+title: "Augmented Analytics"
 date: "2026-04-21"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

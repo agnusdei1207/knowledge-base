@@ -1,10 +1,9 @@
 ---
-title: "049. 앙상블 학습 — Ensemble Learning"
+title: "049. Ensemble Learning Bagging Boosting"
 date: "2026-04-05"
 tags:
   - "studynote-ai"
 ---
-
 
 > **핵심 인사이트**
 > 1. [앙상블 학습](/studynote/14_data_engineering/03_ml_dl_llm/125_ensemble_learning/)([Ensemble Learning](/studynote/14_data_engineering/03_ml_dl_llm/125_ensemble_learning/))은 여러 약한 학습기(Weak Learner)를 결합하여 하나의 강한 학습기(Strong Learner)를 만드는 방법 — "두 머리가 하나보다 낫다"는 집단 지성의 수학적 구현이며, 단일 모델보다 낮은 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/studynote/08_algorithm_stats/08_stats/136_variance/)) 또는 편향([Bias](/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))을 달성한다.

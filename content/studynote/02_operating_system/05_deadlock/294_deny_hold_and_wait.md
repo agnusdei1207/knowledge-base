@@ -1,10 +1,9 @@
 ---
-title: "294. 점유 대기 부정 (Deny Hold And Wait)"
+title: "Deny Hold And Wait"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

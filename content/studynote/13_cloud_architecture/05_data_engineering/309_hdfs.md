@@ -1,10 +1,9 @@
 ---
-title: "309. 하둡 분산 시스템 HDFS 디스크 맵리듀스 병목 (HDFS)"
+title: "HDFS"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [하둡](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 [HDFS](/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 디스크 [맵리듀스](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 병목는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼에서 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 운영를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.

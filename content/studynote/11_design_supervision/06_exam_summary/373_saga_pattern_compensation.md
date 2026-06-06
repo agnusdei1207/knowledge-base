@@ -1,10 +1,9 @@
 ---
-title: "373. 사가 패턴과 보상 트랜잭션 (Saga Pattern and Compensating Transaction)"
+title: "Saga Pattern and Compensating Transaction"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

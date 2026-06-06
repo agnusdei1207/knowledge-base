@@ -1,10 +1,9 @@
 ---
-title: "949. AI 백도어 공격 (Backdoor Attack)"
+title: "Backdoor Attack"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

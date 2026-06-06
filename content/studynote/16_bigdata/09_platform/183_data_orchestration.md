@@ -1,10 +1,9 @@
 ---
-title: "183. 데이터 오케스트레이션 (Data Orchestration) - Apache Airflow / Dagster / Prefect"
+title: "183. Data Orchestration"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "478. SLM 소형 언어 에지 RAG 온디바이스 (SLM, Small Language Model)"
+title: "SLM, Small Language Model"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

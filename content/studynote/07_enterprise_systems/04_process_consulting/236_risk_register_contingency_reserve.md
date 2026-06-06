@@ -1,10 +1,9 @@
 ---
-title: "236. 위험 관리 레지스터 및 예비비 vs 관리 예비비"
+title: "236. Risk Register Contingency Reserve"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

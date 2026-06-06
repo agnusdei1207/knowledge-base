@@ -1,10 +1,9 @@
 ---
-title: "562. 아키텍처 패턴 레이어드 이벤트 파이프 (Architecture Pattern Layered Event Pipe)"
+title: "Architecture Pattern Layered Event Pipe"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 # 562. 아키텍처 패턴 레이어드 이벤트 파이프 (Layered Event Pipe)
 

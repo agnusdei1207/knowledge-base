@@ -1,10 +1,9 @@
 ---
-title: "344. 최초 적합 (First-Fit) - 첫 번째 충분한 공간 할당 (속도 빠름)"
+title: "344. First Fit"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

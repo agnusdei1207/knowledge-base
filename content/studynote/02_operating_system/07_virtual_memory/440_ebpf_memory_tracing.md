@@ -1,10 +1,9 @@
 ---
-title: "440. eBPF 기반 메모리 할당 트레이싱 (Ebpf Memory Tracing)"
+title: "Ebpf Memory Tracing"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

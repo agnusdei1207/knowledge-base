@@ -1,10 +1,9 @@
 ---
-title: "465. 분산 추적 상관 관계 ID 패턴 (Distributed Tracing Correlation ID Pattern)"
+title: "Distributed Tracing Correlation ID Pattern"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

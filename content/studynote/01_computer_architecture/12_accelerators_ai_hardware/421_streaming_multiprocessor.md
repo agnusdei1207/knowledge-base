@@ -1,10 +1,9 @@
 ---
-title: "421. 스트리밍 멀티프로세서 (SM)"
+title: "SM"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,9 +1,8 @@
 ---
-title: "99. 암스트롱의 공리 (Armstrong's Axioms) - 반사의 공리, 첨가의 공리, 이행의 공리"
+title: "099. Armstrongs Axioms Reflexivity"
 tags:
   - "database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

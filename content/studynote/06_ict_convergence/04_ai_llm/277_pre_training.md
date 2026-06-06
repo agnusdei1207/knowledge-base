@@ -1,10 +1,9 @@
 ---
-title: "277. 벡터 데이터베이스 (Vector Database)"
+title: "Vector Database"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "569. MIMO 기반 공간 다중화 체계 (V-BLAST 구조 등)"
+title: "V-BLAST"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

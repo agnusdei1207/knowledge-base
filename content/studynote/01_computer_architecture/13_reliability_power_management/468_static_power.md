@@ -1,10 +1,9 @@
 ---
-title: "468. 정적 전력 (Static Power / 누설 전력)"
+title: "Static Power /"
 date: "2026-03-22"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "134. D-Bus (Desktop Bus) - 리눅스 데스크톱 환경 IPC"
+title: "134. Dbus"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

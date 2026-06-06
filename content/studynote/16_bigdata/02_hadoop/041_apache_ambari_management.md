@@ -1,10 +1,9 @@
 ---
-title: "아파치 암바리 (Apache Ambari)"
+title: "Apache Ambari"
 date: "2026-03-04"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 1. <strong>아파치 암바리</strong>는 [하둡](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 클러스터의 [프로비저닝](/studynote/09_security/11_iam_access_control/528_provisioning/), 관리 및 [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링을 중앙에서 웹 기반 UI로 수행하는 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 도구이다.

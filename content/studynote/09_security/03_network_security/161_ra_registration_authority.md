@@ -1,10 +1,9 @@
 ---
-title: "161. RA (Registration Authority) — 인증 요청 검증/승인"
+title: "161. Ra Registration Authority"
 date: "2026-05-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트
 

@@ -1,10 +1,9 @@
 ---
-title: "357. 스토리지와 컴퓨팅 분리 아키텍처 (Separation of Storage and Compute)"
+title: "Separation of Storage and Compute"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "177. 오케스트레이션 사가 (Orchestration Saga) - 중앙 오케스트레이터(컨트롤러)가 전체 트랜잭션 흐름을 룰 엔진처럼 지휘"
+title: "177. Orchestration Saga Controller"
 date: "2026-05-06"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

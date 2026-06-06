@@ -1,10 +1,9 @@
 ---
-title: "51. 데이터 카탈로그 (Data Catalog) - 메타데이터 검색 및 자산화"
+title: "051. Data Catalog Metadata Discovery"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 # 51. [데이터 카탈로그](/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) ([Data Catalog](/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/))
 

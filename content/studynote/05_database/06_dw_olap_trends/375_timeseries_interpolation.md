@@ -1,10 +1,9 @@
 ---
-title: "375. 시계열 DB 보간 (Interpolation) 쿼리 기능"
+title: "375. Timeseries Interpolation"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

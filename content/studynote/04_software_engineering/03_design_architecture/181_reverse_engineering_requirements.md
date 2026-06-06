@@ -1,10 +1,9 @@
 ---
-title: "181. 역공학을 통한 요구사항 추출"
+title: "181. Reverse Engineering Requirements"
 date: "2026-05-06"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

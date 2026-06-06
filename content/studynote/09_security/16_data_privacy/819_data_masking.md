@@ -1,10 +1,9 @@
 ---
-title: "819. 데이터 마스킹 (Data Masking)"
+title: "Data Masking"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

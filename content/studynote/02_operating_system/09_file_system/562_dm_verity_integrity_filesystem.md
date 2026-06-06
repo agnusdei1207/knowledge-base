@@ -1,10 +1,9 @@
 ---
-title: "562. 무결성 검증 파일 시스템 (dm-verity / Android 적용 보안 파일 구조)"
+title: "dm-verity / Android"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

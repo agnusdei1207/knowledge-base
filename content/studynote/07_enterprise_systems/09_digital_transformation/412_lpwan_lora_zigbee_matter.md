@@ -1,10 +1,9 @@
 ---
-title: "412. LPWAN 로라 지그비 매터 통신 표준 (LPWAN: Low Power Wide Area Network)"
+title: "LPWAN: Low Power Wide Area Network"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

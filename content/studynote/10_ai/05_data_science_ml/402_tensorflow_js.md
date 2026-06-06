@@ -1,10 +1,9 @@
 ---
-title: "402. TensorFlow.js (브라우저 딥러닝 서빙)"
+title: "402. Tensorflow Js"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

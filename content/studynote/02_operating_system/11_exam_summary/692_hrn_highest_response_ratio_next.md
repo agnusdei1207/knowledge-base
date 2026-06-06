@@ -1,10 +1,9 @@
 ---
-title: "692. HRN 대기 시간 공식 (Hrn Highest Response Ratio Next)"
+title: "Hrn Highest Response Ratio Next"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

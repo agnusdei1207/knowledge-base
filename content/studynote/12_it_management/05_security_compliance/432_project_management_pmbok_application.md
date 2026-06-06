@@ -1,10 +1,9 @@
 ---
-title: "432. 프로젝트 관리 PMBOK 원칙 적용 (Project Management PMBOK Application)"
+title: "Project Management PMBOK Application"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

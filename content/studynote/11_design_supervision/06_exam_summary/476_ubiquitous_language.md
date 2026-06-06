@@ -1,10 +1,9 @@
 ---
-title: "476. 유비쿼터스 언어 도메인 모델링 (Ubiquitous Language Domain Modeling)"
+title: "Ubiquitous Language Domain Modeling"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

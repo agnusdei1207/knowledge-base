@@ -1,10 +1,9 @@
 ---
-title: "121. 간접 통신 (Indirect Communication) - 메일박스/포트 사용"
+title: "121. Indirect Communication"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

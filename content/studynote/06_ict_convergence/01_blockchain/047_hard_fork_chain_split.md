@@ -1,10 +1,9 @@
 ---
-title: "047. 하드 포크 — Hard Fork & Chain Split"
+title: "047. Hard Fork Chain Split"
 date: "2026-04-05"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 > **핵심 인사이트**
 > 1. 하드 포크(Hard Fork)는 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 프로토콜을 이전 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)과 호환되지 않는 방식으로 업그레이드하는 것 — 과반수 노드가 새 규칙을 채택하지 않으면 체인이 영구 분리(Chain Split)되며, 이더리움 [DAO](/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) 사건과 비트코인 캐시 분리가 대표적 실례다.

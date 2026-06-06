@@ -1,10 +1,9 @@
 ---
-title: "23. Photon 엔진 (Databricks) — 네이티브 벡터화 실행 엔진"
+title: "074. Photon Engine"
 date: "2026-04-29"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Photon 엔진은 Databricks가 개발한 C++ 기반 네이티브 벡터화 실행 엔진(Vectorized Execution 엔진)으로, Apache Spark의 JVM(Java [Virtual Machine](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 오버헤드를 제거하고 CPU [SIMD](/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (Single [Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Multiple [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 활용하여 SQL/[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)프레임 연산을 최대 12배 가속화한다.

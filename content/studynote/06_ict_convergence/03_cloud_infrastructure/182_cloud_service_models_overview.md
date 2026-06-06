@@ -1,10 +1,9 @@
 ---
-title: "182. 클라우드 서비스 모델 (Cloud Service Models) 개요"
+title: "182. Cloud Service Models Overview"
 date: "2026-05-06"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

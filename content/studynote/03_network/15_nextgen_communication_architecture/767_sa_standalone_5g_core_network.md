@@ -1,10 +1,9 @@
 ---
-title: "767. SA (Standalone 코어까지 5G Core(5GC) 풀 전환 클라우드 네이티브 슬라이싱 전체 통제 네트워크 지연 해결 구축 모델 최신 릴리즈 채용 방식)"
+title: "767. Sa Standalone 5G Core Network"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

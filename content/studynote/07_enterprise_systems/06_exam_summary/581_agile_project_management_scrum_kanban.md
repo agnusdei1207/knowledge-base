@@ -1,10 +1,9 @@
 ---
-title: "581. 애자일 프로젝트 관리 스크럼 칸반 (Agile Project Management Scrum Kanban)"
+title: "Agile Project Management Scrum Kanban"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 애자일 프로젝트 관리 스크럼 칸반은(는) 반복적 전달과 흐름 관리를 통해 불확실한 요구사항에 빠르게 대응하는 프로젝트 관리 방식이다.

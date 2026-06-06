@@ -1,10 +1,9 @@
 ---
-title: "226. 데이터 메시 확산 (도메인 소유권, 자율 데이터 제품)"
+title: "231. Management"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "327. Next Header, 홉 제한 (Hop Limit, TTL 대응)"
+title: "Hop Limit, TTL"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

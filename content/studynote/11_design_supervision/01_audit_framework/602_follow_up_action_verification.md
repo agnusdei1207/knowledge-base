@@ -1,11 +1,10 @@
 ---
-title: "602. 조치 결과 확인 (시정조치 확인 보고서 발행)"
+title: "602. Follow Up Action Verification"
 date: "2026-03-04"
 description: "정보시스템 감리의 최종 완성 단계인 조치 결과 확인의 목적, 확인 방법론 및 법적 효력을 심층 분석합니다."
 tags:
   - "design_supervision"
 ---
-
 
 # 602. 조치 결과 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) ([Follow-up Audit](/studynote/11_design_supervision/01_audit_framework/601_follow_up_audit/) / 시정조치 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)) - 보고서 발행
 

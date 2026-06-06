@@ -1,10 +1,9 @@
 ---
-title: "132. Transfer Learning (전이 학습) - 사전 학습 모델의 재활용"
+title: "132. Transfer Learning"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Transfer Learning은 <strong>대규모 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>로 사전 학습된 모델의 지식을 새로운 작업에 전이(재활용)</strong>하는 학습 기법이며, [Foundation Model](/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/) 시대의 핵심 패러다임이다.

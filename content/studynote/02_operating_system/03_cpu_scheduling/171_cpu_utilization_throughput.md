@@ -1,10 +1,9 @@
 ---
-title: "171. CPU 이용률 (CPU Utilization) / 처리량 (Throughput)"
+title: "Throughput"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

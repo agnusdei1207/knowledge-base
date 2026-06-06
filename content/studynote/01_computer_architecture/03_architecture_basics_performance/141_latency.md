@@ -1,10 +1,9 @@
 ---
-title: "141. 지연 시간 (Latency)"
+title: "Latency"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

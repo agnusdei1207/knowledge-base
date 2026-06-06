@@ -1,10 +1,9 @@
 ---
-title: "592. ACID 트랜잭션 섀도우 페이징 롤백 속도 최적 디스크 I/O 절감 데이터베이스 구조"
+title: "592. Acid Shadow Paging"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

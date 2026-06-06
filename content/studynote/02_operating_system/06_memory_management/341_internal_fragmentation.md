@@ -1,10 +1,9 @@
 ---
-title: "341. 내부 단편화 (Internal Fragmentation) - 할당된 공간 내 남는 공간"
+title: "341. Internal Fragmentation"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

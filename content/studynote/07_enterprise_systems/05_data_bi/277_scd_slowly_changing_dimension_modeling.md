@@ -1,10 +1,9 @@
 ---
-title: "277. SCD (Slowly Changing Dimension) 모델링 기법"
+title: "277. Scd Slowly Changing Dimension Modeling"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

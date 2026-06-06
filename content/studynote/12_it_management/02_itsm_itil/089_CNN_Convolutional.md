@@ -1,11 +1,10 @@
 ---
-title: "89. 합성곱 신경망 (Convolutional Neural Network) - 공간 패턴 인식자"
+title: "089. Cnn Convolutional"
 date: "2026-04-05"
 description: "CNN의 구조, 합성곱 연산, 필터, 풀링, 이미지 인식에서의 역할과 한계점"
 tags:
   - "it_management"
 ---
-
 
 # 89. [합성곱](/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 신경망 (Convolutional Neural Network) - 공간 패턴 인식자
 

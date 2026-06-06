@@ -1,10 +1,9 @@
 ---
-title: "519. 클라우드 관측 가능성 종합 전략 (Cloud Observability Comprehensive Strategy)"
+title: "Cloud Observability Comprehensive Strategy"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

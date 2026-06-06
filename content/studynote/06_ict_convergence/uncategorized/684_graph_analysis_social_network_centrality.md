@@ -1,10 +1,9 @@
 ---
-title: "684. 그래프 분석 소셜 네트워크 중심성 (Graph Analysis Social Network Centrality)"
+title: "Graph Analysis Social Network Centrality"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

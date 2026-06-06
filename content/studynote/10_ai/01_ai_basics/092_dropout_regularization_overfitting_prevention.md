@@ -1,10 +1,9 @@
 ---
-title: "92. 드롭아웃 (Dropout) - 딥러닝 앙상블 효과와 과적합 억제"
+title: "092. Dropout Regularization Overfitting Prevention"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

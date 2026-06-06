@@ -1,10 +1,9 @@
 ---
-title: "560. SW 아키텍처 문서화 4+1 뷰 (Software Architecture Documentation 4+1 View)"
+title: "Software Architecture Documentation 4+1 View"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

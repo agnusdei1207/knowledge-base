@@ -1,10 +1,9 @@
 ---
-title: "450. BERT 양방향 MLM (BERT MLM Bidirectional)"
+title: "BERT MLM Bidirectional"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

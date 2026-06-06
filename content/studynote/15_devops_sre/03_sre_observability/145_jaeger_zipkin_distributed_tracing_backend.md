@@ -1,10 +1,9 @@
 ---
-title: "145. Jaeger & Zipkin - 분산 트레이싱 백엔드 비교"
+title: "145. Jaeger Zipkin Distributed Tracing Backend"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Jaeger(Uber, [CNCF](/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/))와 Zipkin(Twitter, [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/))은 <strong><a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 트레이스 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 수집·저장·<a href="/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a></strong>하는 트레이싱 백엔드이며, Waterfall UI로 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 호출 체인의 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)·에러를 분석한다.

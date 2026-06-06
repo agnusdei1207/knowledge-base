@@ -1,10 +1,9 @@
 ---
-title: "320. GNN + 벡터 DB (Milvus) 기반 추천 시스템"
+title: "320. Gnn Vector Db Recommendation"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

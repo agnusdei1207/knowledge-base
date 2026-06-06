@@ -1,10 +1,9 @@
 ---
-title: "444. 리팩터 클라우드 네이티브 재설계 (Refactor Cloud Native Redesign)"
+title: "Refactor Cloud Native Redesign"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

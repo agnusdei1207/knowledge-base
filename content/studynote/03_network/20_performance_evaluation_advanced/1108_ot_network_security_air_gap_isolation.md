@@ -1,10 +1,9 @@
 ---
-title: "1108. OT 망 (운영 기술 망) 분리 원단 통제"
+title: "1108. Ot Network Security Air Gap Isolation"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

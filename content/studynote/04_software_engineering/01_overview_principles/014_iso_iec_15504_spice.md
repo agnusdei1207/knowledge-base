@@ -1,11 +1,10 @@
 ---
-title: "14. ISO/IEC 15504 (SPICE) - 소프트웨어 프로세스 평가 표준"
+title: "014. Iso Iec 15504 Spice"
 date: "2024-05-01"
 description: "소프트웨어 프로세스의 능력 수준을 2차원(프로세스 차원, 능력 차원)으로 심사하고 개선하기 위한 국제 표준 평가 프레임워크"
 tags:
   - "software_engineering"
 ---
-
 
 # ISO/IEC 15504 ([SPICE](/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/))
 

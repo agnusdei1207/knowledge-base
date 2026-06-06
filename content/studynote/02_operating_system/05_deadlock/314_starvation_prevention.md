@@ -1,10 +1,9 @@
 ---
-title: "314. 기아 상태 (Starvation) 발생 방지 (희생자 선택에 횟수 제한)"
+title: "314. Starvation Prevention"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

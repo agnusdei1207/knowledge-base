@@ -1,10 +1,9 @@
 ---
-title: "297. SOA WSDL UDDI SOAP 서비스 지향"
+title: "297. Soa Wsdl Uddi Soap"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [SOA](/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/) [WSDL](/studynote/07_enterprise_systems/03_eai_esb_msa/152_wsdl_web_services_description_language/) [UDDI](/studynote/07_enterprise_systems/03_eai_esb_msa/151_uddi_universal_description_discovery_integration/) [SOAP](/studynote/07_enterprise_systems/03_eai_esb_msa/153_soap_simple_object_access_protocol/) [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 지향의 본질은 자산, 위협, [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 통제, 운영 증적이 한 체계로 연결되어야 보안과 규제 대응이 일회성 캠페인으로 끝나지 않는다.

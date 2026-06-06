@@ -1,10 +1,9 @@
 ---
-title: "287. 스키마 온 라이트 (Schema on Write) - RDB/DW 방식"
+title: "287. Schema On Write Rdb Dw Approach"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

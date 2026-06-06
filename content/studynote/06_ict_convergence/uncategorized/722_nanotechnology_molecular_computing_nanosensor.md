@@ -1,10 +1,9 @@
 ---
-title: "722. 나노 기술 분자 컴퓨팅 나노센서 (Nanotechnology Molecular Computing Nanosensor)"
+title: "Nanotechnology Molecular Computing Nanosensor"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

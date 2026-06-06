@@ -1,10 +1,9 @@
 ---
-title: "90. 프로세스 제어 블록 (PCB, Process Control Block) / 태스크 제어 블록 (TCB)"
+title: "TCB"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

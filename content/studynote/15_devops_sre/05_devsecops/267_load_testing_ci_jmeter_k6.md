@@ -1,10 +1,9 @@
 ---
-title: "267. 부하 테스트 (Load Testing) 및 스트레스 테스트 CI 파이프라인 임베드 (JMeter, k6)"
+title: "JMeter, k6"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

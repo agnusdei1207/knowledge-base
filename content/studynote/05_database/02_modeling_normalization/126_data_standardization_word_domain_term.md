@@ -1,10 +1,9 @@
 ---
-title: "126. 데이터 표준화 (단어·도메인·용어) - 전사 데이터 용어 통일 체계"
+title: "126. Data Standardization Word Domain Term"
 date: "2026-04-19"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표준화는 <strong>단어(<a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/">Word</a>)-><a href="/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>(<a href="/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a>)->용어(Term)->컬럼명의 체계적 정의</strong>를 통해 전사 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 명칭·형식·의미를 통일하는 활동이다.

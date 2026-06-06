@@ -1,9 +1,8 @@
 ---
-title: "3. 공간 복잡도 (Space Complexity)"
+title: "Space Complexity"
 tags:
   - "algorithm_stats"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 공간 복잡도(Space Complexity)는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 문제를 해결하는 데 필요한 총 메모리 양이며, 입력 크기 N이 증가할 때 필요한 메모리가 어떻게 증가하는지를 점근적으로 표현한 것이다.

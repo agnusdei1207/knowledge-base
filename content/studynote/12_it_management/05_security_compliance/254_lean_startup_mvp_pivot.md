@@ -1,10 +1,9 @@
 ---
-title: "254. 린 스타트업 MVP 피벗"
+title: "254. Lean Startup Mvp Pivot"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [린 스타트업](/studynote/12_it_management/01_governance_strategy/827_lean_startup/) [MVP](/studynote/12_it_management/01_governance_strategy/036_mvp/) 피벗의 본질은 현행 구조, 목표 구조, 전환 과제의 추적성이 확보되어야 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서가 실제 투자와 아키텍처 변화로 이어진다.

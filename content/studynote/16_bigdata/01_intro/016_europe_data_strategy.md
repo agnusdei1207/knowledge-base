@@ -1,11 +1,10 @@
 ---
-title: "16. 유럽 데이터 전략 — Data Spaces, Gaia-X"
+title: "016. Europe Data Strategy"
 date: "2024-05-24"
 description: "데이터 주권 확보와 안전한 데이터 공유를 위한 유럽의 Data Spaces 및 Gaia-X 연합 아키텍처 분석"
 tags:
   - "bigdata"
 ---
-
 
 # 16. 유럽 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) ([European Data Strategy](/studynote/16_bigdata/13_intro_trends/248_european_data_strategy/): [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Spaces & Gaia-X)
 

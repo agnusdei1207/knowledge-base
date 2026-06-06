@@ -1,10 +1,9 @@
 ---
-title: "610. 스마트 물류 자동화 라스트마일 배송 (Smart Logistics Automation Last Mile Delivery)"
+title: "Smart Logistics Automation Last Mile Delivery"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

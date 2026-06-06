@@ -1,10 +1,9 @@
 ---
-title: "639. 랙 스케일 아키텍처 (Rack Scale Architecture)"
+title: "Rack Scale Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

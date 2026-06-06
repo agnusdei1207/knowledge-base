@@ -1,10 +1,9 @@
 ---
-title: "473. 5G MEC 초저지연 엣지 서비스 (5G MEC Ultra Low Latency Edge Service)"
+title: "5G MEC Ultra Low Latency Edge Service"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ```markdown
 # 473. 5G MEC 초저지연 엣지 서비스 (5G MEC Ultra Low Latency Edge Service)

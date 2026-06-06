@@ -1,10 +1,9 @@
 ---
-title: "362. 서드파티 락인 (Lock-in) 멀티 클라우드 전환 컨테이너 이식성(Portability) 확보 전략"
+title: "362. Lock In Portability"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [서드파티](/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) 락인 (Lock-in) [멀티 클라우드](/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 전환 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이식성(Portability) 확보 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 본질은 자산, 위협, [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 통제, 운영 증적이 한 체계로 연결되어야 보안과 규제 대응이 일회성 캠페인으로 끝나지 않는다.

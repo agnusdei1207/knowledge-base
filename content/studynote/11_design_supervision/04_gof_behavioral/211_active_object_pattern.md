@@ -1,10 +1,9 @@
 ---
-title: "211. 액티브 오브젝트 패턴 (Active Object Pattern)"
+title: "Active Object Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

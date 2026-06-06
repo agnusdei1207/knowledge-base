@@ -1,10 +1,9 @@
 ---
-title: "040. AMI / Pseudoternary (교류 마크 반전 / 의사 삼진 부호)"
+title: "040. Ami Pseudoternary"
 date: "2026-03-30"
 tags:
   - "studynote-network"
 ---
-
 
 > **핵심 인사이트**
 > 1. [AMI](/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/)(Alternate Mark Inversion, 교류 마크 반전)는 0을 0전압, 1을 +V와 -V 교번(交番)으로 표현하는 삼진 부호 방식으로, DC 성분 제거와 단일 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [오류 탐지](/studynote/02_operating_system/01_overview_architecture/040_error_detection/)(연속 동극성 위반 검출)라는 두 가지 효과를 동시에 달성한다.

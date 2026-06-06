@@ -1,10 +1,9 @@
 ---
-title: "71. 운영체제 타이머 (Timer) - 시스템 클럭, 카운터"
+title: "071. Os Timer"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

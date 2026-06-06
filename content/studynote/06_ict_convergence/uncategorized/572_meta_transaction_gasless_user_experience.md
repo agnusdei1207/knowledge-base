@@ -1,10 +1,9 @@
 ---
-title: "572. 메타트랜잭션 가스리스 사용자 경험 (Meta Transaction Gasless User Experience)"
+title: "Meta Transaction Gasless User Experience"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

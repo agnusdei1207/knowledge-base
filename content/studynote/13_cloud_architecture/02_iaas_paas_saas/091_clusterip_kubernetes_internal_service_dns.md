@@ -1,10 +1,9 @@
 ---
-title: "91. ClusterIP - K8s 클러스터 내부 통신 전용 기본 서비스"
+title: "091. Clusterip Kubernetes Internal Service Dns"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

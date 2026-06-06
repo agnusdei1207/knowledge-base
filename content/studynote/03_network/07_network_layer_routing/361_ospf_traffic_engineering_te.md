@@ -1,10 +1,9 @@
 ---
-title: "361. OSPF 트래픽엔지니어링(TE) 연동"
+title: "361. Ospf Traffic Engineering Te"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

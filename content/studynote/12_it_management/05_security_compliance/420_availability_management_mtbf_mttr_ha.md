@@ -1,10 +1,9 @@
 ---
-title: "420. 가용성 관리 MTBF MTTR 고가용성 (Availability Management MTBF MTTR HA)"
+title: "Availability Management MTBF MTTR HA"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

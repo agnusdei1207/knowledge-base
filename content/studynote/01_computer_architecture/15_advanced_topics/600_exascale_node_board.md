@@ -1,10 +1,9 @@
 ---
-title: "600. 엑사스케일 컴퓨팅 노드 보드 (Exascale Node Board)"
+title: "Exascale Node Board"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

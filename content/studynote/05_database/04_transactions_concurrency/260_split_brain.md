@@ -1,10 +1,9 @@
 ---
-title: "260. 스플릿 브레인 (Split Brain) 현상"
+title: "260. Split Brain"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

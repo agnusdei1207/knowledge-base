@@ -1,10 +1,9 @@
 ---
-title: "766. 구독 경제 SaaS 리커링 수익 모델 (Subscription Economy SaaS Recurring Revenue)"
+title: "Subscription Economy SaaS Recurring Revenue"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 # 📘 기술사备考 노트: 766. 구독 경제 SaaS 리커링 수익 모델
 

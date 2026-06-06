@@ -1,10 +1,9 @@
 ---
-title: "433. 파이프 필터 쉘 데이터 스트리밍 변환 (Pipe-Filter Pattern)"
+title: "Pipe-Filter Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 1. **본질**: [파이프-필터 패턴](/studynote/11_design_supervision/02_architecture_principles/134_pipe_filter_pattern/)([Pipe-Filter](/studynote/04_software_engineering/04_testing_quality/207_pipe_filter_architecture_data_stream/) Pattern)은 입력 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 독립 필터가 순차 또는 병렬로 변환하고, [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)가 그 결과를 다음 단계로 전달하는 [데이터 중심](/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/) 처리 구조다.

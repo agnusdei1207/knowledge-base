@@ -1,10 +1,9 @@
 ---
-title: "372. 컨테이너 보안 이미지 스캐닝 런타임 보호 (Container Security Image Scanning Runtime)"
+title: "Container Security Image Scanning Runtime"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

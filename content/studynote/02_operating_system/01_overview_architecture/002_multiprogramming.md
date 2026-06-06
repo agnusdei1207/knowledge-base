@@ -1,10 +1,9 @@
 ---
-title: "2. 다중 프로그래밍 (Multiprogramming) - CPU 활용도 극대화"
+title: "002. Multiprogramming"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
 ---
-
 
 # [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) ([Multiprogramming](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/))
 

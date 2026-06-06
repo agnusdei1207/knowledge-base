@@ -1,11 +1,10 @@
 ---
-title: "87. Kafka MirrorMaker 2 — 클러스터 간 복제, DR"
+title: "087. Loss Function"
 date: "2026-04-05"
 description: "손실 함수의 정의와 역할, 분류/회귀별 주요 손실 함수, 커스텀 손실 함수 설계 원칙"
 tags:
   - "it_management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "525. B+Tree 인덱스 스플릿 병합 오버헤드 (Normalization)"
+title: "Normalization"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

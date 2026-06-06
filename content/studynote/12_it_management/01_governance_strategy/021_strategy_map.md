@@ -1,10 +1,9 @@
 ---
-title: "21. 전략 체계도 (Strategy Map)"
+title: "Strategy Map"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "682. 마이크로 프론트엔드 웹팩 연계"
+title: "682. Micro Frontend Webpack Federation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

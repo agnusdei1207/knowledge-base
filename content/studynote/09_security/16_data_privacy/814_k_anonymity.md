@@ -1,10 +1,9 @@
 ---
-title: "814. k-익명성 (k-anonymity)"
+title: "k-anonymity"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

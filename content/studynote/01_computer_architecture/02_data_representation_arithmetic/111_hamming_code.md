@@ -1,10 +1,9 @@
 ---
-title: "111. 해밍 코드 (Hamming Code)"
+title: "Hamming Code"
 date: "2026-05-05"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 해밍 코드(Hamming [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 사이사이에 여러 개의 [패리티 비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)를 교차 결합하여 심어 넣음으로써, <strong>스스로 에러 위치를 찾아내고 1비트를 고칠 수 있는 자기 정정 코드(FEC)</strong>다.

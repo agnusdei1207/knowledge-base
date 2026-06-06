@@ -1,10 +1,9 @@
 ---
-title: "380. 데이터 마트 Kimball 차원 모델링 (Data Mart Kimball Dimensional Modeling)"
+title: "Data Mart Kimball Dimensional Modeling"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

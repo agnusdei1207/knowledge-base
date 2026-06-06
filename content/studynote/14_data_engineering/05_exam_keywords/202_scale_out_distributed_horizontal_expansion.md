@@ -1,10 +1,9 @@
 ---
-title: "202. 스케일 아웃 (Scale-Out) 분산 수평 확장"
+title: "202. Scale Out Distributed Horizontal Expansion"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 스케일 아웃(Scale-Out)은 고성능 단일 서버를 키우는 대신, 저렴한 범용 서버를 수평으로 늘려 용량과 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 선형적으로 확장하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 컴퓨팅 패러다임이다.

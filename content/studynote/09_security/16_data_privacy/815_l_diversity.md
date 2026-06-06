@@ -1,10 +1,9 @@
 ---
-title: "815. l-다양성 (l-diversity)"
+title: "l-diversity"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

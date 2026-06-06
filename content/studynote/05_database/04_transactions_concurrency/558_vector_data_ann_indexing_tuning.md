@@ -1,10 +1,9 @@
 ---
-title: "558. 벡터 데이터 ANN 인덱싱 파라미터(M, efConstruction) 성능/리콜 튜닝"
+title: "558. Vector Data Ann Indexing Tuning"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

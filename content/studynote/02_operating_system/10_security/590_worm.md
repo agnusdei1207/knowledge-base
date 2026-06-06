@@ -1,10 +1,9 @@
 ---
-title: "590. 웜 (Worm) - 자가 복제 네트워크 전파 독자 실행"
+title: "590. Worm"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

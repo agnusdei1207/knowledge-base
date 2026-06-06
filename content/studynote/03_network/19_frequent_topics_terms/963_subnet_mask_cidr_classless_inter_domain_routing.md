@@ -1,10 +1,9 @@
 ---
-title: "963. 서브넷 마스크 (Subnet Mask) / CIDR"
+title: "963. Subnet Mask Cidr Classless Inter Domain Routing"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

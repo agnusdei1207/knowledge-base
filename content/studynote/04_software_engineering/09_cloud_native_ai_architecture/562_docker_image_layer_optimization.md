@@ -1,10 +1,9 @@
 ---
-title: "562. 도커(Docker) 이미지 계층(Layer) 최소화 기법"
+title: "562. Docker Image Layer Optimization"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

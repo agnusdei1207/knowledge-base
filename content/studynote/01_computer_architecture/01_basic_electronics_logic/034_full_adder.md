@@ -1,10 +1,9 @@
 ---
-title: "전가산기 (Full Adder) 와 리플 캐리 가산기"
+title: "034. Full Adder"
 date: "2026-03-04"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 > **핵심 인사이트 3줄**
 > 1. 전가산기(Full Adder)는 두 입력 비트와 이전 자리의 올림수(Carry-in)를 합산해 합(Sum)과 올림수(Carry-out)를 출력하는 조합 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로로, [반가산기](/studynote/01_computer_architecture/01_basic_electronics_logic/033_half_adder/)([Half Adder](/studynote/01_computer_architecture/01_basic_electronics_logic/033_half_adder/)) 2개와 OR 게이트 1개로 구성된다.

@@ -1,10 +1,9 @@
 ---
-title: "2. 사일로 (Silo) 현상 타파 - 부서 간 장벽을 허물고 공동의 목표(빠른 배포와 시스템 안정성) 달성"
+title: "002. Silo Hyeonhyung"
 date: "2026-04-05"
 tags:
   - "devops_sre"
 ---
-
 
 # 사일로 현상 타파
 

@@ -1,10 +1,9 @@
 ---
-title: "388. 강화학습 상태 가치 및 행동 가치(Q) 차이 Q-Learning 오프 폴리시 타겟 갱신망 (V)"
+title: "V"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

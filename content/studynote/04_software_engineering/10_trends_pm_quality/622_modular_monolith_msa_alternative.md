@@ -1,10 +1,9 @@
 ---
-title: "622. 모듈러 모놀리스 MSA 대안적 접근"
+title: "622. Modular Monolith Msa Alternative"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

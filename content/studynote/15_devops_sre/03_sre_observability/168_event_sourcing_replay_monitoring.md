@@ -1,10 +1,9 @@
 ---
-title: "168. 이벤트 소싱 상태 복구 모니터링 (Event Sourcing Replay Monitoring)"
+title: "Event Sourcing Replay Monitoring"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

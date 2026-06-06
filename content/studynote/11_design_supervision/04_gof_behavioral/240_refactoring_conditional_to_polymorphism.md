@@ -1,10 +1,9 @@
 ---
-title: "240. 조건문을 다형성으로 전환 (Replace Conditional with Polymorphism)"
+title: "Replace Conditional with Polymorphism"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

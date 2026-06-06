@@ -1,10 +1,9 @@
 ---
-title: "22. 정보보안 정책 — 최고 경영진 승인, 문서화된 규칙"
+title: "022. Information Security Policy"
 date: "2026-04-02"
 tags:
   - "studynote-security"
 ---
-
 
 # 정보보안 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) ([Security Policy](/studynote/09_security/01_intro_principles/007_security_policy/))
 

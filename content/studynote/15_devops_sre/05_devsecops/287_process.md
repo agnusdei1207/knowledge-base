@@ -1,10 +1,9 @@
 ---
-title: "287. 블루 그린 (전면 스위칭 롤백 유리 2배 자원)"
+title: "287. Process"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

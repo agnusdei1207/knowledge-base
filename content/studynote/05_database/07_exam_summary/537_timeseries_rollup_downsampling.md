@@ -1,10 +1,9 @@
 ---
-title: "537. 시계열 DB 롤업 다운샘플링 쿼리 효율화"
+title: "537. Timeseries Rollup Downsampling"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

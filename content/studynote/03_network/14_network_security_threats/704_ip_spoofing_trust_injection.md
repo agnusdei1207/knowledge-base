@@ -1,10 +1,9 @@
 ---
-title: "704. IP 스푸핑 (IP Spoofing)"
+title: "IP Spoofing"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "797. ICT 융합 기술사 합격 최종 키워드 정리 (ICT PE Pass Final Keywords Summary)"
+title: "ICT PE Pass Final Keywords Summary"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

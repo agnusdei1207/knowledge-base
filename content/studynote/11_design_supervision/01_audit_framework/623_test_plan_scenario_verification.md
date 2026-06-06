@@ -1,10 +1,9 @@
 ---
-title: "623. 테스트 계획서·시나리오·확인 — Test Plan, Scenario, Verification"
+title: "623. Test Plan Scenario Verification"
 date: "2026-04-05"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 > **핵심 인사이트**
 > 1. 테스트 계획서(Test Plan)는 무엇을, 어떻게, 언제, 누가 테스트할지를 정의한 테스트의 "헌법" — IEEE 829 표준이 테스트 계획서 구조를 정의하며, 잘 작성된 계획서는 QA팀과 개발팀 간 기대 불일치를 예방한다.

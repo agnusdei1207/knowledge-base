@@ -1,10 +1,9 @@
 ---
-title: "496. 기술 아키텍처 인프라 참조 모델 (Technology Architecture Infrastructure Reference)"
+title: "Technology Architecture Infrastructure Reference"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

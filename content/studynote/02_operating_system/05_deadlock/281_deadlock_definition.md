@@ -1,10 +1,9 @@
 ---
-title: "281. 교착 상태 (Deadlock) 정의 - 대기 중인 프로세스들이 자원을 점유한 채로 결코 일어나지 않을 사건을 기다리는 상태"
+title: "281. Deadlock Definition"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

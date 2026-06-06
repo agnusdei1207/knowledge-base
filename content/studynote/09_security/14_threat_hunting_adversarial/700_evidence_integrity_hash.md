@@ -1,10 +1,9 @@
 ---
-title: "700. MD5/SHA-256 해시 (Evidence Integrity Hash)"
+title: "Evidence Integrity Hash"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

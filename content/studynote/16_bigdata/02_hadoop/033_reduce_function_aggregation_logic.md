@@ -1,10 +1,9 @@
 ---
-title: "Reduce 함수: 분산 데이터의 최종 집계 및 요약"
+title: "033. Reduce Function Aggregation Logic"
 date: "2026-03-04"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 - 맵(Map) 단계에서 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 동일한 키([Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 가진 모든 값들을 모아 하나의 결과로 집계하는 [맵리듀스](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)의 최종 처리 단계임.

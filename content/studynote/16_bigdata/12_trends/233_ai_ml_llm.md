@@ -1,10 +1,9 @@
 ---
-title: "228. AI + 빅데이터 융합 (대규모 ML 학습, LLM 기반 데이터 분석)"
+title: "ML , LLM"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

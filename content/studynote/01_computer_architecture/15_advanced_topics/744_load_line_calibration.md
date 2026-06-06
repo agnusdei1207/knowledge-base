@@ -1,10 +1,9 @@
 ---
-title: "744. 로드 라인 캘리브레이션 (LLC)"
+title: "LLC"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

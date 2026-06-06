@@ -1,10 +1,9 @@
 ---
-title: "1036. EPCglobal 망 아키텍처"
+title: "1036. Epcglobal Rfid Network Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

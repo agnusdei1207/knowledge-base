@@ -1,10 +1,9 @@
 ---
-title: "273. 생각의 사슬 (CoT, Chain-of-Thought)"
+title: "CoT, Chain-of-Thought"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

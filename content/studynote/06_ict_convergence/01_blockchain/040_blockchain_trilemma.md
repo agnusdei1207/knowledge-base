@@ -1,10 +1,9 @@
 ---
-title: "040. 블록체인 트릴레마 (Blockchain Trilemma)"
+title: "Blockchain Trilemma"
 date: "2026-03-19"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 > **핵심 인사이트**
 > 1. [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 트릴레마([Blockchain Trilemma](/studynote/06_ict_convergence/01_blockchain/482_blockchain_trilemma_scalability_decentralization_security/))는 Vitalik Buterin이 명명한 개념으로, 분산화([Decentralization](/studynote/06_ict_convergence/01_blockchain/010_decentralization/))·[보안성](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)([Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))·확장성(Scalability) 세 가지를 동시에 완벽히 달성할 수 없다는 근본적 제약이다.

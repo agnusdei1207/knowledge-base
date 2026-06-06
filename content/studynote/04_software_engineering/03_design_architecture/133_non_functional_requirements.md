@@ -1,10 +1,9 @@
 ---
-title: "133. 비기능 요구사항 (NFR) - 시스템 품질 속성 정의"
+title: "133. Non Functional Requirements"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: NFR(Non-Functional Requirements)은 <strong>시스템이 "어떻게" 동작해야 하는가의 품질 <a href="/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a></strong>으로, [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·보안·[가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)·확장성·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/) 등을 정의하며 ISO 25010이 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 표준이다.

@@ -1,10 +1,9 @@
 ---
-title: "528. vLLM과 PagedAttention KV 캐시 최적화 (vLLM PagedAttention KV Cache Optimization)"
+title: "vLLM PagedAttention KV Cache Optimization"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

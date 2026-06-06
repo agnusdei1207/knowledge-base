@@ -1,11 +1,10 @@
 ---
-title: "90. Azure Event Hubs — Kafka 호환 API, AMQP 지원"
+title: "090. Rnn Lstm"
 date: "2026-04-05"
 description: "RNN의 기본 구조와 한계, LSTM의 게이트 메커니즘, 시계열/NLP에서의 활용"
 tags:
   - "it_management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

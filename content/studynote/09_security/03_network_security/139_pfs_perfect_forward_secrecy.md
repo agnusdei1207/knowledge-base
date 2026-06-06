@@ -1,10 +1,9 @@
 ---
-title: "139. 전방 비밀성 (PFS, Perfect Forward Secrecy)"
+title: "PFS, Perfect Forward Secrecy"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

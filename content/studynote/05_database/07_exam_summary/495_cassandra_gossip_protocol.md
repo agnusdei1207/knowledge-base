@@ -1,10 +1,9 @@
 ---
-title: "495. 카산드라 가십 프로토콜 노드 상태 전파"
+title: "495. Cassandra Gossip Protocol"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

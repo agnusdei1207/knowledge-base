@@ -1,10 +1,9 @@
 ---
-title: "239. 마이크로 프론트엔드 (Micro Frontends)"
+title: "Micro Frontends"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 마이크로 프론트엔드 (Micro Frontends)의 본질은 백엔드 [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 사상을 프론트엔드 UI 화면에도 분할 적용하여 독립 조직별 배포 보장 구조를 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.

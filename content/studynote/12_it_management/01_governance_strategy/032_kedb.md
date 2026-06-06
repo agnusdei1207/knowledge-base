@@ -1,10 +1,9 @@
 ---
-title: "KEDB (Known Error Database, 기지 오류 데이터베이스)"
+title: "Known Error Database,"
 date: "2026-03-03"
 tags:
   - "studynote-it-management"
 ---
-
 
 > **핵심 인사이트 3줄**
 > 1. [KEDB](/studynote/12_it_management/02_itsm_itil/862_kedb/)([Known Error Database](/studynote/12_it_management/02_itsm_itil/862_kedb/))는 IT [서비스 운영](/studynote/12_it_management/02_itsm_itil/067_service_operation/) 중 발생한 근본 원인이 확인된 오류와 임시 조치([Workaround](/studynote/12_it_management/02_itsm_itil/860_workaround_temporary_fix_incident/))를 저장한 [ITIL](/studynote/12_it_management/02_itsm_itil/846_itil/) [문제 관리](/studynote/12_it_management/02_itsm_itil/861_problem_management/) [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)다.

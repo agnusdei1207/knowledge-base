@@ -1,10 +1,9 @@
 ---
-title: "035. ECAB — 긴급 변경 자문 위원회 (Emergency Change Advisory Board)"
+title: "Emergency Change Advisory Board"
 date: "2026-03-03"
 tags:
   - "studynote-it-management"
 ---
-
 
 > **핵심 인사이트**
 > 1. [ECAB](/studynote/12_it_management/02_itsm_itil/865_feature_engineering/) (Emergency Change Advisory Board)는 [ITIL](/studynote/12_it_management/02_itsm_itil/846_itil/) [변경 관리](/studynote/12_it_management/02_itsm_itil/079_change_enablement/) 체계에서 긴급 변경(Emergency Change)을 신속하게 승인·검토하는 소규모·권한 위임 위원회로, 전체 [CAB](/studynote/12_it_management/02_itsm_itil/080_cab/) (Change Advisory Board)를 소집할 시간이 없을 때 대안적 거버넌스를 제공한다.

@@ -1,10 +1,9 @@
 ---
-title: "222. 데이터 메시 (Data Mesh) 분산 오너십 데이터 프로덕트"
+title: "222. Data Mesh Distributed Ownership Data Product"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터 메시](/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)([Data Mesh](/studynote/12_it_management/05_security_compliance/320_data_mesh/))는 중앙집중식 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀의 병목을 제거하기 위해 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 프로덕트([Data Product](/studynote/16_bigdata/07_data_lake/154_data_product/))의 소유권과 품질을 직접 책임지는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)형 [데이터 아키텍처](/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 패러다임이다.

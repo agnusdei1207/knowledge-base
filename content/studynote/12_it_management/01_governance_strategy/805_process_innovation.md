@@ -1,11 +1,10 @@
 ---
-title: "805. PI (Process Innovation) - 점진적이고 지속적인 프로세스 혁신"
+title: "805. Process Innovation"
 date: "2026-04-05"
 description: "정보기술을 활용하여 업무 프로세스의 본질적创新을 통해 기업 경쟁력을 높이는 기법"
 tags:
   - "it_management"
 ---
-
 
 # PI (프로세스 혁신: [Process](/studynote/12_it_management/05_security_compliance/943_process/) Innovation)
 

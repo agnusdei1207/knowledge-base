@@ -1,10 +1,9 @@
 ---
-title: "391. CWPP 클라우드 워크로드 보호 플랫폼 (Cloud Workload Protection Platform CWPP)"
+title: "Cloud Workload Protection Platform CWPP"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

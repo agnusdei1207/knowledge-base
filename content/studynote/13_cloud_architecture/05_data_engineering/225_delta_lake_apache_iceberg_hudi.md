@@ -1,10 +1,9 @@
 ---
-title: "225. 델타 레이크 / Apache Iceberg / Apache Hudi"
+title: "225. Delta Lake Apache Iceberg Hudi"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [Delta Lake](/studynote/16_bigdata/07_data_lake/147_delta_lake/)·Iceberg·Hudi는 [오브젝트 스토리지](/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/)(S3) 위의 [Parquet](/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들에 <strong>ACID <a href="/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>·타임트래블·<a href="/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 진화</strong>라는 DB 수준 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) 레이어를 추가하는 오픈 소스 테이블 포맷이다.

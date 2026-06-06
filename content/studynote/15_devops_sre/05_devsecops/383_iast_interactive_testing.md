@@ -1,10 +1,9 @@
 ---
-title: "383. IAST 인터랙티브 보안 테스트 런타임 분석 (Interactive Application Security Testing IAST)"
+title: "Interactive Application Security Testing IAST"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

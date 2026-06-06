@@ -1,10 +1,9 @@
 ---
-title: "561. 개인정보 보호 GDPR PIPA 컴플라이언스 (Privacy Protection GDPR PIPA Compliance)"
+title: "Privacy Protection GDPR PIPA Compliance"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개인정보 보호 GDPR PIPA 컴플라이언스은(는) 개인정보 수집·이용·보관·파기 전 과정에서 법적 요구와 정보주체 권리를 보장하는 체계이다.

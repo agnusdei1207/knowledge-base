@@ -1,10 +1,9 @@
 ---
-title: "318. 트리 구조 저장을 위한 NoSQL 모델 (Materialized Path, Nested Sets)"
+title: "Materialized Path, Nested Sets"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

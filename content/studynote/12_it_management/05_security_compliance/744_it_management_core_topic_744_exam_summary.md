@@ -1,10 +1,9 @@
 ---
-title: "744. IT 경영 관리 핵심 토픽 744번 시험 요약 (IT Management Core Topic 744 Exam Summary)"
+title: "IT Management Core Topic 744 Exam Summary"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 # 744. IT 거버넌스(Information Technology Governance) — 기술사 시험 심화 정리
 

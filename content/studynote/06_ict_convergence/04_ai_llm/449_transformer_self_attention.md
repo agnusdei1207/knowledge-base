@@ -1,10 +1,9 @@
 ---
-title: "449. 트랜스포머 셀프 어텐션 병렬 (Transformer SELF Attention)"
+title: "Transformer SELF Attention"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

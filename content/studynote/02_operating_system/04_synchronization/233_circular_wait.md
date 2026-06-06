@@ -1,10 +1,9 @@
 ---
-title: "233. 스핀락 (Spinlock) - 바쁜 대기(Busy Waiting), 다중 코어에서 문맥 교환 오버헤드 없음"
+title: "233. Circular Wait"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

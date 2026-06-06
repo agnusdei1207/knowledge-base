@@ -1,10 +1,9 @@
 ---
-title: "392. GDPR 일반 데이터 보호 규정 대응 (GDPR General Data Protection Regulation)"
+title: "GDPR General Data Protection Regulation"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

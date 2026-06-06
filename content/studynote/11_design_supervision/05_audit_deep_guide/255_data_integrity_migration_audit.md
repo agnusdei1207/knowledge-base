@@ -1,10 +1,9 @@
 ---
-title: "255. 데이터 무결성 이행 감리 (Data Integrity Migration Audit)"
+title: "Data Integrity Migration Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "280. SCD Type 3 - 과거 컬럼 추가 제한적 이력 보존"
+title: "280. Scd Type3 Previous Column Limited History"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

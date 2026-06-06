@@ -1,9 +1,8 @@
 ---
-title: "96. Spotify 모델 - Tribe, Squad, Chapter, Guild"
+title: "096. Spotify Model Tribe Squad"
 tags:
   - "software_engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 스포티파이 (Spotify) 모델은 수천 명의 직원이 관료제에 갇히지 않고 수십 개의 작은 스타트업처럼 민첩하게 일하도록 고안된 독창적인 '[애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 매트릭스 조직' 설계 방법론이다.

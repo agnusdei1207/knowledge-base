@@ -1,10 +1,9 @@
 ---
-title: "220. 정보 프레임(I-Frame), 감독/제어(S-Frame / RR, RNR, REJ, SREJ), 비번호(U-Frame)"
+title: "U-Frame"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

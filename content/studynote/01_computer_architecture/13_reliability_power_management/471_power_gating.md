@@ -1,10 +1,9 @@
 ---
-title: "471. 전력 게이팅 (Power Gating)"
+title: "Power Gating"
 date: "2026-03-22"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

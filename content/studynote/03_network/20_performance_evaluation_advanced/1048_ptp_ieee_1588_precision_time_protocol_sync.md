@@ -1,10 +1,9 @@
 ---
-title: "1048. IEEE 1588 PTP 시각 동기망"
+title: "1048. Ptp Ieee 1588 Precision Time Protocol Sync"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

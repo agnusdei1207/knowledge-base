@@ -1,10 +1,9 @@
 ---
-title: "495. 데이터 아키텍처 전사 데이터 모델 (Data Architecture Enterprise Data Model)"
+title: "Data Architecture Enterprise Data Model"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

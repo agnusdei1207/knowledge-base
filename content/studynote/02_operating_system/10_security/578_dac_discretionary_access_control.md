@@ -1,10 +1,9 @@
 ---
-title: "578. 임의적 접근 제어 (DAC, Discretionary Access Control) - 소유자가 임의로 권한 위임"
+title: "578. Dac Discretionary Access Control"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

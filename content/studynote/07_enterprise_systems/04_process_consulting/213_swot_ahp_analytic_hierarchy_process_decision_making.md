@@ -1,10 +1,9 @@
 ---
-title: "213. SWOT-AHP (Analytic Hierarchy Process) 다기준 의사결정 분석법을 통한 IT 전략 가중치 우선순위 산정"
+title: "213. Swot Ahp Analytic Hierarchy Process Decision Making"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "198. 비즈니스 룰 엔진 (BRE, Business Rule 엔진)"
+title: "BRE, Business Rule"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

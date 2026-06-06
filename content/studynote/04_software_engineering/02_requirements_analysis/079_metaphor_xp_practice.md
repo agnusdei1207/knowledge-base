@@ -1,10 +1,9 @@
 ---
-title: "079. 메타포 (Metaphor - XP Practice)"
+title: "Metaphor - XP Practice"
 date: "2026-05-05"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [eXtreme Programming](/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/)([XP](/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/))의 핵심 실천법 중 하나인 메타포(Metaphor)는, 복잡하고 추상적인 소프트웨어 아키텍처를 개발자와 고객 모두가 즉시 이해할 수 있는 <strong>'현실 세계의 쉬운 비유(은유)'로 이름 짓는 의사소통 체계</strong>다.

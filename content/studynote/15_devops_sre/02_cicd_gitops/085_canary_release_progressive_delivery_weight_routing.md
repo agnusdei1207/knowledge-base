@@ -1,10 +1,9 @@
 ---
-title: "85. 카나리 배포 (Canary Release) - 1% 트래픽 점진적 무중단 배포"
+title: "085. Canary Release Progressive Delivery Weight Routing"
 date: "2026-04-10"
 tags:
   - "studynote-devops"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

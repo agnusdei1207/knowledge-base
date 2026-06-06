@@ -1,10 +1,9 @@
 ---
-title: "154. ESB (Enterprise Service Bus) - 스파게티 강결합을 찢어발긴 SOA 중앙 고속도로 통역 뇌"
+title: "154. Esb Enterprise Service Bus Soa"
 date: "2026-05-03"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [ESB](/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/) ([Enterprise Service Bus](/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/))는 거대한 전사 기업 인프라에서 수백 개의 낡고 새로운 이기종 서버([ERP](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/), [CRM](/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/), C언어 메인프레임) 쇳덩이들이 서로 1:1([Point-to-Point](/studynote/07_enterprise_systems/03_eai_esb_msa/142_point_to_point_integration_spaghetti/)) 다이렉트 직통 찌르기로 얽혀 뻗어버리는 스파게티 강결합 지옥을 척살 타파하기 위해 -> <strong>정중앙을 관통하는 거대한 1통짜리 '<a href="/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>지 <a href="/studynote/01_computer_architecture/09_system_bus_interconnects/345_data_bus/">데이터 버스</a>(<a href="/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">Bus</a> 고속도로)'를 뚫어주는 <a href="/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/">SOA</a> 0순위 지능형 백본 미들웨어(Middleware) 대장 봇</strong>이다.

@@ -1,10 +1,9 @@
 ---
-title: "491. Web Cache Deception (웹 캐시 디셉션)"
+title: "491. Web Cache Deception"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

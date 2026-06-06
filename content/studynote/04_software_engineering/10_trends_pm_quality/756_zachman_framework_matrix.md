@@ -1,10 +1,9 @@
 ---
-title: "756. 잭맨 프레임워크 6x6 매트릭스"
+title: "756. Zachman Framework Matrix"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

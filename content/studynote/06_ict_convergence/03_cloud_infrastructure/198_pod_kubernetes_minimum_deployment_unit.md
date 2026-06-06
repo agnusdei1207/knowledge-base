@@ -1,10 +1,9 @@
 ---
-title: "198. Pod (포드)"
+title: "198. Pod Kubernetes Minimum Deployment Unit"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

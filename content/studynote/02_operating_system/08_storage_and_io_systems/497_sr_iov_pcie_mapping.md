@@ -1,10 +1,9 @@
 ---
-title: "497. SR-IOV (Single Root I/O Virtualization) - 가상 머신에 물리적 PCIe 장치 직접 매핑"
+title: "497. Sr Iov Pcie Mapping"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

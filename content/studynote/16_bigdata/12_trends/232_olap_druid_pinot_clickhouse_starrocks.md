@@ -1,10 +1,9 @@
 ---
-title: "227. 실시간 OLAP 성장 (Druid, Pinot, ClickHouse, StarRocks)"
+title: "Druid, Pinot, ClickHouse, StarRocks"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

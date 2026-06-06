@@ -1,10 +1,9 @@
 ---
-title: "빌드 캐싱 최적화: CI/CD 병목을 뚫는 레이어 전략"
+title: "105. Build Caching Optimization Docker Layer"
 date: "2026-03-04"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

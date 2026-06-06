@@ -1,9 +1,8 @@
 ---
-title: "75. 공동 코드 소유 (Collective Code Ownership)"
+title: "Collective Code Ownership"
 tags:
   - "software_engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

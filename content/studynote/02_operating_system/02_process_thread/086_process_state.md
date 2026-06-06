@@ -1,10 +1,9 @@
 ---
-title: "86. 프로세스 상태 (Process State)"
+title: "Process State"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

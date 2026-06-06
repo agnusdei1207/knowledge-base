@@ -1,10 +1,9 @@
 ---
-title: "201. 소프트웨어 아키텍처 (Software Architecture) 정의"
+title: "201. Software Architecture Definition"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

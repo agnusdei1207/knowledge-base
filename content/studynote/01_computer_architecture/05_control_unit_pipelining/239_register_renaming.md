@@ -1,10 +1,9 @@
 ---
-title: "239. 레지스터 리네이밍 (Register Renaming)"
+title: "Register Renaming"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

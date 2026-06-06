@@ -1,10 +1,9 @@
 ---
-title: "181. SRE (Site Reliability 엔진ering) 임베디드 운영 모델 (Embedded Model)"
+title: "Embedded Model"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

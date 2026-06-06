@@ -1,10 +1,9 @@
 ---
-title: "613. 클라우드 기반 감리 (Cloud-Based Audit)"
+title: "Cloud-Based Audit"
 date: "2026-03-03"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 > **핵심 인사이트**
 > 1. 클라우드 기반 감리는 전통적 현장 방문 대신 원격 접속·클라우드 산출물 검토·[API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 기반 자동화 도구를 활용해 [SaaS](/studynote/12_it_management/05_security_compliance/951_saas/)·[PaaS](/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/)·[IaaS](/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/) 환경의 정보시스템을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 현대화된 감리 방식이다.

@@ -1,10 +1,9 @@
 ---
-title: "206. 서버리스 (Serverless) 함수 호출 및 콜드 스타트 극복 방안"
+title: "206. Serverless Cold Start"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 서버리스 (Serverless) [함수 호출](/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 및 [콜드 스타트](/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) 극복 방안의 본질은 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델, 자동화, 비용·보안 책임, 운영 관측성이 함께 설계되어야 클라우드 도입 효과가 지속된다.

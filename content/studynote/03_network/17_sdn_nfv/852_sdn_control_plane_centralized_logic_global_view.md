@@ -1,10 +1,9 @@
 ---
-title: "852. SDN 제어 평면"
+title: "852. Sdn Control Plane Centralized Logic Global View"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

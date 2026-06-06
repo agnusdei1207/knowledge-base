@@ -1,10 +1,9 @@
 ---
-title: "605. OTA 무선 업데이트 펌웨어 관리 (OTA Over-the-Air Update Firmware Management)"
+title: "OTA Over-the-Air Update Firmware Management"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

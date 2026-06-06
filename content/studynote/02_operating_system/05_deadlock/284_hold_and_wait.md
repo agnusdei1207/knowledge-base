@@ -1,10 +1,9 @@
 ---
-title: "284. 점유하며 대기 (Hold-and-Wait) - 자원을 보유한 상태로 다른 자원 대기"
+title: "284. Hold And Wait"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

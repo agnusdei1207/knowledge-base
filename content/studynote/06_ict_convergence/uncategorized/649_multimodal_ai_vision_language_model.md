@@ -1,10 +1,9 @@
 ---
-title: "649. 멀티모달 AI 비전 언어 모델 (Multimodal AI Vision Language Model)"
+title: "Multimodal AI Vision Language Model"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

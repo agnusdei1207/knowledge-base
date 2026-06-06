@@ -1,10 +1,9 @@
 ---
-title: "448. 클라우드 평가 TCO ROI 비용 분석 (Cloud Assessment TCO ROI Cost Analysis)"
+title: "Cloud Assessment TCO ROI Cost Analysis"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

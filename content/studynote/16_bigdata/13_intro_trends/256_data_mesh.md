@@ -1,10 +1,9 @@
 ---
-title: "044. 데이터 메시 — Data Mesh"
+title: "256. Data Mesh"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"
 ---
-
 
 > **핵심 인사이트**
 > 1. [데이터 메시](/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)([Data Mesh](/studynote/12_it_management/05_security_compliance/320_data_mesh/))는 Zhamak Dehghani(2019)가 제안한 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터 아키텍처](/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 패러다임으로 — 중앙집중식 [데이터 레이크](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)/[데이터 웨어하우스](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)의 "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병목([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Bottleneck](/studynote/02_operating_system/10_security/617_io_bottleneck/))"을 해결하기 위해 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀이 직접 [데이터 제품](/studynote/16_bigdata/07_data_lake/154_data_product/)([Data Product](/studynote/16_bigdata/07_data_lake/154_data_product/))을 소유·운영하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터 거버넌스](/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/) 모델이다.

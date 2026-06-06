@@ -1,10 +1,9 @@
 ---
-title: "898. Modbus 프로토콜 (Modbus Protocol)"
+title: "Modbus Protocol"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

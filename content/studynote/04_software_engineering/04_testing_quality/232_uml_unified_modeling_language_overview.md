@@ -1,10 +1,9 @@
 ---
-title: "232. UML (Unified Modeling Language) - OMG 표준 객체지향 모델링 언어"
+title: "232. Uml Unified Modeling Language Overview"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

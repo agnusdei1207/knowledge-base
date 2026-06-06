@@ -1,10 +1,9 @@
 ---
-title: "183. 컴포지트 파티셔닝 (Composite Partitioning) - 복합 (Range + Hash 등)"
+title: "Range + Hash"
 date: "2026-05-06"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

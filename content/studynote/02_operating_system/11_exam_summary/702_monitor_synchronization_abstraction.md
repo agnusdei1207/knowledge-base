@@ -1,10 +1,9 @@
 ---
-title: "702. 모니터 (Monitor) 동기화 추상화"
+title: "702. Monitor Synchronization Abstraction"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

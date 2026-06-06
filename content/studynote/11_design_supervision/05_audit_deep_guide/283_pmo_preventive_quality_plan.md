@@ -1,10 +1,9 @@
 ---
-title: "283. PMO 예방적 품질통제 계획 (PMO Preventive Quality Plan)"
+title: "PMO Preventive Quality Plan"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

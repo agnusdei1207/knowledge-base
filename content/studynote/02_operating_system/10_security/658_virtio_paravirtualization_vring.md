@@ -1,10 +1,9 @@
 ---
-title: "658. Virtio - 반가상화 I/O 백엔드/프론트엔드 링버퍼(Vring) 디바이스 드라이버 구조"
+title: "658. Virtio Paravirtualization Vring"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

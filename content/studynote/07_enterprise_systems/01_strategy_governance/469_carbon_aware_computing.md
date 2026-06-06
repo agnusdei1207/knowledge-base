@@ -1,10 +1,9 @@
 ---
-title: "469. 탄소 인지 컴퓨팅 (Carbon-Aware Computing)"
+title: "Carbon-Aware Computing"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

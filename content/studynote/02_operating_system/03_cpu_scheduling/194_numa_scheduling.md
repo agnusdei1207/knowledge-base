@@ -1,10 +1,9 @@
 ---
-title: "194. 비대칭 다중 처리 (ASMP) 스케줄링"
+title: "194. Numa Scheduling"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

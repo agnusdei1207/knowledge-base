@@ -1,10 +1,9 @@
 ---
-title: "163. 장기 스케줄러 (Long-term Scheduler) - 다중 프로그래밍 정도 조절"
+title: "163. Long Term Scheduler"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

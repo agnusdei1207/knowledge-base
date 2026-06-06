@@ -1,10 +1,9 @@
 ---
-title: "450. 가비지 컬렉션 스톱 더 월드 메모리 튜닝 (Garbage Collection Stop-the-World Memory Tuning)"
+title: "Garbage Collection Stop-the-World Memory Tuning"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 1. **본질**: 스톱 더 월드(STW, Stop-the-World)는 [가비지 컬렉션](/studynote/02_operating_system/06_memory_management/380_garbage_collection/) 중 애플리케이션 실행을 잠시 멈추는 현상이며, 메모리 튜닝은 이 정지 시간과 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 사이의 균형을 맞추는 작업이다.

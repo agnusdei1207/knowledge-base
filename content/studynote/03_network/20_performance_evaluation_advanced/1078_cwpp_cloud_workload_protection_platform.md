@@ -1,10 +1,9 @@
 ---
-title: "1078. 클라우스 보안 워크로드 CWPP 통제망"
+title: "1078. Cwpp Cloud Workload Protection Platform"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

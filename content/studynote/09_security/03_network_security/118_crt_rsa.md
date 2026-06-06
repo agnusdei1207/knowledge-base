@@ -1,10 +1,9 @@
 ---
-title: "118. CRT (Chinese Remainder Theorem, 중국인의 나머지 정리)"
+title: "Chinese Remainder Theorem,"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

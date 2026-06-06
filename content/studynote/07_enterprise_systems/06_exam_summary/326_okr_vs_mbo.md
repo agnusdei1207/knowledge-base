@@ -1,10 +1,9 @@
 ---
-title: "326. OKR vs MBO 성과 평가 패러다임 차이 (OKR vs MBO)"
+title: "OKR vs MBO"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

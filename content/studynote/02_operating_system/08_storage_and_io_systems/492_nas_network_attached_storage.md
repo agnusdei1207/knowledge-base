@@ -1,10 +1,9 @@
 ---
-title: "492. NAS (Network Attached Storage) - 파일 단위 접근 (NFS, SMB/CIFS)"
+title: "NFS, SMB/CIFS"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

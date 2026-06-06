@@ -1,10 +1,9 @@
 ---
-title: "135. 광전송 용어"
+title: "135. Optical Transmission Components"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "182. 논리적 링크 제어 (LLC, Logical Link Control) - IEEE 802.2"
+title: "182. Llc Logical Link Control"
 date: "2026-05-06"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

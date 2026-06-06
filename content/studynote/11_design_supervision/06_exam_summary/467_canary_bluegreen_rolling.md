@@ -1,10 +1,9 @@
 ---
-title: "467. 카나리 배포 블루 그린 롤링 전략 (Canary Blue Green Rolling Deployment)"
+title: "Canary Blue Green Rolling Deployment"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

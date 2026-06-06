@@ -1,10 +1,9 @@
 ---
-title: "391. 릴레이션 스키마 (내포 / Intension) 구조"
+title: "391. Relation Schema Intension"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

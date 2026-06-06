@@ -1,10 +1,9 @@
 ---
-title: "1055. 화이트박스 OCP 스위치"
+title: "1055. Whitebox Switch Ocp Open Networking"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

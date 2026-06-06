@@ -1,10 +1,9 @@
 ---
-title: "970. XP 테스트 주도 개발 (TDD) 리팩토링"
+title: "970. Xp Tdd Refactoring"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

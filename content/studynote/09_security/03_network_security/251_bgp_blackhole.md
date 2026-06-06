@@ -1,10 +1,9 @@
 ---
-title: "251. BGP Blackhole (BGP 블랙홀)"
+title: "BGP"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

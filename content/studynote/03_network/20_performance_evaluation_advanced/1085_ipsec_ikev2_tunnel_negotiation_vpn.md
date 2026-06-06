@@ -1,10 +1,9 @@
 ---
-title: "1085. IPsec IKEv2 터널 협상"
+title: "1085. Ipsec Ikev2 Tunnel Negotiation Vpn"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "203. 차등 프라이버시 (Differential Privacy) — 통계 쿼리에 수학적 노이즈 추가"
+title: "209. Differential Privacy"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

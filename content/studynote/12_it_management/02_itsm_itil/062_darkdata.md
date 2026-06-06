@@ -1,10 +1,9 @@
 ---
-title: "62. 다크 데이터 (Dark Data)"
+title: "Dark Data"
 date: "2026-04-05"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

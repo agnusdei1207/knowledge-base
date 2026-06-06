@@ -1,10 +1,9 @@
 ---
-title: "444. A05. 보안 설정 오류 (Security Misconfiguration Deep)"
+title: "Security Misconfiguration Deep"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

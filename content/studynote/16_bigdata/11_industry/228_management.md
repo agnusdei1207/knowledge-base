@@ -1,10 +1,9 @@
 ---
-title: "223. 부동산 빅데이터 (시세 예측, 상권 분석, 인구 이동 분석)"
+title: "228. Management"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

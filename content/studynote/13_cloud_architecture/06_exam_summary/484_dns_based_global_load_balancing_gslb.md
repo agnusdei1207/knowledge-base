@@ -1,10 +1,9 @@
 ---
-title: "484. DNS 기반 글로벌 로드 밸런싱 GSLB (DNS Based Global Load Balancing GSLB)"
+title: "DNS Based Global Load Balancing GSLB"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

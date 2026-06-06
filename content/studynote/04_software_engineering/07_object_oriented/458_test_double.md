@@ -1,10 +1,9 @@
 ---
-title: "458. 테스트 더블 (Test Double) 5가지 개념 (xUnit 테스트 패턴)"
+title: "xUnit"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

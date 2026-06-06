@@ -1,10 +1,9 @@
 ---
-title: "209. 데이터 마트 (Data Mart) Kimball 다차원 분석 스타 스키마 (Star Schema)"
+title: "Star Schema"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 마트([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Mart)는 특정 부서나 비즈니스 도메인을 위해 최적화된 분석 전용 소규모 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소이며, [Kimball](/studynote/12_it_management/05_security_compliance/954_kimball/) 방법론의 [스타 스키마](/studynote/05_database/06_dw_olap_trends/334_star_schema/)([Star Schema](/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/))가 핵심 설계 패턴이다.

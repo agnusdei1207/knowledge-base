@@ -1,10 +1,9 @@
 ---
-title: "399. 목 객체 (Mock Object) 기반 격리 테스트"
+title: "399. Mock Object"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

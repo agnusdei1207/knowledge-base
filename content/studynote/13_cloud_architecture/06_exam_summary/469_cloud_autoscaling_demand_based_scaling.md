@@ -1,10 +1,9 @@
 ---
-title: "469. 클라우드 오토스케일링 수요 기반 확장 (Cloud Autoscaling Demand Based Scaling)"
+title: "Cloud Autoscaling Demand Based Scaling"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

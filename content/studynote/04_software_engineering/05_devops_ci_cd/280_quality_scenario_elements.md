@@ -1,10 +1,9 @@
 ---
-title: "280. 품질 시나리오 요소 - 자극원, 자극, 환경, 대상, 응답, 응답 척도"
+title: "280. Quality Scenario Elements"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

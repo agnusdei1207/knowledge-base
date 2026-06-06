@@ -1,10 +1,9 @@
 ---
-title: "557. IT 인력 양성 리스킬링 업스킬링 (IT Workforce Development Reskilling Upskilling)"
+title: "IT Workforce Development Reskilling Upskilling"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IT 인력 개발 리스킬링 업스킬링은(는) 기술 변화에 맞춰 인력의 역할과 역량을 재정의하고 재교육하는 인재 전략이다.

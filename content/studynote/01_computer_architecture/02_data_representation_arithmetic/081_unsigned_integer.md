@@ -1,10 +1,9 @@
 ---
-title: "81. 부호 없는 정수 (Unsigned Integer)"
+title: "Unsigned Integer"
 date: "2026-05-05"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 부호 없는 정수(Unsigned Integer)는 할당된 모든 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 수치(Magnitude) 표현에만 사용하여, 0과 양의 정수만을 나타내는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 체계다.

@@ -1,10 +1,9 @@
 ---
-title: "511. Token Leakage (토큰 유출 경로 및 방어)"
+title: "511. Token Leakage"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

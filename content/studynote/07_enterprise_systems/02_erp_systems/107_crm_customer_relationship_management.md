@@ -1,9 +1,8 @@
 ---
-title: "107. CRM (C고객 Relationship Management, 고객 관계 관리) - 신규 고객 획득 및 기존 고객 유지/충성도 극대화를 위한 마케팅, 세일즈, 서비스 통합 전략"
+title: "107. Crm Customer Relationship Management"
 tags:
   - "enterprise_systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

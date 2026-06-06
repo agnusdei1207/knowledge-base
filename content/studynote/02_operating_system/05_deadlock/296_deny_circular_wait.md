@@ -1,10 +1,9 @@
 ---
-title: "296. 순환 대기 부정 (Deny Circular Wait)"
+title: "Deny Circular Wait"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

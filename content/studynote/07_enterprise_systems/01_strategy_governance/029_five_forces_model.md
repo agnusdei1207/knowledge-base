@@ -1,10 +1,9 @@
 ---
-title: "29. 포터의 5 Forces 모델 (Porter Five Forces)"
+title: "Porter Five Forces"
 date: "2026-04-29"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 포터의 5 Forces는 산업 구조 내 경쟁 강도를 결정하는 5가지 힘(기존 경쟁, 신규 진입자 위협, 대체재 위협, 구매자 협상력, 공급자 협상력)을 분석하는 프레임워크다. 산업의 구조적 매력도와 수익 잠재력을 평가한다.

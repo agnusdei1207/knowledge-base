@@ -1,10 +1,9 @@
 ---
-title: "148. SOA (Service Oriented Architecture) - 서비스 지향 아키텍처 (2000년대 후반 엔터프라이즈 표준)"
+title: "148. Soa Service Oriented Architecture"
 date: "2026-05-03"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [SOA](/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/)([Service Oriented Architecture](/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/))는 거대한 단일 쇳덩이(모놀리식) 시스템을 해체하여, 독립적인 명세서([WSDL](/studynote/07_enterprise_systems/03_eai_esb_msa/152_wsdl_web_services_description_language/))를 가진 '[서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)([Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))' 덩어리로 쪼개고 이를 중앙 미들웨어 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([ESB](/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/)) 위에서 레고 블록처럼 조합([Orchestration](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/))하는 설계 철학이다.

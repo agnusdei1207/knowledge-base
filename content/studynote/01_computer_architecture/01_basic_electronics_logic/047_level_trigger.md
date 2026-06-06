@@ -1,10 +1,9 @@
 ---
-title: "047. 레벨 트리거 — Level Trigger"
+title: "047. Level Trigger"
 date: "2026-04-05"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 > **핵심 인사이트**
 > 1. 레벨 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)(Level Trigger)는 클록 신호의 레벨(High 또는 Low) 자체가 유지되는 동안 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 통과시키는 방식 — 엣지 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)([Edge Trigger](/studynote/01_computer_architecture/01_basic_electronics_logic/046_edge_trigger/))가 상승/하강 순간만 감지하는 것과 달리, 레벨이 유지되는 전체 시간 동안 입력이 출력에 영향을 미친다.

@@ -1,10 +1,9 @@
 ---
-title: "465. SASE 보안 접근 서비스 엣지 통합 (SASE Secure Access Service Edge Integration)"
+title: "SASE Secure Access Service Edge Integration"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

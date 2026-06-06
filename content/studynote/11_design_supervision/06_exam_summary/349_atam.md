@@ -1,10 +1,9 @@
 ---
-title: "349. ATAM 아키텍처 트레이드오프 평가 (Architecture Tradeoff Analysis Method)"
+title: "Architecture Tradeoff Analysis Method"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

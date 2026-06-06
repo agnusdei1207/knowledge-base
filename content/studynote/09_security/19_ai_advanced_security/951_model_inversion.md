@@ -1,10 +1,9 @@
 ---
-title: "951. Model Inversion (모델 인버전)"
+title: "951. Model Inversion"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

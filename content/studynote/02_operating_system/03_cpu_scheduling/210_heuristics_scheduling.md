@@ -1,10 +1,9 @@
 ---
-title: "210. 휴리스틱 (Heuristics) 기반 스케줄링"
+title: "210. Heuristics Scheduling"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "1086. WireGuard 라우팅 고속망 체계"
+title: "1086. Wireguard Vpn Routing High Speed"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

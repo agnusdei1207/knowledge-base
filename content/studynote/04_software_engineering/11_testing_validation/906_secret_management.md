@@ -1,10 +1,9 @@
 ---
-title: "906. 시크릿(Secret) 관리 도구"
+title: "906. Secret Management"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

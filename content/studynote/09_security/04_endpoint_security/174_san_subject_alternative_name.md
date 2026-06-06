@@ -1,10 +1,9 @@
 ---
-title: "174. SAN (Subject Alternative Name) — 인증서 다중 이름 확장"
+title: "174. San Subject Alternative Name"
 date: "2026-04-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "68. 병합 충돌 (Merge Conflict) 및 해결 방안 (Rebase vs Merge)"
+title: "Rebase vs Merge"
 date: "2026-04-10"
 tags:
   - "studynote-devops"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

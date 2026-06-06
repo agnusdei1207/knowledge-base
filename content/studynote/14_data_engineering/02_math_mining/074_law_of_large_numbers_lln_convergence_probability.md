@@ -1,10 +1,9 @@
 ---
-title: "74. 대수의 법칙 (LLN, Law of Large Numbers) - 수렴 확률"
+title: "074. Law Of Large Numbers Lln Convergence Probability"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

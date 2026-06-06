@@ -1,10 +1,9 @@
 ---
-title: "238. 은행원 알고리즘 (Banker's Algorithm)"
+title: "Banker's Algorithm"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

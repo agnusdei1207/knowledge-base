@@ -1,10 +1,9 @@
 ---
-title: "688. 인과 추론 도구 변수 반사실 분석 (Causal Inference Instrumental Counterfactual)"
+title: "Causal Inference Instrumental Counterfactual"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

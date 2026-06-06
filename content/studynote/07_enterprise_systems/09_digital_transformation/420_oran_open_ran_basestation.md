@@ -1,10 +1,9 @@
 ---
-title: "420. O-RAN 기지국 분리 화이트박스 (O-RAN: Open Radio Access Network)"
+title: "O-RAN: Open Radio Access Network"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

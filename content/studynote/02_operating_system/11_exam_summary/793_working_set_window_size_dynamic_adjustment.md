@@ -1,10 +1,9 @@
 ---
-title: "793. 워킹 셋 윈도우 사이즈 동적 조절 (Working Set Window Size Dynamic Adjustment)"
+title: "Working Set Window Size Dynamic Adjustment"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

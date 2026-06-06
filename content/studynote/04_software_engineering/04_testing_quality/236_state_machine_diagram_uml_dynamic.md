@@ -1,10 +1,9 @@
 ---
-title: "236. 상태 다이어그램 (State Machine Diagram) - 객체의 상태 변화 (동적)"
+title: "236. State Machine Diagram Uml Dynamic"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

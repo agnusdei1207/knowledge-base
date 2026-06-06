@@ -1,10 +1,9 @@
 ---
-title: "548. 자율주행용 고성능 컴퓨터 (HPC)"
+title: "HPC"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

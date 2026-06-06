@@ -1,10 +1,9 @@
 ---
-title: "780. eBPF 동적 커널 트레이싱 프레임워크 성능 (Ebpf Dynamic Kernel Tracing Performance)"
+title: "Ebpf Dynamic Kernel Tracing Performance"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "051. 위험 전가 (Risk Transfer)"
+title: "Risk Transfer"
 date: "2026-05-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 위험 전가([Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Transfer)는 조직이 직면한 정보보안 위험의 직접적인 재무적 피해나 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 책임을 돈을 지불하고 **제3자(보험사, 외주업체, 클라우드 사업자)에게 떠넘기는** [보안 거버넌스](/studynote/09_security/01_intro_principles/006_security_governance/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.

@@ -1,10 +1,9 @@
 ---
-title: "151. UDDI (Universal Description, Discovery and Integration) - SOA 서비스 레지스트리 검색 도서관"
+title: "151. Uddi Universal Description Discovery Integration"
 date: "2026-05-03"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: UDDI(Universal Description, Discovery and Integration)는 [SOA](/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/)([Service Oriented Architecture](/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/)) 3요소 아키텍처의 정중앙 뇌를 담당하는 <strong>'웹 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>(<a href="/studynote/07_enterprise_systems/03_eai_esb_msa/153_soap_simple_object_access_protocol/">SOAP</a>/XML) 전용 글로벌 <a href="/studynote/05_database/07_exam_summary/394_catalog_metadata/">카탈로그</a> 검색 엔진이자 공용 전화번호부 엑셀 <a href="/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/">레지스트리</a>(<a href="/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/">Registry</a>)'</strong>다.

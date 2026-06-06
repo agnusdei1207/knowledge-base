@@ -1,10 +1,9 @@
 ---
-title: "923. 클라우드 네이티브 (Cloud Native) 아키텍처 철학"
+title: "923. Cloud Native Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

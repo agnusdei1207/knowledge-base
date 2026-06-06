@@ -1,10 +1,9 @@
 ---
-title: "93. SAFe (Scaled Agile Framework) - 기업용 대규모 애자일"
+title: "093. Safe Scaled Agile Framework Art Pi"
 date: "2026-05-10"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SAFe ([Scaled Agile](/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/) Framework)는 10명 남짓의 [스크럼](/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)을 넘어, 수백 명의 개발자와 임원진 전체를 거대한 '[애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 릴리즈 열차 ([ART](/studynote/02_operating_system/10_security/621_art_android_runtime/))'에 태워 기업 전체 규모로 확장시킨 관료주의형 [대규모 애자일](/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/) 프레임워크다.

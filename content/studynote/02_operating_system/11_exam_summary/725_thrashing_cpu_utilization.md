@@ -1,10 +1,9 @@
 ---
-title: "725. 스래싱 (Thrashing) CPU 이용률 저하"
+title: "725. Thrashing Cpu Utilization"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "1008. IND-CPA / IND-CCA2 (암호학 안전성)"
+title: "1008. Ind Cpa Ind Cca2"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

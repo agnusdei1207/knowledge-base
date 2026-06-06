@@ -1,10 +1,9 @@
 ---
-title: "844. A/B 테스트"
+title: "844. Ab Test"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

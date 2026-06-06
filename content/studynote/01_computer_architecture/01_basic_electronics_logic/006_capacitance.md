@@ -1,10 +1,9 @@
 ---
-title: "6. 정전용량 (Capacitance)"
+title: "Capacitance"
 date: "2026-04-17"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 정전용량 (Capacitance, $C$)은 유전체를 사이에 둔 두 [도체](/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/)에 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 가했을 때 얼마나 많은 전하(Charge)를 구속하여 저장할 수 있는지를 나타내는 물리량($C = Q/V$)이다.

@@ -1,10 +1,9 @@
 ---
-title: "386. 카나리 배포 Flagger 프로그레시브 (Canary Deployment Flagger Progressive Delivery)"
+title: "Canary Deployment Flagger Progressive Delivery"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

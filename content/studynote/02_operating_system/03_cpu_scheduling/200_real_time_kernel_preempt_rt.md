@@ -1,10 +1,9 @@
 ---
-title: "200. 실시간 커널 (Real-time Kernel) / PREEMPT_RT"
+title: "200. Real Time Kernel Preempt Rt"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

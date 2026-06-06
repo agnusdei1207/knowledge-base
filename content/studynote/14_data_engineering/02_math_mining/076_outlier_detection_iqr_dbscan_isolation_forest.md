@@ -1,10 +1,9 @@
 ---
-title: "76. 이상치 (Outlier) 탐지 - IQR, Z-Score, DBSCAN, Isolation Forest"
+title: "076. Outlier Detection Iqr Dbscan Isolation Forest"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

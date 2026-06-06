@@ -1,10 +1,9 @@
 ---
-title: "608. 디지털 헬스 원격의료 PHR 건강데이터 (Digital Health Telemedicine PHR Health Data)"
+title: "Digital Health Telemedicine PHR Health Data"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

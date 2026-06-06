@@ -1,9 +1,8 @@
 ---
-title: "96. 모놀리식 블록체인 (Monolithic Blockchain) - 모든 작업을 단일 체인(솔라나, 앱토스 등)에서 처리"
+title: "096. Monolithic Blockchain Solana"
 tags:
   - "ict_convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

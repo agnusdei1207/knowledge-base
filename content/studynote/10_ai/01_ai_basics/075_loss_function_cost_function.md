@@ -1,10 +1,9 @@
 ---
-title: "75. 손실 함수 (Loss Function) - 예측 오차 계산"
+title: "075. Loss Function Cost Function"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

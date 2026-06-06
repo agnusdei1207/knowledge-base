@@ -1,10 +1,9 @@
 ---
-title: "162. AMI (Advanced Metering Infrastructure) - 지능형 원격 검침 인프라"
+title: "162. Ami Advanced Metering Infrastructure"
 date: "2026-05-05"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트
 

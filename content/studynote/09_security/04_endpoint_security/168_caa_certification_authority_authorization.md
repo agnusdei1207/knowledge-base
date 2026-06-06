@@ -1,10 +1,9 @@
 ---
-title: "168. CAA (Certification Authority Authorization) — 허용된 CA DNS 레코드"
+title: "168. Caa Certification Authority Authorization"
 date: "2026-04-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

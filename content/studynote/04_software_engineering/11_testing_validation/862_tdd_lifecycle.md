@@ -1,10 +1,9 @@
 ---
-title: "862. TDD (Test Driven Development) 생명주기"
+title: "862. Tdd Lifecycle"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

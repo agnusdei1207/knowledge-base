@@ -1,10 +1,9 @@
 ---
-title: "422. 스마트 팩토리 CPS 자동 제어 (Smart Factory / CPS)"
+title: "Smart Factory / CPS"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

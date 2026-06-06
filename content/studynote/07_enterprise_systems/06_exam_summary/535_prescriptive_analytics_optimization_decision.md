@@ -1,10 +1,9 @@
 ---
-title: "535. 처방 분석 최적화 의사결정 지원 (Prescriptive Analytics Optimization Decision)"
+title: "Prescriptive Analytics Optimization Decision"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 처방 분석 최적화 의사결정은(는) 예측 결과와 제약조건을 바탕으로 최적 행동 대안을 추천하는 의사결정 분석이다.

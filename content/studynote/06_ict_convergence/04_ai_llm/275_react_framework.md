@@ -1,10 +1,9 @@
 ---
-title: "275. 환각 (Hallucination / 할루시네이션)"
+title: "Hallucination /"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

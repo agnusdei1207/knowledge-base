@@ -1,10 +1,9 @@
 ---
-title: "463. DDD 애그리게이트 바운디드 컨텍스트 (DDD, Domain-Driven Design)"
+title: "DDD, Domain-Driven Design"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "346. 배치 사이즈 (Batch Size) 와 일반화 성능"
+title: "346. Batch Size Generalization"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

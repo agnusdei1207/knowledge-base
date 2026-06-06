@@ -1,10 +1,9 @@
 ---
-title: "91. L1/L2 규제 - 가중치 감쇠(Weight Decay)와 과적합 방지"
+title: "091. L1 L2 Regularization Weight Decay"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

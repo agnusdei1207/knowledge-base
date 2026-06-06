@@ -1,10 +1,9 @@
 ---
-title: "IoT 3대 구성 요소"
+title: "102. Iot 3 Components"
 date: "2024-03-21"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

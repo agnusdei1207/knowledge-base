@@ -1,10 +1,9 @@
 ---
-title: "76. 서비스 데스크 및 인시던트 관리 체계 확인 (Service Desk and Incident Management Audit)"
+title: "Service Desk and Incident Management Audit"
 date: "2026-05-08"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

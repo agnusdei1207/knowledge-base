@@ -1,10 +1,9 @@
 ---
-title: "789. 생물학적 컴퓨팅 DNA 저장 분자 기계 (Biological Computing DNA Storage Molecular)"
+title: "Biological Computing DNA Storage Molecular"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

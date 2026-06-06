@@ -1,10 +1,9 @@
 ---
-title: "199. 공간 컴퓨팅 (Spatial Computing) 결합 AI"
+title: "199. Spatial Computing"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

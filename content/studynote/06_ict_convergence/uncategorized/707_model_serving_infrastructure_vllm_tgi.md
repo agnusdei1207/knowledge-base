@@ -1,10 +1,9 @@
 ---
-title: "707. 모델 서빙 인프라 vLLM TGI 최적화 (Model Serving Infrastructure vLLM TGI)"
+title: "Model Serving Infrastructure vLLM TGI"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

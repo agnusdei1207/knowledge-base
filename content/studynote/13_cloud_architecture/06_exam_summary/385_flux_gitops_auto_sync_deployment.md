@@ -1,10 +1,9 @@
 ---
-title: "385. Flux GitOps 자동 동기화 배포 (Flux GitOps Auto Sync Deployment)"
+title: "Flux GitOps Auto Sync Deployment"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

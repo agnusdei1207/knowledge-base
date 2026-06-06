@@ -1,10 +1,9 @@
 ---
-title: "378. 런타임 보안 eBPF 커널 수준 위협 탐지 (Runtime Security eBPF Falco Tetragon)"
+title: "Runtime Security eBPF Falco Tetragon"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

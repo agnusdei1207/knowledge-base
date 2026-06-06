@@ -1,10 +1,9 @@
 ---
-title: "317. 락 오더링 (Lock Ordering) 다이나믹 검증 도구 (Lockdep in Linux)"
+title: "Lockdep in Linux"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

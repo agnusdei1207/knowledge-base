@@ -1,10 +1,9 @@
 ---
-title: "142. 요구 분석 & 갈등 해결 - 이해관계자 간 상충 요구 조정"
+title: "142. Requirements Analysis Conflict Resolution"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 요구 분석 갈등 해결은 <strong><a href="/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/">이해관계자</a> 간 상충되는 요구(보안↔편의, <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>↔비용)를 <a href="/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a>·협상·우선순위화</strong>하여 합의를 도출하는 과정이다.

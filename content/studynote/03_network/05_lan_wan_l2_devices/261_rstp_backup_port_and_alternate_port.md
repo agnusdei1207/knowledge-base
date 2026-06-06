@@ -1,10 +1,9 @@
 ---
-title: "261. 백업 포트 (Backup Port), 대체 포트 (Alternate Port) 추가"
+title: "261. Rstp Backup Port And Alternate Port"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

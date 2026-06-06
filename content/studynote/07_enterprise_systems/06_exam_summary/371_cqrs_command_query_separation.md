@@ -1,10 +1,9 @@
 ---
-title: "371. CQRS 명령 조회 모델 분리 패턴 (Command Query Responsibility Segregation)"
+title: "Command Query Responsibility Segregation"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

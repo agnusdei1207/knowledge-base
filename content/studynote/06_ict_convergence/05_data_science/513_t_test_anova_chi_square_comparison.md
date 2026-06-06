@@ -1,10 +1,9 @@
 ---
-title: "513. t-검정, ANOVA, 카이제곱 검정 비교 (t-Test ANOVA Chi-Square Test Comparison)"
+title: "t-Test ANOVA Chi-Square Test Comparison"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

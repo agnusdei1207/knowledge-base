@@ -1,10 +1,9 @@
 ---
-title: "16. 정렬 알고리즘 비교 — 시간/공간/안정성/적합 환경"
+title: "025. Sort Comparison"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 모든 상황에서 최적인 단일 정렬 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 없으며, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모·분포·메모리·안정성 요구에 따라 최적 선택이 달라진다.

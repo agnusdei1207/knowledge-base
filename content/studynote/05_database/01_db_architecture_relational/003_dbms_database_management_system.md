@@ -1,11 +1,10 @@
 ---
-title: "3. 데이터베이스 관리 시스템 (DBMS) - 사용자와 DB 사이의 인터페이스 (데이터 독립성 제공)"
+title: "003. Dbms Database Management System"
 date: "2024-05-20"
 description: "사용자와 데이터베이스 간의 인터페이스 역할을 수행하며 데이터 독립성을 제공하는 DBMS의 아키텍처 및 내부 원리"
 tags:
   - "database"
 ---
-
 
 # 03. [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 관리 시스템 ([DBMS](/studynote/05_database/04_transactions_concurrency/502_dbms/))
 

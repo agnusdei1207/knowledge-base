@@ -1,10 +1,9 @@
 ---
-title: "350. 비연속 메모리 할당 (Non-contiguous Memory Allocation)"
+title: "Non-contiguous Memory Allocation"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

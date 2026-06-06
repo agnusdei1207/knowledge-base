@@ -1,9 +1,8 @@
 ---
-title: "5. 분할 정복 (Divide and Conquer) — 재귀 분할 + 병합"
+title: "005. Divide And Conquer"
 tags:
   - "algorithm_stats"
 ---
-
 
 # 05. 분할 정복 (Divide and Conquer)
 

@@ -1,10 +1,9 @@
 ---
-title: "434. 컴포저블 아키텍처 PBS API 조합 유연 모듈 (Composable Architecture with PBS API)"
+title: "Composable Architecture with PBS API"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 1. **본질**: 컴포저블 아키텍처는 패키지드 비즈니스 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(Packaged Business [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), PBS)를 작고 의미 있는 업무 단위로 구성하고, 애플리케이션 프로그래밍 인터페이스([Application Programming Interface](/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/))로 조합하는 비즈니스 중심 설계 방식이다.

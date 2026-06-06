@@ -1,10 +1,9 @@
 ---
-title: "10. 기수 정렬 (Radix Sort) — O(d·n), 고정 자릿수"
+title: "017. Radix Sort"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [기수](/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/) 정렬은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 자릿수(digit) 단위로 분리해 각 자릿수마다 안정 정렬을 반복 적용함으로써 O(d·n) 시간에 정수를 정렬한다.

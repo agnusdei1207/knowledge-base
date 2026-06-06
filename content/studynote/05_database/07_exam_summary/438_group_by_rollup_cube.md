@@ -1,10 +1,9 @@
 ---
-title: "438. GROUP BY 다차원 ROLLUP, CUBE"
+title: "438. Group By Rollup Cube"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

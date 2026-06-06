@@ -1,9 +1,8 @@
 ---
-title: "96. SCE (Supply Chain Execution) - 공급망 실행 (주문 처리, 물류/창고 제어)"
+title: "096. Sce Supply Chain Execution Oms"
 tags:
   - "enterprise_systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

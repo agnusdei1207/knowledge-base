@@ -1,10 +1,9 @@
 ---
-title: "556. 삭제된 파일 복구 (Undelete) 및 포렌식 디스크 이미지 카빙(Carving) 원리"
+title: "556. Undelete Data Carving"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

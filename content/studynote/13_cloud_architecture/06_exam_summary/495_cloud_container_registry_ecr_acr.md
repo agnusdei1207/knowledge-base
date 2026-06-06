@@ -1,10 +1,9 @@
 ---
-title: "495. 클라우드 컨테이너 레지스트리 ECR ACR (Cloud Container Registry ECR ACR)"
+title: "Cloud Container Registry ECR ACR"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

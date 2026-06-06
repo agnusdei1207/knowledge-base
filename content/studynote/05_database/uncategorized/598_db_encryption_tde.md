@@ -1,10 +1,9 @@
 ---
-title: "598. 정보보안 암호화 DB 모듈 (API/Plug-in/TDE) 혼합 구성 인프라망 구조 체계 검토"
+title: "598. Db Encryption Tde"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

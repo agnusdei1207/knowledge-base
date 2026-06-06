@@ -1,10 +1,9 @@
 ---
-title: "125. 앙상블 학습 (Ensemble Learning) - 여러 모델의 결합으로 성능 극대화"
+title: "125. Ensemble Learning"
 date: "2026-04-19"
 tags:
   - "studynote-dataengineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [앙상블](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 학습은 <strong>여러 약한 학습기(Weak Learner)를 결합하여 하나의 강한 학습기(Strong Learner)</strong>를 만드는 기법이며, [Bagging](/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)·[Boosting](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)·Stacking이 3대 전략이다.

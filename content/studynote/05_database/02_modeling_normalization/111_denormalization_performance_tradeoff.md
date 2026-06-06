@@ -1,10 +1,9 @@
 ---
-title: "111. 역정규화 (Denormalization) - 정규화 vs 성능 트레이드오프와 설계 전략"
+title: "111. Denormalization Performance Tradeoff"
 date: "2026-04-19"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 역정규화(Denormalization)는 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)로 분해한 테이블을 <strong>의도적으로 다시 합치거나 중복 컬럼을 추가</strong>하여, 조인([JOIN](/studynote/05_database/04_transactions_concurrency/521_join/)) 횟수를 줄이고 <strong>읽기(<a href="/studynote/05_database/04_transactions_concurrency/520_select/">SELECT</a>) <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>을 극적으로 향상</strong>시키는 물리 설계 전략이다.

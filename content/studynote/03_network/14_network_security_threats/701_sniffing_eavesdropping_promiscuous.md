@@ -1,10 +1,9 @@
 ---
-title: "701. 도청 (Sniffing, Eavesdropping) 네트워크 토폴로지 취약 (프론미스큐어스 모드, 스위치 잼 체계 해소)"
+title: "701. Sniffing Eavesdropping Promiscuous"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

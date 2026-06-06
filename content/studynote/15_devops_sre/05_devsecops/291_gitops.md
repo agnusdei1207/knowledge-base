@@ -1,10 +1,9 @@
 ---
-title: "291. GitOps 선언형 동기화 푸시 풀 배포 차이 (GitOps)"
+title: "GitOps"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

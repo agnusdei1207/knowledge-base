@@ -1,10 +1,9 @@
 ---
-title: "445. 리퍼처스 SaaS 전환 교체 전략 (Repurchase SaaS Transition Replacement)"
+title: "Repurchase SaaS Transition Replacement"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 # 445. 리퍼처스 SaaS 전환 교체 전략 (Repurchase SaaS Transition Replacement)
 

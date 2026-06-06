@@ -1,10 +1,9 @@
 ---
-title: "556. 토큰 이코노미 인센티브 설계 모델 (Token Economy Incentive Design Model)"
+title: "Token Economy Incentive Design Model"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

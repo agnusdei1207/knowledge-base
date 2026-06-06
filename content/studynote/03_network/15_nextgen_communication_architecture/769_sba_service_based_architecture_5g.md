@@ -1,10 +1,9 @@
 ---
-title: "769. SBA (Service Based Architecture 네트워크 기능 요소가 컨테이너/마이크로 서비스 RESTful API 간 메시지 연동 호출 통신 플랫폼 융합 모델 기반 구축 코어 서비스 규격 표준)"
+title: "Service Based Architecture / RESTful API"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

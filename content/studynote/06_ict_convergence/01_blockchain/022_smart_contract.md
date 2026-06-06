@@ -1,11 +1,10 @@
 ---
-title: "22. 스마트 컨트랙트 (Smart Contract) - 조건이 충족되면 블록체인 상에서 자동 실행되는 프로그램 코드 (닉 자보 제안)"
+title: "022. Smart Contract"
 date: "2024-05-18"
 description: "사전에 합의된 특정 조건이 충족되면 중앙의 중개자 없이 블록체인 상에서 자동으로 실행되는 자기 실행형 프로그램 코드"
 tags:
   - "ict_convergence"
 ---
-
 
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 1994년 닉 자보(Nick Szabo)가 제안한 개념으로, 서면 계약의 논리를 디지털 코드로 변환하여 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)이라는 불변의 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 원장 위에서 강제 집행하는 [튜링 완전성](/studynote/06_ict_convergence/01_blockchain/025_turing_completeness/) 상태 변환기이다.

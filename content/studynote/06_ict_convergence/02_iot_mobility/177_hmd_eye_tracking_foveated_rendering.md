@@ -1,10 +1,9 @@
 ---
-title: "177. HMD (Head Mounted Display) 시선 추적(Eye Tracking), 포비티드 렌더링 (Foveated Rendering - 시선이 머무는 중심부만 초고화질 렌더링하여 GPU 부담 감소 기술)"
+title: "Foveated Rendering - GPU"
 date: "2026-05-06"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

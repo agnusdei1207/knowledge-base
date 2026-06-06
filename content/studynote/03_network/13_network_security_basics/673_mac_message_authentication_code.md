@@ -1,10 +1,9 @@
 ---
-title: "673. MAC (Message Authentication Code) 변수 및 기능"
+title: "673. Mac Message Authentication Code"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

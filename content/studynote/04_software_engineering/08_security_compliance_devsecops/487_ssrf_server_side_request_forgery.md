@@ -1,10 +1,9 @@
 ---
-title: "487. SSRF (Server-Side Request Forgery) - 서버 측 요청 위조"
+title: "487. Ssrf Server Side Request Forgery"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

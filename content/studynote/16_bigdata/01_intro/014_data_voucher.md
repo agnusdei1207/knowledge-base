@@ -1,11 +1,10 @@
 ---
-title: "14. 데이터바우처 사업 — 중소기업 데이터 구매·가공 지원"
+title: "014. Data Voucher"
 date: "2024-05-23"
 description: "중소기업의 데이터 활용 격차 해소를 위한 지원 체계 및 실무 도입 전략"
 tags:
   - "bigdata"
 ---
-
 
 # [데이터바우처 사업](/studynote/16_bigdata/13_intro_trends/246_data_voucher/) ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Voucher)
 

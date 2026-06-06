@@ -1,9 +1,8 @@
 ---
-title: "08. 소프트웨어 보안 및 DevSecOps"
+title: "Software Engineering"
 tags:
   - "software_engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

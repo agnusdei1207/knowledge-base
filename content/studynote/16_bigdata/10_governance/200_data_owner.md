@@ -1,10 +1,9 @@
 ---
-title: "194. 데이터 소유자 (Data Owner) — 비즈니스 책임자와 접근 승인"
+title: "200. Data Owner"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

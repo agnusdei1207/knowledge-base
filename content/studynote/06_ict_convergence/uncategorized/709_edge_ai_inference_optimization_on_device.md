@@ -1,10 +1,9 @@
 ---
-title: "709. 엣지 AI 추론 최적화 온디바이스 (Edge AI Inference Optimization On-Device)"
+title: "Edge AI Inference Optimization On-Device"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

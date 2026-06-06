@@ -1,10 +1,9 @@
 ---
-title: "397. 단위 테스트 (Unit Test) - 최소 단위 기능 검증"
+title: "397. Unit Test"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

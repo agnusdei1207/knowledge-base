@@ -1,10 +1,9 @@
 ---
-title: "474. IoT 클라우드 플랫폼 디바이스 관리 (IoT Cloud Platform Device Management)"
+title: "IoT Cloud Platform Device Management"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

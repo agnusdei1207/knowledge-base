@@ -1,10 +1,9 @@
 ---
-title: "677. 인증국 (CA, Certificate Authority), 등록기관 (RA, Registration Authority), 저장소 체계"
+title: "677. Ca Ra Certificate Authority Registration"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

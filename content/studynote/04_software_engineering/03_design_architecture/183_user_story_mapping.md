@@ -1,10 +1,9 @@
 ---
-title: "183. 유저 스토리 맵 (User Story Mapping)"
+title: "User Story Mapping"
 date: "2026-05-06"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

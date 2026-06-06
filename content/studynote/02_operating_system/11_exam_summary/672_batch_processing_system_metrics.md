@@ -1,10 +1,9 @@
 ---
-title: "672. 일괄 처리 시스템 (Batch Processing System) 성능 지표"
+title: "672. Batch Processing System Metrics"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

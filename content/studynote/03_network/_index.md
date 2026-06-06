@@ -1,9 +1,8 @@
 ---
-title: "03: 네트워크 (Network)"
+title: "Network"
 tags:
   - "studynote-network"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 이기종의 분산된 노드 간에 데이터를 신뢰성 있게 전달하기 위해 규약(Protocol)을 계층화(Layering)하고 물리적/논리적 경로를 제어하는 통신 아키텍처의 총체.
 > 2. **가치**: 캡슐화(Encapsulation)를 통한 계층 간 독립성을 보장하여, 인터넷이라는 전 지구적 규모의 초연결망(Hyper-Connectivity)을 붕괴 없이 확장하고 진화시킴.

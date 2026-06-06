@@ -1,10 +1,9 @@
 ---
-title: "278. SCD Type 1 - 덮어쓰기 (과거 이력 삭제)"
+title: "278. Scd Type1 Overwrite No History"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

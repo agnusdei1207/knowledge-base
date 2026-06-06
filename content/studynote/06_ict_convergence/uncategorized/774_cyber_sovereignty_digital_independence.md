@@ -1,10 +1,9 @@
 ---
-title: "774. 사이버 주권 디지털 자주권 기술 독립 (Cyber Sovereignty Digital Independence)"
+title: "Cyber Sovereignty Digital Independence"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

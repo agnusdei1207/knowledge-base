@@ -1,10 +1,9 @@
 ---
-title: "611. 서버리스 컴퓨팅 FaaS 이벤트 드리븐 (Serverless Computing FaaS Event Driven)"
+title: "Serverless Computing FaaS Event Driven"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

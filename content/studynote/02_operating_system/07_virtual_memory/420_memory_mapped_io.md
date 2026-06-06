@@ -1,10 +1,9 @@
 ---
-title: "420. 메모리 맵 I/O (Memory-Mapped I/O) - 디바이스 레지스터 매핑"
+title: "420. Memory Mapped Io"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

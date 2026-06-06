@@ -1,10 +1,9 @@
 ---
-title: "919. DLT (분산 원장 기술)"
+title: "919. Dlt Distributed Ledger Technology Consensus Bottleneck"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

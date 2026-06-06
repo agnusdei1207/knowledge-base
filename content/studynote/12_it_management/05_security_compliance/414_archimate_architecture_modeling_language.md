@@ -1,10 +1,9 @@
 ---
-title: "414. ArchiMate 아키텍처 모델링 언어 (ArchiMate Architecture Modeling Language)"
+title: "ArchiMate Architecture Modeling Language"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

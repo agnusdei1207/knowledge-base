@@ -1,10 +1,9 @@
 ---
-title: "614. 애드혹 Identity (Ad-hoc Identity)"
+title: "Ad-hoc Identity"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

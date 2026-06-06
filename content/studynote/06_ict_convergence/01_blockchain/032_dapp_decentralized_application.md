@@ -1,10 +1,9 @@
 ---
-title: "DApp (Decentralized Application, 분산 애플리케이션)"
+title: "Decentralized Application,"
 date: "2026-03-03"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 > **핵심 인사이트 3줄**
 > 1. DApp([Decentralized Application](/studynote/04_software_engineering/09_cloud_native_ai_architecture/592_blockchain_dapp_architecture_ipfs/))은 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)를 백엔드로 사용해 중앙 서버 없이 동작하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 애플리케이션이다.

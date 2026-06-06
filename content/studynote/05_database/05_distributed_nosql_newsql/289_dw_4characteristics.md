@@ -1,10 +1,9 @@
 ---
-title: "289. R 트리 (R-Tree) / MBR (Minimum Bounding Rectangle)"
+title: "Minimum Bounding Rectangle"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

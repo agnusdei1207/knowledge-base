@@ -1,11 +1,10 @@
 ---
-title: "86. 향상도 (Lift) - 연관 규칙의 유의성 검증 지표"
+title: "086. Lift Association Rule Marketing"
 date: "2026-03-04"
 tags:
   - "math-mining"
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "387. 페이지 부재 (Page Fault) - 무효 페이지 접근 시 발생하는 트랩(인터럽트)"
+title: "387. Page Fault"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

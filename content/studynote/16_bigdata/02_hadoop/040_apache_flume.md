@@ -1,11 +1,10 @@
 ---
-title: "18. 아파치 플룸 (Apache Flume) - 대규모 로그 수집 및 전송"
+title: "040. Apache Flume"
 date: "2026-03-04"
 tags:
   - "hadoop"
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 - 아파치 플룸(Apache Flume)은 웹 서버 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), SNS 피드 등 쏟아지는 비정형 스트리밍 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실시간으로 수집하여 [하둡](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)([HDFS](/studynote/14_data_engineering/01_infrastructure/013_hdfs/))이나 [카프카](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)([Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))로 전달하는 고가용성 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템임.

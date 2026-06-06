@@ -1,10 +1,9 @@
 ---
-title: "437. RANK() 동점 점프 / DENSE_RANK() 비점프"
+title: "437. Rank Dense Rank"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

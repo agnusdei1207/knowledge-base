@@ -1,10 +1,9 @@
 ---
-title: "465. 하드 디스크 드라이브 (HDD) 구조 - 플래터, 트랙, 실린더, 섹터, 헤드"
+title: "465. Hdd Structure"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

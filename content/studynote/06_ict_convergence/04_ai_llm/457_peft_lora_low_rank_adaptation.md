@@ -1,10 +1,9 @@
 ---
-title: "457. PEFT LoRA 저차원 파인튜닝 (PEFT LORA LOW RANK Adaptation)"
+title: "PEFT LORA LOW RANK Adaptation"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

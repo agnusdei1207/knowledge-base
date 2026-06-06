@@ -1,10 +1,9 @@
 ---
-title: "758. 번인 (Burn-in) 테스트"
+title: "758. Burn In Test"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

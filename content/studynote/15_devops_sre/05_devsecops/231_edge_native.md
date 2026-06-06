@@ -1,10 +1,9 @@
 ---
-title: "231. 엣지 네이티브 (Edge Native) 설계망 분산 지연 단축"
+title: "231. Edge Native"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

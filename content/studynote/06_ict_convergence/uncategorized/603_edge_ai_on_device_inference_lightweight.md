@@ -1,10 +1,9 @@
 ---
-title: "603. 엣지 AI 온디바이스 추론 경량화 (Edge AI On-Device Inference Lightweight)"
+title: "Edge AI On-Device Inference Lightweight"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

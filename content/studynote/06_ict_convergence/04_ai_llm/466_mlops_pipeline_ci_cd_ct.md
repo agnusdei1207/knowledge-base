@@ -1,10 +1,9 @@
 ---
-title: "466. MLOps 파이프라인과 CI/CD/CT"
+title: "466. Mlops Pipeline Ci Cd Ct"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

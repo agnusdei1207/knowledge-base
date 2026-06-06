@@ -1,10 +1,9 @@
 ---
-title: "504. 클라우드 태그 관리 리소스 분류 전략 (Cloud Tag Management Resource Classification)"
+title: "Cloud Tag Management Resource Classification"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

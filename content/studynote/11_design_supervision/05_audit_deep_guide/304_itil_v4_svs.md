@@ -1,10 +1,9 @@
 ---
-title: "304. ITIL 4 SVS 운영가치체계 감리 (ITIL 4 Service Value System Audit)"
+title: "ITIL 4 Service Value System Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

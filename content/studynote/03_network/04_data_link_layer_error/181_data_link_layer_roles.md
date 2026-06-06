@@ -1,10 +1,9 @@
 ---
-title: "181. 데이터 링크 계층의 역할: 프레이밍, 흐름 제어, 오류 제어, 회선 제어"
+title: "181. Data Link Layer Roles"
 date: "2026-05-06"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

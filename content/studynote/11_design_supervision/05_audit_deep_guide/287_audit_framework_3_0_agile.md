@@ -1,10 +1,9 @@
 ---
-title: "287. 감리 프레임워크 3.0 애자일 전환 (Audit Framework 3.0 Agile Transition)"
+title: "Audit Framework 3.0 Agile Transition"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "116. 로그 분석 (Log Analysis) — 이상 감지/보안 이벤트/패턴 발견"
+title: "119. Log Analysis"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 분석 (Log Analysis)은 시스템·애플리케이션·네트워크에서 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되는 대규모 이벤트 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 수집·파싱·집계하여 이상 감지, 보안 위협, [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목, 사용자 행동 패턴을 발굴하는 운영 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 기법이다.

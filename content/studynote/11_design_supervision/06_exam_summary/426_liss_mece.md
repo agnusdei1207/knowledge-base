@@ -1,10 +1,9 @@
 ---
-title: "426. LISS·MECE·로직트리 문제 구조화 (LISS, MECE, Logic Tree)"
+title: "LISS, MECE, Logic Tree"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: LISS는 독립성과 전체 포괄성을, MECE는 중복·누락 배제를, 로직트리는 이를 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)하는 구조화 도구를 뜻한다.

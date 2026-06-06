@@ -1,10 +1,9 @@
 ---
-title: "012. NP 근사 알고리즘 — Approximation Algorithms for NP"
+title: "117. Approximation Np"
 date: "2026-04-05"
 tags:
   - "studynote-algorithm-stats"
 ---
-
 
 > **핵심 인사이트**
 > 1. NP-하드 문제의 [근사 알고리즘](/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/)은 "완벽하지 않지만 보장된 품질"을 빠르게 계산 — ρ-근사(Approximation Ratio) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 최적해의 ρ배 이하(최소화) 또는 이상(최대화)을 다항 시간에 보장하며, 이론적 최적 추구보다 실용적 접근이다.

@@ -1,10 +1,9 @@
 ---
-title: "399. 클라우드 큐 서비스 SQS SNS Pub/Sub (Cloud Queue Service SQS SNS PubSub)"
+title: "Cloud Queue Service SQS SNS PubSub"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

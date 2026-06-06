@@ -1,10 +1,9 @@
 ---
-title: "415. BPM 프로세스 관리 BPMN 모델링 (BPM Process Management BPMN Modeling)"
+title: "BPM Process Management BPMN Modeling"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

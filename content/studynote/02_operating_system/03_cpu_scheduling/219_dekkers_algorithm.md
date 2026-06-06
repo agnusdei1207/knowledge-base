@@ -1,10 +1,9 @@
 ---
-title: "219. 데커의 알고리즘 (Dekker's Algorithm)"
+title: "Dekker's Algorithm"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

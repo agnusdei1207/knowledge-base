@@ -1,10 +1,9 @@
 ---
-title: "329. 시큐어 코딩 (Secure Coding) 원칙"
+title: "329. Secure Coding"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

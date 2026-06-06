@@ -1,10 +1,9 @@
 ---
-title: "705. DNS 스푸핑 / DNS Cache Poisoning 매칭 결함 포트 번호 난수 제어 취약 노출 방어 기법 (DNSSEC 도입 목적)"
+title: "DNSSEC"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

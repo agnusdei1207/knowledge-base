@@ -1,10 +1,9 @@
 ---
-title: "427. 결합 인덱스 (Composite) 순서 중요"
+title: "427. Composite Index Column Order"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

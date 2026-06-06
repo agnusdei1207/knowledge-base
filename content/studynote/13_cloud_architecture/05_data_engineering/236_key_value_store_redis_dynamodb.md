@@ -1,10 +1,9 @@
 ---
-title: "236. 키-값 저장소 (Key-Value Store) - Redis / DynamoDB"
+title: "236. Key Value Store Redis Dynamodb"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [키-값 저장소](/studynote/14_data_engineering/01_infrastructure/036_key_value/)([Key-Value Store](/studynote/14_data_engineering/01_infrastructure/036_key_value/))는 고유한 키([Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))로 값(Value)을 O(1) 시간에 조회하는 가장 단순한 [NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/) 구조로, <strong>밀리초 이하 응답 속도</strong>가 핵심 가치다.

@@ -1,10 +1,9 @@
 ---
-title: "124. API 게이트웨이 (API Gateway)"
+title: "API Gateway"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

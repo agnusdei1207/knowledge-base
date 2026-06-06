@@ -1,10 +1,9 @@
 ---
-title: "487. 가치 흐름 매핑 VSM 린 최적화 (Value Stream Mapping VSM Lean Optimization)"
+title: "Value Stream Mapping VSM Lean Optimization"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

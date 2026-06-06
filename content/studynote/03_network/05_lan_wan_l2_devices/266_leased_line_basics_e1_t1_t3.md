@@ -1,10 +1,9 @@
 ---
-title: "266. 전용선 (Leased Line) 기초 (E1, T1/T3 망)"
+title: "E1, T1/T3"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

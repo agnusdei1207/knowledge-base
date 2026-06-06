@@ -1,10 +1,9 @@
 ---
-title: "1004. Hardware RNG (물리적 난수 발생기)"
+title: "1004. Hardware Rng Trng"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

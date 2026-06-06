@@ -1,11 +1,10 @@
 ---
-title: "20. 프라이빗 블록체인 (Private Blockchain) - 허가된 노드만 참여 (하이퍼레저 패브릭)"
+title: "020. Private Blockchain"
 date: "2026-03-04"
 description: "사전에 인가된(Permissioned) 노드만 네트워크에 참여하여 트랜잭션을 처리함으로써, 기업의 데이터 프라이버시와 고성능을 보장하는 엔터프라이즈 블록체인"
 tags:
   - "ict_convergence"
 ---
-
 
 # 20. 프라이빗 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) (Private [Blockchain](/studynote/06_ict_convergence/01_blockchain/004_blockchain/))
 

@@ -1,10 +1,9 @@
 ---
-title: "410. DID 탈중앙 신원 증명 (DID: Decentralized Identifier)"
+title: "DID: Decentralized Identifier"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

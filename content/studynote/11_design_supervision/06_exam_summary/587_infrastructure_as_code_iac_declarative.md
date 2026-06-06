@@ -1,10 +1,9 @@
 ---
-title: "587. 인프라 코드화 IaC 선언적 관리 (Infrastructure as Code IaC Declarative)"
+title: "Infrastructure as Code IaC Declarative"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "06. ICT 융합 및 신기술 키워드 목록"
+title: "Keyword List"
 date: "2026-03-04"
 tags:
   - "studynote-ict-convergence"
 ---
-
 [weight](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) = 9999
 
 # ICT 융합 및 신기술 키워드 목록 (심화 확장판)

@@ -1,10 +1,9 @@
 ---
-title: "236. 데이터 옵저버빌리티 (Monte Carlo, Bigeye) 데이터 파이프라인 신뢰성"
+title: "241. Monte Carlo Bigeye"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "299. 멀티 헤드 어텐션 (Multi-Head Attention)"
+title: "Multi-Head Attention"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "279. 재진입 가능 락 (Reentrant Lock / Recursive Lock)"
+title: "Reentrant Lock / Recursive Lock"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

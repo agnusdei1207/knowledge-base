@@ -1,10 +1,9 @@
 ---
-title: "271. 캐시 교체 알고리즘 (Replacement Policy)"
+title: "Replacement Policy"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

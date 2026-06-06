@@ -1,10 +1,9 @@
 ---
-title: "1083. 블록체인 가십 프로토콜 P2P 연결"
+title: "1083. Blockchain Gossip Protocol P2P Network"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

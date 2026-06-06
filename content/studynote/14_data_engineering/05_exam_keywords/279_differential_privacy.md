@@ -1,10 +1,9 @@
 ---
-title: "279. 차등 프라이버시 노이즈 주입 엡실론 보장 (Differential Privacy Noise Injection Epsilon)"
+title: "Differential Privacy Noise Injection Epsilon"
 date: "2026-05-09"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

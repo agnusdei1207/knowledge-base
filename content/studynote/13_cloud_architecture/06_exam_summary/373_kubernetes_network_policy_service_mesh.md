@@ -1,10 +1,9 @@
 ---
-title: "373. 쿠버네티스 네트워크 정책 서비스 메시 (Kubernetes Network Policy Service Mesh)"
+title: "Kubernetes Network Policy Service Mesh"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "803. 개인정보보호 법률체계 (Privacy Law Comparison)"
+title: "Privacy Law Comparison"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

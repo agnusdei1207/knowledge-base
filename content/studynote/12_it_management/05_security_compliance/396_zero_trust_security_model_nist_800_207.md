@@ -1,10 +1,9 @@
 ---
-title: "396. 제로 트러스트 보안 모델 NIST 800-207 (Zero Trust Security Model NIST 800-207)"
+title: "Zero Trust Security Model NIST 800-207"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

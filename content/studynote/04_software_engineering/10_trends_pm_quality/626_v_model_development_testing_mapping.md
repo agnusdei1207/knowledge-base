@@ -1,10 +1,9 @@
 ---
-title: "626. V-모델 개발-테스트 매핑 구조"
+title: "626. V Model Development Testing Mapping"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "491. 클라우드 시계열 DB Timestream IoT (Cloud TimeSeries DB Timestream IoT)"
+title: "Cloud TimeSeries DB Timestream IoT"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "123. SOA vs MSA 비교 - 서비스 지향 아키텍처의 진화"
+title: "123. Soa Vs Msa Comparison"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [SOA](/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/)([Service Oriented Architecture](/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/))는 <strong><a href="/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/">ESB</a>(<a href="/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/">Enterprise Service Bus</a>) 중심의 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 통합</strong>이고, MSA는 <strong><a href="/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/">ESB</a> 없이 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>가 직접 경량 통신(<a href="/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/">REST</a>/<a href="/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/">gRPC</a>/이벤트)</strong>하는 경량 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처이다.

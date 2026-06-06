@@ -1,10 +1,9 @@
 ---
-title: "406. MVP·MVVM 패턴 (Model-View-Presenter and Model-View-ViewModel)"
+title: "Model-View-Presenter and Model-View-ViewModel"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

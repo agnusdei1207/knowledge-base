@@ -1,10 +1,9 @@
 ---
-title: "617. LoRa (Long Range) / LoRaWAN 표준"
+title: "617. Lora Lorawan Css Chirp Spread Spectrum"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

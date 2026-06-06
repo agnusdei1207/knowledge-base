@@ -1,9 +1,8 @@
 ---
-title: "04. 실시간 스트리밍 처리 (Real-time Streaming)"
+title: "Big Data"
 tags:
   - "bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

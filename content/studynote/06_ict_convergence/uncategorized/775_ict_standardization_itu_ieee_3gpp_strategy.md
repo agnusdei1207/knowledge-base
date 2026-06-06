@@ -1,10 +1,9 @@
 ---
-title: "775. ICT 표준화 ITU IEEE 3GPP 전략 (ICT Standardization ITU IEEE 3GPP Strategy)"
+title: "ICT Standardization ITU IEEE 3GPP Strategy"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

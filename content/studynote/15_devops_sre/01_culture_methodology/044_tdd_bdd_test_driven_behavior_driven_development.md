@@ -1,10 +1,9 @@
 ---
-title: "044. TDD & BDD — 테스트 주도 개발"
+title: "044. Tdd Bdd Test Driven Behavior Driven Development"
 date: "2026-04-05"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 > **핵심 인사이트**
 > 1. [TDD](/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)([Test-Driven Development](/studynote/11_design_supervision/06_exam_summary/411_process/))는 "테스트 먼저 작성 -> 최소 코드로 통과 -> [리팩토링](/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)"의 Red-Green-[Refactor](/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 사이클로 — 테스트가 설계 도구가 되어 과도한 설계(Over-엔진ering)를 방지하고, 변경에 안전한 [코드베이스](/studynote/15_devops_sre/01_culture_methodology/007_codebase/)를 만드는 개발 방법론이다.

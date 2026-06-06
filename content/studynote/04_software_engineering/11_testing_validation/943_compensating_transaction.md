@@ -1,10 +1,9 @@
 ---
-title: "943. 보상 트랜잭션 (Compensating Transaction) - 롤백을 논리적으로 수행하는 역방향 연산"
+title: "943. Compensating Transaction"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

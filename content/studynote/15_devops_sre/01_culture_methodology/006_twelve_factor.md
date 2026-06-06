@@ -1,10 +1,9 @@
 ---
-title: "6. 12 팩터 앱 (The Twelve-Factor App) - 클라우드 네이티브(SaaS) 애플리케이션 개발을 위한 12가지 베스트 프랙티스 (Heroku 제안)"
+title: "Heroku"
 date: "2026-04-05"
 tags:
   - "devops_sre"
 ---
-
 
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 12 팩터 앱( Twelve-Factor App)은 [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 및 [SaaS](/studynote/12_it_management/05_security_compliance/951_saas/) 애플리케이션 개발을 위한 12가지 설계 원칙으로, Heroku의 엔지니어링 팀이 2011년에 체계화했다.

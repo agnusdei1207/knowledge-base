@@ -1,10 +1,9 @@
 ---
-title: "381. 쿠버네티스 서비스 디스커버리 DNS CoreDNS (Kubernetes Service Discovery DNS CoreDNS)"
+title: "Kubernetes Service Discovery DNS CoreDNS"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

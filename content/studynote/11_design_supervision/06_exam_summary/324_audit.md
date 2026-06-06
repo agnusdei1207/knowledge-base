@@ -1,10 +1,9 @@
 ---
-title: "324. 감리 프레임워크 관점 (Audit Framework Perspectives)"
+title: "Audit Framework Perspectives"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "572. 루프 프리패처 (Loop Prefetcher)"
+title: "Loop Prefetcher"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

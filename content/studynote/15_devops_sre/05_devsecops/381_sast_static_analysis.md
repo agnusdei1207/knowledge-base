@@ -1,10 +1,9 @@
 ---
-title: "381. SAST 정적 분석 코드 취약점 조기 발견 (Static Application Security Testing SAST SonarQube)"
+title: "Static Application Security Testing SAST SonarQube"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

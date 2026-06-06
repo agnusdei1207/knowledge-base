@@ -1,10 +1,9 @@
 ---
-title: "723. 3D 프린팅 적층 제조 산업 응용 (3D Printing Additive Manufacturing Industry)"
+title: "3D Printing Additive Manufacturing Industry"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

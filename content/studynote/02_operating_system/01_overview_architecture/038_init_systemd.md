@@ -1,10 +1,9 @@
 ---
-title: "038. init과 systemd — 부팅 초기화 시스템"
+title: "038. Init Systemd"
 date: "2026-03-03"
 tags:
   - "studynote-operating-system"
 ---
-
 
 > **핵심 인사이트**
 > 1. init(PID 1)은 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 부팅 후 처음 실행되는 프로세스로 모든 다른 프로세스의 조상이며, 전통적인 SysV init은 순차적 런레벨(Runlevel) 기반 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시작으로 부팅이 느린 한계가 있었다.

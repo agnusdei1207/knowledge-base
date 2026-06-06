@@ -1,10 +1,9 @@
 ---
-title: "435. 가지치기 (Pruning) 지원 하드웨어"
+title: "435. Pruning Hardware"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

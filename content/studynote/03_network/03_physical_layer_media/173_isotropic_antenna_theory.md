@@ -1,9 +1,8 @@
 ---
-title: "173. 등방성 안테나 (Isotropic Antenna)"
+title: "Isotropic Antenna"
 tags:
   - "network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

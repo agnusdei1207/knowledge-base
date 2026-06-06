@@ -1,10 +1,9 @@
 ---
-title: "115. 범정부 EA 프레임워크 (GEA)"
+title: "GEA"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 범정부 [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 (GEA)의 본질은 공공부문 정보자산 관리 표준 체계 (방향성, 아키텍처 모델, [참조 모델](/studynote/12_it_management/03_ea_isp/116_reference_model/) 3계층)를 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.

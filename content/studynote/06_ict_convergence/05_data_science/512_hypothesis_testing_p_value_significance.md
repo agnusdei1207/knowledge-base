@@ -1,10 +1,9 @@
 ---
-title: "512. 가설 검정과 유의 수준 P-Value (Hypothesis Testing P-Value Significance Level)"
+title: "Hypothesis Testing P-Value Significance Level"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

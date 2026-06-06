@@ -1,10 +1,9 @@
 ---
-title: "434. 딥러닝 트랜스포머 LLM 자기회귀 어텐션 메커니즘 (LLM / Transformer)"
+title: "LLM / Transformer"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

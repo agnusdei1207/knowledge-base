@@ -1,10 +1,9 @@
 ---
-title: "545. 시큐어 코딩 파라 파라미터 매핑 ORM 보안 내재화 방식"
+title: "545. Dynamodb"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

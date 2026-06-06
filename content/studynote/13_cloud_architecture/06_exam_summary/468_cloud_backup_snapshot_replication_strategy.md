@@ -1,10 +1,9 @@
 ---
-title: "468. 클라우드 백업 스냅샷 복제 전략 (Cloud Backup Snapshot Replication Strategy)"
+title: "Cloud Backup Snapshot Replication Strategy"
 date: 2026-05-09
 tags:
   - "studynote-cloud-architecture"
----
-## 핵심 인사이트 (3줄 요약)
+---## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 백업 스냅샷 복제 전략은 **볼륨 레벨 스냅샷(Incremental, Copy-on-Write/Redirect-on-Write 기반) -> 객체 스토리지(S3/Blob/GCS) -> Cross-Region Replication(CRR) + Object Lock/Immutable Storage + Lifecycle Policy**의 3계층 파이프라인으로, RPO/RTO·일관성(Crash/Application)·비용(스냅샷 스폴링) 간 트레이드오프를 엔지니어링하는 DR 아키텍처 의사결정 프레임이다.
 > 2. **가치**: 3-2-1-1-0 백업 룰(원본 3사본, 2종 미디어, 1 오프사이트, 1 오프라인/불변, 0 에러 검증)을 자동화하여 랜섬웨어·리전 장애·계정 침해 시 RTO를 86,400초(24h)에서 300초 이내로 단축하고, AWS EBS 기준 스냅샷 스토리지 비용을 Standard 0.05 USD/GB·Standard-IA 0.0125 USD/GB·Glacier 0.004 USD/GB로 92% 절감 가능하다.

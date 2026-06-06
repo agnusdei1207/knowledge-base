@@ -1,10 +1,9 @@
 ---
-title: "612. 멀티클라우드 전략 벤더 독립 아키텍처 (Multi Cloud Strategy Vendor Independent)"
+title: "Multi Cloud Strategy Vendor Independent"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

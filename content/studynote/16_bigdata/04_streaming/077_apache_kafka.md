@@ -1,10 +1,9 @@
 ---
-title: "02. Apache Kafka - 메시징에서 데이터 허브로의 진화"
+title: "077. Apache Kafka"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"
 ---
-
 
 # [Apache Kafka](/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/) - [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)징에서 [데이터 허브](/studynote/16_bigdata/09_platform/180_data_hub/)로의 진화
 

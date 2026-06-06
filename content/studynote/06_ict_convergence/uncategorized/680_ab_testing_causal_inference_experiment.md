@@ -1,10 +1,9 @@
 ---
-title: "680. A/B 테스팅 인과 추론 실험 설계 (AB Testing Causal Inference Experiment)"
+title: "AB Testing Causal Inference Experiment"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

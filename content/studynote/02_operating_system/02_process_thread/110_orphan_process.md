@@ -1,10 +1,9 @@
 ---
-title: "110. 고아 프로세스 (Orphan Process) - 부모가 먼저 종료된 상태 (init 프로세스가 입양)"
+title: "init"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

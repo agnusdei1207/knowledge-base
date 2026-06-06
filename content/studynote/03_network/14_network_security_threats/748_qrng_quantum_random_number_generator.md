@@ -1,10 +1,9 @@
 ---
-title: "748. 양자 난수 생성기 (QRNG 적용, 순수 예측불허 난수 보안 생성장치 모델)"
+title: "QRNG ,"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

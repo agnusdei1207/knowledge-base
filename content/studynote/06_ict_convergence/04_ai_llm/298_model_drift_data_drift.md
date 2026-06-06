@@ -1,10 +1,9 @@
 ---
-title: "298. 모델 드리프트 (Model Drift / Data Drift)"
+title: "Model Drift / Data Drift"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

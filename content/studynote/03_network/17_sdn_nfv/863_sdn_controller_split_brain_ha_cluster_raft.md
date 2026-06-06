@@ -1,10 +1,9 @@
 ---
-title: "863. SDN 분산 컨트롤러 이중화"
+title: "863. Sdn Controller Split Brain Ha Cluster Raft"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

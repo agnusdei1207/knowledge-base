@@ -1,10 +1,9 @@
 ---
-title: "362. RAG 증강 정보 환각 방지 LLM 오케스트레이터 결합 (RAG LLM)"
+title: "RAG LLM"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 증강 정보 [환각](/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) 방지 [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 오케스트레이터 결합는 클라우드 인프라에서 복잡한 운영의 질서화를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.

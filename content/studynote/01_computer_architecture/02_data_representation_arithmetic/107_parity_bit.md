@@ -1,10 +1,9 @@
 ---
-title: "107. 패리티 비트 (Parity Bit)"
+title: "Parity Bit"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 패리티 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) (Parity [Bit](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 시 전체 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 중 '1의 개수'를 짝수나 홀수로 맞추기 위해 덧붙이는 1비트의 오류 검출용 꼬리표다.

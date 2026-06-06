@@ -1,10 +1,9 @@
 ---
-title: "675. 데이터 오케스트레이션 Airflow Dagster (Data Orchestration Airflow Dagster)"
+title: "Data Orchestration Airflow Dagster"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

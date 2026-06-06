@@ -1,10 +1,9 @@
 ---
-title: "131. 자기 지도 학습 (Self-Supervised Learning) - 라벨 없이 학습하는 사전 훈련"
+title: "131. Self Supervised Learning"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [Self-Supervised Learning](/studynote/06_ict_convergence/04_ai_llm/266_self_supervised_learning/)(SSL)은 <strong>라벨 없는 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>에서 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 자체로 학습 <a href="/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>를 <a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>하는 방법이며, "다음 단어 예측([GPT](/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/))"·"빈칸 채우기([BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/))"가 대표적 pretext task이다.

@@ -1,10 +1,9 @@
 ---
-title: "781. FIB (Focused Ion Beam) 수정"
+title: "781. Fib Circuit Edit"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

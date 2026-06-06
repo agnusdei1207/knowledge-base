@@ -1,10 +1,9 @@
 ---
-title: "445. YOLO 실시간 1-Stage (YOLO Realtime ONE Stage Detection)"
+title: "YOLO Realtime ONE Stage Detection"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

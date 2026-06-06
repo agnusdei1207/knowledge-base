@@ -1,10 +1,9 @@
 ---
-title: "601. 확인 감리 (Follow-up Audit)"
+title: "Follow-up Audit"
 date: "2026-05-05"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 감리(Follow-up [Audit](/studynote/12_it_management/05_security_compliance/363_audit/))는 본 감리(수석 감리원이 문제점을 지적한 단계)가 끝난 후, 발주처와 수행사가 감리 결과 조치 내역을 <strong>실제로 제대로 고쳤는지(시정 조치) 물리적으로 재검증하는 최종 확정 단계</strong>다.

@@ -1,10 +1,9 @@
 ---
-title: "039. 개인정보 비식별화 (Data Anonymization / k-Anonymity)"
+title: "Data Anonymization / k-Anonymity"
 date: "2026-03-04"
 tags:
   - "studynote-bigdata"
 ---
-
 
 > **핵심 인사이트**
 > 1. [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) 비식별화는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유용성(Utility)과 프라이버시 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)(Privacy) 사이의 근본적 트레이드오프를 다루는 기술로, 완전한 비식별화는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 무용하게 만들기 때문에 "충분히 비식별화"와 "여전히 유용"의 균형이 핵심이다.

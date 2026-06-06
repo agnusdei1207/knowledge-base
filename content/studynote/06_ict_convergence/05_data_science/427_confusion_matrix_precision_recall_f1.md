@@ -1,10 +1,9 @@
 ---
-title: "427. 혼동 행렬 정밀도 재현율 F1 조화 (Confusion Matrix Precision Recall F1)"
+title: "Confusion Matrix Precision Recall F1"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

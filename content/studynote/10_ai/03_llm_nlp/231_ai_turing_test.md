@@ -1,10 +1,9 @@
 ---
-title: "231. 인공지능 (AI)의 정의와 튜링 테스트"
+title: "231. Ai Turing Test"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

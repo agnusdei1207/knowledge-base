@@ -1,10 +1,9 @@
 ---
-title: "493. ISP 정보화 전략 수립 BPR ISP (ISP Information Strategy Planning BPR)"
+title: "ISP Information Strategy Planning BPR"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

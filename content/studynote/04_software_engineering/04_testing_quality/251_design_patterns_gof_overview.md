@@ -1,10 +1,9 @@
 ---
-title: "251. 디자인 패턴 (Design Patterns) 개요 - GoF (Gang of Four) 23가지"
+title: "251. Design Patterns Gof Overview"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

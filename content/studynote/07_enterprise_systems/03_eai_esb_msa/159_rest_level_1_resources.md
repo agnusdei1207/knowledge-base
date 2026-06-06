@@ -1,10 +1,9 @@
 ---
-title: "159. Level 1 - 리소스별 고유 URI 할당"
+title: "159. Rest Level 1 Resources"
 date: "2026-05-05"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트
 

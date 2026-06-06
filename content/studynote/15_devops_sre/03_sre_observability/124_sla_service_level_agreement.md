@@ -1,10 +1,9 @@
 ---
-title: "124. SLA (Service Level Agreement) - 서비스 수준 계약·위반 시 책임"
+title: "124. Sla Service Level Agreement"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SLA는 <strong><a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 제공자와 고객 간의 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 품질에 대한 공식 계약</strong>이며, [SLO](/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) 미달 시 <strong>크레딧 환불·위약금 등 법적 책임</strong>이 발생하는 비즈니스 문서이다.

@@ -1,10 +1,9 @@
 ---
-title: "559. 콜드 스타트 (Cold Start) 지연 문제 및 극복 방안 (Provisioned Concurrency 등)"
+title: "Provisioned Concurrency"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

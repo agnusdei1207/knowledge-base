@@ -1,10 +1,9 @@
 ---
-title: "454. 블록체인 이클립스 시빌 노드 공격 51% 위협 (Blockchain Eclipse/Sybil/51% Attack)"
+title: "Blockchain Eclipse/Sybil/51% Attack"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

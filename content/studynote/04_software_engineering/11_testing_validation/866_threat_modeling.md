@@ -1,10 +1,9 @@
 ---
-title: "866. 위협 모델링 (Threat Modeling)"
+title: "Threat Modeling"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

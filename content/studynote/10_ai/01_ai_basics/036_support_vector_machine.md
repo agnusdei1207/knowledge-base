@@ -1,10 +1,9 @@
 ---
-title: "036. 서포트 벡터 머신 (Support Vector Machine, SVM)"
+title: "Support Vector Machine, SVM"
 date: "2026-03-03"
 tags:
   - "studynote-ai"
 ---
-
 
 > **핵심 인사이트**
 > 1. [SVM](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) ([Support Vector Machine](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/))은 두 클래스를 분리하는 초평면(Hyperplane) 중 마진(Margin, 클래스 간 간격)이 최대인 것을 찾는 최대 마진 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기로, 소규모·고차원 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 강력한 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보인다.

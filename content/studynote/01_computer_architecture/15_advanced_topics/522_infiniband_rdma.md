@@ -1,10 +1,9 @@
 ---
-title: "522. 인피니밴드 RDMA (InfiniBand RDMA)"
+title: "InfiniBand RDMA"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "801. 데이터센터 (Data Center) 3-Tier 아키텍처"
+title: "801. Data Center 3 Tier Architecture Core Aggregation Access"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

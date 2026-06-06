@@ -1,10 +1,9 @@
 ---
-title: "822. IT 포트폴리오 관리 (IT PPM)"
+title: "IT PPM"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

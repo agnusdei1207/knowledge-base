@@ -1,10 +1,9 @@
 ---
-title: "519. Nonce (OIDC Replay Attack 방지)"
+title: "OIDC Replay Attack"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

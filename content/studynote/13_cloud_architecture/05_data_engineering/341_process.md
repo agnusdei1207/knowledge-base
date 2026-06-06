@@ -1,10 +1,9 @@
 ---
-title: "341. CAP 파티션 감내 일관 가용성 트레이드 오프 (CAP)"
+title: "CAP"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CAP [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 감내 일관 [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 트레이드 오프는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼에서 [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)과 복원력를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.

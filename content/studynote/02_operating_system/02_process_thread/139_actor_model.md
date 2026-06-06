@@ -1,10 +1,9 @@
 ---
-title: "139. 액터 모델 (Actor Model) - Erlang, Akka 동시성 모델"
+title: "139. Actor Model"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "577. 범위 관리 WBS 요구사항 추적 매트릭스 (Scope Management WBS Requirements Traceability)"
+title: "Scope Management WBS Requirements Traceability"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 범위관리 WBS 요구사항 추적성은(는) 프로젝트 산출물 범위와 요구사항을 구조화하고 변경을 통제하는 관리 활동이다.

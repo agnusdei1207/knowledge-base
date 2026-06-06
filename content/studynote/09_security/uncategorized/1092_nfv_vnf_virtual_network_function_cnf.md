@@ -1,10 +1,9 @@
 ---
-title: "1092. NFV 기반 가상화 (VNF)"
+title: "VNF"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

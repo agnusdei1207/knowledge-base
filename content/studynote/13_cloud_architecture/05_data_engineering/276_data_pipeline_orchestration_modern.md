@@ -1,10 +1,9 @@
 ---
-title: "276. 데이터 파이프라인 오케스트레이션 - Airflow, Prefect, Dagster (Airflow Prefect Dagster)"
+title: "Airflow Prefect Dagster"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터 파이프라인](/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) - Airflow, Prefect, Dagster는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 표준화를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.

@@ -1,10 +1,9 @@
 ---
-title: "1. 확률 (Probability) — 고전/상대도수/주관 확률"
+title: "130. Probability"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트
 

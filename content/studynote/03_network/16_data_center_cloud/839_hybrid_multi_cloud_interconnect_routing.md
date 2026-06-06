@@ -1,10 +1,9 @@
 ---
-title: "839. 하이브리드 / 멀티 클라우드 망 연동"
+title: "839. Hybrid Multi Cloud Interconnect Routing"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

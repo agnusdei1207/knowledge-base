@@ -1,10 +1,9 @@
 ---
-title: "로지스틱 회귀 (Logistic Regression) 및 시그모이드 (Sigmoid) 함수"
+title: "103. Logistic Regression Sigmoid"
 date: "2024-05-22"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

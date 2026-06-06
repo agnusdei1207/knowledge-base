@@ -1,10 +1,9 @@
 ---
-title: "638. 클라우드 마이그레이션 6R 전략 (Cloud Migration 6R Strategy)"
+title: "Cloud Migration 6R Strategy"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "ALE (Annual Loss Expectancy, 연간 예상 손실)"
+title: "Annual Loss Expectancy,"
 date: "2026-03-03"
 tags:
   - "studynote-security"
 ---
-
 
 > **핵심 인사이트 3줄**
 > 1. ALE(Annual Loss Expectancy)는 [정량적 위험 분석](/studynote/09_security/01_intro_principles/028_quantitative_risk_analysis/)에서 특정 위협이 1년간 발생시킬 예상 손실액으로, ALE = SLE × ARO 공식으로 계산된다.

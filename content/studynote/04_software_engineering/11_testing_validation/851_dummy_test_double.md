@@ -1,10 +1,9 @@
 ---
-title: "851. Dummy (더미)"
+title: "851. Dummy Test Double"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

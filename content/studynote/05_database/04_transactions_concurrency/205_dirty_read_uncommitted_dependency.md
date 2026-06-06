@@ -1,10 +1,9 @@
 ---
-title: "205. 오손 읽기 (Dirty Read)"
+title: "Dirty Read"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

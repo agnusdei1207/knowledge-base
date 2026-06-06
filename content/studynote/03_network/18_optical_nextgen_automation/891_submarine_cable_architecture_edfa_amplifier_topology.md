@@ -1,10 +1,9 @@
 ---
-title: "891. 해저 광케이블 아키텍처"
+title: "891. Submarine Cable Architecture Edfa Amplifier Topology"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

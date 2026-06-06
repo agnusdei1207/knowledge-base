@@ -1,11 +1,10 @@
 ---
-title: "86. Consumer Lag — Kafka 소비 지연 모니터링, Burrow / JMX"
+title: "086. Learning Rate Gradient Descent"
 date: "2026-04-05"
 description: "학습률과 경사하강법의 기본 원리, 다양한 확률적 경사하강법 변형, 학습률 스케줄링 기법"
 tags:
   - "it_management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

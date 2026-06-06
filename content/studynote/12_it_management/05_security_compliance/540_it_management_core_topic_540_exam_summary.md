@@ -1,10 +1,9 @@
 ---
-title: "540. IT 경영 관리 핵심 토픽 540번 시험 요약 (IT Management Core Topic 540 Exam Summary)"
+title: "IT Management Core Topic 540 Exam Summary"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 # 📚 기술사 시험 대비 스터디 노트
 

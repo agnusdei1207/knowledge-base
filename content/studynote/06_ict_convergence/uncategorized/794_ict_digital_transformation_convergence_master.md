@@ -1,10 +1,9 @@
 ---
-title: "794. ICT 융합 기술 디지털 전환 융합 마스터 (ICT Digital Transformation Convergence Master)"
+title: "ICT Digital Transformation Convergence Master"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

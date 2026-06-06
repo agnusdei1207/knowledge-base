@@ -1,10 +1,9 @@
 ---
-title: "691. 다단계 피드백 큐 (MLFQ) 천이"
+title: "691. Mlfq Multi Level Feedback Queue"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

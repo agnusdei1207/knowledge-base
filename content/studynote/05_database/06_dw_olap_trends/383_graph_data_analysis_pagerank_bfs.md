@@ -1,10 +1,9 @@
 ---
-title: "383. 그래프 데이터 분석 알고리즘 (PageRank, BFS 최단경로 매핑 DB 엔진 연산)"
+title: "PageRank, BFS DB"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

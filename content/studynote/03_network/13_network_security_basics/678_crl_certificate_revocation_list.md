@@ -1,10 +1,9 @@
 ---
-title: "678. CRL (Certificate Revocation List) 스펙 및 폐기 문제 및 배포 지연 약점 완화 체계"
+title: "678. Crl Certificate Revocation List"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

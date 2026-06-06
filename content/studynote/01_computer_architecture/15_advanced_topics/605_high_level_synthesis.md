@@ -1,10 +1,9 @@
 ---
-title: "605. 고수준 합성 (HLS, High-Level Synthesis)"
+title: "HLS, High-Level Synthesis"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

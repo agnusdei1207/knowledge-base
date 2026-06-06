@@ -1,10 +1,9 @@
 ---
-title: "374. 정보보안 정책 수립 거버넌스 프레임워크 (InfoSec Policy Governance Framework)"
+title: "InfoSec Policy Governance Framework"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "09. 정보보안 키워드 목록"
+title: "Keyword List"
 date: "2026-03-25"
 tags:
   - "studynote-security"
 ---
-
 [weight](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) = 9999
 
 # 정보보안 (Information [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 키워드 목록

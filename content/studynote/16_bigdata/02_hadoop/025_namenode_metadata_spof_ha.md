@@ -1,11 +1,10 @@
 ---
-title: "03. 네임노드 (NameNode) - 메타데이터 관리와 고가용성"
+title: "025. Namenode Metadata Spof Ha"
 date: "2026-03-04"
 tags:
   - "hadoop"
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 - **HDFS의 중앙 사령탑**: [네임노드](/studynote/14_data_engineering/01_infrastructure/014_namenode/)([NameNode](/studynote/14_data_engineering/01_infrastructure/014_namenode/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 저장된 위치, [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 권한, [디렉터리](/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 구조 등 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템의 모든 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)([Namespace](/studynote/02_operating_system/01_overview_architecture/061_namespace/))를 메모리(RAM) 위에서 통제하는 단일 [마스](/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 서버입니다.

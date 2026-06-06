@@ -1,10 +1,9 @@
 ---
-title: "547. IT 자산 관리 라이프사이클 최적화 (IT Asset Management Lifecycle Optimization)"
+title: "IT Asset Management Lifecycle Optimization"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

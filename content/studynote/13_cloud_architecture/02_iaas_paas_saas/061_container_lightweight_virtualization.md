@@ -1,10 +1,9 @@
 ---
-title: "61. 컨테이너 (Container) - 경량 가상화"
+title: "061. Container Lightweight Virtualization"
 date: "2026-04-07"
 tags:
   - "studynote-cloud"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

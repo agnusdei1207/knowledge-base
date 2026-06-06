@@ -1,10 +1,9 @@
 ---
-title: "302. 데이터옵스 CI/CD 파이프라인 자동 테스팅 (DataOps CI/CD dbt)"
+title: "DataOps CI/CD dbt"
 date: "2026-04-21"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

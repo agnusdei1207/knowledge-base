@@ -1,9 +1,8 @@
 ---
-title: "12. AI 하드웨어 가속기 (NPU, TPU)"
+title: "Computer Architecture"
 tags:
   - "computer_architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

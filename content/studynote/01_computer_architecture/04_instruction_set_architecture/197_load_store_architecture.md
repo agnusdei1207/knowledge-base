@@ -1,10 +1,9 @@
 ---
-title: "197. 로드/스토어 아키텍처 (Load-Store Architecture)"
+title: "Load-Store Architecture"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

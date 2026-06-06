@@ -1,10 +1,9 @@
 ---
-title: "211. 데스크톱 애널리틱스 (Desktop Analytics) / 작업 마이닝 (Task Mining)"
+title: "Task Mining"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

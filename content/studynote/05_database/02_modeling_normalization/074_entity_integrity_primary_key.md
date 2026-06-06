@@ -1,9 +1,8 @@
 ---
-title: "74. 개체 무결성 (Entity Integrity) / 기본 키 (Primary Key)"
+title: "Primary Key"
 tags:
   - "database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

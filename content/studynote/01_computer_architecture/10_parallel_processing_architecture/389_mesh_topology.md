@@ -1,10 +1,9 @@
 ---
-title: "389. 메시 (Mesh) 토폴로지"
+title: "389. Mesh Topology"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

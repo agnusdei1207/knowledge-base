@@ -1,10 +1,9 @@
 ---
-title: "162. CRL (Certificate Revocation List) — 폐지 인증서 목록"
+title: "162. Crl Certificate Revocation List"
 date: "2026-05-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트
 

@@ -1,10 +1,9 @@
 ---
-title: "448. 유령 읽기 (Phantom Read Insert 추가)"
+title: "Phantom Read Insert"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

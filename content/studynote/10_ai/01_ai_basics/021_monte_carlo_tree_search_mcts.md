@@ -1,10 +1,9 @@
 ---
-title: "21. 몬테카를로 트리 탐색 (MCTS, Monte Carlo Tree Search) - 바둑(알파고) 등 경우의 수가 방대한 게임에서 무작위 시뮬레이션(롤아웃)을 통해 승률을 계산하여 최적 경로를 확장하는 탐색 기법"
+title: "021. Monte Carlo Tree Search Mcts"
 date: "2026-04-02"
 tags:
   - "studynote-ai"
 ---
-
 
 # [몬테카를로 트리 탐색](/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/) ([MCTS](/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/), Monte Carlo Tree Search)
 

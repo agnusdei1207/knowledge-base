@@ -1,10 +1,9 @@
 ---
-title: "158. CPI (Cost Performance Index, 비용 성과 지수)"
+title: "Cost Performance Index,"
 date: "2026-04-21"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "93. 아키텍처 평가 방법론 ATAM 4단계 페이즈 프로세스"
+title: "093. Atam Phases Initialization Evaluation Analysis Reporting"
 date: "2026-04-10"
 tags:
   - "studynote-design"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

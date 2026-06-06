@@ -1,10 +1,9 @@
 ---
-title: "172. GPU 인프라 분산 학습 (Data Parallelism vs Model Parallelism)"
+title: "Data Parallelism vs Model Parallelism"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

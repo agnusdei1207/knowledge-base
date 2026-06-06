@@ -1,10 +1,9 @@
 ---
-title: "291. 단편화 (Fragmentation) 및 재조립 (Reassembly)"
+title: "Reassembly"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

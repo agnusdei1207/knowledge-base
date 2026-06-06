@@ -1,10 +1,9 @@
 ---
-title: "475. 디지털 트윈 클라우드 시뮬레이션 (Digital Twin Cloud Simulation)"
+title: "Digital Twin Cloud Simulation"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

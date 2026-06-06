@@ -1,10 +1,9 @@
 ---
-title: "577. 로우코드 노코드 시민 개발자 거버넌스 (Low Code No Code Citizen Developer Governance)"
+title: "Low Code No Code Citizen Developer Governance"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

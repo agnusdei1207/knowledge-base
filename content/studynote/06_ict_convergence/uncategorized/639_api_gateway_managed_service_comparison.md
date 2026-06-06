@@ -1,10 +1,9 @@
 ---
-title: "639. API 게이트웨이 매니지드 서비스 비교 (API Gateway Managed Service Comparison)"
+title: "API Gateway Managed Service Comparison"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "236. 양자 컴퓨팅 (Quantum Computing) 보안 위협 방어용 PQC (양자 내성 암호) 로드맵 적용"
+title: "236. Quantum Computing Pqc"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 양자 컴퓨팅 ([Quantum](/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Computing) 보안 위협 방어용 [PQC](/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/) ([양자 내성 암호](/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/)) 로드맵 적용의 본질은 핵심 기술, 운영 조건, 위험 통제, 생태계 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 함께 봐야 신기술 도입이 유행이 아니라 사업 역량이 된다.

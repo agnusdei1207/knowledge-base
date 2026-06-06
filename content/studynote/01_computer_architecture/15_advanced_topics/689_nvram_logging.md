@@ -1,10 +1,9 @@
 ---
-title: "689. NVRAM 로깅"
+title: "689. Nvram Logging"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

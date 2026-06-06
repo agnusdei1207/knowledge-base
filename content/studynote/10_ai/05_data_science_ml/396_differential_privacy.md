@@ -1,10 +1,9 @@
 ---
-title: "396. 차분 프라이버시 (Differential Privacy)"
+title: "Differential Privacy"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

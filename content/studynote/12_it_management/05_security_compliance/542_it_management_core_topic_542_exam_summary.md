@@ -1,10 +1,9 @@
 ---
-title: "542. IT 경영 관리 핵심 토픽 542번 시험 요약 (IT Management Core Topic 542 Exam Summary)"
+title: "IT Management Core Topic 542 Exam Summary"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 # 542. IT 경영 관리 핵심 토픽 — IT 거버넌스 및 IT 전략 관리
 

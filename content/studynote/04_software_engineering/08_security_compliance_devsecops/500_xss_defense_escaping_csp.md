@@ -1,10 +1,9 @@
 ---
-title: "500. 크로스 사이트 스크립팅 (XSS) 방어 - 입/출력값 인코딩, CSP(Content Security Policy) 헤더 설정"
+title: "500. Xss Defense Escaping Csp"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

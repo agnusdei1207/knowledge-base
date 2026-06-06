@@ -1,10 +1,9 @@
 ---
-title: "컨텍스트 (Context) / 컨텍스트 스위칭 (Context Switching)"
+title: "Context Switching"
 date: "2026-03-03"
 tags:
   - "studynote-operating-system"
 ---
-
 
 > **핵심 인사이트 3줄**
 > 1. 컨텍스트(Context)는 프로세스가 실행 중인 순간의 완전한 상태 스냅샷으로, CPU [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)·[PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)·[스택 포인터](/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/)·[프로세스 제어 블록](/studynote/02_operating_system/02_process_thread/090_pcb_tcb/)(PCB) 정보를 포함한다.

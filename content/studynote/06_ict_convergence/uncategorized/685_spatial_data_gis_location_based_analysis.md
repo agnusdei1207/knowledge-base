@@ -1,10 +1,9 @@
 ---
-title: "685. 공간 데이터 GIS 위치 기반 분석 (Spatial Data GIS Location Based Analysis)"
+title: "Spatial Data GIS Location Based Analysis"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

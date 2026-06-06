@@ -1,10 +1,9 @@
 ---
-title: "132. V 모델 (V-Model)"
+title: "V-Model"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: V 모델 (V-Model)의 본질은 폭포수 모델의 확장, 개발 각 단계에 대응하는 테스트 레벨(단위, 통합, 시스템, 인수) 명시 ([Verification](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) & [Validation](/studynote/04_software_engineering/12_testing_maintenance/396_validation/))를 단계별 산출물과 품질 게이트로 관리하는 데 있다.

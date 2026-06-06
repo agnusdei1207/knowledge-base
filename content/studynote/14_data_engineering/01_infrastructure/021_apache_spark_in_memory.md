@@ -1,10 +1,9 @@
 ---
-title: "21. 아파치 스파크 (Apache Spark) - 하둡 맵리듀스의 느린 디스크 반복 접근 단점을 극복한 인메모리(In-Memory) 기반 초고속 범용 분산 처리 엔진"
+title: "021. Apache Spark In Memory"
 date: "2026-04-02"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 # [아파치 스파크](/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) ([Apache Spark](/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/)) - 인메모리 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 엔진
 

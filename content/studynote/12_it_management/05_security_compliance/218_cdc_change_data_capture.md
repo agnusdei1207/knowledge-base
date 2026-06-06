@@ -1,10 +1,9 @@
 ---
-title: "218. 변경 데이터 캡처 (CDC, Change Data Capture) 데이터베이스 실시간 마이그레이션 연동망"
+title: "218. Cdc Change Data Capture"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 변경 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 캡처 ([CDC](/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/), [Change Data Capture](/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)) [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 실시간 마이그레이션 연동망의 본질은 수집, 저장, 품질, 활용, 거버넌스가 분리되지 않아야 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산이 실제 의사결정 가치로 전환된다.

@@ -1,10 +1,9 @@
 ---
-title: "598. 스푸핑 (Spoofing) - IP/MAC 등 신분 위장"
+title: "598. Spoofing"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

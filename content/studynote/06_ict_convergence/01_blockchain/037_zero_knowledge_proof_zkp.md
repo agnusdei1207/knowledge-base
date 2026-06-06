@@ -1,10 +1,9 @@
 ---
-title: "037. ZKP — 영지식 증명 (Zero-Knowledge Proof)"
+title: "Zero-Knowledge Proof"
 date: "2026-03-03"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 > **핵심 인사이트**
 > 1. [영지식 증명](/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/)([ZKP](/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/), Zero-Knowledge Proof)은 증명자(Prover)가 어떤 사실의 지식을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자(Verifier)에게 증명할 때, 그 지식 자체의 내용을 전혀 공개하지 않고도 참임을 증명하는 암호학적 프로토콜이다.

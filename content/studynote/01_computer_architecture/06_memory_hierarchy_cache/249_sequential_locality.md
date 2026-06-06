@@ -1,10 +1,9 @@
 ---
-title: "249. 순차적 지역성 (Sequential Locality)"
+title: "Sequential Locality"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

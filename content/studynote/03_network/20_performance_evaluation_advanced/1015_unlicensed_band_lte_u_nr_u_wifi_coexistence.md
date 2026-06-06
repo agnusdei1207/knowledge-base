@@ -1,10 +1,9 @@
 ---
-title: "1015. 언면허 대역망 (Unlicensed Band LTE-U / NR-U)"
+title: "Unlicensed Band LTE-U / NR-U"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

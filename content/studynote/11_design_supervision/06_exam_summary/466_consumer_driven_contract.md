@@ -1,10 +1,9 @@
 ---
-title: "466. 컨슈머 주도 계약 테스트 (Consumer Driven Contract Testing)"
+title: "Consumer Driven Contract Testing"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

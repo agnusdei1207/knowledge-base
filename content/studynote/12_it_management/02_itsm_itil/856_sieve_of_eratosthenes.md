@@ -1,9 +1,8 @@
 ---
-title: "856. 에라토스테네스의 체 (Sieve of Eratosthenes)"
+title: "Sieve of Eratosthenes"
 tags:
   - "it_management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

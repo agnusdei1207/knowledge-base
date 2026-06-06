@@ -1,10 +1,9 @@
 ---
-title: "274. 데이터 드리프트 모니터링 분포 변화 탐지 (Data Drift Monitoring Distribution Shift Detection)"
+title: "Data Drift Monitoring Distribution Shift Detection"
 date: "2026-05-09"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

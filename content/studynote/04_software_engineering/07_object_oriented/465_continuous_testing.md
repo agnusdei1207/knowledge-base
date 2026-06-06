@@ -1,10 +1,9 @@
 ---
-title: "465. 지속적 테스팅 (Continuous Testing) - CI/CD 파이프라인 전 과정에 테스트 자동화 통합"
+title: "465. Continuous Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

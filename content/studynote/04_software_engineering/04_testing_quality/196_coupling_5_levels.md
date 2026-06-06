@@ -1,10 +1,9 @@
 ---
-title: "196. 결합도 단계 - 내용, 공통, 제어, 스탬프, 자료 결합도"
+title: "196. Coupling 5 Levels"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

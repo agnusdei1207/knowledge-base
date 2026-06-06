@@ -1,10 +1,9 @@
 ---
-title: "251. 벡터 데이터베이스 - ANN, RAG (Vector Database)"
+title: "Vector Database"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [벡터 데이터베이스](/studynote/12_it_management/05_security_compliance/223_vector_database_embedding/) - [ANN](/studynote/05_database/06_dw_olap_trends/350_ann/), RAG는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 표준화를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.

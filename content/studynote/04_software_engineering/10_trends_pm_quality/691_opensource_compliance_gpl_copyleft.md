@@ -1,10 +1,9 @@
 ---
-title: "691. 오픈소스 컴플라이언스 GPL 카피레프트"
+title: "691. Opensource Compliance Gpl Copyleft"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

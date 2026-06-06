@@ -1,10 +1,9 @@
 ---
-title: "571. Web3 탈중앙화 웹 인프라 아키텍처 (Web3 Decentralized Web Infrastructure)"
+title: "Web3 Decentralized Web Infrastructure"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

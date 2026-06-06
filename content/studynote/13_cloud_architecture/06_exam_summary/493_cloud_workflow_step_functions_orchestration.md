@@ -1,10 +1,9 @@
 ---
-title: "493. 클라우드 워크플로 Step Functions 오케스트레이션 (Cloud Workflow Step Functions Orchestration)"
+title: "Cloud Workflow Step Functions Orchestration"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

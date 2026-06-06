@@ -1,10 +1,9 @@
 ---
-title: "589. 정보시스템 감리 종합 정리 기술사 요약 (IS Audit Comprehensive Summary PE Overview)"
+title: "IS Audit Comprehensive Summary PE Overview"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

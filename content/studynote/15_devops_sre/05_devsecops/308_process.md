@@ -1,10 +1,9 @@
 ---
-title: "308. 쿠버네티스 마스터·워커 컴포넌트 (Kubernetes Control Plane and Worker)"
+title: "Kubernetes Control Plane and Worker"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

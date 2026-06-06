@@ -1,10 +1,9 @@
 ---
-title: "456. 클라우드 컴플라이언스 규제 인증 (Cloud Compliance Regulation Certification)"
+title: "Cloud Compliance Regulation Certification"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

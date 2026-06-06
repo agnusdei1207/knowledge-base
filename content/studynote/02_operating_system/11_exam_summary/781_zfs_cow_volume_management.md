@@ -1,10 +1,9 @@
 ---
-title: "781. ZFS Copy-on-Write 볼륨 관리 통합 (Zfs COW Volume Management)"
+title: "Zfs COW Volume Management"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

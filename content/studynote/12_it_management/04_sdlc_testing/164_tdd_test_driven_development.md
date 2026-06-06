@@ -1,10 +1,9 @@
 ---
-title: "164. TDD (Test Driven Development, 테스트 주도 개발)"
+title: "Test Driven Development,"
 date: "2026-04-21"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

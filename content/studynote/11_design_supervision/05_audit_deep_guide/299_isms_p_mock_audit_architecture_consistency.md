@@ -1,10 +1,9 @@
 ---
-title: "299. ISMS-P 모의심사 아키텍처 정합성 감리 (ISMS P Mock Audit Architecture Consistency)"
+title: "ISMS P Mock Audit Architecture Consistency"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

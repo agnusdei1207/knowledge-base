@@ -1,10 +1,9 @@
 ---
-title: "666. 디피-헬만 상호 키 교환 (Diffie-Hellman Key Exchange) 원리 및 스니핑 취약점"
+title: "666. Diffie Hellman Key Exchange Mitm"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

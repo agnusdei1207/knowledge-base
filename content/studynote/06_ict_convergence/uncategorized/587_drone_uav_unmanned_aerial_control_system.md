@@ -1,10 +1,9 @@
 ---
-title: "587. 드론 UAV 무인항공 관제 시스템 (Drone UAV Unmanned Aerial Control System)"
+title: "Drone UAV Unmanned Aerial Control System"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

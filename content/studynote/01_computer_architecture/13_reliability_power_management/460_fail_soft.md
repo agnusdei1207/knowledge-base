@@ -1,10 +1,9 @@
 ---
-title: "460. 페일 소프트 (Fail-Soft)"
+title: "Fail-Soft"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

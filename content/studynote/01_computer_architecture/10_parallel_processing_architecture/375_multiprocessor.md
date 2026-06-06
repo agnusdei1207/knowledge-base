@@ -1,10 +1,9 @@
 ---
-title: "375. 다중 프로세서 (Multiprocessor)"
+title: "Multiprocessor"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

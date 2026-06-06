@@ -1,10 +1,9 @@
 ---
-title: "597. 블루투스 (Bluetooth)와 BLE"
+title: "597. Gps Triangulation Dgps Rtk"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

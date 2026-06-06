@@ -1,10 +1,9 @@
 ---
-title: "505. 비밀번호 저장 방식 - KDF(Key Derivation Function) 활용 (PBKDF2, bcrypt, scrypt, Argon2) 및 솔트(Salt) 적용"
+title: "505. Password Storage Kdf Salt"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

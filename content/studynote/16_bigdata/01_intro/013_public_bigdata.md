@@ -1,11 +1,10 @@
 ---
-title: "13. 공공 빅데이터 — 공공데이터포털, 행정안전부, 데이터 개방 정책"
+title: "013. Public Bigdata"
 date: "2024-05-23"
 description: "데이터 개방 정책, 공공데이터포털 기반 생태계 아키텍처 및 공공 서비스 혁신 방안"
 tags:
   - "bigdata"
 ---
-
 
 # [공공 빅데이터](/studynote/16_bigdata/13_intro_trends/245_public_bigdata/) ([Public Big Data](/studynote/16_bigdata/13_intro_trends/245_public_bigdata/))
 

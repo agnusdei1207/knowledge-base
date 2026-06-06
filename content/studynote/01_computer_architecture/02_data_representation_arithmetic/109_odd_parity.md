@@ -1,10 +1,9 @@
 ---
-title: "109. 홀수 패리티 (Odd Parity)"
+title: "Odd Parity"
 date: "2026-05-05"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 홀수 패리티(Odd Parity)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)열에 1비트를 추가하여, 전체 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 중 '1'의 개수가 항상 <strong>홀수</strong>가 되도록 맞추는 에러 검출 기법이다.

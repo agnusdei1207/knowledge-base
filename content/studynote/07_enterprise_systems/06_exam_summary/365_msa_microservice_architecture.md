@@ -1,10 +1,9 @@
 ---
-title: "365. 마이크로서비스 MSA 독립 배포 원칙 (Microservice Architecture)"
+title: "Microservice Architecture"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

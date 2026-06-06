@@ -1,10 +1,9 @@
 ---
-title: "586. 서비스 메시 관측성 트래픽 제어 (Service Mesh Observability Traffic Control)"
+title: "Service Mesh Observability Traffic Control"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "508. 양자 컴퓨팅과 암호 보안 위협 (Quantum Computing Security Shor Grover Threat)"
+title: "Quantum Computing Security Shor Grover Threat"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

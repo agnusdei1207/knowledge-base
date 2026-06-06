@@ -1,10 +1,9 @@
 ---
-title: "614. 바운디드 컨텍스트 마이크로서비스 식별 기준"
+title: "614. Bounded Context Microservices Identification"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

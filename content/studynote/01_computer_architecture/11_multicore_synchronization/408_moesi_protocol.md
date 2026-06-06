@@ -1,10 +1,9 @@
 ---
-title: "408. MOESI 프로토콜"
+title: "408. Moesi Protocol"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "773. 오브젝트 스토리지 메타데이터 분리 (Object Storage Metadata Decoupling)"
+title: "Object Storage Metadata Decoupling"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

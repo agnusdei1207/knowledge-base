@@ -1,10 +1,9 @@
 ---
-title: "419. 예약 인스턴스 세이빙 플랜 비용 절감 (Reserved Instance Savings Plan Cost Reduction)"
+title: "Reserved Instance Savings Plan Cost Reduction"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

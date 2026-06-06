@@ -1,10 +1,9 @@
 ---
-title: "374. 쿠버네티스 RBAC 인증 인가 보안 (Kubernetes RBAC Authentication Authorization)"
+title: "Kubernetes RBAC Authentication Authorization"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

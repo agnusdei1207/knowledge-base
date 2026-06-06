@@ -1,10 +1,9 @@
 ---
-title: "482. 데이터 레이크 스키마 온 리드 원시 형태 저장"
+title: "482. Data Lake Schema On Read"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

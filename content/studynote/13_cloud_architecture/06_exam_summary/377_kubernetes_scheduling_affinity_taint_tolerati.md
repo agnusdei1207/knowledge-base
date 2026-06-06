@@ -1,10 +1,9 @@
 ---
-title: "377. 쿠버네티스 스케줄링 노드 어피니티 테인트 (Kubernetes Scheduling Affinity Taint Toleration)"
+title: "Kubernetes Scheduling Affinity Taint Toleration"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

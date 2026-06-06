@@ -1,11 +1,10 @@
 ---
-title: "15. 가상화 (Virtualization) - 물리적 하드웨어(CPU, RAM, 디스크)를 논리적인 여러 개의 자원(Virtual Machine)으로 분할하는 기술"
+title: "015. Virtualization"
 date: "2026-03-04"
 description: "클라우드 컴퓨팅의 근간이 되는 하이퍼바이저 아키텍처와 하드웨어 분할 기술"
 tags:
   - "cloud_architecture"
 ---
-
 
 # 가상화 ([Virtualization](/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/))
 

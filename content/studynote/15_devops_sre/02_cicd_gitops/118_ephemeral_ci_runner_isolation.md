@@ -1,10 +1,9 @@
 ---
-title: "118. 일회성 CI 러너 (Ephemeral CI Runner) - 격리·보안·클린 빌드 보장"
+title: "118. Ephemeral Ci Runner Isolation"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Ephemeral [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/) Runner는 <strong>빌드마다 새로운 러너(<a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>/<a href="/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a>)를 <a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>하고, 빌드 완료 후 즉시 삭제</strong>하는 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 실행 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로, 이전 빌드의 잔여물(캐시·[파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)·프로세스)이 다음 빌드에 영향을 주지 않는 <strong>완전 격리(Clean Room)</strong>를 보장한다.

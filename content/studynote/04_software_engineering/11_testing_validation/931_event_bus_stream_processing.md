@@ -1,10 +1,9 @@
 ---
-title: "931. 이벤트 버스 및 스트림 프로세싱"
+title: "931. Event Bus Stream Processing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

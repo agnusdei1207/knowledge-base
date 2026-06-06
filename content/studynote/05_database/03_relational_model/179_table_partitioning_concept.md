@@ -1,10 +1,9 @@
 ---
-title: "179. 파티셔닝 (Partitioning) - 대용량 테이블 물리적 분할 관리 기법"
+title: "179. Table Partitioning Concept"
 date: "2026-05-06"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

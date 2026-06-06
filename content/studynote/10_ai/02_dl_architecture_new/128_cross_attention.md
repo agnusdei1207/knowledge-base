@@ -1,10 +1,9 @@
 ---
-title: "128. Cross-Attention - 인코더->디코더 참조 메커니즘"
+title: "128. Cross Attention"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Cross-Attention은 <strong>Query는 <a href="/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/">디코더</a>에서, <a href="/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>·Value는 <a href="/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/">인코더</a>에서 오는 Attention</strong>이며, [디코더](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)가 [인코더](/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)의 출력을 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하여 <strong>소스->타겟 매핑(번역·요약)을 수행</strong>한다.

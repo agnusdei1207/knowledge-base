@@ -1,10 +1,9 @@
 ---
-title: "210. 데이터 레이크하우스 (Data Lakehouse)"
+title: "Data Lakehouse"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [레이크하우스](/studynote/16_bigdata/07_data_lake/146_lakehouse/) ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Lakehouse](/studynote/16_bigdata/07_data_lake/146_lakehouse/))의 본질은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레이크의 유연성/확장성과 DW의 ACID [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 성능을 융합한 차세대 플랫폼 ([Databricks](/studynote/16_bigdata/03_spark/074_photon_engine/) 델타 레이크 등)를 수집·통합·품질·활용 체계로 정렬하는 데 있다.

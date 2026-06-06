@@ -1,10 +1,9 @@
 ---
-title: "301. 카프카 토픽 파티셔닝 기반 컨슈머 그룹 부하 분산 (Kafka Topic Partition Consumer Group)"
+title: "Kafka Topic Partition Consumer Group"
 date: "2026-04-21"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "431. 더티 페이지 쓰기 (Dirty Page Writeback) 메커니즘 (pdflush / flusher 스레드)"
+title: "pdflush / flusher"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

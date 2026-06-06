@@ -1,10 +1,9 @@
 ---
-title: "423. IT 자산 관리 ITAM 라이프사이클 (IT Asset Management ITAM Lifecycle)"
+title: "IT Asset Management ITAM Lifecycle"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

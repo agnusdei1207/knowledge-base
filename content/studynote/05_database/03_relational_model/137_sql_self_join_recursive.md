@@ -1,10 +1,9 @@
 ---
-title: "137. SQL Self JOIN & Recursive CTE - 자기 참조와 재귀 쿼리"
+title: "137. Sql Self Join Recursive"
 date: "2026-04-19"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Self JOIN은 같은 테이블을 <strong>별칭(Alias)을 달리하여 자기 자신과 조인</strong>하는 것이고, Recursive CTE([Common Table Expression](/studynote/05_database/07_exam_summary/513_cte_with_recursive_tree/))는 <strong>WITH RECURSIVE로 계층·트리 구조를 <a href="/studynote/08_algorithm_stats/01_basics/014_recursion/">재귀</a> 탐색</strong>하는 SQL:1999 표준 문법이다.

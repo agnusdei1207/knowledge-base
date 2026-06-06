@@ -1,10 +1,9 @@
 ---
-title: "491. 포그 컴퓨팅 하드웨어"
+title: "491. Fog Computing Hw"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

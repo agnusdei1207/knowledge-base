@@ -1,10 +1,9 @@
 ---
-title: "542. 플랫폼 비즈니스 양면 시장 네트워크 (Platform Business Two-sided Market Network)"
+title: "Platform Business Two-sided Market Network"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 플랫폼 비즈니스 양면시장 네트워크 효과은(는) 공급자와 수요자를 디지털 플랫폼에서 연결하고 참여자가 늘수록 가치가 증가하는 네트워크 기반 사업 모델이다.

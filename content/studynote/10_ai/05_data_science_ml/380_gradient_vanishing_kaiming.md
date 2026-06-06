@@ -1,10 +1,9 @@
 ---
-title: "380. 기울기 소실/폭발 (Vanishing/Exploding Gradient)"
+title: "Vanishing/Exploding Gradient"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

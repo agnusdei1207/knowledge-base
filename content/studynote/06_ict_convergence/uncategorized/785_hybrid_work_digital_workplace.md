@@ -1,10 +1,9 @@
 ---
-title: "785. 하이브리드 업무 디지털 워크플레이스 (Hybrid Work Digital Workplace)"
+title: "Hybrid Work Digital Workplace"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

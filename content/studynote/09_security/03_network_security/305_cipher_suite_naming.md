@@ -1,10 +1,9 @@
 ---
-title: "305. 암호 스위트 명명 규칙 (Cipher Suite Naming Convention)"
+title: "Cipher Suite Naming Convention"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

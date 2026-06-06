@@ -1,10 +1,9 @@
 ---
-title: "438. PWA 오프라인 우선 서비스 워커 설계 (Progressive Web App Offline-First Service Worker Design)"
+title: "Progressive Web App Offline-First Service Worker Design"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 1. **본질**: 점진적 웹 앱 ([Progressive Web App](/studynote/04_software_engineering/10_trends_pm_quality/702_pwa_progressive_web_app_service_worker/), [PWA](/studynote/04_software_engineering/10_trends_pm_quality/702_pwa_progressive_web_app_service_worker/))의 [오프라인 우선](/studynote/04_software_engineering/09_cloud_native_ai_architecture/579_offline_first_pwa_service_worker/) 설계는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 워커 ([Service Worker](/studynote/04_software_engineering/10_trends_pm_quality/784_pwa_service_worker_caching_network/))를 중심으로 앱 셸, 캐시 저장소, 로컬 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보관소를 조합해 네트워크 단절 상황에서도 기본 기능을 지속하게 만드는 구조다.

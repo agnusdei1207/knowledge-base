@@ -1,10 +1,9 @@
 ---
-title: "03. 데이터 카탈로그 (Data Catalog) - 데이터 검색 및 발견의 중앙 허브"
+title: "193. Datacatalog"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"
 ---
-
 
 # [데이터 카탈로그](/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) ([Data Catalog](/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)) - [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 검색 및 발견의 중앙 [허브](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)
 

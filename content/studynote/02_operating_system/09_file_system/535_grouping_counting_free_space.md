@@ -1,10 +1,9 @@
 ---
-title: "535. 그룹화 (Grouping) / 계수 (Counting) 기법"
+title: "535. Grouping Counting Free Space"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

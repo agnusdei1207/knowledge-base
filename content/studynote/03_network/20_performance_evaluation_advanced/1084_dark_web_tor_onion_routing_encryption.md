@@ -1,10 +1,9 @@
 ---
-title: "1084. 다크 웹 Tor 통신 프로토콜 암호화층"
+title: "1084. Dark Web Tor Onion Routing Encryption"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

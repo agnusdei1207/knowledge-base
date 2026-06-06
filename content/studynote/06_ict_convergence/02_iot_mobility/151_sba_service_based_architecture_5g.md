@@ -1,10 +1,9 @@
 ---
-title: "151. SBA (Service Based Architecture) - 5G 코어망 클라우드 네이티브 대통합 뼈대"
+title: "151. Sba Service Based Architecture 5G"
 date: "2026-05-03"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SBA([Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Based [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/))는 [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어망([5GC](/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/))의 근본 뼈대로, 기존의 거대하고 낡은 통신 전용 장비 쇳덩이([Silo](/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))들을 도끼로 찢어발겨 -> <strong><a href="/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>, <a href="/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a> 등 통신 기능을 잘게 쪼갠 <a href="/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/">쿠버네티스</a>(K8s) <a href="/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">도커</a> <a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>(<a href="/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">Microservices</a>) 봇으로 허공에 띄운 100% <a href="/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/">클라우드 네이티브</a> 혁명</strong>이다.

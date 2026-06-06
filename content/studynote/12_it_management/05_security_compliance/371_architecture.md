@@ -1,10 +1,9 @@
 ---
-title: "371. 플랫폼 비즈니스 양면 시장 수수료 모델 아키텍처 IT 거버넌스"
+title: "371. Architecture"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [플랫폼 비즈니스](/studynote/07_enterprise_systems/01_strategy_governance/072_platform_business_two_sided_market/) 양면 시장 수수료 모델 아키텍처 IT 거버넌스의 본질은 현행 구조, 목표 구조, 전환 과제의 추적성이 확보되어야 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서가 실제 투자와 아키텍처 변화로 이어진다.

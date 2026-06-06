@@ -1,10 +1,9 @@
 ---
-title: "844. 하이퍼바이저와 가상 스위치"
+title: "844. Vswitch Virtual Switch Hypervisor Bottleneck Sriov"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

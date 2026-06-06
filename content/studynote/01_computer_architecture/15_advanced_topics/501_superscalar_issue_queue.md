@@ -1,10 +1,9 @@
 ---
-title: "501. 수퍼스칼라 발급 큐 (Superscalar Issue Queue)"
+title: "Superscalar Issue Queue"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

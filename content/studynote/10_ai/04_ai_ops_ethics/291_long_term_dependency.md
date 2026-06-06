@@ -1,10 +1,9 @@
 ---
-title: "291. 장기 의존성 (Long-term Dependency)"
+title: "Long-term Dependency"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "557. 임시 파일 시스템 (tmpfs / ramfs) - 메모리 상주 파일 시스템"
+title: "557. Tmpfs Ramfs Memory Filesystem"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

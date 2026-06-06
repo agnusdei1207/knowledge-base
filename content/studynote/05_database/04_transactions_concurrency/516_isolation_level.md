@@ -1,10 +1,9 @@
 ---
-title: "516. GNN 그래프 모델 연계 추천 시스템 설계망 적용 (Isolation Level)"
+title: "Isolation Level"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

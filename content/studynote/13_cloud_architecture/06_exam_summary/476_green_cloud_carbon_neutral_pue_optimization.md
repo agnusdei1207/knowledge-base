@@ -1,10 +1,9 @@
 ---
-title: "476. 그린 클라우드 탄소 중립 PUE 최적화 (Green Cloud Carbon Neutral PUE Optimization)"
+title: "Green Cloud Carbon Neutral PUE Optimization"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

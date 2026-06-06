@@ -1,10 +1,9 @@
 ---
-title: "110. 운영 CRM (Operational CRM) - SFA·MA·CSS 프론트 오피스 자동화"
+title: "110. Operational Crm Sfa Ma Css"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 운영 [CRM](/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)(Operational [CRM](/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/))은 영업·마케팅·콜센터 등 <strong>프론트 오피스(Front-Office) 고객 접점 업무를 자동화</strong>하여, 현장 직원이 매일 사용하는 실시간 고객 대응 시스템이다.

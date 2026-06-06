@@ -1,10 +1,9 @@
 ---
-title: "393. Memory Encryption 엔진 (메모리 암호화 엔진)"
+title: "393. Memory Encryption Engine"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

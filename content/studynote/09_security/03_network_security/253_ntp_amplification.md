@@ -1,10 +1,9 @@
 ---
-title: "253. NTP 증폭 (NTP Amplification) 공격 (Ntp Amplification)"
+title: "Ntp Amplification"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

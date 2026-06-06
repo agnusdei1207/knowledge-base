@@ -1,10 +1,9 @@
 ---
-title: "585. 시스템 보안 위협 유형 (System Security Threat Types)"
+title: "System Security Threat Types"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

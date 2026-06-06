@@ -1,10 +1,9 @@
 ---
-title: "491. 애자일 프로젝트 감리 방법론 (Agile Project Audit Methodology)"
+title: "Agile Project Audit Methodology"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

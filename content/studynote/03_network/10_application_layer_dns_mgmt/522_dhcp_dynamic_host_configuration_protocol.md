@@ -1,10 +1,9 @@
 ---
-title: "522. DHCP (Dynamic Host Configuration Protocol) 포트 67, 68"
+title: "522. Dhcp Dynamic Host Configuration Protocol"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

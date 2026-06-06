@@ -1,10 +1,9 @@
 ---
-title: "504. IaC 테라폼과 불변 인프라 선언 (IaC Terraform Immutable Infrastructure)"
+title: "IaC Terraform Immutable Infrastructure"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

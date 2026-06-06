@@ -1,10 +1,9 @@
 ---
-title: "793. Microsoft Titan 보안 칩 (Microsoft Titan Security Chip)"
+title: "Microsoft Titan Security Chip"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

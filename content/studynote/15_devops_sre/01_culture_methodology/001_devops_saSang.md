@@ -1,10 +1,9 @@
 ---
-title: "1. 데브옵스 (DevOps) 사상 - 개발(Dev)과 운영(Ops) 간의 소통, 협업, 통합을 강조하여 소프트웨어 배포 속도와 안정성을 극대화하는 문화적/기술적 패러다임"
+title: "001. Devops Sasang"
 date: "2026-04-05"
 tags:
   - "devops_sre"
 ---
-
 
 # [데브옵스](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 사상
 

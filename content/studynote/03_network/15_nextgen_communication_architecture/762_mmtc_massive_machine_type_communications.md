@@ -1,10 +1,9 @@
 ---
-title: "762. mMTC (Massive Machine-Type Communications 초거대 밀도 초다수 연결 사물 기기 IoT 연결망 배터리 저전력 제어 적용 모델 성능 지표 적용)"
+title: "Massive Machine-Type Communications IoT"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

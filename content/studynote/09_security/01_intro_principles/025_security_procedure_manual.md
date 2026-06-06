@@ -1,10 +1,9 @@
 ---
-title: "25. 보안 절차 매뉴얼 (Security Procedure Manual) — 정책의 실행 가이드"
+title: "025. Security Procedure Manual"
 date: "2026-04-29"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 보안 절차 매뉴얼([Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Procedure Manual)은 [보안 정책](/studynote/09_security/01_intro_principles/007_security_policy/)([Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/))과 지침(Guideline)을 구체적인 단계별 실행 방법으로 기술한 문서로, "누가, 언제, 무엇을, 어떻게" 수행해야 하는지 명시하는 실행 레벨 지침서다.

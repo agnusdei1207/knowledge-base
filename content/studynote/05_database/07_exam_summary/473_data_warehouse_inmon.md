@@ -1,10 +1,9 @@
 ---
-title: "473. 데이터 웨어하우스 Inmon 전사 통합"
+title: "473. Data Warehouse Inmon"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

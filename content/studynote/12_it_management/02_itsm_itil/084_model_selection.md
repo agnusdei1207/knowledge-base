@@ -1,11 +1,10 @@
 ---
-title: "84. Apache Kafka — 내구성 있는 메시지 큐, 스트리밍 기반"
+title: "084. Model Selection"
 date: "2026-04-05"
 description: "모델 선택의 개념, 다양한 모델 유형 비교, 평가 지표 기반 선택 방법, Bias-Variance 트레이드오프"
 tags:
   - "it_management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

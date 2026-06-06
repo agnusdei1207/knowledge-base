@@ -1,10 +1,9 @@
 ---
-title: "569. SRE 에러 버짓 토일 자동화 (SRE Error Budget Toil Automation)"
+title: "SRE Error Budget Toil Automation"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

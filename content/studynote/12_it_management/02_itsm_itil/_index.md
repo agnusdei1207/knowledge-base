@@ -1,9 +1,8 @@
 ---
-title: "02. IT 서비스 관리 (ITSM) 및 ITIL v4"
+title: "IT Management"
 tags:
   - "it_management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

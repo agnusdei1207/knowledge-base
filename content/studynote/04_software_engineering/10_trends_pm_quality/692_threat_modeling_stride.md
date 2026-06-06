@@ -1,10 +1,9 @@
 ---
-title: "692. 위협 모델링 STRIDE"
+title: "692. Threat Modeling Stride"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

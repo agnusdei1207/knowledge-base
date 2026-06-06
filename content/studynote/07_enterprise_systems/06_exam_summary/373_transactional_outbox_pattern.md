@@ -1,10 +1,9 @@
 ---
-title: "373. 트랜잭셔널 아웃박스 비동기 메시지 보장 (Transactional Outbox Pattern)"
+title: "Transactional Outbox Pattern"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

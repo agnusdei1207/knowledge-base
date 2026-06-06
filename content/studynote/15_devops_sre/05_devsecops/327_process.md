@@ -1,10 +1,9 @@
 ---
-title: "327. SCA 오픈소스 컴플라이언스 스캔 (SCA Software Composition Analysis Open Source Compliance License Scan)"
+title: "SCA Software Composition Analysis Open Source Compliance License Scan"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "5. 확률 변수 (Random Variable) — 이산/연속"
+title: "134. Random Variable"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트
 

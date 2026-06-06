@@ -1,10 +1,9 @@
 ---
-title: "201. 엔터프라이즈 백업 아키텍처 클라우드 티어링 (Cloud Tiering)"
+title: "Cloud Tiering"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

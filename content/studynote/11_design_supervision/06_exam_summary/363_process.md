@@ -1,10 +1,9 @@
 ---
-title: "363. 결합도·응집도 (Coupling and Cohesion)"
+title: "Coupling and Cohesion"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

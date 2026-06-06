@@ -1,10 +1,9 @@
 ---
-title: "889. 감성 분석 (Sentiment Analysis) — 긍/부정/중립, BERT 기반 심화"
+title: "889. Exploratory Data Analysis"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

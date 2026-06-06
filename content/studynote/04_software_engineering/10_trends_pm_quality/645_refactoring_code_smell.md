@@ -1,10 +1,9 @@
 ---
-title: "645. 리팩토링 악취(Code Smell) 제거"
+title: "645. Refactoring Code Smell"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

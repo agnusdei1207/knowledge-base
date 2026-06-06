@@ -1,10 +1,9 @@
 ---
-title: "172. 가변 길이 명령어 (Variable-Length Instruction)"
+title: "Variable-Length Instruction"
 date: "2026-03-19"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

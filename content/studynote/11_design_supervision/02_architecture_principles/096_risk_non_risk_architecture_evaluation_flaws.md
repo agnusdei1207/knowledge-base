@@ -1,10 +1,9 @@
 ---
-title: "96. 리스크(Risk)와 비리스크(Non-risk) - 아키텍처 평가 위험 도출"
+title: "096. Risk Non Risk Architecture Evaluation Flaws"
 date: "2026-04-10"
 tags:
   - "studynote-design"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

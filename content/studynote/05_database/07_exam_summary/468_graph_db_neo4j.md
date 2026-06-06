@@ -1,10 +1,9 @@
 ---
-title: "468. 그래프 DB 노드 엣지 프로퍼티 관계 탐색 Neo4j"
+title: "468. Graph Db Neo4J"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

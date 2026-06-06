@@ -1,10 +1,9 @@
 ---
-title: "151. 베이스밴드 중계기 / 리피터 (Repeater) - OSI 1계층 무지성 신호 증폭기"
+title: "151. Repeater Baseband"
 date: "2026-05-03"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 리피터(Repeater)는 구리선 랜선([UTP](/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/))의 물리적 한계 거리(100m)를 넘어가면 전기 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)가 찌그러지고 썩어버리는 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 감쇠(Attenuation) 현상을 타파하기 위해, 죽어가는 파형을 <strong>아날로그적으로 뻥튀기하는 게 아니라 디지털의 완벽한 0과 1 텍스트로 재해독한 뒤 -> 100% 새삥 5V 펄스로 완전히 새로 그려서 쏴버리는(Regeneration) OSI 1계층(물리 계층)의 심폐소생 펌프 장비</strong>다.

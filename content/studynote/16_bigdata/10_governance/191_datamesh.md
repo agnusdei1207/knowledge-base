@@ -1,10 +1,9 @@
 ---
-title: "01. 데이터 메시 (Data Mesh) - 도메인 분권형 데이터 아키텍처 패러다임"
+title: "191. Datamesh"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"
 ---
-
 
 # [데이터 메시](/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) ([Data Mesh](/studynote/12_it_management/05_security_compliance/320_data_mesh/)) - [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 분권형 [데이터 아키텍처](/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 패러다임
 

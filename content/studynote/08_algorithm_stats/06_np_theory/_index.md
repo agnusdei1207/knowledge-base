@@ -1,9 +1,8 @@
 ---
-title: "06. 계산 복잡도 이론 및 NP-완전"
+title: "Algorithm & Statistics"
 tags:
   - "algorithm_stats"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

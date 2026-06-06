@@ -1,10 +1,9 @@
 ---
-title: "211. 공공 빅데이터 (Public Sector Big Data) — 교통예측/범죄예방/도시계획"
+title: "216. Public Bigdata"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

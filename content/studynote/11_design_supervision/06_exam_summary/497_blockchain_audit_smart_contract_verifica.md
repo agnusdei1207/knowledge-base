@@ -1,10 +1,9 @@
 ---
-title: "497. 블록체인 감리 스마트 계약 검증 (Blockchain Audit Smart Contract Verification)"
+title: "Blockchain Audit Smart Contract Verification"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

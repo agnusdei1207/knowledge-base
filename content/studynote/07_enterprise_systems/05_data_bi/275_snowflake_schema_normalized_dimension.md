@@ -1,10 +1,9 @@
 ---
-title: "275. 스노우플레이크 스키마 (Snowflake Schema) - 차원 정규화 구조"
+title: "275. Snowflake Schema Normalized Dimension"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

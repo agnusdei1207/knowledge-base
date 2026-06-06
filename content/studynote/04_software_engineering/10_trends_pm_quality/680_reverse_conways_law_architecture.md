@@ -1,10 +1,9 @@
 ---
-title: "680. 역 콘웨이 전략 아키텍처에 맞춘 조직 구성"
+title: "680. Reverse Conways Law Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

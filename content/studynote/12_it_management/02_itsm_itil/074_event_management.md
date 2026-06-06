@@ -1,10 +1,9 @@
 ---
-title: "74. 이벤트 관리 (Event Management)"
+title: "Event Management"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 이벤트 관리 (Event [Management](/studynote/12_it_management/05_security_compliance/1013_management/))의 본질은 인프라 모니터링 경고/알람 1차 수집 (Warning, Exception)를 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가치와 운영 절차로 연결하는 데 있다.

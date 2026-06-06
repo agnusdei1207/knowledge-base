@@ -1,10 +1,9 @@
 ---
-title: "801. OAT (Operational Acceptance Testing) - 운영 인수 테스트"
+title: "801. Operational Acceptance Testing Oat"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

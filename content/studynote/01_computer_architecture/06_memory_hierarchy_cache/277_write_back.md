@@ -1,10 +1,9 @@
 ---
-title: "277. Write-Back (나중 쓰기)"
+title: "277. Write Back"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

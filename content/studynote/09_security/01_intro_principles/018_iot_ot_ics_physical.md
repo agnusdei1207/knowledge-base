@@ -1,11 +1,10 @@
 ---
-title: "18. IoT, OT, ICS 및 물리적 보안 (IoT, OT, ICS & Physical Security)"
+title: "IoT, OT, ICS & Physical Security"
 date: "2025-02-24"
 description: "Purdue 모델, IEC 62443, SCADA 보안부터 스마트 팩토리 제어망 및 사이버-물리 시스템(CPS) 보호까지 통합 아키텍처"
 tags:
   - "security"
 ---
-
 
 # [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), [OT](/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/), [ICS](/studynote/09_security/18_iot_ot_physical/893_ics_industrial_control_system/) 및 물리적 보안 ([IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), [OT](/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/), [ICS](/studynote/09_security/18_iot_ot_physical/893_ics_industrial_control_system/) & Physical [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))
 

@@ -1,10 +1,9 @@
 ---
-title: "420. CLOSE_WAIT / LAST_ACK 상태"
+title: "420. Close Wait Last Ack State"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "713. ICMP Smurf 공격 (IP 브로드캐스트+스푸핑) / 스머핑 라우터 IP Directed Broadcast 차단 설계"
+title: "713. Icmp Smurf Attack Directed Broadcast"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

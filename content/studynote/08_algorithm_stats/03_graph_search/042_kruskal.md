@@ -1,10 +1,9 @@
 ---
-title: "14. 크루스칼 (Kruskal) — 간선 정렬 + Union-Find"
+title: "042. Kruskal"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

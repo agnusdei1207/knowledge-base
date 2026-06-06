@@ -1,10 +1,9 @@
 ---
-title: "434. 비동기식 페이지 폴트 (Asynchronous Page Faults) 핸들링"
+title: "434. Asynchronous Page Fault"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "113. 소셜 CRM (Social CRM) - 소셜 리스닝·감성 분석·고객 참여 관리"
+title: "113. Social Crm Listening Sentiment Analysis"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 소셜 CRM은 기존 CRM의 고객 관리를 <strong>소셜 미디어(Twitter/X·Instagram·커뮤니티·리뷰 사이트)</strong>로 확장하여, 고객이 <strong>자발적으로 생산하는 <a href="/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/">비정형 데이터</a>(UGC)</strong>에서 브랜드 인사이트를 추출하고 실시간 대응하는 시스템이다.

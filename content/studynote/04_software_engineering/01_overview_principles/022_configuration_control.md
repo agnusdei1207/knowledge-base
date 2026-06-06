@@ -1,11 +1,10 @@
 ---
-title: "22. 형상 통제 (Configuration Control) - 변경 제어 위원회(CCB)"
+title: "CCB"
 date: "2026-03-04"
 description: "식별된 형상 항목(CI)에 대한 변경 요구를 체계적으로 검토, 승인, 추적하는 형상 관리의 핵심 제어 메커니즘"
 tags:
   - "software_engineering"
 ---
-
 
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 형상 통제는 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)된 형상 항목([CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/))의 변경 사항을 무분별하게 적용하지 못하도록, [변경 통제 위원회](/studynote/12_it_management/02_itsm_itil/080_cab/)([CCB](/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/))를 통해 검토, 승인, 반려하는 게이트키퍼 프로세스이다.

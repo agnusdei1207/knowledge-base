@@ -1,10 +1,9 @@
 ---
-title: "758. 영지식 증명 인증 프라이버시 검증 (Zero Knowledge Proof Auth Privacy Verification)"
+title: "Zero Knowledge Proof Auth Privacy Verification"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

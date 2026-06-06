@@ -1,10 +1,9 @@
 ---
-title: "417. FinOps 클라우드 비용 최적화 태깅 (FinOps Cloud Cost Optimization Tagging)"
+title: "FinOps Cloud Cost Optimization Tagging"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

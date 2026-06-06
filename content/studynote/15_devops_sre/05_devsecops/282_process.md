@@ -1,10 +1,9 @@
 ---
-title: "282. 사일로 효과 (부서 장벽 이기주의)"
+title: "282. Process"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

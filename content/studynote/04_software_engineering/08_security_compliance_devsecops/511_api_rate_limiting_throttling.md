@@ -1,10 +1,9 @@
 ---
-title: "511. API Rate Limiting (비율 제한) 및 Throttling (스로틀링) - DDoS 및 크롤링 방어"
+title: "511. Api Rate Limiting Throttling"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

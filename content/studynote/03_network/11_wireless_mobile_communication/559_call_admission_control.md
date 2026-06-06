@@ -1,10 +1,9 @@
 ---
-title: "559. 호 수락 제어 (CAC, Call Admission Control)"
+title: "CAC, Call Admission Control"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

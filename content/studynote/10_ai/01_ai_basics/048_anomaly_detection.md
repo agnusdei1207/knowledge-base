@@ -1,10 +1,9 @@
 ---
-title: "048. 이상 탐지 — Anomaly Detection"
+title: "048. Anomaly Detection"
 date: "2026-04-05"
 tags:
   - "studynote-ai"
 ---
-
 
 > **핵심 인사이트**
 > 1. [이상 탐지](/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)([Anomaly Detection](/studynote/16_bigdata/05_analysis/111_anomaly_detection/))는 정상 패턴에서 크게 벗어나는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인트를 찾는 기법 — 레이블된 이상 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 극도로 희소한 현실(보안 위협, 제조 불량, 의료 이상)에서 "정상 분포를 모델링하고 벗어남을 이상으로 판단"하는 방식이 주로 사용된다.

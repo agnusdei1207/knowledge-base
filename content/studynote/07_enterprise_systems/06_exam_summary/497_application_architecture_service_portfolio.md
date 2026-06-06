@@ -1,10 +1,9 @@
 ---
-title: "497. 애플리케이션 아키텍처 서비스 포트폴리오 (Application Architecture Service Portfolio)"
+title: "Application Architecture Service Portfolio"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "361. EAI 허브 앤 스포크 버스 아키텍처 (EAI Enterprise Application Integration)"
+title: "EAI Enterprise Application Integration"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

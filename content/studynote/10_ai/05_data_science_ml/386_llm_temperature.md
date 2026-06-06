@@ -1,10 +1,9 @@
 ---
-title: "386. LLM 온도 (Temperature) 파라미터"
+title: "386. Llm Temperature"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "321. 데이터 웨어하우스 (Data Warehouse, DW)"
+title: "Data Warehouse, DW"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "677. 트랩 (Trap) 기반 시스템 콜 구현"
+title: "677. Trap Based System Call Implementation"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

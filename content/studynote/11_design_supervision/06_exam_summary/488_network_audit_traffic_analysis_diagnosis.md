@@ -1,10 +1,9 @@
 ---
-title: "488. 네트워크 감리 트래픽 분석 진단 (Network Audit Traffic Analysis Diagnosis)"
+title: "Network Audit Traffic Analysis Diagnosis"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

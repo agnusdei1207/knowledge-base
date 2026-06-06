@@ -1,10 +1,9 @@
 ---
-title: "401. Web 3.0 탈중앙화 소유권 경제 (Web 3.0)"
+title: "Web 3.0"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

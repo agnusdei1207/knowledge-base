@@ -1,10 +1,9 @@
 ---
-title: "652. 모바일 OS Out-Of-Memory (Low Memory Killer) 스코어 계산 알고리즘 및 앱 수명 주기 관리"
+title: "652. Mobile Os Low Memory Killer Lmk"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

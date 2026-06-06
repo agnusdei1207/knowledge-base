@@ -1,10 +1,9 @@
 ---
-title: "543. 서비스 수준 관리 SLA SLO SLI (Service Level Management SLA SLO SLI)"
+title: "Service Level Management SLA SLO SLI"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "581. 테이블 스페이스 시스템 용량 분산 관리 물리 파일 그룹핑 구성 정책"
+title: "581. Tablespace System Capacity Management Datafiles"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

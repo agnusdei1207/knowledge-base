@@ -1,10 +1,9 @@
 ---
-title: "205. 프로세스 마이닝 (Process Mining)"
+title: "Process Mining"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "681. 데이터 시각화 대시보드 스토리텔링 (Data Visualization Dashboard Storytelling)"
+title: "Data Visualization Dashboard Storytelling"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

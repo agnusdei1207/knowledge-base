@@ -1,10 +1,9 @@
 ---
-title: "166. Looker / Looker Studio — LookML 시맨틱 레이어 BI"
+title: "166. Looker"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

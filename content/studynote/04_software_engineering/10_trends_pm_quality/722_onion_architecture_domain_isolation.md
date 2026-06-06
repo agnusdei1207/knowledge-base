@@ -1,10 +1,9 @@
 ---
-title: "722. 어니언 아키텍처 도메인 코어 격리"
+title: "722. Onion Architecture Domain Isolation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "225. KDD (Knowledge Discovery in Databases) T검정 ANOVA 통계 분석"
+title: "225. Kdd T Test Anova Statistical Analysis"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: KDD(Knowledge Discovery in Databases, [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 지식 발견)는 원시 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 유효하고 새롭고 유용한 패턴을 추출하는 체계적 프로세스이며, 통계 검정은 발견된 패턴이 우연이 아님을 수학적으로 보증한다.

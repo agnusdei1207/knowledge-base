@@ -1,10 +1,9 @@
 ---
-title: "10. 백엔드 서비스 (Backing Services) - DB, 큐, 캐시 등을 네트워크로 연결된 자원(Attached Resource)으로 취급"
+title: "010. Backend Services"
 date: "2026-04-05"
 tags:
   - "devops_sre"
 ---
-
 
 # 백엔드 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)
 

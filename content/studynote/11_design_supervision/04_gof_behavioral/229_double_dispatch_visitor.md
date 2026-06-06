@@ -1,10 +1,9 @@
 ---
-title: "229. 더블 디스패치와 방문자 패턴 (Double Dispatch / Visitor Pattern)"
+title: "Double Dispatch / Visitor Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

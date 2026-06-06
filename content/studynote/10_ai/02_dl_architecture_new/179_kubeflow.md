@@ -1,10 +1,9 @@
 ---
-title: "179. 쿠브플로우 (Kubeflow)"
+title: "Kubeflow"
 date: "2026-05-06"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

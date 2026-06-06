@@ -1,10 +1,9 @@
 ---
-title: "290. 교착 상태 처리 방법 3가지 (Deadlock Handling Methods)"
+title: "Deadlock Handling Methods"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

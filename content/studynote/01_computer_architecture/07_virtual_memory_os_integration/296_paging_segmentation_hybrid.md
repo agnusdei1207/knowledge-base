@@ -1,10 +1,9 @@
 ---
-title: "296. 페이징과 세그멘테이션 혼용 (Paging-Segmentation Hybrid)"
+title: "Paging-Segmentation Hybrid"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

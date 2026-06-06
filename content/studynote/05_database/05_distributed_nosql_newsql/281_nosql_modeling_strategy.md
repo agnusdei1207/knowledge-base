@@ -1,10 +1,9 @@
 ---
-title: "281. 샤드 키 (Shard Key / Partition Key)"
+title: "Shard Key / Partition Key"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,9 +1,8 @@
 ---
-title: "70. 하이퍼볼릭 탄젠트 (tanh) - -1~1 사이 반환, 중심이 0으로 수렴 (시그모이드보다 우수)"
+title: "070. Hyperbolic Tangent Tanh Activation"
 tags:
   - "ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

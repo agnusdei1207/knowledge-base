@@ -1,10 +1,9 @@
 ---
-title: "222. 검색 증강 생성 (RAG, Retrieval-Augmented Generation)"
+title: "RAG, Retrieval-Augmented Generation"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 검색 증강 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) ([RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/), [Retrieval-Augmented Generation](/studynote/04_software_engineering/09_cloud_native_ai_architecture/585_rag_retrieval_augmented_generation/))의 본질은 내부 프라이빗 DB 문서를 벡터 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스에 [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 저장 후, 질문 시 [코사인 유사도](/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/) 검색을 거쳐 찾은 정답 문단을 [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 프롬프트에 주입하여 사내 전문 답변을 [환각](/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) 없이 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 기업형 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 아키텍처를 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 모델, 평가, 운영 통제까지 포함한 실행 체계로 만드는 데 있다.

@@ -1,10 +1,9 @@
 ---
-title: "342. 메타데이터 카탈로그 (Hive Metastore, AWS Glue)"
+title: "Hive Metastore, AWS Glue"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

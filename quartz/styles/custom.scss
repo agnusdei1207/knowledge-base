@@ -80,3 +80,22 @@ button,
 input {
   border-radius: 6px;
 }
+
+/* ====== Mobile explorer overflow fix (2026-06-06) ======
+ * On viewports ≤800px the explorer is pinned to 34px wide as a
+ * hamburger toggle. The .explorer-content overlay is position:absolute
+ * width:100vw, but the parent .explorer has no overflow:hidden, so
+ * long folder/file titles bleed out of the 34px column and only the
+ * last character remains visible at the left edge (e.g. "e)" from
+ * "01_computer_architecture"). Force the explorer column itself to
+ * clip its contents so only the toggle button is visible.
+ */
+@media all and (max-width: 800px) {
+  .sidebar.left {
+    overflow: hidden;
+  }
+
+  .explorer {
+    overflow: hidden;
+  }
+}

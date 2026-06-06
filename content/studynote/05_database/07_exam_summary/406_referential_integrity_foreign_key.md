@@ -1,10 +1,9 @@
 ---
-title: "406. 참조 무결성 (Referential) 외래키"
+title: "406. Referential Integrity Foreign Key"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "663. 그래프 신경망 GNN 관계 추론 (Graph Neural Network GNN Relation Reasoning)"
+title: "Graph Neural Network GNN Relation Reasoning"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "426. 클라우드 ML 세이지메이커 버텍스 AI (Cloud ML SageMaker Vertex AI)"
+title: "Cloud ML SageMaker Vertex AI"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

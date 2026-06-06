@@ -1,10 +1,9 @@
 ---
-title: "209. 이벤트 소싱 (Event Sourcing)"
+title: "Event Sourcing"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

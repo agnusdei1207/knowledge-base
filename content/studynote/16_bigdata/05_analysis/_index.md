@@ -1,9 +1,8 @@
 ---
-title: "05. 빅데이터 분석 및 데이터 마이닝"
+title: "Big Data"
 tags:
   - "bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

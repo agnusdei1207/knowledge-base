@@ -1,10 +1,9 @@
 ---
-title: "685. 단기 스케줄러 디스패치 (Short Term Scheduler Dispatcher)"
+title: "Short Term Scheduler Dispatcher"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

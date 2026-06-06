@@ -1,10 +1,9 @@
 ---
-title: "630. 동등 분할 (Equivalence Partitioning) 경계값 분석"
+title: "630. Equivalence Partitioning Boundary Value Analysis"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

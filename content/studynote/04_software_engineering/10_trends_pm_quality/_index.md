@@ -1,9 +1,8 @@
 ---
-title: "10. 최신 트렌드, PM 및 품질 관리 표준"
+title: "Software Engineering"
 tags:
   - "software_engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

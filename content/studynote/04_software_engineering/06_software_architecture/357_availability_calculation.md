@@ -1,10 +1,9 @@
 ---
-title: "357. 가용성 (Availability) 계산 = MTBF / (MTBF + MTTR)"
+title: "MTBF + MTTR"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

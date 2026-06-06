@@ -1,10 +1,9 @@
 ---
-title: "540. 사고 관리 인시던트 대응 프로세스 (Incident Management Response Process)"
+title: "Incident Management Response Process"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

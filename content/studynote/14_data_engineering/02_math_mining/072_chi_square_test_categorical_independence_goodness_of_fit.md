@@ -1,10 +1,9 @@
 ---
-title: "72. 카이제곱 검정 (Chi-square Test) - 범주형 데이터 독립성/적합성"
+title: "072. Chi Square Test Categorical Independence Goodness Of Fit"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

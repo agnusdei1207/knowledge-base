@@ -1,10 +1,9 @@
 ---
-title: "407. 슈퍼 키 최소성 부재"
+title: "407. Super Key Minimality"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

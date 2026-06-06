@@ -1,10 +1,9 @@
 ---
-title: "200. 책임 연쇄 패턴 장단점 (Chain of Responsibility Pros and Cons)"
+title: "Chain of Responsibility Pros and Cons"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "411. 포스트모템 장애 분석 재발 방지 (Postmortem Failure Analysis Prevention)"
+title: "Postmortem Failure Analysis Prevention"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

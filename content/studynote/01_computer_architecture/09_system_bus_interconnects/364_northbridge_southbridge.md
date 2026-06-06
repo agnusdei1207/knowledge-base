@@ -1,10 +1,9 @@
 ---
-title: "364. 노스브리지 (Northbridge)와 사우스브리지 (Southbridge)"
+title: "Southbridge"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "243. CNN (Convolutional Neural Network) 스트라이드 풀링 ResNet 잔차 연결 YOLO 객체 탐지"
+title: "243. Cnn Stride Pooling Resnet Residual Yolo Object Detection"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CNN([Convolutional Neural Network](/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/))은 [합성곱](/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 필터([Convolution](/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/) Filter)로 [공간적 지역성](/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)([Spatial Locality](/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/))과 이동 불변성(Translation Invariance)을 활용해 이미지 특성을 계층적으로 추출하는 신경망이다.

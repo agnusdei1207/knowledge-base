@@ -1,10 +1,9 @@
 ---
-title: "180. 트랜잭션 스크립트 vs 도메인 모델 (Transaction Script vs Domain Model)"
+title: "Transaction Script vs Domain Model"
 date: "2026-05-06"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

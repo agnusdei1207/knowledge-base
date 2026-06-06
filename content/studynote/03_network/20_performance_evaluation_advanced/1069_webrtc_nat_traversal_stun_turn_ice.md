@@ -1,10 +1,9 @@
 ---
-title: "1069. WebRTC NAT 횡단 (STUN/TURN/ICE 통합)"
+title: "STUN/TURN/ICE"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

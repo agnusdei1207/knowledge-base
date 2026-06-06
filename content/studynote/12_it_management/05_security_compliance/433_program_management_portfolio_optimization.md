@@ -1,10 +1,9 @@
 ---
-title: "433. 프로그램 관리 포트폴리오 최적화 (Program Management Portfolio Optimization)"
+title: "Program Management Portfolio Optimization"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

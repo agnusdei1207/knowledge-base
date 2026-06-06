@@ -1,10 +1,9 @@
 ---
-title: "399. Anycast 라우팅 (BGP Anycast"
+title: "399. Anycast Routing Bgp Anycast Dns Redundancy"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

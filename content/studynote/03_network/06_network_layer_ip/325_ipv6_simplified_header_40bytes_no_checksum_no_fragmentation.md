@@ -1,10 +1,9 @@
 ---
-title: "325. IPv6 단순화된 헤더"
+title: "325. Ipv6 Simplified Header 40Bytes No Checksum No Fragmentation"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

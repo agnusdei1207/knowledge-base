@@ -1,10 +1,9 @@
 ---
-title: "762. CBDC 중앙은행 디지털 화폐 설계 (CBDC Central Bank Digital Currency Policy)"
+title: "CBDC Central Bank Digital Currency Policy"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

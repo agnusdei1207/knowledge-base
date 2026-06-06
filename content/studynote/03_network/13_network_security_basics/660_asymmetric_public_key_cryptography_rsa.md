@@ -1,10 +1,9 @@
 ---
-title: "660. 비대칭키/공개키 암호화 (Asymmetric/Public Key)"
+title: "Asymmetric/Public Key"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

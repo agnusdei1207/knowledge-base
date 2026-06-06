@@ -1,10 +1,9 @@
 ---
-title: "234. IPS (Intrusion Prevention System, 침입 방지 시스템)"
+title: "Intrusion Prevention System,"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

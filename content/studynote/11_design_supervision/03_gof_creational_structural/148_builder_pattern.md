@@ -1,10 +1,9 @@
 ---
-title: "148. 빌더 (Builder) 패턴 - 복잡한 인스턴스의 생성 과정과 표현 분리"
+title: "148. Builder Pattern"
 date: "2026-05-03"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [빌더](/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/) ([Builder](/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/)) 패턴은 파라미터가 수십 개에 달하는 복잡한 객체의 <strong>'<a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 과정(조립)'과 '최종 표현 방법'을 분리</strong>하여, 동일한 조립 공정으로 서로 다른 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 가진 객체를 유연하게 만들어내는 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(Creational) [디자인 패턴](/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/)이다.

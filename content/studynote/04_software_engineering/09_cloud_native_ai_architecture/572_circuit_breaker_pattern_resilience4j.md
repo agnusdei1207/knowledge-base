@@ -1,10 +1,9 @@
 ---
-title: "572. 서킷 브레이커 (Circuit Breaker) - 상태(Closed, Open, Half-Open) 기반 장애 확산 차단 (Resilience4j)"
+title: "Resilience4j"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

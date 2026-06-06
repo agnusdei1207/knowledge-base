@@ -1,10 +1,9 @@
 ---
-title: "324. 주소 바인딩 (Address Binding) 3단계 시점"
+title: "324. Address Binding Stages"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "1094. OSPF ABR / ASBR Area 위계 분산망"
+title: "1094. Ospf Abr Asbr Area Hierarchy Routing"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "564. 다이버시티 시스템(Diversity System)"
+title: "Diversity System"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "61. 온프레미스 (On-Premise) 프라이빗 IT 인프라"
+title: "061. On Premise Legacy Infrastructure"
 date: "2026-04-07"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

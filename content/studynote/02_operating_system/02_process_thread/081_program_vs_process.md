@@ -1,10 +1,9 @@
 ---
-title: "081. 프로그램 vs 프로세스 (Program vs. Process)"
+title: "Program vs. Process"
 date: "2026-05-05"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 프로그램(Program)이 하드디스크에 저장된 차갑고 수동적인 0과 1의 <strong>정적(Static) <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>(쇳덩어리 조각)</strong>이라면, 프로세스([Process](/studynote/12_it_management/05_security_compliance/943_process/))는 그 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 메인 메모리(RAM)에 올라가 CPU의 심장 박동([Clock](/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/))을 받으며 펄떡이는 <strong>동적(Dynamic) 실행 주체</strong>다.

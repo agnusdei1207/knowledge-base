@@ -1,10 +1,9 @@
 ---
-title: "868. 서비스 수준 관리 (SLM, Service Level Management)"
+title: "SLM, Service Level Management"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 관리 ([SLM](/studynote/10_ai/04_ai_ops_ethics/313_slm/), [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Level [Management](/studynote/12_it_management/05_security_compliance/1013_management/))의 본질은 비즈니스 부서와 IT 간의 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질 합의서([SLA](/studynote/12_it_management/02_itsm_itil/869_sla/)) 체결 및 정기 성과 측정 (모니터링, 보고)를 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가치와 운영 절차로 연결하는 데 있다.

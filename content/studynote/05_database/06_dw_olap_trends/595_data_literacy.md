@@ -1,10 +1,9 @@
 ---
-title: "595. 데이터 리터러시 (Data Literacy) 기업 내 데이터 분석 역량 도구 지식 기반 문화 확산"
+title: "595. Data Literacy"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

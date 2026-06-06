@@ -1,10 +1,9 @@
 ---
-title: "585. 스마트 팩토리 산업 IoT IIoT 아키텍처 (Smart Factory Industrial IoT IIoT Architecture)"
+title: "Smart Factory Industrial IoT IIoT Architecture"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

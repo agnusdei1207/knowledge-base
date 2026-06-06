@@ -1,10 +1,9 @@
 ---
-title: "487. SQLMap (SQL 인젝션 자동화 도구)"
+title: "SQL"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

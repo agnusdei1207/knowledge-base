@@ -1,10 +1,9 @@
 ---
-title: "552. 정보 보안 거버넌스 정책 수립 (Information Security Governance Policy)"
+title: "Information Security Governance Policy"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

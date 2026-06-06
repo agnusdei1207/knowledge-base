@@ -1,9 +1,8 @@
 ---
-title: "73. 소프트맥스 함수 (Softmax) - 다중 클래스 분류 시 출 력층 적용, 결과값 총합을 1로 만들어 확률화"
+title: "073. Softmax Function Multiclass Classification Probability"
 tags:
   - "ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

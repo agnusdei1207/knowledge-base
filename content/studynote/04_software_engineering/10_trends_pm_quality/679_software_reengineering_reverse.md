@@ -1,10 +1,9 @@
 ---
-title: "679. 소프트웨어 재공학 역공학"
+title: "679. Software Reengineering Reverse"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

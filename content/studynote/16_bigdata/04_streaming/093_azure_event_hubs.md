@@ -1,10 +1,9 @@
 ---
-title: "18. Azure Event Hubs — Kafka 호환 이벤트 스트리밍"
+title: "093. Azure Event Hubs"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "669. 하드웨어 기반 무작위 난수 생성기 (TRNG) 커널 엔트로피 풀 주입 방식"
+title: "669. Hardware Trng Kernel Entropy Pool"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

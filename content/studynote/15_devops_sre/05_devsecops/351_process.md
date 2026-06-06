@@ -1,10 +1,9 @@
 ---
-title: "351. 양자 컴퓨팅 쇼어 알고리즘·양자 내성 암호 적용 (Quantum Computing and Post-Quantum Cryptography)"
+title: "Quantum Computing and Post-Quantum Cryptography"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

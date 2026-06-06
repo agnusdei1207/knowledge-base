@@ -1,10 +1,9 @@
 ---
-title: "247. 교착 상태 탐지 대기 그래프 (Wait-for Graph)"
+title: "Wait-for Graph"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

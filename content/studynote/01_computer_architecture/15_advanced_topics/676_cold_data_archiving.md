@@ -1,10 +1,9 @@
 ---
-title: "676. 콜드 데이터 (Cold Data) 아카이빙"
+title: "676. Cold Data Archiving"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "740. API 스로틀링 Rate Limit DDoS 방어"
+title: "740. Api Throttling Rate Limit Ddos"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "337. 의존성 주입 (DI, Dependency Injection) - 객체 결합도 감소"
+title: "337. Dependency Injection"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

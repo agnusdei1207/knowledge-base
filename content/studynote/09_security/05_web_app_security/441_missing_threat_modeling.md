@@ -1,10 +1,9 @@
 ---
-title: "441. 위협 모델링 부재 (Missing Threat Modeling)"
+title: "Missing Threat Modeling"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

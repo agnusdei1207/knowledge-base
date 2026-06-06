@@ -1,10 +1,9 @@
 ---
-title: "383. 요구 페이징 (Demand Paging) - 필요한 페이지만 메모리에 적재"
+title: "383. Demand Paging"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

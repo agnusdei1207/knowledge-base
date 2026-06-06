@@ -1,10 +1,9 @@
 ---
-title: "485. 품질 감리 메트릭 정량적 평가 (Quality Audit Metric Quantitative Evaluation)"
+title: "Quality Audit Metric Quantitative Evaluation"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

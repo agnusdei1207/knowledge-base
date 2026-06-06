@@ -1,10 +1,9 @@
 ---
-title: "497. 툼스톤 마킹 지연 삭제 NoSQL 설계"
+title: "497. Tombstone Delayed Deletion Nosql"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

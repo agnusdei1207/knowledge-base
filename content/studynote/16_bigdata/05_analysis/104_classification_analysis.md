@@ -1,10 +1,9 @@
 ---
-title: "분류 (Classification) 분석"
+title: "104. Classification Analysis"
 date: "2024-03-20"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 - **범주 예측:** 입력된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 특징(Feature)을 기반으로 해당 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 속할 미리 정의된 집단(Class/Label)을 판별하는 [지도 학습](/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)의 핵심.

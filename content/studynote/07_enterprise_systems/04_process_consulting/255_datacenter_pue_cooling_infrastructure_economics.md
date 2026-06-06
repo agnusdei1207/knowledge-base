@@ -1,10 +1,9 @@
 ---
-title: "255. 데이터센터 PUE 하락을 위한 쿨링 인프라 도입 경제성 (Datacenter PUE Cooling Infrastructure Economics)"
+title: "Datacenter PUE Cooling Infrastructure Economics"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

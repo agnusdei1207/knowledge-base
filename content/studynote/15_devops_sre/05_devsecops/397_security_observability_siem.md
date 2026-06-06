@@ -1,10 +1,9 @@
 ---
-title: "397. 보안 관측 가능성 SIEM SOAR 탐지 대응 자동화 (Security Observability SIEM SOAR Detection)"
+title: "Security Observability SIEM SOAR Detection"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

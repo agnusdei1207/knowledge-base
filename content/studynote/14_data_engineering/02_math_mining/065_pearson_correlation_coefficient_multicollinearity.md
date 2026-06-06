@@ -1,10 +1,9 @@
 ---
-title: "65. 피어슨 상관 계수 (Pearson Correlation) - 선형적 비례 관계 측정"
+title: "065. Pearson Correlation Coefficient Multicollinearity"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

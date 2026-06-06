@@ -1,10 +1,9 @@
 ---
-title: "219. CAP 정리 (CAP Theorem)와 PACELC 정리 분산 트레이드오프"
+title: "219. Cap Pacelc Distributed Tradeoff"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [CAP](/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리([CAP](/studynote/13_cloud_architecture/05_data_engineering/341_process/) Theorem)는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)([Consistency](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))·[가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)([Availability](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))·[파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 내결함성([Partition](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) Tolerance) 세 가지를 <strong>동시에 모두 보장하는 것은 불가능</strong>함을 수학적으로 증명한 원칙이다.

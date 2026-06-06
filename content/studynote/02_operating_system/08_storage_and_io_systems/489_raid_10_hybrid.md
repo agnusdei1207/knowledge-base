@@ -1,10 +1,9 @@
 ---
-title: "489. RAID 10 (1+0) / RAID 01 (0+1) 혼합형 구조 (RAID 10 Hybrid)"
+title: "RAID 10 Hybrid"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

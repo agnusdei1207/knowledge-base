@@ -1,10 +1,9 @@
 ---
-title: "457. 패스워드 스프레이 (Password Spraying)"
+title: "Password Spraying"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

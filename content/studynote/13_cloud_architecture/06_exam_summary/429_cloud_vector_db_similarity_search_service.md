@@ -1,10 +1,9 @@
 ---
-title: "429. 클라우드 벡터 DB 유사도 검색 서비스 (Cloud Vector DB Similarity Search Service)"
+title: "Cloud Vector DB Similarity Search Service"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "383. DLP 데이터 유출 방지 엔드포인트 보호 (DLP Data Loss Prevention Endpoint Protection)"
+title: "DLP Data Loss Prevention Endpoint Protection"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

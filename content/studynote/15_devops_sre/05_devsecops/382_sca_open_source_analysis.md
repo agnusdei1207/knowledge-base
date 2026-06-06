@@ -1,10 +1,9 @@
 ---
-title: "382. SCA 오픈소스 취약점 라이선스 분석 (Software Composition Analysis SCA Snyk)"
+title: "Software Composition Analysis SCA Snyk"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

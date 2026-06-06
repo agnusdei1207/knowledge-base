@@ -1,11 +1,10 @@
 ---
-title: "7. 섀도우 IT (Shadow IT) - IT 부서의 통제를 벗어나 현업 부서가 임의로 도입해 사용하는 SaaS/소프트웨어 (보안 및 거버넌스 리스크)"
+title: "007. Shadow It"
 date: "2026-03-04"
 description: "IT 부서의 통제를 벗어나 현업 부서가 임의로 도입해 사용하는 SaaS 및 소프트웨어로 인한 보안 리스크와 거버넌스 해결 방안"
 tags:
   - "enterprise_systems"
 ---
-
 
 # 07. 섀도우 IT ([Shadow IT](/studynote/12_it_management/01_governance_strategy/049_shadow_it/))
 

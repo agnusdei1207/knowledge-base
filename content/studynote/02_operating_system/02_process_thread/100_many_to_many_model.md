@@ -1,10 +1,9 @@
 ---
-title: "100. 다대다 (Many-to-Many) 스레드 모델"
+title: "100. Many To Many Model"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "21. 하드웨어 보조 가상화 (Hardware-assisted Virtualization) - CPU에 가상화 지원 명령어(Intel VT-x, AMD-V)를 탑재해 전가상화의 성능 저하 해결 (현재의 표준)"
+title: "021. Hardware Assisted Virtualization"
 date: "2026-04-02"
 tags:
   - "studynote-cloud"
 ---
-
 
 # [하드웨어 보조 가상화](/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/) (Hardware-assisted [Virtualization](/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/))
 

@@ -1,10 +1,9 @@
 ---
-title: "489. 클라우드 감리 SLA 준수 평가 (Cloud Audit SLA Compliance Evaluation)"
+title: "Cloud Audit SLA Compliance Evaluation"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

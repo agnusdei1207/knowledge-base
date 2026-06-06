@@ -1,10 +1,9 @@
 ---
-title: "47. 요구사항 추적 매트릭스 양방향 추적성 검증 (RTM Bidirectional Traceability Validation)"
+title: "RTM Bidirectional Traceability Validation"
 date: "2026-05-08"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

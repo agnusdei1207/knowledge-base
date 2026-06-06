@@ -1,10 +1,9 @@
 ---
-title: "423. 클라우드 DW 빅쿼리 레드시프트 스노우플레이크 (Cloud DW BigQuery Redshift Snowflake)"
+title: "Cloud DW BigQuery Redshift Snowflake"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "508. 인증 (Authentication) 트렌드 - MFA, FIDO, WebAuthn, 패스워드리스(Passwordless)"
+title: "Passwordless"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

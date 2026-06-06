@@ -1,10 +1,9 @@
 ---
-title: "357. OOM Killed 커널 자원 제한 종료 방어망 (OOM Killer Kubernetes QoS cgroup Memory Limits)"
+title: "OOM Killer Kubernetes QoS cgroup Memory Limits"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

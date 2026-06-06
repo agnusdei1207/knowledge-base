@@ -1,10 +1,9 @@
 ---
-title: "767. 클라우드 아키텍처 핵심 토픽 767번 시험 요약 (Cloud Architecture Core Topic 767 Exam Summary)"
+title: "Cloud Architecture Core Topic 767 Exam Summary"
 date: 2026-05-09
 tags:
   - "studynote-cloud-architecture"
----
-## 핵심 인사이트 (3줄 요약)
+---## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 아키텍처는 Well-Architected Framework(운영 우수성, 보안, 안정성, 성능 효율, 비용 최적화, 지속가능성) 기반 위에서 IaC(Infrastructure as Code), MSA(Microservices Architecture), 컨테이너 오케스트레이션(Kubernetes), 서버리스(FaaS/CaaS), 이벤트 기반 메시지 스트리밍(Kafka, EventBridge)을 결합하여 자가 치유(self-healing), 탄력적 확장(auto-scaling), 선언적 API(Declarative API) 패턴을 구현하는 분산 시스템 설계 패러다임이다.
 > 2. **가치**: AWS/Azure/GCP 기준 동일 워크로드 대비 온프레미스 대비 TCO 30~60% 절감, Auto Scaling Group을 통한 트래픽 변동 대응 시간 수 분 -> 수 초, 멀티 AZ/리전 배포 시 SLA 99.99%(연간 52.6분 이내 장애), EKS/AKS/GKE 기반 컨테이너 밀도 10~20x 향상, FinOps 도입으로 클라우드 비용 20~40% 최적화가 가능하다.

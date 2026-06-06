@@ -1,10 +1,9 @@
 ---
-title: "955. FHSS (주파수 도약)"
+title: "955. Fhss Frequency Hopping Spread Spectrum Bluetooth"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

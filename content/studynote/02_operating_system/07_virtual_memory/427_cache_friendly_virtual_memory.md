@@ -1,10 +1,9 @@
 ---
-title: "427. 캐시 친화적 가상 메모리 관리 배치 (Cache Friendly Virtual Memory)"
+title: "Cache Friendly Virtual Memory"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "561. 블록체인 확장성 트릴레마 해결 접근 (Blockchain Scalability Trilemma Resolution)"
+title: "Blockchain Scalability Trilemma Resolution"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

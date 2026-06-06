@@ -1,10 +1,9 @@
 ---
-title: "456. WAL 프로토콜 (먼저 로그 기록)"
+title: "456. Wal Protocol Write Ahead"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "272. 더블 체크드 락킹 (Double-Checked Locking) 안티패턴 및 해결 (volatile)"
+title: "volatile"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

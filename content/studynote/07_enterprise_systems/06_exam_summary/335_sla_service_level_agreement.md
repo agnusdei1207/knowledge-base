@@ -1,10 +1,9 @@
 ---
-title: "335. SLA 서비스 수준 협약 지표 관리 (SLA Service Level Agreement)"
+title: "SLA Service Level Agreement"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

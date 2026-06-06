@@ -1,10 +1,9 @@
 ---
-title: "395. 클라우드 보안 인증 CSAP FedRAMP (Cloud Security Certification CSAP FedRAMP)"
+title: "Cloud Security Certification CSAP FedRAMP"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

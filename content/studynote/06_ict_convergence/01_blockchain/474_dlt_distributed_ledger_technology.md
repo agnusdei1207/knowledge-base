@@ -1,10 +1,9 @@
 ---
-title: "474. 분산 원장 기술 (DLT, Distributed Ledger Technology)"
+title: "DLT, Distributed Ledger Technology"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

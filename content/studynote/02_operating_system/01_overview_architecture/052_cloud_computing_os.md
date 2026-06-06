@@ -1,10 +1,9 @@
 ---
-title: "52. 클라우드 컴퓨팅 (Cloud Computing) - OS 관점"
+title: "052. Cloud Computing Os"
 date: "2026-05-01"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

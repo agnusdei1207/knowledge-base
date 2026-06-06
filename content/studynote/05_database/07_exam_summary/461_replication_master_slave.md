@@ -1,10 +1,9 @@
 ---
-title: "461. 복제 마스터-슬레이브"
+title: "461. Replication Master Slave"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

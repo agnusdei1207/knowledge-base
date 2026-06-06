@@ -1,10 +1,9 @@
 ---
-title: "542. API 게이트웨이 (API Gateway) - 인증, 라우팅, 로드밸런싱, 통합(Aggregation)"
+title: "Aggregation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

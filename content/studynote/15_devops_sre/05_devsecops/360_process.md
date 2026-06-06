@@ -1,10 +1,9 @@
 ---
-title: "360. 가치 흐름 매핑 낭비 병목 식별 린 사상망 (Value Stream Mapping VSM Waste and Bottleneck Identification in Lean)"
+title: "Value Stream Mapping VSM Waste and Bottleneck Identification in Lean"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

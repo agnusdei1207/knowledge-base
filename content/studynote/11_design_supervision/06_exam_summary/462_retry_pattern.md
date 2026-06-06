@@ -1,10 +1,9 @@
 ---
-title: "462. 리트라이 패턴 지수 백오프 (Retry Pattern Exponential Backoff)"
+title: "Retry Pattern Exponential Backoff"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "226. 피어슨 상관 (Pearson Correlation) 회귀 R^ 결정계수 다중공선성 VIF"
+title: "226. Pearson Correlation Regression R2 Vif Multicollinearity"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 피어슨 상관계수(Pearson Correlation Coefficient)는 두 연속 변수 간 선형 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 강도와 방향을 -1~+1로 나타내며, 단순선형회귀(Simple Linear Regression)는 이 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 예측 모델로 발전시킨다.

@@ -1,10 +1,9 @@
 ---
-title: "717. 다단계 페이지 테이블 사이즈 줄이기 (Hierarchical Paging Multi Level)"
+title: "Hierarchical Paging Multi Level"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

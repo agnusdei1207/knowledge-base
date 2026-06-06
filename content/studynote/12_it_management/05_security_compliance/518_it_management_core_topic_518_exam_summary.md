@@ -1,10 +1,9 @@
 ---
-title: "518. IT 경영 관리 핵심 토픽 518번 시험 요약 (IT Management Core Topic 518 Exam Summary)"
+title: "IT Management Core Topic 518 Exam Summary"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 # 📘 기술사 합격 Study Note — 518. IT 경영 관리 핵심 토픽
 

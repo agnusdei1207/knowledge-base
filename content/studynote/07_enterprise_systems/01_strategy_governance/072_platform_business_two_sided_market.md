@@ -1,9 +1,8 @@
 ---
-title: "72. 플랫폼 비즈니스 (Platform Business) - 양면 시장 (Two-sided Market) 연결 구조"
+title: "072. Platform Business Two Sided Market"
 tags:
   - "enterprise_systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

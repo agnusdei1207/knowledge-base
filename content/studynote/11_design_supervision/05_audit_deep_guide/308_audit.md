@@ -1,10 +1,9 @@
 ---
-title: "308. 세션 타임아웃과 중복로그인 차단 감리 (Session Timeout and Duplicate Login Control Audit)"
+title: "Session Timeout and Duplicate Login Control Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

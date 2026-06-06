@@ -1,10 +1,9 @@
 ---
-title: "165. CPU 바운드 프로세스 (CPU Bound Process)"
+title: "CPU Bound Process"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

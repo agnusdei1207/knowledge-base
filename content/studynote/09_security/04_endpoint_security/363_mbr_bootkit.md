@@ -1,10 +1,9 @@
 ---
-title: "363. MBR 부트킷 (MBR Bootkit)"
+title: "MBR Bootkit"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

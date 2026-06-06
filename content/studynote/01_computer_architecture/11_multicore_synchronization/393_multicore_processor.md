@@ -1,10 +1,9 @@
 ---
-title: "393. 멀티코어 프로세서 (Multi-core Processor)"
+title: "Multi-core Processor"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "1005. 아키텍처 평가 ATAM CBAM 상충점 민감도 도출 로직"
+title: "1005. Atam Cbam Architecture Evaluation"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 아키텍처 평가 [ATAM CBAM](/studynote/12_it_management/05_security_compliance/364_atam_cbam/) [상충점](/studynote/11_design_supervision/02_architecture_principles/095_tradeoff_point_architecture_evaluation_atam_conflict/) 민감도 도출 로직의 본질은 현행 구조, 목표 구조, 전환 과제의 추적성이 확보되어야 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서가 실제 투자와 아키텍처 변화로 이어진다.

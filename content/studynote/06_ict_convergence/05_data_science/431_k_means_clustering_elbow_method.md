@@ -1,10 +1,9 @@
 ---
-title: "431. K-Means 군집 엘보우 (K Means Clustering Elbow Method)"
+title: "K Means Clustering Elbow Method"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

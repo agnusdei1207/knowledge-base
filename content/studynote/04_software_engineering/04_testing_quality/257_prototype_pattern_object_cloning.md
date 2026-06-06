@@ -1,10 +1,9 @@
 ---
-title: "257. 프로토타입 (Prototype) - 원본 객체를 복사하여 생성"
+title: "257. Prototype Pattern Object Cloning"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

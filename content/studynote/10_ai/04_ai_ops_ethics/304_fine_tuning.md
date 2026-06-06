@@ -1,10 +1,9 @@
 ---
-title: "304. 파인 튜닝 (Fine-Tuning)"
+title: "Fine-Tuning"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

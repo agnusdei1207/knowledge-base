@@ -1,9 +1,8 @@
 ---
-title: "70. 시빌 공격 (Sybil Attack) - 한 명이 여러 개의 가짜 노드(신분)를 생성하여 투표율/합의를 조작하는 공격"
+title: "070. Sybil Attack Fake Nodes"
 tags:
   - "ict_convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

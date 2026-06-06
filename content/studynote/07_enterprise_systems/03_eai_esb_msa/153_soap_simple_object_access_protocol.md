@@ -1,10 +1,9 @@
 ---
-title: "153. SOAP (Simple Object Access Protocol) - B2B 통신의 장갑차 XML 헌법"
+title: "153. Soap Simple Object Access Protocol"
 date: "2026-05-03"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SOAP(Simple Object Access [Protocol](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))는 엔터프라이즈 [SOA](/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/) 생태계에서 이기종 시스템(Java ↔ C# ↔ COBOL) 간 핑퐁 통신을 100% 무결점 보장하기 위해, **모든 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Payload)를 반드시 `<Envelope><Header><Body>` 라는 3단 강철 XML 텍스트 규격 껍데기 포장지 안에 우겨넣어 던지게 강제 록온([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)-on) 치는 통신 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 헌법**이다. (이름에 Simple이 들어가지만 우주 최강 무겁고 뚱뚱한 게 팩폭 딜레마다).

@@ -1,9 +1,8 @@
 ---
-title: "07. 가상 메모리 하드웨어 지원 및 OS 통합"
+title: "Computer Architecture"
 tags:
   - "computer_architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

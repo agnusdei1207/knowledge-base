@@ -1,10 +1,9 @@
 ---
-title: "1023. 위성 통신 핸드오버와 ISL (Inter-Satellite Link)"
+title: "Inter-Satellite Link"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

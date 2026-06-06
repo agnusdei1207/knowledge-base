@@ -1,10 +1,9 @@
 ---
-title: "134. 파이프-필터 패턴 (Pipe-Filter Pattern)"
+title: "Pipe-Filter Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

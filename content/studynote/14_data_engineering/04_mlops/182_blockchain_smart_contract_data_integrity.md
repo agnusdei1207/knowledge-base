@@ -1,10 +1,9 @@
 ---
-title: "182. 블록체인/스마트 컨트랙트 (Blockchain/Smart Contract) 데이터 무결 증빙과 Non-Fungible Token (NFT) 트랜잭션 마켓"
+title: "182. Blockchain Smart Contract Data Integrity"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

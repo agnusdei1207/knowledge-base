@@ -1,10 +1,9 @@
 ---
-title: "292. 데이터 레이크하우스 메달리온 아키텍처 (Data Lakehouse Medallion Architecture)"
+title: "Data Lakehouse Medallion Architecture"
 date: "2026-05-09"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

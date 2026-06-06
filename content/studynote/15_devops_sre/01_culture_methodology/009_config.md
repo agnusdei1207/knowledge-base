@@ -1,10 +1,9 @@
 ---
-title: "9. 설정 (Config) - 환경 변수(Env Vars)에 설정을 저장하여 코드와 분리"
+title: "009. Config"
 date: "2026-04-05"
 tags:
   - "devops_sre"
 ---
-
 
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 설정(Config) 원칙은 애플리케이션의 환경별 구성([데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 연결 정보, [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 키, 환경별 상수 등)을 코드와 분리하여 [환경 변수](/studynote/02_operating_system/02_process_thread/156_environment_variables/)([Environment Variables](/studynote/02_operating_system/02_process_thread/156_environment_variables/))에 저장하고, 코드는 이들 값을 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)만 하도록 해야 한다는 12팩터 앱의 제3원칙이다.

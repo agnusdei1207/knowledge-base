@@ -1,10 +1,9 @@
 ---
-title: "309. CVE 스캐너 주기 보고와 결함 조치 (CVE Scanner Reporting and Remediation Audit)"
+title: "CVE Scanner Reporting and Remediation Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

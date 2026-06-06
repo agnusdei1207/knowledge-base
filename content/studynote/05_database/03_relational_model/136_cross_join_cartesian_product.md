@@ -1,10 +1,9 @@
 ---
-title: "136. CROSS JOIN & Cartesian Product - 카테시안 곱 결합"
+title: "136. Cross Join Cartesian Product"
 date: "2026-04-19"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CROSS JOIN은 <strong>두 테이블의 모든 행을 서로 조합(<a href="/studynote/05_database/07_exam_summary/412_cartesian_product/">Cartesian Product</a>)</strong>하여 N×M 행을 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 연산이며, 조인 조건 없이 모든 가능한 조합을 만든다.

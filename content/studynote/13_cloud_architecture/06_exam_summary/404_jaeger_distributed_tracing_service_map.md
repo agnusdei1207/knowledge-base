@@ -1,10 +1,9 @@
 ---
-title: "404. 예거 분산 추적 서비스 맵 분석 (Jaeger Distributed Tracing Service Map)"
+title: "Jaeger Distributed Tracing Service Map"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

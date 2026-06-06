@@ -1,10 +1,9 @@
 ---
-title: "27. 데이터베이스 영역 감리 (Database Area Audit)"
+title: "Database Area Audit"
 date: "2026-04-29"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 영역 감리는 [정보시스템 감리](/studynote/12_it_management/05_security_compliance/187_information_system_audit/) 5대 영역 중 DB 설계 품질·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표준 준수·[무결성](/studynote/09_security/01_intro_principles/003_integrity/)·[성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·보안을 점검하는 영역으로, ERD 적정성·[정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 수준·[인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 설계·[백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)·[접근 통제](/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/) 등을 종합 검토한다.

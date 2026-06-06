@@ -1,10 +1,9 @@
 ---
-title: "364. L1/L2 라우터, L1/L2 Area 체계, IS-IS over Ethernet/IP"
+title: "364. Is Is L1 L2 Router Area System"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

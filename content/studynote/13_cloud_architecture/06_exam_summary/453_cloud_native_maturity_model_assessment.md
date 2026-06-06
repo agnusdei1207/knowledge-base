@@ -1,10 +1,9 @@
 ---
-title: "453. 클라우드 네이티브 성숙도 모델 평가 (Cloud Native Maturity Model Assessment)"
+title: "Cloud Native Maturity Model Assessment"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

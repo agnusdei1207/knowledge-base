@@ -1,10 +1,9 @@
 ---
-title: "112. 은닉 상태와 순환 루프 (Hidden State & Recurrent Loop) - RNN의 문맥 기억 메커니즘"
+title: "112. Hidden State Recurrent Loop Context Memory"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 은닉 상태(Hidden [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/), $h_t$)는 RNN이 시간 단계 t까지 읽은 <strong>모든 과거 입력의 <a href="/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>된 요약(<a href="/studynote/10_ai/02_dl_architecture_new/120_context_vector/">Context Vector</a>)</strong>이며, 순환 루프(Recurrent Loop)를 통해 $h_{t-1}$이 다음 단계의 입력으로 재주입되어 <strong>시간적 문맥을 유지</strong>한다.

@@ -1,10 +1,9 @@
 ---
-title: "040. 순수 관계 연산자 (Pure Relational Operators) — σ, π, ⋈, ÷"
+title: "040. Pure Relational Operators"
 date: "2026-03-19"
 tags:
   - "studynote-database"
 ---
-
 
 > **핵심 인사이트**
 > 1. 순수 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 연산자(Pure Relational Operators)는 [관계 대수](/studynote/05_database/01_db_architecture_relational/038_relational_algebra/)([Relational Algebra](/studynote/05_database/01_db_architecture_relational/038_relational_algebra/))에서 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 모델 고유의 셀렉트(σ)·프로젝트(π)·조인(⋈)·[디비전](/studynote/05_database/07_exam_summary/411_division_operation/)(÷) 4가지 연산자로, SQL SELECT의 WHERE/FROM/[JOIN](/studynote/05_database/04_transactions_concurrency/521_join/) 등 모든 절이 이 연산자들을 조합한 것이다.

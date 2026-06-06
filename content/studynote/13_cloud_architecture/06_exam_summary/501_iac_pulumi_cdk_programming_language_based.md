@@ -1,10 +1,9 @@
 ---
-title: "501. IaC Pulumi CDK 프로그래밍 언어 기반 (IaC Pulumi CDK Programming Language Based)"
+title: "IaC Pulumi CDK Programming Language Based"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

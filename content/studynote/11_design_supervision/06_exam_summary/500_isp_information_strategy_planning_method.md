@@ -1,10 +1,9 @@
 ---
-title: "500. 정보화 전략 수립 ISP 방법론 (ISP Information Strategy Planning Methodology)"
+title: "ISP Information Strategy Planning Methodology"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

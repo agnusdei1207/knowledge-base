@@ -1,10 +1,9 @@
 ---
-title: "313. 모바일 통신 구간 인증서 핀닝 (Certificate Pinning)"
+title: "Certificate Pinning"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

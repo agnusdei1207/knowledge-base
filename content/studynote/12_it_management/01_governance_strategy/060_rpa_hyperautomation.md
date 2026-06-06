@@ -1,10 +1,9 @@
 ---
-title: "60. RPA (Robotic Process Automation) 및 초자동화 (Hyperautomation)"
+title: "Hyperautomation"
 date: "2026-04-05"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

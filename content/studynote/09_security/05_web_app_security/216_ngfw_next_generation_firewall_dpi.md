@@ -1,10 +1,9 @@
 ---
-title: "216. 차세대 방화벽 (NGFW: Next-Generation Firewall)"
+title: "NGFW: Next-Generation Firewall"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "278. 과적합 방지 기법 (Regularization Techniques) 모음"
+title: "278. Regularization Overview"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

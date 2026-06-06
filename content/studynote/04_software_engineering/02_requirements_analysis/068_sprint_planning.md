@@ -1,9 +1,8 @@
 ---
-title: "68. 스프린트 계획 회의 (Sprint Planning)"
+title: "Sprint Planning"
 tags:
   - "software_engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

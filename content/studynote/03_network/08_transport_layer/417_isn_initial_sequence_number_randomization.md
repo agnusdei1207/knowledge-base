@@ -1,10 +1,9 @@
 ---
-title: "417. ISN (Initial Sequence Number) 무작위 할당 이유 (보안성 강화)"
+title: "417. Isn Initial Sequence Number Randomization"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

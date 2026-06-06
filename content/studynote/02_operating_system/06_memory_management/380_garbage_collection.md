@@ -1,10 +1,9 @@
 ---
-title: "380. 가비지 컬렉션 (Garbage Collection) 기초 - 참조 카운팅, Mark-and-Sweep"
+title: "380. Garbage Collection"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

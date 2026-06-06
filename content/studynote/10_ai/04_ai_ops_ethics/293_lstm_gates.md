@@ -1,10 +1,9 @@
 ---
-title: "293. LSTM 3가지 게이트 (LSTM Gates)"
+title: "LSTM Gates"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

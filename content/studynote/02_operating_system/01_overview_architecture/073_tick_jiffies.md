@@ -1,10 +1,9 @@
 ---
-title: "73. 틱 (Tick) / 지피스 (Jiffies)"
+title: "Jiffies"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

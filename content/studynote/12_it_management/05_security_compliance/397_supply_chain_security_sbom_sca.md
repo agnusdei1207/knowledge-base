@@ -1,10 +1,9 @@
 ---
-title: "397. 공급망 보안 SBOM 소프트웨어 구성 분석 (Supply Chain Security SBOM SCA)"
+title: "Supply Chain Security SBOM SCA"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

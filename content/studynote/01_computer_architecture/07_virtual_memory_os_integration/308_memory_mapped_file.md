@@ -1,10 +1,9 @@
 ---
-title: "308. 메모리 맵 파일 (Memory-Mapped File)"
+title: "Memory-Mapped File"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "818. 합성 데이터 (Synthetic Data)"
+title: "Synthetic Data"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

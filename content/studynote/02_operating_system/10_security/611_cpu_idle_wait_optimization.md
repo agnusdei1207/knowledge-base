@@ -1,10 +1,9 @@
 ---
-title: "611. CPU 유휴 (Idle) 대기 루프 최적화"
+title: "611. Cpu Idle Wait Optimization"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

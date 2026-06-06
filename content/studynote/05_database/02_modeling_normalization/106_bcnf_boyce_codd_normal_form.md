@@ -1,9 +1,8 @@
 ---
-title: "106. BCNF (Boyce-Codd Normal Form) - 3NF 만족 및 모든 결정자가 후보키 (강한 3NF)"
+title: "3NF"
 tags:
   - "database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

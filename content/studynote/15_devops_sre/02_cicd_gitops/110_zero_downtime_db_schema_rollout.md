@@ -1,10 +1,9 @@
 ---
-title: "110. 무중단 DB 스키마 롤아웃 (Zero-Downtime) - Expand and Contract 패턴"
+title: "110. Zero Downtime Db Schema Rollout"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Expand and Contract 패턴은 DB [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 변경([DDL](/studynote/05_database/01_db_architecture_relational/020_ddl/))을 <strong>확장(Expand) -> 병행(Migrate) -> 수축(Contract)</strong>의 3단계로 분리하여, 신·구버전 앱이 동시에 운영 DB를 사용해도 <strong><a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 중단 없이(<a href="/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a>-Downtime)</strong> [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)를 진화시키는 기법이다.

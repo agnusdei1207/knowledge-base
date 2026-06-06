@@ -1,10 +1,9 @@
 ---
-title: "903. DRM (Data Reference Model, 데이터 참조 모델)"
+title: "Data Reference Model,"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: DRM ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Reference Model](/studynote/12_it_management/03_ea_isp/116_reference_model/), [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [참조 모델](/studynote/12_it_management/03_ea_isp/116_reference_model/))의 본질은 범정부 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환 표준 및 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계를 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.

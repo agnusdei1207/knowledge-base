@@ -1,10 +1,9 @@
 ---
-title: "464. BASE 속성 NoSQL 결과적 일관성"
+title: "464. Base Properties Nosql"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

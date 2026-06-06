@@ -1,10 +1,9 @@
 ---
-title: "637. IIoT (공업계 사물인터넷/산업용 IoT) 트래픽 관리 한계/QoS 이슈"
+title: "637. Iiot Industrial Iot Qos Latency"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "546. 데이터 중복 제거 (Data Deduplication) 파일 시스템 기능"
+title: "546. Data Deduplication"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

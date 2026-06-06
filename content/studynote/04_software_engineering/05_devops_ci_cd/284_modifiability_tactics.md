@@ -1,10 +1,9 @@
 ---
-title: "284. 유지보수성/변경용이성 (Modifiability) - 국소화, 결합 방지, 의존성 지연"
+title: "284. Modifiability Tactics"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

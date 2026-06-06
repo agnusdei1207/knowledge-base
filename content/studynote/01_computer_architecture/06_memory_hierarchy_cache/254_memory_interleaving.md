@@ -1,10 +1,9 @@
 ---
-title: "254. 메모리 인터리빙 (Memory Interleaving)"
+title: "Memory Interleaving"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

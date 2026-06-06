@@ -1,10 +1,9 @@
 ---
-title: "246. API 게이트웨이 보안 (API Gateway Security)"
+title: "API Gateway Security"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

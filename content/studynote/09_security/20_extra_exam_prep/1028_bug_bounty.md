@@ -1,10 +1,9 @@
 ---
-title: "1028. Bug Bounty (버그 바운티)"
+title: "1028. Bug Bounty"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

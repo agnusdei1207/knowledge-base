@@ -1,10 +1,9 @@
 ---
-title: "309. CQRS 아키텍처와 DB 동기화 (Event Sourcing 연동)"
+title: "Event Sourcing"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

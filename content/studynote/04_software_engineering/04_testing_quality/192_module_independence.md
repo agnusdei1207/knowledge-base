@@ -1,10 +1,9 @@
 ---
-title: "192. 모듈 (Module) - 독립적 기능을 수행하는 단위"
+title: "192. Module Independence"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

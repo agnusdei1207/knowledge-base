@@ -1,10 +1,9 @@
 ---
-title: "197. 데이터 카탈로그 (Data Catalog) 계보 (Lineage) 시각화 보안 정책 연계망"
+title: "197. Data Catalog Lineage Visualization Security"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터 카탈로그](/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)([Data Catalog](/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산의 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)를 중앙에서 관리하는 "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 도서관 목록 시스템"이며, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보([Data Lineage](/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 원천부터 소비까지 흐름을 추적한다.

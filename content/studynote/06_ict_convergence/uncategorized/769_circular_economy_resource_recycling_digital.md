@@ -1,10 +1,9 @@
 ---
-title: "769. 순환 경제 자원 재활용 디지털 추적 (Circular Economy Resource Recycling Digital)"
+title: "Circular Economy Resource Recycling Digital"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

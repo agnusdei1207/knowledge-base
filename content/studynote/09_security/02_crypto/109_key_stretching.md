@@ -1,10 +1,9 @@
 ---
-title: "109. 키 스트레칭 (Key Stretching) & 패스워드 해싱 함수 (Key Stretching)"
+title: "Key Stretching"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

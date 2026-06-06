@@ -1,10 +1,9 @@
 ---
-title: "758. Kano 모델 매력적, 당연적 품질 요소 분류"
+title: "758. Kano Model Quality Attributes"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

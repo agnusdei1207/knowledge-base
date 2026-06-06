@@ -1,11 +1,10 @@
 ---
-title: "17. 국가 데이터 정책 — 데이터기본법, 데이터 산업 진흥법"
+title: "017. National Data Policy"
 date: "2024-05-24"
 description: "데이터 경제 활성화를 위한 데이터기본법의 핵심 원리와 데이터 자산화, 데이터 거래소 아키텍처 및 실무 가이드"
 tags:
   - "bigdata"
 ---
-
 
 # 17. 국가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) ([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)기본법 & [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 산업 진흥법)
 

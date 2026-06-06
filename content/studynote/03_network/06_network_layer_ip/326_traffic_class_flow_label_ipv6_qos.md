@@ -1,10 +1,9 @@
 ---
-title: "326. 트래픽 클래스 (Traffic Class) / 플로우 레이블 (Flow Label)"
+title: "Flow Label"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

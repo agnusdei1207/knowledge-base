@@ -1,10 +1,9 @@
 ---
-title: "144. Fine-tuning & Transfer Learning - 사전 학습 모델 적응"
+title: "144. Fine Tuning Transfer Learning"
 date: "2026-04-19"
 tags:
   - "studynote-dataengineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Fine-tuning은 <strong>사전 학습된 Foundation Model의 <a href="/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>를 특정 <a href="/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>·작업의 라벨 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>로 추가 학습</strong>하여 적응시키는 [Transfer Learning](/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/) 기법이다.

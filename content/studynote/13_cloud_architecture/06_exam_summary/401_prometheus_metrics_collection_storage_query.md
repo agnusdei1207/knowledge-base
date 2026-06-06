@@ -1,10 +1,9 @@
 ---
-title: "401. 프로메테우스 메트릭 수집 저장 쿼리 (Prometheus Metrics Collection Storage Query)"
+title: "Prometheus Metrics Collection Storage Query"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

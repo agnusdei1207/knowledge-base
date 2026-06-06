@@ -1,10 +1,9 @@
 ---
-title: "432. CXL 칩렛 메모리 풀링 아키텍처 (CXL: Compute Express Link)"
+title: "CXL: Compute Express Link"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

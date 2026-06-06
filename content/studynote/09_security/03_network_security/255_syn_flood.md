@@ -1,10 +1,9 @@
 ---
-title: "255. SYN 플러딩 (SYN Flood)"
+title: "SYN Flood"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

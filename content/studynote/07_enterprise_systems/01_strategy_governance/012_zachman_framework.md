@@ -1,11 +1,10 @@
 ---
-title: "12. 잭맨 프레임워크 (Zachman Framework) - 6x6 매트릭스 (Who, What, Where, When, Why, How vs Planner, Owner, Designer, Builder, Implementer)"
+title: "Who, What, Where, When, Why, How vs Planner, Owner, Designer, Builder, Implementer"
 date: "2024-05-24"
 description: "6x6 매트릭스를 기반으로 기업의 복잡한 정보 시스템을 체계적으로 묘사하고 분석하는 잭맨 프레임워크 심층 구조"
 tags:
   - "enterprise_systems"
 ---
-
 
 # 12. [잭맨 프레임워크](/studynote/12_it_management/03_ea_isp/112_zachman_framework/) ([Zachman Framework](/studynote/12_it_management/03_ea_isp/112_zachman_framework/))
 

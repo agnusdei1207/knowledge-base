@@ -1,10 +1,9 @@
 ---
-title: "189. 복권 스케줄링 (Lottery Scheduling) - 확률적 스케줄링"
+title: "189. Lottery Scheduling"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

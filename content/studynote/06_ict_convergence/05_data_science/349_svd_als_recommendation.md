@@ -1,10 +1,9 @@
 ---
-title: "349. SVD 및 ALS (Alternating Least Squares) 추천 알고리즘 연산 (특이값 분해)"
+title: "349. Svd Als Recommendation"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

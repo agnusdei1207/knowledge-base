@@ -1,10 +1,9 @@
 ---
-title: "682. TLS Handshake 프로토콜 (3-Way 유사 연결 초기화, 세션키 협상, Cipher Suite 교환 포함)"
+title: "3-Way , , Cipher Suite"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

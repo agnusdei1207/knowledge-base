@@ -1,10 +1,9 @@
 ---
-title: "소프트웨어 노후화 (Software Obsolescence)"
+title: "Software Obsolescence"
 date: "2026-03-03"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 > **핵심 인사이트 3줄**
 > 1. 소프트웨어 노후화(Software Obsolescence)는 기술적 부채·[엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 축적·환경 변화로 시스템이 유지보수 불가 상태에 도달하는 현상이다.

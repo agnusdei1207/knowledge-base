@@ -1,10 +1,9 @@
 ---
-title: "58. 개발자 경험 (DX, Developer Experience) 향상 전략"
+title: "058. Dx Developer Experience"
 date: "2026-04-05"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

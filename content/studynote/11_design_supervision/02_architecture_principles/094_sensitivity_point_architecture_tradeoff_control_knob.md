@@ -1,10 +1,9 @@
 ---
-title: "94. 민감도점 (Sensitivity Point) - 아키텍처 품질 속성 스위치"
+title: "094. Sensitivity Point Architecture Tradeoff Control Knob"
 date: "2026-04-10"
 tags:
   - "studynote-design"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

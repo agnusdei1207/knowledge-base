@@ -1,9 +1,8 @@
 ---
-title: "04. 엔드포인트 보안 및 매체 제어"
+title: "Security"
 tags:
   - "security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

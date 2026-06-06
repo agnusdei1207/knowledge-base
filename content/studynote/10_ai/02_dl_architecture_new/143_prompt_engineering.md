@@ -1,10 +1,9 @@
 ---
-title: "143. 프롬프트 엔지니어링 (Prompt 엔진ering) - LLM 활용의 핵심"
+title: "143. Prompt Engineering"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [프롬프트 엔지니어링](/studynote/14_data_engineering/03_ml_dl_llm/149_prompt_engineering_cot_few_shot/)은 <strong>LLM에 입력하는 지시문(Prompt)을 체계적으로 설계</strong>하여 원하는 출력을 얻는 기법이며, [Zero](/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-shot·Few-shot·[CoT](/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/)([Chain-of-Thought](/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/))가 핵심 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.

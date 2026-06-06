@@ -1,10 +1,9 @@
 ---
-title: "656. 강화 학습 RLHF 인간 피드백 정렬 (Reinforcement Learning RLHF Human Feedback)"
+title: "Reinforcement Learning RLHF Human Feedback"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "683. Cipher Suite 모델 표기방식 예시 (TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) 이해 방식"
+title: "683. Cipher Suite Notation"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

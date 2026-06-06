@@ -1,10 +1,9 @@
 ---
-title: "616. Identity Bridge (신원 가교)"
+title: "616. Identity Bridge"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

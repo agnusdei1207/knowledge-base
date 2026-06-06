@@ -1,10 +1,9 @@
 ---
-title: "070. 카이사르 암호 (Caesar Cipher) — 알파벳 3자리 이동"
+title: "070. Caesar Cipher"
 date: "2026-04-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

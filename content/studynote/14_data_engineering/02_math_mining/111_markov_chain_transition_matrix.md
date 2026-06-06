@@ -1,10 +1,9 @@
 ---
-title: "111. 마르코프 체인 (Markov Chain) - 전이 행렬과 상태 확률 수렴"
+title: "111. Markov Chain Transition Matrix"
 date: "2026-04-19"
 tags:
   - "studynote-dataengineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [마르코프 체인](/studynote/08_algorithm_stats/08_stats/140_markov_chain/)([Markov Chain](/studynote/08_algorithm_stats/08_stats/140_markov_chain/))은 <strong>"미래 상태는 오직 현재 상태에만 의존하고 과거 경로와 무관하다"</strong>는 [마르코프 성질](/studynote/08_algorithm_stats/08_stats/141_markov_property/)([Markov Property](/studynote/08_algorithm_stats/08_stats/141_markov_property/), 무기억성)을 만족하는 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적 [상태 전이](/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 모델이다.

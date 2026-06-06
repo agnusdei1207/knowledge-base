@@ -1,10 +1,9 @@
 ---
-title: "523. DHCP 과정 4단계 (DORA)"
+title: "DORA"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

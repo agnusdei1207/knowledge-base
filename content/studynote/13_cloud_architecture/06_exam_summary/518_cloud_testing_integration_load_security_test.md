@@ -1,10 +1,9 @@
 ---
-title: "518. 클라우드 테스팅 통합 부하 보안 테스트 (Cloud Testing Integration Load Security Test)"
+title: "Cloud Testing Integration Load Security Test"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

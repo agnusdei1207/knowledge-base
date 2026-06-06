@@ -1,10 +1,9 @@
 ---
-title: "160. 넌클러스터드 인덱스 (Non-Clustered Index / 보조 인덱스) - 리프 노드가 실제 데이터 포인터 보유, 여러 개 가능"
+title: "160. Non Clustered Index Secondary"
 date: "2026-05-05"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트
 

@@ -1,10 +1,9 @@
 ---
-title: "204. NameNode 메타데이터와 MapReduce 디스크 병목 SPOF 극복"
+title: "204. Namenode Metadata Mapreduce Disk Bottleneck"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [HDFS](/studynote/14_data_engineering/01_infrastructure/013_hdfs/) NameNode는 전체 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)를 RAM에 단독으로 유지하는 구조로 인해 [SPOF](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) (Single Point of Failure)와 메모리 확장 한계를 내포하며, MapReduce는 Shuffle 단계의 반복적 디스크 I/O (Input/Output)가 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목이 된다.

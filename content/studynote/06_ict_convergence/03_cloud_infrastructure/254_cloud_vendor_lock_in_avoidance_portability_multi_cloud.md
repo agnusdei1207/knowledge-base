@@ -1,10 +1,9 @@
 ---
-title: "254. 클라우드 락인 회피 기술 아키텍처 (Vendor Lock-in)"
+title: "Vendor Lock-in"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

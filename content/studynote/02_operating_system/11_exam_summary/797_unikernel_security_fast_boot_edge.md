@@ -1,10 +1,9 @@
 ---
-title: "797. 유니커널 보안과 가벼운 부팅 특성 망 적용 (Unikernel Security Fast Boot Edge)"
+title: "Unikernel Security Fast Boot Edge"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "274. 재전송 공격 (Replay Attack)"
+title: "Replay Attack"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

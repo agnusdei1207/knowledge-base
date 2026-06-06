@@ -1,10 +1,9 @@
 ---
-title: "184. 테마 (Theme) - 에픽들의 상위 카테고리"
+title: "184. Theme Agile Requirements"
 date: "2026-05-06"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

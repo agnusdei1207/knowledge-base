@@ -1,10 +1,9 @@
 ---
-title: "564. IT 경영 관리 핵심 토픽 564번 시험 요약 (IT Management Core Topic 564 Exam Summary)"
+title: "IT Management Core Topic 564 Exam Summary"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 # IT 경영 관리 핵심 토픽 564번 시험 요약 — 디지털 전환 시대의 IT 거버넌스 및 전략적 성과관리
 

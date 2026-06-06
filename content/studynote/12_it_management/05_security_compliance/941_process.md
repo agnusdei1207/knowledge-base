@@ -1,10 +1,9 @@
 ---
-title: "941. EAI 허브 앤 스포크 포인트 투 포인트"
+title: "941. Process"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [EAI](/studynote/07_enterprise_systems/03_eai_esb_msa/143_eai_enterprise_application_integration_hub/) [허브](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 앤 스포크 포인트 투 포인트의 본질은 현행 구조, 목표 구조, 전환 과제의 추적성이 확보되어야 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서가 실제 투자와 아키텍처 변화로 이어진다.

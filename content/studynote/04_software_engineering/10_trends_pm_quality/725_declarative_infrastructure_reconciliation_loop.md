@@ -1,10 +1,9 @@
 ---
-title: "725. 선언적 인프라 상태 일치 루프"
+title: "725. Declarative Infrastructure Reconciliation Loop"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

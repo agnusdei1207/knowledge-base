@@ -1,10 +1,9 @@
 ---
-title: "171. PKCS#12 / PFX (인증서·개인키 묶음 포맷)"
+title: "171. Pkcs12 Pfx"
 date: "2026-04-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

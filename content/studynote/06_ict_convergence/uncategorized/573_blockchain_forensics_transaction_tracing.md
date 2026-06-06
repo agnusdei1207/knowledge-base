@@ -1,10 +1,9 @@
 ---
-title: "573. 블록체인 포렌식 트랜잭션 추적 (Blockchain Forensics Transaction Tracing)"
+title: "Blockchain Forensics Transaction Tracing"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

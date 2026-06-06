@@ -1,10 +1,9 @@
 ---
-title: "176. 지수 평균법 (Exponential Averaging) - 다음 CPU 버스트 길이 예측"
+title: "176. Exponential Averaging"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

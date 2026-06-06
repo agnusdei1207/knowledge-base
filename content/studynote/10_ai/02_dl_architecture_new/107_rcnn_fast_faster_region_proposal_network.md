@@ -1,10 +1,9 @@
 ---
-title: "107. R-CNN, Fast R-CNN, Faster R-CNN (2-Stage 탐지기) 진화"
+title: "107. Rcnn Fast Faster Region Proposal Network"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [객체 탐지](/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/)([Object Detection](/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/)) 영역에서 영역 추정(Region Proposal)과 [CNN](/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) ([Convolutional Neural Network](/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/)) [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)를 분리하여 수행하는 2-Stage 모델의 발전 과정(R-[CNN](/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) -> Fast R-[CNN](/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) -> Faster R-[CNN](/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/))이다.

@@ -1,10 +1,9 @@
 ---
-title: "041. 셀렉트 연산자 (Select Operator, σ) — 수평적 부분집합"
+title: "041. Select Operator"
 date: "2026-03-19"
 tags:
   - "studynote-database"
 ---
-
 
 > **핵심 인사이트**
 > 1. 셀렉트 연산(σ, [Select](/studynote/05_database/04_transactions_concurrency/520_select/)/Restriction)은 [관계 대수](/studynote/05_database/01_db_architecture_relational/038_relational_algebra/)의 단항 수평 필터링 연산으로, SQL WHERE 절의 수학적 기반이며 조건을 만족하는 [튜플](/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/)(행)만 결과 [릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)으로 반환한다.

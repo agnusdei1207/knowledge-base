@@ -1,10 +1,9 @@
 ---
-title: "448. BCP BIA RTO 재해 복구 비즈니스 파급 분석 (BCP, BIA, RTO/RPO)"
+title: "BCP, BIA, RTO/RPO"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

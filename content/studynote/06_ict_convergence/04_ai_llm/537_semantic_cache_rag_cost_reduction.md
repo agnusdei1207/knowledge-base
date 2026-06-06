@@ -1,10 +1,9 @@
 ---
-title: "537. 시맨틱 캐시 RAG 비용·지연 절감 (Semantic Cache RAG Cost and Latency Reduction)"
+title: "Semantic Cache RAG Cost and Latency Reduction"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

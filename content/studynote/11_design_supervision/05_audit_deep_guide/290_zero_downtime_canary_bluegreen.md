@@ -1,10 +1,9 @@
 ---
-title: "290. 무중단 배포 카나리 블루그린 감리 (Zero Downtime Canary Blue Green Audit)"
+title: "Zero Downtime Canary Blue Green Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

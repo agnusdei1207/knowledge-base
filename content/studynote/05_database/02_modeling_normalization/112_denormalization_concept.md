@@ -1,10 +1,9 @@
 ---
-title: "112. 역정규화 개념 (Denormalization Concept) - 물리 설계 단계의 성능 최적화 패턴"
+title: "112. Denormalization Concept"
 date: "2026-04-19"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [역정규화](/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/) 개념은 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 설계에서 완성한 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 스키마를 <strong>물리 설계 단계에서 의도적으로 중복·병합</strong>하여, 조인 횟수를 줄이고 읽기 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 향상시키는 <strong>설계 의사결정 프레임워크</strong>다.

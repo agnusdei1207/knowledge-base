@@ -1,10 +1,9 @@
 ---
-title: "579. 영지식 롤업 zk-Rollup 프로토콜 (Zero Knowledge Rollup zk-Rollup Protocol)"
+title: "Zero Knowledge Rollup zk-Rollup Protocol"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

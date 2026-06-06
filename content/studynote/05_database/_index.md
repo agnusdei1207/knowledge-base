@@ -1,9 +1,8 @@
 ---
-title: "05: 데이터베이스 (Database)"
+title: "Database"
 tags:
   - "studynote-database"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 동시성(Concurrency)과 장애(Failure)가 일상적인 환경에서 데이터의 무결성(Integrity)과 일관성(Consistency)을 보장하기 위한 트랜잭션(ACID) 기반의 영속성 저장 시스템.
 > 2. **가치**: 관계형 대수(Relational Algebra)를 SQL이라는 직관적 언어로 추상화하고 B-Tree 인덱스로 디스크 I/O를 최소화하여, 비즈니스 로직을 데이터 물리적 저장 구조로부터 완벽히 분리.

@@ -1,10 +1,9 @@
 ---
-title: "115. Terraform 인프라 프로비저닝 - IaC 선언적 다중 클라우드 관리"
+title: "115. Terraform Infrastructure Provisioning"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Terraform은 HashiCorp가 개발한 <strong>선언적 <a href="/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/">IaC</a>(<a href="/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/">Infrastructure as Code</a>)</strong> 도구로, HCL(HashiCorp Configuration Language)로 인프라를 정의하면 `terraform apply`로 AWS·Azure·GCP 등 <strong>다중 클라우드에 자동 <a href="/studynote/09_security/11_iam_access_control/528_provisioning/">프로비저닝</a></strong>한다.

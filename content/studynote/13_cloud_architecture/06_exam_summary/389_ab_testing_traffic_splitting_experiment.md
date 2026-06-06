@@ -1,10 +1,9 @@
 ---
-title: "389. A/B 테스팅 트래픽 분할 실험 (AB Testing Traffic Splitting Experiment)"
+title: "AB Testing Traffic Splitting Experiment"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

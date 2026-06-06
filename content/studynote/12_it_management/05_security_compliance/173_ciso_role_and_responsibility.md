@@ -1,10 +1,9 @@
 ---
-title: "173. 정보보호최고책임자 (CISO) 지정 의무 및 역할"
+title: "173. Ciso Role And Responsibility"
 date: "2026-03-04"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

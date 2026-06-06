@@ -1,10 +1,9 @@
 ---
-title: "906. EA 거버넌스 (EA Governance)"
+title: "EA Governance"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 거버넌스 ([EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) Governance)의 본질은 수립된 EA가 현업 정보화 사업에 제대로 준수([Compliance](/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/))되는지 심의/통제하는 조직 및 절차를 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.

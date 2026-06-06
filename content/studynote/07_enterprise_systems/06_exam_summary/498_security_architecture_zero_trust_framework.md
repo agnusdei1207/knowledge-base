@@ -1,10 +1,9 @@
 ---
-title: "498. 보안 아키텍처 제로 트러스트 프레임워크 (Security Architecture Zero Trust Framework)"
+title: "Security Architecture Zero Trust Framework"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

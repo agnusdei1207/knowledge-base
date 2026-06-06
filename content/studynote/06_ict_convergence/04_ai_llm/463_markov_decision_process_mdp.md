@@ -1,10 +1,9 @@
 ---
-title: "463. 마르코프 결정 과정 (MDP)과 상태, 행동, 보상"
+title: "463. Markov Decision Process Mdp"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

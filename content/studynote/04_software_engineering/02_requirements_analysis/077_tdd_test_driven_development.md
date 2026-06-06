@@ -1,9 +1,8 @@
 ---
-title: "77. 테스트 주도 개발 (TDD, Test Driven Development) - Red-Green-Refactor"
+title: "077. Tdd Test Driven Development"
 tags:
   - "software_engineering"
 ---
-
 
 # 테스트 주도 개발 ([TDD](/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/), [Test-Driven Development](/studynote/11_design_supervision/06_exam_summary/411_process/)) - Red-Green-[Refactor](/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)
 

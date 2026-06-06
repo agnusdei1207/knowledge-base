@@ -1,10 +1,9 @@
 ---
-title: "370. DID 분산신원 ZKP 영지식증명 자기주권신원 (DID Decentralized Identity ZKP Self-Sovereign Identity)"
+title: "DID Decentralized Identity ZKP Self-Sovereign Identity"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

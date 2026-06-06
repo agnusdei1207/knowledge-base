@@ -1,10 +1,9 @@
 ---
-title: "529. Repeatable Read 의 팬텀 현상 MVCC 해결 유무 (Bcnf)"
+title: "Bcnf"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

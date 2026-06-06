@@ -1,10 +1,9 @@
 ---
-title: "567. 레디스 만료 데이터 키 삭제 정책(LRU, LFU, Random) 캐시 스토리지 운영"
+title: "567. Redis Cache Eviction Policy Lru Lfu"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "461. Spy (스파이) - 스텁 역할 + 호출 정보 기록"
+title: "461. Spy Test Double"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

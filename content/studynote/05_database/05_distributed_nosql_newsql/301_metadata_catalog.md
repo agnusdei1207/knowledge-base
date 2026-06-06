@@ -1,10 +1,9 @@
 ---
-title: "301. 데이터 마이그레이션 도구 및 CDC (Change Data Capture)"
+title: "Change Data Capture"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "566. 핀테크 디지털 금융 혁신 레그테크 (FinTech Digital Finance Innovation RegTech)"
+title: "FinTech Digital Finance Innovation RegTech"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 핀테크 디지털 금융 혁신 RegTech은(는) 금융 서비스 혁신과 규제 준수를 디지털 기술로 동시에 달성하는 금융 IT 접근이다.

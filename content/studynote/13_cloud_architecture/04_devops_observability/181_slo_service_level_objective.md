@@ -1,10 +1,9 @@
 ---
-title: "181. SLO (Service Level Objective, 서비스 수준 목표)"
+title: "Service Level Objective,"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

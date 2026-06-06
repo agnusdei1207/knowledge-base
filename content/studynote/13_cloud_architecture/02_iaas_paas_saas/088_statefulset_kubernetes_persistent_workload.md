@@ -1,10 +1,9 @@
 ---
-title: "88. 스테이트풀셋 (StatefulSet) - K8s 상태 저장 DB 배포"
+title: "088. Statefulset Kubernetes Persistent Workload"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

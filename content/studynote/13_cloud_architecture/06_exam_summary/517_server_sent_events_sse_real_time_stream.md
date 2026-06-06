@@ -1,10 +1,9 @@
 ---
-title: "517. 서버 전송 이벤트 SSE 실시간 스트림 (Server Sent Events SSE Real-time Stream)"
+title: "Server Sent Events SSE Real-time Stream"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

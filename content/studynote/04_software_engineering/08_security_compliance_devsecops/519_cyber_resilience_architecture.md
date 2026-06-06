@@ -1,10 +1,9 @@
 ---
-title: "519. 사이버 레질리언스 (Cyber Resilience) 아키텍처"
+title: "519. Cyber Resilience Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

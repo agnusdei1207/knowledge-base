@@ -1,10 +1,9 @@
 ---
-title: "161. 전리층 반사 / 대류권 산란"
+title: "161. Ionospheric Reflection Tropospheric Scatter"
 date: "2026-05-05"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

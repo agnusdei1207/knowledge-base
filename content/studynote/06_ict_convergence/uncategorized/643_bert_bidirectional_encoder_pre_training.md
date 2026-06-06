@@ -1,10 +1,9 @@
 ---
-title: "643. BERT 양방향 인코더 사전 학습 (BERT Bidirectional Encoder Pre-training)"
+title: "BERT Bidirectional Encoder Pre-training"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

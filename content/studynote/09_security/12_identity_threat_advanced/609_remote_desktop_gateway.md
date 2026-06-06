@@ -1,10 +1,9 @@
 ---
-title: "609. 원격 데스크톱 게이트웨이 (Remote Desktop Gateway)"
+title: "Remote Desktop Gateway"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

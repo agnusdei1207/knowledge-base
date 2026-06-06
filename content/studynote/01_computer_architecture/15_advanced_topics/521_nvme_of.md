@@ -1,10 +1,9 @@
 ---
-title: "521. NVMe 오버 패브릭 (NVMe-oF)"
+title: "NVMe-oF"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

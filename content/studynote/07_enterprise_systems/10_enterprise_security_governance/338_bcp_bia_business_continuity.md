@@ -1,10 +1,9 @@
 ---
-title: "338. BCP 업무 연속성 복구 BIA 분석 (BCP Business Continuity Plan BIA)"
+title: "BCP Business Continuity Plan BIA"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

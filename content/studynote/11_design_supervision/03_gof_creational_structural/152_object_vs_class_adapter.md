@@ -1,10 +1,9 @@
 ---
-title: "152. 구조 패턴: 객체 어댑터 vs 클래스 어댑터 (Object vs Class Adapter) - 상속과 합성의 십자 트레이드오프"
+title: "152. Object Vs Class Adapter"
 date: "2026-05-03"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [어댑터](/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)([Adapter](/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)) 패턴은 규격이 안 맞는 두 인터페이스를 연결할 때, 낡은 로봇(Adaptee)을 내 뱃속 변수로 품어버리는 <strong>'객체 <a href="/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">어댑터</a>(Object <a href="/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">Adapter</a> / 합성 Composition)'</strong>와 -> 낡은 로봇의 핏줄을 내 호적에 직접 엮어 다중 [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)(Multiple Inheritance) 치는 <strong>'클래스 <a href="/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">어댑터</a>(Class <a href="/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">Adapter</a>)'</strong> 2가지 흑마법으로 도끼 찢기 분할된다.

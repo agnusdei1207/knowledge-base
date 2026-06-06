@@ -1,10 +1,9 @@
 ---
-title: "416. IT 서비스 카탈로그 셀프서비스 포탈 (IT Service Catalog Self Service Portal)"
+title: "IT Service Catalog Self Service Portal"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

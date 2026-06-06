@@ -1,10 +1,9 @@
 ---
-title: "217. CDC (Change Data Capture) 빈로그 데이터 변경 캡처 Debezium"
+title: "217. Cdc Binlog Change Capture Debezium"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CDC(Change [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Capture)는 소스 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스에서 발생하는 INSERT·UPDATE·DELETE 변경 사항을 실시간으로 감지·캡처하여 다른 시스템에 전달하는 기술로, 전통적인 전체 테이블 복사(Full Dump) 대비 네트워크·DB 부하를 획기적으로 줄인다.

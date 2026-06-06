@@ -1,10 +1,9 @@
 ---
-title: "436. 테스트 관리 품질 보증 자동화 (Test Management Quality Assurance Automation)"
+title: "Test Management Quality Assurance Automation"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

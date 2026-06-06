@@ -1,10 +1,9 @@
 ---
-title: "417. DCL (GRANT, REVOKE 권한 통제)"
+title: "GRANT, REVOKE"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "826. Kube-Proxy 서비스 로드밸런싱"
+title: "826. Kube Proxy Service Load Balancing Iptables Ipvs"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

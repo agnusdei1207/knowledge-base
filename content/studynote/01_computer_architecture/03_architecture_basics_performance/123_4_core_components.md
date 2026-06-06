@@ -1,10 +1,9 @@
 ---
-title: "123. 컴퓨터의 4대 핵심 구성요소 (4 Core Components)"
+title: "4 Core Components"
 date: "2026-05-05"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 컴퓨터의 4대 구성요소는 연산을 전담하는 **CPU**, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 저장하는 **메인 메모리(Memory)**, 외부 세계와 소통하는 **입출력 장치(I/O)**, 그리고 이들을 하나로 연결하는 신경망인 <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/">시스템 버스</a>(<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/">System Bus</a>)</strong>다.

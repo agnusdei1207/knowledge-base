@@ -1,10 +1,9 @@
 ---
-title: "18. Skew Join — 데이터 쏠림 조인 최적화"
+title: "069. Skew Join"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

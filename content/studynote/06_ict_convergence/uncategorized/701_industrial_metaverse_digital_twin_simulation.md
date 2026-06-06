@@ -1,10 +1,9 @@
 ---
-title: "701. 산업 메타버스 디지털 트윈 시뮬레이션 (Industrial Metaverse Digital Twin Simulation)"
+title: "Industrial Metaverse Digital Twin Simulation"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

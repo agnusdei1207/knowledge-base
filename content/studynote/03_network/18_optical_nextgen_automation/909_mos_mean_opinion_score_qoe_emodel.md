@@ -1,10 +1,9 @@
 ---
-title: "909. MOS (Mean Opinion Score 음성/영상 체감 품질 사용자 5점 척도 측정 통신망 평가 주관식 및 E-Model 알고리즘 평가 체제 규약)"
+title: "Mean Opinion Score / 5 E-Model"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

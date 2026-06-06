@@ -1,10 +1,9 @@
 ---
-title: "204. 레드-블랙 트리 (Red-Black Tree)와 CFS"
+title: "204. Red Black Tree Cfs"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

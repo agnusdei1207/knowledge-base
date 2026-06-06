@@ -1,10 +1,9 @@
 ---
-title: "재현율 (Recall / Sensitivity): 데이터의 실종을 막는 탐지 성능"
+title: "092. Recall Sensitivity Hit Rate"
 date: "2026-03-04"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 재현율([Recall](/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/))은 실제 정답이 양성(Positive)인 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 집합 중에서, 모델이 정확하게 양성이라고 짚어낸 비율을 측정하는 평가 지표다.

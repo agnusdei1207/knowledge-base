@@ -1,10 +1,9 @@
 ---
-title: "709. NTDS.dit 추출 (Ntds Dit)"
+title: "Ntds Dit"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "901. 인가 (Authorization) 모델 - RBAC, ABAC"
+title: "901. Authorization Models"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

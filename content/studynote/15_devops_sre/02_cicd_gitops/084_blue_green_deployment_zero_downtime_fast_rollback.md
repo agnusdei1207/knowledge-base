@@ -1,10 +1,9 @@
 ---
-title: "84. 블루/그린 배포 (Blue/Green) - 무중단 광속 라우팅 스위칭 전략"
+title: "084. Blue Green Deployment Zero Downtime Fast Rollback"
 date: "2026-04-10"
 tags:
   - "studynote-devops"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

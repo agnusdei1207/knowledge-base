@@ -1,10 +1,9 @@
 ---
-title: "630. 가상 스위치 (vSwitch) 패킷 오버헤드 VNF 구조 적용 방식"
+title: "630. Vswitch Vnf Overhead"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

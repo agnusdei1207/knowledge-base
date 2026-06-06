@@ -1,10 +1,9 @@
 ---
-title: "489. httpoxy (CGI 환경변수 Proxy Manipulation)"
+title: "CGI Proxy Manipulation"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

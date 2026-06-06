@@ -1,10 +1,9 @@
 ---
-title: "147. 집계 함수 (Aggregate Function) - SUM, AVG, MAX, MIN, COUNT"
+title: "147. Aggregate Function Group By"
 date: "2026-04-19"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 집계 함수([Aggregate](/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) Function)는 여러 행(Row)의 값을 하나의 결과값으로 요약하는 SQL(Structured Query Language) 함수로, `GROUP BY`와 결합하여 그룹별 통계를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석의 핵심 도구다.

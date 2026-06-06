@@ -1,10 +1,9 @@
 ---
-title: "481. 피벗 크로스탭 보고서"
+title: "481. Pivoting Crosstab Report"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

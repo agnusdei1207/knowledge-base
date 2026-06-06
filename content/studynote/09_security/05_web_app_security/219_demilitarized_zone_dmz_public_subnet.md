@@ -1,10 +1,9 @@
 ---
-title: "219. DMZ (Demilitarized Zone, 비무장지대)"
+title: "Demilitarized Zone,"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

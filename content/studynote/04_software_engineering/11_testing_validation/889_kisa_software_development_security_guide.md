@@ -1,10 +1,9 @@
 ---
-title: "889. 행정안전부/KISA 소프트웨어 개발 보안 가이드"
+title: "889. Kisa Software Development Security Guide"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

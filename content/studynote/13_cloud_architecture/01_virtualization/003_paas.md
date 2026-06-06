@@ -1,11 +1,10 @@
 ---
-title: "3. PaaS (Platform as a Service) - OS, 런타임, 미들웨어, DB가 세팅된 개발/운영 플랫폼 제공 (AWS Elastic Beanstalk, Heroku)"
+title: "AWS Elastic Beanstalk, Heroku"
 date: "2024-05-24"
 description: "운영체제와 미들웨어가 사전 구성된 개발 및 런타임 환경을 제공하여 개발 생산성을 극대화하는 PaaS의 원리 분석"
 tags:
   - "cloud_architecture"
 ---
-
 
 # [PaaS](/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/) (Platform [as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))
 

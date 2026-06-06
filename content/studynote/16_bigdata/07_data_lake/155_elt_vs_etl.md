@@ -1,10 +1,9 @@
 ---
-title: "155. ELT vs ETL — 클라우드 시대 데이터 변환 패러다임 전환"
+title: "155. Elt Vs Etl"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 1. [ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) (Extract, Transform, Load)은 변환 후 적재하는 전통 방식으로 스토리지 비용이 비쌌던 [온프레미스](/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) [DW](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 환경에 최적화되었으나, 클라우드 시대에는 <strong>먼저 적재하고 나중에 변환하는 <a href="/studynote/14_data_engineering/01_infrastructure/034_elt/">ELT</a> (Extract, Load, Transform)</strong>가 표준으로 전환되었다.

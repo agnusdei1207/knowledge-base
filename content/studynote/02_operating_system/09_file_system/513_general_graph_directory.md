@@ -1,10 +1,9 @@
 ---
-title: "513. 일반 그래프 디렉터리 (순환 허용) (General Graph Directory)"
+title: "General Graph Directory"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

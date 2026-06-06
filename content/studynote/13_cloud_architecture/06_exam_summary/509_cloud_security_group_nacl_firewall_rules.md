@@ -1,10 +1,9 @@
 ---
-title: "509. 클라우드 보안 그룹 NACL 방화벽 규칙 (Cloud Security Group NACL Firewall Rules)"
+title: "Cloud Security Group NACL Firewall Rules"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

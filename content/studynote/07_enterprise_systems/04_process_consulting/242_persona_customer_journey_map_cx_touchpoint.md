@@ -1,10 +1,9 @@
 ---
-title: "242. 페르소나 및 고객 여정 지도 CX 터치포인트 도출 (Persona / C고객 Journey Map)"
+title: "Persona / C Journey Map"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "235. 레지스트리 (Registry) 태그 불변성 (Immutable Tag) 운영 이미지 관리망"
+title: "235. Registry Immutable Tag"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

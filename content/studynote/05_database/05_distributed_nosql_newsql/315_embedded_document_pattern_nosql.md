@@ -1,10 +1,9 @@
 ---
-title: "315. 임베디드 도큐먼트 (Embedded Document) 패턴"
+title: "315. Embedded Document Pattern Nosql"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

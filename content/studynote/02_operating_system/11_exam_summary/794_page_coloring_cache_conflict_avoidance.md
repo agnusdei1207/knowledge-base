@@ -1,10 +1,9 @@
 ---
-title: "794. 페이지 컬러링 캐시 경합 회피 물리 할당 (Page Coloring Cache Conflict Avoidance)"
+title: "Page Coloring Cache Conflict Avoidance"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

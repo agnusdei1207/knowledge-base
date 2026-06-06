@@ -1,10 +1,9 @@
 ---
-title: "718. 음성 인식 ASR 화자 분리 합성 (Speech Recognition ASR Speaker Diarization)"
+title: "Speech Recognition ASR Speaker Diarization"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

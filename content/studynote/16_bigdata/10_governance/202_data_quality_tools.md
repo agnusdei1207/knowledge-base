@@ -1,10 +1,9 @@
 ---
-title: "196. 데이터 품질 관리 도구 (Data Quality Tools) — Great Expectations/Deequ/Soda Core"
+title: "202. Data Quality Tools"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

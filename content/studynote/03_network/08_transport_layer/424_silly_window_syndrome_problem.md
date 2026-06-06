@@ -1,10 +1,9 @@
 ---
-title: "424. 어리석은 윈도우 증후군 (Silly Window Syndrome) 문제"
+title: "424. Silly Window Syndrome Problem"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

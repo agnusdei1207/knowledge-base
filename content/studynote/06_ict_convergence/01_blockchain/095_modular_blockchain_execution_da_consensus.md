@@ -1,9 +1,8 @@
 ---
-title: "95. 모듈러 블록체인 (Modular Blockchain) - 실행(Execution), 합의(Consensus), 정산(Settlement), 데이터 가용성(DA) 계층을 분리하여 확장성 극대화"
+title: "095. Modular Blockchain Execution Da Consensus"
 tags:
   - "ict_convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)러 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) (Modular [Blockchain](/studynote/06_ict_convergence/01_blockchain/004_blockchain/))은 연산, 합의, 정산, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 등 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 모든 기능을 한 노드가 처리하던 모놀리식 (Monolithic) 구조를 깨고, 역할별로 계층(Layer)을 분리한 차세대 아키텍처다.

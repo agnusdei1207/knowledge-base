@@ -1,10 +1,9 @@
 ---
-title: "505. Refresh Token (액세스 토큰 재발급)"
+title: "505. Refresh Token"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "3. 스택 (Stack) — LIFO, push/pop, 재귀/DFS/수식 평가"
+title: "057. Stack"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

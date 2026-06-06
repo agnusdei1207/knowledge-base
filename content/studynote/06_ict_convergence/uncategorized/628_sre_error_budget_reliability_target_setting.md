@@ -1,10 +1,9 @@
 ---
-title: "628. SRE 에러 버짓 신뢰성 목표 설정 (SRE Error Budget Reliability Target Setting)"
+title: "SRE Error Budget Reliability Target Setting"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

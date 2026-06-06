@@ -1,10 +1,9 @@
 ---
-title: "213. 데이터 카탈로그 (Data Catalog) 시스템"
+title: "213. Data Catalog Metadata"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/) ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Catalog](/studynote/05_database/07_exam_summary/394_catalog_metadata/)) 시스템의 본질은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산 위치 탐색 및 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) 태깅, [데이터 거버넌스](/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/)의 핵심을 수집·통합·품질·활용 체계로 정렬하는 데 있다.

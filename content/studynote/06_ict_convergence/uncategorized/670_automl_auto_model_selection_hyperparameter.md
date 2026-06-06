@@ -1,10 +1,9 @@
 ---
-title: "670. AutoML 자동 모델 선택 하이퍼파라미터 (AutoML Auto Model Selection Hyperparameter)"
+title: "AutoML Auto Model Selection Hyperparameter"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

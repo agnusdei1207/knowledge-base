@@ -1,10 +1,9 @@
 ---
-title: "75. 조건부 확률(Conditional Probability)과 베이즈 정리(Bayes)"
+title: "Bayes"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

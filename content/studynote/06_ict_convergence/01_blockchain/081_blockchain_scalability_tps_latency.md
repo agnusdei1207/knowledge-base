@@ -1,10 +1,9 @@
 ---
-title: "81. 블록체인 확장성 지표 (Blockchain Scalability TPS Latency)"
+title: "Blockchain Scalability TPS Latency"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

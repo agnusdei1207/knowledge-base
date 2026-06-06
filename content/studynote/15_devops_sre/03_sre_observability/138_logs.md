@@ -1,10 +1,9 @@
 ---
-title: "138. 로그 (Logs) - 구조화 로깅과 중앙 집중 관리"
+title: "138. Logs"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 <strong>시스템·애플리케이션이 발생시킨 이벤트의 시간순 텍스트 기록</strong>이며, [Observability](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) 3대 축([Metrics](/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/)·[Logs](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·Traces) 중 가장 상세한 정보를 제공한다.

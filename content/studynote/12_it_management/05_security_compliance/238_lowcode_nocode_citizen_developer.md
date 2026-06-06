@@ -1,10 +1,9 @@
 ---
-title: "238. 로우코드/노코드 (LC/NC) 시민 개발자 (Citizen Developer) 플랫폼 도입과 섀도우 IT 거버넌스 타협망"
+title: "238. Lowcode Nocode Citizen Developer"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 로우코드/노코드 (LC/NC) [시민 개발자](/studynote/06_ict_convergence/03_cloud_infrastructure/259_citizen_developer/) ([Citizen Developer](/studynote/06_ict_convergence/03_cloud_infrastructure/259_citizen_developer/)) 플랫폼 도입과 섀도우 IT 거버넌스 타협망의 본질은 핵심 기술, 운영 조건, 위험 통제, 생태계 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 함께 봐야 신기술 도입이 유행이 아니라 사업 역량이 된다.

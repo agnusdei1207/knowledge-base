@@ -1,10 +1,9 @@
 ---
-title: "525. DHCP Lease (임대 시간) / DHCP 갱신 (T1/T2 타이머)"
+title: "T1/T2"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

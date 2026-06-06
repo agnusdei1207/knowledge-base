@@ -1,10 +1,9 @@
 ---
-title: "108. 솔트 (Salt)"
+title: "Salt"
 date: "2026-04-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [솔트](/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)([Salt](/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/))는 비밀번호를 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)에 안전하게 저장할 때, 사용자마다 고유하게 발급된 무작위 문자열을 평문 비밀번호에 이어 붙인 뒤 해싱(Hashing)하는 기법이다.

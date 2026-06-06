@@ -1,10 +1,9 @@
 ---
-title: "117. TextOps/DocOps 자동화 - 문서 파이프라인 CI/CD·Docs-as-Code"
+title: "117. Textops Docops Automation"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: TextOps/DocOps는 기술 문서를 <strong>코드처럼 Git으로 관리하고, <a href="/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>/CD <a href="/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인으로 빌드·<a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>·배포</strong>하는 Docs-[as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-[Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 패러다임이며, 마크다운·AsciiDoc으로 작성한 문서를 자동으로 웹 사이트·PDF·[API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 문서로 변환한다.

@@ -1,10 +1,9 @@
 ---
-title: "256. 빌더 (Builder) - 복잡한 객체를 단계별로 생성"
+title: "256. Builder Pattern Step By Step Creation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

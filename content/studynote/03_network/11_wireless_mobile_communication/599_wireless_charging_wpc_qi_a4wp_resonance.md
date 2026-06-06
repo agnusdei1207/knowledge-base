@@ -1,10 +1,9 @@
 ---
-title: "599. 무선 충전 전송 원리 (자기 유도형 WPC Qi, 자기 공명형 A4WP)"
+title: "WPC Qi, A4WP"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

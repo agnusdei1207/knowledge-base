@@ -1,10 +1,9 @@
 ---
-title: "481. SD-WAN 소프트웨어 정의 광역 네트워크 (SD-WAN Software Defined Wide Area Network)"
+title: "SD-WAN Software Defined Wide Area Network"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

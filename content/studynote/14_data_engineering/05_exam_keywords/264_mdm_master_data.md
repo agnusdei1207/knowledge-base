@@ -1,10 +1,9 @@
 ---
-title: "264. 마스터 데이터 관리 MDM 골든 레코드 (Master Data Management MDM Golden Record)"
+title: "Master Data Management MDM Golden Record"
 date: "2026-05-09"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

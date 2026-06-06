@@ -1,10 +1,9 @@
 ---
-title: "619. GitOps ArgoCD Flux 선언적 배포 (GitOps ArgoCD Flux Declarative Deployment)"
+title: "GitOps ArgoCD Flux Declarative Deployment"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

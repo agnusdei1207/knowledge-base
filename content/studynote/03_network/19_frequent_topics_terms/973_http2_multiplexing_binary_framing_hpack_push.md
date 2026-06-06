@@ -1,10 +1,9 @@
 ---
-title: "973. HTTP/2 멀티플렉싱"
+title: "973. Http2 Multiplexing Binary Framing Hpack Push"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

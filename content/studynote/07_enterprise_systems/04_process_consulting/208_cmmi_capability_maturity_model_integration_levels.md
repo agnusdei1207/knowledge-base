@@ -1,10 +1,9 @@
 ---
-title: "208. CMMI (Capability Maturity Model Integration) - 성숙도 수준 평가"
+title: "208. Cmmi Capability Maturity Model Integration Levels"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

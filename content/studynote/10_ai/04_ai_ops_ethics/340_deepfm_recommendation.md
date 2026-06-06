@@ -1,10 +1,9 @@
 ---
-title: "340. DeepFM 딥러닝 추천 엔진 (Deepfm Recommendation)"
+title: "Deepfm Recommendation"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

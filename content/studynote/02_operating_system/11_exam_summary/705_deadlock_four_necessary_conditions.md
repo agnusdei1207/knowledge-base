@@ -1,10 +1,9 @@
 ---
-title: "705. 교착 상태 4가지 조건 (Deadlock Four Necessary Conditions)"
+title: "Deadlock Four Necessary Conditions"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

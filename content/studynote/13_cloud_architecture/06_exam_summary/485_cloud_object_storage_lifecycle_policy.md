@@ -1,10 +1,9 @@
 ---
-title: "485. 클라우드 객체 스토리지 수명주기 정책 (Cloud Object Storage Lifecycle Policy)"
+title: "Cloud Object Storage Lifecycle Policy"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

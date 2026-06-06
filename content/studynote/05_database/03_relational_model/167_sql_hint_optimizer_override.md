@@ -1,10 +1,9 @@
 ---
-title: "167. 힌트 (Hint) - 개발자가 옵티마이저에게 접근 경로를 명시적으로 지시 (/*+ INDEX(EMP IDX_01) */ 등)"
+title: "167. Sql Hint Optimizer Override"
 date: "2026-04-03"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

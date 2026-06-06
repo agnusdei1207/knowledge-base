@@ -1,10 +1,9 @@
 ---
-title: "968. CI/CD 지속적 통합, 배포 파이프라인"
+title: "968. Ci Cd Pipeline"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "041. AARRR 퍼널 / 그로스 해킹 (Growth Hacking)"
+title: "Growth Hacking"
 date: "2026-04-05"
 tags:
   - "studynote-it-management"
 ---
-
 
 > **핵심 인사이트**
 > 1. AARRR 퍼널([Pirate Metrics](/studynote/07_enterprise_systems/01_strategy_governance/043_aarrr_funnel_pirate_metrics/))은 Dave McClure(500 Startups)가 제안한 고객 여정 5단계 측정 프레임워크로, [Acquisition](/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/)(획득)->Activation(활성화)->[Retention](/studynote/05_database/04_transactions_concurrency/515_mvcc/)(유지)->Referral(추천)->Revenue(수익)의 흐름을 정량 지표로 관리한다.

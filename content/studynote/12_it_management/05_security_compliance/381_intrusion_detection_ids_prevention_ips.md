@@ -1,10 +1,9 @@
 ---
-title: "381. 침입 탐지 IDS 침입 방지 IPS 비교 (Intrusion Detection IDS Prevention IPS)"
+title: "Intrusion Detection IDS Prevention IPS"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

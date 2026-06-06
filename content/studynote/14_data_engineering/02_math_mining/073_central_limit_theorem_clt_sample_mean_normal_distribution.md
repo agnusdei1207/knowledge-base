@@ -1,10 +1,9 @@
 ---
-title: "73. 중심 극한 정리 (CLT) - 30개 표본 정규분포 마법"
+title: "073. Central Limit Theorem Clt Sample Mean Normal Distribution"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "095. IND-CPA (Indistinguishability under CPA) — 암호학적 안전성 정의"
+title: "095. Ind Cpa"
 date: "2026-04-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: IND-[CPA](/studynote/09_security/02_crypto/094_cpa/) (Indistinguishability under Chosen Plaintext Attack)는 해커가 맘대로 평문을 암호화해 볼 수 있는 권한([CPA](/studynote/09_security/02_crypto/094_cpa/))을 가진 상태에서도, 주어진 암호문이 두 개의 평문 중 어느 것에서 유래했는지 50%의 확률을 넘어서 '구별'해 낼 수 없는 안전한 상태를 말한다.

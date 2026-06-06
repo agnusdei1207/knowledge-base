@@ -1,10 +1,9 @@
 ---
-title: "774. 소프트웨어 안전성 Fail-Safe, Fail-Soft"
+title: "774. Software Safety Failsafe Failsoft"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

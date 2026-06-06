@@ -1,10 +1,9 @@
 ---
-title: "215. MECE (Mutually Exclusive, Collectively Exhaustive) - 이슈 트리 분석 원칙 (중복 없이 누락 없이)"
+title: "215. Mece Mutually Exclusive Collectively Exhaustive Issue Tree"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

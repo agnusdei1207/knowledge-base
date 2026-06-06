@@ -1,10 +1,9 @@
 ---
-title: "178. 레지스터 간접 주소 지정 (Register Indirect)"
+title: "Register Indirect"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

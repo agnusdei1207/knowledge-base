@@ -1,5 +1,5 @@
 ---
-title: "스트리밍 데이터 품질 관리 (Streaming Data Quality Management)"
+title: "Streaming Data Quality Management"
 date: "2025-01-01"
 description: "실시간 스트리밍 데이터의 품질 이슈, 스키마 레지스트리, Great Expectations 기반 인라인 검증, 이상 탐지를 다룬다."
 tags:
@@ -13,7 +13,6 @@ tags:
   - "streaming data quality"
   - "studynote-bigdata"
 ---
-
 
 > **핵심 인사이트 3줄**
 > 1. 스트리밍 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 관리는 배치와 달리 실시간으로 유입되는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 오류를 즉시 탐지·처리해야 하며, [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(late [data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))와 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 변화가 핵심 과제다.

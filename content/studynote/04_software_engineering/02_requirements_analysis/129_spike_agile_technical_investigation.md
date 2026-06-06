@@ -1,10 +1,9 @@
 ---
-title: "129. Spike (스파이크) - Agile 기술 불확실성 해소 탐구"
+title: "129. Spike Agile Technical Investigation"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Spike는 Agile에서 <strong>기술적 불확실성·위험을 해소하기 위한 시간 제한(Timebox) 조사·실험 활동</strong>이며, 스토리 추정이 불가능할 때 "먼저 조사해보자"로 수행된다.

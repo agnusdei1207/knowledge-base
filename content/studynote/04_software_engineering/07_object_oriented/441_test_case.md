@@ -1,10 +1,9 @@
 ---
-title: "441. 테스트 케이스 (Test Case) 구조 - 식별자, 전제조건, 입력 데이터, 기대 결과"
+title: "441. Test Case"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

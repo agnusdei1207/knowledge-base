@@ -1,10 +1,9 @@
 ---
-title: "568. 토큰 표준 ERC-20 ERC-721 ERC-1155 (Token Standard ERC-20 ERC-721 ERC-1155)"
+title: "Token Standard ERC-20 ERC-721 ERC-1155"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "506. ITIL 서비스 관리 프레임워크 (ITIL Service Management Framework)"
+title: "ITIL Service Management Framework"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

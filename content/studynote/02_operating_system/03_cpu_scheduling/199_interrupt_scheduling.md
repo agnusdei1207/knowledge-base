@@ -1,10 +1,9 @@
 ---
-title: "199. 하이퍼스레딩 (Hyper-threading) / SMT (Simultaneous Multithreading) 스케줄링"
+title: "199. Interrupt Scheduling"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

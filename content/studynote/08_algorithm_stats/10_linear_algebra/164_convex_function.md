@@ -1,10 +1,9 @@
 ---
-title: "5. 볼록 함수 (Convex Function) — 전역 최적 보장"
+title: "164. Convex Function"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "184. 외부화된 설정 서버 (Externalized Configuration Server)"
+title: "Externalized Configuration Server"
 date: "2026-05-06"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

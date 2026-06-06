@@ -1,10 +1,9 @@
 ---
-title: "05. 스트리밍 처리 필요성 — 실시간 의사결정의 한계 극복"
+title: "080. Streaming Necessity"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

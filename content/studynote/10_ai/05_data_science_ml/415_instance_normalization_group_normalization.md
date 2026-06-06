@@ -1,10 +1,9 @@
 ---
-title: "415. 인스턴스 정규화 vs 그룹 정규화 (Instance Normalization vs Group Normalization)"
+title: "Instance Normalization vs Group Normalization"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

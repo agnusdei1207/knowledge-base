@@ -1,10 +1,9 @@
 ---
-title: "706. 클라우드 아키텍처 핵심 토픽 706번 시험 요약 (Cloud Architecture Core Topic 706 Exam Summary)"
+title: "Cloud Architecture Core Topic 706 Exam Summary"
 date: 2026-05-09
 tags:
   - "studynote-cloud-architecture"
----
-## 핵심 인사이트 (3줄 요약)
+---## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 아키텍처는 **마이크로서비스, 서버리스, 컨테이너 오케스트레이션, IaC(Infrastructure as Code), API Gateway**를 기반으로 한 **탄력적·분산형·자동화** 시스템 설계 패러다임으로, AWS Well-Architected Framework의 6대 필러(운영 우수성, 보안, 안정성, 성능 효율, 비용 최적화, 지속 가능성)를 만족시켜야 한다.
 > 2. **가치**: 온프레미스 대비 **TCO 30~60% 절감**, **Deployment Frequency 200배·Lead Time 2,555배** 향상(DORA Elite 기준), **Auto-Scaling**으로 Peak 트래픽 1,000% 변동에도 가용성 99.99% 유지, Multi-Region DR로 **RTO 1분·RPO 0초** 달성 가능.

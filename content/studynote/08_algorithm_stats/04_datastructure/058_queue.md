@@ -1,11 +1,10 @@
 ---
-title: "큐 (Queue)"
+title: "Queue"
 date: "2024-03-24"
 tags:
   - "datastructure"
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 1. <strong><a href="/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/">FIFO</a>(First-In, First-Out)</strong> 원칙에 따라 먼저 삽입된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 먼저 제거되는 선형 자료구조이다.

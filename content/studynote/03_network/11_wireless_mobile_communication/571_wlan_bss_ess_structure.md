@@ -1,10 +1,9 @@
 ---
-title: "571. 무선 LAN (WLAN) 구조 분산: BSS(Basic Service Set), ESS(Extended Service Set)"
+title: "Extended Service Set"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "443. 리플랫폼 부분 최적화 마이그레이션 (Replatform Partial Optimization Migration)"
+title: "Replatform Partial Optimization Migration"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

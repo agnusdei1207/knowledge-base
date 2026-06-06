@@ -1,9 +1,8 @@
 ---
-title: "63. 튜플 (Tuple / Row / Cardinality) - 릴레이션의 행 (카디널리티)"
+title: "063. Relation Tuple Cardinality"
 tags:
   - "database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

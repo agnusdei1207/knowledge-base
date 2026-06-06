@@ -1,10 +1,9 @@
 ---
-title: "480. VxLAN 오버레이 네트워크 멀티 테넌트 (VxLAN Overlay Network Multi Tenant)"
+title: "VxLAN Overlay Network Multi Tenant"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

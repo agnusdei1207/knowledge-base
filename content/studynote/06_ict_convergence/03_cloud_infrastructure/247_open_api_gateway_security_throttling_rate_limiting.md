@@ -1,10 +1,9 @@
 ---
-title: "247. 오픈 API 및 API 게이트웨이 보안 스로틀링 (Open API)"
+title: "Open API"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

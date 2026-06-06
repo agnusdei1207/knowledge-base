@@ -1,10 +1,9 @@
 ---
-title: "048. 래치 — Latch"
+title: "048. Latch"
 date: "2026-04-05"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 > **핵심 인사이트**
 > 1. 래치(Latch)는 레벨 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)(Level-Triggered) 방식의 1비트 기억 소자 — 입력 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)가 활성 레벨인 동안 계속 상태가 변할 수 있어, [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)([Flip-Flop](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/))과 달리 클럭 에지가 아닌 레벨 구간 전체에서 데이터를 통과시킨다.

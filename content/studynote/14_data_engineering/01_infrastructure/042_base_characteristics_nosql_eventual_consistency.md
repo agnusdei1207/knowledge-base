@@ -1,10 +1,9 @@
 ---
-title: "042. BASE 특성 — NoSQL 일관성 모델"
+title: "042. Base Characteristics Nosql Eventual Consistency"
 date: "2026-04-05"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 > **핵심 인사이트**
 > 1. BASE(Basically Available, Soft-state, [Eventual Consistency](/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/))는 ACID의 엄격한 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 포기하고 [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)과 분산성을 극대화한 NoSQL의 설계 철학으로, [CAP](/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리에서 [Partition](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) Tolerance를 선택한 시스템이 필연적으로 채택하는 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 모델이다.

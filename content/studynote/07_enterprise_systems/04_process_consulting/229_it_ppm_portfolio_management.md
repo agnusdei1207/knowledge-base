@@ -1,10 +1,9 @@
 ---
-title: "229. IT 포트폴리오 관리 (IT Project Portfolio Management)"
+title: "IT Project Portfolio Management"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

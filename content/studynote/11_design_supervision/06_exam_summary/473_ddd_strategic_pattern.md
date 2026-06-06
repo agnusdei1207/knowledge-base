@@ -1,10 +1,9 @@
 ---
-title: "473. 도메인 주도 설계 DDD 전략 패턴 (Domain Driven Design DDD Strategic Pattern)"
+title: "Domain Driven Design DDD Strategic Pattern"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

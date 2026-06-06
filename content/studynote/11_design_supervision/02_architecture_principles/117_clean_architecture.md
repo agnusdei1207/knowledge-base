@@ -1,10 +1,9 @@
 ---
-title: "117. 클린 아키텍처 (Clean Architecture)"
+title: "Clean Architecture"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

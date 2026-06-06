@@ -1,11 +1,10 @@
 ---
-title: "19. 개인정보 비식별화 — k-익명성 / l-다양성 / t-근접성"
+title: "019. Data De Identification"
 date: "2024-05-24"
 description: "안전한 빅데이터 활용을 위한 프라이버시 보호 모델: 가명처리 메커니즘과 k-Anonymity, l-Diversity, t-Closeness 심층 분석"
 tags:
   - "bigdata"
 ---
-
 
 # 19. [개인정보 비식별화](/studynote/16_bigdata/13_intro_trends/251_data_anonymization/) ([k-익명성](/studynote/14_data_engineering/04_mlops/185_k_anonymity_masking_data_pipeline/), [l-다양성](/studynote/09_security/16_data_privacy/815_l_diversity/), [t-근접성](/studynote/09_security/16_data_privacy/816_t_closeness/))
 

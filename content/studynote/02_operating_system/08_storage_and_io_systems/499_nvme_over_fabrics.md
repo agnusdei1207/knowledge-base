@@ -1,10 +1,9 @@
 ---
-title: "499. NVMe over Fabrics (NVMe-oF) - RDMA 기반 네트워크 SSD 고속 연결 프로토콜"
+title: "499. Nvme Over Fabrics"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "111. 스레드 취소 (Thread Cancellation) - 비동기식 취소, 지연 취소"
+title: "111. Thread Cancellation"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

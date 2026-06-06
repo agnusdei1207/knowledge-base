@@ -1,10 +1,9 @@
 ---
-title: "334. 클린 코드 (Clean Code) 원칙 - 의미 있는 이름, 작고 단일 역할의 함수, 주석의 최소화"
+title: "334. Clean Code Principles"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

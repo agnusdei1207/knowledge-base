@@ -1,10 +1,9 @@
 ---
-title: "841. BUM 트래픽"
+title: "841. Bum Traffic Broadcast Unknown Unicast Multicast"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

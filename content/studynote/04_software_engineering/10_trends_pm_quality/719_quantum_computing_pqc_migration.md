@@ -1,10 +1,9 @@
 ---
-title: "719. 양자 컴퓨팅 대비 PQC 소프트웨어 구조 전환"
+title: "719. Quantum Computing Pqc Migration"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

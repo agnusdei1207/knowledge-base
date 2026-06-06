@@ -1,10 +1,9 @@
 ---
-title: "378. Spectre v1/v2 변종 (Spectre Variants)"
+title: "Spectre Variants"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

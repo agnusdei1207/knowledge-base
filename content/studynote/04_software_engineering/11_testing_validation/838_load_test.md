@@ -1,10 +1,9 @@
 ---
-title: "838. 부하 테스트 (Load Test)"
+title: "Load Test"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

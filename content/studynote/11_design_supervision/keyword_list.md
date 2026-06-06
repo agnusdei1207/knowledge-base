@@ -1,10 +1,9 @@
 ---
-title: "11. 정보시스템 감리 및 소프트웨어 설계 (디자인 패턴/아키텍처) 키워드 목록"
+title: "Keyword List"
 date: "2026-03-04"
 tags:
   - "studynote-design-supervision"
 ---
-
 [weight](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) = 9999
 
 # [정보시스템 감리](/studynote/12_it_management/05_security_compliance/187_information_system_audit/) 및 S/W 아키텍처 설계 키워드 목록 (심화 확장판)

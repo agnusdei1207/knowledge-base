@@ -1,10 +1,9 @@
 ---
-title: "276. Write-Through (동시 쓰기)"
+title: "276. Write Through"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

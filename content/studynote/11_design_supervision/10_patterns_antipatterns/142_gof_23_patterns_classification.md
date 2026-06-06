@@ -1,10 +1,9 @@
 ---
-title: "142. GoF 23가지 패턴 분류 (GoF 23 Design Patterns Classification)"
+title: "GoF 23 Design Patterns Classification"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "677. CMMI 성숙도 5단계 (초기-관리-정의-정량-최적)"
+title: "677. Cmmi 5 Levels Maturity"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

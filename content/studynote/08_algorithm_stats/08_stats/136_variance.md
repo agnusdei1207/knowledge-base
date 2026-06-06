@@ -1,10 +1,9 @@
 ---
-title: "7. 분산 (Variance) / 표준편차 (Standard Deviation) — 산포도"
+title: "136. Variance"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트
 

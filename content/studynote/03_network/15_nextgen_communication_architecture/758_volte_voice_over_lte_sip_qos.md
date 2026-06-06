@@ -1,10 +1,9 @@
 ---
-title: "758. VoLTE (Voice over LTE 음성 통화 올 IP 패킷망 진화 우선 제어 처리 SIP QOS 제어망 적용 구조 최적화)"
+title: "Voice over LTE IP SIP QOS"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "072. 다중 치환 암호 (Vigenère Cipher) — 키워드 기반 복수 치환"
+title: "072. Vigenere Cipher"
 date: "2026-04-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

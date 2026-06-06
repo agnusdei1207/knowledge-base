@@ -1,10 +1,9 @@
 ---
-title: "135. 요구사항 도출 기법 - 인터뷰·JAD·프로토타이핑·브레인스토밍"
+title: "135. Requirements Elicitation Techniques"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 요구 도출(Elicitation)은 <strong><a href="/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/">이해관계자</a>로부터 요구사항을 끌어내는 활동</strong>이며, 인터뷰·JAD·브레인스토밍·프로토타이핑·관찰·설문·[벤치마킹](/studynote/07_enterprise_systems/04_process_consulting/219_benchmarking_best_practice/) 등 다양한 기법을 상황에 맞게 조합한다.

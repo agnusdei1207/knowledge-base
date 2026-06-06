@@ -1,10 +1,9 @@
 ---
-title: "840. BDI와 VTEP"
+title: "840. Bdi Vtep Vxlan Overlay Bridge Domain"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

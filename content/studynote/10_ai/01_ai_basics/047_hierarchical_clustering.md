@@ -1,10 +1,9 @@
 ---
-title: "047. 계층적 군집화 — Hierarchical Clustering"
+title: "047. Hierarchical Clustering"
 date: "2026-04-05"
 tags:
   - "studynote-ai"
 ---
-
 
 > **핵심 인사이트**
 > 1. [계층적 군집화](/studynote/10_ai/05_data_science_ml/358_hierarchical_clustering/)(Hierarchical [Clustering](/studynote/16_bigdata/05_analysis/105_clustering_analysis/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 트리 형태의 덴드로그램(Dendrogram)으로 표현하는 [군집화](/studynote/16_bigdata/05_analysis/105_clustering_analysis/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) — k-means와 달리 군집 수를 사전에 결정할 필요 없고, 덴드로그램을 어느 높이에서 자르느냐에 따라 다양한 군집 수를 얻을 수 있다.

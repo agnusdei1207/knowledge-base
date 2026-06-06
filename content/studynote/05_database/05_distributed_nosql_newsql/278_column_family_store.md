@@ -1,10 +1,9 @@
 ---
-title: "278. 컬럼 패밀리 저장소 (Column Family / Wide-Column Store)"
+title: "Column Family / Wide-Column Store"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

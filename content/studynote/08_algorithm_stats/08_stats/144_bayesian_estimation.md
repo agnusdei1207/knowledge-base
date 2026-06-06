@@ -1,10 +1,9 @@
 ---
-title: "15. 베이즈 추정 (Bayesian Estimation) — MAP 최대 사후 확률"
+title: "144. Bayesian Estimation"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트
 

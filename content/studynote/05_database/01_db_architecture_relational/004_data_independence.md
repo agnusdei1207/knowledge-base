@@ -1,11 +1,10 @@
 ---
-title: "4. 데이터 독립성 (Data Independence) - 논리적 독립성 vs 물리적 독립성"
+title: "004. Data Independence"
 date: "2024-05-20"
 description: "논리적 독립성과 물리적 독립성의 개념, 사상(Mapping) 원리 및 데이터베이스 스키마 보호 아키텍처"
 tags:
   - "database"
 ---
-
 
 # 04. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 독립성 ([Data Independence](/studynote/05_database/04_transactions_concurrency/504_data_independence/))
 

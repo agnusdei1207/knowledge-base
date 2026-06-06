@@ -1,10 +1,9 @@
 ---
-title: "18. 카이제곱 검정 (Chi-Square Test) — 독립성/적합도 검정"
+title: "147. Chi Square Test"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트
 

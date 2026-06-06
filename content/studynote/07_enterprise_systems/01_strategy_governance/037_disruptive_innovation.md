@@ -1,10 +1,9 @@
 ---
-title: "037. 파괴적 혁신 (Disruptive Innovation)"
+title: "Disruptive Innovation"
 date: "2026-03-03"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 > **핵심 인사이트**
 > 1. 파괴적 혁신([Disruptive Innovation](/studynote/12_it_management/01_governance_strategy/030_disruptive_innovation/))은 클레이튼 크리스텐슨이 정의한 개념으로, 처음에는 기존 시장에서 무시받던 저가·단순 제품이 새로운 고객층을 만들어 결국 주류 시장을 정복하는 현상이다.

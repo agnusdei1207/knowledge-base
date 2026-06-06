@@ -1,10 +1,9 @@
 ---
-title: "1095. MEC (모바일 엣지 컴퓨팅)"
+title: "1095. Mec Mobile Edge Computing Local Breakout 5G"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

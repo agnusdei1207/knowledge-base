@@ -1,10 +1,9 @@
 ---
-title: "162. 차트 유형 선택 (Chart Type Selection) — 비교/추세/비율/분포별 적합 차트"
+title: "162. Chart Type Selection"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

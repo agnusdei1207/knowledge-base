@@ -1,10 +1,9 @@
 ---
-title: "761. 디바이스 드라이버 모듈 인터페이스 (Device Driver Module Interface)"
+title: "Device Driver Module Interface"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

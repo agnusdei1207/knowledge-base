@@ -1,10 +1,9 @@
 ---
-title: "466. 도큐먼트 DB 몽고DB JSON BSON"
+title: "466. Document Db Mongodb"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

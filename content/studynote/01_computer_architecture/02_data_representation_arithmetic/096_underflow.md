@@ -1,10 +1,9 @@
 ---
-title: "96. 언더플로우 (Underflow)"
+title: "Underflow"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 언더플로우 (Underflow)는 컴퓨터가 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)된 [부동소수점](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)으로 표현할 수 있는 '0이 아닌 가장 작은 양수'의 한계선을 뚫고 데이터가 더 작아져 발생하는 물리적 소멸 현상이다.

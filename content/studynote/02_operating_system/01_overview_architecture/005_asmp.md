@@ -1,10 +1,9 @@
 ---
-title: "5. 비대칭 다중 처리 (ASMP, Asymmetric Multiprocessing)"
+title: "ASMP, Asymmetric Multiprocessing"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
 ---
-
 
 # [비대칭 다중 처리](/studynote/02_operating_system/03_cpu_scheduling/194_numa_scheduling/) ([ASMP](/studynote/02_operating_system/03_cpu_scheduling/194_numa_scheduling/), Asymmetric Multiprocessing)
 

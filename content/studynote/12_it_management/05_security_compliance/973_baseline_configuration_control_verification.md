@@ -1,10 +1,9 @@
 ---
-title: "973. 베이스라인 형상 통제 검증"
+title: "973. Baseline Configuration Control Verification"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [베이스라인](/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) [형상 통제](/studynote/04_software_engineering/01_overview_principles/022_configuration_control/) 검증의 본질은 요구사항, 산출물, 품질 게이트, 일정·원가 지표가 한 흐름으로 연결되어야 프로젝트 통제가 가능하다.

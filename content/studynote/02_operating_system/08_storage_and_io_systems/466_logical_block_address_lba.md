@@ -1,10 +1,9 @@
 ---
-title: "466. 논리적 블록 주소 (LBA, Logical Block Address) - 1차원 배열로 매핑"
+title: "466. Logical Block Address Lba"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

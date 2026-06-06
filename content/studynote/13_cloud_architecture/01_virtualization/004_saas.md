@@ -1,11 +1,10 @@
 ---
-title: "4. SaaS (Software as a Service) - 브라우저 기반 완제품 소프트웨어 제공 (Google Workspace, Salesforce)"
+title: "Google Workspace, Salesforce"
 date: "2024-05-24"
 description: "최종 사용자에게 클라우드를 통해 완제품 소프트웨어를 구독형으로 제공하는 SaaS의 아키텍처 원리와 멀티 테넌시 분석"
 tags:
   - "cloud_architecture"
 ---
-
 
 # [SaaS](/studynote/12_it_management/05_security_compliance/951_saas/) (Software [as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))
 

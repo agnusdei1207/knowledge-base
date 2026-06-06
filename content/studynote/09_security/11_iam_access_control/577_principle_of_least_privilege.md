@@ -1,10 +1,9 @@
 ---
-title: "577. 최소 권한 원칙 (Principle of Least Privilege)"
+title: "Principle of Least Privilege"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

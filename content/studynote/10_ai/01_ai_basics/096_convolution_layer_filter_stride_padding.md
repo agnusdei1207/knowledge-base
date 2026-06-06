@@ -1,10 +1,9 @@
 ---
-title: "96. 합성곱 층 (Convolution Layer) - 필터 스캐닝 특징 추출"
+title: "096. Convolution Layer Filter Stride Padding"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "400. 해석자 패턴 (Interpreter Pattern)"
+title: "Interpreter Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

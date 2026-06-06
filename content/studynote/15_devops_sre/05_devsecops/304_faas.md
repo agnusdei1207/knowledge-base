@@ -1,10 +1,9 @@
 ---
-title: "304. 서버리스 FaaS 콜드 스타트 지연 극복 (FAAS)"
+title: "FAAS"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "564. 비동기 버스 핸드셰이크 프로토콜 (Asynchronous Bus Handshake Protocol)"
+title: "Asynchronous Bus Handshake Protocol"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

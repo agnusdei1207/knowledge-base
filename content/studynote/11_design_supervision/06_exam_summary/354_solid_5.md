@@ -1,10 +1,9 @@
 ---
-title: "354. 객체지향 SOLID 5원칙 (SOLID Principles)"
+title: "SOLID Principles"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

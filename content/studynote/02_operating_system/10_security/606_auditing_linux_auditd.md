@@ -1,10 +1,9 @@
 ---
-title: "606. 감사 (Auditing) 로깅 프레임워크 (Linux Auditd)"
+title: "Linux Auditd"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

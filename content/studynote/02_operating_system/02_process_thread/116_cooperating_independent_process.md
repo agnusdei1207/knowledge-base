@@ -1,10 +1,9 @@
 ---
-title: "116. 협력적 프로세스 (Cooperating Process) vs 독립적 프로세스 (Independent Process)"
+title: "Independent Process"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

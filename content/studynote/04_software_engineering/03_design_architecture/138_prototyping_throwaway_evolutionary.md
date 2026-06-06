@@ -1,10 +1,9 @@
 ---
-title: "138. 프로토타이핑 - Throwaway vs Evolutionary 프로토타입"
+title: "138. Prototyping Throwaway Evolutionary"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 프로토타이핑은 <strong>불완전한 <a href="/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 모델을 빠르게 만들어 사용자 피드백을 얻는</strong> 요구 도출·[검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기법이며, Throwaway(폐기형)과 Evolutionary(진화형)로 구분된다.

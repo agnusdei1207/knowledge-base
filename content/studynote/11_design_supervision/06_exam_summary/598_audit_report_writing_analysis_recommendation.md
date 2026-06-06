@@ -1,10 +1,9 @@
 ---
-title: "598. 감리 보고서 작성 결과 분석 개선 권고 (Audit Report Writing Analysis Recommendation)"
+title: "Audit Report Writing Analysis Recommendation"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

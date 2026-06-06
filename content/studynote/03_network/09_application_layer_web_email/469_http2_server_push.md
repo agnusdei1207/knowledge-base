@@ -1,10 +1,9 @@
 ---
-title: "469. HTTP/2 서버 푸시 (Server Push)"
+title: "Server Push"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

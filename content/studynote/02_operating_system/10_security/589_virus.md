@@ -1,10 +1,9 @@
 ---
-title: "589. 바이러스 (Virus) - 호스트 프로그램 기생"
+title: "589. Virus"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

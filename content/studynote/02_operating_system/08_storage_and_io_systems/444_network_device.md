@@ -1,10 +1,9 @@
 ---
-title: "444. 네트워크 장치 (소켓 인터페이스) (Network Device)"
+title: "Network Device"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

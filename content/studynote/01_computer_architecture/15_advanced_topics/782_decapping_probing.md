@@ -1,10 +1,9 @@
 ---
-title: "782. 디캡핑 (Decapping) 및 프로빙 (Probing)"
+title: "Probing"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

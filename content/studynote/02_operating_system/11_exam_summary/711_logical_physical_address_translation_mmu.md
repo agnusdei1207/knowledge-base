@@ -1,10 +1,9 @@
 ---
-title: "711. 논리 주소 물리 주소 변환 MMU (Logical Physical Address Translation MMU)"
+title: "Logical Physical Address Translation MMU"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

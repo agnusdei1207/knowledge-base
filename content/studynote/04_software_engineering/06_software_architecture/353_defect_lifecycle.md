@@ -1,10 +1,9 @@
 ---
-title: "353. 결함 생명주기 - 발생, 등록, 분석, 할당, 수정, 조치 확인, 종료"
+title: "353. Defect Lifecycle"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

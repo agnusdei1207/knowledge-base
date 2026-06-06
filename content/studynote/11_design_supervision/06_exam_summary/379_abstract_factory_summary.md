@@ -1,10 +1,9 @@
 ---
-title: "379. 추상 팩토리 패턴 (Abstract Factory Pattern)"
+title: "Abstract Factory Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

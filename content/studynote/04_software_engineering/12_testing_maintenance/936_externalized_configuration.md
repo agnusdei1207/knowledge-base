@@ -1,10 +1,9 @@
 ---
-title: "936. 외부화된 구성 관리 (Externalized Configuration) - Config Server"
+title: "936. Externalized Configuration"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

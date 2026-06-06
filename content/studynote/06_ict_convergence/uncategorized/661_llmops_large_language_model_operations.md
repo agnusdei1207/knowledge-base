@@ -1,10 +1,9 @@
 ---
-title: "661. LLMOps 대규모 언어 모델 운영 (LLMOps Large Language Model Operations)"
+title: "LLMOps Large Language Model Operations"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

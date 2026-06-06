@@ -1,11 +1,10 @@
 ---
-title: "15. 오픈데이터 원칙 — FAIR (Findable/Accessible/Interoperable/Reusable)"
+title: "Findable/Accessible/Interoperable/Reusable"
 date: "2024-05-23"
 description: "데이터의 기계 판독성과 재사용성을 극대화하는 FAIR 원칙의 아키텍처 및 실무 도입 전략"
 tags:
   - "bigdata"
 ---
-
 
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 단순히 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 웹에 공개하는 것을 넘어, 사람뿐만 아니라 기계(Machine) 시스템이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 스스로 **찾고(Findable), 접근하고(Accessible), 연동하며(Interoperable), 재사용(Reusable)** 할 수 있도록 정의한 글로벌 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리 지침이다.

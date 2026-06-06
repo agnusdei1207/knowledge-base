@@ -1,11 +1,10 @@
 ---
-title: "14. 멀티 테넌시 (Multi-Tenancy) - 하나의 소프트웨어/인스턴스가 여러 고객(Tenant)에게 독립적으로 서비스되도록 논리적 분리 보장 (SaaS의 핵심)"
+title: "SaaS"
 date: "2026-03-04"
 description: "SaaS 아키텍처의 핵심인 멀티 테넌시의 데이터 격리 모델과 리소스 분배 전략"
 tags:
   - "cloud_architecture"
 ---
-
 
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 멀티 테넌시(Multi-Tenancy)는 단일 소프트웨어 애플리케이션 인스턴스와 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)를 여러 고객사(Tenant)가 마치 자신만의 전용 시스템인 것처럼 논리적으로 철저히 격리하여 공유하는 아키텍처이다.

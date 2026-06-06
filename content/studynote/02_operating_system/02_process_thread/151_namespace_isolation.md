@@ -1,10 +1,9 @@
 ---
-title: "151. 네임스페이스 격리 (Namespace Isolation) - 클라우드 컨테이너의 보이지 않는 유리벽"
+title: "151. Namespace Isolation"
 date: "2026-05-03"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/) 격리([Namespace](/studynote/02_operating_system/01_overview_architecture/061_namespace/) [Isolation](/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))는 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)([Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))이 특정 프로세스([Process](/studynote/12_it_management/05_security_compliance/943_process/)) 무리에게 "네가 이 컴퓨터의 주인이며, 다른 놈들은 세상에 존재하지 않는다"는 완벽한 착각(Illusion)을 심어주는 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 레벨의 0순위 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 흑마법이다.

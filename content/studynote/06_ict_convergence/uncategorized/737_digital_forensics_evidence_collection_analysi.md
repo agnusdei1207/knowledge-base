@@ -1,10 +1,9 @@
 ---
-title: "737. 디지털 포렌식 증거 수집 분석 법정 (Digital Forensics Evidence Collection Analysis)"
+title: "Digital Forensics Evidence Collection Analysis"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

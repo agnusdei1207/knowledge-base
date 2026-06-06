@@ -1,10 +1,9 @@
 ---
-title: "449. 내구성 테스트 (Endurance / Soak Test) - 장시간 부하를 주어 메모리 누수(Leak) 등 확인"
+title: "449. Endurance Soak Test"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

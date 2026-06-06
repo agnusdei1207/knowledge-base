@@ -1,10 +1,9 @@
 ---
-title: "995. 네트워크 슬라이싱"
+title: "995. Network Slicing"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "1039. CoAP 프로토콜 및 REST"
+title: "1039. Coap Constrained Application Protocol Rest"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

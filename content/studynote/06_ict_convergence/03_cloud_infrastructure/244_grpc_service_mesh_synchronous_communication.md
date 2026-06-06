@@ -1,10 +1,9 @@
 ---
-title: "244. gRPC 기반 서비스 메시 동기 통신망 (GRPC Service MESH Synchronous Communication)"
+title: "GRPC Service MESH Synchronous Communication"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

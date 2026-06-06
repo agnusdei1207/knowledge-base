@@ -1,10 +1,9 @@
 ---
-title: "411. 에이징 (Aging) 기반 페이지 교체 로직"
+title: "411. Aging Algorithm"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

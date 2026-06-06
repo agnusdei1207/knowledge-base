@@ -1,10 +1,9 @@
 ---
-title: "426. 릴리스 관리 배포 전략 롤백 (Release Management Deploy Strategy Rollback)"
+title: "Release Management Deploy Strategy Rollback"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

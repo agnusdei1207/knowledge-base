@@ -1,10 +1,9 @@
 ---
-title: "59. 커널 트릭 (Kernel Trick) - 비선형 분류를 위한 고차원 암시적 매핑 (RBF, Polynomial)"
+title: "RBF, Polynomial"
 date: "2026-04-07"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

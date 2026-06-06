@@ -1,10 +1,9 @@
 ---
-title: "28. 데이터베이스 사용자 유형 (Database Users)"
+title: "Database Users"
 date: "2026-04-29"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 사용자는 DB와 상호작용하는 방식에 따라 최종 사용자(Naive/Sophisticated/[Standalone](/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/)), 응용 프로그래머(Application Programmer), [DBA](/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/)([Database Administrator](/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/))로 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)된다.

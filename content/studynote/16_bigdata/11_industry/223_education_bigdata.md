@@ -1,10 +1,9 @@
 ---
-title: "218. 교육 빅데이터 (Education Big Data) — 학습분석/맞춤형교육/중도탈락예측"
+title: "223. Education Bigdata"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

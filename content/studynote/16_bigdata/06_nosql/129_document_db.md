@@ -1,10 +1,9 @@
 ---
-title: "129. 문서형 데이터베이스 (Document DB) — MongoDB/CouchDB/Firestore"
+title: "129. Document Db"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: 문서형 DB는 [JSON](/studynote/11_design_supervision/06_exam_summary/343_json/)/BSON 형식의 자기 완결적 문서([Document](/studynote/14_data_engineering/01_infrastructure/037_document/))를 기본 단위로 저장하여, 복잡한 객체 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 단일 I/O 연산으로 조회할 수 있는 [NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/) 모델이다.

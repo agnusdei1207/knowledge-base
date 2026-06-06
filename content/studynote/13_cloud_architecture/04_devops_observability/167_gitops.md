@@ -1,10 +1,9 @@
 ---
-title: "167. 깃옵스 (GitOps) - 선언적 인프라 및 애플리케이션의 상태 동기화 패러다임"
+title: "167. Gitops"
 date: "2026-03-04"
 tags:
   - "cloud_architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 - **Git이 단일 진실 공급원(SSOT):** 인프라와 애플리케이션의 원하는 상태([Desired State](/studynote/13_cloud_architecture/02_iaas_paas_saas/080_kube_controller_manager_desired_state/))를 Git에 선언적으로 정의하고, 모든 변경은 Git을 통해서만 수행한다.

@@ -1,10 +1,9 @@
 ---
-title: "93. 정규화 (Normalization)"
+title: "Normalization"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 정규화 (Normalization)는 [부동소수점](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 소수점의 위치를 조작하여, 맨 앞의 유효 숫자가 무조건 `1`이 되도록 단일 포맷($1.xxx \times 2^E$)으로 표기법을 강제 통일시키는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정렬 기법이다.

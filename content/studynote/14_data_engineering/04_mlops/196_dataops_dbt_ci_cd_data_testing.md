@@ -1,10 +1,9 @@
 ---
-title: "196. 데이터옵스 (DataOps) CI/CD dbt 데이터 검증 테스트 코드"
+title: "196. Dataops Dbt Ci Cd Data Testing"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: DataOps는 [데이터 파이프라인](/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)에 [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)([CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD, 자동화, 테스팅) 원칙을 적용해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질과 배포 속도를 동시에 향상하는 방법론이다.

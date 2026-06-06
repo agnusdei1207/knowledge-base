@@ -1,10 +1,9 @@
 ---
-title: "389. 카오스 엔지니어링 보안 게임데이 장애 주입 (Chaos Engineering Security GameDay Fault Injection)"
+title: "Chaos Engineering Security GameDay Fault Injection"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

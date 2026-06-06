@@ -1,10 +1,9 @@
 ---
-title: "484. RAID 0 (스트라이핑, Striping) (RAID 0 Striping)"
+title: "RAID 0 Striping"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

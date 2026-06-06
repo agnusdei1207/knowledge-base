@@ -1,10 +1,9 @@
 ---
-title: "226. 리키 버킷 트래픽 쉐이핑 (Leaky Bucket Traffic Shaping)"
+title: "Leaky Bucket Traffic Shaping"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

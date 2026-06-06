@@ -1,10 +1,9 @@
 ---
-title: "12. 정류 회로 (Rectifier)"
+title: "Rectifier"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 정류 회로 (Rectifier)는 [다이오드](/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)의 [단방향](/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 통전 특성을 이용해 요동치는 교류([AC](/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/)) 전력을 한 방향으로만 흐르는 직류(DC)로 변환하는 첫 번째 전력 관문이다.

@@ -1,10 +1,9 @@
 ---
-title: "165. CT (Certificate Transparency) — 인증서 발급 공개 로그"
+title: "165. Ct Certificate Transparency"
 date: "2026-05-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트
 

@@ -1,10 +1,9 @@
 ---
-title: "259. APM 모니터링 감리 (APM Monitoring Audit)"
+title: "APM Monitoring Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

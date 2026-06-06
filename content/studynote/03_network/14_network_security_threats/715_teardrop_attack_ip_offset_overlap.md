@@ -1,10 +1,9 @@
 ---
-title: "715. TearDrop 공격 (IP 헤더 오프셋 중복/오류 단편화 무한 재조립 오류 기만 다운)"
+title: "IP /"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

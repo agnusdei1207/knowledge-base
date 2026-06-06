@@ -1,10 +1,9 @@
 ---
-title: "499. 클라우드 아키텍처 하이브리드 멀티 전략 (Cloud Architecture Hybrid Multi Strategy)"
+title: "Cloud Architecture Hybrid Multi Strategy"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

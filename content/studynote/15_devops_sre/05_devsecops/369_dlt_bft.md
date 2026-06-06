@@ -1,10 +1,9 @@
 ---
-title: "369. 블록체인 분산원장 스마트계약 BFT 합의 (Blockchain DLT Smart Contract BFT PBFT Consensus)"
+title: "Blockchain DLT Smart Contract BFT PBFT Consensus"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "2. 전류 (Current)"
+title: "Current"
 date: "2026-04-15"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 전류 (Current)는 단위 시간 동안 이동하는 전하의 양이며, 컴퓨터에서는 실제로 에너지를 전달하고 회로 상태를 바꾸는 물리적 흐름이다.

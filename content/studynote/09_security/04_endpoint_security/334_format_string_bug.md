@@ -1,10 +1,9 @@
 ---
-title: "334. 포맷 스트링 버그 (Format String Bug)"
+title: "Format String Bug"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

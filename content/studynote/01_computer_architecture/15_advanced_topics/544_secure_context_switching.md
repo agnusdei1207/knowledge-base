@@ -1,10 +1,9 @@
 ---
-title: "544. 안전한 컨텍스트 스위칭 (Secure Context Switching)"
+title: "Secure Context Switching"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

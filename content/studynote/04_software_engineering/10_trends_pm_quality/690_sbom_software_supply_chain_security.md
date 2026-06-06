@@ -1,10 +1,9 @@
 ---
-title: "690. 소프트웨어 자재 명세서 (SBOM) 공급망 보안"
+title: "690. Sbom Software Supply Chain Security"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

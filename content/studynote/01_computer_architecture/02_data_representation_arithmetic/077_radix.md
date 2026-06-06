@@ -1,10 +1,9 @@
 ---
-title: "77. 기수 (Radix)"
+title: "Radix"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 기수(Radix)는 한 자릿수에 사용할 수 있는 숫자 기호의 개수이자, 자리값의 밑(base)이다.

@@ -1,10 +1,9 @@
 ---
-title: "170. PKCS#7 / CMS — 인증서 envelope 형식"
+title: "170. Pkcs7 Cms"
 date: "2026-04-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

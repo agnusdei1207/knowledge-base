@@ -1,10 +1,9 @@
 ---
-title: "516. 마르코프 체인: 흡수, 에르고딕, 전이 상태 (Markov Chain Absorbing Ergodic Transition)"
+title: "Markov Chain Absorbing Ergodic Transition"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

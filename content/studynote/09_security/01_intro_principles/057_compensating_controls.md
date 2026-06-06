@@ -1,10 +1,9 @@
 ---
-title: "57. 보완 통제 (Compensating Controls) - 기존 통제 대체 조치"
+title: "057. Compensating Controls"
 date: "2026-04-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

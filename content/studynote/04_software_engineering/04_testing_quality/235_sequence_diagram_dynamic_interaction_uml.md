@@ -1,10 +1,9 @@
 ---
-title: "235. 시퀀스 다이어그램 (Sequence Diagram) - 시간 흐름에 따른 상호작용 (동적)"
+title: "235. Sequence Diagram Dynamic Interaction Uml"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

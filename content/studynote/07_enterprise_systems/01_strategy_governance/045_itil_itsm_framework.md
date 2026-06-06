@@ -1,10 +1,9 @@
 ---
-title: "045. ITIL과 ITSM 프레임워크 — ITIL & ITSM"
+title: "045. Itil Itsm Framework"
 date: "2026-04-05"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 > **핵심 인사이트**
 > 1. [ITIL](/studynote/12_it_management/02_itsm_itil/846_itil/)([IT Infrastructure Library](/studynote/12_it_management/02_itsm_itil/846_itil/))은 IT [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관리([ITSM](/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/))의 사실상 표준 프레임워크 — 영국 정부 CCTA가 1980년대 개발하고 현재 Axelos가 관리하며, IT [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 비즈니스 관점에서 제공·지원·개선하는 모범 사례([Best Practice](/studynote/07_enterprise_systems/02_erp_systems/087_erp_package_advantages_best_practice/)) 집합이다.

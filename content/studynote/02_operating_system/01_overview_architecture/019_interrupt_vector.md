@@ -1,10 +1,9 @@
 ---
-title: "19. 인터럽트 벡터 (Interrupt Vector)"
+title: "Interrupt Vector"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
 ---
-
 
 # [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 벡터 및 벡터 테이블 ([Interrupt](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Vector & Vector Table)
 

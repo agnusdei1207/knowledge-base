@@ -1,10 +1,9 @@
 ---
-title: "717. 클라우드 네이티브 스토리지 컴퓨팅 분리"
+title: "717. Cloud Native Storage Compute Separation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

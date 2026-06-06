@@ -1,10 +1,9 @@
 ---
-title: "330. 한계 레지스터 (Limit Register) - 메모리 보호, 주소 범위 검사"
+title: "330. Limit Register"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

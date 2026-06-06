@@ -1,11 +1,10 @@
 ---
-title: "175. 요구사항 명세 언어 (Z, VDM 등 정형 언어)"
+title: "Z, VDM"
 date: "2026-04-03"
 description: "비정형·반정형·정형 요구사항 명세 언어의 차이와 Z, VDM의 적용 기준을 정리한다."
 tags:
   - "software_engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

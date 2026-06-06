@@ -1,10 +1,9 @@
 ---
-title: "435. EXISTS (존재 여부 불린 반환 고속 탐색)"
+title: "435. Exists Boolean Fast Search"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

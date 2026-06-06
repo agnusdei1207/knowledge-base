@@ -1,10 +1,9 @@
 ---
-title: "179. CQRS (Command Query Responsibility Segregation) 패턴 - MSA의 복잡한 조인 조회 한계 돌파를 위해 상태 변경(Command) 서비스와 조회(Query) 서비스 모델을 물리/논리적으로 분리 분산 운영"
+title: "179. Cqrs Pattern Command Query"
 date: "2026-05-06"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

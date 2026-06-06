@@ -1,10 +1,9 @@
 ---
-title: "661. 칸반 WIP (Work In Progress) 제한"
+title: "661. Kanban Wip Limit"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "189. BDD의 Given-When-Then 문법을 이용한 명세"
+title: "189. Bdd Given When Then"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

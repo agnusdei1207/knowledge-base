@@ -1,10 +1,9 @@
 ---
-title: "610. MVC, MVP, MVVM 프론트엔드 패턴 진화"
+title: "610. Mvc Mvp Mvvm Frontend Patterns"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

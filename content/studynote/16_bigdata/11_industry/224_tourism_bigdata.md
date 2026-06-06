@@ -1,10 +1,9 @@
 ---
-title: "219. 관광 빅데이터 (Tourism Big Data) — 관광수요예측/혼잡도분석/추천"
+title: "224. Tourism Bigdata"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

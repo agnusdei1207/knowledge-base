@@ -1,10 +1,9 @@
 ---
-title: "389. 리버스 엔지니어링 (Reverse 엔진ering) 툴을 통한 난독화 코드 분석"
+title: "389. Reverse Engineering"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

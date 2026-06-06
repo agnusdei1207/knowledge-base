@@ -1,10 +1,9 @@
 ---
-title: "245. LSP (Liskov Substitution Principle) - 리스코프 치환 원칙 (자식은 부모를 대체 가능)"
+title: "245. Lsp Liskov Substitution Principle"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

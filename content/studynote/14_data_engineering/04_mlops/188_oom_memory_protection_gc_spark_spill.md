@@ -1,10 +1,9 @@
 ---
-title: "188. OOM (Out of Memory) 메모리 보호 GC (Garbage Collection) 스파크 스왑 방어"
+title: "188. Oom Memory Protection Gc Spark Spill"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "550. X.509 v3 디지털 인증서 표준 규격"
+title: "550. X509 V3 Digital Certificate Standard"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

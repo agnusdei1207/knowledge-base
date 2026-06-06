@@ -1,9 +1,8 @@
 ---
-title: "76. 무허가형 (Permissionless) vs 허가형 (Permissioned) 블록체인"
+title: "076. Permissionless Vs Permissioned Blockchain"
 tags:
   - "ict_convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

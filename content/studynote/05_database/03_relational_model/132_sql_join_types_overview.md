@@ -1,10 +1,9 @@
 ---
-title: "132. SQL JOIN 유형 총정리 - INNER·LEFT·RIGHT·FULL·CROSS·SELF"
+title: "132. Sql Join Types Overview"
 date: "2026-04-19"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SQL JOIN은 <strong>두 테이블의 공통 컬럼(키)을 기준으로 행을 결합</strong>하는 연산이며, INNER(교집합)·LEFT(좌측 전체+매칭)·RIGHT(우측 전체+매칭)·FULL(합집합)·CROSS(카테시안 곱)·SELF(자기 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))로 구분된다.

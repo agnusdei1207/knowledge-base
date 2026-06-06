@@ -1,10 +1,9 @@
 ---
-title: "69. 커밋 메시지 컨벤션 - feat, fix, docs 등 접두어 표준화"
+title: "069. Commit Message Convention Feat Fix"
 date: "2026-04-10"
 tags:
   - "studynote-devops"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

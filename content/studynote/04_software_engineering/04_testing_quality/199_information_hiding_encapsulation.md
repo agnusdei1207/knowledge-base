@@ -1,10 +1,9 @@
 ---
-title: "199. 정보 은닉 (Information Hiding) - 내부 구현 상세를 숨김"
+title: "199. Information Hiding Encapsulation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

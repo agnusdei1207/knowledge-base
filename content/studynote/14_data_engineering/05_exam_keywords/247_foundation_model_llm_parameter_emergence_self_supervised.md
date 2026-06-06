@@ -1,10 +1,9 @@
 ---
-title: "247. 파운데이션 모델 (Foundation Model) LLM 파라미터 창발성 (Emergence) 자기 지도 학습"
+title: "247. Foundation Model Llm Parameter Emergence Self Supervised"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [파운데이션 모델](/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/)([Foundation Model](/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/))은 방대한 비라벨 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 [자기 지도 학습](/studynote/06_ict_convergence/04_ai_llm/266_self_supervised_learning/)([Self-Supervised Learning](/studynote/06_ict_convergence/04_ai_llm/266_self_supervised_learning/))을 통해 사전 훈련된 후, 다양한 다운스트림 [태스크](/studynote/02_operating_system/02_process_thread/150_task/)에 적응할 수 있는 범용 기반 모델이다.

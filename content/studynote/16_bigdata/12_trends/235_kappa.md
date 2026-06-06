@@ -1,10 +1,9 @@
 ---
-title: "230. 스트리밍 우선 아키텍처 (배치에서 스트리밍 전환, Kappa 아키텍처 강화)"
+title: ", Kappa"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

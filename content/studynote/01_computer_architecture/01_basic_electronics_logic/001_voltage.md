@@ -1,10 +1,9 @@
 ---
-title: "1. 전압 (Voltage)"
+title: "Voltage"
 date: "2026-04-15"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 전압 (Voltage)은 두 지점 사이의 전위차 (Potential Difference)이며, 컴퓨터에서는 [트랜지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)가 상태를 바꿀 수 있게 만드는 물리적 구동 조건이다.

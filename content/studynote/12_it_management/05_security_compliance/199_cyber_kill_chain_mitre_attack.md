@@ -1,10 +1,9 @@
 ---
-title: "199. 사이버 킬체인 (Cyber Kill Chain) 방어 및 마이터 어택 (MITRE ATT&CK) 프레임워크 기반 관제"
+title: "199. Cyber Kill Chain Mitre Attack"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 사이버 킬체인 (Cyber Kill Chain) 방어 및 마이터 어택 ([MITRE ATT&CK](/studynote/09_security/13_secops_ir_forensics/642_mitre_attack/)) 프레임워크 기반 관제의 본질은 자산, 위협, [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 통제, 운영 증적이 한 체계로 연결되어야 보안과 규제 대응이 일회성 캠페인으로 끝나지 않는다.

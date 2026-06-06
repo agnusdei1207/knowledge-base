@@ -1,10 +1,9 @@
 ---
-title: "회귀 분석 지표 (Regression Metrics) - MSE, RMSE, MAE"
+title: "097. Regression Metrics Mse Rmse Mae"
 date: "2026-03-04"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

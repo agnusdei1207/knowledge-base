@@ -1,10 +1,9 @@
 ---
-title: "525. 메인 메모리 압축 기술 (Main Memory Compression)"
+title: "Main Memory Compression"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

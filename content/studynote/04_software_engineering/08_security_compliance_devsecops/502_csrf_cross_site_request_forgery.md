@@ -1,10 +1,9 @@
 ---
-title: "502. 크로스 사이트 요청 위조 (CSRF) 방어 - Anti-CSRF 토큰 발급, SameSite 쿠키 속성"
+title: "502. Csrf Cross Site Request Forgery"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

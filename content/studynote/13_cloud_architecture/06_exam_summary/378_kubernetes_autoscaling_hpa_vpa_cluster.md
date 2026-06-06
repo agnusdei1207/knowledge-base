@@ -1,10 +1,9 @@
 ---
-title: "378. 쿠버네티스 오토스케일링 HPA VPA CA (Kubernetes Autoscaling HPA VPA Cluster)"
+title: "Kubernetes Autoscaling HPA VPA Cluster"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

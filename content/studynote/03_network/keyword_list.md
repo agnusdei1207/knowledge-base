@@ -1,10 +1,9 @@
 ---
-title: "03. 데이터통신/네트워크 키워드 목록"
+title: "Keyword List"
 date: "2026-03-04"
 tags:
   - "studynote-network"
 ---
-
 [weight](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) = 9999
 
 # [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)통신 / 네트워크 키워드 목록 (1,200+ 심화 확장판)

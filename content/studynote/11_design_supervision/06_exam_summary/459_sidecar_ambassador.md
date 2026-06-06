@@ -1,10 +1,9 @@
 ---
-title: "459. 사이드카 앰배서더 프록시 패턴 (Sidecar Ambassador Proxy Pattern)"
+title: "Sidecar Ambassador Proxy Pattern"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

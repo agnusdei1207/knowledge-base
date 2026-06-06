@@ -1,11 +1,10 @@
 ---
-title: "17. 권위 증명 (PoA, Proof of Authority) - 신원 인증된 노드만 합의 참여 (프라이빗 블록체인)"
+title: "017. Poa Proof Of Authority"
 date: "2026-03-04"
 description: "신원이 검증되고 권위를 부여받은 소수의 노드(Validator)만이 블록을 생성하고 합의에 참여하는 프라이빗 블록체인 최적화 알고리즘"
 tags:
   - "ict_convergence"
 ---
-
 
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 암호화폐 지분(Stake)이나 연산력(Work)이 아닌, 노드의 실제 '신원(Identity)'과 사회적 '권위(Authority)'를 담보로 블록을 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 합의 방식이다.

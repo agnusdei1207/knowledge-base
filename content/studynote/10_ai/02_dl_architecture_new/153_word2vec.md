@@ -1,10 +1,9 @@
 ---
-title: "153. Word2Vec - 단어를 밀집 벡터 우주 공간의 별자리로 쏘아 올린 딥러닝 임베딩의 시조"
+title: "153. Word2Vec"
 date: "2026-05-03"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Word2Vec은 "비슷한 위치(문맥)에 등장하는 단어는 비슷한 의미를 가진다"는 언어학의 분포 가설(Distributional Hypothesis)을 바탕으로, 단어를 무의미한 0 떡칠의 [원-핫 인코딩](/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) 깡통에서 -> <strong>인공신경망이 수학적으로 연산 가능한 300차원의 꽉 찬 고밀집 실수 <a href="/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a>(Dense Vector)로 <a href="/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 치환해 버리는 구글의 혁명적 1세대 <a href="/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">임베딩</a> 믹서기</strong>다.

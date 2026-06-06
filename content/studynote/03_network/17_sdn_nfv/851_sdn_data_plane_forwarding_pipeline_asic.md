@@ -1,10 +1,9 @@
 ---
-title: "851. SDN 데이터 평면"
+title: "851. Sdn Data Plane Forwarding Pipeline Asic"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

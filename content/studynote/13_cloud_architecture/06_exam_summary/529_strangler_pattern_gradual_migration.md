@@ -1,10 +1,9 @@
 ---
-title: "529. 스트랭글러 패턴 점진적 마이그레이션 (Strangler Pattern Gradual Migration)"
+title: "Strangler Pattern Gradual Migration"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "185. GPU 아키텍처 기반 텐서 코어 (Tensor Core GPU Architecture)"
+title: "Tensor Core GPU Architecture"
 date: "2026-05-06"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

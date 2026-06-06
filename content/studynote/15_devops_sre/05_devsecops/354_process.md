@@ -1,10 +1,9 @@
 ---
-title: "354. 마이크로 프론트엔드 UI 컴포넌트 독립 배포망 (Micro Frontend)"
+title: "Micro Frontend"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "215. 아파치 플링크 (Apache Flink) 네이티브 스트림 워터마크 윈도우"
+title: "215. Flink Native Stream Watermark Window Time"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Apache Flink는 배치를 스트림의 특수 케이스로 보는 <strong>네이티브 <a href="/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/">스트림 처리</a>(Native <a href="/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/">Stream Processing</a>)</strong> 엔진으로, Spark의 마이크로배치(Micro-Batch)와 달리 이벤트 단위로 즉시 처리해 밀리초 단위 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 달성한다.

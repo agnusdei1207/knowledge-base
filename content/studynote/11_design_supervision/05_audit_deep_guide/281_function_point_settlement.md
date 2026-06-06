@@ -1,10 +1,9 @@
 ---
-title: "281. 기능점수 정산 감리 (Function Point Settlement Audit)"
+title: "Function Point Settlement Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

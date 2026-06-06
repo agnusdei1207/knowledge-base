@@ -1,10 +1,9 @@
 ---
-title: "505. 클라우드 계정 관리 조직 랜딩 존 (Cloud Account Management Organization Landing Zone)"
+title: "Cloud Account Management Organization Landing Zone"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "592. 셸코드 (Shellcode) 인젝션"
+title: "592. Shellcode Injection"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

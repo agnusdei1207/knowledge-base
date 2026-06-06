@@ -1,10 +1,9 @@
 ---
-title: "243. SRP (Single Responsibility Principle) - 단일 책임 원칙"
+title: "243. Srp Single Responsibility Principle"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

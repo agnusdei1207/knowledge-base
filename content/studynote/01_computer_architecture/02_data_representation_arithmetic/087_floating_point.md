@@ -1,10 +1,9 @@
 ---
-title: "87. 부동소수점 (Floating Point)"
+title: "Floating Point"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

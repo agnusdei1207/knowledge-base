@@ -1,10 +1,9 @@
 ---
-title: "169. PKCS#10 — 인증서 서명 요청 (CSR) 형식"
+title: "169. Pkcs10 Csr"
 date: "2026-04-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

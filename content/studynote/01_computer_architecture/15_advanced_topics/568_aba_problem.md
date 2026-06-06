@@ -1,10 +1,9 @@
 ---
-title: "568. ABA 문제 (ABA Problem, 동기화 이슈)"
+title: "ABA Problem,"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

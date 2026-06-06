@@ -1,10 +1,9 @@
 ---
-title: "102. 그레이 코드 (Gray Code)"
+title: "Gray Code"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 그레이 코드 (Gray [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))는 연속된 숫자를 표현할 때, 인접한 값 사이에서 오직 1개의 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)만 변경되도록 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)한 비가중치 (Non-weighted) 코드다.

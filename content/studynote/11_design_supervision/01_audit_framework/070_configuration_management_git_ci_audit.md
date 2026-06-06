@@ -1,10 +1,9 @@
 ---
-title: "70. 형상 관리 저장소 (Git, SVN) 및 지속적 통합(CI) 감리"
+title: "070. Configuration Management Git Ci Audit"
 date: "2026-04-10"
 tags:
   - "studynote-design"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

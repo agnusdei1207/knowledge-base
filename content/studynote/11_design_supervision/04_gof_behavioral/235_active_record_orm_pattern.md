@@ -1,10 +1,9 @@
 ---
-title: "235. 액티브 레코드 ORM 패턴 (Active Record ORM Pattern)"
+title: "Active Record ORM Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

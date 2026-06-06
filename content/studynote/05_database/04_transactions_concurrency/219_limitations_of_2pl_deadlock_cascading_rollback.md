@@ -1,10 +1,9 @@
 ---
-title: "219. 2PL의 한계 (Limitations Of 2PL Deadlock Cascading Rollback)"
+title: "Limitations Of 2PL Deadlock Cascading Rollback"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

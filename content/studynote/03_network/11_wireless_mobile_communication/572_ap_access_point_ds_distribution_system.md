@@ -1,10 +1,9 @@
 ---
-title: "572. AP (Access Point) / DS (Distribution System, 분배 시스템)"
+title: "Distribution System,"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

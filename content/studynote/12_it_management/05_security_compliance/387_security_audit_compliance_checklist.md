@@ -1,10 +1,9 @@
 ---
-title: "387. 보안 감사 컴플라이언스 체크리스트 (Security Audit Compliance Checklist)"
+title: "Security Audit Compliance Checklist"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

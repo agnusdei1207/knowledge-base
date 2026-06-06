@@ -1,10 +1,9 @@
 ---
-title: "422. 데이터 레이크하우스 델타 아이스버그 (Data Lakehouse Delta Iceberg Architecture)"
+title: "Data Lakehouse Delta Iceberg Architecture"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

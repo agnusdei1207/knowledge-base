@@ -1,10 +1,9 @@
 ---
-title: "787. 링 오실레이터 (Ring Oscillator) TRNG"
+title: "787. Ring Oscillator Trng"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

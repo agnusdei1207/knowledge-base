@@ -1,10 +1,9 @@
 ---
-title: "24. 마이크로커널 (Microkernel) — 최소 핵심, 최대 신뢰성"
+title: "024. Microkernel"
 date: "2026-04-29"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 마이크로커널(Microkernel)은 OS [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 메모리 관리·프로세스 스케줄링·[IPC](/studynote/02_operating_system/02_process_thread/117_ipc/)(Inter-Process Communication)만 남기고, [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템·디바이스 드라이버·네트워크 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 등 나머지 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 사용자 공간(User Space) 서버로 분리하여 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 크기를 최소화하는 아키텍처다.

@@ -1,10 +1,9 @@
 ---
-title: "179. Self-signed 인증서 — 자체 발급 인증서, 내부용"
+title: "179. Self Signed Certificate"
 date: "2026-05-06"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

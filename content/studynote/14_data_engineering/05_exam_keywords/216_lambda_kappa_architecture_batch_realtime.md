@@ -1,10 +1,9 @@
 ---
-title: "216. 람다 (Lambda) vs 카파 (Kappa) 아키텍처 배치·실시간"
+title: "216. Lambda Kappa Architecture Batch Realtime"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Lambda 아키텍처는 배치 레이어(Batch Layer)와 스피드 레이어([Speed Layer](/studynote/12_it_management/02_itsm_itil/092_GPT_NLP/))를 병렬로 운영해 [정확성](/studynote/16_bigdata/01_intro/002_bigdata_5v/)과 저지연을 동시에 달성하는 [이중 경로](/studynote/02_operating_system/08_storage_and_io_systems/500_multipath_io/) 설계이며, [Kappa](/studynote/16_bigdata/12_trends/235_kappa/) 아키텍처는 스트리밍 하나로만 모든 처리를 통일해 복잡성을 제거한다.

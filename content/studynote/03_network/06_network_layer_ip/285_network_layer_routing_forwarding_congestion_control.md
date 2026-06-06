@@ -1,10 +1,9 @@
 ---
-title: "285. 네트워크 계층의 핵심 3기능"
+title: "285. Network Layer Routing Forwarding Congestion Control"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

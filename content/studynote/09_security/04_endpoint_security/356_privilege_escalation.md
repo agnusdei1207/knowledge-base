@@ -1,10 +1,9 @@
 ---
-title: "356. 권한 상승 (Local Privilege Escalation)"
+title: "Local Privilege Escalation"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

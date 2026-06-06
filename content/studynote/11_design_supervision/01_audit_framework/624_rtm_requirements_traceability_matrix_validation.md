@@ -1,10 +1,9 @@
 ---
-title: "624. 요구사항 추적 매트릭스 — RTM 심화"
+title: "624. Rtm Requirements Traceability Matrix Validation"
 date: "2026-04-05"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 > **핵심 인사이트**
 > 1. [RTM](/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/)([Requirements Traceability Matrix](/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/))은 요구사항과 설계·개발·테스트 산출물 간의 연결 고리를 추적하는 표 — "요구사항 RQ-001이 어느 설계 문서, 어느 코드, 어느 테스트 케이스에 반영되었는가"를 한눈에 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하며, 누락·중복·불일치를 방지한다.

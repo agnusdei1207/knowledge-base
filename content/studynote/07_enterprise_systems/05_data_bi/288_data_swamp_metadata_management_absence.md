@@ -1,10 +1,9 @@
 ---
-title: "288. 데이터 늪 (Data Swamp) - 메타데이터 관리 부재 현상"
+title: "288. Data Swamp Metadata Management Absence"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

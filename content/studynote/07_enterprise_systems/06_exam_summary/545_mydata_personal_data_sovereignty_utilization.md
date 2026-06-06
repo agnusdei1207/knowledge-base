@@ -1,10 +1,9 @@
 ---
-title: "545. 마이데이터 개인 데이터 주권 활용 (MyData Personal Data Sovereignty Utilization)"
+title: "MyData Personal Data Sovereignty Utilization"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 마이데이터 개인 데이터 주권 활용은(는) 개인이 자신의 데이터를 통제하고 동의 기반으로 금융·의료·공공 서비스에 활용하게 하는 데이터 생태계이다.

@@ -1,11 +1,10 @@
 ---
-title: "12. 메타데이터 (Metadata) - 데이터에 대한 데이터"
+title: "012. Metadata"
 date: "2024-05-18"
 description: "데이터베이스의 구조와 의미를 정의하는 핵심 요소, 메타데이터의 아키텍처와 데이터 거버넌스에서의 역할"
 tags:
   - "database"
 ---
-
 
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) about [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 구조, [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/), 제약조건 및 의미적 맥락을 정의하는 정보의 청사진이다.

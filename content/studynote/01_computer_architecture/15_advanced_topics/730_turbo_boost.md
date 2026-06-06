@@ -1,10 +1,9 @@
 ---
-title: "730. 인텔 터보부스트 (Turbo Boost)"
+title: "Turbo Boost"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "168. 다중 경로 페이딩 (Multipath Fading) - 주파수 선택적/평탄 페이딩"
+title: "168. Multipath Fading Isi"
 date: "2026-05-05"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

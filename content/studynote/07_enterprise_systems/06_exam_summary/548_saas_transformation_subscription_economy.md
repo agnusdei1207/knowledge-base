@@ -1,10 +1,9 @@
 ---
-title: "548. SaaS 전환 전략 구독 경제 모델 (SaaS Transformation Subscription Economy)"
+title: "SaaS Transformation Subscription Economy"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SaaS 전환 구독경제은(는) 패키지/구축형 소프트웨어를 구독 기반 클라우드 서비스로 전환하는 사업·기술 모델이다.

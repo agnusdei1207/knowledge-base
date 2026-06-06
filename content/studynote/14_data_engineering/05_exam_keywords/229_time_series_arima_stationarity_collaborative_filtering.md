@@ -1,10 +1,9 @@
 ---
-title: "229. 시계열 ARIMA (AutoRegressive Integrated Moving Average) 정상성 협업 필터링"
+title: "229. Time Series Arima Stationarity Collaborative Filtering"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [ARIMA](/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/)([AutoRegressive](/studynote/14_data_engineering/05_exam_keywords/248_bert_encoder_mlm_gpt_decoder_autoregressive_comparison/) Integrated Moving Average, 자기회귀 누적 이동평균)는 시계열 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 과거 패턴(AR)·차분(I)·오차 패턴(MA)을 결합하여 미래를 예측하는 고전 통계 모델이며, 정상성([Stationarity](/studynote/10_ai/05_data_science_ml/377_time_series_stationarity/)) 확보가 전제조건이다.

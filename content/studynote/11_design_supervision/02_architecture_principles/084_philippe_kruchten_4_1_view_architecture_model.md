@@ -1,10 +1,9 @@
 ---
-title: "84. 필립 크루첸 (Philippe Kruchten)의 4+1 View 모델"
+title: "084. Philippe Kruchten 4 1 View Architecture Model"
 date: "2026-04-10"
 tags:
   - "studynote-design"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

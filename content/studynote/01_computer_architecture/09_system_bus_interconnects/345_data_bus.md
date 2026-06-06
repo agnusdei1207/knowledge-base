@@ -1,10 +1,9 @@
 ---
-title: "345. 데이터 버스 (Data Bus)"
+title: "Data Bus"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 # 345. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Bus](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))
 

@@ -1,10 +1,9 @@
 ---
-title: "398. 랜섬웨어 대응 전략 백업 복구 (Ransomware Response Strategy Backup Recovery)"
+title: "Ransomware Response Strategy Backup Recovery"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 # 398. 랜섬웨어 대응 전략 백업 복구 (Ransomware Response Strategy Backup Recovery)
 

@@ -1,10 +1,9 @@
 ---
-title: "693. NIDS (Network Intrusion Detection System 분산 탐지) 공격"
+title: "693. Nids Network Intrusion Detection System"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

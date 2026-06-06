@@ -1,10 +1,9 @@
 ---
-title: "393. 생존 분석 카플란-마이어 누적 추정 (Kaplan-Meier)"
+title: "Kaplan-Meier"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

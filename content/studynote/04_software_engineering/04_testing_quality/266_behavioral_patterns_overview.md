@@ -1,10 +1,9 @@
 ---
-title: "266. 행위 패턴 (Behavioral Patterns) - 알고리즘 및 책임 할당"
+title: "266. Behavioral Patterns Overview"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

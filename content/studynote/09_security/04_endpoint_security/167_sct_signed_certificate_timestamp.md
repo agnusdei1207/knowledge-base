@@ -1,10 +1,9 @@
 ---
-title: "167. SCT (Signed Certificate Timestamp) — CT 증명"
+title: "167. Sct Signed Certificate Timestamp"
 date: "2026-04-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

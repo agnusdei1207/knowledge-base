@@ -1,10 +1,9 @@
 ---
-title: "855. Fake (페이크)"
+title: "855. Fake Test Double"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

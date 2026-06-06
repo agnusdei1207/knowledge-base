@@ -1,10 +1,9 @@
 ---
-title: "431. IT 인력 관리 역량 모델 교육 (IT Human Resource Capability Model)"
+title: "IT Human Resource Capability Model"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

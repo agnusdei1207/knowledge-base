@@ -1,10 +1,9 @@
 ---
-title: "743. 데이터 마스킹 FPE 암호 유지"
+title: "743. Data Masking Fpe Encryption"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

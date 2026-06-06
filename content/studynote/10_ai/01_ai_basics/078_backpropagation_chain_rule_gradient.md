@@ -1,10 +1,9 @@
 ---
-title: "78. 역전파 (Backpropagation) - 가중치 수정과 기울기 계산"
+title: "078. Backpropagation Chain Rule Gradient"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

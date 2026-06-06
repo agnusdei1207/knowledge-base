@@ -1,10 +1,9 @@
 ---
-title: "567. 원자적 읽기-수정-쓰기 (Atomic Read-Modify-Write, RMW)"
+title: "Atomic Read-Modify-Write, RMW"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

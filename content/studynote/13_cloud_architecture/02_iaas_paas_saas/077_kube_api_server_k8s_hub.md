@@ -1,10 +1,9 @@
 ---
-title: "77. Kube-API Server - 모든 K8s 명령(kubectl)을 REST API로 수신하고 컴포넌트 간 통신을 중계하는 허브"
+title: "077. Kube Api Server K8S Hub"
 date: "2026-04-07"
 tags:
   - "studynote-cloud"
 ---
-
 
 # Kube-[API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Server - [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 통제망의 [허브](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)
 

@@ -1,10 +1,9 @@
 ---
-title: "528. Provisioning (프로비저닝)"
+title: "528. Provisioning"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

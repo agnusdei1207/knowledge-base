@@ -1,10 +1,9 @@
 ---
-title: "24. LIS (Longest Increasing Subsequence) — 최장 증가 부분 수열"
+title: "054. Longest Increasing Subsequence"
 date: "2026-04-29"
 tags:
   - "studynote-algorithm-stats"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: LIS (Longest Increasing Subsequence, 최장 증가 부분 수열)는 주어진 수열에서 값이 오름차순으로 증가하는 원소들의 가장 긴 부분 수열을 찾는 문제로, [동적 프로그래밍](/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/)(DP) O(n^) 또는 [이진 탐색](/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) 기반 O(n log n) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 해결된다.

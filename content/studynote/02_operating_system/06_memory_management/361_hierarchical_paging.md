@@ -1,10 +1,9 @@
 ---
-title: "361. 다단계 페이징 (Hierarchical Paging) - 페이지 테이블 크기 문제 해결 (2단계, 3단계...)"
+title: "361. Hierarchical Paging"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

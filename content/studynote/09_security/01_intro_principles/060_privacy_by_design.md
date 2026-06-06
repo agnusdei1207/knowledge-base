@@ -1,10 +1,9 @@
 ---
-title: "60. Privacy by Design (PbD) - 7대 기본 원칙"
+title: "060. Privacy By Design"
 date: "2026-04-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

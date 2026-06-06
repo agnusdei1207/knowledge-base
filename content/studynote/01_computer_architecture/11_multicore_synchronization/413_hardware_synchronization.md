@@ -1,10 +1,9 @@
 ---
-title: "413. 하드웨어 동기화 (Hardware Synchronization)"
+title: "Hardware Synchronization"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

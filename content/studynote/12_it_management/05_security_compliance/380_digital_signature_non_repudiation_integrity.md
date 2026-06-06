@@ -1,10 +1,9 @@
 ---
-title: "380. 전자서명 디지털 서명 비부인 무결성 (Digital Signature Non-repudiation Integrity)"
+title: "Digital Signature Non-repudiation Integrity"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

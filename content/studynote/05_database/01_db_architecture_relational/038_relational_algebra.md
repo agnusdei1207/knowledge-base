@@ -1,10 +1,9 @@
 ---
-title: "038. 관계 대수 (Relational Algebra)"
+title: "Relational Algebra"
 date: "2026-03-03"
 tags:
   - "studynote-database"
 ---
-
 
 > **핵심 인사이트**
 > 1. [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 대수(Relational Algebra)는 Edgar F. Codd가 정의한 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 이론적 기반으로, 테이블([릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/))에 적용하는 8개 연산자의 집합이며, SQL의 [SELECT](/studynote/05_database/04_transactions_concurrency/520_select/)·FROM·WHERE·[JOIN](/studynote/05_database/04_transactions_concurrency/521_join/)·GROUP BY가 모두 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 대수 연산의 직접 구현이다.

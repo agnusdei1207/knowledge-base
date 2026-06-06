@@ -1,10 +1,9 @@
 ---
-title: "932. 물리적 보안 3대 요소 (Deterrence, Delay, Detection)"
+title: "Deterrence, Delay, Detection"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

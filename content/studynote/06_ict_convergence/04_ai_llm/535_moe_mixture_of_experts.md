@@ -1,10 +1,9 @@
 ---
-title: "535. 전문가 혼합 모델 (Mixture of Experts, MoE)"
+title: "Mixture of Experts, MoE"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

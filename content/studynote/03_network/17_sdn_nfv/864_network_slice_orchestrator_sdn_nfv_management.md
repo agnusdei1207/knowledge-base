@@ -1,10 +1,9 @@
 ---
-title: "864. 네트워크 슬라이스 오케스트레이터"
+title: "864. Network Slice Orchestrator Sdn Nfv Management"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

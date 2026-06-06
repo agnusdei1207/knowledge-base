@@ -1,10 +1,9 @@
 ---
-title: "635. 온디바이스 AI (On-Device AI)"
+title: "On-Device AI"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

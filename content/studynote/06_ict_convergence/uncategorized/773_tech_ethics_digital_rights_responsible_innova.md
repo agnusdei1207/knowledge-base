@@ -1,10 +1,9 @@
 ---
-title: "773. 기술 윤리 디지털 권리 책임 있는 혁신 (Tech Ethics Digital Rights Responsible Innovation)"
+title: "Tech Ethics Digital Rights Responsible Innovation"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "532. DPO 직접 선호 최적화 (DPO Direct Preference Optimization)"
+title: "DPO Direct Preference Optimization"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

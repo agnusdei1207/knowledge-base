@@ -1,10 +1,9 @@
 ---
-title: "194. 딥 드림 (DeepDream)과 Grad-CAM"
+title: "194. Deepdream Gradcam"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

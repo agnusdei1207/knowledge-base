@@ -1,12 +1,11 @@
 ---
-title: "94. 파이프라인 보안 락인 (Pipeline Security)"
+title: "Pipeline Security"
 date: "2026-03-04"
 tags:
   - "cicd"
   - "devsecops"
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

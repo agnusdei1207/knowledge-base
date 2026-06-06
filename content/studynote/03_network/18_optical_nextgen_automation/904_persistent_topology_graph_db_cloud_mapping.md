@@ -1,10 +1,9 @@
 ---
-title: "904. 퍼시스턴트 토폴로지"
+title: "904. Persistent Topology Graph Db Cloud Mapping"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "190. 공평 몫 스케줄링 (Fair-share Scheduling)"
+title: "Fair-share Scheduling"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

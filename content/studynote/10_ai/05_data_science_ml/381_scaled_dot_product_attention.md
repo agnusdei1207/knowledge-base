@@ -1,10 +1,9 @@
 ---
-title: "381. 스케일드 닷 프로덕트 어텐션 (Scaled Dot-Product Attention)"
+title: "Scaled Dot-Product Attention"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "248. DRY (Don't Repeat Yourself) 원칙"
+title: "248. Dry Dont Repeat Yourself Principle"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

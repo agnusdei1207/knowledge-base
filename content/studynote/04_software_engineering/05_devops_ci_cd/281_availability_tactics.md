@@ -1,10 +1,9 @@
 ---
-title: "281. 가용성 (Availability) - 결함 탐지, 복구, 예방 전술"
+title: "281. Availability Tactics"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

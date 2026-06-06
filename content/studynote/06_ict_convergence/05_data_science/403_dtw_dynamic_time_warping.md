@@ -1,10 +1,9 @@
 ---
-title: "403. 동적 시간 워핑 시계열 유사 변위 (DTW)"
+title: "DTW"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

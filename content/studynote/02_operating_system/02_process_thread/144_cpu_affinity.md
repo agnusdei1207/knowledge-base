@@ -1,10 +1,9 @@
 ---
-title: "144. CPU 친화성 (CPU Affinity) - Soft Affinity vs Hard Affinity"
+title: "144. Cpu Affinity"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

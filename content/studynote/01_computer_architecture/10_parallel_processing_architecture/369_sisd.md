@@ -1,10 +1,9 @@
 ---
-title: "369. SISD (단일 명령어 단일 데이터)"
+title: "369. Sisd"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "367. 서드파티 API 장애 전파 방어 격벽 폴백 서킷 디자인 (Third-Party API Resilience)"
+title: "Third-Party API Resilience"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [서드파티](/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 장애 전파 방어 격벽 [폴백](/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/) 서킷 디자인는 클라우드 시스템에서 인터페이스 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.

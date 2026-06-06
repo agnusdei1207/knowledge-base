@@ -1,10 +1,9 @@
 ---
-title: "539. 릴리스 관리 배포 전략 롤백 (Release Management Deployment Rollback)"
+title: "Release Management Deployment Rollback"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "084. AES SPN 구조 — SubBytes/ShiftRows/MixColumns/AddRoundKey"
+title: "084. Aes Spn Structure"
 date: "2026-04-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

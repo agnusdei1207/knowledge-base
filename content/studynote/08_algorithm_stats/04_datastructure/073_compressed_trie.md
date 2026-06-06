@@ -1,10 +1,9 @@
 ---
-title: "압축된 트라이 (Compressed Trie / Patricia Trie)"
+title: "Compressed Trie / Patricia Trie"
 date: "2024-03-24"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 1. **공간 효율성 극대화**: 일반 [트라이](/studynote/08_algorithm_stats/04_datastructure/087_trie/)([Trie](/studynote/08_algorithm_stats/04_datastructure/066_trie/))의 단일 자식 노드들을 하나의 간선으로 병합하여 메모리 낭비를 획기적으로 줄인 자료구조입니다.

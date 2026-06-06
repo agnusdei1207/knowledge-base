@@ -1,10 +1,9 @@
 ---
-title: "479. 양파 아키텍처 계층 분리 (Onion Architecture Layer Separation)"
+title: "Onion Architecture Layer Separation"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "784. 웹 프로그레시브 서비스워커(Service Worker) 연계망"
+title: "784. Pwa Service Worker Caching Network"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

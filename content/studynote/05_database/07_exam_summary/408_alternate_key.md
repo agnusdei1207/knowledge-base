@@ -1,10 +1,9 @@
 ---
-title: "408. 대체 키 후보키 중 탈락키"
+title: "408. Alternate Key"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

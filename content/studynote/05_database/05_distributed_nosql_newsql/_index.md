@@ -1,9 +1,8 @@
 ---
-title: "05. 분산 데이터베이스, NoSQL 및 NewSQL"
+title: "Database"
 tags:
   - "database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

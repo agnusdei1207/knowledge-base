@@ -1,10 +1,9 @@
 ---
-title: "1009. 보안 감사 로깅 6하 원칙 WORM 보존 기간 법적 준수 진단"
+title: "1009. Security Audit Logging"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [보안 감사](/studynote/04_software_engineering/11_testing_validation/919_security_audit_trail/) 로깅 6하 원칙 [WORM](/studynote/02_operating_system/10_security/590_worm/) 보존 기간 법적 준수 진단의 본질은 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/), 역할, 통제, 증빙이 같은 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/) 위에서 움직여야 경영 리스크와 실행 속도를 동시에 관리할 수 있다.

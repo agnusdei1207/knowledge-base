@@ -1,10 +1,9 @@
 ---
-title: "526. 린 스타트업 MVP 가설 검증 (Lean Startup MVP Hypothesis Validation)"
+title: "Lean Startup MVP Hypothesis Validation"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,11 +1,10 @@
 ---
-title: "93. 스핀네이커 (Spinnaker)"
+title: "Spinnaker"
 date: "2026-03-04"
 tags:
   - "cicd"
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

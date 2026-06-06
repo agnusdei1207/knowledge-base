@@ -1,10 +1,9 @@
 ---
-title: "451. 시큐어 코딩 SAST DAST 정적/동적 분석 체계 (Secure Coding, SAST, DAST)"
+title: "Secure Coding, SAST, DAST"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

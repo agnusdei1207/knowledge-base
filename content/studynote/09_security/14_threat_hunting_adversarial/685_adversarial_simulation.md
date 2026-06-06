@@ -1,10 +1,9 @@
 ---
-title: "685. 적대적 시뮬레이션 (Adversarial Simulation)"
+title: "Adversarial Simulation"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "259. 포트 패스트 (PortFast) / BPDU Guard (Cisco 확장)"
+title: "Cisco"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

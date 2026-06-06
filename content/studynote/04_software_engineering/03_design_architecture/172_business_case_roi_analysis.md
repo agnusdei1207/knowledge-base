@@ -1,11 +1,10 @@
 ---
-title: "172. 비즈니스 케이스 (Business Case) 및 ROI 분석"
+title: "172. Business Case Roi Analysis"
 date: "2026-04-03"
 description: "소프트웨어 투자안을 비용, 편익, 위험, 현금흐름 관점에서 정당화하는 비즈니스 케이스와 ROI 분석을 정리한다."
 tags:
   - "software_engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "539. 이벤트 버스 (Event Bus) 및 스트림 프로세싱"
+title: "539. Event Bus Stream Processing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

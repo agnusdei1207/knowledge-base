@@ -1,10 +1,9 @@
 ---
-title: "77. 엔터프라이즈 포털 (EP / EIP) - 기업 내 분산된 정보를 단일 창구로 통합 웹 제공"
+title: "077. Enterprise Portal Eip"
 date: "2026-04-07"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: EP (Enterprise Portal) / EIP (Enterprise Information Portal)은 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)된 기업 정보를 한 화면에서 접근하게 하는 단일 창구다.

@@ -1,10 +1,9 @@
 ---
-title: "64. Git Flow - 5개 브랜치 전략과 릴리스 관리"
+title: "064. Git Flow Branch Strategy Release"
 date: "2026-04-10"
 tags:
   - "studynote-devops"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

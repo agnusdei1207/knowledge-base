@@ -1,10 +1,9 @@
 ---
-title: "551. 공급업체 관리 벤더 성과 평가 (Supplier Management Vendor Performance)"
+title: "Supplier Management Vendor Performance"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

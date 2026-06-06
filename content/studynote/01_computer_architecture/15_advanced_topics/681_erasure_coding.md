@@ -1,10 +1,9 @@
 ---
-title: "681. Erasure Coding (삭제 코딩) HW 연산"
+title: "681. Erasure Coding"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

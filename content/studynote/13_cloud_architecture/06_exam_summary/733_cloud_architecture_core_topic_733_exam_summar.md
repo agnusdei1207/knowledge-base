@@ -1,10 +1,9 @@
 ---
-title: "733. 클라우드 아키텍처 핵심 토픽 733번 시험 요약 (Cloud Architecture Core Topic 733 Exam Summary)"
+title: "Cloud Architecture Core Topic 733 Exam Summary"
 date: 2026-05-09
 tags:
   - "studynote-cloud-architecture"
----
-## 핵심 인사이트 (3줄 요약)
+---## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: AWS Well-Architected Framework의 6대 기둥(운영 우수성, 보안, 안정성, 성능 효율성, 비용 최적화, 지속 가능성)과 12가지 설계 원칙(예: 분산 시스템 설계, 자동화, 무상태 컴퓨트 등)을 코드·인프라·조직 운영 전 계층에 적용하는 클라우드 네이티브 아키텍처 설계 방법론
 > 2. **가치**: Multi-AZ/리전 구성을 통한 99.99% 가용성 SLA 달성, Auto Scaling으로 평균 60~70% 컴퓨트 비용 절감, RTO < 1분 / RPO < 1초의 재해복구 역량 확보, MTTR 평균 80% 단축

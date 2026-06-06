@@ -1,9 +1,8 @@
 ---
-title: "88. 클라우드 ERP (SaaS ERP) - 2 Tier ERP 구조 (본사는 On-Premise 구축형 무거운 ERP, 지사는 SaaS 형태 가벼운 ERP 혼용)"
+title: "On-Premise ERP, SaaS ERP"
 tags:
   - "enterprise_systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

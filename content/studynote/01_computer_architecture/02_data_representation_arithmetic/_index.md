@@ -1,9 +1,8 @@
 ---
-title: "02. 데이터 표현 및 연산 장치"
+title: "Computer Architecture"
 tags:
   - "computer_architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

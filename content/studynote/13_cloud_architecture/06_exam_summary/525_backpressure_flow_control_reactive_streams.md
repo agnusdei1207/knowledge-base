@@ -1,10 +1,9 @@
 ---
-title: "525. 백프레셔 흐름 제어 리액티브 스트림 (Backpressure Flow Control Reactive Streams)"
+title: "Backpressure Flow Control Reactive Streams"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

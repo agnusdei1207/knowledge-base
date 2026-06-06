@@ -1,10 +1,9 @@
 ---
-title: "340. 스키마 온 라이트 (Schema-on-write)"
+title: "Schema-on-write"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "620. 카나리 배포 Flagger 프로그레시브 딜리버리 (Canary Deploy Flagger Progressive Delivery)"
+title: "Canary Deploy Flagger Progressive Delivery"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "823. 동적 테스팅 (Dynamic Testing)"
+title: "Dynamic Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

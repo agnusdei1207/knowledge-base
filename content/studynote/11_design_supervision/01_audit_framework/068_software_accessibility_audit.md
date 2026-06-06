@@ -1,10 +1,9 @@
 ---
-title: "68. 소프트웨어 접근성 점검 (Software Accessibility Audit)"
+title: "Software Accessibility Audit"
 date: "2026-05-08"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

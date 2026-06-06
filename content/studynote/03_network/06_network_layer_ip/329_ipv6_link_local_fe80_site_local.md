@@ -1,10 +1,9 @@
 ---
-title: "329. 링크 로컬 주소 (IPv6 Link Local, FE80::) / 사이트 로컬 주소"
+title: "329. Ipv6 Link Local Fe80 Site Local"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

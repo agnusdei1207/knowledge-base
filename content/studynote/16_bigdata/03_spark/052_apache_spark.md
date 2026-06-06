@@ -1,10 +1,9 @@
 ---
-title: "01. Apache Spark — 인메모리 분산 처리 엔진 (Unified Analytics 엔진)"
+title: "Unified Analytics"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"
 ---
-
 
 # [Apache Spark](/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) - 인메모리 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)처리의 황량한 변신
 

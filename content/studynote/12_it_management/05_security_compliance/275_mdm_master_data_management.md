@@ -1,10 +1,9 @@
 ---
-title: "275. MDM 마스터 데이터 관리"
+title: "275. Mdm Master Data Management"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [MDM](/studynote/05_database/07_exam_summary/539_mdm_master_data_management/) [마스터 데이터](/studynote/05_database/07_exam_summary/539_mdm_master_data_management/) 관리의 본질은 자산, 위협, [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 통제, 운영 증적이 한 체계로 연결되어야 보안과 규제 대응이 일회성 캠페인으로 끝나지 않는다.

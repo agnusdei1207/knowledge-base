@@ -1,10 +1,9 @@
 ---
-title: "456. IT 경영 관리 핵심 토픽 456번 시험 요약 (IT Management Core Topic 456 Exam Summary)"
+title: "IT Management Core Topic 456 Exam Summary"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 # 456. IT 거버넌스 및 정보화 사업 성과관리 (IT Governance & Informatization Project Performance Management)
 

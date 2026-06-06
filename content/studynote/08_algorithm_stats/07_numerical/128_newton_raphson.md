@@ -1,10 +1,9 @@
 ---
-title: "9. 뉴턴-랩슨 (Newton-Raphson) — 수치 해법, 제곱근"
+title: "128. Newton Raphson"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

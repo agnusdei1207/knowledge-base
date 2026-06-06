@@ -1,10 +1,9 @@
 ---
-title: "210. 개체명 인식 (NER, Named Entity Recognition)"
+title: "NER, Named Entity Recognition"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

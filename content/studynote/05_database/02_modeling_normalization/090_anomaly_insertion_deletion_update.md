@@ -1,9 +1,8 @@
 ---
-title: "90. 이상 현상 (Anomaly) - 정규화를 거치지 않아 발생하는 데이터 중복에 따른 부작용"
+title: "090. Anomaly Insertion Deletion Update"
 tags:
   - "database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

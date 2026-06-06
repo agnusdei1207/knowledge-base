@@ -1,10 +1,9 @@
 ---
-title: "704. 피쳐 플래그 런타임 기능 토글"
+title: "704. Feature Flag Runtime Toggle"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

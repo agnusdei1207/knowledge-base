@@ -1,10 +1,9 @@
 ---
-title: "544. 옴니채널 통합 채널 고객 경험 (Omnichannel Integrated Channel Experience)"
+title: "Omnichannel Integrated Channel Experience"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 옴니채널 통합 채널 경험은(는) 웹, 앱, 매장, 콜센터, 파트너 채널을 하나의 연속된 고객 경험으로 연결하는 전략이다.

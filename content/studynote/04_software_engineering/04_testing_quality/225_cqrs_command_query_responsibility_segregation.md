@@ -1,10 +1,9 @@
 ---
-title: "225. CQRS (Command Query Responsibility Segregation) - 명령과 조회 모델 분리"
+title: "225. Cqrs Command Query Responsibility Segregation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "252. Saga 패턴 (Saga Pattern)"
+title: "Saga Pattern"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

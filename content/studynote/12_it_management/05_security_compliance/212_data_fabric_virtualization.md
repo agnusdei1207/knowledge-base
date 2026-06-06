@@ -1,10 +1,9 @@
 ---
-title: "212. 데이터 패브릭 (Data Fabric)"
+title: "Data Fabric"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패브릭 ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Fabric)의 본질은 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 이관([ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/))하지 않고 메타데이터와 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반의 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 계층으로 매핑/연결하여 실시간 조회하는 통합 층을 수집·통합·품질·활용 체계로 정렬하는 데 있다.

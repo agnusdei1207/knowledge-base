@@ -1,10 +1,9 @@
 ---
-title: "323. 물리 주소 (Physical Address) - 메모리 장치가 보는 주소"
+title: "323. Physical Address"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "597. 양자 통신 양자 키 분배 QKD (Quantum Communication Quantum Key Distribution)"
+title: "Quantum Communication Quantum Key Distribution"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

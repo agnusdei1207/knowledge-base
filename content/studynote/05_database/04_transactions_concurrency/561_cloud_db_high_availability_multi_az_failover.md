@@ -1,10 +1,9 @@
 ---
-title: "561. 클라우드 DB 고가용성 멀티 AZ 자동 페일오버 (Failover) 프로토콜"
+title: "561. Cloud Db High Availability Multi Az Failover"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

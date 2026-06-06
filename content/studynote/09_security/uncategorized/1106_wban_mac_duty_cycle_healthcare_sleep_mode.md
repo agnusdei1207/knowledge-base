@@ -1,10 +1,9 @@
 ---
-title: "1106. 체내 통신 (WBAN MAC 및 주파수 대역)"
+title: "WBAN MAC"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "단조 스택 (Monotonic Stack) / 단조 큐 (Monotonic Queue)"
+title: "Monotonic Queue"
 date: "2026-03-03"
 tags:
   - "studynote-algorithm"
 ---
-
 
 > **핵심 인사이트 3줄**
 > 1. [단조 스택](/studynote/08_algorithm_stats/04_datastructure/079_monotonic_stack/)([Monotonic Stack](/studynote/08_algorithm_stats/04_datastructure/079_monotonic_stack/))은 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 내 원소가 단조 증가 또는 단조 감소 순서를 유지하도록 관리해, 각 원소의 Next Greater/Smaller Element를 O(n)에 찾는 기법이다.

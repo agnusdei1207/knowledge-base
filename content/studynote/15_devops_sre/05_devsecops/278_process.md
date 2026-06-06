@@ -1,10 +1,9 @@
 ---
-title: "278. 개인정보 데이터 마스킹 자동 필터(DLP 파이프라인 전송망 감시)"
+title: "DLP"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

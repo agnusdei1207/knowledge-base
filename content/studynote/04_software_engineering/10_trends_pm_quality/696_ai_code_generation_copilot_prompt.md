@@ -1,10 +1,9 @@
 ---
-title: "696. AI 기반 코드 생성 코파일럿 프롬프트"
+title: "696. Ai Code Generation Copilot Prompt"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

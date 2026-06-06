@@ -1,10 +1,9 @@
 ---
-title: "559. 코사인 유사도 텍스트 임베딩 매칭 정규화 거리 계측 연산 방식"
+title: "559. Cosine Similarity Text Embedding Normalization"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

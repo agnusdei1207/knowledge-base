@@ -1,9 +1,8 @@
 ---
-title: "11. 시험 빈출 핵심 요약 (Operating System)"
+title: "Operating System"
 tags:
   - "operating_system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

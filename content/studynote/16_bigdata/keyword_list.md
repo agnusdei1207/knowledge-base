@@ -1,10 +1,9 @@
 ---
-title: "16. 빅데이터 키워드 목록"
+title: "Keyword List"
 date: "2026-03-04"
 tags:
   - "studynote-bigdata"
 ---
-
 [weight](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) = 9999
 
 # 빅데이터 (Big [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 키워드 목록

@@ -1,10 +1,9 @@
 ---
-title: "713. 기능 안전 ISO 26262 ASIL 등급"
+title: "713. Functional Safety Iso26262 Asil"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

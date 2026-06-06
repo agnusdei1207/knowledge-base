@@ -1,10 +1,9 @@
 ---
-title: "474. 바운디드 컨텍스트 컨텍스트 매핑 (Bounded Context Context Mapping)"
+title: "Bounded Context Context Mapping"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

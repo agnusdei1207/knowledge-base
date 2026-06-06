@@ -1,10 +1,9 @@
 ---
-title: "642. IT 경영 관리 핵심 토픽 642번 시험 요약 (IT Management Core Topic 642 Exam Summary)"
+title: "IT Management Core Topic 642 Exam Summary"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

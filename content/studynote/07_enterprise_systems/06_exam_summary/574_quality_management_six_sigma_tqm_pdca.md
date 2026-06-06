@@ -1,10 +1,9 @@
 ---
-title: "574. 품질 관리 6시그마 TQM PDCA (Quality Management Six Sigma TQM PDCA)"
+title: "Quality Management Six Sigma TQM PDCA"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 품질관리 식스시그마 TQM PDCA은(는) 제품·서비스·프로세스 품질을 통계적 방법과 지속 개선 사이클로 향상하는 관리 체계이다.

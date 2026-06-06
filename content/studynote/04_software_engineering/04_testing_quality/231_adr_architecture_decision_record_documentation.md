@@ -1,10 +1,9 @@
 ---
-title: "231. ADR (Architecture Decision Record) - 아키텍처 결정 기록"
+title: "231. Adr Architecture Decision Record Documentation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

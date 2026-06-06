@@ -1,10 +1,9 @@
 ---
-title: "410. MFU (Most Frequently Used) 알고리즘"
+title: "410. Mfu Algorithm"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

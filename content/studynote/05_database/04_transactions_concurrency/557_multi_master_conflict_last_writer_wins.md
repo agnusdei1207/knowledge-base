@@ -1,10 +1,9 @@
 ---
-title: "557. 멀티 마스터 충돌 해결 라스트 라이트 윈(Last Writer Wins) 메커니즘"
+title: "557. Multi Master Conflict Last Writer Wins"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

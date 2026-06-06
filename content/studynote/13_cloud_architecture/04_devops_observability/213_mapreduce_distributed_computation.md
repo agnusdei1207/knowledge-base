@@ -1,10 +1,9 @@
 ---
-title: "213. 맵리듀스 (MapReduce)"
+title: "MapReduce"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

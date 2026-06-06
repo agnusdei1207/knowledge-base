@@ -1,10 +1,9 @@
 ---
-title: "333. 다차원 모델링"
+title: "333. Multidimensional Modeling"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

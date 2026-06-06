@@ -1,10 +1,9 @@
 ---
-title: "566. 데이터 일관성 패턴 최종 일관성 (Data Consistency Pattern Eventual Consistency)"
+title: "Data Consistency Pattern Eventual Consistency"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

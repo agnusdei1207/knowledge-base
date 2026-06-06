@@ -1,10 +1,9 @@
 ---
-title: "472. C-SCAN (Circular SCAN) - 한 방향으로만 처리하고 끝에 도달하면 시작점으로 빠르게 복귀 (대기 시간 균등화)"
+title: "472. C Scan Scheduling"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

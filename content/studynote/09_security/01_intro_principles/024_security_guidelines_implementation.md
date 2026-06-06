@@ -1,10 +1,9 @@
 ---
-title: "24. 정보보안 지침 구현 (Security Guidelines Implementation)"
+title: "Security Guidelines Implementation"
 date: "2026-04-29"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 정보보안 지침 구현([Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Guidelines Implementation)은 ISO/IEC 27001·NIST [CSF](/studynote/12_it_management/01_governance_strategy/017_csf/)·[개인정보보호법](/studynote/09_security/16_data_privacy/783_pipa_korea/) 등 보안 표준·법령을 조직의 실제 시스템·프로세스에 적용하는 실천 활동으로, "무엇을(What) 해야 하는가"를 "어떻게(How) 실행할 것인가"로 전환하는 단계다.

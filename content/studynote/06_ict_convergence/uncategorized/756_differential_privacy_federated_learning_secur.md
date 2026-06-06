@@ -1,10 +1,9 @@
 ---
-title: "756. 차등 프라이버시 연합 학습 보안 (Differential Privacy Federated Learning Security)"
+title: "Differential Privacy Federated Learning Security"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

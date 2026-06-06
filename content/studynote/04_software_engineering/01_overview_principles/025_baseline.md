@@ -1,10 +1,9 @@
 ---
-title: "25. 기준선 (Baseline) — 형상 관리의 공식 참조점"
+title: "025. Baseline"
 date: "2026-04-29"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 기준선(Baseline)은 [SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/), [소프트웨어 형상 관리](/studynote/04_software_engineering/10_trends_pm_quality/648_ccb_configuration_control_board/))에서 공식적으로 검토·승인된 형상 항목([CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/), [Configuration Item](/studynote/12_it_management/02_itsm_itil/874_configuration_item/))의 집합으로, 변경을 통제하는 기준점이자 향후 개발의 출발점이 되는 공식 스냅샷이다.

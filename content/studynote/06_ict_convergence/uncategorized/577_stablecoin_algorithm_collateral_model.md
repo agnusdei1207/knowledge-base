@@ -1,10 +1,9 @@
 ---
-title: "577. 스테이블코인 알고리즘 담보 모델 (Stablecoin Algorithm Collateral Model)"
+title: "Stablecoin Algorithm Collateral Model"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

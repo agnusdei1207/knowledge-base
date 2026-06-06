@@ -1,10 +1,9 @@
 ---
-title: "581. 인증 서버 (Authentication Server)"
+title: "Authentication Server"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

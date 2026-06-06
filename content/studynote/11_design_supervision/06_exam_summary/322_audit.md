@@ -1,10 +1,9 @@
 ---
-title: "322. 3단계 감리 (Three-Stage Audit)"
+title: "Three-Stage Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

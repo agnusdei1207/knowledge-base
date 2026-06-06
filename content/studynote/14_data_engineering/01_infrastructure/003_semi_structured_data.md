@@ -1,11 +1,10 @@
 ---
-title: "3. 반정형 데이터 (Semi-structured Data) - 데이터 내부(태그)에 구조(메타데이터)를 포함 (XML, JSON, 로그)"
+title: "XML, JSON,"
 date: "2024-05-24"
 description: "데이터 내부에 메타데이터(태그,スキーマ)를 포함하는 XML, JSON, 로그 등의 반정형 데이터 유형, NoSQL과 메시지 큐에서의 활용"
 tags:
   - "data_engineering"
 ---
-
 
 # 03. 반정형 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (Semi-structured [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))
 

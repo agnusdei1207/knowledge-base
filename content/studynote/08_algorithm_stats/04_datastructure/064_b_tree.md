@@ -1,10 +1,9 @@
 ---
-title: "B-트리 (B-Tree)"
+title: "B-Tree"
 date: "2026-03-05"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 - <strong>다분 탐색 트리(Multi-way Search Tree)</strong>의 일종으로, 모든 리프 노드가 같은 깊이를 가지는 균형 트리(Balanced Tree)임.

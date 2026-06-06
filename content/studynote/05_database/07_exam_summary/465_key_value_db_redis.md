@@ -1,10 +1,9 @@
 ---
-title: "465. 키-값 DB 레디스 인메모리"
+title: "465. Key Value Db Redis"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

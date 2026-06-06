@@ -1,10 +1,9 @@
 ---
-title: "036. 유럽 데이터 전략과 데이터 공간 (European Data Strategy & Data Spaces)"
+title: "European Data Strategy & Data Spaces"
 date: "2026-03-03"
 tags:
   - "studynote-bigdata"
 ---
-
 
 > **핵심 인사이트**
 > 1. 유럽 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(European [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 2020)은 개인 [데이터 주권](/studynote/09_security/16_data_privacy/809_data_sovereignty/)과 산업 [데이터 공유](/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/)를 동시에 실현하는 "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공간([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Spaces)" 생태계 구축을 핵심으로 하며, GAIA-X 클라우드 연합이 인프라를 제공한다.

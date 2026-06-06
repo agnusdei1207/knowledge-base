@@ -1,10 +1,9 @@
 ---
-title: "185. 린 캔버스 (Lean Canvas) 1페이지 비즈니스 모델"
+title: "185. Lean Canvas Business Model"
 date: "2026-05-06"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

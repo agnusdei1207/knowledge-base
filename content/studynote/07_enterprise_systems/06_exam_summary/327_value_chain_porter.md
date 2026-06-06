@@ -1,10 +1,9 @@
 ---
-title: "327. 가치 사슬 마이클 포터 분석 (Value Chain Michael Porter)"
+title: "Value Chain Michael Porter"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "339. 라우팅 (Routing) 개요"
+title: "339. Routing Overview Best Path Selection"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

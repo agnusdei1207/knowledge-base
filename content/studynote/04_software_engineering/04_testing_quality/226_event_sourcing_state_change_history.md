@@ -1,10 +1,9 @@
 ---
-title: "226. 이벤트 소싱 (Event Sourcing) - 상태 변경 이력을 이벤트 스트림으로 저장"
+title: "226. Event Sourcing State Change History"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

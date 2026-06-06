@@ -1,10 +1,9 @@
 ---
-title: "701. 세마포어 P, V 연산 (Semaphore P V Operations)"
+title: "Semaphore P V Operations"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

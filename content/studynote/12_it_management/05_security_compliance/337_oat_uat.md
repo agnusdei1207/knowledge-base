@@ -1,10 +1,9 @@
 ---
-title: "337. OAT / UAT 인수 테스트 승인 확인"
+title: "337. Oat Uat"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [OAT](/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/) / UAT [인수 테스트](/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/) 승인 확인의 본질은 자산, 위협, [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 통제, 운영 증적이 한 체계로 연결되어야 보안과 규제 대응이 일회성 캠페인으로 끝나지 않는다.

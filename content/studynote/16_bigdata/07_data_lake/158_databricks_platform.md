@@ -1,10 +1,9 @@
 ---
-title: "158. Databricks — Spark 기반 레이크하우스 통합 플랫폼"
+title: "158. Databricks Platform"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 1. Databricks는 [Apache Spark](/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) 창시자들이 설립한 회사로, [Delta Lake](/studynote/16_bigdata/07_data_lake/147_delta_lake/)·[Unity Catalog](/studynote/16_bigdata/07_data_lake/150_unity_catalog/)·[MLflow](/studynote/10_ai/02_dl_architecture_new/180_mlflow/)·Photon 엔진을 통합한 <strong><a href="/studynote/16_bigdata/07_data_lake/146_lakehouse/">레이크하우스</a> 올인원 플랫폼</strong>을 제공하며 컴퓨팅 네이티브(Compute-Native) 아키텍처로 차별화된다.

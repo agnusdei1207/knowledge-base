@@ -1,10 +1,9 @@
 ---
-title: "498. 컴퓨테이셔널 스토리지 (Computational Storage / Smart SSD) - I/O 노드 연산 오프로딩"
+title: "498. Computational Storage"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

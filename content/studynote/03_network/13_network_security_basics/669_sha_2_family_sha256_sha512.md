@@ -1,10 +1,9 @@
 ---
-title: "669. SHA-2 패밀리"
+title: "669. Sha 2 Family Sha256 Sha512"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

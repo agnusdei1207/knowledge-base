@@ -1,10 +1,9 @@
 ---
-title: "914. IoT 펌웨어 보안 (IOT Firmware Security)"
+title: "IOT Firmware Security"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

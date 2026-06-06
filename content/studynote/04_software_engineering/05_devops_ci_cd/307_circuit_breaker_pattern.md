@@ -1,10 +1,9 @@
 ---
-title: "307. 서킷 브레이커 (Circuit Breaker) 패턴 - 연쇄 장애 방지"
+title: "307. Circuit Breaker Pattern"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

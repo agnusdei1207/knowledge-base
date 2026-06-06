@@ -1,10 +1,9 @@
 ---
-title: "352. 결함(Defect)의 정의 - 오류(Error/Mistake), 결점(Fault/Bug), 고장/실패(Failure)"
+title: "Failure"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

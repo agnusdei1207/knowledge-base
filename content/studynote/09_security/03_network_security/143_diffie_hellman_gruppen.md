@@ -1,10 +1,9 @@
 ---
-title: "143. Diffie-Hellman Gruppen (DH 그룹과 파라미터)"
+title: "DH"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

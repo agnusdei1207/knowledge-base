@@ -1,10 +1,9 @@
 ---
-title: "30. UEFI vs BIOS — 현대 펌웨어 부팅 표준"
+title: "030. Uefi Vs Bios"
 date: "2026-04-29"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: BIOS(Basic Input/Output System)는 16비트 리얼 모드로 실행되는 레거시 펌웨어로 1MB 이하 주소 공간·[MBR](/studynote/02_operating_system/09_file_system/515_mbr_vs_gpt/) 디스크 구조에 묶인다. [UEFI](/studynote/01_computer_architecture/15_advanced_topics/706_uefi/)(Unified Extensible [Firmware](/studynote/02_operating_system/01_overview_architecture/032_firmware/) Interface)는 32/64비트 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 모드에서 실행되며 [GPT](/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) 디스크·2.2TB 이상 용량·Secure Boot를 지원한다.

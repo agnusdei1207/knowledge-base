@@ -1,10 +1,9 @@
 ---
-title: "228. IT 서비스 카탈로그 (IT Service Catalog)"
+title: "IT Service Catalog"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

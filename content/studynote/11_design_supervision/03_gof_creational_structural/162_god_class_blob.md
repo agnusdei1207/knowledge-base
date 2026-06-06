@@ -1,10 +1,9 @@
 ---
-title: "162. 갓 클래스/블랍 (God Class / Blob)"
+title: "God Class / Blob"
 date: "2026-04-21"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "552. NFT 대체 불가능 토큰 디지털 소유권 (NFT Non-Fungible Token Digital Ownership)"
+title: "NFT Non-Fungible Token Digital Ownership"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

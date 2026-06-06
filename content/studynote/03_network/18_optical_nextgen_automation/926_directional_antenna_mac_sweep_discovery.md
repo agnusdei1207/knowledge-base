@@ -1,10 +1,9 @@
 ---
-title: "926. 지향성 안테나 MAC 제어"
+title: "926. Directional Antenna Mac Sweep Discovery"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

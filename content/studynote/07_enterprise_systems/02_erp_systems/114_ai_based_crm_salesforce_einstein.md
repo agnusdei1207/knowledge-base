@@ -1,10 +1,9 @@
 ---
-title: "114. AI 기반 CRM (AI-Powered CRM) - Salesforce Einstein·예측 분석·생성형 AI"
+title: "114. Ai Based Crm Salesforce Einstein"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 CRM은 운영·분석·협업 CRM에 <strong><a href="/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>/ML 엔진을 내장</strong>하여, 리드 스코어링·이탈 예측·자동 응답·[감성 분석](/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/)을 **실시간·자동으로** 수행하는 차세대 CRM이다.

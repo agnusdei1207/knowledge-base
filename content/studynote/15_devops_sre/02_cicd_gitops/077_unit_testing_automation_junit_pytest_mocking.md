@@ -1,10 +1,9 @@
 ---
-title: "77. 단위 테스트 (Unit Test) 자동화 (JUnit, PyTest)"
+title: "JUnit, PyTest"
 date: "2026-04-10"
 tags:
   - "studynote-devops"
 ---
-
 
 # [단위 테스트](/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 자동화 (JUnit, Pytest, Mocking)
 

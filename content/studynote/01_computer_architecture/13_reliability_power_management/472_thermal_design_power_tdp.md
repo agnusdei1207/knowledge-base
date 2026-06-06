@@ -1,10 +1,9 @@
 ---
-title: "472. 열 설계 전력 (TDP, Thermal Design Power)"
+title: "TDP, Thermal Design Power"
 date: "2026-05-09"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

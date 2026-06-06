@@ -1,10 +1,9 @@
 ---
-title: "310. 종료 대상 선택 (희생자 선택) 기준 (Victim Selection)"
+title: "Victim Selection"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

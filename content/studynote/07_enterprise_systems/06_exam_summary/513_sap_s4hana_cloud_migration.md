@@ -1,10 +1,9 @@
 ---
-title: "513. SAP S4HANA 클라우드 마이그레이션 (SAP S4HANA Cloud Migration)"
+title: "SAP S4HANA Cloud Migration"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "232. gRPC (Google RPC) 통신"
+title: "232. Grpc Google Rpc Http 2"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

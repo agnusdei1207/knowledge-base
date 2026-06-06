@@ -1,10 +1,9 @@
 ---
-title: "274. NoSQL 데이터베이스 (Not Only SQL)"
+title: "Not Only SQL"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "10. 진화 알고리즘 — 유전 알고리즘 (GA), 입자 군집 최적화 (PSO)"
+title: "PSO"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

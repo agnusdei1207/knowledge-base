@@ -1,10 +1,9 @@
 ---
-title: "이진 탐색 트리 (Binary Search Tree, BST)"
+title: "Binary Search Tree, BST"
 date: "2026-03-05"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **핵심 원리**: 모든 노드에 대해 '왼쪽 서브트리 < 루트 < 오른쪽 서브트리'의 크기 관계를 유지하여 탐색 효율을 극대화한 자료구조다.

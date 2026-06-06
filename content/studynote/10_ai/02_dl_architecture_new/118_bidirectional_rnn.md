@@ -1,10 +1,9 @@
 ---
-title: "118. 양방향 RNN (Bidirectional RNN) - 순방향+역방향 컨텍스트 동시 활용"
+title: "118. Bidirectional Rnn"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 양방향 [RNN](/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/)(Bi-[RNN](/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/))은 시퀀스를 <strong>순방향(좌->우)과 역방향(우->좌) 두 개의 RNN으로 동시에 처리</strong>하여, 각 시간 단계에서 <strong>과거+미래 <a href="/studynote/02_operating_system/01_overview_architecture/033_context/">컨텍스트</a>를 모두 활용</strong>하는 시퀀스 모델이다.

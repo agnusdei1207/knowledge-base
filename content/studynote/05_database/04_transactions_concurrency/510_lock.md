@@ -1,10 +1,9 @@
 ---
-title: "510. 바인드 변수 적용 하드 파싱 회피 (Lock)"
+title: "Lock"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

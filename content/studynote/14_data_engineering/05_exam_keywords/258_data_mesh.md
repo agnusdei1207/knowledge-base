@@ -1,10 +1,9 @@
 ---
-title: "258. 데이터 메시 도메인 주도 분산 데이터 거버넌스 (Data Mesh Domain-Driven Decentralized Governance)"
+title: "Data Mesh Domain-Driven Decentralized Governance"
 date: "2026-05-09"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 데이터 메시(Data Mesh)는 중앙 집중 데이터 팀이 아닌, 비즈니스 도메인 팀이 데이터 제품(Data Product)의 소유권을 갖는 분산형 데이터 아키텍처 패러다임이다.

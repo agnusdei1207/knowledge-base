@@ -1,10 +1,9 @@
 ---
-title: "393. 개인정보보호법 PIPA 국내 규제 대응 (PIPA Personal Information Protection Act)"
+title: "PIPA Personal Information Protection Act"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "893. XSS 유형 (Reflected, Stored, DOM-based)"
+title: "Reflected, Stored, DOM-based"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

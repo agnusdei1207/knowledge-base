@@ -1,10 +1,9 @@
 ---
-title: "673. 기능점수 (FP) 내부논리파일(ILF) 외부연계파일(EIF)"
+title: "EIF"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

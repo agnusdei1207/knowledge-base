@@ -1,10 +1,9 @@
 ---
-title: "618. SOA (Service Oriented Architecture) HW 고려사항"
+title: "618. Soa Hardware"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

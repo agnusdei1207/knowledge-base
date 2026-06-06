@@ -1,10 +1,9 @@
 ---
-title: "393. 쓰기 시 복사 (COW, Copy-on-Write) - fork() 시 자원 공유하다 쓸 때 페이지 복제"
+title: "393. Copy On Write"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

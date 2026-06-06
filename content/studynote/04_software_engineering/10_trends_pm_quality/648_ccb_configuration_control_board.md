@@ -1,10 +1,9 @@
 ---
-title: "648. 소프트웨어 형상 관리 (SCM) 통제 위원회 CCB"
+title: "648. Ccb Configuration Control Board"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

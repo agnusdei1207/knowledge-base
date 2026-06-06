@@ -1,10 +1,9 @@
 ---
-title: "124. 지명 파이프 (Named Pipe / FIFO) - 양방향 가능, 부모-자식 관계 무관"
+title: "124. Named Pipe Fifo"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

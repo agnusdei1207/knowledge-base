@@ -1,10 +1,9 @@
 ---
-title: "668. 음성 인식 TTS ASR 음성 합성 (Speech Recognition TTS ASR Voice Synthesis)"
+title: "Speech Recognition TTS ASR Voice Synthesis"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

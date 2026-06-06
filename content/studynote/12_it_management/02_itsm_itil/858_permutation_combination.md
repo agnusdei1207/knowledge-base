@@ -1,9 +1,8 @@
 ---
-title: "858. 순열과 조합 (Permutation and Combination)"
+title: "Permutation and Combination"
 tags:
   - "it_management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

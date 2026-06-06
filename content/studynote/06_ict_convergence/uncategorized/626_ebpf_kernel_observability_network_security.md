@@ -1,10 +1,9 @@
 ---
-title: "626. eBPF 커널 관측성 네트워크 보안 (eBPF Kernel Observability Network Security)"
+title: "eBPF Kernel Observability Network Security"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

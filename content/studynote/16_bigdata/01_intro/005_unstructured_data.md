@@ -1,11 +1,10 @@
 ---
-title: "5. 비정형 데이터 유형 — 텍스트/이미지/동영상/음성/로그/SNS/IoT 센서"
+title: "005. Unstructured Data"
 date: "2024-05-24"
 description: "텍스트, 이미지, 로그 등 비정형 데이터의 본질적 한계를 극복하고 벡터 임베딩과 NoSQL로 가공하는 전주기 파이프라인 분석"
 tags:
   - "bigdata"
 ---
-
 
 # [비정형 데이터](/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) 유형 및 처리 아키텍처
 

@@ -1,10 +1,9 @@
 ---
-title: "370. RP (Rendezvous Point, PIM-SM), RPF (Reverse Path Forwarding) 멀티캐스트 루프 방지"
+title: "370. Pim Rp Rendezvous Point Rpf Loop Prevention"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "241. 패키지 다이어그램 / 복합 구조 다이어그램"
+title: "241. Package Composite Structure Diagram Uml"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

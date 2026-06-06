@@ -1,10 +1,9 @@
 ---
-title: "225. 레이크하우스 주류화 (Delta, Iceberg, Hudi) 개방형 포맷 경쟁"
+title: "230. Delta Iceberg Hudi"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

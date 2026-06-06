@@ -1,10 +1,9 @@
 ---
-title: "211. OLAP (Online Analytical Processing) 드릴다운·롤업·서로게이트 키"
+title: "211. Olap Drill Down Roll Up Surrogate Key"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [OLAP](/studynote/12_it_management/05_security_compliance/316_olap/)(Online Analytical Processing)는 다차원 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 큐브를 통해 대규모 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다양한 관점에서 빠르게 집계·분석하는 기술로, [OLTP](/studynote/05_database/06_dw_olap_trends/327_hint_handoff/)(Online [Transaction](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Processing)의 행(Row) 중심과 달리 열(Column)·차원(Dimension) 중심의 읽기 최적화 구조다.

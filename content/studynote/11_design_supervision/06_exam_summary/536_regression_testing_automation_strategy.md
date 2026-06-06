@@ -1,10 +1,9 @@
 ---
-title: "536. 회귀 테스팅 자동화 전략 효율화 (Regression Testing Automation Strategy)"
+title: "Regression Testing Automation Strategy"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

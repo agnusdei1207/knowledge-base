@@ -1,10 +1,9 @@
 ---
-title: "431. 클라우드 메시지 큐 RabbitMQ ActiveMQ (Cloud Message Queue RabbitMQ ActiveMQ)"
+title: "Cloud Message Queue RabbitMQ ActiveMQ"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

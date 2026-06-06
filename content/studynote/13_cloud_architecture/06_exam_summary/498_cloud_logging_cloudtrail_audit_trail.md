@@ -1,10 +1,9 @@
 ---
-title: "498. 클라우드 로깅 CloudTrail 감사 추적 (Cloud Logging CloudTrail Audit Trail)"
+title: "Cloud Logging CloudTrail Audit Trail"
 date: 2026-05-09
 tags:
   - "studynote-cloud-architecture"
----
-## 핵심 인사이트 (3줄 요약)
+---## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: AWS CloudTrail은 AWS 계정 내 모든 API 호출 이벤트(management/data/insights)를 S3로 영구 저장하고 CloudTrail Lake로 SQL 기반 분석을 지원하는 거버넌스·컴플라이언스·보안 포렌식의 단일 진실 공급원(SoT) 감사 추적 서비스
 > 2. **가치**: SOC 2, PCI-DSS, HIPAA, ISO 27001 등 규제 인증심사 시 자동 증거 수집, 평균 탐지 시간(MTTD)을 EventBridge+Lambda 패턴으로 30초 내 단축, CloudTrail Insights로 비정상 API 호출 패턴 자동 식별하여 내부자 위협 및 계정 침해 탐지 자동화 실현

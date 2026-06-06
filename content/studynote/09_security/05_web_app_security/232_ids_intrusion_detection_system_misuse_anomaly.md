@@ -1,10 +1,9 @@
 ---
-title: "232. IDS (Intrusion Detection System, 침입 탐지 시스템)"
+title: "Intrusion Detection System,"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

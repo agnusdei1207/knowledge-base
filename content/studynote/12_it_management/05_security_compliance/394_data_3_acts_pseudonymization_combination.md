@@ -1,10 +1,9 @@
 ---
-title: "394. 데이터 3법 가명정보 결합 활용 (Data 3 Acts Pseudonymization Combination)"
+title: "Data 3 Acts Pseudonymization Combination"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

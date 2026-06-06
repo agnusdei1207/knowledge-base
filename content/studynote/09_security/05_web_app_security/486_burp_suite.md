@@ -1,10 +1,9 @@
 ---
-title: "486. Burp Suite (웹 취약점 진단 도구)"
+title: "486. Burp Suite"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

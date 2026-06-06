@@ -1,10 +1,9 @@
 ---
-title: "452. 클라우드 네이티브 12팩터 앱 설계 (Cloud Native 12 Factor App Design)"
+title: "Cloud Native 12 Factor App Design"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "44. 감리인의 독립성 및 객관성 (Auditor Independence and Objectivity)"
+title: "Auditor Independence and Objectivity"
 date: "2026-05-08"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

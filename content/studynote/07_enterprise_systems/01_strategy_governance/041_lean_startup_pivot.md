@@ -1,10 +1,9 @@
 ---
-title: "041. 피벗 (Pivot) — 전략적 방향 전환"
+title: "041. Lean Startup Pivot"
 date: "2026-03-19"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 > **핵심 인사이트**
 > 1. [피벗](/studynote/12_it_management/01_governance_strategy/829_pivot/)([Pivot](/studynote/12_it_management/01_governance_strategy/829_pivot/))은 Eric Ries의 [린 스타트업](/studynote/12_it_management/01_governance_strategy/827_lean_startup/) 프레임워크에서 [MVP](/studynote/12_it_management/01_governance_strategy/036_mvp/) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 결과, 현재 방향으로는 충분한 성장이 불가능하다는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 판단 하에 핵심 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 변경하지만 지금까지의 학습(Validated [Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))을 보존하는 구조적 방향 전환이다.

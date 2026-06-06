@@ -1,9 +1,8 @@
 ---
-title: "18. 셸 정렬 (Shell Sort) — 삽입 정렬 개선, O(n^1.5)"
+title: "n^1.5"
 tags:
   - "algorithm_stats"
 ---
-
 
 # 18. 셸 정렬 ([Shell](/studynote/02_operating_system/01_overview_architecture/044_shell/) Sort)
 

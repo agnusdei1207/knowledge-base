@@ -1,10 +1,9 @@
 ---
-title: "모바일 앱 CI/CD: Fastlane을 활용한 파이프라인 자동화"
+title: "104. Mobile App Cicd Fastlane Pipeline"
 date: "2026-03-04"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

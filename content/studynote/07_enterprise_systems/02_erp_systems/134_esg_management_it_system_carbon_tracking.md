@@ -1,10 +1,9 @@
 ---
-title: "134. ESG 경영 & IT 시스템 - 탄소 추적·ESG 데이터 관리"
+title: "134. Esg Management It System Carbon Tracking"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: ESG(Environmental·Social·Governance) 경영은 <strong>환경·사회·지배구조를 기업 경영에 통합</strong>하는 패러다임이며, IT 시스템이 탄소 배출 추적·ESG 보고서 자동화·[공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) ESG [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링을 지원한다.

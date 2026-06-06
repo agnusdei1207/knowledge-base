@@ -1,10 +1,9 @@
 ---
-title: "569. 카산드라 쓰기 경로(Commit Log -> Memtable -> SSTable) 병목 배제 모델"
+title: "569. Cassandra Write Path Commitlog Memtable Sstable"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

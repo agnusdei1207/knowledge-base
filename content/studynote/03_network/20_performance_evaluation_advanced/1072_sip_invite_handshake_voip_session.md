@@ -1,10 +1,9 @@
 ---
-title: "1072. SIP INVITE 기반 핸드셰이크"
+title: "1072. Sip Invite Handshake Voip Session"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

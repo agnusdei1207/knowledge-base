@@ -1,10 +1,9 @@
 ---
-title: "515. gRPC 프로토콜 버퍼 고성능 API (gRPC Protocol Buffer High Performance API)"
+title: "gRPC Protocol Buffer High Performance API"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

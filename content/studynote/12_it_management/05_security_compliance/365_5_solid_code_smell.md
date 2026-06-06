@@ -1,10 +1,9 @@
 ---
-title: "365. 객체지향 5원칙 SOLID 위배 코드 냄새(Code Smell) 리팩토링 검증"
+title: "365. 5 Solid Code Smell"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 객체지향 5원칙 [SOLID](/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/) 위배 코드 냄새([Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Smell) [리팩토링](/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 검증의 본질은 자산, 위협, [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 통제, 운영 증적이 한 체계로 연결되어야 보안과 규제 대응이 일회성 캠페인으로 끝나지 않는다.

@@ -1,10 +1,9 @@
 ---
-title: "988. Crypto Agility (암호 민첩성)"
+title: "988. Crypto Agility"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

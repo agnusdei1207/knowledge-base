@@ -1,10 +1,9 @@
 ---
-title: "555. AI 거버넌스 윤리 규제 프레임워크 (AI Governance Ethics Regulatory Framework)"
+title: "AI Governance Ethics Regulatory Framework"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

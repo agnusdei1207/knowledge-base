@@ -1,9 +1,8 @@
 ---
-title: "NoSQL 아키텍처와 분산 데이터 모델링 (NoSQL Architecture)"
+title: "NoSQL Architecture"
 tags:
   - "bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 1. <strong><a href="/studynote/13_cloud_architecture/05_data_engineering/341_process/">CAP</a> 정리 기반의 <a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 아키텍처</strong>: [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)([Consistency](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)), [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)([Availability](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)), 분할 내성([Partition](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) Tolerance) 중 시스템 목적에 맞춰 두 가지를 선택하는 트레이드오프 설계.

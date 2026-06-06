@@ -1,10 +1,9 @@
 ---
-title: "459. CWPP 워크로드 보호 런타임 보안 (CWPP Workload Protection Runtime Security)"
+title: "CWPP Workload Protection Runtime Security"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

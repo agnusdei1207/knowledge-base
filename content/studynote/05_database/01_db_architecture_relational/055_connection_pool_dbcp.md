@@ -1,10 +1,9 @@
 ---
-title: "55. 커넥션 풀과 DBCP (Connection Pool / DBCP)"
+title: "Connection Pool / DBCP"
 date: "2026-05-01"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

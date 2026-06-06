@@ -1,10 +1,9 @@
 ---
-title: "654. AI 규제 EU AI Act 위험 등급 (AI Regulation EU AI Act Risk Classification)"
+title: "AI Regulation EU AI Act Risk Classification"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

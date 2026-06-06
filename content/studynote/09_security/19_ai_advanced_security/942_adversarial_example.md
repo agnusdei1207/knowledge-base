@@ -1,10 +1,9 @@
 ---
-title: "942. 적대적 예제 (Adversarial Example)"
+title: "Adversarial Example"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

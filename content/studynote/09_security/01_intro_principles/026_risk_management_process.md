@@ -1,10 +1,9 @@
 ---
-title: "26. 위험 관리 프로세스 (Risk Management Process) — 정보보안 위험 식별·평가·처리 체계"
+title: "026. Risk Management Process"
 date: "2026-04-29"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 정보보안 위험 관리([Risk Management](/studynote/09_security/17_framework_compliance/841_iso_27005_risk_management/))는 자산(Asset)에 대한 위협(Threat)이 취약점(Vulnerability)을 통해 발생시킬 수 있는 위험([Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))을 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)·분석·평가하고, 허용 가능한 수준으로 낮추기 위한 통제(Control)를 선택·구현·모니터링하는 지속적 프로세스다.

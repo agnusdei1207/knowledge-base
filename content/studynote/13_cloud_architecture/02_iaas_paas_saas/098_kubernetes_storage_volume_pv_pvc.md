@@ -1,10 +1,9 @@
 ---
-title: "98. K8s 스토리지 관리 - 볼륨, PV, PVC (영구 스토리지)"
+title: "098. Kubernetes Storage Volume Pv Pvc"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

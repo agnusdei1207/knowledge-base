@@ -1,10 +1,9 @@
 ---
-title: "713. 인과 추론 반사실 분석 개입 효과 (Causal Inference Counterfactual Intervention)"
+title: "Causal Inference Counterfactual Intervention"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

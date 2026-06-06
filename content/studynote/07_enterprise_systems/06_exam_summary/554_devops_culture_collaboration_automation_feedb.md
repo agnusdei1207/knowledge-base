@@ -1,10 +1,9 @@
 ---
-title: "554. DevOps 문화 협업 자동화 피드백 (DevOps Culture Collaboration Automation Feedback)"
+title: "DevOps Culture Collaboration Automation Feedback"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DevOps 문화 협업 자동화 피드백은(는) 개발과 운영의 단절을 줄이고 자동화된 배포·관측·피드백으로 서비스 품질을 높이는 문화와 체계이다.

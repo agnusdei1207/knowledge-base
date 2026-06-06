@@ -1,10 +1,9 @@
 ---
-title: "494. Null Byte Poisoning (널 바이트 포이즈닝)"
+title: "494. Null Byte Poisoning"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

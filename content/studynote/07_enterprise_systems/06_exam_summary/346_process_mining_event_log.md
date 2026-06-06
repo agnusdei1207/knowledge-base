@@ -1,10 +1,9 @@
 ---
-title: "346. 프로세스 마이닝 이벤트 로그 분석 (Process Mining Event Log Analysis)"
+title: "Process Mining Event Log Analysis"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

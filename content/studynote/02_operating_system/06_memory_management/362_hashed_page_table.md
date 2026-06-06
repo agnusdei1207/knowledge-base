@@ -1,10 +1,9 @@
 ---
-title: "362. 해시 페이지 테이블 (Hashed Page Table) - 주소 공간이 64비트 이상일 때 사용"
+title: "362. Hashed Page Table"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "379. PKI 공개키 인프라 인증서 관리 (PKI Public Key Infrastructure Certificate)"
+title: "PKI Public Key Infrastructure Certificate"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

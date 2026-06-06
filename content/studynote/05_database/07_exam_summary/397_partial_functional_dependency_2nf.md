@@ -1,10 +1,9 @@
 ---
-title: "397. 부분 함수 종속 제2정규형"
+title: "397. Partial Functional Dependency 2Nf"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

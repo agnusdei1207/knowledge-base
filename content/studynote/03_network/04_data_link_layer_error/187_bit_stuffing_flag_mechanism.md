@@ -1,10 +1,9 @@
 ---
-title: "187. 비트 스터핑 (Bit Stuffing)"
+title: "Bit Stuffing"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

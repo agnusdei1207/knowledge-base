@@ -1,10 +1,9 @@
 ---
-title: "179. 시간 할당량 (Time Quantum / Time Slice) 의 크기와 문맥 교환 오버헤드"
+title: "179. Time Quantum Context Switch"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "608. 전략 패턴 알고리즘 교체 용이성"
+title: "608. Strategy Pattern Algorithm Swap"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

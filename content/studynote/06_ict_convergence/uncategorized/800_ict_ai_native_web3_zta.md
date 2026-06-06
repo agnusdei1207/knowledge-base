@@ -1,10 +1,9 @@
 ---
-title: "800. 최신 ICT 융합 메가트렌드 (AI-Native, Web3, ZTA, Quantum) 구조 프레임워크 총합 망 완성"
+title: "800. Ict Ai Native Web3 Zta"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

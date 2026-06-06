@@ -1,11 +1,10 @@
 ---
-title: "8. 반복적/점진적 모델 (Iterative and Incremental Model)"
+title: "Iterative and Incremental Model"
 date: "2026-03-04"
 description: "소프트웨어의 디테일을 반복적으로 고도화하고 기능을 점진적으로 추가하여 완성하는 현대 애자일의 근간"
 tags:
   - "software_engineering"
 ---
-
 
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 한 번에 완벽한 시스템을 구축하지 않고, 시스템을 여러 조각으로 나누어(점진적) 각 조각의 품질을 지속적으로 다듬어가는(반복적) 하이브리드 개발 방법론입니다.

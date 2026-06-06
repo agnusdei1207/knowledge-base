@@ -1,10 +1,9 @@
 ---
-title: "28. 소프트웨어 리엔지니어링 (Software Reengineering)"
+title: "Software Reengineering"
 date: "2026-04-29"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 소프트웨어 리엔지니어링(Software Reengineering)은 기존 레거시 시스템을 분석([역공학](/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/), [Reverse 엔진ering](/studynote/01_computer_architecture/15_advanced_topics/780_reverse_engineering/))하여 이해한 뒤, 개선된 형태로 재구조화(Restructuring)하거나 재구현([Forward](/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) 엔진ering)하는 소프트웨어 진화 활동이다.

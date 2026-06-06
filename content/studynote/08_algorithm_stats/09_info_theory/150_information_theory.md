@@ -1,10 +1,9 @@
 ---
-title: "1. 정보이론 (Information Theory) — Shannon, 1948"
+title: "150. Information Theory"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

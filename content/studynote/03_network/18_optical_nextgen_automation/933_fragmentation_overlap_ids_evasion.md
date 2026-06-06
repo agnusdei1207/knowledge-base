@@ -1,10 +1,9 @@
 ---
-title: "933. 패킷 단편화 오프셋 중첩 검증 룰 방화벽 모니터 (비정상 IDS 시그니처)"
+title: "IDS"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

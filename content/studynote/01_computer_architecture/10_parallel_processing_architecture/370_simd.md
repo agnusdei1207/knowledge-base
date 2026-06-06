@@ -1,10 +1,9 @@
 ---
-title: "370. SIMD (단일 명령어 다중 데이터)"
+title: "370. Simd"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

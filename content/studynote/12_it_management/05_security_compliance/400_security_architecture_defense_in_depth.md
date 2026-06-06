@@ -1,10 +1,9 @@
 ---
-title: "400. 보안 아키텍처 디자인 원칙 심층 방어 (Security Architecture Defense in Depth)"
+title: "Security Architecture Defense in Depth"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "22. 커널 (Kernel)의 역할"
+title: "022. Kernel Role"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 커널 (Kernel)은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 핵심부로 하드웨어 자원을 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)하고 프로세스 제어, 메모리 할당, 입출력 스케줄링을 통합 관리하는 권한이 집중된 실행 계층이다.

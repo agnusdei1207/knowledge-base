@@ -1,10 +1,9 @@
 ---
-title: "517. PMBOK 프로젝트 관리 지식 체계 (PMBOK Project Management Body of Knowledge)"
+title: "PMBOK Project Management Body of Knowledge"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "240. 수신/학습 (Learning) / 전달 (Forwarding) / 플러딩 (Flooding)"
+title: "Flooding"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

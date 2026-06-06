@@ -1,10 +1,9 @@
 ---
-title: "608. 보안 부팅 (Secure Boot) 인증서 체인 로딩 검증"
+title: "608. Secure Boot"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "638. 프로젝트 스폰서 및 추진 위원회 (Steering Committee) 의사 결정"
+title: "638. Project Sponsor Steering Committee Decision"
 date: "2026-04-10"
 tags:
   - "studynote-design"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

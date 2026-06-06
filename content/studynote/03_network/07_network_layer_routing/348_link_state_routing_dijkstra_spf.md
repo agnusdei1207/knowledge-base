@@ -1,10 +1,9 @@
 ---
-title: "348. 링크 상태 (Link State) 라우팅 알고리즘"
+title: "348. Link State Routing Dijkstra Spf"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

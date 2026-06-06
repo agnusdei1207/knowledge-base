@@ -1,10 +1,9 @@
 ---
-title: "170. 모듈 패턴 (Module Pattern)"
+title: "Module Pattern"
 date: "2026-04-21"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

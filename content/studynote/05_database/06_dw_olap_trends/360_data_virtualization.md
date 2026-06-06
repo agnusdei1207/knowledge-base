@@ -1,10 +1,9 @@
 ---
-title: "360. 데이터 가상화 (Data Virtualization)"
+title: "Data Virtualization"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

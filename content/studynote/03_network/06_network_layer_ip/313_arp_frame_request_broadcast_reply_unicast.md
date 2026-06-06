@@ -1,10 +1,9 @@
 ---
-title: "313. ARP 프레임 (요청-브로드캐스트, 응답-유니캐스트)"
+title: "313. Arp Frame Request Broadcast Reply Unicast"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

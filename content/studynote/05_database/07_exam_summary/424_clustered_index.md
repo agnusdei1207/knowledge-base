@@ -1,10 +1,9 @@
 ---
-title: "424. 클러스터드 인덱스 (물리적 레코드 정렬)"
+title: "424. Clustered Index"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

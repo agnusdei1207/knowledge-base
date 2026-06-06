@@ -1,11 +1,10 @@
 ---
-title: "13. PBFT (Practical BFT) - 다수결 기반 상태 기계 복제 합의 (텐더민트, 하이퍼레저)"
+title: "013. Pbft Practical Bft"
 date: "2024-05-18"
 description: "다수결 기반 상태 기계 복제 합의 (텐더민트, 하이퍼레저)"
 tags:
   - "ict_convergence"
 ---
-
 
 # PBFT (Practical Byzantine [Fault Tolerance](/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/))
 

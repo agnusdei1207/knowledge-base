@@ -1,10 +1,9 @@
 ---
-title: "231. 분기 예측 (Branch Prediction)"
+title: "Branch Prediction"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

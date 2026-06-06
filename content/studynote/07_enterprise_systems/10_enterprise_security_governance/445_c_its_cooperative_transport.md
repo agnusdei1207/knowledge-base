@@ -1,10 +1,9 @@
 ---
-title: "445. C-ITS 협력 지능형 교통 시스템 (C-ITS, Cooperative Intelligent Transport System)"
+title: "C-ITS, Cooperative Intelligent Transport System"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "24. 학습 패러다임 3종 — 지도·비지도·강화학습"
+title: "024. Learning Paradigms"
 date: "2026-04-29"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)(ML)의 3대 학습 패러다임은 [지도 학습](/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)([Supervised Learning](/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/), 레이블 있는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)), [비지도 학습](/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/)([Unsupervised Learning](/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/), 레이블 없는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)), [강화 학습](/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)([Reinforcement Learning](/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/), 보상 기반 환경 상호작용)으로 구분되며, 각각 다른 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조와 목적 함수를 갖는다.

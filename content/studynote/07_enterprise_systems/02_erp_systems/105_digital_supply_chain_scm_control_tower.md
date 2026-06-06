@@ -1,9 +1,8 @@
 ---
-title: "105. 디지털 공급망 (Digital Supply Chain) 및 SCM 컨트롤 타워 - 글로벌 물류 가시성 확보"
+title: "105. Digital Supply Chain Scm Control Tower"
 tags:
   - "enterprise_systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

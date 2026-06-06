@@ -1,10 +1,9 @@
 ---
-title: "693. 기만 기술 (Deception Technology)"
+title: "Deception Technology"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

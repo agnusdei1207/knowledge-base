@@ -1,10 +1,9 @@
 ---
-title: "376. 다중 컴퓨터 (Multicomputer)"
+title: "Multicomputer"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

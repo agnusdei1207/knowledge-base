@@ -1,10 +1,9 @@
 ---
-title: "130. ERD 표기법 비교 (IE·Barker·IDEF1X)"
+title: "IE·Barker·IDEF1X"
 date: "2026-04-19"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: ERD 표기법은 엔터티·[속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)·관계를 시각적으로 표현하는 규칙이며, **IE(Information 엔진ering, 까마귀발)·Barker(원·실선)·IDEF1X(국방 표준)** 3가지가 대표적이다.

@@ -1,10 +1,9 @@
 ---
-title: "169. 디스패치 지연 (Dispatch Latency)"
+title: "Dispatch Latency"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

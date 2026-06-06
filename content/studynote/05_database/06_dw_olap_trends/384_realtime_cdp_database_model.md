@@ -1,10 +1,9 @@
 ---
-title: "384. 실시간 커스터머 데이터 플랫폼 (CDP) 구성을 위한 DB 연계 모델"
+title: "384. Realtime Cdp Database Model"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

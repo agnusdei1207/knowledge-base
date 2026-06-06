@@ -1,10 +1,9 @@
 ---
-title: "133. 부패 방지 레이어 (Anti-Corruption Layer (ACL))"
+title: "133. Anti Corruption Layer"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

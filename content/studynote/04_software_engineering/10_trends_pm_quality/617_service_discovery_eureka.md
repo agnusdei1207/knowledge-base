@@ -1,10 +1,9 @@
 ---
-title: "617. 서비스 디스커버리 Eureka"
+title: "617. Service Discovery Eureka"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

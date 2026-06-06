@@ -1,10 +1,9 @@
 ---
-title: "373. 벡터 프로세서 (Vector Processor)"
+title: "Vector Processor"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

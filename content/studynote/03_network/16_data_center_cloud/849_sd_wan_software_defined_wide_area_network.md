@@ -1,10 +1,9 @@
 ---
-title: "849. SD-WAN (소프트웨어 정의 광역망)"
+title: "849. Sd Wan Software Defined Wide Area Network"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

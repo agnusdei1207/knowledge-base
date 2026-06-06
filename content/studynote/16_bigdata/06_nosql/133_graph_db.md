@@ -1,10 +1,9 @@
 ---
-title: "133. 그래프 데이터베이스 (Graph DB) — Neo4j/Amazon Neptune/Memgraph"
+title: "133. Graph Db"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB는 엔티티(노드)와 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(엣지)를 1등급 시민으로 저장하여, [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 탐색이 [JOIN](/studynote/05_database/04_transactions_concurrency/521_join/) 없이 포인터 추적 방식으로 O(1) per hop [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 제공하는 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 중심 NoSQL이다.

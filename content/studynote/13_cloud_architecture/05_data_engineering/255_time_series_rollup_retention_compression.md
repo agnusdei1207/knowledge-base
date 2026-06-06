@@ -1,10 +1,9 @@
 ---
-title: "255. 시계열 DB 롤업 / 보존 정책 / 압축 (InfluxDB)"
+title: "InfluxDB"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 시계열 DB [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) / 보존 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) / [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)는 클라우드 시스템에서 복잡한 운영의 질서화를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.

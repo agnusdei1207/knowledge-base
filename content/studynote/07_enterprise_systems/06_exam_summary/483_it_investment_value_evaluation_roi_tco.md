@@ -1,10 +1,9 @@
 ---
-title: "483. IT 투자 가치 평가 ROI TCO (IT Investment Value Evaluation ROI TCO)"
+title: "IT Investment Value Evaluation ROI TCO"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

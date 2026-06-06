@@ -1,10 +1,9 @@
 ---
-title: "31. 3C 분석 — 고객·경쟁자·자사 전략 삼각형"
+title: "031. 3C Analysis"
 date: "2026-04-29"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 3C 분석([3C Analysis](/studynote/12_it_management/01_governance_strategy/026_3c_analysis/))은 [C고객](/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/)(고객)·Competitor(경쟁자)·Company(자사)의 세 관점을 통합하여 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 포지셔닝을 도출하는 프레임워크다. 오마에 겐이치(大前研一)가 제시한 경영 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 기법이다.

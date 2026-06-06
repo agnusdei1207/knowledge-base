@@ -1,10 +1,9 @@
 ---
-title: "382. 퍼지 집합 논리 제어 소속도 연산 함수 (Min-Max)"
+title: "Min-Max"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

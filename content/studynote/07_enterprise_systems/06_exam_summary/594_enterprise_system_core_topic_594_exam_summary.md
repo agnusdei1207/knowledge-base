@@ -1,10 +1,9 @@
 ---
-title: "594. 엔터프라이즈 시스템 핵심 토픽 594번 시험 요약 (Enterprise System Core Topic 594 Exam Summary)"
+title: "Enterprise System Core Topic 594 Exam Summary"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 엔터프라이즈 시스템 핵심 토픽 594번 시험 요약은(는) 엔터프라이즈 시스템 답안에서 반복 출제되는 통합, 데이터, 운영, 보안, 거버넌스 논점을 구조화해 정리하는 시험 대비형 핵심 주제다.

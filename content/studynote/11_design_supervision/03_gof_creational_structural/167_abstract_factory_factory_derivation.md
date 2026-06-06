@@ -1,10 +1,9 @@
 ---
-title: "167. 추상 팩토리 팩토리 클래스 도출 (Abstract Factory Derivation)"
+title: "Abstract Factory Derivation"
 date: "2026-04-21"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

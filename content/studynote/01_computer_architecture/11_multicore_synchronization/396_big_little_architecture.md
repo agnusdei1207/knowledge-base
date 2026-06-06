@@ -1,10 +1,9 @@
 ---
-title: "396. big.LITTLE 아키텍처"
+title: "396. Big Little Architecture"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

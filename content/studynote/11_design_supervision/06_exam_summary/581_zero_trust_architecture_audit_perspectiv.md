@@ -1,10 +1,9 @@
 ---
-title: "581. 제로 트러스트 아키텍처 감리 관점 (Zero Trust Architecture Audit Perspective)"
+title: "Zero Trust Architecture Audit Perspective"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

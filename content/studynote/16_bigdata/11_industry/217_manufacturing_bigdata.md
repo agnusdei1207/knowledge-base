@@ -1,10 +1,9 @@
 ---
-title: "212. 제조 빅데이터 (Manufacturing Big Data) — 예지정비/불량감지/에너지최적화"
+title: "217. Manufacturing Bigdata"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "805. Clos 네트워크"
+title: "805. Clos Network Non Blocking Multi Stage Switching"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

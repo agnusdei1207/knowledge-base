@@ -1,10 +1,9 @@
 ---
-title: "428. VMA (Virtual Memory Area) 구조체 (리눅스 커널 프로세스 주소 공간 매핑)"
+title: "428. Vma Struct"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

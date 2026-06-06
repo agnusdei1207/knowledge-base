@@ -1,10 +1,9 @@
 ---
-title: "224. 제어 해저드 (Control Hazard / Branch Hazard)"
+title: "Control Hazard / Branch Hazard"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "334. GPU VRAM 부족과 ZeRO 옵티마이저 (Zero Redundancy Optimizer)"
+title: "Zero Redundancy Optimizer"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

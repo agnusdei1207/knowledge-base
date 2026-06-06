@@ -1,10 +1,9 @@
 ---
-title: "306. 완전 전방 비밀성 세부 (Perfect Forward Secrecy, PFS)"
+title: "Perfect Forward Secrecy, PFS"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

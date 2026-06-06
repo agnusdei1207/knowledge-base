@@ -1,10 +1,9 @@
 ---
-title: "652. AI 할루시네이션 환각 방지 전략 (AI Hallucination Prevention Strategy)"
+title: "AI Hallucination Prevention Strategy"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,9 +1,8 @@
 ---
-title: "106. 포그 컴퓨팅 (Fog Computing) - 시스코 제안, 클라우드와 엣지 사이의 지역 노드(게이트웨이) 단에서 분산 처리"
+title: "106. Fog Computing Cisco Architecture"
 tags:
   - "ict_convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

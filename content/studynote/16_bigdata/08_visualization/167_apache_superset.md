@@ -1,10 +1,9 @@
 ---
-title: "167. Apache Superset — 오픈소스 엔터프라이즈 BI SQL Lab"
+title: "167. Apache Superset"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

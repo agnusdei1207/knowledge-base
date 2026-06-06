@@ -1,10 +1,9 @@
 ---
-title: "111. ALOHA (순수 알로하)"
+title: "111. Aloha Protocol"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

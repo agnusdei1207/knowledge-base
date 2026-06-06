@@ -1,10 +1,9 @@
 ---
-title: "309. 헤어핀 NAT (Hairpin NAT, NAT Loopback)"
+title: "Hairpin NAT, NAT Loopback"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

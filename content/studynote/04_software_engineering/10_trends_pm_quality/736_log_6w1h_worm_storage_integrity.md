@@ -1,10 +1,9 @@
 ---
-title: "736. 로그 6하 원칙 WORM 스토리지 무결성"
+title: "736. Log 6W1H Worm Storage Integrity"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

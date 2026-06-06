@@ -1,10 +1,9 @@
 ---
-title: "406. IoT 보안 디바이스 인증 펌웨어 (IoT Security Device Authentication Firmware)"
+title: "IoT Security Device Authentication Firmware"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "76. K8s 마스터 노드 컴포넌트 4가지"
+title: "076. Kubernetes Master Node Components"
 date: "2026-04-07"
 tags:
   - "studynote-cloud"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

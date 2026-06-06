@@ -1,10 +1,9 @@
 ---
-title: "408. AI 보안 적대적 공격 방어 전략 (AI Security Adversarial Attack Defense)"
+title: "AI Security Adversarial Attack Defense"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

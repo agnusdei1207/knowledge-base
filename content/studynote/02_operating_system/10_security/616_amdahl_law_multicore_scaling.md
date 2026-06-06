@@ -1,10 +1,9 @@
 ---
-title: "616. 멀티코어 확장성 병목 (Amdahl's Law) 및 커널 락 경합 진단"
+title: "616. Amdahl Law Multicore Scaling"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

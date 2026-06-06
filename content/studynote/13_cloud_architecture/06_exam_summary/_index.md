@@ -1,9 +1,8 @@
 ---
-title: "06. 시험 빈출 핵심 토픽"
+title: "Cloud Architecture"
 tags:
   - "cloud_architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "203. 가상 실행 시간 (vruntime, Virtual Runtime)"
+title: "vruntime, Virtual Runtime"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

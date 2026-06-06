@@ -1,10 +1,9 @@
 ---
-title: "401. 전송 계층의 역할: 종단 간(End-to-End) 오류/흐름/혼잡 제어, 다중화/역다중화"
+title: "401. Transport Layer Role End To End Multiplexing"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

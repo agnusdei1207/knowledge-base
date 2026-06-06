@@ -1,10 +1,9 @@
 ---
-title: "401. 베이지안 네트워크 확률적 방향성 비순환 그래프 인과 모델 (DAG)"
+title: "DAG"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

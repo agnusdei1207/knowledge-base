@@ -1,10 +1,9 @@
 ---
-title: "410. IT 거버넌스 프레임워크 COBIT 2019 (IT Governance Framework COBIT 2019)"
+title: "IT Governance Framework COBIT 2019"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

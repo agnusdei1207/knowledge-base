@@ -1,10 +1,9 @@
 ---
-title: "992. 양자 컴퓨팅 쇼어 알고리즘 양자 내성 암호 (PQC) 전환 통제"
+title: "992. Quantum Computing Pqc Transition"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [양자 컴퓨팅](/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/) 쇼어 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) [양자 내성 암호](/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) (PQC) 전환 통제의 본질은 핵심 기술, 운영 조건, 위험 통제, 생태계 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 함께 봐야 신기술 도입이 유행이 아니라 사업 역량이 된다.

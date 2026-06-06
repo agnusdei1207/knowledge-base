@@ -1,10 +1,9 @@
 ---
-title: "14. 동시성 (Concurrency) - 프로세스 모델을 통한 스케일 아웃(Scale-out) 수평 확장"
+title: "014. Concurrency"
 date: "2026-04-05"
 tags:
   - "devops_sre"
 ---
-
 
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 동시성 원칙은 애플리케이션을 여러 독립적 프로세스(또는 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/))로 구성하여, 각각이 동시에 처리할 수 있는 요청 수를 늘리는 것이 아니라 프로세스 인스턴스를 늘려 전체 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 극대화해야 한다는 12팩터 앱의 제8원칙이다.

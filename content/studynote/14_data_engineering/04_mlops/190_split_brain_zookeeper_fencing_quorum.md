@@ -1,10 +1,9 @@
 ---
-title: "190. 스플릿 브레인 (Split Brain) 방어 주키퍼 (ZooKeeper) 펜싱 합의 코디 연계망"
+title: "190. Split Brain Zookeeper Fencing Quorum"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

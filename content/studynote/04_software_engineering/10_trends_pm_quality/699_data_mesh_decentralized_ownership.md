@@ -1,10 +1,9 @@
 ---
-title: "699. 데이터 메시 탈중앙 도메인 오너십"
+title: "699. Data Mesh Decentralized Ownership"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

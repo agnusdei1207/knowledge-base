@@ -1,10 +1,9 @@
 ---
-title: "640. 성능 테스트 부하/스트레스/스파이크/인듀어런스"
+title: "640. Performance Testing Load Stress Spike Endurance"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "546. 데이터 패브릭과 분산 데이터 메시 (Data Fabric and Distributed Data Mesh)"
+title: "Data Fabric and Distributed Data Mesh"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

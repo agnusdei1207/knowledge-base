@@ -1,10 +1,9 @@
 ---
-title: "330. 롤업 (Roll-up)"
+title: "Roll-up"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

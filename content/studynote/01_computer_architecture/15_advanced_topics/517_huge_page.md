@@ -1,10 +1,9 @@
 ---
-title: "517. 거대 페이지 (Huge Page)"
+title: "Huge Page"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

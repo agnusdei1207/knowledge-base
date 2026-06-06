@@ -1,10 +1,9 @@
 ---
-title: "493. 자율주행 SAE 레벨과 센서 퓨전 (Autonomous Driving SAE Levels and Sensor Fusion)"
+title: "Autonomous Driving SAE Levels and Sensor Fusion"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

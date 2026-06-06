@@ -1,10 +1,9 @@
 ---
-title: "677. 데이터 관측 가능성 이상 탐지 품질 (Data Observability Anomaly Quality Detection)"
+title: "Data Observability Anomaly Quality Detection"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

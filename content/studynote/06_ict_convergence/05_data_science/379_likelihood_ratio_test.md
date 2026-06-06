@@ -1,10 +1,9 @@
 ---
-title: "379. 우도비 검정 두 통계 모델 적합성 우위 (Likelihood Ratio Test)"
+title: "Likelihood Ratio Test"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

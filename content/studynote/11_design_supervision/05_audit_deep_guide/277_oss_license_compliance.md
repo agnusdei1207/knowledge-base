@@ -1,10 +1,9 @@
 ---
-title: "277. OSS 라이선스 준수 감리 (OSS License Compliance Audit)"
+title: "OSS License Compliance Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

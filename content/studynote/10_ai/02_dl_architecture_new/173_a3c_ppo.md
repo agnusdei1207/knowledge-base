@@ -1,10 +1,9 @@
 ---
-title: "173. A3C (Asynchronous Advantage Actor-Critic) 및 PPO (Proximal Policy Optimization)"
+title: "Proximal Policy Optimization"
 date: "2026-04-17"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

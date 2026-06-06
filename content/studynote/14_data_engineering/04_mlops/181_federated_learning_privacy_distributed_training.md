@@ -1,10 +1,9 @@
 ---
-title: "181. 연방 학습 (Federated Learning) - 분산 엣지 노드 가중치 로컬 전송"
+title: "181. Federated Learning Privacy Distributed Training"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

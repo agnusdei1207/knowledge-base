@@ -1,10 +1,9 @@
 ---
-title: "178. 조건 푸시 다운 (Condition Pushdown) - WHERE 조건을 뷰 내부로 밀어 넣어 데이터 필터링 조기화"
+title: "178. Condition Pushdown"
 date: "2026-05-06"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

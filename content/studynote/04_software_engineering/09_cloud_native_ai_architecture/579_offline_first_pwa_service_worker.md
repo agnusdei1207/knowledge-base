@@ -1,10 +1,9 @@
 ---
-title: "579. 오프라인 우선 (Offline-first) 아키텍처 (PWA, Service Worker, IndexedDB)"
+title: "PWA, Service Worker, IndexedDB"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

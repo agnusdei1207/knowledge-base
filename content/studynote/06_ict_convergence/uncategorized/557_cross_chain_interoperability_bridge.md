@@ -1,10 +1,9 @@
 ---
-title: "557. 크로스 체인 상호 운용성 브릿지 (Cross Chain Interoperability Bridge)"
+title: "Cross Chain Interoperability Bridge"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

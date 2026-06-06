@@ -1,10 +1,9 @@
 ---
-title: "52. Git 브랜치 전략 (Git Branching Strategies)"
+title: "Git Branching Strategies"
 date: "2026-05-01"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

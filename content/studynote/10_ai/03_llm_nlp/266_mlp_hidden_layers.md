@@ -1,10 +1,9 @@
 ---
-title: "266. 다층 퍼셉트론 (MLP, Multi-Layer Perceptron)"
+title: "MLP, Multi-Layer Perceptron"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

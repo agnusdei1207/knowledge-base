@@ -1,10 +1,9 @@
 ---
-title: "376. 시크릿 관리 볼트 키 로테이션 자동화 (Secret Management Vault KMS Key Rotation)"
+title: "Secret Management Vault KMS Key Rotation"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

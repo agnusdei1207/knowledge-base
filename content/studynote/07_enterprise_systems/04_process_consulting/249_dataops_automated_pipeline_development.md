@@ -1,10 +1,9 @@
 ---
-title: "249. 데이터옵스 자동 파이프라인 개발론 (DataOps: Automated Data Pipeline Development)"
+title: "DataOps: Automated Data Pipeline Development"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

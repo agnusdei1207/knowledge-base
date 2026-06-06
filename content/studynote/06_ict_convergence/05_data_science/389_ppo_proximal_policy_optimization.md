@@ -1,10 +1,9 @@
 ---
-title: "389. PPO 근위 정책 최적화 클리핑 폭주 통제 서로게이트 (Clipping)"
+title: "Clipping"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

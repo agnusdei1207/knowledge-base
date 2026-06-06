@@ -1,5 +1,5 @@
 ---
-title: "이스트-웨스트 트래픽 보안 (East-West Traffic Security)"
+title: "East-West Traffic Security"
 date: "2025-01-01"
 description: "데이터센터 내부 이스트-웨스트 트래픽의 개념, 마이크로 세그먼테이션과의 차이, Zero Trust 적용을 다룬다."
 tags:
@@ -12,7 +12,6 @@ tags:
   - "micro segmentation"
   - "studynote-security"
 ---
-
 
 > **핵심 인사이트 3줄**
 > 1. 이스트-웨스트(East-West) 트래픽은 [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 내부 서버 간 통신으로, 전통적 경계 보안이 이를 신뢰하여 내부 침투 후 측면 이동(Lateral Movement)이 쉬웠다.

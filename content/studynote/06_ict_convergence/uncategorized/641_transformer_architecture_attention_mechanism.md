@@ -1,10 +1,9 @@
 ---
-title: "641. 트랜스포머 아키텍처 어텐션 메커니즘 (Transformer Architecture Attention Mechanism)"
+title: "Transformer Architecture Attention Mechanism"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

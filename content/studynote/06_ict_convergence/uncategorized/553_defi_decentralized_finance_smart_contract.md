@@ -1,10 +1,9 @@
 ---
-title: "553. DeFi 탈중앙화 금융 스마트 계약 프로토콜 (DeFi Decentralized Finance Smart Contract)"
+title: "DeFi Decentralized Finance Smart Contract"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

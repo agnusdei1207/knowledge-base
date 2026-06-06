@@ -1,10 +1,9 @@
 ---
-title: "588. 로봇 프로세스 자동화 RPA 엔터프라이즈 (Robot Process Automation RPA Enterprise)"
+title: "Robot Process Automation RPA Enterprise"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

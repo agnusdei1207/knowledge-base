@@ -1,10 +1,9 @@
 ---
-title: "217. 커링과 지연 평가 (Currying and Lazy Evaluation)"
+title: "Currying and Lazy Evaluation"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

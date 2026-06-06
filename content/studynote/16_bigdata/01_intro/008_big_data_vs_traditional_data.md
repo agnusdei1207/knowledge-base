@@ -1,11 +1,10 @@
 ---
-title: "8. 빅데이터 vs 전통적 데이터 — RDBMS 한계(수평 확장 불가, 고정 스키마)"
+title: "008. Big Data Vs Traditional Data"
 date: "2024-05-20"
 description: "RDBMS의 수평 확장 한계와 고정 스키마의 제약을 극복하기 위한 빅데이터 아키텍처 패러다임 비교"
 tags:
   - "bigdata"
 ---
-
 
 # 빅데이터 vs 전통적 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (Big [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) vs Traditional [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))
 

@@ -1,10 +1,9 @@
 ---
-title: "890. 기술 아키텍처 (TA) 현황 분석"
+title: "890. Ta As Is Analysis"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 기술 아키텍처 (TA) 현황 분석의 본질은 서버, 네트워크, 보안 인프라 토폴로지 ([AS-IS](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/))를 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.

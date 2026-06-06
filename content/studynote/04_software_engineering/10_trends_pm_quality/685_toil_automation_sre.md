@@ -1,10 +1,9 @@
 ---
-title: "685. 토일 (Toil) 자동화 축소 대상 작업"
+title: "685. Toil Automation Sre"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

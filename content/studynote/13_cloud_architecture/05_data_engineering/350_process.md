@@ -1,10 +1,9 @@
 ---
-title: "350. 액침 냉각 PUE 탄소 배출 저감 쿨링 데이터센터 혁신 (Immersion Cooling)"
+title: "Immersion Cooling"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [액침 냉각](/studynote/06_ict_convergence/03_cloud_infrastructure/235_immersion_cooling_datacenter/) [PUE](/studynote/06_ict_convergence/03_cloud_infrastructure/237_pue_power_usage_effectiveness_datacenter_metric/) 탄소 배출 저감 쿨링 [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 혁신는 클라우드 시스템에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 표준화를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.

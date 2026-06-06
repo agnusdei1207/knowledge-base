@@ -1,10 +1,9 @@
 ---
-title: "19. t-검정 / F-검정 / ANOVA — 평균 비교 검정"
+title: "148. T F Anova"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트
 

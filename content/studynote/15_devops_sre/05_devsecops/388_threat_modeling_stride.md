@@ -1,10 +1,9 @@
 ---
-title: "388. 위협 모델링 STRIDE DREAD 설계 시점 분석 (Threat Modeling STRIDE DREAD PASTA)"
+title: "Threat Modeling STRIDE DREAD PASTA"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

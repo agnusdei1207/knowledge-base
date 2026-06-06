@@ -1,9 +1,8 @@
 ---
-title: "01. 데이터베이스 기초 및 아키텍처"
+title: "Database"
 tags:
   - "database"
 ---
-
 
 ## 핵심 인사이트
 

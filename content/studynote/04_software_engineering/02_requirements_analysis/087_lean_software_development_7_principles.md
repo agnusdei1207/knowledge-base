@@ -1,9 +1,8 @@
 ---
-title: "87. 린 (Lean) 소프트웨어 개발 - 7대 원칙 (낭비 제거, 학습 증진 등)"
+title: "087. Lean Software Development 7 Principles"
 tags:
   - "software_engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

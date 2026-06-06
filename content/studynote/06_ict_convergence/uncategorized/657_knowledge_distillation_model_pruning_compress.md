@@ -1,10 +1,9 @@
 ---
-title: "657. 지식 증류 모델 경량화 프루닝 (Knowledge Distillation Model Pruning Compression)"
+title: "Knowledge Distillation Model Pruning Compression"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

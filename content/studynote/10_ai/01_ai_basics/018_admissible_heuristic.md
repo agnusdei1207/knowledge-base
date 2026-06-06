@@ -1,11 +1,10 @@
 ---
-title: "18. 허용적 휴리스틱 (Admissible Heuristic) - A*가 최적해를 보장하기 위한 조건, h(n)이 실제 목표까지의 비용을 과대평가하지 않아야 함"
+title: "018. Admissible Heuristic"
 date: "2024-05-24"
 description: "A* 알고리즘이 최적해를 보장하기 위한 필수 조건, 목표까지의 남은 비용을 결코 과대평가하지 않는 휴리스틱의 성질"
 tags:
   - "ai"
 ---
-
 
 # 18. 허용적 [휴리스틱](/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) (Admissible [Heuristic](/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/))
 

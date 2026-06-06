@@ -1,10 +1,9 @@
 ---
-title: "120. 컨텍스트 벡터 (Context Vector) - Seq2Seq 병목과 Attention의 동기"
+title: "120. Context Vector"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 벡터는 [Seq2Seq](/studynote/14_data_engineering/05_exam_keywords/245_seq2seq_context_vector_attention_dynamic_weight/) [인코더](/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)가 <strong>전체 입력 시퀀스를 하나의 고정 길이 벡터로 <a href="/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a></strong>한 것이며, [디코더](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)가 출력을 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 때 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하는 유일한 정보원이다.

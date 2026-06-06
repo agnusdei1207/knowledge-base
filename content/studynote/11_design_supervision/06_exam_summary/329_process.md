@@ -1,10 +1,9 @@
 ---
-title: "329. 전자정부법 의무 대상 (Mandatory Scope under the E-Government Act)"
+title: "Mandatory Scope under the E-Government Act"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

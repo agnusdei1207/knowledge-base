@@ -1,11 +1,10 @@
 ---
-title: "9. 스키마 온 리드 (Schema-on-Read) - 저장 시엔 원시 그대로 두고, 쿼리(읽기)할 때 스키마를 동적으로 부여 (데이터 레이크)"
+title: "009. Schema On Read"
 date: "2024-05-15"
 description: "데이터 레이크의 핵심 저장 방식인 스키마 온 리드의 동작 메커니즘, 장단점 및 하둡/스파크 생태계에서의 실무 적용 전략을 심층 분석합니다."
 tags:
   - "data_engineering"
 ---
-
 
 # [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 온 리드 ([Schema](/studynote/05_database/04_transactions_concurrency/505_schema/)-on-Read)
 

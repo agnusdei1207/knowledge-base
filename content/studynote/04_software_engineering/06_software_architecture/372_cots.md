@@ -1,10 +1,9 @@
 ---
-title: "372. 상용 소프트웨어 (COTS, Commercial Off-The-Shelf) 통합 및 품질"
+title: "372. Cots"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

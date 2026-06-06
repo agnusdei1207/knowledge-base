@@ -1,10 +1,9 @@
 ---
-title: "62. 코로케이션 (Colocation) - 데이터센터 공간 임대 서비스"
+title: "062. Colocation Data Center Leasing"
 date: "2026-04-07"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

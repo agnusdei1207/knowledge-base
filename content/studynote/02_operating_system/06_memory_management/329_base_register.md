@@ -1,10 +1,9 @@
 ---
-title: "329. 베이스 레지스터 (Base/Relocation Register) - 물리 시작 주소 보유"
+title: "329. Base Register"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

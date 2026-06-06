@@ -1,10 +1,9 @@
 ---
-title: "136. Prompt Tuning - 소프트 프롬프트로 LLM 적응"
+title: "136. Prompt Tuning"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Prompt Tuning은 <strong>모델 <a href="/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>를 동결하고, 입력 앞에 붙이는 연속(Soft) 프롬프트 벡터만 학습</strong>하여 특정 작업에 적응하는 [PEFT](/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/) 기법이며, 학습 파라미터가 전체의 <strong>0.01% 미만</strong>이다.

@@ -1,10 +1,9 @@
 ---
-title: "150. 장애 영향 반경 최소화 (Blast Radius Minimization) - 마이크로서비스 최후의 방폭문"
+title: "150. Blast Radius Minimization"
 date: "2026-05-03"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 블라스트 반경 최소화(Blast [Radius](/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/) Minimization)는 [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)(사이트 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 공학) 철학의 심장으로, 시스템 일부 서버가 폭파(장애)되거나 해킹 디도스를 쳐맞았을 때 <strong>그 피해의 불길이 타 부서 쇳덩이로 도미노처럼 번지지 않게 물리적/<a href="/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 방폭문 쉴드를 찢어 내려찍는 극한의 격리(<a href="/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/">Isolation</a>) 설계 원칙</strong>이다.

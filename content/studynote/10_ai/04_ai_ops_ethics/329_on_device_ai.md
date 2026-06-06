@@ -1,10 +1,9 @@
 ---
-title: "329. 온디바이스 AI (On-Device AI)"
+title: "On-Device AI"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "080. 스트림 암호 (Stream Cipher - RC4, ChaCha20)"
+title: "Stream Cipher - RC4, ChaCha20"
 date: "2026-05-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [스트림 암호](/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/)([Stream Cipher](/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 뭉텅이(Block)로 모아서 처리하는 [블록 암호](/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)와 달리, 평문 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 물 흐르듯 연속적으로 들이부으며 <strong><a href="/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/">난수 생성기</a>가 뽑아낸 '키 스트림(<a href="/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a> <a href="/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/">Stream</a>)'과 1비트(또는 1바이트) 단위로 실시간 XOR(배타적 <a href="/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>합) 연산을 때려버리는 <a href="/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 암호화 아키텍처</strong>다.

@@ -1,10 +1,9 @@
 ---
-title: "325. 컴파일 시간 바인딩 (Compile Time) - 절대 코드 (Absolute Code) 생성"
+title: "325. Compile Time Binding"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

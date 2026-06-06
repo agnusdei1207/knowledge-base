@@ -1,11 +1,10 @@
 ---
-title: "1. 정보시스템 감리 (Information System Audit) 정의 - 제3자적 관점에서 정보시스템의 효과성, 효율성, 안전성을 종합적으로 점검하고 개선을 권고하는 활동"
+title: "001. Audit Definition"
 date: "2026-04-05"
 description: "제3자 관점에서 정보시스템의 효과성, 효율성, 안전성을 종합적으로 점검하고 개선을 권고하는 활동인 정보시스템 감리의 정의"
 tags:
   - "design_supervision"
 ---
-
 
 # 01. [정보시스템 감리](/studynote/12_it_management/05_security_compliance/187_information_system_audit/) 정의
 

@@ -1,10 +1,9 @@
 ---
-title: "135. CNN (Convolutional Neural Network) - 합성곱 신경망의 구조와 원리"
+title: "135. Cnn Convolutional Neural Network"
 date: "2026-04-19"
 tags:
   - "studynote-dataengineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CNN은 <strong><a href="/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/">합성곱</a>(<a href="/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/">Convolution</a>) 연산으로 입력의 지역적 패턴(엣지·텍스처·형태)을 계층적으로 추출</strong>하는 신경망이며, 이미지·영상 처리의 핵심 아키텍처이다.

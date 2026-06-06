@@ -1,10 +1,9 @@
 ---
-title: "190. DI 프레임워크와 스프링 빈 생명주기 (DI Framework & Spring Bean Lifecycle)"
+title: "DI Framework & Spring Bean Lifecycle"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

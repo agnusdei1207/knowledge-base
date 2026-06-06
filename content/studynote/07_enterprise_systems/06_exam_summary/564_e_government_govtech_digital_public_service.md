@@ -1,10 +1,9 @@
 ---
-title: "564. 전자정부 GovTech 디지털 공공 서비스 (e-Government GovTech Digital Public Service)"
+title: "e-Government GovTech Digital Public Service"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 전자정부 GovTech 디지털 공공서비스은(는) 공공 행정 서비스를 디지털 플랫폼과 데이터 기반으로 재설계해 국민 편의와 행정 효율을 높이는 접근이다.

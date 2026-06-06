@@ -1,11 +1,10 @@
 ---
-title: "20. 데이터 정형화 비율 — 전체 데이터 중 정형 < 20%, 비정형 > 80%"
+title: "020. Data Structure Ratio"
 date: "2024-05-24"
 description: "빅데이터 시대의 다크 데이터 문제와 정형/비정형 데이터의 구조적 역전 현상 및 처리 아키텍처"
 tags:
   - "bigdata"
 ---
-
 
 # 20. [데이터 정형화 비율](/studynote/16_bigdata/13_intro_trends/252_data_structured_ratio/) (정형 < 20% vs 비정형 > 80%)
 

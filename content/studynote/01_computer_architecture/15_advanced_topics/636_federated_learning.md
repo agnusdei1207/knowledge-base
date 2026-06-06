@@ -1,10 +1,9 @@
 ---
-title: "636. 연합 학습 (Federated Learning) 분산 아키텍처"
+title: "636. Federated Learning"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

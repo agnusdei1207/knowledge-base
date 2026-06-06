@@ -1,10 +1,9 @@
 ---
-title: "694. 스노트 (Snort), Suricata (병렬 룰 지원) 와 오용 탐지(Misuse) vs 이상 탐지(Anomaly) 엔진"
+title: "694. Snort Suricata Misuse Anomaly Detection"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

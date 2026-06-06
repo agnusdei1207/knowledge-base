@@ -1,10 +1,9 @@
 ---
-title: "8. 도체 (Conductor)"
+title: "Conductor"
 date: "2026-04-17"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 도체 (Conductor)는 원자핵의 구속력이 느슨해 무수히 많은 <strong>자유 전자 (Free Electron)</strong>들이 원자 사이를 마음껏 떠돌며 [저항](/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) 없이 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 수송하는 물질이다.

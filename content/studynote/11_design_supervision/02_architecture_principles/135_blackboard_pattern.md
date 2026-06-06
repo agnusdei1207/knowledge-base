@@ -1,10 +1,9 @@
 ---
-title: "135. 블랙보드 패턴 (Blackboard Pattern)"
+title: "Blackboard Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

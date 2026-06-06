@@ -1,10 +1,9 @@
 ---
-title: "312. 데이터 웨어하우스 스키마 온 라이트 정제 통합 (Cloud Architecture Concept)"
+title: "Cloud Architecture Concept"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터 웨어하우스](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) [스키마 온 라이트](/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/) 정제 통합는 클라우드 시스템에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 표준화를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.

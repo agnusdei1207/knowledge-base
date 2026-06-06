@@ -1,10 +1,9 @@
 ---
-title: "172. 중첩 루프 조인 (NL Join, Nested Loop Join)"
+title: "NL Join, Nested Loop Join"
 date: "2026-05-06"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

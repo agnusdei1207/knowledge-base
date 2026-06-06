@@ -1,10 +1,9 @@
 ---
-title: "478. 데이터센터 설계 Tier 등급 가용성 (Data Center Design Tier Grade Availability)"
+title: "Data Center Design Tier Grade Availability"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

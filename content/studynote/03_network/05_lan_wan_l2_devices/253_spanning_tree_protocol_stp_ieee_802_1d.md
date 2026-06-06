@@ -1,10 +1,9 @@
 ---
-title: "253. 스패닝 트리 프로토콜 (STP, Spanning Tree Protocol)"
+title: "STP, Spanning Tree Protocol"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

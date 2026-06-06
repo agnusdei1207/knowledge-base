@@ -1,10 +1,9 @@
 ---
-title: "724. 인프라스트럭처 애즈 코드 (IaC) 테라폼"
+title: "724. Infrastructure As Code Terraform"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

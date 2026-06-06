@@ -1,10 +1,9 @@
 ---
-title: "729. SSTF 기아 현상 (가운데 편중) (Sstf Starvation Middle Bias)"
+title: "Sstf Starvation Middle Bias"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

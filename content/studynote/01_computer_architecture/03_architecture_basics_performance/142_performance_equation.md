@@ -1,10 +1,9 @@
 ---
-title: "142. 컴퓨터 성능 방정식 (Performance Equation)"
+title: "Performance Equation"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

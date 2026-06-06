@@ -1,10 +1,9 @@
 ---
-title: "947. 이벤트 소싱 (Event Sourcing) - CRUD 대신 상태 변경 이력(Event) 자체를 추가(Append-only) 저장"
+title: "947. Event Sourcing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "641. ISO 25010 소프트웨어 품질 모델"
+title: "641. Iso 25010 Software Quality Model"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

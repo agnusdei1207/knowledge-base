@@ -1,9 +1,8 @@
 ---
-title: "75. 세그먼트 트리 (Segment Tree) — 구간 쿼리/업데이트"
+title: "075. Combinatorics"
 tags:
   - "it_management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

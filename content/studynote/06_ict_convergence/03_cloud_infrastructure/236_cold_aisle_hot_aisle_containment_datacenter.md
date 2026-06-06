@@ -1,10 +1,9 @@
 ---
-title: "236. 콜드 아일 / 핫 아일 (Hot Aisle) 차폐 데이터센터 공조 설계 (Cold Aisle)"
+title: "Cold Aisle"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

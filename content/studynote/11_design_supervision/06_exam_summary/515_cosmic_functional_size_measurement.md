@@ -1,10 +1,9 @@
 ---
-title: "515. COSMIC 기능 크기 측정 (COSMIC Functional Size Measurement)"
+title: "COSMIC Functional Size Measurement"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

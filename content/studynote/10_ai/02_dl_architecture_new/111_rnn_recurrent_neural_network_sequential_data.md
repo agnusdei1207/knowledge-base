@@ -1,10 +1,9 @@
 ---
-title: "111. 순환 신경망 (RNN, Recurrent Neural Network) - 시퀀스 데이터와 기울기 소실"
+title: "111. Rnn Recurrent Neural Network Sequential Data"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [RNN](/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/)([Recurrent Neural Network](/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/))은 은닉 상태(Hidden [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))를 <strong>이전 시간 단계에서 다음 시간 단계로 <a href="/studynote/08_algorithm_stats/01_basics/014_recursion/">재귀</a>적으로 전달</strong>하여, 시계열·텍스트·음성 같은 <strong>순서가 중요한 시퀀스(Sequence) <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>를 처리하는 신경망이다.

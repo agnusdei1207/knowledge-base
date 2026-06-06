@@ -1,10 +1,9 @@
 ---
-title: "415. 골든 패스 표준화된 배포 경로 (Golden Path Standardized Deployment Path)"
+title: "Golden Path Standardized Deployment Path"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

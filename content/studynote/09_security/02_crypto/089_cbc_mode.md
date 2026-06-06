@@ -1,10 +1,9 @@
 ---
-title: "089. CBC (Cipher Block Chaining) — 초기화 벡터(IV) 필요, 체인 의존성"
+title: "089. Cbc Mode"
 date: "2026-04-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CBC (Cipher Block [Chaining](/studynote/12_it_management/03_ea_isp/887_chaining/)) 모드는 현재 블록의 평문을 암호화하기 직전에, **이전 블록에서 튀어나온 암호문 찌꺼기를 끌어와 XOR(배타적 논리합)로 비벼서 마치 쇠사슬(Chain)처럼 블록들을 엮는** 가장 대중적인 [블록 암호](/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드다.

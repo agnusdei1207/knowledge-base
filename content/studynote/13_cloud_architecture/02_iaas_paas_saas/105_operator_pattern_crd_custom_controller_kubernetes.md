@@ -1,10 +1,9 @@
 ---
-title: "105. 오퍼레이터 패턴 (Operator Pattern) - K8s 봇 자동화"
+title: "105. Operator Pattern Crd Custom Controller Kubernetes"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

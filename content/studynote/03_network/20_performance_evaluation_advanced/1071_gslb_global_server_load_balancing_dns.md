@@ -1,10 +1,9 @@
 ---
-title: "1071. GSLB 지리적 DNS 라우팅"
+title: "1071. Gslb Global Server Load Balancing Dns"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "384. SIEM 보안 정보 이벤트 관리 상관 분석 (SIEM Security Information Event Management)"
+title: "SIEM Security Information Event Management"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

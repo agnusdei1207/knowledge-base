@@ -1,10 +1,9 @@
 ---
-title: "849. 퍼즈 테스팅 (Fuzz Testing / Fuzzing)"
+title: "Fuzz Testing / Fuzzing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

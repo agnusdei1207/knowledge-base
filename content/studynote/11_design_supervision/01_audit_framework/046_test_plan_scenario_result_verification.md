@@ -1,10 +1,9 @@
 ---
-title: "46. 테스트 계획·시나리오·결과서 완결성 대조 확인 (Test Plan, Scenario and Result Verification)"
+title: "Test Plan, Scenario and Result Verification"
 date: "2026-05-08"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

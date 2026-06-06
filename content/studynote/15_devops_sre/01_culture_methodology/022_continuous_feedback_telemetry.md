@@ -1,10 +1,9 @@
 ---
-title: "22. 지속적 피드백 (Continuous Feedback)"
+title: "Continuous Feedback"
 date: "2026-04-02"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 > ⚠️ 이 문서는 [데브옵스](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)([DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)) [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 종착역이자 새로운 출발점으로서, 프로덕션 환경에서 발생한 사용자 행동, 시스템 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 비즈니스 성과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 개발 및 기획 단계로 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 환류시키는 '지속적 피드백(Continuous Feedback)'의 아키텍처와 측정 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 심층 분석합니다.
 

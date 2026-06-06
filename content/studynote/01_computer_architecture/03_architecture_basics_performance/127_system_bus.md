@@ -1,10 +1,9 @@
 ---
-title: "127. 시스템 버스 (System Bus)"
+title: "System Bus"
 date: "2026-04-25"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

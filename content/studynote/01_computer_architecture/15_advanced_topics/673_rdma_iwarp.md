@@ -1,10 +1,9 @@
 ---
-title: "673. RDMA iWARP 프로토콜"
+title: "673. Rdma Iwarp"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "497. IT 경영 관리 핵심 토픽 497번 시험 요약 (IT Management Core Topic 497 Exam Summary)"
+title: "IT Management Core Topic 497 Exam Summary"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 # 📚 IT 경영 관리 핵심 토픽 497번 시험 요약
 ## — IT 거버넌스 × 디지털 전환 전략 × 가치 측정을 위한 통합 프레임워크 —

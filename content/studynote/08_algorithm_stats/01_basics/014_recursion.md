@@ -1,9 +1,8 @@
 ---
-title: "14. 재귀 (Recursion) — 기본 사례, 재귀 사례, 스택 오버플로우"
+title: "014. Recursion"
 tags:
   - "algorithm_stats"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 재귀(Recursion)는 함수가 자기 자신을 다시 호출하여 문제를 더 작은 단위의 동일한 문제(하위 문제)로 분할하는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 설계 기법으로, 기본 사례(Base Case)에 도달할 때까지 자신을 호출하는 구조이다.

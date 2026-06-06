@@ -1,10 +1,9 @@
 ---
-title: "994. 블록체인 스마트 컨트랙트 정형 검증 재진입 취약 차단"
+title: "994. Blockchain Smart Contract Reentrancy"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 정형 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 재진입 취약 차단의 본질은 자산, 위협, [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 통제, 운영 증적이 한 체계로 연결되어야 보안과 규제 대응이 일회성 캠페인으로 끝나지 않는다.

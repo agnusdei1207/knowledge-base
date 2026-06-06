@@ -1,10 +1,9 @@
 ---
-title: "427. 지연된 ACK (Delayed ACK)"
+title: "Delayed ACK"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

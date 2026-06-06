@@ -1,10 +1,9 @@
 ---
-title: "994. Firewire 공격 (IEEE 1394 DMA 활용)"
+title: "IEEE 1394 DMA"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

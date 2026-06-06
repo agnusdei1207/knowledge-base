@@ -1,10 +1,9 @@
 ---
-title: "737. VFS 가상 파일 시스템 (VFS Virtual File System Abstraction)"
+title: "VFS Virtual File System Abstraction"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

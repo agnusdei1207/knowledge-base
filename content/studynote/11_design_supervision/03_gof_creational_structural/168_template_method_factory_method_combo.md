@@ -1,10 +1,9 @@
 ---
-title: "168. 템플릿 메서드와 팩토리 메서드 결합 (Template Method + Factory Method)"
+title: "Template Method + Factory Method"
 date: "2026-04-21"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

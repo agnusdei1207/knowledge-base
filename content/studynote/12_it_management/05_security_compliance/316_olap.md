@@ -1,10 +1,9 @@
 ---
-title: "316. OLAP 드릴다운 롤업 다이스 분석"
+title: "316. Olap"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: OLAP 드릴다운 [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) 다이스 분석의 본질은 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 정의, 운영 절차, 품질 측정, 개선 루프가 연결되어야 사용자가 체감하는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준을 안정적으로 유지할 수 있다.

@@ -1,10 +1,9 @@
 ---
-title: "966. 스파크 RDD 인메모리 병렬 처리"
+title: "966. Spark Rdd"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 스파크 [RDD](/studynote/13_cloud_architecture/05_data_engineering/310_audit/) 인메모리 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리의 본질은 수집, 저장, 품질, 활용, 거버넌스가 분리되지 않아야 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산이 실제 의사결정 가치로 전환된다.

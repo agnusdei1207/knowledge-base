@@ -1,10 +1,9 @@
 ---
-title: "277. 해석자 (Interpreter) - 문법 규칙을 정의하고 해석"
+title: "277. Interpreter Pattern"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

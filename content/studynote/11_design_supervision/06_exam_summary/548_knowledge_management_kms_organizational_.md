@@ -1,10 +1,9 @@
 ---
-title: "548. 지식 관리 KMS 조직 학습 시스템 (Knowledge Management KMS Organizational Learning)"
+title: "Knowledge Management KMS Organizational Learning"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

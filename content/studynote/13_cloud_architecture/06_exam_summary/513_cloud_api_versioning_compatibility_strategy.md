@@ -1,10 +1,9 @@
 ---
-title: "513. 클라우드 API 버전 관리 호환성 전략 (Cloud API Versioning Compatibility Strategy)"
+title: "Cloud API Versioning Compatibility Strategy"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,11 +1,10 @@
 ---
-title: "13. 추가 감리 / 시정조치 확인 (Follow-up Audit) - 감리 지적 사항(조치 권고) 이행 여부 최종 점검"
+title: "013. Audit Planning"
 date: "2026-04-05"
 description: "감리의 목적, 범위, 방법, 일정, 인력 등을 정의하는 감리 계획 수립의 체계와 실무 적용"
 tags:
   - "design_supervision"
 ---
-
 
 # 13. [감리 계획 수립](/studynote/11_design_supervision/01_audit_framework/014_audit_planning/)
 

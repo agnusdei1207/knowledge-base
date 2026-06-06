@@ -1,10 +1,9 @@
 ---
-title: "206. RM (Rate-Monotonic) 스케줄링 - 주기가 짧을수록 높은 우선순위 (정적 우선순위)"
+title: "206. Priority Inheritance"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

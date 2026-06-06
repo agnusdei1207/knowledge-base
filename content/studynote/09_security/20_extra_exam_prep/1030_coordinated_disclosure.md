@@ -1,10 +1,9 @@
 ---
-title: "1030. Coordinated Disclosure (협력적 공개)"
+title: "1030. Coordinated Disclosure"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

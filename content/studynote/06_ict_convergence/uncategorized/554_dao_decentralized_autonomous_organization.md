@@ -1,10 +1,9 @@
 ---
-title: "554. DAO 탈중앙화 자율 조직 거버넌스 (DAO Decentralized Autonomous Organization)"
+title: "DAO Decentralized Autonomous Organization"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

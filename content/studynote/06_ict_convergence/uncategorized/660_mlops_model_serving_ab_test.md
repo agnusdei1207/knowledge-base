@@ -1,10 +1,9 @@
 ---
-title: "660. MLOps 모델 서빙 A/B 테스트 (MLOps Model Serving AB Test)"
+title: "MLOps Model Serving AB Test"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

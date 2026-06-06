@@ -1,10 +1,9 @@
 ---
-title: "625. 테스트 더블 Mock과 Stub의 차이"
+title: "625. Test Double Mock Vs Stub"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

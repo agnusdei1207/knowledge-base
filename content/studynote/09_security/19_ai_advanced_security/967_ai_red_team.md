@@ -1,10 +1,9 @@
 ---
-title: "967. AI Red Team (레드팀)"
+title: "967. Ai Red Team"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,9 +1,8 @@
 ---
-title: "15. 버블 정렬 (Bubble Sort) — O(n^), 안정, 제자리"
+title: "022. Bubble Sort"
 tags:
   - "algorithm_stats"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 버블 정렬(Bubble Sort)은 인접한 두 원소를 비교하고 교환하는 작업을 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)의 끝까지 반복하여, 가장 큰(또는 작은) 값을 끝으로 밀어내는 O(N^) 제자리(In-place) 정렬 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

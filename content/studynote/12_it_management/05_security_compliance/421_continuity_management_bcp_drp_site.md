@@ -1,10 +1,9 @@
 ---
-title: "421. 연속성 관리 BCP DRP 사이트 전략 (Continuity Management BCP DRP Site)"
+title: "Continuity Management BCP DRP Site"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

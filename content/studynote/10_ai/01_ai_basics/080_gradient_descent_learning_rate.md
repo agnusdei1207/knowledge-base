@@ -1,10 +1,9 @@
 ---
-title: "080. 학습률 (Learning Rate in Gradient Descent)"
+title: "Learning Rate in Gradient Descent"
 date: "2026-05-05"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 학습률([Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Rate, $\[alpha](/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)$)은 [경사 하강법](/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/)([Gradient Descent](/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/))에서 딥러닝 모델이 기울기를 따라 에러의 밑바닥을 향해 내려갈 때, <strong>한 번에 얼마만큼의 보폭(Step Size)으로 걸어갈 것인가를 결정하는 절대적 통제 변수(Hyperparameter)</strong>다.

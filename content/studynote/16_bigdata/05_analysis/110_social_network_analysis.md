@@ -1,10 +1,9 @@
 ---
-title: "107. 소셜 네트워크 분석 (SNA, Social Network Analysis) — 중심성/커뮤니티 탐지"
+title: "110. Social Network Analysis"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [SNA](/studynote/12_it_management/03_ea_isp/107_classification/) (Social Network Analysis)는 개인·조직·시스템을 노드 (Node)로, [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 엣지 (Edge)로 모델링하여 네트워크 구조와 정보 흐름을 분석하는 수학적·통계적 기법이다.

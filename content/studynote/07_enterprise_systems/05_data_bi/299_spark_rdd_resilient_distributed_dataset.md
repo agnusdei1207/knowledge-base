@@ -1,10 +1,9 @@
 ---
-title: "299. 스파크 RDD (Resilient Distributed Dataset)"
+title: "Resilient Distributed Dataset"
 date: "2026-03-04"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [아파치 스파크](/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/)의 가장 기본적인 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조로, 여러 노드에 흩어져 있는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 하나의 불변([Immutable](/studynote/13_cloud_architecture/05_data_engineering/298_immutable/)) 객체처럼 다룰 수 있게 해주는 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 집합이다.

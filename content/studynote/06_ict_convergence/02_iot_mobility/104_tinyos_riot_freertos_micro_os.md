@@ -1,9 +1,8 @@
 ---
-title: "104. 초소형 운영체제 (TinyOS, RIOT, FreeRTOS)"
+title: "TinyOS, RIOT, FreeRTOS"
 tags:
   - "ict_convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 초소형 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (Micro OS)는 극도로 제한된 자원(수 KB의 RAM, 저전력 CPU)을 가진 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 노드 등에서 동작하기 위해 덩치를 극한으로 줄인 특수 목적 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)다.

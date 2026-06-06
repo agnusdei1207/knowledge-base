@@ -1,10 +1,9 @@
 ---
-title: "224. 가치 흐름 매핑 (Value Stream Mapping)"
+title: "Value Stream Mapping"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

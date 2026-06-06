@@ -1,10 +1,9 @@
 ---
-title: "171. 설명 가능한 AI (XAI)"
+title: "XAI"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

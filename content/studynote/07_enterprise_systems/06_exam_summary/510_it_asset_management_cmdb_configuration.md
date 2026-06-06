@@ -1,10 +1,9 @@
 ---
-title: "510. IT 자산 관리 CMDB 구성 관리 (IT Asset Management CMDB Configuration)"
+title: "IT Asset Management CMDB Configuration"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

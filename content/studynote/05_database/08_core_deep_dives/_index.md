@@ -1,9 +1,8 @@
 ---
-title: "08. 데이터베이스 핵심 심화 분석"
+title: "Database"
 tags:
   - "database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

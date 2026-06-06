@@ -1,10 +1,9 @@
 ---
-title: "676. 피처 스토어 ML 특성 관리 재사용 (Feature Store ML Feature Management Reuse)"
+title: "Feature Store ML Feature Management Reuse"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

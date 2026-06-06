@@ -1,9 +1,8 @@
 ---
-title: "71. 스프린트 회고 (Sprint Retrospective) - 프로세스 개선"
+title: "071. Sprint Retrospective"
 tags:
   - "software_engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

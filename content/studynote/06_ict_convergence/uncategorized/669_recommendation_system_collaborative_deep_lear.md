@@ -1,10 +1,9 @@
 ---
-title: "669. 추천 시스템 협업 필터링 딥러닝 (Recommendation System Collaborative Deep Learning)"
+title: "Recommendation System Collaborative Deep Learning"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

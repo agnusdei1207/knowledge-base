@@ -1,10 +1,9 @@
 ---
-title: "875. NETCONF 프로토콜"
+title: "875. Netconf Network Configuration Protocol Xml Ssh"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

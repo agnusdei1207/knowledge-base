@@ -1,10 +1,9 @@
 ---
-title: "펜윅 트리 / BIT (Fenwick Tree / Binary Indexed Tree) — 구간 합"
+title: "072. Fenwick Tree"
 date: "2026-03-28"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 - <strong><a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 연산을 이용한 구간 합 최적화</strong>: 2진수의 마지막 1비트(`i & -i`)가 관리하는 구간의 길이를 결정하는 원리를 이용하여 구간 합 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)와 값 업데이트를 모두 $O(\log n)$에 처리함.

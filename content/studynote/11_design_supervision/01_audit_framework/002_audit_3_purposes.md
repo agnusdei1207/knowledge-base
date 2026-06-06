@@ -1,11 +1,10 @@
 ---
-title: "2. 감리의 3대 목적 - 효과성(Effectiveness, 목적 달성 여부), 효율성(Efficiency, 자원 최적화), 안전성/보안성(Security/Safeguard, 자산 보호 및 무결성 유지)"
+title: "Security/Safeguard,"
 date: "2026-04-05"
 description: "성공적인 정보화 사업을 보장하기 위한 감리의 핵심 목표인 효과성, 효율성, 안전성(보안성)의 메커니즘과 실무 적용"
 tags:
   - "design_supervision"
 ---
-
 
 # 02. 감리의 3대 목적: 효과성, 효율성, 안전성
 

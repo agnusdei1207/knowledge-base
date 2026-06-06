@@ -1,10 +1,9 @@
 ---
-title: "635. IETF (Internet 엔진ering Task Force) 산하 IoT CoRE 워킹그룹 동향"
+title: "635. Ietf Core Working Group Coap"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

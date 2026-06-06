@@ -1,10 +1,9 @@
 ---
-title: "679. 합성 데이터 시뮬레이션 프라이버시 보존 (Synthetic Data Simulation Privacy Preserving)"
+title: "Synthetic Data Simulation Privacy Preserving"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

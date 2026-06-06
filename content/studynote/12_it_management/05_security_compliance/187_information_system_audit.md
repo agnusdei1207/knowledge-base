@@ -1,10 +1,9 @@
 ---
-title: "187. 정보시스템 감리 (Information System Audit)"
+title: "Information System Audit"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 정보시스템 감리 (Information System [Audit](/studynote/12_it_management/05_security_compliance/363_audit/))의 본질은 효과성, 효율성, 안전성 점검을 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·조직·프로세스에 내재화하는 데 있다.

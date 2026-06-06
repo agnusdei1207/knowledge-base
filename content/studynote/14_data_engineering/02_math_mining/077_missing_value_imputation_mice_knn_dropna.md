@@ -1,10 +1,9 @@
 ---
-title: "77. 결측치 처리 - MICE 다중 대치법과 KNN 대치 보간"
+title: "077. Missing Value Imputation Mice Knn Dropna"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 # 결측치 처리 - MICE 다중 대치법과 [KNN](/studynote/10_ai/03_llm_nlp/262_knn/) 대치 보간
 

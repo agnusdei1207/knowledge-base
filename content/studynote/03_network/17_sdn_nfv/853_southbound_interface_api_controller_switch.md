@@ -1,10 +1,9 @@
 ---
-title: "853. 사우스바운드 인터페이스 (SBI)"
+title: "SBI"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

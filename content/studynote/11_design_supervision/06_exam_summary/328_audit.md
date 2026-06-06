@@ -1,10 +1,9 @@
 ---
-title: "328. 샘플링 감리 신뢰 구간 (Sampling Confidence Interval)"
+title: "Sampling Confidence Interval"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

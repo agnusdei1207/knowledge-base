@@ -1,10 +1,9 @@
 ---
-title: "430. 지식 관리 KMS 조직 학습 체계 (Knowledge Management KMS Learning System)"
+title: "Knowledge Management KMS Learning System"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

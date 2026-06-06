@@ -1,10 +1,9 @@
 ---
-title: "146. K-UAM 그랜드 챌린지 & 회랑(Corridor) - 한국 UAM 실증"
+title: "146. K Uam Grand Challenge Corridor"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [K-UAM](/studynote/13_cloud_architecture/05_data_engineering/368_k_uam/) 그랜드 챌린지는 <strong>한국 정부 주도로 <a href="/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/">UAM</a> 운항 실증·<a href="/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>을 단계적으로 추진</strong>하는 프로그램이며, [UAM](/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/) 회랑(Corridor)은 <strong>기존 항공 교통과 분리된 전용 비행 경로</strong>이다.

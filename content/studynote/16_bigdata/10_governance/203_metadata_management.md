@@ -1,10 +1,9 @@
 ---
-title: "197. 메타데이터 관리 (Metadata Management) — 비즈니스/기술/운영 메타데이터"
+title: "203. Metadata Management"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

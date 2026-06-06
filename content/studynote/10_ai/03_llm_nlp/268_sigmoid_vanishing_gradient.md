@@ -1,10 +1,9 @@
 ---
-title: "268. 시그모이드 (Sigmoid) 활성화"
+title: "268. Sigmoid Vanishing Gradient"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

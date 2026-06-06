@@ -1,10 +1,9 @@
 ---
-title: "158. 양자화 (Quantization)"
+title: "Quantization"
 date: "2026-04-17"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

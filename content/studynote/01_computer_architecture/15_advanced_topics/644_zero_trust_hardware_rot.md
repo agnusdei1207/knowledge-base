@@ -1,10 +1,9 @@
 ---
-title: "644. 제로 트러스트 (Zero Trust) 아키텍처의 하드웨어 루트 오브 트러스트"
+title: "644. Zero Trust Hardware Rot"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "221. 강건한 2PL (Rigorous 2PL)"
+title: "Rigorous 2PL"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

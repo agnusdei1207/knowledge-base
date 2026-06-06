@@ -1,10 +1,9 @@
 ---
-title: "325. ETL (Extract, Transform, Load) 프로세스"
+title: "325. Etl Extract Transform Load Process"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

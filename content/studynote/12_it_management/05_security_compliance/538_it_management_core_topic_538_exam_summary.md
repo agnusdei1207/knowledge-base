@@ -1,10 +1,9 @@
 ---
-title: "538. IT 경영 관리 핵심 토픽 538번 시험 요약 (IT Management Core Topic 538 Exam Summary)"
+title: "IT Management Core Topic 538 Exam Summary"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 # 538. IT 경영 관리 핵심 토픽 — IT 거버넌스 및 전략적 IT 성과관리 (IT Governance & Strategic IT Performance Management)
 

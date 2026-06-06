@@ -1,10 +1,9 @@
 ---
-title: "513. 정방향 조회 (FQDN -> IP) vs 역방향 조회 (IP -> FQDN, in-addr.arpa)"
+title: "IP -> FQDN, in-addr.arpa"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

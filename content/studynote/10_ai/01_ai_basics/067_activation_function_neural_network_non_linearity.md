@@ -1,9 +1,8 @@
 ---
-title: "67. 활성화 함수 (Activation Function) - 신경망 층 사이에 비선형성(Non-linearity)을 부여하는 필수 함수"
+title: "067. Activation Function Neural Network Non Linearity"
 tags:
   - "ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

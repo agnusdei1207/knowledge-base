@@ -1,10 +1,9 @@
 ---
-title: "776. 소프트웨어 품질 비용 통제 그래프 최적점"
+title: "776. Cost Of Quality Control Graph"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

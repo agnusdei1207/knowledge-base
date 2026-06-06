@@ -1,10 +1,9 @@
 ---
-title: "289. 데이터 레이크하우스 (Data Lakehouse) - 레이크+DW 융합 아키텍처"
+title: "289. Data Lakehouse Lake Dw Hybrid Architecture"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

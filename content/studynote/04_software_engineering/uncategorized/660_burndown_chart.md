@@ -1,10 +1,9 @@
 ---
-title: "660. 번다운 차트 작업 진척도"
+title: "660. Burndown Chart"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

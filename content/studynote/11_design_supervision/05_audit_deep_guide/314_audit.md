@@ -1,10 +1,9 @@
 ---
-title: "314. IoT 디바이스 변조 저항성 진단 (IoT Device Tamper Resistance Audit)"
+title: "IoT Device Tamper Resistance Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

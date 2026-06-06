@@ -1,10 +1,9 @@
 ---
-title: "389. 지식 증류 소프트 타겟 (Soft Target)"
+title: "Soft Target"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

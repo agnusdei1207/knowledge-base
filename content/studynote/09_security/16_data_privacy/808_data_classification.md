@@ -1,10 +1,9 @@
 ---
-title: "808. 데이터 분류 (Data Classification)"
+title: "Data Classification"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

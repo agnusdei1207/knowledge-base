@@ -1,10 +1,9 @@
 ---
-title: "473. EVM SPI CPI 진척 통계 (EVM, Earned Value Management)"
+title: "EVM, Earned Value Management"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

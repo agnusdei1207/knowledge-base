@@ -1,10 +1,9 @@
 ---
-title: "722. 페이지 교체 LRU 원리 (Page Replacement Lru Principle)"
+title: "Page Replacement Lru Principle"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

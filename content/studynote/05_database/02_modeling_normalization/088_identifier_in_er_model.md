@@ -1,9 +1,8 @@
 ---
-title: "88. 식별자 (Identifier) - ER 모델에서의 키"
+title: "088. Identifier In Er Model"
 tags:
   - "database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

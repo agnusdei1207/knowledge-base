@@ -1,10 +1,9 @@
 ---
-title: "162. 무상태성 (Statelessness) - REST의 핵심, 서버에 세션 상태를 저장하지 않고 요청 자체만으로 완벽히 문맥 이해"
+title: "162. Rest Statelessness"
 date: "2026-05-05"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트
 

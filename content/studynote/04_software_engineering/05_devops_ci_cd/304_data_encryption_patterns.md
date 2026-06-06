@@ -1,10 +1,9 @@
 ---
-title: "304. 데이터 암호화 전송 및 저장 패턴"
+title: "304. Data Encryption Patterns"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

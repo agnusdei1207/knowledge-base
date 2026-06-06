@@ -1,10 +1,9 @@
 ---
-title: "502. IaC Ansible 구성 관리 자동화 (IaC Ansible Configuration Management Automation)"
+title: "IaC Ansible Configuration Management Automation"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

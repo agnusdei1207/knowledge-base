@@ -1,10 +1,9 @@
 ---
-title: "54. 변경 관리와 CAB (Change Management CAB)"
+title: "Change Management CAB"
 date: "2026-05-01"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

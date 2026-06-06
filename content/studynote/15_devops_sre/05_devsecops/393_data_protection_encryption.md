@@ -1,10 +1,9 @@
 ---
-title: "393. 데이터 보호 암호화 토큰화 마스킹 전략 (Data Protection Encryption Tokenization Masking)"
+title: "Data Protection Encryption Tokenization Masking"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

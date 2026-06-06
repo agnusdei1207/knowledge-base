@@ -1,10 +1,9 @@
 ---
-title: "523. HTTP Request Smuggling (개념 및 동기화 오류)"
+title: "523. Http Request Smuggling Concept"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

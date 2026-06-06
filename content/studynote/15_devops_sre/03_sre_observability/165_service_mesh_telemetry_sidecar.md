@@ -1,10 +1,9 @@
 ---
-title: "165. 서비스 메시 기반 텔레메트리 (Service Mesh Telemetry)"
+title: "Service Mesh Telemetry"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

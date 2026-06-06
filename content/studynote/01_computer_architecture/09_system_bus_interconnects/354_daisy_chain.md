@@ -1,10 +1,9 @@
 ---
-title: "354. 데이지 체인 (Daisy Chain)"
+title: "Daisy Chain"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

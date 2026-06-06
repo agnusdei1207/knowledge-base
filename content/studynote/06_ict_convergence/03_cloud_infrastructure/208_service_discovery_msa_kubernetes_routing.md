@@ -1,10 +1,9 @@
 ---
-title: "208. 서비스 디스커버리 및 분산 클라우드 로드밸런싱 (Service Discovery)"
+title: "Service Discovery"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

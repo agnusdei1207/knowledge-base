@@ -1,10 +1,9 @@
 ---
-title: "86. 프로세스 뷰 (Process View) - 시스템의 동시성 및 동적 성능 설계"
+title: "086. Process View Sequence Diagram Concurrency"
 date: "2026-04-10"
 tags:
   - "studynote-design"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

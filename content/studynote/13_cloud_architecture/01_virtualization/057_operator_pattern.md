@@ -1,9 +1,8 @@
 ---
-title: "57. 오퍼레이터 패턴 (Operator Pattern) - 쿠버네티스 상태형 워크로드 자동 운영"
+title: "057. Operator Pattern"
 tags:
   - "cloud_architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

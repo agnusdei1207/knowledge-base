@@ -1,10 +1,9 @@
 ---
-title: "24. 절차적 DML vs 비절차적 DML — 네비게이션 vs 선언형"
+title: "024. Procedural Vs Non Procedural Dml"
 date: "2026-04-29"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [DML](/studynote/12_it_management/02_itsm_itil/867_dml/) ([Data Manipulation Language](/studynote/05_database/01_db_architecture_relational/021_dml/), [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조작어)은 절차적(Procedural) 방식과 비절차적(Non-Procedural) 방식으로 구분되며, 절차적 DML은 레코드를 어떻게(HOW) 탐색할지 지정하고 비절차적 DML은 무엇을(WHAT) 원하는지만 선언한다.

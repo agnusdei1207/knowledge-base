@@ -1,10 +1,9 @@
 ---
-title: "241. 머신러닝 (경험 기반 학습) 기초"
+title: "241. Machine Learning Basics"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

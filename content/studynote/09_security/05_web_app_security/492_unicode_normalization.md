@@ -1,10 +1,9 @@
 ---
-title: "492. Unicode Normalization (유니코드 정규화 공격)"
+title: "492. Unicode Normalization"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "207. 모델 향상 (Model Enhancement) - 프로세스 마이닝 기반 개선"
+title: "207. Model Enhancement Process Mining Simulation"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "382. 헬름 차트 패키지 관리 배포 자동화 (Helm Chart Package Management Deployment)"
+title: "Helm Chart Package Management Deployment"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

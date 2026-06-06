@@ -1,10 +1,9 @@
 ---
-title: "631. 그린 클라우드 탄소 중립 PUE 최적화 (Green Cloud Carbon Neutral PUE Optimization)"
+title: "Green Cloud Carbon Neutral PUE Optimization"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

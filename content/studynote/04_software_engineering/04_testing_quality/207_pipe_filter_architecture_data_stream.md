@@ -1,10 +1,9 @@
 ---
-title: "207. 파이프-필터 아키텍처 (Pipe-Filter) - 데이터 스트림 처리"
+title: "207. Pipe Filter Architecture Data Stream"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

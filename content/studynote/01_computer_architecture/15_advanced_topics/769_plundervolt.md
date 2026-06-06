@@ -1,10 +1,9 @@
 ---
-title: "769. 플런더버그 (Plundervolt)"
+title: "Plundervolt"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

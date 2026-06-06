@@ -1,10 +1,9 @@
 ---
-title: "542. COW (Copy-On-Write) 파일 시스템 (ZFS, Btrfs) - 스냅샷 및 롤백 기능 내장"
+title: "542. Cow File System"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

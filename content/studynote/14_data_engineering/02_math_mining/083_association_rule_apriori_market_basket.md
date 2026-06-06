@@ -1,11 +1,10 @@
 ---
-title: "83. 연관 규칙 탐색 (Association Rule) - Apriori 알고리즘"
+title: "083. Association Rule Apriori Market Basket"
 date: "2026-03-04"
 tags:
   - "math-mining"
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: [연관 규칙](/studynote/16_bigdata/05_analysis/106_association_rules/) 탐색 (Association Rule Mining)은 거래 데이터에서 X -> Y 형태의 동시 발생 패턴을 찾아내는 규칙 기반 마이닝이다.

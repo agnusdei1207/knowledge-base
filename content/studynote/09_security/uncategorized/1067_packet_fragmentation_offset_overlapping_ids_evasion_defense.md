@@ -1,10 +1,9 @@
 ---
-title: "1067. 패킷 단편화 오프셋 중첩 검증 방화벽 (Packet Fragmentation Offset Overlapping IDS Evasion Defense)"
+title: "Packet Fragmentation Offset Overlapping IDS Evasion Defense"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

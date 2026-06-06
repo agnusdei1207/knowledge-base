@@ -1,10 +1,9 @@
 ---
-title: "1046. P4 네트워크 프로그래밍 모델 플로우"
+title: "1046. P4 Programming Protocol Independent Packet Processors"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

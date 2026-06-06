@@ -1,10 +1,9 @@
 ---
-title: "184. 차분 프라이버시 노이즈 통계 방어 (Differential Privacy Noise Statistical Defense)"
+title: "Differential Privacy Noise Statistical Defense"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

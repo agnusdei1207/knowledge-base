@@ -1,10 +1,9 @@
 ---
-title: "13. 인트로 정렬 (Introsort) — 퀵+힙+삽입 혼합, C++ STL"
+title: "020. Introsort"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Introsort는 [퀵 정렬](/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)의 평균 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), [힙 정렬](/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)의 최악 보장, [삽입 정렬](/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)의 소규모 효율을 세 가지 임계값 기반으로 자동 전환하는 하이브리드 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

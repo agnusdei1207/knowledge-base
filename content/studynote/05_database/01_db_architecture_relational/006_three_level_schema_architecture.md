@@ -1,11 +1,10 @@
 ---
-title: "6. 3단계 스키마 아키텍처 (ANSI/SPARC)"
+title: "ANSI/SPARC"
 date: "2024-05-20"
 description: "데이터베이스의 논리적/물리적 독립성을 보장하기 위한 외부, 개념, 내부 스키마 3계층 프레임워크"
 tags:
   - "database"
 ---
-
 
 # 06. 3단계 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 아키텍처 (ANSI/SPARC)
 

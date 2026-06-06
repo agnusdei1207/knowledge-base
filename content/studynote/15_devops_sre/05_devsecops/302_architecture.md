@@ -1,10 +1,9 @@
 ---
-title: "302. 사가 패턴 2PC 한계 보상 트랜잭션 롤백 (Architecture)"
+title: "Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

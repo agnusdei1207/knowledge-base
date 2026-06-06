@@ -1,10 +1,9 @@
 ---
-title: "748. 모델 서빙 추론 최적화 A/B 테스트 (Model Serving Inference Optimization AB Test)"
+title: "Model Serving Inference Optimization AB Test"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

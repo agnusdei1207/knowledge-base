@@ -1,10 +1,9 @@
 ---
-title: "576. 일정 관리 CPM PERT 간트 차트 (Schedule Management CPM PERT Gantt)"
+title: "Schedule Management CPM PERT Gantt"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 일정관리 CPM PERT 간트은(는) 작업 순서, 기간, 의존성을 분석해 프로젝트 일정을 계획·통제하는 관리 기법이다.

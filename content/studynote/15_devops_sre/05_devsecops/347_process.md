@@ -1,10 +1,9 @@
 ---
-title: "347. 프롬프트 인젝션 방어·탈옥 보호 (Prompt Injection Defense)"
+title: "Prompt Injection Defense"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "412. 시계열 예측 딥러닝 TCN 구조 팽창 인과 합성곱 매핑 (Dilated Causal Conv)"
+title: "Dilated Causal Conv"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

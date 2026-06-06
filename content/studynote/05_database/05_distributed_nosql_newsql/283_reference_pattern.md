@@ -1,10 +1,9 @@
 ---
-title: "283. 일관된 해싱 (Consistent Hashing)"
+title: "Consistent Hashing"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

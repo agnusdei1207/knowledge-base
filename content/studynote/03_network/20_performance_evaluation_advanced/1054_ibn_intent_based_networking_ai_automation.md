@@ -1,10 +1,9 @@
 ---
-title: "1054. IBN(의도기반망) 선행 AI 설계"
+title: "1054. Ibn Intent Based Networking Ai Automation"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

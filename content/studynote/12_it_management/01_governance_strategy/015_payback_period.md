@@ -1,11 +1,10 @@
 ---
-title: "15. PP (Payback Period, 투자회수기간)"
+title: "Payback Period,"
 date: "2024-05-20"
 description: "IT 투자 원금을 회수하는 데 걸리는 시간을 측정하여 리스크와 유동성을 평가하는 지표"
 tags:
   - "it_management"
 ---
-
 
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 프로젝트 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 투입된 총 투자 비용을 미래의 순현금유입액으로 완전히 회수하여 '본전을 뽑는 데' 걸리는 물리적 시간(년/월).

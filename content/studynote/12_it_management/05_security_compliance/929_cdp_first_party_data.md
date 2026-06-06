@@ -1,10 +1,9 @@
 ---
-title: "929. CDP 고객 데이터 플랫폼 (1st Party)"
+title: "1st Party"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [CDP](/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/) 고객 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 ([1st Party](/studynote/12_it_management/05_security_compliance/928_cdp_first_party/))의 본질은 자산, 위협, [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 통제, 운영 증적이 한 체계로 연결되어야 보안과 규제 대응이 일회성 캠페인으로 끝나지 않는다.

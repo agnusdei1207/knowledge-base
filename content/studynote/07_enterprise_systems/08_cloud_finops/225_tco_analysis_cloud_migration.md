@@ -1,10 +1,9 @@
 ---
-title: "225. TCO 분석 (Total Cost of Ownership Analysis)"
+title: "Total Cost of Ownership Analysis"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

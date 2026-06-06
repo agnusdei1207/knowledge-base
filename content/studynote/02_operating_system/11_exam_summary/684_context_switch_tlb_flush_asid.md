@@ -1,10 +1,9 @@
 ---
-title: "684. 문맥 교환 TLB 플러시 (Context Switch TLB Flush ASID)"
+title: "Context Switch TLB Flush ASID"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

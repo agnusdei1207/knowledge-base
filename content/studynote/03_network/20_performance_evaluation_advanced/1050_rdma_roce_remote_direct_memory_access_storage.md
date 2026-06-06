@@ -1,10 +1,9 @@
 ---
-title: "1050. RDMA / RoCE 스토리지 서버 네트워킹"
+title: "1050. Rdma Roce Remote Direct Memory Access Storage"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "660. 중첩 페이지 테이블 (Nested Page Table, NPT)"
+title: "Nested Page Table, NPT"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

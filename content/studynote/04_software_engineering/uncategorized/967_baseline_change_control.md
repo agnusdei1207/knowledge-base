@@ -1,10 +1,9 @@
 ---
-title: "967. 기준선 (Baseline) 수립 변경 통제"
+title: "967. Baseline Change Control"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "19. 핀펫 (FinFET)"
+title: "FinFET"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 핀펫 (FinFET)은 기존 평면(Planar) 구조를 탈피하여 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 흐르는 채널을 기판 위로 돌출된 핀(Fin) 모양으로 세우고, 게이트가 3면을 입체적으로 감싸는 3D 아키텍처다.

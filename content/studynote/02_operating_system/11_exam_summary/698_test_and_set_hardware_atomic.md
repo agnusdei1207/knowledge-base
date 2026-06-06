@@ -1,10 +1,9 @@
 ---
-title: "698. Test-and-Set 연산 하드웨어 (Test And Set Hardware Atomic)"
+title: "Test And Set Hardware Atomic"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "729. 클라우드 아키텍처 핵심 토픽 729번 시험 요약 (Cloud Architecture Core Topic 729 Exam Summary)"
+title: "Cloud Architecture Core Topic 729 Exam Summary"
 date: 2026-05-09
 tags:
   - "studynote-cloud-architecture"
----
-## 핵심 인사이트 (3줄 요약)
+---## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 아키텍처는 CAP 정리를 넘어 **12-Factor App, Cell-Based Architecture, Cell-Based Reliability(Netflix), Sidecar/Ambassador Pattern(서비스 메시), SLO/Error Budget 기반 운영**을 통합한 **탄력적 분산 시스템 설계 체계**이며, AWS Well-Architected Framework 6대 축(운영우수성, 보안, 안정성, 성능효율성, 비용최적화, 지속가능성)과 CNCF Cloud Native Trail Map이 시험의 평가 기준선이다.
 > 2. **가치**: Auto Scaling + Multi-AZ + Multi-Region 구성을 통해 **단일 리전 가용성 99.99%(연 52분 장애), 글로벌 가용성 99.999%(연 5분 장애)** 달성이 가능하며, Pay-per-Use 모델로 **CapEx 대비 OpEx 전환 시 약 30~40% TCO 절감**, 컨테이너 오케스트레이션 도입 시 배포 주기 **수개월 -> 수시간**, 장애 복구 시간(MTTR) **평균 70% 단축** 효과가 검증되어 있다.

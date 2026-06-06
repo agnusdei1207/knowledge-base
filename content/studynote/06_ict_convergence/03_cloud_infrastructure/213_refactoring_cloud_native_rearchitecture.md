@@ -1,10 +1,9 @@
 ---
-title: "213. 리팩토링 (Refactor)"
+title: "Refactor"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "196. 부하 균등화 (Load Balancing) - Push Migration vs Pull Migration"
+title: "196. Hard Soft Real Time"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

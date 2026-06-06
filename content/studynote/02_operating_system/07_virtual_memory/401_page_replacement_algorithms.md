@@ -1,10 +1,9 @@
 ---
-title: "401. 페이지 교체 알고리즘 (Page Replacement Algorithms)"
+title: "Page Replacement Algorithms"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

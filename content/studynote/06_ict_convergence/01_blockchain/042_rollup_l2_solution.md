@@ -1,10 +1,9 @@
 ---
-title: "042. 롤업 (Rollup) — Layer 2 트랜잭션 압축 기술"
+title: "042. Rollup L2 Solution"
 date: "2026-04-05"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 > **핵심 인사이트**
 > 1. 롤업(Rollup)은 수천 개의 트랜잭션을 오프체인(Layer 2)에서 처리하고 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)·묶어서 Layer 1 메인넷에 하나의 배치로 제출하는 L2 [스케일링](/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 솔루션으로, 이더리움의 TPS 한계(15 TPS)를 100~[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000 TPS로 대폭 향상시킨다.

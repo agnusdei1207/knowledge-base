@@ -1,10 +1,9 @@
 ---
-title: "30. XOR·XNOR 게이트 — 동치와 배타적 논리"
+title: "030. Xor Xnor"
 date: "2026-04-29"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: XOR(Exclusive OR)은 두 입력이 서로 다를 때만 1을 출력하는 게이트이며, XNOR은 XOR의 반전으로 두 입력이 같을 때 1을 출력한다. XOR은 "다름을 감지"하고, XNOR은 "같음을 감지"하는 연산이다.

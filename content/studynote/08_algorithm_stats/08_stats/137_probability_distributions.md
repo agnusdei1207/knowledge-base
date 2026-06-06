@@ -1,10 +1,9 @@
 ---
-title: "8. 확률 분포 — 이항/포아송/정규/지수/균등"
+title: "137. Probability Distributions"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트
 

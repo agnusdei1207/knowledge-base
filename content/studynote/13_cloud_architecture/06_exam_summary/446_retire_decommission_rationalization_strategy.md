@@ -1,10 +1,9 @@
 ---
-title: "446. 리타이어 폐기 합리화 전략 (Retire Decommission Rationalization Strategy)"
+title: "Retire Decommission Rationalization Strategy"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "518. TF-IDF, 코사인 유사도, 텍스트 마이닝 (TF-IDF Cosine Similarity Text Mining Word2Vec)"
+title: "TF-IDF Cosine Similarity Text Mining Word2Vec"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

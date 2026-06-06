@@ -1,10 +1,9 @@
 ---
-title: "671. 데이터 거버넌스 정책 품질 관리 체계 (Data Governance Policy Quality Management)"
+title: "Data Governance Policy Quality Management"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

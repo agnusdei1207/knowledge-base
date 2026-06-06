@@ -1,10 +1,9 @@
 ---
-title: "228. 배치 처리 (Batch Processing)"
+title: "Batch Processing"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 배치 처리(Batch Processing)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 일정 기간·용량 단위로 모아 주기적으로 한 번에 처리하는 방식으로, <strong>처리 <a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>을 수용하는 대신 <a href="/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a>(<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>)을 극대화</strong>한다.

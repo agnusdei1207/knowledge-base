@@ -1,10 +1,9 @@
 ---
-title: "271. 순전파 (Forward Propagation)"
+title: "Forward Propagation"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

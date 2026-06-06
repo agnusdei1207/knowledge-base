@@ -1,10 +1,9 @@
 ---
-title: "508. Authorization Code Grant (권한 부여 코드 승인 방식)"
+title: "508. Authorization Code Grant"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "208. 데이터 레이크 (Data Lake)"
+title: "Data Lake"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레이크 ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Lake)의 본질은 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)리스([Schema-on-read](/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/)) 원시 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중앙 저장소를 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.

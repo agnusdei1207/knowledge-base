@@ -1,10 +1,9 @@
 ---
-title: "291. 정보 아키텍처 (Information Architecture) 설계"
+title: "291. Information Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "731. 버퍼 오버플로우 공격 (서비스 다운/원격코드 실행 위협망 타격)"
+title: "731. Buffer Overflow Stack Heap Aslr"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

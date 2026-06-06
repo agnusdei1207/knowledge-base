@@ -1,10 +1,9 @@
 ---
-title: "354. 부스팅 기법 (AdaBoost, GBM)"
+title: "AdaBoost, GBM"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

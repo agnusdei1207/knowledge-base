@@ -1,10 +1,9 @@
 ---
-title: "51. AI / 빅데이터 사업 감리 (AI Audit)"
+title: "AI Audit"
 date: "2026-05-08"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

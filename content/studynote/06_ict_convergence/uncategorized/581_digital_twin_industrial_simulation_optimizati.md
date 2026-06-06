@@ -1,10 +1,9 @@
 ---
-title: "581. 디지털 트윈 산업 시뮬레이션 최적화 (Digital Twin Industrial Simulation Optimization)"
+title: "Digital Twin Industrial Simulation Optimization"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

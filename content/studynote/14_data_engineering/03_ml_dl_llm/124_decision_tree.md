@@ -1,10 +1,9 @@
 ---
-title: "124. 의사결정 트리 (Decision Tree) - 해석 가능한 분류·회귀 알고리즘"
+title: "124. Decision Tree"
 date: "2026-04-19"
 tags:
   - "studynote-dataengineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 의사결정 트리는 <strong><a href="/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a> 값에 따라 데이터를 반복적으로 분할(Split)</strong>하여 트리 구조의 규칙을 학습하는 **해석 가능한(Interpretable)** [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)·회귀 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

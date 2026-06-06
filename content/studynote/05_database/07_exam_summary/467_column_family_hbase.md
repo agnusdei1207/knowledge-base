@@ -1,10 +1,9 @@
 ---
-title: "467. 컬럼 패밀리 HBASE 카산드라 와이드 컬럼"
+title: "467. Column Family Hbase"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

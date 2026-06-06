@@ -1,10 +1,9 @@
 ---
-title: "231. DID (탈중앙화 신원 증명) W3C 표준 인증 체계 및 마이데이터 인증 대체"
+title: "231. Did Decentralized Identity"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: DID ([탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 신원 증명) W3C 표준 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 체계 및 [마이데이터](/studynote/16_bigdata/01_intro/012_mydata/) [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 대체의 본질은 신원, 합의, 자산, 거버넌스가 함께 설계되어야 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서도 신뢰를 유지할 수 있다.

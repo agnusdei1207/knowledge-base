@@ -1,10 +1,9 @@
 ---
-title: "841. 내구성 테스트 (Endurance / Soak Test)"
+title: "Endurance / Soak Test"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "739. 레드팀 블루팀 퍼플팀 보안 훈련 (Red Team Blue Team Purple Team Security)"
+title: "Red Team Blue Team Purple Team Security"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

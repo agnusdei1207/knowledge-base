@@ -1,10 +1,9 @@
 ---
-title: "293. 데이터 관측 가능성 이상 탐지 SLO (Data Observability Anomaly Detection SLO)"
+title: "Data Observability Anomaly Detection SLO"
 date: "2026-05-09"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "806. 개인정보 유출 사고 대응 (Reporting, Notification)"
+title: "Reporting, Notification"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

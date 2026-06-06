@@ -1,10 +1,9 @@
 ---
-title: "104. K8s 네임스페이스 (Namespace) - 논리적 분할과 격리"
+title: "104. Kubernetes Namespace Logical Cluster Isolation"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

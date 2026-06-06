@@ -1,10 +1,9 @@
 ---
-title: "441. 클라우드 마이그레이션 6R 전략 방법론 (Cloud Migration 6R Strategy Methodology)"
+title: "Cloud Migration 6R Strategy Methodology"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

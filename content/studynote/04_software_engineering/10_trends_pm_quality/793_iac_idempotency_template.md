@@ -1,10 +1,9 @@
 ---
-title: "793. 인프라 코드 (IaC) 멱등성 보장 템플릿 기술"
+title: "793. Iac Idempotency Template"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

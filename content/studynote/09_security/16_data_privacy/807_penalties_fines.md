@@ -1,10 +1,9 @@
 ---
-title: "807. 과태료/벌칙 (Penalties Fines)"
+title: "Penalties Fines"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

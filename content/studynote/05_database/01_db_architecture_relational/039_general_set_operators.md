@@ -1,10 +1,9 @@
 ---
-title: "039. 일반 집합 연산 (General Set Operators)"
+title: "General Set Operators"
 date: "2026-03-04"
 tags:
   - "studynote-database"
 ---
-
 
 > **핵심 인사이트**
 > 1. [관계 대수](/studynote/05_database/01_db_architecture_relational/038_relational_algebra/)의 일반 집합 연산(합집합·교집합·차집합·[카티션 프로덕트](/studynote/05_database/07_exam_summary/412_cartesian_product/))은 수학의 집합 이론을 [릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)에 적용한 것으로, UNION/INTERSECT/EXCEPT/CROSS JOIN으로 SQL에 직접 구현된다.

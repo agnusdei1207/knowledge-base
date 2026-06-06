@@ -1,10 +1,9 @@
 ---
-title: "045. 시프트 레프트 — Shift Left Testing & Security"
+title: "045. Shift Left Testing Security"
 date: "2026-04-05"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 > **핵심 인사이트**
 > 1. [시프트 레프트](/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)(Shift Left)는 테스팅·보안 활동을 개발 생명주기의 왼쪽([초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계)으로 이동시키는 원칙 — [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)은 발견이 늦을수록 수정 비용이 기하급수적으로 증가하며(IBM: 운영 단계 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수정 비용 = 설계 단계의 100×), [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 발견이 핵심이다.

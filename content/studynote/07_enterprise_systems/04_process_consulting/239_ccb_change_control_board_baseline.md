@@ -1,10 +1,9 @@
 ---
-title: "239. 변경 통제 위원회 기준선 갱신 절차 (CCB, Change Control Board)"
+title: "CCB, Change Control Board"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

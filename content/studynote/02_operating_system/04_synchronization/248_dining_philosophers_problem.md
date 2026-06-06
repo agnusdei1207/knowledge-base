@@ -1,10 +1,9 @@
 ---
-title: "248. 식사하는 철학자 문제 (Dining-Philosophers Problem) - 교착상태 및 기아 상태 예방"
+title: "248. Dining Philosophers Problem"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

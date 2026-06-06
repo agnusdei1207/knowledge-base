@@ -1,10 +1,9 @@
 ---
-title: "898. NG-PON2 표준"
+title: "898. Ng Pon2 Twdm Optical Access Network"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

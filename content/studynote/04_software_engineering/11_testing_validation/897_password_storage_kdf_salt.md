@@ -1,10 +1,9 @@
 ---
-title: "897. 비밀번호 저장 방식 - KDF (Key Derivation Function) 및 솔트(Salt)"
+title: "Salt"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

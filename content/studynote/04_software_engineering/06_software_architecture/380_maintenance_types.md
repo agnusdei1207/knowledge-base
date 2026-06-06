@@ -1,10 +1,9 @@
 ---
-title: "380. 소프트웨어 유지보수의 종류 - 수정(Corrective), 적응(Adaptive), 완전/개선(Perfective), 예방(Preventive)"
+title: "Preventive"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

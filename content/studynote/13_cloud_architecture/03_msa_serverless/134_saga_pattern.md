@@ -1,10 +1,9 @@
 ---
-title: "134. Saga 패턴 - MSA 분산 트랜잭션의 표준 솔루션"
+title: "134. Saga Pattern"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Saga는 <strong>여러 마이크로서비스에 걸친 비즈니스 <a href="/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>을 로컬 <a href="/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>의 시퀀스로 분해</strong>하고, 실패 시 <strong><a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/">보상 트랜잭션</a>(<a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/">Compensating Transaction</a>)</strong>으로 롤백하는 패턴이다.

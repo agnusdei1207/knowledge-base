@@ -1,11 +1,10 @@
 ---
-title: "18. 감리 보고서 (Audit Report) 구조 - 총평, 분야별 감리 결과, 시정 조치 권고 사항"
+title: "018. Audit Report"
 date: "2026-03-04"
 description: "정보시스템 감리의 최종 결과물인 감리 보고서의 작성 원칙, 표준 구조 및 실무적 파급력을 분석합니다."
 tags:
   - "design_supervision"
 ---
-
 
 # 18. 감리 보고서 ([Audit](/studynote/12_it_management/05_security_compliance/363_audit/) Report) 구조 - 총평, 분야별 감리 결과, 시정 조치 권고 사항
 

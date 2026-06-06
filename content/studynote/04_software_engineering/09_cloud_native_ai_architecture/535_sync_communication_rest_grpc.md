@@ -1,10 +1,9 @@
 ---
-title: "535. 서비스 간 동기 통신 - REST API, gRPC (Protocol Buffers)"
+title: "Protocol Buffers"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "223. 데이터 패브릭 (Data Fabric) 메타데이터 가상화 AI 통합"
+title: "223. Data Fabric Metadata Virtualization Integration"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터 패브릭](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)([Data Fabric](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/))은 이기종 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스를 이동 없이 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)([Data Virtualization](/studynote/13_cloud_architecture/05_data_engineering/247_data_virtualization_federated_query/))로 연결하고, [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/ML이 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)를 자동으로 탐색·[분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)하여 통합 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 레이어를 형성하는 아키텍처다.

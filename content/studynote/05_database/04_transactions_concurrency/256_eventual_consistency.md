@@ -1,10 +1,9 @@
 ---
-title: "256. 결과적 일관성 (Eventual Consistency)"
+title: "Eventual Consistency"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

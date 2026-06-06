@@ -1,10 +1,9 @@
 ---
-title: "534. 무어의 법칙 이후 (More than Moore)"
+title: "More than Moore"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

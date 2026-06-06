@@ -1,10 +1,9 @@
 ---
-title: "99. 특성 맵 (Feature Map) - CNN 필터 압축 지도의 실체"
+title: "099. Feature Map Activation Map Cnn Output"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

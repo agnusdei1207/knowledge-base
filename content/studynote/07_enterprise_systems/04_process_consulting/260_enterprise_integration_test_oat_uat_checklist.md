@@ -1,10 +1,9 @@
 ---
-title: "260. 엔터프라이즈 통합 테스트 OAT/UAT 체크리스트 (Enterprise Integration Test: OAT / UAT)"
+title: "Enterprise Integration Test: OAT / UAT"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

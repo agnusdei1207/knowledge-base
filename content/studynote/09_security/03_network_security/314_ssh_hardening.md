@@ -1,10 +1,9 @@
 ---
-title: "314. SSH 서버 강화 설정 (SSH Server Hardening)"
+title: "SSH Server Hardening"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,11 +1,10 @@
 ---
-title: "97. 배포 승인 게이트 (Approval Gate) - 배포 통제 및 자동화"
+title: "097. Deployment Approval Gate Automation"
 date: "2026-03-04"
 tags:
   - "cicd-gitops"
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

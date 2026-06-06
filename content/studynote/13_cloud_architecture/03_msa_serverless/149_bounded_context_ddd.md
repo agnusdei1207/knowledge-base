@@ -1,10 +1,9 @@
 ---
-title: "149. 바운디드 컨텍스트 (Bounded Context)"
+title: "Bounded Context"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [바운디드 컨텍스트](/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) ([Bounded Context](/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/))란 [DDD](/studynote/12_it_management/05_security_compliance/310_architecture/) ([Domain-Driven Design](/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/))에서 특정 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델이 유효한 논리적 경계로, 동일 단어도 경계 안에서 서로 다른 의미를 가질 수 있다.

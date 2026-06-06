@@ -1,10 +1,9 @@
 ---
-title: "778. 3D MIMO 수직/수평 고차원 송수신 구조 공간 활용 극대화 스펙트럼 자원)"
+title: "778. 3D Mimo Full Dimension Elevation Beamforming"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

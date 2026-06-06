@@ -1,10 +1,9 @@
 ---
-title: "109. 정보시스템 마스터플랜 (ISMP)"
+title: "ISMP"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [정보시스템 마스터플랜](/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) ([ISMP](/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/))의 본질은 ISP보다 구체적. 특정 프로젝트의 요구사항 명세서(RFP) 작성, S/W 규모 산정([FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/)), 제안요청서 도출에 특화된 활동을 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.

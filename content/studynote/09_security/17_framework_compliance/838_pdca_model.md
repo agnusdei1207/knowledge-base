@@ -1,10 +1,9 @@
 ---
-title: "838. PDCA (Plan-Do-Check-Act) 모델 (Plan-Do-Check-Act)"
+title: "Plan-Do-Check-Act"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

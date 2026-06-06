@@ -1,10 +1,9 @@
 ---
-title: "496. 인터럽트 공유 (Interrupt Sharing) 및 MSI/MSI-X (Message Signaled Interrupts)"
+title: "Message Signaled Interrupts"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

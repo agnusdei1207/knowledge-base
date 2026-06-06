@@ -1,10 +1,9 @@
 ---
-title: "636. 엣지 클라우드 MEC CDN 분산 컴퓨팅 (Edge Cloud MEC CDN Distributed Computing)"
+title: "Edge Cloud MEC CDN Distributed Computing"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

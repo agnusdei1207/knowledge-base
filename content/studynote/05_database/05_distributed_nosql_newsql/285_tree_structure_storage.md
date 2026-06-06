@@ -1,10 +1,9 @@
 ---
-title: "285. 그래프 쿼리 언어 (Tree Structure Storage)"
+title: "Tree Structure Storage"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

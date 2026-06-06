@@ -1,10 +1,9 @@
 ---
-title: "122. 평행 2선식 케이블 (Twin-lead cable)"
+title: "Twin-lead cable"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

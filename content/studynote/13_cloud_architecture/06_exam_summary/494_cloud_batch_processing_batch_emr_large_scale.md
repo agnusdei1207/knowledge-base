@@ -1,10 +1,9 @@
 ---
-title: "494. 클라우드 배치 처리 Batch EMR 대용량 (Cloud Batch Processing Batch EMR Large Scale)"
+title: "Cloud Batch Processing Batch EMR Large Scale"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

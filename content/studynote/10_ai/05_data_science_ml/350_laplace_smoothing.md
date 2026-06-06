@@ -1,10 +1,9 @@
 ---
-title: "350. 라플라스 스무딩 (Laplace Smoothing)"
+title: "Laplace Smoothing"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

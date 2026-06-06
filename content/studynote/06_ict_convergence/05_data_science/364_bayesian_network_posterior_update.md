@@ -1,10 +1,9 @@
 ---
-title: "364. 베이즈 정리 사후 확률 갱신 구조망 파악 (Bayesian Network Posterior Update)"
+title: "Bayesian Network Posterior Update"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

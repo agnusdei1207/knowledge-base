@@ -1,9 +1,8 @@
 ---
-title: "67. 데이터 스튜어드 (Data Steward) - 실무 부서 데이터 품질 관리 책임자"
+title: "067. Data Steward Data Quality"
 tags:
   - "enterprise_systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

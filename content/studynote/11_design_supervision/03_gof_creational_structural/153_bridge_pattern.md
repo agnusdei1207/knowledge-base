@@ -1,10 +1,9 @@
 ---
-title: "153. 구조 패턴: 브리지 (Bridge Pattern) - 추상부와 구현부의 완벽 이혼 절단 융합술"
+title: "153. Bridge Pattern"
 date: "2026-05-03"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [브리지](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)([Bridge](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)) 패턴은 시스템 아키텍처 설계 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에!! -> 유저와 맞닿는 껍데기 <strong>'기능 <a href="/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a> 계층(<a href="/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">Abstraction</a> 리모컨)'</strong>과 뒷단 진짜 쇳덩이 모터가 도는 <strong>'플랫폼 구현 계층(Implementor TV 기계)'</strong>을 1개의 뚱뚱한 부모-자식 [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 덩어리([Silo](/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))에 쳐 박는 강결합 짓을 도끼로 찢어발겨 -> 두 우주를 100% 완전 분리 이혼시키고 중간 허공에 합성(Composition) 끈 다리([Bridge](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)) 1개만 걸쳐두는 0순위 구조(Structural) 패턴이다.

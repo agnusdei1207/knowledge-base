@@ -1,9 +1,8 @@
 ---
-title: "98. 이행적 함수적 종속 (Transitive Functional Dependency) - X->Y, Y->Z 일 때 X->Z 종속 발생"
+title: "098. Transitive Functional Dependency"
 tags:
   - "database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

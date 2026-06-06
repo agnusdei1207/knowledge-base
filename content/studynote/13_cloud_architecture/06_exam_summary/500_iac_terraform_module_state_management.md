@@ -1,10 +1,9 @@
 ---
-title: "500. IaC 테라폼 모듈 상태 관리 (IaC Terraform Module State Management)"
+title: "IaC Terraform Module State Management"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

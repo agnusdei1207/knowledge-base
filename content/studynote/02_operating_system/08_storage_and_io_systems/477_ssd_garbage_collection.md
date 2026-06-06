@@ -1,10 +1,9 @@
 ---
-title: "477. 가비지 컬렉션 (Garbage Collection in SSD) - 유효 페이지 복사 후 블록 전체 지우기"
+title: "477. Ssd Garbage Collection"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

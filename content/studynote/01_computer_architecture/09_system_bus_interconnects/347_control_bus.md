@@ -1,10 +1,9 @@
 ---
-title: "347. 제어 버스 (Control Bus)"
+title: "Control Bus"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 # 347. 제어 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) (Control [Bus](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))
 

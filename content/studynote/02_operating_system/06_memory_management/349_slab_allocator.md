@@ -1,10 +1,9 @@
 ---
-title: "349. 슬랩 할당기 (Slab Allocator) - 커널 객체 캐싱, 단편화 방지 및 속도 향상"
+title: "349. Slab Allocator"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

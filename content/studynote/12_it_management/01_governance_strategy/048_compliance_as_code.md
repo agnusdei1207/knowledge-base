@@ -1,10 +1,9 @@
 ---
-title: "048. 컴플라이언스 애즈 코드 — Compliance as Code"
+title: "048. Compliance As Code"
 date: "2026-04-05"
 tags:
   - "studynote-it-management"
 ---
-
 
 > **핵심 인사이트**
 > 1. [Compliance](/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/) [as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)([컴플라이언스 애즈 코드](/studynote/04_software_engineering/08_security_compliance_devsecops/525_compliance_as_code_automation/))는 규정 준수 정책을 코드로 표현하여 자동화된 검사와 집행을 실현 — [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)자가 수동으로 확인하는 전통 컴플라이언스 대신, 인프라 변경 시마다 코드로 정의된 정책을 자동 검사하여 지속적 규정 준수를 보장한다.

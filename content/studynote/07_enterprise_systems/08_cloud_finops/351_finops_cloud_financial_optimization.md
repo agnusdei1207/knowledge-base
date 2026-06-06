@@ -1,10 +1,9 @@
 ---
-title: "351. FinOps 클라우드 재무 최적화 3단계 (FinOps Cloud Financial Optimization)"
+title: "FinOps Cloud Financial Optimization"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

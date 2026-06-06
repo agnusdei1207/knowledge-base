@@ -1,10 +1,9 @@
 ---
-title: "528. 난독화 (Obfuscation) 및 안티 디버깅 (Anti-debugging) 적용 (모바일 앱 보안)"
+title: "528. Obfuscation Anti Debugging Mobile"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

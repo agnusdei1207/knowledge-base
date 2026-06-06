@@ -1,10 +1,9 @@
 ---
-title: "419. TIME_WAIT 상태 (기본 2MSL 대기)"
+title: "2MSL"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

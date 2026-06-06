@@ -1,10 +1,9 @@
 ---
-title: "262. 데이터 마트 (Data Mart) 개념 및 설계"
+title: "262. Data Mart Concept Design"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

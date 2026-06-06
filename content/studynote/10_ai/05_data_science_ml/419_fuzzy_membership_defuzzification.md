@@ -1,10 +1,9 @@
 ---
-title: "419. 퍼지 소속 함수·퍼지 추론·디퍼지피케이션 (Fuzzy Membership, Inference, Defuzzification)"
+title: "Fuzzy Membership, Inference, Defuzzification"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

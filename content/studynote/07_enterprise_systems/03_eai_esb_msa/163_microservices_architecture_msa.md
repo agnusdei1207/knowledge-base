@@ -1,10 +1,9 @@
 ---
-title: "163. 마이크로서비스 아키텍처 (MSA, Microservices Architecture) - 거대한 모놀리식(Monolithic) 앱을 독립적으로 배포 및 확장 가능한 수십~수백 개의 작은 서비스(DB 포함 분리)로 쪼개는 차세대 엔터프라이즈 아키텍처"
+title: "163. Microservices Architecture Msa"
 date: "2026-05-05"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트
 

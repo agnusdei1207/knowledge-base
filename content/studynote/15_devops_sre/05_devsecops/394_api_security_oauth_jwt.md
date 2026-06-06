@@ -1,10 +1,9 @@
 ---
-title: "394. API 보안 OAuth JWT 게이트웨이 위협 방어 (API Security OAuth2 JWT Gateway OWASP)"
+title: "API Security OAuth2 JWT Gateway OWASP"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

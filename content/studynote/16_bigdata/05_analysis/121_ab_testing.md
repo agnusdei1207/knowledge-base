@@ -1,10 +1,9 @@
 ---
-title: "118. A/B 테스트 (A/B Testing) — 실험적 방법론과 통계적 유의성"
+title: "121. Ab Testing"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: A/B 테스트 (A/B Testing)는 사용자를 무작위로 대조군 (Control, A)과 처리군 (Treatment, B)으로 배정하고, 통계적 유의성 ([p-value](/studynote/06_ict_convergence/05_data_science/337_p_value_significance/) < 0.05)과 충분한 표본 크기 (검정력 분석)를 통해 제품 변경의 효과를 인과적으로 측정하는 실험 방법론이다.

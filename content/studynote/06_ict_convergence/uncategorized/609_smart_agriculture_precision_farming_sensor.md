@@ -1,10 +1,9 @@
 ---
-title: "609. 스마트 농업 정밀 농업 센서 네트워크 (Smart Agriculture Precision Farming Sensor)"
+title: "Smart Agriculture Precision Farming Sensor"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

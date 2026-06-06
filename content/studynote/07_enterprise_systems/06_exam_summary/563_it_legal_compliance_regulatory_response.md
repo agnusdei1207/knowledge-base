@@ -1,10 +1,9 @@
 ---
-title: "563. IT 법규 컴플라이언스 규제 대응 (IT Legal Compliance Regulatory Response)"
+title: "IT Legal Compliance Regulatory Response"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IT 법무 컴플라이언스 규제 대응은(는) IT 서비스와 데이터 처리 활동이 법령, 계약, 산업 규제를 충족하도록 관리하는 대응 체계이다.

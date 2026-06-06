@@ -1,9 +1,8 @@
 ---
-title: "05. DevSecOps 및 공급망 보안"
+title: "DevOps & SRE"
 tags:
   - "devops_sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

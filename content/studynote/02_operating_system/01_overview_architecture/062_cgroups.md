@@ -1,10 +1,9 @@
 ---
-title: "62. 컨트롤 그룹 (cgroups) - 자원 할당 제어"
+title: "062. Cgroups"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

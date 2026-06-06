@@ -1,10 +1,9 @@
 ---
-title: "394. 데이터 가상화 물리 통합 불필요 연방 쿼리 (Data Virtualization)"
+title: "Data Virtualization"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

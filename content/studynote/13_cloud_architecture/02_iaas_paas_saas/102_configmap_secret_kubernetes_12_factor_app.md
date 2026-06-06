@@ -1,10 +1,9 @@
 ---
-title: "102. 컨피그맵 (ConfigMap) / 시크릿 (Secret) - K8s 환경 변수 주입 객체"
+title: "102. Configmap Secret Kubernetes 12 Factor App"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 컨피그맵 (ConfigMap)과 [시크릿](/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) ([Secret](/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/))은 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 애플리케이션의 소스코드 및 이미지와 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 데이터를 물리적으로 분리하여 주입하는 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) ([Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/))의 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 관리 객체다.

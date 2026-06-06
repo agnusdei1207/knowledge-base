@@ -1,10 +1,9 @@
 ---
-title: "509. SLA SLO SLI 서비스 수준 관리 (SLA SLO SLI Service Level Management)"
+title: "SLA SLO SLI Service Level Management"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

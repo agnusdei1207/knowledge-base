@@ -1,10 +1,9 @@
 ---
-title: "371. 교차 엔트로피 손실 함수 도함수 산출 구조 (Cross Entropy LOSS Derivative)"
+title: "Cross Entropy LOSS Derivative"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

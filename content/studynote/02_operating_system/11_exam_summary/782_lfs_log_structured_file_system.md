@@ -1,10 +1,9 @@
 ---
-title: "782. LFS (Log-structured File System) 랜덤 쓰기 순차화"
+title: "782. Lfs Log Structured File System"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

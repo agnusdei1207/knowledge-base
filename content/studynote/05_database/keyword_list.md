@@ -1,10 +1,9 @@
 ---
-title: "05. 데이터베이스 키워드 목록"
+title: "Keyword List"
 date: "2026-03-04"
 tags:
   - "studynote-database"
 ---
-
 [weight](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) = 9999
 
 # [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) ([Database](/studynote/05_database/04_transactions_concurrency/501_database/)) 키워드 목록 (심화 확장판)

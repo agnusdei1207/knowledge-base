@@ -1,10 +1,9 @@
 ---
-title: "974. 시큐어 코딩 47개 취약점 진단 점검"
+title: "974. Secure Coding 47 Vulnerabilities Inspection"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [시큐어 코딩](/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) 47개 취약점 진단 점검의 본질은 자산, 위협, [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 통제, 운영 증적이 한 체계로 연결되어야 보안과 규제 대응이 일회성 캠페인으로 끝나지 않는다.

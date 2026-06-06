@@ -1,10 +1,9 @@
 ---
-title: "190. 가상화 컴퓨팅 아키텍처 (Virtualization)"
+title: "Virtualization"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

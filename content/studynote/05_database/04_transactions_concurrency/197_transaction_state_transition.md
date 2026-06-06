@@ -1,10 +1,9 @@
 ---
-title: "197. 트랜잭션 상태 전이 (Transaction State Transition)"
+title: "Transaction State Transition"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

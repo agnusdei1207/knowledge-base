@@ -1,10 +1,9 @@
 ---
-title: "346. LLM RAG 환각 제어·벡터 임베딩 DB 검색 (Large Language Model Retrieval-Augmented Generation)"
+title: "Large Language Model Retrieval-Augmented Generation"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

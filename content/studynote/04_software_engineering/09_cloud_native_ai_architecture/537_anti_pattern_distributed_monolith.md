@@ -1,10 +1,9 @@
 ---
-title: "537. 안티패턴: 분산 모놀리스 (Distributed Monolith) - 독립 배포 불가능한 MSA"
+title: "537. Anti Pattern Distributed Monolith"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

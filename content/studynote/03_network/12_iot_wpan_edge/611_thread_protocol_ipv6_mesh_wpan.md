@@ -1,10 +1,9 @@
 ---
-title: "611. Thread 프로토콜"
+title: "611. Thread Protocol Ipv6 Mesh Wpan"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "480. 텔레메트리 스트리밍 gRPC 폴링 탈피 능동 감시 (Streaming Telemetry, gRPC, Active Monitoring)"
+title: "Streaming Telemetry, gRPC, Active Monitoring"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

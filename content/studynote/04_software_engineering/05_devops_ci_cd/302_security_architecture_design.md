@@ -1,10 +1,9 @@
 ---
-title: "302. 보안 아키텍처 (Security Architecture) 설계"
+title: "302. Security Architecture Design"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

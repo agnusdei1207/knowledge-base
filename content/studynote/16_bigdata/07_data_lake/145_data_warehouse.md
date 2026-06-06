@@ -1,10 +1,9 @@
 ---
-title: "데이터 웨어하우스 (Data Warehouse)"
+title: "Data Warehouse"
 date: "2024-05-22"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 1. 기업의 의사결정을 지원하기 위해 여러 시스템의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 <strong>주제 중심적, 통합적, 시계열적, 비휘발성</strong>으로 구성한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소이다.

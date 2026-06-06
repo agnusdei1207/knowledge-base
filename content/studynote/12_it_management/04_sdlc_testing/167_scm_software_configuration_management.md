@@ -1,10 +1,9 @@
 ---
-title: "167. SCM (Software Configuration Management, 소프트웨어 형상 관리)"
+title: "Software Configuration Management,"
 date: "2026-04-21"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

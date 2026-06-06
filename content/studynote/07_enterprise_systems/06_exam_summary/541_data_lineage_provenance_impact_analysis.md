@@ -1,10 +1,9 @@
 ---
-title: "541. 데이터 리니지 혈통 추적 영향 분석 (Data Lineage Provenance Impact Analysis)"
+title: "Data Lineage Provenance Impact Analysis"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 데이터 라인리지 출처 영향 분석은(는) 데이터가 어디서 생성되어 어떤 변환을 거쳐 어디에 쓰이는지 추적하는 계보 관리이다.

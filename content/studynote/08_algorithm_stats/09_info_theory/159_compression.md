@@ -1,10 +1,9 @@
 ---
-title: "10. 데이터 압축 (Compression) — 무손실/손실, 허프만/LZ/웨이블릿"
+title: "159. Compression"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

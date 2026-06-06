@@ -1,10 +1,9 @@
 ---
-title: "556. 핸드오버 (Handover) / 핸드오프 (Handoff) 종류 개념"
+title: "556. Handover Handoff Types Concept"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

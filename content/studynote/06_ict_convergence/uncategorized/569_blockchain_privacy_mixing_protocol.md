@@ -1,10 +1,9 @@
 ---
-title: "569. 블록체인 프라이버시 믹싱 프로토콜 (Blockchain Privacy Mixing Protocol)"
+title: "Blockchain Privacy Mixing Protocol"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

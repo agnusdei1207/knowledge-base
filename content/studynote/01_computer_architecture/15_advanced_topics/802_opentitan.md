@@ -1,10 +1,9 @@
 ---
-title: "802. 오픈소스 하드웨어 RoT (OpenTitan)"
+title: "OpenTitan"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

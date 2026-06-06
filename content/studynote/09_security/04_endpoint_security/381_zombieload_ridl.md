@@ -1,10 +1,9 @@
 ---
-title: "381. ZombieLoad / RIDL 취약점 (Zombieload Ridl)"
+title: "Zombieload Ridl"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

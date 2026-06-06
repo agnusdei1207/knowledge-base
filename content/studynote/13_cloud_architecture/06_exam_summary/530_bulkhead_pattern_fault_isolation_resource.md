@@ -1,10 +1,9 @@
 ---
-title: "530. 벌크헤드 패턴 장애 격리 자원 분리 (Bulkhead Pattern Fault Isolation Resource)"
+title: "Bulkhead Pattern Fault Isolation Resource"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

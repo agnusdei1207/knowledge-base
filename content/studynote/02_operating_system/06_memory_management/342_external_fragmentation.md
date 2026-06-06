@@ -1,10 +1,9 @@
 ---
-title: "342. 외부 단편화 (External Fragmentation) - 가용 공간은 충분하나 불연속적이라 할당 불가"
+title: "342. External Fragmentation"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

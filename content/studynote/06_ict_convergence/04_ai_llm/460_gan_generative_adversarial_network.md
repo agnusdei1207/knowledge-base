@@ -1,10 +1,9 @@
 ---
-title: "460. GAN 생성자 판별자 적대 (GAN Generative Adversarial Network)"
+title: "GAN Generative Adversarial Network"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

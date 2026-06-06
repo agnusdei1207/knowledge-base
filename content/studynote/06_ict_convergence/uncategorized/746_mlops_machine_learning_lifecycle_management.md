@@ -1,10 +1,9 @@
 ---
-title: "746. MLOps 머신러닝 생명주기 관리 (MLOps Machine Learning Lifecycle Management)"
+title: "MLOps Machine Learning Lifecycle Management"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

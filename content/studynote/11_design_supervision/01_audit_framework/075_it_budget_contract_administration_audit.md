@@ -1,10 +1,9 @@
 ---
-title: "75. IT 예산 및 계약 행정 처리, 정산 요건(과업 완료) 부합 검토 감리"
+title: "075. It Budget Contract Administration Audit"
 date: "2026-04-10"
 tags:
   - "studynote-design"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

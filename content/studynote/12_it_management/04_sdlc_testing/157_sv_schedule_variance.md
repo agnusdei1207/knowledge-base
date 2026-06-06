@@ -1,10 +1,9 @@
 ---
-title: "157. SV (Schedule Variance, 일정 차이)"
+title: "Schedule Variance,"
 date: "2026-04-21"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

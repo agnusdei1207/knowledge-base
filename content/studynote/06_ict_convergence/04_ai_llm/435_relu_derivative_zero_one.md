@@ -1,10 +1,9 @@
 ---
-title: "435. ReLU 도함수 0, 1 (RELU Derivative ZERO ONE)"
+title: "RELU Derivative ZERO ONE"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

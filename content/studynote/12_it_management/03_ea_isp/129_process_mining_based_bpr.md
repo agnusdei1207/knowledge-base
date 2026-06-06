@@ -1,10 +1,9 @@
 ---
-title: "129. 프로세스 마이닝 (Process Mining) 기반 BPR"
+title: "129. Process Mining Based Bpr"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [프로세스 마이닝](/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/) ([Process Mining](/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/)) 기반 BPR의 본질은 수동 인터뷰가 아닌 [ERP](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 이벤트 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반의 객관적 병목 진단 및 자동화된 프로세스 맵 도출을 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.

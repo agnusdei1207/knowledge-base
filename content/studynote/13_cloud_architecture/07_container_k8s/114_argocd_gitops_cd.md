@@ -1,10 +1,9 @@
 ---
-title: "114. Argo CD (ArgoCD GitOps CD) - K8s 선언적 지속 배포·Git 단일 진실 원천"
+title: "114. Argocd Gitops Cd"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Argo CD는 <strong>Git 레포지토리를 단일 진실 원천(Single Source of Truth)</strong>으로 삼아, Git의 매니페스트와 K8s 클러스터 상태를 <strong>실시간 비교(Diff)하고 자동 <a href="/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>(Sync)</strong>하는 [CNCF](/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) 졸업 [GitOps](/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) CD 도구다.

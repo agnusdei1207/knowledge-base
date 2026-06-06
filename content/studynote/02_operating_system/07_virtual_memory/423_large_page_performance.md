@@ -1,10 +1,9 @@
 ---
-title: "423. 대형 페이지 (Large Page / Transparent Hugepage)의 가상 메모리 성능 이점"
+title: "423. Large Page Performance"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

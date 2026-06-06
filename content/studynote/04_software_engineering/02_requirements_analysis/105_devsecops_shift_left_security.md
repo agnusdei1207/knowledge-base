@@ -1,9 +1,8 @@
 ---
-title: "105. DevSecOps - 보안의 좌측 이동 (Shift-Left Security)"
+title: "Shift-Left Security"
 tags:
   - "software_engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [DevSecOps](/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) (Development, [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/), and Operations)의 핵심인 '보안의 좌측 이동 ([Shift-Left](/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))'은 소프트웨어 개발 수명 주기 ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))의 맨 우측(마지막 배포 단계)에 있던 보안 검사를 맨 좌측(기획 및 코딩 단계)으로 전진 배치하는 사상이다.

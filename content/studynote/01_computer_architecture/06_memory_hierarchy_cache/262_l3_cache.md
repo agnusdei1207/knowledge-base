@@ -1,10 +1,9 @@
 ---
-title: "262. L3 캐시 (Level 3 Cache)"
+title: "Level 3 Cache"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "559. 벡터형 인터럽트 컨트롤러 (VIC: Vectored Interrupt Controller, NVIC: Nested Vectored Interrupt Controller)"
+title: "VIC: Vectored Interrupt Controller, NVIC: Nested Vectored Interrupt Controller"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

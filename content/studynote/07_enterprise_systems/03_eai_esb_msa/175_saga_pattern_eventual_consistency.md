@@ -1,10 +1,9 @@
 ---
-title: "175. 사가 패턴 (Saga Pattern) - 로컬 트랜잭션 연쇄와 보상 트랜잭션으로 최종적 일관성 보장"
+title: "175. Saga Pattern Eventual Consistency"
 date: "2026-05-06"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

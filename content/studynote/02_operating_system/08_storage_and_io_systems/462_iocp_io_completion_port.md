@@ -1,10 +1,9 @@
 ---
-title: "462. I/O 완료 포트 (IOCP, I/O Completion Port) - Windows 비동기 I/O 스케일링"
+title: "462. Iocp Io Completion Port"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "88. 물리/배포 뷰 (Physical/Deployment View) - 시스템 하드웨어 매핑"
+title: "088. Physical Deployment View Infrastructure Mapping"
 date: "2026-04-10"
 tags:
   - "studynote-design"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

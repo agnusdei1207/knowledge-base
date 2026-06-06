@@ -1,10 +1,9 @@
 ---
-title: "740. 서버 섀시 팬 핫스왑"
+title: "740. Fan Hot Swap"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

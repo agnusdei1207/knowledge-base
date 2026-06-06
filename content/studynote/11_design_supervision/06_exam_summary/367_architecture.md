@@ -1,10 +1,9 @@
 ---
-title: "367. 이벤트 주도 아키텍처 (Event-Driven Architecture, EDA)"
+title: "Event-Driven Architecture, EDA"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

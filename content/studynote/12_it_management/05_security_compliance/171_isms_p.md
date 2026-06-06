@@ -1,10 +1,9 @@
 ---
-title: "171. 정보보호 및 개인정보보호 관리체계 (ISMS-P)"
+title: "ISMS-P"
 date: "2026-03-04"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

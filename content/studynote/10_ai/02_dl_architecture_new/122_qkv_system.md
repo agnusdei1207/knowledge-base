@@ -1,10 +1,9 @@
 ---
-title: "122. Q·K·V 시스템 (Query·Key·Value) - Attention의 핵심 연산 구조"
+title: "122. Qkv System"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Q(Query)·K([Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))·V(Value)는 <strong>Attention 연산의 3대 구성 요소</strong>로, Query가 "무엇을 찾는가", Key가 "각 위치의 매칭 키", Value가 "실제 정보"를 담당한다. $\text{Attention}(Q,K,V) = \text{[softmax](/studynote/10_ai/03_llm_nlp/270_softmax/)}(\frac{QK^T}{\sqrt{d_k}})V$

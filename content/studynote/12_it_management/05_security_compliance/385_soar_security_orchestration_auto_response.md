@@ -1,10 +1,9 @@
 ---
-title: "385. SOAR 보안 오케스트레이션 자동 대응 (SOAR Security Orchestration Auto Response)"
+title: "SOAR Security Orchestration Auto Response"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

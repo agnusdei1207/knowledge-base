@@ -1,10 +1,9 @@
 ---
-title: "358. MTBF (Mean Time Between Failures) - 평균 무고장 시간"
+title: "358. Mtbf"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

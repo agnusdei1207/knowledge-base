@@ -1,10 +1,9 @@
 ---
-title: "51. 마스터 데이터 관리 (MDM, Master Data Management)"
+title: "MDM, Master Data Management"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [마스터 데이터](/studynote/05_database/07_exam_summary/539_mdm_master_data_management/) 관리 ([MDM](/studynote/05_database/07_exam_summary/539_mdm_master_data_management/), Master [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/))의 본질은 전사 기준 정보(고객, 상품 등)의 단일 정합성(SSOT) 유지 체계를 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·조직·프로세스에 내재화하는 데 있다.

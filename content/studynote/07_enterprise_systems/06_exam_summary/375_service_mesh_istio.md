@@ -1,10 +1,9 @@
 ---
-title: "375. 서비스 메시 Istio 트래픽 통제 (Service Mesh Istio)"
+title: "Service Mesh Istio"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

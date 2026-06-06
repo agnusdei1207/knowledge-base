@@ -1,10 +1,9 @@
 ---
-title: "265. E2E (End-to-End) 테스트 / UI 테스트"
+title: "265. E2E End To Ui Selenium"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

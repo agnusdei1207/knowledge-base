@@ -1,10 +1,9 @@
 ---
-title: "28. 블룸 필터 (Bloom Filter)"
+title: "Bloom Filter"
 date: "2026-04-29"
 tags:
   - "studynote-algorithm-stats"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [블룸 필터](/studynote/12_it_management/02_itsm_itil/061_bloomfilter/)([Bloom Filter](/studynote/12_it_management/02_itsm_itil/061_bloomfilter/))는 원소가 집합에 속하는지를 확률적으로 판단하는 공간 효율적 자료구조다. False Positive(있다고 잘못 판단)는 가능하지만 False Negative(없다고 잘못 판단)는 절대 없다는 특성이 핵심이다.

@@ -1,10 +1,9 @@
 ---
-title: "1061. BGP RPKI 라우팅 보안 망"
+title: "1061. Bgp Rpki Routing Security"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

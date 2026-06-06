@@ -1,10 +1,9 @@
 ---
-title: "372. 아키텍처 종속적인 MMU 인터페이스 (Architecture Dependent MMU)"
+title: "Architecture Dependent MMU"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

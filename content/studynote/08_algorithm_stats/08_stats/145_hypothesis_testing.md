@@ -1,10 +1,9 @@
 ---
-title: "16. 가설 검정 (Hypothesis Testing) — 귀무가설, p-값"
+title: "145. Hypothesis Testing"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트
 

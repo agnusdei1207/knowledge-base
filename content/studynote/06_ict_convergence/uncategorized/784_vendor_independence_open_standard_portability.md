@@ -1,10 +1,9 @@
 ---
-title: "784. 벤더 독립 오픈 표준 이식성 전략 (Vendor Independence Open Standard Portability)"
+title: "Vendor Independence Open Standard Portability"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

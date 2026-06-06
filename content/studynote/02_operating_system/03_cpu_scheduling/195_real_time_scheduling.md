@@ -1,10 +1,9 @@
 ---
-title: "195. 대칭 다중 처리 (SMP) 스케줄링"
+title: "195. Real Time Scheduling"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

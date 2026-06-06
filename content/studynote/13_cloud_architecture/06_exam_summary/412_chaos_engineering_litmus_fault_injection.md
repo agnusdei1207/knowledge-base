@@ -1,10 +1,9 @@
 ---
-title: "412. 카오스 엔지니어링 리트머스 장애 주입 (Chaos Engineering Litmus Fault Injection)"
+title: "Chaos Engineering Litmus Fault Injection"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

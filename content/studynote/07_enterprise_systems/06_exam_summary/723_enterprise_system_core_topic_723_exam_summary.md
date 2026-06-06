@@ -1,10 +1,9 @@
 ---
-title: "723. 엔터프라이즈 시스템 핵심 토픽 723번 시험 요약 (Enterprise System Core Topic 723 Exam Summary)"
+title: "Enterprise System Core Topic 723 Exam Summary"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

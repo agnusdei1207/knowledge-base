@@ -1,10 +1,9 @@
 ---
-title: "119. K8s 선언적 API (Declarative API) - Desired State·Reconciliation Loop"
+title: "119. Kubernetes Declarative Api"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: K8s 선언적 API는 <strong>"무엇을 원하는가(<a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/080_kube_controller_manager_desired_state/">Desired State</a>)"를 YAML로 선언</strong>하면, K8s 컨트롤러가 [현재 상태](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)를 Desired State에 **자동으로 수렴시키는(Reconciliation)** 운영 모델이다.

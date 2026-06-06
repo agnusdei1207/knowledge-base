@@ -1,10 +1,9 @@
 ---
-title: "91. 피벗 (Pivot) - 전략적 방향 전환"
+title: "091. Lean Startup Pivot"
 date: "2026-03-31"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

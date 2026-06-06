@@ -1,10 +1,9 @@
 ---
-title: "529. DSPy 프롬프트 자동 최적화와 컴파일 (DSPy Prompt Auto-Optimization Compilation)"
+title: "DSPy Prompt Auto-Optimization Compilation"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "555. 메모리 스크러빙 (Memory Scrubbing)"
+title: "Memory Scrubbing"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

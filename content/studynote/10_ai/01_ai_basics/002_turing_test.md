@@ -1,11 +1,10 @@
 ---
-title: "2. 튜링 테스트 (Turing Test) - 앨런 튜링 제안, 기계가 지능이 있는지를 판별하는 텍스트 대화 시험"
+title: "002. Turing Test"
 date: "2026-03-04"
 description: "기계가 지능을 가졌는지 판별하는 대화 기반 모방 게임과 평가 체계"
 tags:
   - "ai"
 ---
-
 
 # 2. 튜링 테스트 ([Turing Test](/studynote/14_data_engineering/05_exam_keywords/235_ai_turing_test_expert_system_fuzzy_logic/))
 

@@ -1,10 +1,9 @@
 ---
-title: "511. DNS (Domain Name System) 계층적 분산 구조 (루트"
+title: "511. Dns Hierarchical Distributed Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

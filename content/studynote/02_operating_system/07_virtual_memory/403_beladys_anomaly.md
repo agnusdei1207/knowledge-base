@@ -1,10 +1,9 @@
 ---
-title: "403. 벨라디의 모순 (Belady's Anomaly) - 프레임을 늘렸는데 오히려 페이지 부재가 증가하는 현상"
+title: "403. Beladys Anomaly"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

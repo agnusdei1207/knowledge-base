@@ -1,10 +1,9 @@
 ---
-title: "88. 준비 큐 (Ready Queue)"
+title: "Ready Queue"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

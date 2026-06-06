@@ -1,10 +1,9 @@
 ---
-title: "565. 스마트 시티 데이터 플랫폼 거버넌스 (Smart City Data Platform Governance)"
+title: "Smart City Data Platform Governance"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스마트시티 데이터 플랫폼 거버넌스은(는) 도시 인프라와 시민 서비스 데이터를 통합해 교통, 안전, 환경 문제를 데이터 기반으로 관리하는 체계이다.

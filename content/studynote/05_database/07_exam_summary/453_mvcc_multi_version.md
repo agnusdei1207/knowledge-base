@@ -1,10 +1,9 @@
 ---
-title: "453. MVCC 다중 버전 읽기 일관성"
+title: "453. Mvcc Multi Version"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

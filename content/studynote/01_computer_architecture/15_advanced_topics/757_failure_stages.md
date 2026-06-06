@@ -1,10 +1,9 @@
 ---
-title: "757. 초기 고장기, 우발 고장기, 마모 고장기"
+title: "757. Failure Stages"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

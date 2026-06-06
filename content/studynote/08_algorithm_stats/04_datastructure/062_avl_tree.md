@@ -1,10 +1,9 @@
 ---
-title: "AVL 트리 (Adelson-Velsky and Landis Tree)"
+title: "Adelson-Velsky and Landis Tree"
 date: "2026-03-05"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **핵심 원리**: 자가 균형 [이진 탐색 트리](/studynote/08_algorithm_stats/04_datastructure/061_binary_search_tree_bst/)(Self-Balancing BST)의 일종으로, 모든 노드에서 왼쪽과 오른쪽 서브트리의 높이 차이(Balance Factor)를 1 이하로 유지한다.

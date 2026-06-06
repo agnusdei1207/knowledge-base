@@ -1,10 +1,9 @@
 ---
-title: "1109. OPC UA 자동화 프레임 표준 통신"
+title: "1109. Opc Ua Industrial Automation Protocol"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

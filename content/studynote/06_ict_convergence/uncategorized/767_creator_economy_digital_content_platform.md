@@ -1,10 +1,9 @@
 ---
-title: "767. 크리에이터 경제 디지털 콘텐츠 플랫폼 (Creator Economy Digital Content Platform)"
+title: "Creator Economy Digital Content Platform"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

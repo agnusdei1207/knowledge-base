@@ -1,10 +1,9 @@
 ---
-title: "036. B-트리 (B-Tree)"
+title: "B-Tree"
 date: "2026-03-03"
 tags:
   - "studynote-database"
 ---
-
 
 > **핵심 인사이트**
 > 1. [B-Tree](/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) (Balanced Tree)는 모든 리프 노드가 같은 깊이에 있는 자기 균형 다진 탐색 트리로, 디스크 기반 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)의 표준 자료구조다 — O(log n) 검색·삽입·삭제를 보장한다.

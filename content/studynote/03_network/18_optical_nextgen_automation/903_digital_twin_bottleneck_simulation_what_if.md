@@ -1,10 +1,9 @@
 ---
-title: "903. 디지털 트윈 병목 검증"
+title: "903. Digital Twin Bottleneck Simulation What If"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

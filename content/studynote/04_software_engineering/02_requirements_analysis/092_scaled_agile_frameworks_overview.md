@@ -1,10 +1,9 @@
 ---
-title: "92. 대규모 애자일 (Scaled Agile) 프레임워크"
+title: "092. Scaled Agile Frameworks Overview"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 대규모 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) (Scaled [Agile](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 프레임워크는 10명 이하 소규모 팀에서 증명된 [스크럼](/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)([Scrum](/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/))의 민첩성을, 수백~수천 명의 개발자가 얽힌 엔터프라이즈 환경으로 수평 및 수직 확장(Scaling)하는 거시적 조직 관리 아키텍처다.

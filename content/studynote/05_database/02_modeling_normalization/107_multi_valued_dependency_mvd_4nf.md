@@ -1,9 +1,8 @@
 ---
-title: "107. 다치 종속성 (MVD, Multi-Valued Dependency) - X->>Y"
+title: "107. Multi Valued Dependency Mvd 4Nf"
 tags:
   - "database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

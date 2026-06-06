@@ -1,10 +1,9 @@
 ---
-title: "138. Attention Mechanism - 동적 가중치로 핵심 정보에 집중"
+title: "138. Attention Mechanism Dynamic Weight"
 date: "2026-04-19"
 tags:
   - "studynote-dataengineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Attention은 <strong>입력 시퀀스의 모든 위치에 대해 현재 출력과의 관련도(유사도)를 계산하여 동적 <a href="/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>를 부여</strong>하는 메커니즘이며, Transformer의 핵심 구성 요소([Self-Attention](/studynote/10_ai/02_dl_architecture_new/124_self_attention/))이다.

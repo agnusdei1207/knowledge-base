@@ -1,10 +1,9 @@
 ---
-title: "584. 윈도우 함수 ROWS BETWEEN 누적 합계 구간 이동 평균 연산 파티션"
+title: "584. Window Functions Rows Between Moving Average Partition"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

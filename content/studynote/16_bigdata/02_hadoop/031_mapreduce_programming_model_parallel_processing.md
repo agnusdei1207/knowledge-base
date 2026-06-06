@@ -1,11 +1,10 @@
 ---
-title: "09. 맵리듀스 (MapReduce) - 대규모 데이터 병렬 처리를 위한 분산 프로그래밍 모델"
+title: "031. Mapreduce Programming Model Parallel Processing"
 date: "2026-03-04"
 tags:
   - "hadoop"
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 - <strong><a href="/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/">분할 정복</a>의 표준</strong>: 방대한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 작은 단위로 나누어 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 처리(Map)하고, 그 결과를 하나로 합쳐(Reduce) 최종 통찰을 도출하는 [하둡](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)의 핵심 연산 프레임워크입니다.

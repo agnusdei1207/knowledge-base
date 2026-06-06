@@ -1,10 +1,9 @@
 ---
-title: "705. 오픈소스 펌웨어 (Coreboot, LinuxBoot)"
+title: "Coreboot, LinuxBoot"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

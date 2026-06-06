@@ -1,10 +1,9 @@
 ---
-title: "422. 동적 성능 메모리 누수 진단 (Dynamic Performance Memory Leak Diagnostics)"
+title: "Dynamic Performance Memory Leak Diagnostics"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

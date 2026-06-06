@@ -1,10 +1,9 @@
 ---
-title: "572. 그린 IT 탄소 인식 컴퓨팅 지속가능성 (Green IT Carbon Aware Sustainable Computing)"
+title: "Green IT Carbon Aware Sustainable Computing"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

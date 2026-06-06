@@ -1,10 +1,9 @@
 ---
-title: "560. 사이버 보안 전략 위험 기반 접근 (Cyber Security Strategy Risk Based Approach)"
+title: "Cyber Security Strategy Risk Based Approach"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 사이버 보안 전략 리스크 기반 접근은(는) 자산 가치와 위협 가능성, 영향도를 기준으로 보안 투자와 통제를 우선순위화하는 전략이다.

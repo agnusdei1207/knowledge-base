@@ -1,10 +1,9 @@
 ---
-title: "141. 인라인 뷰 (Inline View) - FROM 절 서브쿼리"
+title: "141. Inline View Subquery"
 date: "2026-04-19"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 인라인 뷰는 <strong>FROM 절에 서브쿼리를 작성하여 가상 테이블(파생 테이블)처럼 사용</strong>하는 SQL 기법이며, 복잡한 집계·필터 결과를 임시 테이블 없이 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 내에서 활용한다.

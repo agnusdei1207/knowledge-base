@@ -1,10 +1,9 @@
 ---
-title: "636. 다중 경로 I/O (Multipath I/O) 커널 모듈 아키텍처"
+title: "636. Multipath Io Kernel Module"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

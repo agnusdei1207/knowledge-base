@@ -1,10 +1,9 @@
 ---
-title: "53. 예방 통제 (Preventive Controls)"
+title: "Preventive Controls"
 date: "2026-05-01"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

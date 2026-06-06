@@ -1,9 +1,8 @@
 ---
-title: "04. 그래프 알고리즘 (Graph Algorithms)"
+title: "Algorithm & Statistics"
 tags:
   - "algorithm_stats"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

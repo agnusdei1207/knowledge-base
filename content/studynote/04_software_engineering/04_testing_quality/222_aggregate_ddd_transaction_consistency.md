@@ -1,10 +1,9 @@
 ---
-title: "222. 애그리게이트 (Aggregate) - 데이터 변경의 단위가 되는 객체 묶음"
+title: "222. Aggregate Ddd Transaction Consistency"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "768. 공유 경제 P2P 마켓플레이스 신뢰 (Sharing Economy P2P Marketplace Trust)"
+title: "Sharing Economy P2P Marketplace Trust"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "710. ICT 융합 기술사 종합 아키텍처 마스터 맵 (ICT Convergence PE Master Architecture Map)"
+title: "ICT Convergence PE Master Architecture Map"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

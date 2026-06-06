@@ -1,10 +1,9 @@
 ---
-title: "576. ASLR (Address Space Layout Randomization) 하드웨어 기반 우회 방어"
+title: "576. Aslr Hardware Defense"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

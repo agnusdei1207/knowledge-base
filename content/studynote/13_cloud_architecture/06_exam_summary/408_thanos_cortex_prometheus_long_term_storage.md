@@ -1,10 +1,9 @@
 ---
-title: "408. Thanos Cortex 프로메테우스 장기 저장 (Thanos Cortex Prometheus Long Term Storage)"
+title: "Thanos Cortex Prometheus Long Term Storage"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

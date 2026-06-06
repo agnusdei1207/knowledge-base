@@ -1,10 +1,9 @@
 ---
-title: "지속적 통합 (CI, Continuous Integration)"
+title: "CI, Continuous Integration"
 date: "2025-05-14"
 tags:
   - "studynote-cloud"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 1. <strong>코드 품질의 실시간 <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: 개발자가 코드를 공유 저장소(Git)에 머지할 때마다 자동 빌드와 테스트를 수행하여 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 즉시 발견함.

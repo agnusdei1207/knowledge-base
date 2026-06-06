@@ -1,10 +1,9 @@
 ---
-title: "674. IT 경영 관리 핵심 토픽 674번 시험 요약 (IT Management Core Topic 674 Exam Summary)"
+title: "IT Management Core Topic 674 Exam Summary"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 I need to pause before generating this study note, because the requested topic cannot be produced responsibly as specified.
 

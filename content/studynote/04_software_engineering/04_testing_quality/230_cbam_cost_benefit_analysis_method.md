@@ -1,10 +1,9 @@
 ---
-title: "230. CBAM (Cost Benefit Analysis Method) - 경제적 관점의 평가"
+title: "230. Cbam Cost Benefit Analysis Method"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

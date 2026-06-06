@@ -1,10 +1,9 @@
 ---
-title: "255. 추상 팩토리 (Abstract Factory) - 구체적인 클래스 지정 없이 연관 객체군 생성"
+title: "255. Abstract Factory Pattern Object Families"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

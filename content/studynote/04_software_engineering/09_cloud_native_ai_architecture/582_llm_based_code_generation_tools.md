@@ -1,10 +1,9 @@
 ---
-title: "582. LLM(대규모 언어 모델) 기반 코드 생성 지원 도구 (GitHub Copilot, Cursor 등)"
+title: "GitHub Copilot, Cursor"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

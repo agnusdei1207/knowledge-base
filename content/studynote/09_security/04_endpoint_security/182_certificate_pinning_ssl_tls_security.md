@@ -1,10 +1,9 @@
 ---
-title: "182. 인증서 핀닝 (Certificate Pinning) — 이지 인증서 목록 하드코딩"
+title: "182. Certificate Pinning Ssl Tls Security"
 date: "2026-05-06"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

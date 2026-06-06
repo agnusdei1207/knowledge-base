@@ -1,10 +1,9 @@
 ---
-title: "151. 정상 상태 가설 수립 (Steady State Hypothesis) - 카오스 엔지니어링의 생존 척도 록온"
+title: "151. Steady State Hypothesis Validation"
 date: "2026-05-03"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 정상 상태 가설(Steady [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Hypothesis)은 라이브 망에 무지성 폭탄을 던지는 카오스 실험([Chaos 엔진ering](/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/))에서, <strong>"폭탄을 맞았을 때 우리 시스템이 뻗었나 안 뻗었나?"를 채점하기 위해 사전에 반드시 록온(<a href="/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>-on) 박아두는 '비즈니스 <a href="/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/">임계치</a> 팩트 생존 <a href="/studynote/04_software_engineering/01_overview_principles/025_baseline/">기준선</a>'</strong>이다.

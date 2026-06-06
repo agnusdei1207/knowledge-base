@@ -1,10 +1,9 @@
 ---
-title: "203. 하둡 HDFS (Hadoop Distributed File System) 블록 복제 내결함성"
+title: "203. Hadoop Hdfs Block Replication Fault Tolerance"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [HDFS](/studynote/14_data_engineering/01_infrastructure/013_hdfs/) ([Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) [Distributed File System](/studynote/02_operating_system/09_file_system/553_distributed_file_system/))는 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 고정 크기 블록(128MB)으로 분할하고, 각 블록을 여러 DataNode에 자동 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)(기본 3회)하여, 범용 하드웨어 위에서 페타바이트급 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 저장을 실현한다.

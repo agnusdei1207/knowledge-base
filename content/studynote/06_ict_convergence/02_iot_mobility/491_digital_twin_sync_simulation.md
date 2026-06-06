@@ -1,10 +1,9 @@
 ---
-title: "491. 디지털 트윈 동기화와 시뮬레이션 (Digital Twin Synchronization and Simulation)"
+title: "Digital Twin Synchronization and Simulation"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

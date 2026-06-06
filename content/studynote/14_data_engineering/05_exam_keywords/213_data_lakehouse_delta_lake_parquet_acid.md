@@ -1,10 +1,9 @@
 ---
-title: "213. 데이터 레이크하우스 (Data Lakehouse) Delta Lake 파케이 ACID"
+title: "213. Data Lakehouse Delta Lake Parquet Acid"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터 레이크하우스](/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/)([Data Lakehouse](/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/))는 [데이터 레이크](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)([Data Lake](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/))의 저비용·유연성과 [데이터 웨어하우스](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)([Data Warehouse](/studynote/14_data_engineering/05_exam_keywords/208_data_warehouse_schema_on_write_inmon/))의 ACID([Atomicity](/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)·[Consistency](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)·[Isolation](/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)·[Durability](/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/)) [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)·[스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 관리를 통합한 차세대 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 아키텍처다.

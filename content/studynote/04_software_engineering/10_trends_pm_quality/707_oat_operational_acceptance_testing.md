@@ -1,10 +1,9 @@
 ---
-title: "707. OAT (운영 인수 테스트) 백업 복구 검증"
+title: "707. Oat Operational Acceptance Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "217. 마이크로명령어 (Microinstruction)"
+title: "Microinstruction"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "322. DW 4대 특징"
+title: "322. Db Firewall Sql Injection"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

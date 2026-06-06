@@ -1,10 +1,9 @@
 ---
-title: "접미사 트리와 접미사 배열 (Suffix Tree & Suffix Array)"
+title: "Suffix Tree & Suffix Array"
 date: "2024-03-24"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 1. **문자열 분석의 만능 도구**: 주어진 문자열의 모든 접미사(Suffix)를 효율적으로 저장하여 부분 문자열 검색, 반복 패턴 찾기 등을 O(M) 수준으로 해결합니다.

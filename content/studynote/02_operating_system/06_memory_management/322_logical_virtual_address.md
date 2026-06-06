@@ -1,10 +1,9 @@
 ---
-title: "322. 논리 주소 (Logical/Virtual Address) - CPU가 생성하는 주소"
+title: "322. Logical Virtual Address"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

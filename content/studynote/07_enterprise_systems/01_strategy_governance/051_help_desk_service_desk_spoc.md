@@ -1,10 +1,9 @@
 ---
-title: "051. 헬프 데스크, 서비스 데스크, SPOC"
+title: "051. Help Desk Service Desk Spoc"
 date: "2026-05-05"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 헬프 데스크(Help Desk)가 단순한 IT 장애를 수리하는 콜센터라면, <strong><a href="/studynote/12_it_management/02_itsm_itil/072_service_desk/">서비스 데스크</a>(<a href="/studynote/12_it_management/02_itsm_itil/072_service_desk/">Service Desk</a>)</strong>는 [ITIL](/studynote/12_it_management/02_itsm_itil/846_itil/)([IT Infrastructure Library](/studynote/12_it_management/02_itsm_itil/846_itil/)) 철학에 기반하여 장애 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)뿐만 아니라 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 요청, 변경, 라이선스 문의까지 IT와 비즈니스 간의 모든 상호작용을 처리하는 거대한 관제탑이다.

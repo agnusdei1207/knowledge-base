@@ -1,10 +1,9 @@
 ---
-title: "88. 풀 기반(Pull-based) 배포 - ArgoCD와 GitOps 무적 보안"
+title: "088. Pull Based Deployment Gitops Argocd Security Auto Healing"
 date: "2026-04-10"
 tags:
   - "studynote-devops"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "968. TCP 쓰리웨이 핸드셰이크"
+title: "968. Tcp Three Way Handshake Syn Ack Established"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

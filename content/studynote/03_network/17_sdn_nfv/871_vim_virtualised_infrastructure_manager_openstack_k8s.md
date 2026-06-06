@@ -1,10 +1,9 @@
 ---
-title: "871. VIM (가상화 인프라 관리자)"
+title: "871. Vim Virtualised Infrastructure Manager Openstack K8S"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

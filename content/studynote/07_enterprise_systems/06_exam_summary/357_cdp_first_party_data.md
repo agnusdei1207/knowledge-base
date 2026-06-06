@@ -1,10 +1,9 @@
 ---
-title: "357. CDP 퍼스트파티 고객 데이터 통합 플랫폼 (C고객 Data Platform)"
+title: "C Data Platform"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

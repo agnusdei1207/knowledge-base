@@ -1,10 +1,9 @@
 ---
-title: "5. 커패시터 (Capacitor, 축전기)"
+title: "Capacitor,"
 date: "2026-04-17"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 커패시터 (Capacitor)는 두 [도체](/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/) 판 사이에 절연물질을 넣어 전하(Charge)를 일시적으로 저장하고 방출하는 정전기적 에너지 저장 소자다.

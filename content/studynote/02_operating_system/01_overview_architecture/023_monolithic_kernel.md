@@ -1,10 +1,9 @@
 ---
-title: "23. 모놀리식 커널 (Monolithic Kernel)"
+title: "Monolithic Kernel"
 date: "2026-04-29"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 모놀리식 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) (Monolithic [Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))은 프로세스 관리, 메모리 관리, [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템, [장치 드라이버](/studynote/02_operating_system/08_storage_and_io_systems/495_device_driver/) 등 OS의 모든 핵심 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 단일 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 주소 공간 ([Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Address Space)에서 실행하는 일체형 아키텍처다.

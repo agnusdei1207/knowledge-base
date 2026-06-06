@@ -1,10 +1,9 @@
 ---
-title: "049. 클라이언트-서버 — Client-Server Architecture"
+title: "049. Client Server"
 date: "2026-04-05"
 tags:
   - "studynote-operating-system"
 ---
-
 
 > **핵심 인사이트**
 > 1. 클라이언트-서버 모델([Client-Server](/studynote/04_software_engineering/04_testing_quality/206_client_server_architecture_model/) Model)은 요청자([Client](/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))와 제공자(Server)의 역할을 분리하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 컴퓨팅의 가장 기본 패러다임 — OS 관점에서 [프로세스 간 통신](/studynote/02_operating_system/02_process_thread/117_ipc/)([IPC](/studynote/02_operating_system/02_process_thread/117_ipc/)), [소켓](/studynote/02_operating_system/02_process_thread/125_socket/), [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 관리까지 OS의 핵심 기능이 이 모델을 지탱한다.

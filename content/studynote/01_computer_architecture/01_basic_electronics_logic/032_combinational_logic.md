@@ -1,10 +1,9 @@
 ---
-title: "조합 논리 회로 (Combinational Logic Circuit)"
+title: "Combinational Logic Circuit"
 date: "2026-03-03"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 > **핵심 인사이트 3줄**
 > 1. 조합 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로(Combinational Logic Circuit)는 현재 입력만으로 출력이 결정되며, 기억 소자 없이 [논리 게이트](/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/) 조합만으로 구성된다.

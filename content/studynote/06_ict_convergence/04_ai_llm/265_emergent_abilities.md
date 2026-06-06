@@ -1,10 +1,9 @@
 ---
-title: "265. 창발성 (Emergent Abilities)"
+title: "Emergent Abilities"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

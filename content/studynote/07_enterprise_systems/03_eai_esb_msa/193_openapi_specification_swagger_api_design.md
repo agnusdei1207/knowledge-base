@@ -1,10 +1,9 @@
 ---
-title: "193. OpenAPI Specification - Swagger 기반 API 계약 표준"
+title: "193. Openapi Specification Swagger Api Design"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

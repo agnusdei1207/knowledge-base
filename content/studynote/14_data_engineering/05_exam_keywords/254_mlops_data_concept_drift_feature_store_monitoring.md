@@ -1,10 +1,9 @@
 ---
-title: "254. MLOps 데이터·컨셉 드리프트 피처 스토어 모니터링 종합"
+title: "254. Mlops Data Concept Drift Feature Store Monitoring"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [MLOps](/studynote/12_it_management/05_security_compliance/348_mlops/)([Machine Learning Operations](/studynote/12_it_management/05_security_compliance/220_mlops_machine_learning_operations/))는 ML 모델을 실험 단계에서 프로덕션(Production)까지 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있게 운영하는 [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 확장 패러다임이다.

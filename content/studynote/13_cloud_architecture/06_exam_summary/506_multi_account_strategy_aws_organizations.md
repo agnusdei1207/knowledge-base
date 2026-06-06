@@ -1,10 +1,9 @@
 ---
-title: "506. 멀티 어카운트 전략 AWS Organizations (Multi Account Strategy AWS Organizations)"
+title: "Multi Account Strategy AWS Organizations"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

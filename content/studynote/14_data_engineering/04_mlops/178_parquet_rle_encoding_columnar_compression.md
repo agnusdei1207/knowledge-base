@@ -1,10 +1,9 @@
 ---
-title: "178. 파케이 (Parquet) 컬럼형 압축 포맷과 RLE (Run-Length Encoding) 최적화"
+title: "178. Parquet Rle Encoding Columnar Compression"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

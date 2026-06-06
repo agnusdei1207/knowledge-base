@@ -1,10 +1,9 @@
 ---
-title: "530. 보안 조직 분리 정책 위반(SoD, Segregation of Duties)의 SW 통제 로직"
+title: "530. Segregation Of Duties Sod"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

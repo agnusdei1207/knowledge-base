@@ -1,10 +1,9 @@
 ---
-title: "562. IT 감사 내부 통제 프레임워크 (IT Audit Internal Control Framework)"
+title: "IT Audit Internal Control Framework"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IT 감사 내부통제 프레임워크은(는) 정보시스템의 신뢰성, 보안성, 준거성을 평가하기 위해 통제 목적과 점검 절차를 체계화한 프레임워크이다.

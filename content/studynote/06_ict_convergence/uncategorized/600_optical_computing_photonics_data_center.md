@@ -1,10 +1,9 @@
 ---
-title: "600. 광 컴퓨팅 포토닉스 데이터 센터 (Optical Computing Photonics Data Center)"
+title: "Optical Computing Photonics Data Center"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "196. 피처 플래그 / 피처 토글 (Feature Flag / Toggle)"
+title: "Feature Flag / Toggle"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

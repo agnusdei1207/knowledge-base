@@ -1,10 +1,9 @@
 ---
-title: "288. 버전 (IV), 헤더 길이 (IHL), 서비스 타입 (TOS/DSCP), 전체 길이 (Total Length)"
+title: "Total Length"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

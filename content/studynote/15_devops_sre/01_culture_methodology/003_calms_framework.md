@@ -1,10 +1,9 @@
 ---
-title: "3. CALMS 프레임워크 - DevOps 5대 핵심 가치 (Culture 문화, Automation 자동화, Lean 린 IT, Measurement 측정, Sharing 공유)"
+title: "Culture , Automation , Lean IT, Measurement , Sharing"
 date: "2026-04-05"
 tags:
   - "devops_sre"
 ---
-
 
 # [CALMS](/studynote/15_devops_sre/05_devsecops/281_calms/) 프레임워크
 

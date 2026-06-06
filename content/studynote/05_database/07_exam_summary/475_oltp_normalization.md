@@ -1,10 +1,9 @@
 ---
-title: "475. OLTP 정규화 쓰기 위주"
+title: "475. Oltp Normalization"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

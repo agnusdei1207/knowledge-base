@@ -1,10 +1,9 @@
 ---
-title: "BCG 매트릭스 (BCG Matrix) / 포트폴리오 전략"
+title: "034. Bcg Matrix Portfolio"
 date: "2026-03-04"
 tags:
   - "studynote-enterprise"
 ---
-
 
 > **핵심 인사이트 3줄**
 > 1. BCG 매트릭스(BCG Growth-Share Matrix)는 시장 성장률과 상대 시장 점유율 두 축으로 사업 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오를 Star·Cash [Cow](/studynote/02_operating_system/09_file_system/542_cow_file_system/)·Question Mark·Dog 4개 영역으로 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)해 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 투자 배분을 결정한다.

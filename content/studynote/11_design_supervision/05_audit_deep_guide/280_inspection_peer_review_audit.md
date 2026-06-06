@@ -1,10 +1,9 @@
 ---
-title: "280. 인스펙션 동료검토 감리 (Inspection and Peer Review Audit)"
+title: "Inspection and Peer Review Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "901. BRM (Business Reference Model, 업무 참조 모델)"
+title: "Business Reference Model,"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [BRM](/studynote/12_it_management/03_ea_isp/117_brm_business_reference_model/) (Business [Reference Model](/studynote/12_it_management/03_ea_isp/116_reference_model/), 업무 [참조 모델](/studynote/12_it_management/03_ea_isp/116_reference_model/))의 본질은 기관의 업무 기능을 중복 없이 분류를 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.

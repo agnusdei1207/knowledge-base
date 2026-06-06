@@ -1,10 +1,9 @@
 ---
-title: "06. Flink 아키텍처 (Flink Architecture) — JobManager/TaskManager/JobGraph"
+title: "081. Flink Architecture"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

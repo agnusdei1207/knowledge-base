@@ -1,10 +1,9 @@
 ---
-title: "727. DORA 메트릭스 4대 지표 (배포 빈도 등)"
+title: "727. Dora Metrics 4 Indicators"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

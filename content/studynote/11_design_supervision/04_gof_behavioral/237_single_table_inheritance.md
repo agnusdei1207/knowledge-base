@@ -1,10 +1,9 @@
 ---
-title: "237. 싱글 테이블 상속 (Single Table Inheritance, STI)"
+title: "Single Table Inheritance, STI"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

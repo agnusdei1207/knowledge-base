@@ -1,11 +1,10 @@
 ---
-title: "17. 아파치 스쿱 (Apache Sqoop) - RDBMS 하둡 데이터 전송"
+title: "039. Apache Sqoop"
 date: "2026-03-04"
 tags:
   - "hadoop"
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 - 아파치 스쿱(Apache Sqoop)은 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)(RDBMS)와 [하둡](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)([HDFS](/studynote/14_data_engineering/01_infrastructure/013_hdfs/), [Hive](/studynote/05_database/04_transactions_concurrency/544_hive/), [HBase](/studynote/05_database/04_transactions_concurrency/543_hbase/)) 간에 대용량 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 효율적으로 주고받는 '[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이관 전용' 도구임.

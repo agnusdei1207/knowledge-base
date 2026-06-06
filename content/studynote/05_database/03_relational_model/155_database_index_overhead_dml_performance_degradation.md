@@ -1,10 +1,9 @@
 ---
-title: "155. 인덱스의 단점 (Database Index Overhead DML Performance Degradation)"
+title: "Database Index Overhead DML Performance Degradation"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "428. 클라우드 AI 서빙 엔드포인트 스케일링 (Cloud AI Serving Endpoint Scaling)"
+title: "Cloud AI Serving Endpoint Scaling"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

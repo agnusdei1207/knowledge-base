@@ -1,10 +1,9 @@
 ---
-title: "07. 엔터프라이즈 시스템 (경영정보) 키워드 목록"
+title: "Keyword List"
 date: "2026-03-04"
 tags:
   - "studynote-enterprise"
 ---
-
 [weight](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) = 9999
 
 # 엔터프라이즈 시스템 및 경영정보/IT [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 키워드 목록 (심화 확장판)

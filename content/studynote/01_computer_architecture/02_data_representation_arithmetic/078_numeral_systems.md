@@ -1,10 +1,9 @@
 ---
-title: "78. 진법 변환 (2진수, 8진수, 10진수, 16진수)"
+title: "078. Numeral Systems"
 date: "2026-03-19"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

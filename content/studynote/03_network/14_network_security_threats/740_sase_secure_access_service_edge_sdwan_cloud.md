@@ -1,10 +1,9 @@
 ---
-title: "740. SASE (Secure Access Service Edge 브랜치 사무소 단말 네트워크 엣지 클라우드 보안 통합체계/ SD-WAN + SWG/CASB 등 플랫폼 구조 융합 모델 개요)"
+title: "Secure Access Service Edge / SD-WAN + SWG/CASB"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

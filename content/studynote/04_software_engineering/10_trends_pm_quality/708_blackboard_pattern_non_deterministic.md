@@ -1,10 +1,9 @@
 ---
-title: "708. 블랙보드 패턴 비결정적 문제 해결"
+title: "708. Blackboard Pattern Non Deterministic"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

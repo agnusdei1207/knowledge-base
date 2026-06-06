@@ -1,10 +1,9 @@
 ---
-title: "348. Return-to-libc 공격 (Return To Libc)"
+title: "Return To Libc"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

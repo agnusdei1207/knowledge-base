@@ -1,10 +1,9 @@
 ---
-title: "기술 부채 (Technical Debt)"
+title: "Technical Debt"
 date: "2026-03-03"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 > **핵심 인사이트 3줄**
 > 1. [기술 부채](/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)([Technical Debt](/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/))는 Ward Cunningham(1992)이 제안한 개념으로, 더 나은 설계 대신 빠른 구현을 선택할 때 발생하는 미래 추가 비용의 은유다.

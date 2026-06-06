@@ -1,10 +1,9 @@
 ---
-title: "325. BSC 균형 성과 4관점 재무 고객 프로세스 성장 (BSC Balanced Scorecard)"
+title: "BSC Balanced Scorecard"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

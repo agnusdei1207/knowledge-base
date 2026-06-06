@@ -1,10 +1,9 @@
 ---
-title: "170. 하드웨어 에러 자가 치유 파일시스템 (Self-Healing Filesystem) — ZFS, Btrfs"
+title: "170. Self Healing Filesystem Zfs Btrfs"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

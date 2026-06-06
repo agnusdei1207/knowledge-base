@@ -1,10 +1,9 @@
 ---
-title: "애자일 관리 (Agile Management)"
+title: "Agile Management"
 date: "2026-03-03"
 tags:
   - "studynote-it-management"
 ---
-
 
 > **핵심 인사이트 3줄**
 > 1. [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 관리([Agile](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/))는 짧은 반복 주기([스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/))를 통해 고객 가치를 지속 전달하고, 변화에 신속히 적응하는 인간 중심의 경량 프로젝트 관리 방식이다.

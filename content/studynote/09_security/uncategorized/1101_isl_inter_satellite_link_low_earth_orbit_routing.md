@@ -1,10 +1,9 @@
 ---
-title: "1101. 위성 통신 핸드오버 (ISL)"
+title: "ISL"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

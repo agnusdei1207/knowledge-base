@@ -1,10 +1,9 @@
 ---
-title: "729. 크로스 사이트 요청 위조 (CSRF 원리 및 방어 토큰 방식 SameSite 설정)"
+title: "CSRF SameSite"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

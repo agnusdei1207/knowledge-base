@@ -1,10 +1,9 @@
 ---
-title: "229. 스트림 처리 (Stream Processing)"
+title: "Stream Processing"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 스트림 처리([Stream](/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) Processing)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 발생하는 즉시 밀리초~초 단위로 실시간 처리하는 방식으로, <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">지연 시간</a>(<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)을 최소화</strong>하여 실시간 의사결정을 가능하게 한다.

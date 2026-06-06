@@ -1,10 +1,9 @@
 ---
-title: "740. 버그 바운티 책임 있는 공개 정책 (Bug Bounty Responsible Disclosure Policy)"
+title: "Bug Bounty Responsible Disclosure Policy"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "367. 결측치 대치법 (Imputation)"
+title: "Imputation"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

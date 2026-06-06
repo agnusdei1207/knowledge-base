@@ -1,10 +1,9 @@
 ---
-title: "588. 분산 트랜잭션 코디네이터 (DTC) 미들웨어 애플리케이션 트랜잭션 연합"
+title: "588. Distributed Transaction Coordinator Dtc 2Pc"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

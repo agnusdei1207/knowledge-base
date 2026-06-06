@@ -1,10 +1,9 @@
 ---
-title: "590. WAVE (IEEE 802.11p 무선차량통신) DSRC(단거리전용)"
+title: "590. Wave Ieee 802 11P Dsrc V2X"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

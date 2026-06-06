@@ -1,10 +1,9 @@
 ---
-title: "220. NoSQL 유형 비교: 키-값·도큐먼트·Wide-Column·그래프 (NoSQL Types Comparison)"
+title: "NoSQL Types Comparison"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: NoSQL은 "[Not Only SQL](/studynote/05_database/05_distributed_nosql_newsql/274_nosql/)"로, RDBMS의 엄격한 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)와 ACID 제약을 완화하고 <strong>수평 확장(<a href="/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/">Scale-Out</a>)</strong>을 통해 빅데이터 규모의 다양한 [데이터 모델](/studynote/05_database/01_db_architecture_relational/014_data_model_components/)을 처리하기 위해 등장했다.

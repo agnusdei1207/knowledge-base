@@ -1,10 +1,9 @@
 ---
-title: "4. 다중 처리 시스템 (Multiprocessing System)"
+title: "Multiprocessing System"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 다중 처리 시스템 (Multiprocessing System)은 두 개 이상의 CPU (Central Processing Unit)가 메모리와 입출력 장치 등을 공유하며 여러 작업을 동시에 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) (Parallel)로 처리하는 고성능 컴퓨팅 아키텍처다.

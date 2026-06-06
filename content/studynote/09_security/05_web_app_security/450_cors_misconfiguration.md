@@ -1,10 +1,9 @@
 ---
-title: "450. CORS 설정 오류 (CORS Misconfiguration)"
+title: "CORS Misconfiguration"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

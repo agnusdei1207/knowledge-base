@@ -1,10 +1,9 @@
 ---
-title: "201. 뉴로모픽 컴퓨팅 (Neuromorphic Computing)"
+title: "Neuromorphic Computing"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

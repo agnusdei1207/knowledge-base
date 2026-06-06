@@ -1,10 +1,9 @@
 ---
-title: "637. 스팟 인스턴스 리저브드 비용 전략 (Spot Instance Reserved Cost Strategy)"
+title: "Spot Instance Reserved Cost Strategy"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "514. DNS 레코드"
+title: "514. Dns Records A Cname Mx Ns"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

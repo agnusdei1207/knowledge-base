@@ -1,10 +1,9 @@
 ---
-title: "567. 멱등성 설계 중복 요청 처리 (Idempotency Design Duplicate Request Handling)"
+title: "Idempotency Design Duplicate Request Handling"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

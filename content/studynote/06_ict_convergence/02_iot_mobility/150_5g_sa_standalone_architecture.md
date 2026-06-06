@@ -1,10 +1,9 @@
 ---
-title: "150. 5G SA (Standalone) 아키텍처 - 100% 5G 전용 클라우드 코어"
+title: "150. 5G Sa Standalone Architecture"
 date: "2026-05-03"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [SA](/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/)(Standalone, 단독 모드) 아키텍처는 과거 LTE망에 빌붙어 셋방살이하던 [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [NSA](/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/)(Non-Standalone) 구조를 완전히 버리고, <strong>스마트폰 -> 기지국(RAN) -> 코어망(Core)에 이르는 전 구간을 100% <a href="/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> 전용 클라우드 소프트웨어(<a href="/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/">5GC</a>)로 독립 구축한 진정한 <a href="/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> 생태계</strong>다.

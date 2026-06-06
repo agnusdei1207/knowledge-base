@@ -1,10 +1,9 @@
 ---
-title: "295. 배치 윈도우 병목 감리 (Batch Window Bottleneck Audit)"
+title: "Batch Window Bottleneck Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

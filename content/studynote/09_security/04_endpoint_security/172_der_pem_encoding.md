@@ -1,10 +1,9 @@
 ---
-title: "172. DER / PEM 인코딩 — 인증서 인코딩 형식"
+title: "172. Der Pem Encoding"
 date: "2026-04-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

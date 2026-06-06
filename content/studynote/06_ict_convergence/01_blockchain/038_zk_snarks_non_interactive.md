@@ -1,10 +1,9 @@
 ---
-title: "038. zk-SNARK 비대화형 증명 (Non-Interactive Zero-Knowledge Proof)"
+title: "Non-Interactive Zero-Knowledge Proof"
 date: "2026-03-03"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 > **핵심 인사이트**
 > 1. zk-SNARK(Succinct Non-interactive ARguments of Knowledge)는 영지식 증명을 단 한 번의 메시지 전송으로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능하게 만든 비대화형 프로토콜로, 블록체인에서 여러 라운드 상호작용 없이 스마트 컨트랙트가 즉시 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있다.

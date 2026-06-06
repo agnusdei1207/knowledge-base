@@ -1,10 +1,9 @@
 ---
-title: "160. 헬스 체크/프로브 (Health Check/Probes)"
+title: "Health Check/Probes"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트
 

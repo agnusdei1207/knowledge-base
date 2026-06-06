@@ -1,10 +1,9 @@
 ---
-title: "77. 프로세서 전원 상태 (C-States)"
+title: "C-States"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: C-states (CPU [Idle](/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) States)는 CPU가 놀고 있을 때 전력을 줄이기 위한 유휴 상태다.

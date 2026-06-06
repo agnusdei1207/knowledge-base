@@ -1,10 +1,9 @@
 ---
-title: "622. 불변 인프라 골든 이미지 패커 (Immutable Infrastructure Golden Image Packer)"
+title: "Immutable Infrastructure Golden Image Packer"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

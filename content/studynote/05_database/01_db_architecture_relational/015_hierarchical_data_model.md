@@ -1,11 +1,10 @@
 ---
-title: "15. 계층형 데이터 모델 (Hierarchical Model) - 트리 구조 (1:N)"
+title: "1:N"
 date: "2024-05-18"
 description: "최초의 데이터베이스 관리 시스템 아키텍처이자 트리 구조 기반의 1:N 데이터 모델의 한계와 실무 적용"
 tags:
   - "database"
 ---
-
 
 # 15. 계층형 [데이터 모델](/studynote/05_database/01_db_architecture_relational/014_data_model_components/) (Hierarchical Model) - 트리 구조
 

@@ -1,10 +1,9 @@
 ---
-title: "55. 아날로그 연속파 변조 (AM/FM/PM)"
+title: "AM/FM/PM"
 date: "2026-05-01"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

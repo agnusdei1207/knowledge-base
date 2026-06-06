@@ -1,10 +1,9 @@
 ---
-title: "491. IT 거버넌스 COBIT 프레임워크 (IT Governance COBIT Framework)"
+title: "IT Governance COBIT Framework"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

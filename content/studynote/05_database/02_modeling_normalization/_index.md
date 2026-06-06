@@ -1,9 +1,8 @@
 ---
-title: "02. 관계형 데이터 모델 및 정규화"
+title: "Database"
 tags:
   - "database"
 ---
-
 
 ## 핵심 인사이트
 

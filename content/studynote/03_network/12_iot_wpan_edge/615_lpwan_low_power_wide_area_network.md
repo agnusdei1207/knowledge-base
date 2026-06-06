@@ -1,10 +1,9 @@
 ---
-title: "615. LPWAN (Low-Power Wide-Area Network) 개요 (저전력 광역 통신)"
+title: "615. Lpwan Low Power Wide Area Network"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

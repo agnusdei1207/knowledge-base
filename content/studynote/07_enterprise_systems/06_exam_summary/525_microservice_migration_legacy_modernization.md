@@ -1,10 +1,9 @@
 ---
-title: "525. 마이크로서비스 전환 레거시 현대화 (Microservice Migration Legacy Modernization)"
+title: "Microservice Migration Legacy Modernization"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 마이크로서비스 전환 레거시 현대화은(는) 모놀리식/레거시 시스템을 업무 경계별 서비스로 분해해 독립 배포와 확장을 가능하게 하는 현대화 방식이다.

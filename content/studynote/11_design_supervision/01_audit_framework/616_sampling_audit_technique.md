@@ -1,10 +1,9 @@
 ---
-title: "616. 샘플링 감리 기법 (Sampling Audit Technique)"
+title: "Sampling Audit Technique"
 date: "2026-03-04"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 > **핵심 인사이트**
 > 1. 감리에서 전수 검토(100% 검사)는 비용·시간상 불가능한 경우가 많으므로, 통계적 샘플링(Statistical [Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/))을 통해 모집단(Population)의 특성을 신뢰 수준([Confidence](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) Level)과 허용 오차(Tolerable Error) 내에서 추론한다.

@@ -1,10 +1,9 @@
 ---
-title: "79. 원-핫 인코딩 (One-hot Encoding) - 범주형 변수의 더미 변수화"
+title: "079. One Hot Encoding Categorical Dummy Variable"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 # 79. 원-핫 인코딩 (One-hot Encoding) - 범주형 [더미](/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/) 변수화
 

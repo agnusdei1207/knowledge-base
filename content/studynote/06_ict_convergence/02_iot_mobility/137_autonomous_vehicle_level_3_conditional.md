@@ -1,10 +1,9 @@
 ---
-title: "137. 자율주행 Level 3 조건부 자율 - 시스템 책임의 시작"
+title: "137. Autonomous Vehicle Level 3 Conditional"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SAE Level 3는 <strong>특정 ODD(운행 설계 영역) 내에서 시스템이 모든 주행 기능을 수행</strong>하며, 시스템이 한계를 인식하면 운전자에게 <strong>전환 요청(Takeover Request)</strong>을 보내는 조건부 자율주행이다.

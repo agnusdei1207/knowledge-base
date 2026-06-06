@@ -1,10 +1,9 @@
 ---
-title: "198. 섀도우 배포 / 트래픽 미러링 (Shadow Deployment / Traffic Mirroring)"
+title: "Shadow Deployment / Traffic Mirroring"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "344. 호환성 (Compatibility) / 사용성 (Usability)"
+title: "Usability"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

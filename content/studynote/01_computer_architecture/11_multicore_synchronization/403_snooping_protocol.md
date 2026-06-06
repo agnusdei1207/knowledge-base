@@ -1,10 +1,9 @@
 ---
-title: "403. 스누핑 프로토콜 (Snooping Protocol)"
+title: "Snooping Protocol"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

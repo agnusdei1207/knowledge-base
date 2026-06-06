@@ -1,10 +1,9 @@
 ---
-title: "553. 초고속 SerDes (Serializer/Deserializer)"
+title: "Serializer/Deserializer"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

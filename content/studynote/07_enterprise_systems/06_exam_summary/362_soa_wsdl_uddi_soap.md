@@ -1,10 +1,9 @@
 ---
-title: "362. SOA WSDL UDDI SOAP 아키텍처 (Service-Oriented Architecture)"
+title: "Service-Oriented Architecture"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

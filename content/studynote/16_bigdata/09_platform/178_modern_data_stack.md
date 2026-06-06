@@ -1,10 +1,9 @@
 ---
-title: "178. 모던 데이터 스택 (Modern Data Stack, MDS) — Fivetran + Snowflake + dbt + Tableau"
+title: "178. Modern Data Stack"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

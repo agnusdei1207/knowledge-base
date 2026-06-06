@@ -1,10 +1,9 @@
 ---
-title: "254. 데이터 거버넌스 / 데이터 스튜어드 (Data Governance)"
+title: "Data Governance"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터 거버넌스](/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/) / [데이터 스튜어드](/studynote/07_enterprise_systems/01_strategy_governance/067_data_steward_data_quality/)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 표준화를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.

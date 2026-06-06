@@ -1,10 +1,9 @@
 ---
-title: "68. 밀리 머신 (Mealy Machine)"
+title: "Mealy Machine"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

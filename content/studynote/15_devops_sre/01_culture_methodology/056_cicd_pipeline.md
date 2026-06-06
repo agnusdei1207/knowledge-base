@@ -1,10 +1,9 @@
 ---
-title: "56. CI/CD 파이프라인 (Continuous Integration / Continuous Delivery) - 배포 자동화"
+title: "056. Cicd Pipeline"
 date: "2026-04-05"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "785. 미드홀/백홀 전송계층망 코어 장거리 파장 라우터 스위치 연합망 구성체계 요약 진화)"
+title: "785. Backhaul Midhaul Xhaul Transport Network"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

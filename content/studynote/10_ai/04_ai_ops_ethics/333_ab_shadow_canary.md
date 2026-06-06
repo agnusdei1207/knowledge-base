@@ -1,10 +1,9 @@
 ---
-title: "333. A/B 테스팅 / 섀도우 배포 (Shadow Deployment) / 카나리 (Canary)"
+title: "Canary"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

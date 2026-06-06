@@ -1,10 +1,9 @@
 ---
-title: "612. Matter (매터) 보안 통일 표준(CSA)"
+title: "CSA"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

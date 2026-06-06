@@ -1,10 +1,9 @@
 ---
-title: "05. Spark SQL — 분산 구조적 쿼리 처리"
+title: "056. Spark Sql"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

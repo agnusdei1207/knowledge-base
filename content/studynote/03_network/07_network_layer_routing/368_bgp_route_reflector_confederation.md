@@ -1,10 +1,9 @@
 ---
-title: "368. BGP Route Reflector / Confederation (iBGP 풀 메시 문제 해결)"
+title: "iBGP"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

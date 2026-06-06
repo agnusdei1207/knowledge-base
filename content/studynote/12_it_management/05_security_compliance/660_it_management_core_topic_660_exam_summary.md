@@ -1,10 +1,9 @@
 ---
-title: "660. IT 경영 관리 핵심 토픽 660번 시험 요약 (IT Management Core Topic 660 Exam Summary)"
+title: "IT Management Core Topic 660 Exam Summary"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 # 660. IT 경영 관리 핵심 토픽 — 정보시스템 거버넌스 및 전략 계획 (IT Governance & Strategic Planning)
 

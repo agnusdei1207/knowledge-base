@@ -1,10 +1,9 @@
 ---
-title: "250. 데이터 옵스 - 데브옵스 사상을 데이터 엔지니어링 파이프라인에 접목, 버전 관리/테스트/CI·CD를 도입해 데이터 품질과 배포 속도 보장 (DataOps)"
+title: "DataOps"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터 옵스](/studynote/05_database/07_exam_summary/498_dataops_automation_pipeline/) - [데브옵스](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 사상을 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 파이프라인에 접목, [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리/테스트/[CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)·CD를 도입해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질과 배포 속도 보장는 변경 관리와 운영 자동화에서 안전한 배포를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.

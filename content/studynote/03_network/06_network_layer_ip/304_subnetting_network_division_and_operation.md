@@ -1,10 +1,9 @@
 ---
-title: "304. 서브네팅 (Subnetting)"
+title: "Subnetting"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

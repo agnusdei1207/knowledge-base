@@ -1,10 +1,9 @@
 ---
-title: "159. PKI (Public Key Infrastructure) — 공개키 인증서 체계"
+title: "159. Pki Public Key Infrastructure"
 date: "2026-05-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트
 

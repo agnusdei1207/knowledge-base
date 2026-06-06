@@ -1,10 +1,9 @@
 ---
-title: "401. 빅뱅 통합 (Big Bang Integration) - 한 번에 모두 결합"
+title: "401. Big Bang Integration"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

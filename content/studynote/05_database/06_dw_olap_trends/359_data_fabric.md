@@ -1,10 +1,9 @@
 ---
-title: "359. 데이터 패브릭 (Data Fabric) 플랫폼 (가상화 연계망)"
+title: "359. Data Fabric"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

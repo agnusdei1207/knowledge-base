@@ -1,10 +1,9 @@
 ---
-title: "130. 바운디드 컨텍스트 (Bounded Context)"
+title: "Bounded Context"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

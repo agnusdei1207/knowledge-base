@@ -1,10 +1,9 @@
 ---
-title: "61. 인공 신경망 (ANN, Artificial Neural Network)"
+title: "ANN, Artificial Neural Network"
 date: "2026-04-07"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

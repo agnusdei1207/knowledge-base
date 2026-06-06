@@ -1,10 +1,9 @@
 ---
-title: "995. DID 탈중앙 신원 증명 영지식 증명 (ZKP) 인증망"
+title: "995. Did Zkp"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [DID](/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 탈중앙 신원 증명 [영지식 증명](/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/) ([ZKP](/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/)) [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)망의 본질은 신원, 합의, 자산, 거버넌스가 함께 설계되어야 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서도 신뢰를 유지할 수 있다.

@@ -1,10 +1,9 @@
 ---
-title: "66. GitLab Flow - 환경(Environment) 기반 분기 및 배포 전략"
+title: "066. Gitlab Flow Environment Branch Strategy"
 date: "2026-04-10"
 tags:
   - "studynote-devops"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

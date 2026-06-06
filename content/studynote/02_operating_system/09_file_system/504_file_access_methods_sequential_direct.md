@@ -1,10 +1,9 @@
 ---
-title: "504. 파일 접근 방법 - 순차 접근 (Sequential Access), 직접 접근 (Direct Access / Random Access)"
+title: "Direct Access / Random Access"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "466. 시프트 레프트 테스팅 (Shift-Left Testing) - 테스트 활동을 개발 초기(왼쪽) 단계로 당겨 결함 조기 발견"
+title: "466. Shift Left Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

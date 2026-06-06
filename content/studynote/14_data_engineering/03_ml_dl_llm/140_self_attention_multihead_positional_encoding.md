@@ -1,10 +1,9 @@
 ---
-title: "140. Self-Attention·Multi-Head·Positional Encoding 상세"
+title: "140. Self Attention Multihead Positional Encoding"
 date: "2026-04-19"
 tags:
   - "studynote-dataengineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Self-Attention은 <strong>시퀀스 내 모든 위치 쌍의 관련도를 계산</strong>하는 메커니즘이고, Multi-Head는 <strong>h개의 독립 Attention을 <a href="/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 수행</strong>하여 다양한 관점의 패턴을 학습하며, Positional Encoding은 <strong>순서 정보를 주입</strong>한다.

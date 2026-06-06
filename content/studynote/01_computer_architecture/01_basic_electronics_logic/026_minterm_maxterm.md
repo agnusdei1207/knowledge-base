@@ -1,10 +1,9 @@
 ---
-title: "26. 최소항·최대항 (Minterm / Maxterm) — 부울 함수 표준형"
+title: "026. Minterm Maxterm"
 date: "2026-04-29"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 최소항(Minterm)은 n개의 변수가 모두 AND로 연결된 곱항(Product Term)으로, 각 변수는 보수(Complement) 또는 비보수(Non-complement) 형태로 정확히 한 개의 입력 조합에서만 1이 된다. 최대항(Maxterm)은 n개의 변수가 모두 OR로 연결된 합항(Sum Term)으로, 정확히 한 입력 조합에서만 0이 된다.

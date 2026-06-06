@@ -1,10 +1,9 @@
 ---
-title: "315. 카프카 분산 메시징 Pub/Sub 파티션 컨슈머 그룹 (Pub/Sub)"
+title: "Pub/Sub"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [카프카](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 메시징 Pub/Sub [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [컨슈머 그룹](/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/)는 클라우드 시스템에서 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 운영를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.

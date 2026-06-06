@@ -1,10 +1,9 @@
 ---
-title: "737. SBOM 규격 SPDX CycloneDX"
+title: "737. Sbom Standards Spdx Cyclonedx"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

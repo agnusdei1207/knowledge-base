@@ -1,10 +1,9 @@
 ---
-title: "041. PACELC 정리 (PACELC Theorem)"
+title: "PACELC Theorem"
 date: "2026-04-05"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 > **핵심 인사이트**
 > 1. [PACELC](/studynote/13_cloud_architecture/05_data_engineering/342_pacelc/)(파셀크) 정리는 Daniel Abadi(2012)가 [CAP](/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리의 한계를 극복하기 위해 제안한 확장 모델로, [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 발생 시(P) [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)(A)/[일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)(C) 트레이드오프 외에 정상 상태에서도 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(L, [Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))/[일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)(C, [Consistency](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)) 트레이드오프가 존재함을 명시한다.

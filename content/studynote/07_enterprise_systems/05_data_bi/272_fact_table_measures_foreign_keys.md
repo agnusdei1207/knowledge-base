@@ -1,10 +1,9 @@
 ---
-title: "272. 팩트 테이블 (Fact Table) - 측정 수치 및 외래키 저장소"
+title: "272. Fact Table Measures Foreign Keys"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

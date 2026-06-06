@@ -1,10 +1,9 @@
 ---
-title: "281. 데이터 주권 국경간 이전 규제 (Data Sovereignty Cross-border Transfer Regulation)"
+title: "Data Sovereignty Cross-border Transfer Regulation"
 date: "2026-05-09"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "186. 분산 추적 (Distributed Tracing) 인프라 - 다수 서비스를 거치는 응용 프로그램 프로그래밍 인터페이스 (Application Programming Interface, API) 호출 구간(Span/Trace) 병목 파악 (Zipkin, Jaeger 연동)"
+title: "Zipkin, Jaeger"
 date: "2026-05-06"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

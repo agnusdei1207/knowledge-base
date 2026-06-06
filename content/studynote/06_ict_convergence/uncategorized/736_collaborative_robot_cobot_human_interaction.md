@@ -1,10 +1,9 @@
 ---
-title: "736. 로봇 협동 코봇 휴먼 로봇 인터랙션 (Collaborative Robot Cobot Human Interaction)"
+title: "Collaborative Robot Cobot Human Interaction"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

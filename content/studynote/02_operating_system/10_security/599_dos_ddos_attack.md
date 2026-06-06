@@ -1,10 +1,9 @@
 ---
-title: "599. 서비스 거부 (DoS) 및 분산 서비스 거부 (DDoS) 네트워크 자원 고갈 공격"
+title: "599. Dos Ddos Attack"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

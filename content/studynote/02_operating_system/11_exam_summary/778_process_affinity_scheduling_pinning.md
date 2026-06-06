@@ -1,10 +1,9 @@
 ---
-title: "778. 프로세스 친화성 (Affinity) 스케줄링"
+title: "778. Process Affinity Scheduling Pinning"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

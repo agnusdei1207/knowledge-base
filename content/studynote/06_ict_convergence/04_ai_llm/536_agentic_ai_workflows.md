@@ -1,10 +1,9 @@
 ---
-title: "536. 에이전틱 AI 워크플로우 (Agentic AI Workflows)"
+title: "Agentic AI Workflows"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

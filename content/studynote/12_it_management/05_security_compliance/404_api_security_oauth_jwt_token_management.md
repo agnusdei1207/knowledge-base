@@ -1,10 +1,9 @@
 ---
-title: "404. API 보안 OAuth JWT 토큰 관리 (API Security OAuth JWT Token Management)"
+title: "API Security OAuth JWT Token Management"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

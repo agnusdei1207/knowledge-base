@@ -1,10 +1,9 @@
 ---
-title: "226. 블로킹 현상 완화 (MVCC의 가장 큰 장점 (Blocking)"
+title: "Blocking"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

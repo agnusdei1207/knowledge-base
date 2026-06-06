@@ -1,10 +1,9 @@
 ---
-title: "428. 불변 인프라 IaC 테라폼 (IaC: Infrastructure as Code)"
+title: "IaC: Infrastructure as Code"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

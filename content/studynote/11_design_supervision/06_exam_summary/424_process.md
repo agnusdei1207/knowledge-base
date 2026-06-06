@@ -1,10 +1,9 @@
 ---
-title: "424. 결함 허용·페일세이프·페일오버 이중화 (Fault Tolerance, Fail-Safe & Failover Redundancy)"
+title: "Fault Tolerance, Fail-Safe & Failover Redundancy"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

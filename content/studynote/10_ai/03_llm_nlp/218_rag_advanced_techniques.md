@@ -1,10 +1,9 @@
 ---
-title: "218. RAG 고도화 기법 (Advanced RAG)"
+title: "Advanced RAG"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

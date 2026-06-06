@@ -1,10 +1,9 @@
 ---
-title: "655. 카오스 엔지니어링 카오스 몽키 복원력"
+title: "655. Chaos Engineering Monkey"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

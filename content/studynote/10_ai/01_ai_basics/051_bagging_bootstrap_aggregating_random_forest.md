@@ -1,10 +1,9 @@
 ---
-title: "051. 배깅과 랜덤 포레스트 (Bagging & Random Forest)"
+title: "Bagging & Random Forest"
 date: "2026-05-05"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [배깅](/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)([Bagging](/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/))은 원본 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 복원 추출로 여러 개의 가짜 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋(Bootstrap)을 만든 뒤, 각각 독립된 모델을 훈련시켜 그 결과를 다수결(투표)로 합치는 <strong><a href="/studynote/10_ai/03_llm_nlp/257_ensemble_learning/">앙상블</a> 기법</strong>이다.

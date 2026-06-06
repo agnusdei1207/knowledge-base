@@ -1,10 +1,9 @@
 ---
-title: "173. Tensor Core·HBM 기반 혼합 정밀도 학습 (Mixed Precision Training)"
+title: "Mixed Precision Training"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

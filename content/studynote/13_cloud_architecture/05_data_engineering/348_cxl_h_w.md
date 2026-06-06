@@ -1,10 +1,9 @@
 ---
-title: "348. CXL 칩렛 인터커넥트 메모리 풀 다차원 클라우드 H/W (CXL H/W)"
+title: "CXL H/W"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [CXL](/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) [칩렛](/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 인터커넥트 [메모리 풀](/studynote/02_operating_system/06_memory_management/369_memory_pool/) 다차원 클라우드 H/W는 클라우드 인프라에서 복잡한 운영의 질서화를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.

@@ -1,10 +1,9 @@
 ---
-title: "22. 데이터 자산 평가 — 재무적 가치화, ISO/IEC 22123"
+title: "022. Small Data Qualitative Analysis"
 date: "2026-04-02"
 tags:
   - "studynote-bigdata"
 ---
-
 
 # 스몰 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (Small [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) - 빅데이터의 사각지대를 메우는 통찰의 힘
 

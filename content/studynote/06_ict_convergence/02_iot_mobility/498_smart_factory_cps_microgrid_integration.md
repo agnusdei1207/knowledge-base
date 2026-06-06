@@ -1,10 +1,9 @@
 ---
-title: "498. 스마트 팩토리, CPS, 마이크로그리드 통합 (Smart Factory CPS Microgrid Integration)"
+title: "Smart Factory CPS Microgrid Integration"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

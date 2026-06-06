@@ -1,10 +1,9 @@
 ---
-title: "351. ANN (Approximate Nearest Neighbor) 알고리즘"
+title: "351. Hnsw"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

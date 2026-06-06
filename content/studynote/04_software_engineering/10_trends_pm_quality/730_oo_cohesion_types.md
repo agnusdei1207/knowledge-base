@@ -1,10 +1,9 @@
 ---
-title: "730. 객체지향 응집도 (우연, 논리, 시간, 절차, 통신, 순차, 기능)"
+title: "730. Oo Cohesion Types"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "731. ATAM 트레이드오프 분석 평가 트리"
+title: "731. Atam Architecture Tradeoff Analysis"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

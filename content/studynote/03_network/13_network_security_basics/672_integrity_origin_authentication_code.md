@@ -1,10 +1,9 @@
 ---
-title: "672. 무결성 및 출처 인증용 서명 데이터 코드 제어"
+title: "672. Integrity Origin Authentication Code"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "1008. MTTR (평균 수리 시간) 회선 이중화"
+title: "1008. Mttr Mean Time To Repair Availability Redundancy"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "115. DBSCAN 클러스터링 - 밀도 기반 군집화·노이즈 분리·비구형 클러스터"
+title: "115. Dbscan Clustering"
 date: "2026-04-19"
 tags:
   - "studynote-dataengineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [DBSCAN](/studynote/06_ict_convergence/05_data_science/351_dbscan_density_based_clustering/)([Density-Based Spatial Clustering](/studynote/10_ai/05_data_science_ml/357_dbscan/) of Applications with Noise)은 <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 밀도가 높은 영역을 클러스터로 묶고</strong>, 밀도가 낮은 영역의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 <strong>노이즈(<a href="/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/">이상치</a>)</strong>로 자동 분리하는 밀도 기반 클러스터링 알고리즘이다.

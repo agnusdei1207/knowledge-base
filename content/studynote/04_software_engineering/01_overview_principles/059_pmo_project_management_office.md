@@ -1,10 +1,9 @@
 ---
-title: "59. PMO (Project Management Office) - 전사 프로젝트 관리 조직"
+title: "059. Pmo Project Management Office"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

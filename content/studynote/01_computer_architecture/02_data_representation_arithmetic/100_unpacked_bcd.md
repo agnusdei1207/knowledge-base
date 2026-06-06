@@ -1,10 +1,9 @@
 ---
-title: "100. 언팩드 BCD (Unpacked BCD)"
+title: "Unpacked BCD"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

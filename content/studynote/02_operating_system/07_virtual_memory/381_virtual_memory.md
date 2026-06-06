@@ -1,10 +1,9 @@
 ---
-title: "381. 가상 메모리 (Virtual Memory) 개념 - 물리 메모리보다 큰 프로그램 실행 가능"
+title: "381. Virtual Memory"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,11 +1,10 @@
 ---
-title: "20. IT BSC - 기업 BSC를 IT 부서에 맞게 변형 (기업 공헌, 사용자 지향, 운영 탁월성, 미래 지향)"
+title: "020. It Bsc"
 date: "2024-05-20"
 description: "전사 BSC 프레임워크를 IT 부서의 고유한 특성과 비즈니스 연계성에 맞춰 변형한 모델로, IT 투자 가치를 정량적으로 입증하고 철저한 IT 거버넌스를 실현하는 성과 측정 체계"
 tags:
   - "it_management"
 ---
-
 
 # 20. IT [균형 성과 기록표](/studynote/12_it_management/01_governance_strategy/019_bsc/) (IT [BSC](/studynote/12_it_management/01_governance_strategy/019_bsc/))
 

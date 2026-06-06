@@ -1,10 +1,9 @@
 ---
-title: "25. 하이브리드 커널 (Hybrid Kernel) — 성능과 안정성의 절충"
+title: "025. Hybrid Kernel"
 date: "2026-04-29"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 하이브리드 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(Hybrid [Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))은 [모놀리식 커널](/studynote/02_operating_system/01_overview_architecture/023_monolithic_kernel/)([Monolithic Kernel](/studynote/02_operating_system/01_overview_architecture/023_monolithic_kernel/))의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 [마이크로커널](/studynote/02_operating_system/01_overview_architecture/024_microkernel/)([Microkernel](/studynote/02_operating_system/01_overview_architecture/024_microkernel/))의 모듈성·안정성을 절충한 OS 설계로, 핵심 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간([Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Space)에 두되 일부 드라이버·[서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 사용자 공간으로 분리할 수 있는 유연한 구조다.

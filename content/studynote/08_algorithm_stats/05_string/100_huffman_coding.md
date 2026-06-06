@@ -1,10 +1,9 @@
 ---
-title: "7. 허프만 코딩 (Huffman Coding) — 가변길이 최적 코드"
+title: "100. Huffman Coding"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

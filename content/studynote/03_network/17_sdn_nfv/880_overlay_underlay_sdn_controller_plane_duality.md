@@ -1,10 +1,9 @@
 ---
-title: "880. 오버레이 SDN vs 언더레이 SDN"
+title: "880. Overlay Underlay Sdn Controller Plane Duality"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

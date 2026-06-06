@@ -1,10 +1,9 @@
 ---
-title: "528. IT 경영 관리 핵심 토픽 528번 시험 요약 (IT Management Core Topic 528 Exam Summary)"
+title: "IT Management Core Topic 528 Exam Summary"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 # 528. IT 경영 관리 핵심 토픽 528번 시험 요약
 ## (정보관리기술사 시험 대비 — IT Management 통합 서머리)

@@ -1,10 +1,9 @@
 ---
-title: "040. 상속된 위험 (Inherited Risk)"
+title: "Inherited Risk"
 date: "2026-04-05"
 tags:
   - "studynote-security"
 ---
-
 
 > **핵심 인사이트**
 > 1. 상속된 위험(Inherited [Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))은 조직이 직접 통제할 수 없는 외부 요소([공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/), 클라우드 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/), 인수합병된 기업)로부터 이전(移轉)되어 오는 위험으로, 현대 IT 환경에서 전체 위험의 상당 부분을 차지한다.

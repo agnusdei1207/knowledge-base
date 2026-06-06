@@ -1,10 +1,9 @@
 ---
-title: "171. Plotly / Dash — Python 기반 인터랙티브 시각화 프레임워크"
+title: "171. Plotly Dash"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

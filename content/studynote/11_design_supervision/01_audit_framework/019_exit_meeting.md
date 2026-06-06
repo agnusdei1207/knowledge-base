@@ -1,11 +1,10 @@
 ---
-title: "19. 종료 회의 (Exit Meeting) - 감리 결과 발표 및 이견 조율"
+title: "019. Exit Meeting"
 date: "2026-03-04"
 description: "정보시스템 감리의 실지 감사 결과를 최종 합의하고 이견을 조율하는 종료 회의의 전략적 의미와 프로세스를 분석합니다."
 tags:
   - "design_supervision"
 ---
-
 
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 종료 회의(Exit Meeting)는 실지 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)의 마지막 단계로, 감리원이 도출한 결과([감리 보고서](/studynote/11_design_supervision/01_audit_framework/018_audit_report/) 초안)를 발주자와 피감리인(사업자)에게 공식적으로 발표하고 동의를 구하는 최종 협의체입니다.

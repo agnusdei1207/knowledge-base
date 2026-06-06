@@ -1,10 +1,9 @@
 ---
-title: "54. 탐지 통제 (Detective Controls)"
+title: "Detective Controls"
 date: "2026-05-01"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

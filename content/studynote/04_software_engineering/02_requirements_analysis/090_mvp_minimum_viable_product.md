@@ -1,9 +1,8 @@
 ---
-title: "90. 최소 존립 제품 (MVP, Minimum Viable Product)"
+title: "MVP, Minimum Viable Product"
 tags:
   - "software_engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

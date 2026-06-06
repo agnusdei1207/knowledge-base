@@ -1,10 +1,9 @@
 ---
-title: "104. 데이터 아키텍처 (DA) 현황 분석"
+title: "104. Da As Is Analysis"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 아키텍처 (DA) 현황 분석의 본질은 전사 ERD, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 표준화 진단을 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.

@@ -1,10 +1,9 @@
 ---
-title: "488. 클라우드 데이터베이스 RDS Aurora 관리형 (Cloud Database RDS Aurora Managed)"
+title: "Cloud Database RDS Aurora Managed"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 # 488. 클라우드 데이터베이스 RDS / Aurora 관리형 (Cloud Database RDS & Aurora Managed)
 

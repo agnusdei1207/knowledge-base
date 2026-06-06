@@ -1,10 +1,9 @@
 ---
-title: "754. MME (Mobility Management Entity 제어 데이터 평면 구조적 통제 핸드오버)"
+title: "Mobility Management Entity"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

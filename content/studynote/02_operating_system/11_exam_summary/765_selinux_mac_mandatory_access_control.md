@@ -1,10 +1,9 @@
 ---
-title: "765. SELinux 보안 강제 접근 통제 (SELinux MAC Mandatory Access Control)"
+title: "SELinux MAC Mandatory Access Control"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

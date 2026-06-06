@@ -1,10 +1,9 @@
 ---
-title: "366. 동시 등장 행렬 (Co-occurrence Matrix)"
+title: "Co-occurrence Matrix"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

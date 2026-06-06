@@ -1,10 +1,9 @@
 ---
-title: "916. 클라우드 보안 형상 관리 (CSPM) 연동 개발 프로세스"
+title: "916. Cspm Integration Process"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

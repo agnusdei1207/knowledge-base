@@ -1,10 +1,9 @@
 ---
-title: "575. 가상 주소 공간 분리"
+title: "575. Virtual Address Isolation"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

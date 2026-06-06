@@ -1,9 +1,8 @@
 ---
-title: "10. 백트래킹 (Backtracking) — 가지치기"
+title: "010. Backtracking"
 tags:
   - "algorithm_stats"
 ---
-
 
 # [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). 백트래킹 (Backtracking)
 

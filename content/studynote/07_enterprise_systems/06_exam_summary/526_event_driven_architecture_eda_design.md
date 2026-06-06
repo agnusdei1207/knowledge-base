@@ -1,10 +1,9 @@
 ---
-title: "526. 이벤트 드리븐 아키텍처 EDA 설계 (Event Driven Architecture EDA Design)"
+title: "Event Driven Architecture EDA Design"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 이벤트 드리븐 아키텍처 EDA 설계은(는) 상태 변화 이벤트를 발행·구독해 서비스 간 시간적 결합을 낮추고 실시간 반응성을 확보하는 설계이다.

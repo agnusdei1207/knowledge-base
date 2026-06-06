@@ -1,10 +1,9 @@
 ---
-title: "848. 뮤테이션 테스팅 (Mutation Testing / 돌연변이 테스팅)"
+title: "Mutation Testing /"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

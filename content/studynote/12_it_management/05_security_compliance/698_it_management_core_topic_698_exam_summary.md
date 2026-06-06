@@ -1,10 +1,9 @@
 ---
-title: "698. IT 경영 관리 핵심 토픽 698번 시험 요약 (IT Management Core Topic 698 Exam Summary)"
+title: "IT Management Core Topic 698 Exam Summary"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 # 🏛️ IT 경영 관리 핵심 토픽 698번 시험 요약 (IT 거버넌스 & COBIT 2019 기반 IT경영체계)
 

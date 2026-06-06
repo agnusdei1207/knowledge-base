@@ -1,10 +1,9 @@
 ---
-title: "431. 동적 테스팅 (Dynamic Testing) - 코드를 직접 컴파일하고 실행하여 검증"
+title: "431. Dynamic Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "146. OpenTelemetry (OTel) - 관측 가능성 통합 표준"
+title: "146. Opentelemetry Otel Observability Standard"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: OpenTelemetry는 <strong><a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/">Metrics</a>·<a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">Logs</a>·Traces 3축 텔레메트리 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 수집·전파·내보내기를 통합 표준화</strong>한 [CNCF](/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) 프로젝트이며, OpenTracing+OpenCensus의 통합체이다.

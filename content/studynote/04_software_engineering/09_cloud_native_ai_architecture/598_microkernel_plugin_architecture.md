@@ -1,10 +1,9 @@
 ---
-title: "598. 마이크로 커널 (Microkernel / 플러그인) 아키텍처 - 이클립스, VS Code 확장 구조"
+title: "598. Microkernel Plugin Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

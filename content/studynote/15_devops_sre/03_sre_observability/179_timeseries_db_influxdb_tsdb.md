@@ -1,10 +1,9 @@
 ---
-title: "179. 시계열 DB (Time-Series Database)"
+title: "Time-Series Database"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

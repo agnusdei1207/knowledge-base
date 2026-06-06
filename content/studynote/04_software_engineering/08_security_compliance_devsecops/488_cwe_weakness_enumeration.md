@@ -1,10 +1,9 @@
 ---
-title: "488. CWE (Common Weakness Enumeration) - 보안 약점 사전"
+title: "488. Cwe Weakness Enumeration"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

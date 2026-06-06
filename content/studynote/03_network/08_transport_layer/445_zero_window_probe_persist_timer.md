@@ -1,10 +1,9 @@
 ---
-title: "445. 영 윈도우 (Zero Window) 탐색"
+title: "445. Zero Window Probe Persist Timer"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

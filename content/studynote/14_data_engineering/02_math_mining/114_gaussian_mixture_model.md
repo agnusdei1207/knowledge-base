@@ -1,10 +1,9 @@
 ---
-title: "114. 가우시안 혼합 모델 (GMM, Gaussian Mixture Model) - EM 알고리즘·소프트 클러스터링"
+title: "114. Gaussian Mixture Model"
 date: "2026-04-19"
 tags:
   - "studynote-dataengineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [GMM](/studynote/10_ai/05_data_science_ml/360_gmm_em_algorithm/)(Gaussian Mixture Model)은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 <strong>K개의 가우시안(정규) 분포의 가중 합</strong>으로 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되었다고 가정하고, 각 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인트가 어느 가우시안에 속하는지 <strong><a href="/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>적으로 추정(소프트 클러스터링)</strong>하는 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델이다.

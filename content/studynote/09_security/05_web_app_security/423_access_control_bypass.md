@@ -1,10 +1,9 @@
 ---
-title: "423. 접근 제어 회피 (Access Control Bypass)"
+title: "Access Control Bypass"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

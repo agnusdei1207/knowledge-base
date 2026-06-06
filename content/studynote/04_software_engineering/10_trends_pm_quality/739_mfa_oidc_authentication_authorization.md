@@ -1,10 +1,9 @@
 ---
-title: "739. MFA 인증 OIDC 인가 보안 구조"
+title: "739. Mfa Oidc Authentication Authorization"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "545. 용량 관리 수요 예측 확장 계획 (Capacity Management Demand Forecasting)"
+title: "Capacity Management Demand Forecasting"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

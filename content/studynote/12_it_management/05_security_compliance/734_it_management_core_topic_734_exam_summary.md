@@ -1,10 +1,9 @@
 ---
-title: "734. IT 경영 관리 핵심 토픽 734번 시험 요약 (IT Management Core Topic 734 Exam Summary)"
+title: "IT Management Core Topic 734 Exam Summary"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 # 734. IT 경영 관리 핵심 토픽 — 정보시스템 감리·IT 거버넌스·서비스 관리 통합 프레임워크
 

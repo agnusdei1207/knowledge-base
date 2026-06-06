@@ -1,10 +1,9 @@
 ---
-title: "514. SCM 공급망 관리 디지털 최적화 (SCM Supply Chain Management Digital Optimization)"
+title: "SCM Supply Chain Management Digital Optimization"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

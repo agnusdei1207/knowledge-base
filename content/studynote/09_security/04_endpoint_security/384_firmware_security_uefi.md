@@ -1,10 +1,9 @@
 ---
-title: "384. 펌웨어 보안 UEFI Secure Boot (Firmware Security Uefi)"
+title: "Firmware Security Uefi"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "456. HOL (Head-of-Line) 블로킹 문제 해결 (독립적 스트림 처리 적용)"
+title: "456. Quic Hol Head Of Line Blocking Resolution"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

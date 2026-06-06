@@ -1,10 +1,9 @@
 ---
-title: "296. RAG 아키텍처 검색 증강 생성 파이프라인 (RAG Architecture Retrieval Augmented Generation)"
+title: "RAG Architecture Retrieval Augmented Generation"
 date: "2026-05-09"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

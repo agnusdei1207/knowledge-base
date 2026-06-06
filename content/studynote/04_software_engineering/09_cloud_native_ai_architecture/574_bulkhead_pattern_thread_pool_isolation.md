@@ -1,10 +1,9 @@
 ---
-title: "574. 벌크헤드 (Bulkhead) - 스레드 풀 격리로 일부 장애가 전체 리소스 고갈로 이어지는 현상 방지"
+title: "574. Bulkhead Pattern Thread Pool Isolation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

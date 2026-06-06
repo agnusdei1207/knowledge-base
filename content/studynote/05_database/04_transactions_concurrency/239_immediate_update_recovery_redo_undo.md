@@ -1,10 +1,9 @@
 ---
-title: "239. 즉시 갱신 (Immediate Update)"
+title: "Immediate Update"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

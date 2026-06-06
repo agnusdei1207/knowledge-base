@@ -1,10 +1,9 @@
 ---
-title: "F1-Score: 정밀도와 재현율의 균형 잡힌 심판"
+title: "093. F1 Score Harmonic Mean"
 date: "2026-03-04"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

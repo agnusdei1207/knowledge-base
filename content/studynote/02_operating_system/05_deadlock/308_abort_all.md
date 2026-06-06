@@ -1,10 +1,9 @@
 ---
-title: "308. 프로세스 종료 방식 - 교착 상태 프로세스 전체 강제 종료 (Abort all)"
+title: "Abort all"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

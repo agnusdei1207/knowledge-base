@@ -1,10 +1,9 @@
 ---
-title: "101. K8s 보안 - 서비스 어카운트 (ServiceAccount) 및 RBAC 권한"
+title: "101. Serviceaccount Rbac Kubernetes Authorization"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "047. 컴팩션과 툼스톤 — Compaction & Tombstone"
+title: "047. Compaction And Tombstone"
 date: "2026-04-05"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 > **핵심 인사이트**
 > 1. 컴팩션([Compaction](/studynote/02_operating_system/06_memory_management/347_compaction/))은 LSM 트리 기반 DB에서 여러 SSTable을 합쳐 중복 제거와 공간 효율화를 수행하는 백그라운드 프로세스 — [Cassandra](/studynote/05_database/04_transactions_concurrency/541_cassandra/)·RocksDB·HBase에서 지속적으로 발생하며, [쓰기 증폭](/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/)([Write Amplification](/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/))과 공간 효율 사이의 트레이드오프를 관리한다.

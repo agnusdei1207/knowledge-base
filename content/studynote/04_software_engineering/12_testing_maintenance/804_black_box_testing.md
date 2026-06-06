@@ -1,10 +1,9 @@
 ---
-title: "804. 블랙박스 테스트 (Black-box Test) - 입력/출력 기반 명세 검증"
+title: "804. Black Box Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

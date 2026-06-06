@@ -1,10 +1,9 @@
 ---
-title: "928. 스마트 그리드 보안 (AMI Security, Smart Meter)"
+title: "AMI Security, Smart Meter"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

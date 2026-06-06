@@ -1,10 +1,9 @@
 ---
-title: "313. 스노우플레이크 스키마 정규화 트리 형태"
+title: "313. Process"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [스노우플레이크 스키마](/studynote/05_database/06_dw_olap_trends/335_snowflake_schema/) [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 트리 형태의 본질은 자산, 위협, [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 통제, 운영 증적이 한 체계로 연결되어야 보안과 규제 대응이 일회성 캠페인으로 끝나지 않는다.

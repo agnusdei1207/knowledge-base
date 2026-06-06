@@ -1,10 +1,9 @@
 ---
-title: "122. 비지도 학습 (Unsupervised Learning) - 라벨 없는 데이터의 구조 발견"
+title: "122. Unsupervised Learning"
 date: "2026-04-19"
 tags:
   - "studynote-dataengineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 비지도 학습은 **정답 라벨 없이** [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 <strong>내재된 구조·패턴·군집을 자동 발견</strong>하는 ML 패러다임이며, 클러스터링·[차원 축소](/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)·[이상 탐지](/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델이 대표 기법이다.

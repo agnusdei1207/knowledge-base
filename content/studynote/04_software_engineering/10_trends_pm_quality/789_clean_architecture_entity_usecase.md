@@ -1,10 +1,9 @@
 ---
-title: "789. 클린 아키텍처 엔티티 유스케이스 프레젠테이션 계층 분리"
+title: "789. Clean Architecture Entity Usecase"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

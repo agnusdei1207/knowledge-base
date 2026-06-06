@@ -1,10 +1,9 @@
 ---
-title: "532. BI 비즈니스 인텔리전스 셀프서비스 (BI Business Intelligence Self Service)"
+title: "BI Business Intelligence Self Service"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: BI 비즈니스 인텔리전스 셀프서비스은(는) 현업이 표준 데이터 모델 위에서 직접 리포트와 대시보드를 만들고 의사결정에 활용하는 분석 체계이다.

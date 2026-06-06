@@ -1,10 +1,9 @@
 ---
-title: "556. 클라우드 거버넌스 멀티 클라우드 정책 (Cloud Governance Multi Cloud Policy)"
+title: "Cloud Governance Multi Cloud Policy"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

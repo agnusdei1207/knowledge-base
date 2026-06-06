@@ -1,10 +1,9 @@
 ---
-title: "20. 회귀 분석 (Regression Analysis) — 단순/다중/로지스틱"
+title: "149. Regression Analysis"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트
 

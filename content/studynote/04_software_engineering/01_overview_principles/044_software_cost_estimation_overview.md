@@ -1,10 +1,9 @@
 ---
-title: "044. 소프트웨어 비용 산정 개요"
+title: "044. Software Cost Estimation Overview"
 date: "2026-04-05"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 > **핵심 인사이트**
 > 1. 소프트웨어 비용 산정은 프로젝트 시작 전 개발 공수(PM, Person-Month)·일정·원가를 예측하는 활동으로 — Boehm의 [COCOMO](/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) 연구에 따르면 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 산정 오차가 ±4배에 달하지만, 요구사항이 명확해질수록 ±25% 이내로 수렴한다.

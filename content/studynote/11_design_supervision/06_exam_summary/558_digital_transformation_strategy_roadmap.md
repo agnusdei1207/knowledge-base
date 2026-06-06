@@ -1,10 +1,9 @@
 ---
-title: "558. 디지털 전환 전략 로드맵 수립 (Digital Transformation Strategy Roadmap)"
+title: "Digital Transformation Strategy Roadmap"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

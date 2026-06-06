@@ -1,10 +1,9 @@
 ---
-title: "213. 경쟁 조건 (Race Condition)"
+title: "Race Condition"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

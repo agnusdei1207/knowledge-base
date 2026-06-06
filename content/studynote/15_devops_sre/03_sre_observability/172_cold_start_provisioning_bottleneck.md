@@ -1,10 +1,9 @@
 ---
-title: "172. 프로비저닝 병목 (Cold Start) 관측 지표"
+title: "172. Cold Start Provisioning Bottleneck"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

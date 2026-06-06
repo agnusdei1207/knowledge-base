@@ -1,11 +1,10 @@
 ---
-title: "57. 에일리어싱 (Aliasing) - 표본화 주파수 부족시 발생"
+title: "057. 에일리어싱 Aliasing"
 date: "2026-03-30"
 tags:
   - "Network"
   - "studynote"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

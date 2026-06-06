@@ -1,10 +1,9 @@
 ---
-title: "724. 스머프 공격 방어를 위한 no ip directed-broadcast 설정 논리"
+title: "724. No Ip Directed Broadcast Smurf Defense"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

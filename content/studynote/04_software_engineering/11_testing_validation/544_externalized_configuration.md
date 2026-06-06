@@ -1,10 +1,9 @@
 ---
-title: "544. 외부화된 구성 관리 (Externalized Configuration) - Config Server (Spring Cloud Config 등)"
+title: "Spring Cloud Config"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

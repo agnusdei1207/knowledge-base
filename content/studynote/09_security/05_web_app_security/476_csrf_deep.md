@@ -1,10 +1,9 @@
 ---
-title: "476. CSRF 심화 (Cross-Site Request Forgery Deep Dive)"
+title: "Cross-Site Request Forgery Deep Dive"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

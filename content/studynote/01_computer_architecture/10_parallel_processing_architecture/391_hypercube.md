@@ -1,10 +1,9 @@
 ---
-title: "391. 하이퍼큐브 (Hypercube)"
+title: "Hypercube"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

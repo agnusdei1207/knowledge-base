@@ -1,10 +1,9 @@
 ---
-title: "046. 데이터 레이크하우스 — Data Lakehouse"
+title: "258. Data Lakehouse"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"
 ---
-
 
 > **핵심 인사이트**
 > 1. [데이터 레이크하우스](/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/)([Data Lakehouse](/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/))는 [데이터 레이크](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)의 유연성·저비용과 [데이터 웨어하우스](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)의 ACID·[성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·거버넌스를 결합한 하이브리드 아키텍처 — [Databricks](/studynote/16_bigdata/03_spark/074_photon_engine/)·Delta Lake가 선도하며, 클라우드 스토리지(S3, ADLS) 위에서 [OLAP](/studynote/12_it_management/05_security_compliance/316_olap/) 수준의 분석 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 달성한다.

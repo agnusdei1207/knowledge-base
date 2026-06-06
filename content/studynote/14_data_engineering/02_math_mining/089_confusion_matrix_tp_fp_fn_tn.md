@@ -1,10 +1,9 @@
 ---
-title: "혼동 행렬 (Confusion Matrix): 분류 모델 평가의 기초"
+title: "089. Confusion Matrix Tp Fp Fn Tn"
 date: "2026-03-04"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 혼동 행렬 (Confusion Matrix)은 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델의 예측 결과 (Positive/Negative)와 실제 정답을 교차하여 2x2 형태의 행렬로 표현한 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가의 원천 도표다.

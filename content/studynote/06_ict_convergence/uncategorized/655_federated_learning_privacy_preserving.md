@@ -1,10 +1,9 @@
 ---
-title: "655. 연합 학습 프라이버시 보존 분산 학습 (Federated Learning Privacy Preserving)"
+title: "Federated Learning Privacy Preserving"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

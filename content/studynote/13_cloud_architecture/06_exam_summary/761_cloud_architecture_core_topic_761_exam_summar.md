@@ -1,10 +1,9 @@
 ---
-title: "761. 클라우드 아키텍처 핵심 토픽 761번 시험 요약 (Cloud Architecture Core Topic 761 Exam Summary)"
+title: "Cloud Architecture Core Topic 761 Exam Summary"
 date: 2026-05-09
 tags:
   - "studynote-cloud-architecture"
----
-## 핵심 인사이트 (3줄 요약)
+---## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 아키텍처는 IaaS/PaaS/SaaS/FaaS의 4계층 서비스 모델을 기반으로, 컨트롤 플레인(API/오케스트레이터)과 데이터 플레인(컴퓨트/스토리지/네트워크)의 책임 분리(Separation of Concerns)를 통해 탄력성(Elasticity)과 페일오버(Failover)를 코드와 정책으로 구현한 분산 시스템 설계 청사진이다.
 > 2. **가치**: CAPEX에서 OPEX로의 전환(초기 투자비 60~80% 절감), Auto-Scaling을 통한 트래픽 변동 대응(평균 35~50% 비용 최적화), MTTR(Mean Time To Recovery) 70% 단축, 그리고 글로벌 멀티 리전 아키텍처를 통한 RPO/RTO를 분 단위로 단축시킬 수 있는 비즈니스 연속성 확보가 핵심 가치다.

@@ -1,10 +1,9 @@
 ---
-title: "244. OCP (Open-Closed Principle) - 개방-폐쇄 원칙 (확장엔 열려있고 변경엔 닫혀있음)"
+title: "244. Ocp Open Closed Principle"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

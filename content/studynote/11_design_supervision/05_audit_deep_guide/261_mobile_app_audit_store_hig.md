@@ -1,10 +1,9 @@
 ---
-title: "261. 모바일 앱 감리 HIG와 Material Design (Mobile App Audit for HIG and Material Design)"
+title: "Mobile App Audit for HIG and Material Design"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

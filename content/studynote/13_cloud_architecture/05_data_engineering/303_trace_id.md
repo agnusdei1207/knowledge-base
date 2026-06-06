@@ -1,10 +1,9 @@
 ---
-title: "303. 분산 추적 Trace ID 병목 파악 오픈텔레메트리 (Trace ID)"
+title: "Trace ID"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [분산 추적](/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/) Trace ID 병목 파악 [오픈텔레메트리](/studynote/13_cloud_architecture/04_devops_observability/190_opentelemetry_cncf_observability_standard/)는 변경 관리와 운영 자동화에서 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 운영를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.

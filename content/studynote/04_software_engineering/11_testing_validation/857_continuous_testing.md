@@ -1,10 +1,9 @@
 ---
-title: "857. 지속적 테스팅 (Continuous Testing)"
+title: "Continuous Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

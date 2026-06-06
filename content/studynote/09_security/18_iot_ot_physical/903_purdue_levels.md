@@ -1,10 +1,9 @@
 ---
-title: "903. Purdue 레벨 0~5 (Purdue Levels)"
+title: "Purdue Levels"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

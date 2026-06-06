@@ -1,10 +1,9 @@
 ---
-title: "535. 접근성 테스팅 WCAG 규정 준수 (Accessibility Testing WCAG Compliance)"
+title: "Accessibility Testing WCAG Compliance"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "158. 명령어 (Instruction)"
+title: "Instruction"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

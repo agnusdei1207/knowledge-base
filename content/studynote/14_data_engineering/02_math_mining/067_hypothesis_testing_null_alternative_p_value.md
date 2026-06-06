@@ -1,10 +1,9 @@
 ---
-title: "67. 가설 검정 - 귀무 가설(H0) vs 대립 가설(H1)"
+title: "H1"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "479. 마모 평준화 (Wear Leveling) - 수명 연장을 위해 쓰기 작업을 전체 블록에 고르게 분산"
+title: "479. Wear Leveling"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

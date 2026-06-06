@@ -1,10 +1,9 @@
 ---
-title: "699. 프라이버시 강화 기술 PETs 연합 분석 (Privacy Enhancing Technology PETs)"
+title: "Privacy Enhancing Technology PETs"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

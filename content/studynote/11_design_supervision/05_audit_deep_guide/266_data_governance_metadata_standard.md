@@ -1,10 +1,9 @@
 ---
-title: "266. 데이터 거버넌스 메타데이터 표준 감리 (Data Governance Metadata Standard Audit)"
+title: "Data Governance Metadata Standard Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "335. TDD BDD 인수테스트 Mock 격리 (TDD BDD Acceptance Testing Mock Stub Spy Test Pyramid Red Green Refactor)"
+title: "TDD BDD Acceptance Testing Mock Stub Spy Test Pyramid Red Green Refactor"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

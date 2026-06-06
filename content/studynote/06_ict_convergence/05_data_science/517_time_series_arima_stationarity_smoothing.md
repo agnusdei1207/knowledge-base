@@ -1,10 +1,9 @@
 ---
-title: "517. 시계열 ARIMA 정상성과 평활법 (Time Series ARIMA Stationarity Smoothing)"
+title: "Time Series ARIMA Stationarity Smoothing"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

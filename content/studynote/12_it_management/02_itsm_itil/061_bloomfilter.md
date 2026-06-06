@@ -1,10 +1,9 @@
 ---
-title: "61. 블룸 필터 (Bloom Filter) - 확률적 집합 멤버십 검사"
+title: "061. Bloomfilter"
 date: "2026-04-05"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

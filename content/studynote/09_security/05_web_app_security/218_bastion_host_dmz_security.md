@@ -1,10 +1,9 @@
 ---
-title: "218. 베스천 호스트 (Bastion Host)"
+title: "Bastion Host"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

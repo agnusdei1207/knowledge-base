@@ -1,10 +1,9 @@
 ---
-title: "140. 쉐도잉 & 관찰 기법 (Shadowing/Observation) - 현장 기반 요구 도출"
+title: "140. Shadowing Observation Technique"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 쉐도잉/관찰(Ethnography)은 <strong>실제 현장에서 사용자의 업무 수행을 직접 관찰</strong>하여, 인터뷰만으로는 드러나지 않는 <strong>암묵적 요구(Tacit Requirements)</strong>를 발견하는 기법이다.

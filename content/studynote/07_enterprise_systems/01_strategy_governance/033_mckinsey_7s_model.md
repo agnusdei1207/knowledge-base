@@ -1,10 +1,9 @@
 ---
-title: "맥킨지 7S 모델 (McKinsey 7S Model)"
+title: "McKinsey 7S Model"
 date: "2026-03-03"
 tags:
   - "studynote-enterprise"
 ---
-
 
 > **핵심 인사이트 3줄**
 > 1. [맥킨지](/studynote/12_it_management/01_governance_strategy/821_seven_s_model/) 7S 모델은 조직 변화를 단순히 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·구조만이 아닌 7가지 상호 의존적 요소([Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·Structure·Systems·Shared Values·Style·Staff·Skills)로 분석하는 프레임워크다.

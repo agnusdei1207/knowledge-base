@@ -1,10 +1,9 @@
 ---
-title: "533. 전력-성능 트레이드오프 파레토 곡선"
+title: "533. Power Performance Pareto"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

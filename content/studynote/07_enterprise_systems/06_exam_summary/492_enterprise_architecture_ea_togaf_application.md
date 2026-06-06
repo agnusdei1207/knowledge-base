@@ -1,10 +1,9 @@
 ---
-title: "492. 기업 아키텍처 EA TOGAF 적용 (Enterprise Architecture EA TOGAF Application)"
+title: "Enterprise Architecture EA TOGAF Application"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

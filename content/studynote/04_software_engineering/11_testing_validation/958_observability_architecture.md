@@ -1,10 +1,9 @@
 ---
-title: "958. 옵저버빌리티 (Observability / 가시성) 아키텍처"
+title: "958. Observability Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

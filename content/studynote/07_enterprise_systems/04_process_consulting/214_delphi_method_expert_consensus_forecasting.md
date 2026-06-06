@@ -1,10 +1,9 @@
 ---
-title: "214. 델파이 (Delphi) 기법 - 복수 전문가의 익명 반복 설문을 통한 예측 및 합의 도출"
+title: "214. Delphi Method Expert Consensus Forecasting"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

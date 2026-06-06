@@ -1,10 +1,9 @@
 ---
-title: "267. 가중치 (Weight) / 편향 (Bias) / 활성화 함수 (Activation Function)"
+title: "Activation Function"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

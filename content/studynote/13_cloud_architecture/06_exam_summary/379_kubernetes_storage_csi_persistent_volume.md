@@ -1,10 +1,9 @@
 ---
-title: "379. 쿠버네티스 스토리지 CSI 퍼시스턴트 볼륨 (Kubernetes Storage CSI Persistent Volume)"
+title: "Kubernetes Storage CSI Persistent Volume"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

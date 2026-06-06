@@ -1,10 +1,9 @@
 ---
-title: "403. 클라우드 네이티브 보안 CNAPP CWPP (Cloud Native Security CNAPP CWPP)"
+title: "Cloud Native Security CNAPP CWPP"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

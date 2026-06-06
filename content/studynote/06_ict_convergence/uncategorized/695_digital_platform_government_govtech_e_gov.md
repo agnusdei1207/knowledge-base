@@ -1,10 +1,9 @@
 ---
-title: "695. 디지털 플랫폼 정부 GovTech 전자정부 (Digital Platform Government GovTech e-Gov)"
+title: "Digital Platform Government GovTech e-Gov"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

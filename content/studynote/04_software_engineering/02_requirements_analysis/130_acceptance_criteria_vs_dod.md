@@ -1,10 +1,9 @@
 ---
-title: "130. 인수 기준 vs 완료 정의 (Acceptance Criteria vs Definition of Done)"
+title: "Acceptance Criteria vs Definition of Done"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [AC](/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/)([Acceptance Criteria](/studynote/04_software_engineering/03_design_architecture/165_acceptance_criteria_definition/))는 <strong>개별 스토리의 비즈니스 요구사항 충족 조건</strong>이고, DoD(Definition of Done)는 <strong>모든 스토리에 공통 적용되는 품질·프로세스 완료 기준</strong>이다.

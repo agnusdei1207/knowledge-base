@@ -1,10 +1,9 @@
 ---
-title: "409. 거짓 공유 (False Sharing)"
+title: "False Sharing"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

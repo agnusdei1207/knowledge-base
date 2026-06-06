@@ -1,11 +1,10 @@
 ---
-title: "15. 예비 조사 (Preliminary Survey) - 피감리인 인터뷰, 과업내용서/제안서 분석을 통해 감리 주안점 도출"
+title: "015. Preliminary Survey"
 date: "2024-05-20"
 description: "피감리인 인터뷰와 문서 분석을 통해 프로젝트의 잠복 리스크를 식별하고 감리의 주안점을 도출하는 예비 조사의 핵심 아키텍처"
 tags:
   - "design_supervision"
 ---
-
 
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 예비 조사는 본격적인 실지 감리(On-site [Audit](/studynote/12_it_management/05_security_compliance/363_audit/))에 투입되기 1~2주 전, 프로젝트의 제안서, 요구사항, 설계 문서 등 사전 자료를 분석하고 핵심 [이해관계자](/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)를 면담하여 시스템의 '현 상태([As-Is](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/))와 취약점'을 입체적으로 스캐닝하는 선행 정찰 활동이다.

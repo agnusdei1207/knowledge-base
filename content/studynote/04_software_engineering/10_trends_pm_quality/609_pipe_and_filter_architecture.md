@@ -1,10 +1,9 @@
 ---
-title: "609. 파이프-필터 아키텍처 스트림"
+title: "609. Pipe And Filter Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

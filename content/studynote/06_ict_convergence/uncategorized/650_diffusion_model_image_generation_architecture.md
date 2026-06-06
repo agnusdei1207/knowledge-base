@@ -1,10 +1,9 @@
 ---
-title: "650. 디퓨전 모델 이미지 생성 아키텍처 (Diffusion Model Image Generation Architecture)"
+title: "Diffusion Model Image Generation Architecture"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

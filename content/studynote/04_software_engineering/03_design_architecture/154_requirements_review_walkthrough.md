@@ -1,11 +1,10 @@
 ---
-title: "154. 요구사항 검토 (Review) - 워크쓰루 (Walkthrough) 좆목질의 맹점과 교육 텐트"
+title: "154. Requirements Review Walkthrough"
 date: "2026-05-03"
 description: "결함 척살(Bug-finding)이라는 인스펙션의 무거운 압박감에서 벗어나, 작성자(Author) 본인이 주도하여 칠판에 소스 설계도를 띄워놓고 동료들과 자유롭게 핑퐁 토론하며 아이디어 우회로를 뚫어내고 비전(Vision)을 전파 교육(Training)하는 가장 대중적이고 부드러운 정적 리뷰 쉴드 기법"
 tags:
   - "software_engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 워크쓰루(Walkthrough)는 소프트웨어 요구사항이나 자바(Java) 코드를 짠 작성자(Author) 본인이 -> 회의실 마이크를 쥐고 동료 스나이퍼 집단([Peer](/studynote/06_ict_convergence/01_blockchain/060_hyperledger_architecture_peer_orderer_msp/) group) 앞에서 직접 설계 로직의 철학을 발표 설명하며, 산출물에 대한 숨은 아이디어를 핑퐁 공유하고 잠재적 빵꾸 오류를 비공식적(Semi-formal)으로 스윽 훑어 엑스레이 스캔 보는 검토 방폭문이다.

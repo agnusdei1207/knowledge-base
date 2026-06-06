@@ -1,10 +1,9 @@
 ---
-title: "640. AIoT (AI + IoT) 모델 및 클라우드 AI 연결 지연 완화 기술"
+title: "640. Aiot Ai And Iot Edge Cloud Latency"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

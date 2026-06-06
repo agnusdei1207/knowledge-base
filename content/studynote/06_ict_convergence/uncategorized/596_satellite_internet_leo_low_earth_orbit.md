@@ -1,10 +1,9 @@
 ---
-title: "596. 위성 인터넷 LEO 저궤도 통신 (Satellite Internet LEO Low Earth Orbit)"
+title: "Satellite Internet LEO Low Earth Orbit"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,11 +1,10 @@
 ---
-title: "878. 스트리밍 SQL — ksqlDB (Confluent) / Flink SQL / Spark Structured Streaming"
+title: "878. Reinforcement Learning"
 date: "2026-04-05"
 description: "강화학습의 기본 개념, 에이전트-환경 상호작용, MDP, Q-Learning, DQN, Policy Gradient"
 tags:
   - "it_management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

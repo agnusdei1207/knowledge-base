@@ -1,10 +1,9 @@
 ---
-title: "067. Attack Surface Analysis — 공격 표면 관리"
+title: "067. Attack Surface Analysis"
 date: "2026-04-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "606. 데이터베이스 영역 감리 (Database Area Audit)"
+title: "Database Area Audit"
 date: "2026-05-08"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "562. B-Tree 디스크 I/O 최적화 팬아웃 차수 및 노드 크기 블록 매핑"
+title: "562. B Tree Disk Io Optimization Fanout"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

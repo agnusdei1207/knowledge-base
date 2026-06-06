@@ -1,10 +1,9 @@
 ---
-title: "181. 유닛 오브 워크 패턴 (Unit of Work Pattern)"
+title: "Unit of Work Pattern"
 date: "2026-05-06"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

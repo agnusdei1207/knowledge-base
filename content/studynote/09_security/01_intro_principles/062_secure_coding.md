@@ -1,10 +1,9 @@
 ---
-title: "62. 시큐어 코딩 (Secure Coding)"
+title: "Secure Coding"
 date: "2026-04-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

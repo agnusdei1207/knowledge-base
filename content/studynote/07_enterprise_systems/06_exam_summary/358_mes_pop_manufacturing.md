@@ -1,10 +1,9 @@
 ---
-title: "358. MES 공장 실행 POP 생산 데이터 (MES Manufacturing Execution System)"
+title: "MES Manufacturing Execution System"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

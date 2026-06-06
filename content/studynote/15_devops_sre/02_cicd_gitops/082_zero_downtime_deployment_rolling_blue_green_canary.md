@@ -1,10 +1,9 @@
 ---
-title: "82. 무중단 배포 (Zero Downtime Deployment) 전략 3가지"
+title: "082. Zero Downtime Deployment Rolling Blue Green Canary"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "553. 개인정보 보호 GDPR PIPA 컴플라이언스 (Privacy Protection GDPR PIPA Compliance)"
+title: "Privacy Protection GDPR PIPA Compliance"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

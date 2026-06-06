@@ -1,9 +1,8 @@
 ---
-title: "97. WMS (Warehouse Management System) - 창고 관리 시스템"
+title: "097. Wms Warehouse Management System"
 tags:
   - "enterprise_systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

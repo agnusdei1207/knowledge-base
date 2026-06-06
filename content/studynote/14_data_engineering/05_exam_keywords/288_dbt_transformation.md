@@ -1,10 +1,9 @@
 ---
-title: "288. dbt 데이터 변환 모델링 테스트 문서화 (dbt Data Transformation Modeling Testing)"
+title: "dbt Data Transformation Modeling Testing"
 date: "2026-05-09"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

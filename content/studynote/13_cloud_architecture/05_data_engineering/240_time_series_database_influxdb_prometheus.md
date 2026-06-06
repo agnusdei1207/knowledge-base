@@ -1,10 +1,9 @@
 ---
-title: "240. 시계열 데이터베이스 (TSDB: InfluxDB, Prometheus)"
+title: "TSDB: InfluxDB, Prometheus"
 date: "2026-05-05"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [시계열 데이터베이스](/studynote/14_data_engineering/01_infrastructure/057_tsdb_downsampling_retention_policy/)(Time Series [Database](/studynote/05_database/04_transactions_concurrency/501_database/), TSDB)는 모든 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 뼈대를 오직 <strong>'시간(Timestamp)'</strong>이라는 단일 축으로 고정시키고, 초당 수백만 건씩 쏟아지는 연속된 숫자([Metric](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쇳덩어리에 순차적으로 기록하는 데 미쳐있는 특수 목적 NoSQL이다.

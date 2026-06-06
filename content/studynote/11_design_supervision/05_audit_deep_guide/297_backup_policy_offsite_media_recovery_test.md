@@ -1,10 +1,9 @@
 ---
-title: "297. 백업정책 소산보관 복구테스트 감리 (Backup Policy Offsite Storage and Recovery Test Audit)"
+title: "Backup Policy Offsite Storage and Recovery Test Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

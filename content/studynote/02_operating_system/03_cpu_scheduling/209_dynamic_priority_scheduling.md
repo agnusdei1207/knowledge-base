@@ -1,10 +1,9 @@
 ---
-title: "209. POSIX 스케줄링 API (Dynamic Priority Scheduling)"
+title: "Dynamic Priority Scheduling"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

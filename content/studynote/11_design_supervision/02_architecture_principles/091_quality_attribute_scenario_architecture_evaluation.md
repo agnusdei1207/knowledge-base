@@ -1,10 +1,9 @@
 ---
-title: "91. 품질 속성 시나리오 (Quality Attribute Scenario)"
+title: "Quality Attribute Scenario"
 date: "2026-04-10"
 tags:
   - "studynote-design"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

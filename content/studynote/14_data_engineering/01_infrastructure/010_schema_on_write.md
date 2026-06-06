@@ -1,11 +1,10 @@
 ---
-title: "10. 스키마 온 라이트 (Schema-on-Write) - 저장 전 정규화/ETL을 통해 스키마에 맞게 정제 (DW)"
+title: "DW"
 date: "2024-05-15"
 description: "관계형 DB와 데이터 웨어하우스의 표준 접근법인 스키마 온 라이트의 구조적 특징, ETL 병목 해결 방안 및 데이터 품질 보증 체계를 분석합니다."
 tags:
   - "data_engineering"
 ---
-
 
 # [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 온 라이트 ([Schema](/studynote/05_database/04_transactions_concurrency/505_schema/)-on-Write)
 

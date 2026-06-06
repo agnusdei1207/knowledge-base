@@ -1,10 +1,9 @@
 ---
-title: "910. 가명 처리 및 비식별화 기술"
+title: "910. Pseudonymization Anonymization"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "368. 서킷 브레이커 장애 연쇄 차단 패턴 (Circuit Breaker Pattern)"
+title: "Circuit Breaker Pattern"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

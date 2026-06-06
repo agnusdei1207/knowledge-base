@@ -1,10 +1,9 @@
 ---
-title: "883. 챗봇 및 AI옵스(AIOps) 결합 ITSM - 지능형 IT 서비스 자동화"
+title: "883. Aiops Chatbot Itsm Automation"
 date: "2026-04-10"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "483. RAID (Redundant Array of Independent Disks) - 성능 향상 및 신뢰성(중복성) 확보"
+title: "483. Raid Overview"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "105. 부모 프로세스 (Parent Process) / 자식 프로세스 (Child Process)"
+title: "Child Process"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 부모 프로세스 (Parent [Process](/studynote/12_it_management/05_security_compliance/943_process/))와 자식 프로세스 (Child [Process](/studynote/12_it_management/05_security_compliance/943_process/))는 `fork()` 시스템 콜을 통해 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되며, 자식이 부모의 식별자인 PPID (Parent [Process](/studynote/12_it_management/05_security_compliance/943_process/) ID)를 기록하여 형성하는 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 트리형 프로세스 계층 구조다.

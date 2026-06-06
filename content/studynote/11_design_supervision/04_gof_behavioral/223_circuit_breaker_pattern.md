@@ -1,10 +1,9 @@
 ---
-title: "223. 서킷 브레이커 패턴 (Circuit Breaker Pattern)"
+title: "Circuit Breaker Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

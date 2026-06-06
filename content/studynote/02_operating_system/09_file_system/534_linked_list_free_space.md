@@ -1,10 +1,9 @@
 ---
-title: "534. 연결 리스트 (Linked List) 빈 공간 관리"
+title: "534. Linked List Free Space"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "621. 인프라 코드화 테라폼 풀루미 CDK (IaC Terraform Pulumi CDK)"
+title: "IaC Terraform Pulumi CDK"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

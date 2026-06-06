@@ -1,10 +1,9 @@
 ---
-title: "159. 음향 통신 (수중 음파 통신)"
+title: "159. Underwater Acoustic Communication"
 date: "2026-05-05"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

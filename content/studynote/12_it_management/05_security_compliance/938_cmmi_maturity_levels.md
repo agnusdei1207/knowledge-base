@@ -1,10 +1,9 @@
 ---
-title: "938. CMMI 성숙도 5단계 (초기, 관리, 정의, 정량, 최적화)"
+title: "938. Cmmi Maturity Levels"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [CMMI](/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 성숙도 5단계 ([초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/), 관리, 정의, 정량, 최적화)의 본질은 요구사항, 산출물, 품질 게이트, 일정·원가 지표가 한 흐름으로 연결되어야 프로젝트 통제가 가능하다.

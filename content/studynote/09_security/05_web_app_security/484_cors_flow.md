@@ -1,10 +1,9 @@
 ---
-title: "484. CORS 요청 흐름 (Cross-Origin Resource Sharing Flow)"
+title: "Cross-Origin Resource Sharing Flow"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

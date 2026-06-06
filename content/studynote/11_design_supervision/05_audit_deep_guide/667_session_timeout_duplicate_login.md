@@ -1,10 +1,9 @@
 ---
-title: "667. 사용자 세션 통제와 동시접속 방지 감리 (User Session Control and Duplicate Login Prevention Audit)"
+title: "User Session Control and Duplicate Login Prevention Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

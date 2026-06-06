@@ -1,10 +1,9 @@
 ---
-title: "520. PCIe 스위치 패브릭 (PCIe Switch Fabric)"
+title: "PCIe Switch Fabric"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

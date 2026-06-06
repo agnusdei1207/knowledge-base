@@ -1,10 +1,9 @@
 ---
-title: "565. 인 메모리 DB 디스크 백업 체크포인트 방식 지연 성능 최소화 아키텍처"
+title: "565. In Memory Db Bgsave Cow Checkpoint"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

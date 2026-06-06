@@ -1,9 +1,8 @@
 ---
-title: "09. 시스템 버스 및 상호 연결망"
+title: "Computer Architecture"
 tags:
   - "computer_architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

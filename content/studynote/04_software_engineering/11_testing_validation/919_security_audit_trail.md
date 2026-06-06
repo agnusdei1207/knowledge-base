@@ -1,10 +1,9 @@
 ---
-title: "919. 보안 감사 (Audit) 트레일 추적 기능"
+title: "919. Security Audit Trail"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

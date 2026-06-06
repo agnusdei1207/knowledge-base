@@ -1,10 +1,9 @@
 ---
-title: "518. WMS 창고 관리 시스템 물류 자동화 (WMS Warehouse Management Logistics Automation)"
+title: "WMS Warehouse Management Logistics Automation"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

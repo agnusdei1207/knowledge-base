@@ -1,10 +1,9 @@
 ---
-title: "589. 람포트 시계 논리적 이벤트 순서 선후 관계 인과 보장 분산 벡터 타임스탬프"
+title: "589. Lamport Clock Vector Timestamp"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

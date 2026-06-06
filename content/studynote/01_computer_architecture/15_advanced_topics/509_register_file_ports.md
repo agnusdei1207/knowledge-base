@@ -1,10 +1,9 @@
 ---
-title: "509. 레지스터 파일 포트 (Register File Ports)"
+title: "Register File Ports"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

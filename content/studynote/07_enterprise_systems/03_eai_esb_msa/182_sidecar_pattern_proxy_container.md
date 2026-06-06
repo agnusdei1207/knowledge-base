@@ -1,10 +1,9 @@
 ---
-title: "182. 사이드카 패턴 (Sidecar Pattern) - MSA 프록시 컨테이너"
+title: "182. Sidecar Pattern Proxy Container"
 date: "2026-05-06"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

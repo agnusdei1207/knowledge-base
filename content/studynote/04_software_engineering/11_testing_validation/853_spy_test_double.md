@@ -1,10 +1,9 @@
 ---
-title: "853. Spy (스파이)"
+title: "853. Spy Test Double"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

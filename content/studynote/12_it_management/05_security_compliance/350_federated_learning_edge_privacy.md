@@ -1,10 +1,9 @@
 ---
-title: "350. 연합 학습 엣지 분산 데이터 프라이버시 검열망"
+title: "350. Federated Learning Edge Privacy"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [연합 학습](/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/) 엣지 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 프라이버시 검열망의 본질은 현행 구조, 목표 구조, 전환 과제의 추적성이 확보되어야 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서가 실제 투자와 아키텍처 변화로 이어진다.

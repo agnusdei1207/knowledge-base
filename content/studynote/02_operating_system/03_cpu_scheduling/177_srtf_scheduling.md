@@ -1,10 +1,9 @@
 ---
-title: "177. SRTF (Shortest Remaining Time First) 스케줄링 - SJF의 선점형 버전"
+title: "177. Srtf Scheduling"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

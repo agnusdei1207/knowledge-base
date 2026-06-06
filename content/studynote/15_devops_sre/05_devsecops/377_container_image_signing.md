@@ -1,10 +1,9 @@
 ---
-title: "377. 컨테이너 이미지 서명 공증 무결성 검증 (Container Image Signing Cosign Notary Sigstore)"
+title: "Container Image Signing Cosign Notary Sigstore"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

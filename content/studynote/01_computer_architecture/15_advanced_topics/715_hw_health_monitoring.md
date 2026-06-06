@@ -1,10 +1,9 @@
 ---
-title: "715. 하드웨어 헬스 모니터링 (센서 레지스터)"
+title: "715. Hw Health Monitoring"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

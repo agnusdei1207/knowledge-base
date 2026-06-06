@@ -1,11 +1,10 @@
 ---
-title: "4. 비정형 데이터 (Unstructured Data) - 스키마가 없는 텍스트, 음성, 비디오, 이미지 데이터"
+title: "004. Unstructured Data"
 date: "2024-05-24"
 description: "텍스트, 이미지, 오디오 등 사전 정의된 스키마가 없는 원시 데이터의 특성과 딥러닝/벡터 DB 기반의 처리 아키텍처"
 tags:
   - "data_engineering"
 ---
-
 
 # 04. 비정형 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (Unstructured [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))
 

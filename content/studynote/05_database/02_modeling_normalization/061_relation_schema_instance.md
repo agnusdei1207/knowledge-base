@@ -1,9 +1,8 @@
 ---
-title: "61. 릴레이션 (Relation) - 데이터를 2차원 표로 표현한 구조"
+title: "061. Relation Schema Instance"
 tags:
   - "database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "89. 기울기 폭발 (Exploding Gradient) - 딥러닝 갱신폭 제어"
+title: "089. Exploding Gradient Clipping"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,9 +1,8 @@
 ---
-title: "65. 릴레이션의 특징 - 튜플의 무순서, 속성의 무순서, 튜플의 유일성, 속성의 원자성"
+title: "065. Relation Characteristics"
 tags:
   - "database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

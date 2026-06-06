@@ -1,10 +1,9 @@
 ---
-title: "400. 지역 교체 (Local Replacement) - 자신의 프레임 풀 내에서만 교체"
+title: "400. Local Replacement"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

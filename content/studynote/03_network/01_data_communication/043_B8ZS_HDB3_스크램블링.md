@@ -1,10 +1,9 @@
 ---
-title: "043. B8ZS/HDB3 스크램블링"
+title: "043. B8Zs Hdb3 스크램블링"
 date: "2026-04-05"
 tags:
   - "studynote-network"
 ---
-
 
 > **핵심 인사이트**
 > 1. B8ZS(Bipolar with 8-Zero Substitution)와 HDB3(High-Density Bipolar 3)은 T1/E1 통신에서 연속 0 비트의 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 손실을 방지하기 위한 회선 코딩 규칙으로, 정규 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 위반하는 특수 패턴(Violation)을 삽입해 수신측이 0 대체 위치를 역으로 식별한다.

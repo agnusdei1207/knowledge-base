@@ -1,10 +1,9 @@
 ---
-title: "035. 무결함 사후 검토 (Blameless Postmortem)"
+title: "Blameless Postmortem"
 date: "2026-03-03"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 > **핵심 인사이트**
 > 1. [Blameless Postmortem](/studynote/15_devops_sre/03_sre_observability/128_blameless_postmortem/)(무결함 사후 검토)은 [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)/[DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 문화에서 인시던트 이후 개인 처벌 대신 시스템·프로세스 개선에 집중하는 근본 원인 분석(RCA) 방법론이다.

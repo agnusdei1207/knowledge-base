@@ -1,10 +1,9 @@
 ---
-title: "470. 적대적 공격: 포이즈닝과 이베이전 (Adversarial Attack Poisoning Evasion)"
+title: "Adversarial Attack Poisoning Evasion"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

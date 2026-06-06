@@ -1,9 +1,8 @@
 ---
-title: "95. Nexus - 스크럼 팀 간 의존성 관리"
+title: "095. Nexus Scaled Agile Framework"
 tags:
   - "software_engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

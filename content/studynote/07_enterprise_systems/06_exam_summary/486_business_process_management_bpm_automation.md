@@ -1,10 +1,9 @@
 ---
-title: "486. 비즈니스 프로세스 관리 BPM 자동화 (Business Process Management BPM Automation)"
+title: "Business Process Management BPM Automation"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

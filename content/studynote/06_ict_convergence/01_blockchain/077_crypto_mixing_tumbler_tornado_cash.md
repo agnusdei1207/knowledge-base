@@ -1,9 +1,8 @@
 ---
-title: "77. 암호화폐 믹싱 (Coin Mixing / Tumbler) - 거래 자금 출처 추적을 어렵게 하는 트랜잭션 섞기 (Tornado Cash 등, 자금 세탁 악용)"
+title: "Tornado Cash ,"
 tags:
   - "ict_convergence"
 ---
-
 
 # 암호화폐 믹싱 (Coin Mixing / Tumbler) - 거래 자금 출처 추적을 어렵게 하는 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 섞기
 

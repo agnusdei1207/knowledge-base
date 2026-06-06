@@ -1,10 +1,9 @@
 ---
-title: "163. 동료 검토 (Peer Review, 동료 코드 품질 검증)"
+title: "Peer Review,"
 date: "2026-04-21"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

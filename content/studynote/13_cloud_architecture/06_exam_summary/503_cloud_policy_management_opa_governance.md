@@ -1,10 +1,9 @@
 ---
-title: "503. 클라우드 정책 관리 OPA 거버넌스 (Cloud Policy Management OPA Governance)"
+title: "Cloud Policy Management OPA Governance"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

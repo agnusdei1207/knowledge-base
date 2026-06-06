@@ -1,11 +1,10 @@
 ---
-title: "83. 정확히 한 번 (Exactly-Once Semantics) — 2PC + Idempotent Sink"
+title: "083. Cross Validation"
 date: "2026-04-05"
 description: "교차 검증의 개념, K-Fold, Stratified K-Fold, Leave-One-Out 등 다양한 검증 기법과 장단점 비교"
 tags:
   - "it_management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

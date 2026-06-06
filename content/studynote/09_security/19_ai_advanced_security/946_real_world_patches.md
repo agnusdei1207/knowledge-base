@@ -1,10 +1,9 @@
 ---
-title: "946. 물리 세계 적대적 공격 (Real-world Adversarial Patches)"
+title: "Real-world Adversarial Patches"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

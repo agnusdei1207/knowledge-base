@@ -1,10 +1,9 @@
 ---
-title: "432. 캐시 컬러링 (Cache Coloring)에 의한 페이지 매핑 최적화"
+title: "432. Cache Coloring Optimization"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "820. 3C 분석 (C고객)"
+title: "C"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

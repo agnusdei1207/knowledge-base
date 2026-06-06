@@ -1,10 +1,9 @@
 ---
-title: "755. 합성 데이터 프라이버시 보존 생성 (Synthetic Data Privacy Preserving Generation)"
+title: "Synthetic Data Privacy Preserving Generation"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "523. DataOps, 피처 플래그, 시민 개발자 노코드 (DataOps Feature Flag Citizen Developer No-Code)"
+title: "DataOps Feature Flag Citizen Developer No-Code"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

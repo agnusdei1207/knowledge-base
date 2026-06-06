@@ -1,10 +1,9 @@
 ---
-title: "168. 서비스 디스커버리 (Service Discovery) 동적 컨테이너 위치 레지스트리"
+title: "168. Service Discovery"
 date: "2026-04-10"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "11. 윈도우 연산 (Window Operations) — 텀블링/슬라이딩/세션"
+title: "086. Window Operations"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

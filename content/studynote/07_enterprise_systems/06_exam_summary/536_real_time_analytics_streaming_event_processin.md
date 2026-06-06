@@ -1,10 +1,9 @@
 ---
-title: "536. 실시간 분석 스트리밍 이벤트 처리 (Real-time Analytics Streaming Event Processing)"
+title: "Real-time Analytics Streaming Event Processing"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 실시간 분석 스트리밍 이벤트 처리은(는) 이벤트 스트림을 수집 즉시 처리해 이상 탐지, 알림, 실시간 KPI를 제공하는 분석 방식이다.

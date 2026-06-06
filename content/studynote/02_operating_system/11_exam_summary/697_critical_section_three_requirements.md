@@ -1,10 +1,9 @@
 ---
-title: "697. 임계 구역 3가지 요구조건 (Critical Section Three Requirements)"
+title: "Critical Section Three Requirements"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

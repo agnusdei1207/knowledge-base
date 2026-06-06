@@ -1,10 +1,9 @@
 ---
-title: "371. DevOps 클라우드 기술사 핵심 키워드 통합 요약 (DevOps Cloud PE Integrated Keyword Summary)"
+title: "DevOps Cloud PE Integrated Keyword Summary"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

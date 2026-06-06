@@ -1,10 +1,9 @@
 ---
-title: "113. 매니폴드 가설 (Manifold Hypothesis) - 고차원 데이터와 차원 축소의 수학적 근거"
+title: "113. Manifold Hypothesis Dimensionality Reduction"
 date: "2026-04-19"
 tags:
   - "studynote-dataengineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 매니폴드 가설(Manifold Hypothesis)은 현실의 고차원 데이터가 실제로는 <strong>저차원 매니폴드(곡면) 위에 밀집</strong>되어 있다는 가정이며, 이것이 [PCA](/studynote/08_algorithm_stats/10_linear_algebra/163_pca/)·t-SNE·[오토인코더](/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/) 등 <strong><a href="/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/">차원 축소</a>가 작동하는 수학적 근거</strong>다.

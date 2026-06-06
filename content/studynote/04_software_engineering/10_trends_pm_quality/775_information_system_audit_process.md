@@ -1,10 +1,9 @@
 ---
-title: "775. 정보시스템 감리 절차 모델"
+title: "775. Information System Audit Process"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

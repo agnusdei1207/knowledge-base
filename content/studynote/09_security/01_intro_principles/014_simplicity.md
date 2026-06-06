@@ -1,11 +1,10 @@
 ---
-title: "14. 단순 보안 원칙 (Simplicity) — 불필요한 복잡성 제거"
+title: "014. Simplicity"
 date: "2026-03-25"
 description: "보안 메커니즘과 시스템 아키텍처를 최대한 단순하고 이해하기 쉽게 설계하여 오류와 취약점의 발생 표면적을 줄이는 경제적 설계 원칙"
 tags:
   - "security"
 ---
-
 
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: "복잡성은 보안의 가장 큰 적(Complexity is the worst enemy of [security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))"이라는 명제 하에, 보안 통제 논리와 코드를 최소화하고 직관적으로 설계하는 아키텍처 철학이다.

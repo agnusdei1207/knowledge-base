@@ -1,10 +1,9 @@
 ---
-title: "683. API 게이트웨이 BFF (Backend for Frontend)"
+title: "Backend for Frontend"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

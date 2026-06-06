@@ -1,10 +1,9 @@
 ---
-title: "552. 디지털 리터러시 조직 역량 강화 (Digital Literacy Organization Capability)"
+title: "Digital Literacy Organization Capability"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 디지털 리터러시 조직 역량은(는) 구성원이 데이터, 자동화, 보안, AI 도구를 이해하고 업무에 활용하는 조직 역량이다.

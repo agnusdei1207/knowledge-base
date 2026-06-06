@@ -1,10 +1,9 @@
 ---
-title: "PACELC 정리 (PACELC Theorem)"
+title: "PACELC Theorem"
 date: "2024-05-22"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 - **CAP의 한계 보완:** 네트워크 장애([Partition](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)) 시뿐만 아니라 정상(Else) 상황에서의 트레이드오프까지 정의한 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템의 확장 이론임.

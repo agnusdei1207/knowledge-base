@@ -1,10 +1,9 @@
 ---
-title: "583. AI 어시스턴트 코드 산출물의 라이선스 충돌(저작권) 이슈 및 보안 위협 (Hallucination 버그)"
+title: "Hallucination"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

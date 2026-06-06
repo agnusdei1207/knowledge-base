@@ -1,10 +1,9 @@
 ---
-title: "648. 프로세스 체크포인트/리스토어 (CRIU) 컨테이너 마이그레이션 도구 구조"
+title: "648. Process Checkpoint Restore Criu"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

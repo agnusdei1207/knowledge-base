@@ -1,10 +1,9 @@
 ---
-title: "453. 고장 허용 시스템 (Fault Tolerance)"
+title: "Fault Tolerance"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "281. 파인튜닝 전이 학습 방법론 (Fine-Tuning / 미세 조정)"
+title: "Fine-Tuning /"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

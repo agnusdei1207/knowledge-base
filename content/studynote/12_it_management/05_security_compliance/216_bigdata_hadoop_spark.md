@@ -1,10 +1,9 @@
 ---
-title: "216. 빅데이터 분산 처리 인프라"
+title: "216. Bigdata Hadoop Spark"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 빅데이터 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 인프라의 본질은 [하둡 에코시스템](/studynote/13_cloud_architecture/04_devops_observability/211_hadoop_ecosystem_mapreduce/) ([HDFS](/studynote/14_data_engineering/01_infrastructure/013_hdfs/), [MapReduce](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 병목) -> [아파치 스파크](/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) ([Apache Spark](/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) 인메모리 고속 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 컴퓨팅)를 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가치와 운영 절차로 연결하는 데 있다.

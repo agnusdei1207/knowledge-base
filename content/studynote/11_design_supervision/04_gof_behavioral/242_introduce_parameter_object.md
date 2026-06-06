@@ -1,10 +1,9 @@
 ---
-title: "242. 파라미터 객체화 (Introduce Parameter Object)"
+title: "Introduce Parameter Object"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

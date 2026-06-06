@@ -1,11 +1,10 @@
 ---
-title: "5. 스키마 (Schema) - 데이터베이스의 논리적 구조와 제약 조건에 대한 명세"
+title: "005. Schema"
 date: "2024-05-20"
 description: "데이터베이스의 논리적 구조와 제약 조건에 대한 명세, 메타데이터로서의 스키마 심층 분석"
 tags:
   - "database"
 ---
-
 
 # 05. 스키마 ([Schema](/studynote/05_database/04_transactions_concurrency/505_schema/))
 

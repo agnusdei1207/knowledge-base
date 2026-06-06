@@ -1,10 +1,9 @@
 ---
-title: "564. 탈중앙화 스토리지 IPFS 필코인 (Decentralized Storage IPFS Filecoin)"
+title: "Decentralized Storage IPFS Filecoin"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

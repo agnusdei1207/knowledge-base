@@ -1,10 +1,9 @@
 ---
-title: "277. 세마포어를 이용한 순서 제어 (Ordering)"
+title: "Ordering"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

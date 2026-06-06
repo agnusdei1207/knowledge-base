@@ -1,10 +1,9 @@
 ---
-title: "631. IT 경영 관리 핵심 토픽 631번 시험 요약 (IT Management Core Topic 631 Exam Summary)"
+title: "IT Management Core Topic 631 Exam Summary"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 # 📘 기술사 시험 핵심 정리 — 631. IT 경영 관리 핵심 토픽
 

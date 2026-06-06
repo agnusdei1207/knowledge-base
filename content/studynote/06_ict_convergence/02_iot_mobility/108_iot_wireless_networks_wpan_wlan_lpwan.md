@@ -1,10 +1,9 @@
 ---
-title: "108. IoT 무선 통신 기술 분류 (WPAN, WLAN, LPWAN)"
+title: "WPAN, WLAN, LPWAN"
 date: "2026-04-10"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [사물인터넷](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/))을 위한 무선 통신망은 기기의 용도에 따라 '얼마나 멀리 가는가(Coverage)'와 '[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 얼마나 많이 싣는가([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Rate)'를 기준으로 [WPAN](/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/), [WLAN](/studynote/03_network/11_wireless_mobile_communication/571_wlan_bss_ess_structure/), LPWAN의 3가지 체급으로 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)된다.

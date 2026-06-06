@@ -1,10 +1,9 @@
 ---
-title: "417. BM25 정보 검색 모델 (Best Matching 25)"
+title: "Best Matching 25"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

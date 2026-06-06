@@ -1,10 +1,9 @@
 ---
-title: "298. 몽고DB (MongoDB) 아키텍처"
+title: "298. Molap Rolap Holap"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

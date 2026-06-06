@@ -1,10 +1,9 @@
 ---
-title: "23. EA 기반 감리 (EA-based Information System Audit)"
+title: "EA-based Information System Audit"
 date: "2026-04-29"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) ([Enterprise Architecture](/studynote/12_it_management/01_governance_strategy/806_ea_enterprise_architecture/), [전사 아키텍처](/studynote/12_it_management/05_security_compliance/242_ea_architecture_planning/)) 기반 감리는 개별 정보시스템 프로젝트가 기관 전체의 비즈니스·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·[기술 아키텍처](/studynote/12_it_management/03_ea_isp/890_ta_as_is_analysis/) <strong><a href="/studynote/12_it_management/03_ea_isp/116_reference_model/">참조 모델</a>(<a href="/studynote/12_it_management/03_ea_isp/117_brm_business_reference_model/">BRM</a>·<a href="/studynote/12_it_management/03_ea_isp/903_drm_data_reference_model_standard/">DRM</a>·<a href="/studynote/12_it_management/03_ea_isp/118_srm_service_reference_model/">SRM</a>·<a href="/studynote/12_it_management/03_ea_isp/120_trm_technical_reference_model/">TRM</a>·<a href="/studynote/12_it_management/03_ea_isp/905_prm_performance_reference_model_it_roi/">PRM</a>)에 정렬(Alignment)되었는지</strong>를 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)함으로써 중복 투자·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [사일로](/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)·[상호운용성](/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/) [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 원천 차단하는 거시적 감리 체계다.

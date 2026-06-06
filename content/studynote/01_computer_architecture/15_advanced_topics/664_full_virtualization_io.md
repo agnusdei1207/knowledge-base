@@ -1,10 +1,9 @@
 ---
-title: "664. 전가상화 (Full Virtualization) I/O"
+title: "664. Full Virtualization Io"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "13. 포트 바인딩 (Port Binding) - 자체적으로 포트를 바인딩하여 웹 서비스 노출"
+title: "013. Port Binding"
 date: "2026-04-05"
 tags:
   - "devops_sre"
 ---
-
 
 # [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 바인딩
 

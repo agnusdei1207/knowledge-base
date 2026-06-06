@@ -1,10 +1,9 @@
 ---
-title: "01. Apache Flink - 상태 기반 스트리밍처리의 완성형"
+title: "076. Apache Flink"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"
 ---
-
 
 # [Apache Flink](/studynote/14_data_engineering/05_exam_keywords/215_flink_native_stream_watermark_window_time/) - 상태 기반 스트리밍처리의 완성형
 

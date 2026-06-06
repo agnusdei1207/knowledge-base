@@ -1,10 +1,9 @@
 ---
-title: "694. 기밀 컴퓨팅 데이터 인 유즈(In Use) 보호"
+title: "694. Confidential Computing Data In Use"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

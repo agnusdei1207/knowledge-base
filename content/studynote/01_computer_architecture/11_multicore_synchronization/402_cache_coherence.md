@@ -1,10 +1,9 @@
 ---
-title: "402. 캐시 일관성 (Cache Coherence)"
+title: "Cache Coherence"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

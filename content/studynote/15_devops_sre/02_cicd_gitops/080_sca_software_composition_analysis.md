@@ -1,10 +1,9 @@
 ---
-title: "80. 패키지 취약점 스캐닝 (SCA, Software Composition Analysis)"
+title: "SCA, Software Composition Analysis"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

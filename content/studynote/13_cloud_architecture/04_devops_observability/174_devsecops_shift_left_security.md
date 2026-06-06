@@ -1,10 +1,9 @@
 ---
-title: "174. 데브섹옵스 (DevSecOps, Shift-Left Security)"
+title: "DevSecOps, Shift-Left Security"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

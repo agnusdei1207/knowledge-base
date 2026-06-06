@@ -1,10 +1,9 @@
 ---
-title: "266. 데이터 정제 (Data Cleansing)"
+title: "Data Cleansing"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

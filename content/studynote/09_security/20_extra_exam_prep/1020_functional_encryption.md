@@ -1,10 +1,9 @@
 ---
-title: "1020. Functional Encryption (함수 암호)"
+title: "1020. Functional Encryption"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

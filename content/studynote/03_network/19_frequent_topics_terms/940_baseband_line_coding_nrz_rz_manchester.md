@@ -1,10 +1,9 @@
 ---
-title: "940. 기저대역(Baseband) 선로 부호 (RZ, NRZ, 맨체스터 등)"
+title: "RZ, NRZ,"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

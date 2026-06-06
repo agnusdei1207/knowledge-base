@@ -1,10 +1,9 @@
 ---
-title: "189. 비트 에러율 (BER, Bit Error Rate)"
+title: "BER, Bit Error Rate"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

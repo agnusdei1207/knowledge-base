@@ -1,10 +1,9 @@
 ---
-title: "347. 교차 엔트로피와 KLD (Kullback-Leibler Divergence)"
+title: "Kullback-Leibler Divergence"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

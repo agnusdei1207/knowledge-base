@@ -1,10 +1,9 @@
 ---
-title: "255. 데이터 파이프라인 DAG (Directed Acyclic Graph) 배치 플로우 관리 (Apache Airflow)"
+title: "Apache Airflow"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

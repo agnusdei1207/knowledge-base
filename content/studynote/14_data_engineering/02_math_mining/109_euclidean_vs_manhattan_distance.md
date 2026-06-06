@@ -1,10 +1,9 @@
 ---
-title: "109. 유클리드 거리 vs 맨해튼 거리 (Euclidean vs Manhattan Distance)"
+title: "Euclidean vs Manhattan Distance"
 date: "2026-04-19"
 tags:
   - "studynote-dataengineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 유클리드 거리(L2 Norm)는 두 점 사이의 **최단 직선 거리** $\sqrt{\sum(x_i-y_i)^2}$이고, 맨해튼 거리(L1 Norm)는 축을 따라 이동하는 **격자형 거리** $\sum|x_i-y_i|$로, 동일한 민코프스키 거리(Minkowski Distance)의 $p=2$, $p=1$ 특수 케이스다.

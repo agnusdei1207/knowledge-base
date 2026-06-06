@@ -1,10 +1,9 @@
 ---
-title: "459. Dummy (더미) - 인자 채우기용, 실제 사용 안됨"
+title: "459. Dummy Test Double"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

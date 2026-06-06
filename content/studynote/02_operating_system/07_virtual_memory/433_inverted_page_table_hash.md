@@ -1,10 +1,9 @@
 ---
-title: "433. 역 페이지 테이블 탐색 최적화 해시 함수 (Inverted Page Table Hash)"
+title: "Inverted Page Table Hash"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

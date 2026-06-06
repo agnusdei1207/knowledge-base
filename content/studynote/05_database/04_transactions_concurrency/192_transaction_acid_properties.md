@@ -1,10 +1,9 @@
 ---
-title: "192. 트랜잭션의 ACID 특성 (Transaction ACID Properties)"
+title: "Transaction ACID Properties"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

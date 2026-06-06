@@ -1,10 +1,9 @@
 ---
-title: "038. 잔여 위험 (Residual Risk) — 통제 후 남는 위험"
+title: "038. Residual Risk"
 date: "2026-03-03"
 tags:
   - "studynote-security"
 ---
-
 
 > **핵심 인사이트**
 > 1. 잔여 위험(Residual [Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))은 보안 통제를 적용한 후에도 남아 있는 위험으로, 이론상 위험을 완전히 제거하는 것은 불가능하므로 "얼마나 수용 가능한 수준으로 줄였는가"가 보안 관리의 본질적 목표다.

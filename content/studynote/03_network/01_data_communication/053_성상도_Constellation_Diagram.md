@@ -1,10 +1,9 @@
 ---
-title: "53. 성상도 (Constellation Diagram)"
+title: "Constellation Diagram"
 date: "2026-05-01"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

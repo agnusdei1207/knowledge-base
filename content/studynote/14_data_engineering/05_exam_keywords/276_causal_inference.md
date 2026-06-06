@@ -1,10 +1,9 @@
 ---
-title: "276. 인과 추론 도구 변수 인과 그래프 (Causal Inference Instrumental Variable DAG)"
+title: "Causal Inference Instrumental Variable DAG"
 date: "2026-05-09"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

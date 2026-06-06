@@ -1,10 +1,9 @@
 ---
-title: "369. 멀티캐스트 라우팅"
+title: "369. Multicast Routing Pim Dense Vs Sparse"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

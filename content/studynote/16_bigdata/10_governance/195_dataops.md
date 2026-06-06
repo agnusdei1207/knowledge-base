@@ -1,10 +1,9 @@
 ---
-title: "05. 데이터옵스 (DataOps) - 데이터 파이프라인의 데브옵스화"
+title: "195. Dataops"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"
 ---
-
 
 # [데이터옵스](/studynote/14_data_engineering/04_mlops/196_dataops_dbt_ci_cd_data_testing/) ([DataOps](/studynote/12_it_management/05_security_compliance/965_dataops/)) - [데이터 파이프라인](/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)의 [데브옵스](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)화
 

@@ -1,10 +1,9 @@
 ---
-title: "376. 신원 관리 IAM 통합 인증 SSO (Identity Management IAM SSO Integration)"
+title: "Identity Management IAM SSO Integration"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

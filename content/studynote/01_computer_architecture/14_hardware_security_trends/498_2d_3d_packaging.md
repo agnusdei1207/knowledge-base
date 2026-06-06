@@ -1,10 +1,9 @@
 ---
-title: "498. 2.5D 및 3D 패키징 기술"
+title: "498. 2D 3D Packaging"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

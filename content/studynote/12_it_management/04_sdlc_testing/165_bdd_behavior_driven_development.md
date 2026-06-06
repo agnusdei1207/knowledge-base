@@ -1,10 +1,9 @@
 ---
-title: "165. BDD (Behavior Driven Development, 행위 주도 개발)"
+title: "Behavior Driven Development,"
 date: "2026-04-21"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

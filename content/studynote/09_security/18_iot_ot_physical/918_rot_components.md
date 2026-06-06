@@ -1,10 +1,9 @@
 ---
-title: "918. RoT 구성요소 (Rot Components)"
+title: "Rot Components"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

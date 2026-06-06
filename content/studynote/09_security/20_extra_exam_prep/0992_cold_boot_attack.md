@@ -1,10 +1,9 @@
 ---
-title: "992. Cold Boot Attack (메모리 잔상 읽기)"
+title: "0992. Cold Boot Attack"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

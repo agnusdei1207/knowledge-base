@@ -1,10 +1,9 @@
 ---
-title: "830. 데이터베이스 보안 (DB Security)"
+title: "DB Security"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

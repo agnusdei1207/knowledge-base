@@ -1,10 +1,9 @@
 ---
-title: "772. ATDD 인수 테스트 주도 개발 구조"
+title: "772. Atdd Acceptance Testing Structure"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

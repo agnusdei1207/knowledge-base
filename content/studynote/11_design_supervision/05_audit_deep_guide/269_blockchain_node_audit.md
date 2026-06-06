@@ -1,10 +1,9 @@
 ---
-title: "269. 블록체인 노드 아키텍처 감리 (Blockchain Node Architecture Audit)"
+title: "Blockchain Node Architecture Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

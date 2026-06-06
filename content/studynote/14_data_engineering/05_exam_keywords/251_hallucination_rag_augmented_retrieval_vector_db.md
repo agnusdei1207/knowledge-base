@@ -1,10 +1,9 @@
 ---
-title: "251. 할루시네이션 (Hallucination) RAG (Retrieval Augmented Generation) 벡터 DB"
+title: "251. Hallucination Rag Augmented Retrieval Vector Db"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)([Large Language Model](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))은 훈련 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 범위 밖이나 최신 정보에 대해 그럴듯하지만 틀린 답변([Hallucination](/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/))을 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다.

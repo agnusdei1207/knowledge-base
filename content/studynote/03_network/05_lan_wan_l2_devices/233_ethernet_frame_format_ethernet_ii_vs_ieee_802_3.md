@@ -1,10 +1,9 @@
 ---
-title: "233. 이더넷 프레임 포맷 (Ethernet II vs IEEE 802.3)"
+title: "Ethernet II vs IEEE 802.3"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

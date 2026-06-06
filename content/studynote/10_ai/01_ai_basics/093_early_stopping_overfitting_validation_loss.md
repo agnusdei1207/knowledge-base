@@ -1,10 +1,9 @@
 ---
-title: "93. 조기 종료 (Early Stopping) - 과적합 방지와 학습 타이밍"
+title: "093. Early Stopping Overfitting Validation Loss"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

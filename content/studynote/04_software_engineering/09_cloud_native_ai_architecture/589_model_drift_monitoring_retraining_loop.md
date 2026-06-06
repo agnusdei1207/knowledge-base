@@ -1,10 +1,9 @@
 ---
-title: "589. 모델 드리프트 (Model Drift / Data Drift) 모니터링 및 재학습 루프 설계"
+title: "589. Model Drift Monitoring Retraining Loop"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

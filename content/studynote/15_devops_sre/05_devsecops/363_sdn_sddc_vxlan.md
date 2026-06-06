@@ -1,10 +1,9 @@
 ---
-title: "363. SDN SDDC VXLAN 논리망 오버레이 통신 제어망 (SDN SDDC VXLAN Logical Network Overlay and Control Plane)"
+title: "SDN SDDC VXLAN Logical Network Overlay and Control Plane"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

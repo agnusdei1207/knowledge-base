@@ -1,10 +1,9 @@
 ---
-title: "78. 데이터 스케일링 - 정규화(Min-Max)와 표준화(Z-Score) 차이점"
+title: "078. Data Scaling Normalization Min Max Standardization Z Score"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "792. ICT 융합 기술사 종합 아키텍처 마스터 맵 2 (ICT Convergence PE Architecture Master Map 2)"
+title: "ICT Convergence PE Architecture Master Map 2"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

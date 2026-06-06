@@ -1,10 +1,9 @@
 ---
-title: "238. NIDS / NIPS (네트워크 기반 침입 탐지/방지 시스템)"
+title: "238. Nids Nips Network Based Intrusion Detection Prevention"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "3. 조건부 확률 (Conditional Probability) — P(A|B)"
+title: "A|B"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트
 

@@ -1,10 +1,9 @@
 ---
-title: "562. 버스트 버스 트랜잭션 (Burst Bus Transaction)"
+title: "Burst Bus Transaction"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

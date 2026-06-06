@@ -1,10 +1,9 @@
 ---
-title: "360. SBOM 컴플라이언스 도커 이미지 스캔 보안망 통제 (SBOM)"
+title: "SBOM"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [SBOM](/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) 컴플라이언스 [도커 이미지](/studynote/13_cloud_architecture/02_iaas_paas_saas/068_docker_image_immutable_package/) 스캔 보안망 통제는 클라우드 인프라에서 보안과 통제를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.

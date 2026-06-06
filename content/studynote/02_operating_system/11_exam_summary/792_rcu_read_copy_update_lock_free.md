@@ -1,10 +1,9 @@
 ---
-title: "792. RCU 다중 독자 락 프리 고성능 기법 (Rcu Read Copy Update Lock Free)"
+title: "Rcu Read Copy Update Lock Free"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

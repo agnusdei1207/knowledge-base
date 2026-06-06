@@ -1,10 +1,9 @@
 ---
-title: "87. 푸시 기반(Push-based) 배포 - 기존 CI/CD 젠킨스의 보안 한계"
+title: "087. Push Based Deployment Jenkins Ci Cd Security Risk"
 date: "2026-04-10"
 tags:
   - "studynote-devops"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "159. 연산 코드 (Opcode)"
+title: "Opcode"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

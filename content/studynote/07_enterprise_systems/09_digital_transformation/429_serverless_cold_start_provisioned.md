@@ -1,10 +1,9 @@
 ---
-title: "429. 서버리스 콜드 스타트 지연 해결 프로비저닝 (Serverless Cold Start)"
+title: "Serverless Cold Start"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

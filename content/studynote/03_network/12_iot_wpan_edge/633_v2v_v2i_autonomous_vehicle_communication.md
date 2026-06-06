@@ -1,10 +1,9 @@
 ---
-title: "633. 자율주행 차량 통신 (V2V, V2I 교통인프라 교환)"
+title: "V2V, V2I"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

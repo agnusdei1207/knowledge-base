@@ -1,10 +1,9 @@
 ---
-title: "576. 피처 플래그 (Feature Flag) 기반 A/B 테스트 및 점진적 롤아웃"
+title: "576. Feature Flag Ab Testing Rollout"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

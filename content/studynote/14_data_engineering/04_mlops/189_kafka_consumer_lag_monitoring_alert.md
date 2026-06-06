@@ -1,10 +1,9 @@
 ---
-title: "189. 카프카 컨슈머 랙 (Kafka Consumer Lag) 지연 모니터링 경보 파이프"
+title: "189. Kafka Consumer Lag Monitoring Alert"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

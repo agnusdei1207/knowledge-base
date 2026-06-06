@@ -1,10 +1,9 @@
 ---
-title: "424. 하이브리드 멀티 클라우드 록인 회피 전략 (Hybrid Multi-Cloud)"
+title: "Hybrid Multi-Cloud"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

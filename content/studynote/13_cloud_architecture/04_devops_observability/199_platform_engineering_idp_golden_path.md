@@ -1,10 +1,9 @@
 ---
-title: "199. 플랫폼 엔지니어링 (Platform 엔진ering)"
+title: "Platform ering"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

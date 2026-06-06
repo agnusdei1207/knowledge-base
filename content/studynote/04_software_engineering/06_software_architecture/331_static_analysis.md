@@ -1,10 +1,9 @@
 ---
-title: "331. 정적 분석 (Static Analysis) - 실행하지 않고 소스코드의 결함 탐지"
+title: "331. Static Analysis"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "8. 종속성 (Dependencies) 격리 - 모든 종속성은 명시적으로 선언(package.json, pom.xml 등)"
+title: "package.json, pom.xml"
 date: "2026-04-05"
 tags:
   - "devops_sre"
 ---
-
 
 # 종속성 격리
 

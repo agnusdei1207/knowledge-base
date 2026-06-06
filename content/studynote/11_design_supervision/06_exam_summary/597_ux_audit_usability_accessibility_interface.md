@@ -1,10 +1,9 @@
 ---
-title: "597. UX 감리 사용성 접근성 인터페이스 평가 (UX Audit Usability Accessibility Interface)"
+title: "UX Audit Usability Accessibility Interface"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

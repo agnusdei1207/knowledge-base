@@ -1,10 +1,9 @@
 ---
-title: "538. 형상 관리 버전 제어 변경 추적 (Configuration Management Version Control)"
+title: "Configuration Management Version Control"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "220. 내부 방화벽 (Internal Firewall)"
+title: "Internal Firewall"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

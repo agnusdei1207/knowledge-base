@@ -1,10 +1,9 @@
 ---
-title: "59. 사후 보안 (Bolt-on Security) - 완성 후 보안 추가"
+title: "059. Bolt On Security"
 date: "2026-04-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

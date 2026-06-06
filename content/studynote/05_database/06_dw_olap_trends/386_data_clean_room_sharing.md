@@ -1,10 +1,9 @@
 ---
-title: "386. 데이터 공유 (Data Sharing / Clean Room) 보안 파티션 교환 모델 (Snowflake Data Clean Room 등)"
+title: "Snowflake Data Clean Room"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

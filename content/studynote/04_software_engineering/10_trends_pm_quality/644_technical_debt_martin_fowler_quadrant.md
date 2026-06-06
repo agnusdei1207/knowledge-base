@@ -1,10 +1,9 @@
 ---
-title: "644. 기술 부채 마틴 파울러 사분면"
+title: "644. Technical Debt Martin Fowler Quadrant"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

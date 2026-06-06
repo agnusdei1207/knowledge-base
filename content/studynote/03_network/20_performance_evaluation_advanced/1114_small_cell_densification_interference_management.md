@@ -1,10 +1,9 @@
 ---
-title: "1114. 스몰 셀 조밀화 간섭 통제망"
+title: "1114. Small Cell Densification Interference Management"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

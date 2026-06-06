@@ -1,10 +1,9 @@
 ---
-title: "386. 컴플라이언스 코드화 규제 준수 자동화 (Compliance as Code Regulatory Automation)"
+title: "Compliance as Code Regulatory Automation"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

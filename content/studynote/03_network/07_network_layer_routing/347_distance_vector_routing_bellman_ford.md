@@ -1,10 +1,9 @@
 ---
-title: "347. 거리 벡터 (Distance Vector) 라우팅 알고리즘"
+title: "347. Distance Vector Routing Bellman Ford"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

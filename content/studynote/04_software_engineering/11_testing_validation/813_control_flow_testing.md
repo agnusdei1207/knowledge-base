@@ -1,10 +1,9 @@
 ---
-title: "813. 제어 흐름 테스트 (Control Flow Testing)"
+title: "Control Flow Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

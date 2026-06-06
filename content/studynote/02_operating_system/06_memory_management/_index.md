@@ -1,9 +1,8 @@
 ---
-title: "06. 메모리 관리 (Memory Management)"
+title: "Operating System"
 tags:
   - "operating_system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

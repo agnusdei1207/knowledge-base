@@ -1,10 +1,9 @@
 ---
-title: "3. 저항 (Resistance)"
+title: "Resistance"
 date: "2026-04-17"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 저항 (Resistance)은 전하의 이동을 방해하여 전기에너지를 열로 소산시키는 물리적 마찰력이다.

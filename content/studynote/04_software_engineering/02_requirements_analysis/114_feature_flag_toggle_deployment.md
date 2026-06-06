@@ -1,10 +1,9 @@
 ---
-title: "114. 피처 플래그 (Feature Flag/Toggle) - 배포와 릴리즈 분리·다크 런칭"
+title: "114. Feature Flag Toggle Deployment"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [피처 플래그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)([Feature Flag](/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/))는 코드에 <strong>if/else <a href="/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>를 삽입</strong>하여, 배포(Deploy)와 릴리즈(Release)를 분리하고 <strong>런타임에 기능 ON/OFF를 즉시 전환</strong>할 수 있게 하는 소프트웨어 배포 전략이다.

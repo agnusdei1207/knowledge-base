@@ -1,10 +1,9 @@
 ---
-title: "21. 심리적 사용성 원칙 (Psychological Acceptability) — 보안이 사용성을 해치면 안 됨"
+title: "021. Psychological Acceptability Principle"
 date: "2026-04-02"
 tags:
   - "studynote-security"
 ---
-
 
 # 심리적 [사용성](/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/) 원칙 (Psychological Acceptability)
 

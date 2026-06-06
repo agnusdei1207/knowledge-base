@@ -1,10 +1,9 @@
 ---
-title: "527. 정규화의 역설 조인 비용 및 응답 지연 해결망 설계 (Second Normal Form)"
+title: "Second Normal Form"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

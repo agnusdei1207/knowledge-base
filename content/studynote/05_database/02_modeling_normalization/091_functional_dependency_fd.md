@@ -1,9 +1,8 @@
 ---
-title: "91. 삽입 이상 (Insertion Anomaly) - 불필요한 데이터까지 함께 삽입해야 하는 현상"
+title: "091. Functional Dependency Fd"
 tags:
   - "database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

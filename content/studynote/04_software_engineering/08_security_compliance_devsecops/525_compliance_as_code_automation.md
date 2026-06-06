@@ -1,10 +1,9 @@
 ---
-title: "525. 컴플라이언스 애즈 코드 (Compliance as Code) 자동화"
+title: "525. Compliance As Code Automation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

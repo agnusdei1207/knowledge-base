@@ -1,10 +1,9 @@
 ---
-title: "264. 통합 테스트 (Integration Test) DB 연동 모듈 조립망 결함 탐지 (Testcontainers 활용 격리 컨테이너 띄우기)"
+title: "Testcontainers"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

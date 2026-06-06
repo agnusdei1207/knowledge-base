@@ -1,10 +1,9 @@
 ---
-title: "490. 전략 기획 SWOT PEST 5Forces 분석 (Strategy Planning SWOT PEST 5Forces)"
+title: "Strategy Planning SWOT PEST 5Forces"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

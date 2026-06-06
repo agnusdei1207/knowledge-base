@@ -1,10 +1,9 @@
 ---
-title: "042. 데이터 자산 평가"
+title: "254. Data Asset Valuation"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"
 ---
-
 
 > **핵심 인사이트**
 > 1. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산 평가([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Asset Valuation)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 단순한 IT 자원이 아닌 경제적 가치를 가진 기업 자산으로 인식하고 정량적으로 측정하는 방법론으로, DCF(현금흐름할인법), 시장비교법, 비용접근법의 3대 방법론을 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 특성에 맞게 적용한다.

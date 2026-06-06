@@ -1,10 +1,9 @@
 ---
-title: "247. API Gateway 기능 (API Gateway Functions)"
+title: "API Gateway Functions"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

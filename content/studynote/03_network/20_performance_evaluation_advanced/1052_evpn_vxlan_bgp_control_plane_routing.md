@@ -1,10 +1,9 @@
 ---
-title: "1052. EVPN-VXLAN BGP 컨트롤 플레인 전이"
+title: "1052. Evpn Vxlan Bgp Control Plane Routing"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

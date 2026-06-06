@@ -1,10 +1,9 @@
 ---
-title: "532. 모델 기반 테스팅 MBT 자동화 (Model Based Testing MBT Automation)"
+title: "Model Based Testing MBT Automation"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

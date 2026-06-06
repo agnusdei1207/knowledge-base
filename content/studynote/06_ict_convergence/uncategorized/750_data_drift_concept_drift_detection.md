@@ -1,10 +1,9 @@
 ---
-title: "750. 데이터 드리프트 개념 드리프트 탐지 (Data Drift Concept Drift Detection)"
+title: "Data Drift Concept Drift Detection"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

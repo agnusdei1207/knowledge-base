@@ -1,10 +1,9 @@
 ---
-title: "264. 프록시 (Proxy) - 대리 객체를 통한 접근 제어"
+title: "264. Proxy Pattern Surrogate Access Control"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

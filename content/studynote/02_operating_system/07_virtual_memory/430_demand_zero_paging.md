@@ -1,10 +1,9 @@
 ---
-title: "430. 수요 페이지 제로화 (Demand Zero Paging) - BSS 영역 보안 할당"
+title: "430. Demand Zero Paging"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

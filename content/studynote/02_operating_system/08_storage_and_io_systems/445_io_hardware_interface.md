@@ -1,10 +1,9 @@
 ---
-title: "445. I/O 하드웨어 인터페이스 요소 (I/O Hardware Interface)"
+title: "I/O Hardware Interface"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

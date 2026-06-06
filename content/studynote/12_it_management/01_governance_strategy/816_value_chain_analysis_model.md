@@ -1,10 +1,9 @@
 ---
-title: "816. 가치 사슬 (Value Chain) - 마이클 포터, 주활동(본원적 활동)과 지원 활동 분류 분석"
+title: "816. Value Chain Analysis Model"
 date: "2026-04-02"
 tags:
   - "studynote-it-management"
 ---
-
 
 # [가치 사슬](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) ([Value Chain](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)) 분석 - IT 결합을 통한 경쟁 우위 창출 모델
 

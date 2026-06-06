@@ -1,11 +1,10 @@
 ---
-title: "1. 클라우드 컴퓨팅 (Cloud Computing) 5대 특징 (NIST 기준)"
+title: "NIST"
 date: "2026-05-09"
 description: "NIST(미국 국립표준기술연구소)에서 정의한 클라우드 컴퓨팅의 5대 핵심 특징인 주문형 셀프 서비스, 광범위한 네트워크 접속, 리소스 풀링, 신속한 탄력성, 측정 가능한 서비스 분석"
 tags:
   - "cloud_architecture"
 ---
-
 
 ```markdown
 # 1. 클라우드 컴퓨팅 (Cloud Computing) 5대 특징 (NIST 기준)

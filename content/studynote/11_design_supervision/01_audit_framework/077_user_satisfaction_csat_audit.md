@@ -1,10 +1,9 @@
 ---
-title: "77. 사용자 만족도 조사 결과 분석 및 개선 조치 (User Satisfaction and CSAT Audit)"
+title: "User Satisfaction and CSAT Audit"
 date: "2026-05-08"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

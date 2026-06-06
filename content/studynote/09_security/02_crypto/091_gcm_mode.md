@@ -1,10 +1,9 @@
 ---
-title: "091. GCM (Galois/Counter Mode) — AEAD, 인증 암호화"
+title: "091. Gcm Mode"
 date: "2026-04-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

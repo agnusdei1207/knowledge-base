@@ -1,10 +1,9 @@
 ---
-title: "974. AI Incident Database (AI 사고 DB)"
+title: "AI DB"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

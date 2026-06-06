@@ -1,10 +1,9 @@
 ---
-title: "182. 에픽 (Epic) - 거시적 스토리 집합"
+title: "182. Epic Agile Requirements"
 date: "2026-05-06"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

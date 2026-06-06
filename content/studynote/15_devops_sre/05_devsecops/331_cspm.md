@@ -1,10 +1,9 @@
 ---
-title: "331. CSPM 클라우드 보안 형상 관리 (CSPM Cloud Security Posture Management CIS Benchmark Drift Detection Auto-Remediation)"
+title: "CSPM Cloud Security Posture Management CIS Benchmark Drift Detection Auto-Remediation"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

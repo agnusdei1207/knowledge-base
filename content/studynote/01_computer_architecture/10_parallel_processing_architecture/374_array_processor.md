@@ -1,10 +1,9 @@
 ---
-title: "374. 배열 프로세서 (Array Processor)"
+title: "Array Processor"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "109. 불필요한 기능 구현 금지 원칙 (YAGNI, You Aren't Gonna Need It)"
+title: "YAGNI, You Aren't Gonna Need It"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

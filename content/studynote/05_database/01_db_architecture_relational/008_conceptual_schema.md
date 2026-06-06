@@ -1,11 +1,10 @@
 ---
-title: "8. 개념 스키마 (Conceptual Schema) - 조직 전체 관점, 논리적 구조"
+title: "008. Conceptual Schema"
 date: "2024-05-20"
 description: "조직 전체 관점의 논리적 데이터베이스 구조와 전사 데이터 모델링 원리"
 tags:
   - "database"
 ---
-
 
 # 개념 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) (Conceptual [Schema](/studynote/05_database/04_transactions_concurrency/505_schema/))
 #### 핵심 인사이트 (3줄 요약)

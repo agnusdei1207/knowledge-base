@@ -1,10 +1,9 @@
 ---
-title: "444. MaaS 모빌리티 융합 통합 서비스 (MaaS, Mobility as a Service)"
+title: "MaaS, Mobility as a Service"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

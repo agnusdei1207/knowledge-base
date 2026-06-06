@@ -1,10 +1,9 @@
 ---
-title: "128. Redis (Remote Dictionary Server) — 인메모리 데이터 구조 서버"
+title: "128. Redis"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: Redis는 단순한 캐시를 넘어 String·List·Hash·Set·Sorted Set 등 풍부한 자료구조를 인메모리로 제공하는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조 서버로, 초당 수십만 연산의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 핵심 강점이다.

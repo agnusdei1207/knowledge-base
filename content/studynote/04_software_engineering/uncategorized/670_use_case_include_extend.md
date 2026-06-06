@@ -1,10 +1,9 @@
 ---
-title: "670. 유스케이스 포함(Include) 확장(Extend)"
+title: "Extend"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

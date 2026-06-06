@@ -1,10 +1,9 @@
 ---
-title: "400. 프라이버시 클린 룸 데이터 안전 공유 (Privacy Clean Room)"
+title: "Privacy Clean Room"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

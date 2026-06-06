@@ -1,10 +1,9 @@
 ---
-title: "158. 와이파이 6E (Wi-Fi 6E) - 기존 2.4G/5G 외에 깨끗한 6GHz 대역(1.2GHz 폭)을 추가 사용"
+title: "158. Wifi 6E"
 date: "2026-05-05"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트
 

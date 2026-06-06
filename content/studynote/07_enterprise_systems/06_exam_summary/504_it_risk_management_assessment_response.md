@@ -1,10 +1,9 @@
 ---
-title: "504. IT 위험 관리 리스크 평가 대응 (IT Risk Management Assessment Response)"
+title: "IT Risk Management Assessment Response"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

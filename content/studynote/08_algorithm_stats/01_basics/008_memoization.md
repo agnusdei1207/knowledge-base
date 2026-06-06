@@ -1,9 +1,8 @@
 ---
-title: "8. 메모이제이션 (Memoization) — Top-Down DP"
+title: "008. Memoization"
 tags:
   - "algorithm_stats"
 ---
-
 
 # 08. 메모이제이션 (Memoization)
 

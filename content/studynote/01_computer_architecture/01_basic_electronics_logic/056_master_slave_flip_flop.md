@@ -1,10 +1,9 @@
 ---
-title: "56. 마스터-슬레이브 플립플롭 (Master-Slave Flip-Flop)"
+title: "Master-Slave Flip-Flop"
 date: "2026-05-01"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "216. 모나드 패턴 (Monad / Functional Programming Pattern)"
+title: "Monad / Functional Programming Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

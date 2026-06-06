@@ -1,10 +1,9 @@
 ---
-title: "437. 클라우드 WAF 웹 방화벽 DDoS 보호 (Cloud WAF Web Firewall DDoS Protection)"
+title: "Cloud WAF Web Firewall DDoS Protection"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

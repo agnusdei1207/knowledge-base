@@ -1,10 +1,9 @@
 ---
-title: "263. 이더채널 (EtherChannel) / 링크 어그리게이션 (LACP, IEEE 802.3ad/802.1AX)"
+title: "LACP, IEEE 802.3ad/802.1AX"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

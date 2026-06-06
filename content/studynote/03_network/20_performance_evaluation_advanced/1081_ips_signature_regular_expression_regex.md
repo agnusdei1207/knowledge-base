@@ -1,10 +1,9 @@
 ---
-title: "1081. IPS 시그니처 정규식"
+title: "1081. Ips Signature Regular Expression Regex"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

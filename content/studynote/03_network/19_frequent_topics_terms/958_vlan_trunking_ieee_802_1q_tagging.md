@@ -1,10 +1,9 @@
 ---
-title: "958. VLAN 트렁킹 (IEEE 802.1Q 태그)"
+title: "IEEE 802.1Q"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "460. CNAPP 네이티브 보안 통합 플랫폼 (CNAPP Native Security Unified Platform)"
+title: "CNAPP Native Security Unified Platform"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

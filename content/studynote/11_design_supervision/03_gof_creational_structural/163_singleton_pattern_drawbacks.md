@@ -1,10 +1,9 @@
 ---
-title: "163. 싱글톤 패턴의 단점과 DI (Singleton Drawbacks & Dependency Injection)"
+title: "Singleton Drawbacks & Dependency Injection"
 date: "2026-04-21"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

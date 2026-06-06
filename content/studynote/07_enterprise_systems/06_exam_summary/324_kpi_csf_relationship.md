@@ -1,10 +1,9 @@
 ---
-title: "324. KPI와 CSF 연관 관계 (KPI Key Performance Indicator vs CSF Critical Success Factor)"
+title: "KPI Key Performance Indicator vs CSF Critical Success Factor"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

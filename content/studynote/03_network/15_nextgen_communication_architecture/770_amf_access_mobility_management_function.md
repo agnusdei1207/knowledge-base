@@ -1,10 +1,9 @@
 ---
-title: "770. AMF (Access and Mobility Management Function / MME 대체)"
+title: "Access and Mobility Management Function / MME"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "509. 클러스터링 팩터 인덱스 효율 평가 지표 (Data Dictionary)"
+title: "Data Dictionary"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

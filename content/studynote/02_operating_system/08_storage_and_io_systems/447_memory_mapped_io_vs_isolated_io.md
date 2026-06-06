@@ -1,10 +1,9 @@
 ---
-title: "447. 메모리 맵 I/O (Memory-mapped I/O) vs 분리된 I/O (Isolated I/O / Port I/O)"
+title: "Isolated I/O / Port I/O"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

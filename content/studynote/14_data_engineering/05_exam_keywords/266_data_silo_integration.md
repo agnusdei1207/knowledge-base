@@ -1,10 +1,9 @@
 ---
-title: "266. 데이터 사일로 해소 통합 전략 (Data Silo Breaking Integration Strategy)"
+title: "Data Silo Breaking Integration Strategy"
 date: "2026-05-09"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

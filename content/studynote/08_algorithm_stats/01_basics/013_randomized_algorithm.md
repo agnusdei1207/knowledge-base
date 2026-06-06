@@ -1,9 +1,8 @@
 ---
-title: "13. 랜덤화 알고리즘 (Randomized Algorithm) — Las Vegas / Monte Carlo"
+title: "013. Randomized Algorithm"
 tags:
   - "algorithm_stats"
 ---
-
 
 # 13. 랜덤화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Randomized [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))
 

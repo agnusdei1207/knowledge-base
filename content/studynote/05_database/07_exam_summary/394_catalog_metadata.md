@@ -1,10 +1,9 @@
 ---
-title: "394. 카탈로그 (Catalog) 메타데이터"
+title: "394. Catalog Metadata"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

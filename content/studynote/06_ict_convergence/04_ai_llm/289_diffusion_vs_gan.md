@@ -1,10 +1,9 @@
 ---
-title: "289. 생성적 적대 신경망 과의 차이 (디퓨전은 생성 품질이 압도적, 속도는 GAN 우위) (GAN)"
+title: "GAN"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

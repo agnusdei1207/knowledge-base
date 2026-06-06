@@ -1,9 +1,8 @@
 ---
-title: "87. 식별 관계 (Identifying) vs 비식별 관계 (Non-identifying)"
+title: "Non-identifying"
 tags:
   - "database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "391. SOC 2 서비스 조직 통제 보고서 (SOC 2 Service Organization Control Report)"
+title: "SOC 2 Service Organization Control Report"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

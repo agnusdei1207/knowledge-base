@@ -1,10 +1,9 @@
 ---
-title: "550. 데이터 드리븐 의사결정 문화 구축 (Data Driven Decision Making Culture)"
+title: "Data Driven Decision Making Culture"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 데이터 기반 의사결정 문화은(는) 직관과 위계보다 검증 가능한 데이터와 실험 결과를 의사결정의 기준으로 삼는 조직 문화이다.

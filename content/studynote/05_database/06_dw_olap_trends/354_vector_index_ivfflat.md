@@ -1,10 +1,9 @@
 ---
-title: "354. 벡터 인덱스 IVFFlat (Inverted File Flat)"
+title: "Inverted File Flat"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

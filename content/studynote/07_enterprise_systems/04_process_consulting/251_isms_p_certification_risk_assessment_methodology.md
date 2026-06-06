@@ -1,10 +1,9 @@
 ---
-title: "251. ISMS-P 인증 위험 평가 절차 방법론 (ISMS-P Certification Risk Assessment)"
+title: "ISMS-P Certification Risk Assessment"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

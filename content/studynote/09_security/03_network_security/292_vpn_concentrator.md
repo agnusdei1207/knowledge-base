@@ -1,10 +1,9 @@
 ---
-title: "292. VPN 집선장치 (VPN Concentrator)"
+title: "VPN Concentrator"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

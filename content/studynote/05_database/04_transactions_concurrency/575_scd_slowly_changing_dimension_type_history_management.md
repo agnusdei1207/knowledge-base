@@ -1,10 +1,9 @@
 ---
-title: "575. Slowly Changing Dimension (SCD Type 1, 2, 3) 시계열 이력 차원 이력 관리 모델"
+title: "575. Scd Slowly Changing Dimension Type History Management"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

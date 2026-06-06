@@ -1,10 +1,9 @@
 ---
-title: "634. 병행 프로그래밍 락 프리 스택/큐 설계 데이터 구조 메커니즘 (Lock Free Stack Queue)"
+title: "Lock Free Stack Queue"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

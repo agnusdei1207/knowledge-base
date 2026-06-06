@@ -1,10 +1,9 @@
 ---
-title: "703. UAC Bypass (User Account Control 우회)"
+title: "User Account Control"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

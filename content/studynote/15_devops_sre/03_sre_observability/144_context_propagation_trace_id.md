@@ -1,10 +1,9 @@
 ---
-title: "144. Context Propagation & Trace ID 전파 상세"
+title: "144. Context Propagation Trace Id"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [Context](/studynote/02_operating_system/01_overview_architecture/033_context/) Propagation은 <strong><a href="/studynote/13_cloud_architecture/05_data_engineering/303_trace_id/">Trace ID</a>·Span ID·Baggage를 <a href="/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 헤더·<a href="/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/">gRPC</a> <a href="/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a>·<a href="/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>지 큐 <a href="/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a>으로 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 간 전파</strong>하여, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 요청의 전체 호출 체인을 하나의 Trace로 연결하는 메커니즘이다.

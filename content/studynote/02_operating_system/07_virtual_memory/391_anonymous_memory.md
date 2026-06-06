@@ -1,10 +1,9 @@
 ---
-title: "391. 익명 메모리 (Anonymous Memory) - 파일 시스템과 무관한 힙/스택 데이터 (스왑 영역 사용)"
+title: "391. Anonymous Memory"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

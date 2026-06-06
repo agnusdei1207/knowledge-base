@@ -1,10 +1,9 @@
 ---
-title: "501. EA 엔터프라이즈 아키텍처 프레임워크 (EA Enterprise Architecture Framework)"
+title: "EA Enterprise Architecture Framework"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

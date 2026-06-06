@@ -1,10 +1,9 @@
 ---
-title: "297. API 게이트웨이 인증 스로틀링 (Process)"
+title: "Process"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

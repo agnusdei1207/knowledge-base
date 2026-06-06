@@ -1,10 +1,9 @@
 ---
-title: "288. 객체 탐지 (Object Detection)"
+title: "Object Detection"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

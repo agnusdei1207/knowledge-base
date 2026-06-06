@@ -1,10 +1,9 @@
 ---
-title: "374. 공간 인덱스 Quad-tree 알고리즘"
+title: "374. Quad Tree Spatial Index"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

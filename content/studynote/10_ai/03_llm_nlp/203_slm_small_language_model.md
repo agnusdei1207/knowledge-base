@@ -1,10 +1,9 @@
 ---
-title: "203. 슬림 언어 모델 (SLM, Small Language Model)"
+title: "SLM, Small Language Model"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

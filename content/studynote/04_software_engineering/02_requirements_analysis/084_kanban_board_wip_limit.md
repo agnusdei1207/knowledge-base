@@ -1,9 +1,8 @@
 ---
-title: "84. 칸반 (Kanban) - 워크플로우 시각화, WIP(Work In Progress) 제한"
+title: "084. Kanban Board Wip Limit"
 tags:
   - "software_engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "298. 빅데이터 분산 처리 프레임워크 (MapReduce vs Spark)"
+title: "MapReduce vs Spark"
 date: "2026-03-04"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 수많은 서버(노드)에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 나누어 저장하고 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 처리하여, 단일 서버로는 불가능한 초거대 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석 가능하게 만드는 소프트웨어 환경이다.

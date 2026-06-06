@@ -1,10 +1,9 @@
 ---
-title: "568. 에듀테크 디지털 교육 학습 플랫폼 (EduTech Digital Education Learning Platform)"
+title: "EduTech Digital Education Learning Platform"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 에듀테크 디지털 교육 학습 플랫폼은(는) 학습 콘텐츠, 평가, 피드백, 학습 데이터를 플랫폼으로 통합해 개인화 교육을 제공하는 체계이다.

@@ -1,10 +1,9 @@
 ---
-title: "363. 객체지향 메트릭 (CK 메트릭스) - WMC, DIT, NOC, CBO, RFC, LCOM"
+title: "363. Ck Metrics"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

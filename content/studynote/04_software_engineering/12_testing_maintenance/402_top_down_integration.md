@@ -1,10 +1,9 @@
 ---
-title: "402. 하향식 통합 (Top-down) - 상위에서 하위로, 스텁(Stub) 사용"
+title: "402. Top Down Integration"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

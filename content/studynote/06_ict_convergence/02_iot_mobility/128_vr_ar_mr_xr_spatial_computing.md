@@ -1,10 +1,9 @@
 ---
-title: "128. VR·AR·MR·XR & 공간 컴퓨팅 - 현실과 가상의 융합 기술 스펙트럼"
+title: "128. Vr Ar Mr Xr Spatial Computing"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: VR(가상현실)·AR(증강현실)·MR(혼합현실)·XR(확장현실)은 <strong>현실-가상 연속체(Reality-Virtuality Continuum)</strong>에서 가상 콘텐츠와 현실의 결합 정도에 따라 구분되는 기술 스펙트럼이며, [공간 컴퓨팅](/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/)은 이를 포괄하는 차세대 패러다임이다.

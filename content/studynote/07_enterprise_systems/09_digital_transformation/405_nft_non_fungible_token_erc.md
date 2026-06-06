@@ -1,10 +1,9 @@
 ---
-title: "405. NFT 대체 불가능 토큰 ERC (NFT: Non-Fungible Token)"
+title: "NFT: Non-Fungible Token"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

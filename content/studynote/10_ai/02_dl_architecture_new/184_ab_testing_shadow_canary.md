@@ -1,10 +1,9 @@
 ---
-title: "184. A/B 테스팅, 섀도우 배포, 카나리 롤아웃 (A/B Testing, Shadow Deployment, Canary Rollout)"
+title: "A/B Testing, Shadow Deployment, Canary Rollout"
 date: "2026-05-06"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

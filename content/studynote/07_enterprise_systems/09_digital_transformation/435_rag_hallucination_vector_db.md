@@ -1,10 +1,9 @@
 ---
-title: "435. RAG 환각 제어 벡터 DB (RAG: Retrieval-Augmented Generation)"
+title: "RAG: Retrieval-Augmented Generation"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

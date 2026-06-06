@@ -1,10 +1,9 @@
 ---
-title: "80. 다중 공선성 (Multicollinearity) 및 VIF 지수"
+title: "080. Multicollinearity Vif Variance Inflation Factor Regression"
 date: "2026-04-11"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 다중 공선성(Multicollinearity)은 다중 [회귀 분석](/studynote/08_algorithm_stats/08_stats/149_regression_analysis/) 시 독립변수(X)들끼리 서로 너무 강한 선형 상관관계를 가져, 종속변수(Y)에 미치는 각 변수의 순수한 영향력(회귀 계수)을 파악할 수 없게 만드는 치명적인 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 질병이다.

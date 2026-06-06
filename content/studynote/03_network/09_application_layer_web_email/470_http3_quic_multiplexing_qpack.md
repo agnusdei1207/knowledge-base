@@ -1,10 +1,9 @@
 ---
-title: "470. HTTP/3 특징"
+title: "470. Http3 Quic Multiplexing Qpack"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

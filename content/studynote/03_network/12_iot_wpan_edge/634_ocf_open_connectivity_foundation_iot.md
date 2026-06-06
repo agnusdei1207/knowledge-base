@@ -1,10 +1,9 @@
 ---
-title: "634. OCF (Open Connectivity Foundation) IoT 통합 관리 계층 표준"
+title: "634. Ocf Open Connectivity Foundation Iot"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

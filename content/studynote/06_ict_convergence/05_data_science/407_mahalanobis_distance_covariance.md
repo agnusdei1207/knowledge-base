@@ -1,10 +1,9 @@
 ---
-title: "407. 마할라노비스 거리 (공분산 고려 정규화 투영 거리)"
+title: "407. Mahalanobis Distance Covariance"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

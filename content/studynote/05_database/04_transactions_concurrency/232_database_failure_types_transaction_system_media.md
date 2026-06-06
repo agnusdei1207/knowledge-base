@@ -1,10 +1,9 @@
 ---
-title: "232. 데이터베이스 장애 유형 (Database Failure Types Transaction System Media)"
+title: "Database Failure Types Transaction System Media"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

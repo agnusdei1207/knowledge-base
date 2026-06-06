@@ -1,10 +1,9 @@
 ---
-title: "57. 전가상화 (Full Virtualization) - 이진 변환 (Binary Translation)"
+title: "Binary Translation"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

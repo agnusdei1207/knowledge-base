@@ -1,10 +1,9 @@
 ---
-title: "662. 포렌식 4원칙 (Digital Forensics Principles)"
+title: "Digital Forensics Principles"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

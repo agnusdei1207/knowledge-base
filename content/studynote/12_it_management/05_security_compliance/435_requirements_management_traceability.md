@@ -1,10 +1,9 @@
 ---
-title: "435. 요구사항 관리 추적 변경 제어 (Requirements Management Traceability)"
+title: "Requirements Management Traceability"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

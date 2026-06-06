@@ -1,10 +1,9 @@
 ---
-title: "465. 옵티마이저 CBO 해시 조인 네스티드 루프 실행 계획 (CBO, Hash Join, Query Optimizer)"
+title: "CBO, Hash Join, Query Optimizer"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

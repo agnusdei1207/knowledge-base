@@ -1,10 +1,9 @@
 ---
-title: "486. RAID 4 (블록 단위 스트라이핑 + 단일 패리티 디스크) (RAID 4 Dedicated Parity)"
+title: "RAID 4 Dedicated Parity"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

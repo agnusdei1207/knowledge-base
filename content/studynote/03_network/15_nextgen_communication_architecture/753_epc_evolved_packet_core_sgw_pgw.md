@@ -1,10 +1,9 @@
 ---
-title: "753. EPC (Evolved Packet Core 코어망 시스템) S-GW, P-GW 제어 망 트래픽 통합"
+title: "753. Epc Evolved Packet Core Sgw Pgw"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "398. DevSecOps 성숙도 모델 보안 내재화 평가 (DevSecOps Maturity Model DSOMM BSIMM)"
+title: "DevSecOps Maturity Model DSOMM BSIMM"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

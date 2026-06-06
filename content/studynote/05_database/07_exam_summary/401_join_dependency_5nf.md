@@ -1,10 +1,9 @@
 ---
-title: "401. 조인 종속 제5정규형"
+title: "401. Join Dependency 5Nf"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

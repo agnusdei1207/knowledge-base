@@ -1,10 +1,9 @@
 ---
-title: "860. 워크어라운드 (Workaround) - 서비스 재개 임시 우회 조치"
+title: "860. Workaround Temporary Fix Incident"
 date: "2026-04-10"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

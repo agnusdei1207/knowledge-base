@@ -1,10 +1,9 @@
 ---
-title: "314. NoSQL 모델링 전략"
+title: "314. Nosql Query Driven Modeling"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

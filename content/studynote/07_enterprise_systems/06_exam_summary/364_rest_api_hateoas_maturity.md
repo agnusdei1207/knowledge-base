@@ -1,10 +1,9 @@
 ---
-title: "364. REST API HATEOAS 성숙도 모델 (REST API Richardson Maturity Model)"
+title: "REST API Richardson Maturity Model"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

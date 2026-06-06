@@ -1,10 +1,9 @@
 ---
-title: "587. 네트워크 인터페이스 카드 (NIC) 오프로딩"
+title: "587. Nic Offloading"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

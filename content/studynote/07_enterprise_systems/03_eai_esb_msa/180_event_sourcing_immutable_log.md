@@ -1,10 +1,9 @@
 ---
-title: "180. 이벤트 소싱 (Event Sourcing) - 상태 변경 이벤트를 불변 로그 (Append-Only Log) 로 저장"
+title: "180. Event Sourcing Immutable Log"
 date: "2026-05-06"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

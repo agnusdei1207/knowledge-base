@@ -1,10 +1,9 @@
 ---
-title: "428. 경로 커버리지 (Path Coverage) - 가능한 모든 실행 경로를 테스트"
+title: "428. Path Coverage"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

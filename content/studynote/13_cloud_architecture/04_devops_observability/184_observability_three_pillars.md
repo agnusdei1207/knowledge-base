@@ -1,10 +1,9 @@
 ---
-title: "184. 옵저버빌리티 3대 기둥 (Observability Three Pillars)"
+title: "Observability Three Pillars"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

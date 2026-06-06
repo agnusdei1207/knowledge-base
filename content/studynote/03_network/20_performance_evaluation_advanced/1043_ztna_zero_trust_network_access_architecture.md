@@ -1,10 +1,9 @@
 ---
-title: "1043. 제로 트러스트 구조"
+title: "1043. Ztna Zero Trust Network Access Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

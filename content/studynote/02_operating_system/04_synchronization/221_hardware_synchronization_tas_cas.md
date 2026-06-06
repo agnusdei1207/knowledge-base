@@ -1,10 +1,9 @@
 ---
-title: "221. 하드웨어적 동기화 (TAS, CAS)"
+title: "TAS, CAS"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

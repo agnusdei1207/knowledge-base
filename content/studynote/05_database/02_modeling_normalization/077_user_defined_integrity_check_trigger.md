@@ -1,9 +1,8 @@
 ---
-title: "77. 사용자 정의 무결성 (User-defined Integrity) - 업무 규칙에 따른 제약 (CHECK 제약조건 등)"
+title: "CHECK"
 tags:
   - "database"
 ---
-
 
 # 사용자 정의 [무결성](/studynote/09_security/01_intro_principles/003_integrity/) (User-defined [Integrity](/studynote/09_security/01_intro_principles/003_integrity/)) - 업무 규칙에 따른 제약
 

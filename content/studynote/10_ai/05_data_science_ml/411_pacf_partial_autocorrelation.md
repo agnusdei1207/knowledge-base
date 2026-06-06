@@ -1,10 +1,9 @@
 ---
-title: "411. 편자기상관함수 (PACF, Partial Autocorrelation Function)"
+title: "PACF, Partial Autocorrelation Function"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

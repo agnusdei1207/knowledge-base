@@ -1,11 +1,10 @@
 ---
-title: "88. Amazon Kinesis Data Streams — 샤드 기반, AWS 관리형"
+title: "088. Optimizer"
 date: "2026-04-05"
 description: "옵티마이저의 개념, 다양한 최적화 알고리즘의 분류와 특성, Adaptive Learning Rate 방법론"
 tags:
   - "it_management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

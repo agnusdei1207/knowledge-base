@@ -1,10 +1,9 @@
 ---
-title: "259. 정보시스템 마이그레이션 컷오버 롤백 시나리오 (IS Migration Cut-over / Rollback)"
+title: "IS Migration Cut-over / Rollback"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

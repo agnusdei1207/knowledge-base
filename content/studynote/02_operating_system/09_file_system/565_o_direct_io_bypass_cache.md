@@ -1,10 +1,9 @@
 ---
-title: "565. Direct I/O (O_DIRECT) - OS 캐시를 우회하여 데이터베이스 등의 자체 캐싱 최적화"
+title: "565. O Direct Io Bypass Cache"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

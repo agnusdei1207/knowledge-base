@@ -1,10 +1,9 @@
 ---
-title: "440. SASE SD-WAN 클라우드 보안 (SASE: Secure Access Service Edge)"
+title: "SASE: Secure Access Service Edge"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

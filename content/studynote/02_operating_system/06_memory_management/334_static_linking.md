@@ -1,10 +1,9 @@
 ---
-title: "334. 정적 연결 (Static Linking)"
+title: "Static Linking"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

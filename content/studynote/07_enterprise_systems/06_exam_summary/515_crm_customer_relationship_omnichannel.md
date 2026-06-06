@@ -1,10 +1,9 @@
 ---
-title: "515. CRM 고객 관계 관리 옴니채널 (CRM Customer Relationship Omnichannel)"
+title: "CRM Customer Relationship Omnichannel"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

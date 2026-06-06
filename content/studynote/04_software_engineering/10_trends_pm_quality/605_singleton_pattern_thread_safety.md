@@ -1,10 +1,9 @@
 ---
-title: "605. 싱글톤 패턴 메모리/쓰레드 세이프 설계"
+title: "605. Singleton Pattern Thread Safety"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "337. 표준 스와핑 (전체 프로세스) vs 페이징 시스템 스와핑 (페이지 단위) (Standard Vs Paging Swapping)"
+title: "Standard Vs Paging Swapping"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "369. 메모리 풀 (Memory Pool) 기법"
+title: "369. Memory Pool"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

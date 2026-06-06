@@ -1,10 +1,9 @@
 ---
-title: "641. 서비스 데스크 및 인시던트 관리 체계 감리"
+title: "641. Service Desk Incident Management Itsm Audit"
 date: "2026-04-10"
 tags:
   - "studynote-design"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

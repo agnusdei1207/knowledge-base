@@ -1,5 +1,5 @@
 ---
-title: "모바일 앱 감리 — 스토어 배포 기준 (Mobile App Audit: Store Deployment)"
+title: "Mobile App Audit: Store Deployment"
 date: "2025-01-01"
 description: "모바일 앱 감리의 스토어 배포 기준, 앱 스토어 정책 준수, 보안 검증(OWASP MASVS), 접근성 심사를 다룬다."
 tags:
@@ -12,7 +12,6 @@ tags:
   - "mobile security"
   - "studynote-design"
 ---
-
 
 > **핵심 인사이트 3줄**
 > 1. 모바일 앱 감리는 기능·[성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·보안·[접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)을 포함하며, 앱 스토어(Google Play·Apple App Store) 게재 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 준수가 배포 전 필수 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 항목이다.

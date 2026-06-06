@@ -1,10 +1,9 @@
 ---
-title: "29. NAND/NOR 게이트 (NAND/NOR Gates)"
+title: "NAND/NOR Gates"
 date: "2026-04-29"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: NAND(Not-AND)와 NOR(Not-OR) 게이트는 각각 단독으로 모든 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 함수를 구현할 수 있는 <strong>범용 게이트(<a href="/studynote/01_computer_architecture/01_basic_electronics_logic/031_universal_gate/">Universal Gate</a>)</strong>다. AND, OR, NOT, XOR 등 모든 조합 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)를 NAND 또는 NOR만으로 대체 구현 가능하다.

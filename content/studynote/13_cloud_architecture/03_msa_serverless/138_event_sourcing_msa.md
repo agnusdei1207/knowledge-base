@@ -1,10 +1,9 @@
 ---
-title: "138. Event Sourcing (MSA) - 상태 대신 이벤트를 저장"
+title: "138. Event Sourcing Msa"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Event Sourcing은 <strong>엔티티의 현재 상태를 저장하는 대신, 상태를 변경한 모든 이벤트(Event)를 순서대로 저장</strong>하고, 이벤트를 재생(Replay)하여 현재 상태를 복원하는 패턴이다.

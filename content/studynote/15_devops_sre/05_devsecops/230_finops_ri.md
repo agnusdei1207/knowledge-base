@@ -1,10 +1,9 @@
 ---
-title: "230. 클라우드 비용 효율 FinOps 프레임워크 최적화 (RI, 스팟 인스턴스, 핫-콜드 스토리지 티어링)"
+title: "RI, , -"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

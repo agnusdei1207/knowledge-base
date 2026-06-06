@@ -1,10 +1,9 @@
 ---
-title: "478. 토큰 이코노미: ICO, NFT, RWA (Token Economy: ICO, NFT, RWA)"
+title: "Token Economy: ICO, NFT, RWA"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

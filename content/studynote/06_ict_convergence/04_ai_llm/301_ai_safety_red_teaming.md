@@ -1,10 +1,9 @@
 ---
-title: "301. AI 안전 및 레드티밍 (Red Teaming) (AI Safety)"
+title: "AI Safety"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

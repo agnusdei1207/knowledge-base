@@ -1,10 +1,9 @@
 ---
-title: "487. RAID 5 (블록 단위 스트라이핑 + 분산 패리티) (RAID 5 Distributed Parity)"
+title: "RAID 5 Distributed Parity"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

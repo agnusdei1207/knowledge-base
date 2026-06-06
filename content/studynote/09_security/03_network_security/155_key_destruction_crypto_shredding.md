@@ -1,10 +1,9 @@
 ---
-title: "155. 키 폐기 (Key Destruction & Crypto-shredding)"
+title: "Key Destruction & Crypto-shredding"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

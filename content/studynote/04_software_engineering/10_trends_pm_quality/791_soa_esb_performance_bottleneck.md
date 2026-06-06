@@ -1,10 +1,9 @@
 ---
-title: "791. 서비스 지향 아키텍처(SOA) ESB 성능 병목 한계"
+title: "791. Soa Esb Performance Bottleneck"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

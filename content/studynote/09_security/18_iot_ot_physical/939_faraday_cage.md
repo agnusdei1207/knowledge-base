@@ -1,10 +1,9 @@
 ---
-title: "939. 패러데이 케이지 (Faraday Cage)"
+title: "Faraday Cage"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

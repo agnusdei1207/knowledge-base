@@ -1,10 +1,9 @@
 ---
-title: "158. 가시광 통신 (VLC, Visible Light Communication) / Li-Fi"
+title: "158. Vlc Lifi Visible Light"
 date: "2026-04-05"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

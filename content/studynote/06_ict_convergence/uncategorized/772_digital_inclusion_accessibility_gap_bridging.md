@@ -1,10 +1,9 @@
 ---
-title: "772. 디지털 포용 접근성 정보 격차 해소 (Digital Inclusion Accessibility Gap Bridging)"
+title: "Digital Inclusion Accessibility Gap Bridging"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

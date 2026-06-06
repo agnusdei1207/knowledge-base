@@ -1,10 +1,9 @@
 ---
-title: "233. 정밀도(Precision) 재현율(Recall) F1 스코어 ROC AUC 임계 곡선"
+title: "233. Precision Recall F1 Roc Auc Threshold"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 정밀도(Precision)와 [재현율](/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)([Recall](/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/))은 서로 반비례하는 트레이드오프 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)이며, F1은 이 둘의 조화 평균으로 균형을 잡는다.

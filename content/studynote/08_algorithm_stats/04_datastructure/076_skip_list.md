@@ -1,10 +1,9 @@
 ---
-title: "24. 스킵 리스트 (Skip List) — 확률적 균형 탐색 구조"
+title: "076. Skip List"
 date: "2026-04-29"
 tags:
   - "studynote-algorithm-stats"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [스킵 리스트](/studynote/12_it_management/02_itsm_itil/851_skip_list/)([Skip List](/studynote/12_it_management/03_ea_isp/894_skip_list/))는 1990년 William Pugh가 고안한 확률적 자료구조(Probabilistic [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Structure)로, 여러 레벨의 [연결 리스트](/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)([Linked List](/studynote/08_algorithm_stats/04_datastructure/056_linked_list/))를 계층화하여 평균 O(log n) 탐색·삽입·삭제를 달성하는 정렬된 딕셔너리(Sorted Dictionary) 구현체다.

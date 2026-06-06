@@ -1,10 +1,9 @@
 ---
-title: "719. CPU 클럭 다운클럭킹 (안전 모드)"
+title: "719. Cpu Downclocking"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

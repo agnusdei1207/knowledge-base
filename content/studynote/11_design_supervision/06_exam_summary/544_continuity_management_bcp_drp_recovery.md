@@ -1,10 +1,9 @@
 ---
-title: "544. 연속성 관리 BCP DRP 재해 복구 (Continuity Management BCP DRP Recovery)"
+title: "Continuity Management BCP DRP Recovery"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "454. CNCF 프로젝트 생태계 기술 지형도 (CNCF Project Ecosystem Technology Landscape)"
+title: "CNCF Project Ecosystem Technology Landscape"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

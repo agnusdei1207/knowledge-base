@@ -1,10 +1,9 @@
 ---
-title: "52. 인시던트 관리 (Incident Management)"
+title: "Incident Management"
 date: "2026-05-01"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

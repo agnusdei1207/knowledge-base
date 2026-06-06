@@ -1,10 +1,9 @@
 ---
-title: "808. NPV (Net Present Value, 순현재가치)"
+title: "Net Present Value,"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "622. 유지보수 인수인계 — Maintenance Transition"
+title: "622. Maintenance Transition"
 date: "2026-04-05"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 > **핵심 인사이트**
 > 1. 유지보수 인수인계(Maintenance Transition)는 개발 완료 시스템을 운영·유지보수 조직으로 이관하는 프로세스 — 불충분한 인수인계는 시스템 운영 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 장애의 주원인이 되며, [ITIL](/studynote/12_it_management/02_itsm_itil/846_itil/) [서비스 전환](/studynote/12_it_management/02_itsm_itil/850_service_transition/)([Service Transition](/studynote/12_it_management/02_itsm_itil/850_service_transition/))의 핵심 단계다.

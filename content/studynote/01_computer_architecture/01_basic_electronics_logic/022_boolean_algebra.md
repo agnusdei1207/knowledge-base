@@ -1,10 +1,9 @@
 ---
-title: "22. 부울 대수 (Boolean Algebra)"
+title: "Boolean Algebra"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 부울 대수 (Boolean Algebra)는 참(1)과 거짓(0)이라는 두 가지 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)값과 AND, OR, NOT 연산자만을 사용하여 우주의 모든 명제를 수식화한 이진 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 수학 체계다.

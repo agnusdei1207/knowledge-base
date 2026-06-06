@@ -1,10 +1,9 @@
 ---
-title: "695. IT 경영 관리 핵심 토픽 695번 시험 요약 (IT Management Core Topic 695 Exam Summary)"
+title: "IT Management Core Topic 695 Exam Summary"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 # 695. IT 경영 관리 핵심 토픽 - IT 거버넌스 및 정보화 전략(ISP) 요약
 

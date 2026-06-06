@@ -1,10 +1,9 @@
 ---
-title: "202. 터보 코드 (Turbo Code)"
+title: "Turbo Code"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

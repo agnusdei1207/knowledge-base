@@ -1,10 +1,9 @@
 ---
-title: "553. 분산 파일 시스템 (HDFS, Ceph, GlusterFS) 네임노드 및 데이터노드 구조"
+title: "553. Distributed File System"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

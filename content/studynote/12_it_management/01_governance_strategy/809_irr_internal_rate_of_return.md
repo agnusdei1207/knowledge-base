@@ -1,10 +1,9 @@
 ---
-title: "809. IRR (Internal Rate of Return, 내부수익률)"
+title: "Internal Rate of Return,"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

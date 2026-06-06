@@ -1,10 +1,9 @@
 ---
-title: "281. ClusterIP NodePort LoadBalancer Ingress 라우팅 (ClusterIP NodePort LoadBalancer Ingress)"
+title: "ClusterIP NodePort LoadBalancer Ingress"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: ClusterIP NodePort LoadBalancer [Ingress](/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)는 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)([Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)) 클러스터에서 복잡한 운영의 질서화를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.

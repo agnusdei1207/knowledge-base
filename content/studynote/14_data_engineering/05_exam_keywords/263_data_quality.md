@@ -1,10 +1,9 @@
 ---
-title: "263. 데이터 품질 관리 프로파일링 정합성 검증 (Data Quality Management Profiling Validation)"
+title: "Data Quality Management Profiling Validation"
 date: "2026-05-09"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "517. MES 제조 실행 시스템 스마트 팩토리 (MES Manufacturing Execution Smart Factory)"
+title: "MES Manufacturing Execution Smart Factory"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

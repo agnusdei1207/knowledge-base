@@ -1,10 +1,9 @@
 ---
-title: "188. 빅데이터 비용 최적화 (Spot Instance, 컴퓨팅-스토리지 분리, RI)"
+title: "Spot Instance, - , RI"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

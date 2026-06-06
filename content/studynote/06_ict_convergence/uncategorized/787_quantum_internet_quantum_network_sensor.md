@@ -1,10 +1,9 @@
 ---
-title: "787. 양자 인터넷 양자 네트워크 양자 센서 (Quantum Internet Quantum Network Sensor)"
+title: "Quantum Internet Quantum Network Sensor"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

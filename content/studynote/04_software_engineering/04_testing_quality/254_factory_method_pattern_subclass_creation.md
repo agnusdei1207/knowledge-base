@@ -1,10 +1,9 @@
 ---
-title: "254. 팩토리 메서드 (Factory Method) - 서브클래스가 생성할 객체 결정"
+title: "254. Factory Method Pattern Subclass Creation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "399. 세밀한 멀티스레딩 (Fine-grained)"
+title: "Fine-grained"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

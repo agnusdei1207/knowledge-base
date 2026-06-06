@@ -1,10 +1,9 @@
 ---
-title: "79. Kube-Scheduler (스케줄러) - 새로 생성된 Pod가 자원 여유가 있는 어떤 워커 노드에 배치될지 결정"
+title: "079. Kube Scheduler Pod Placement"
 date: "2026-04-07"
 tags:
   - "studynote-cloud"
 ---
-
 
 # Kube-Scheduler (스케줄러) - [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)의 지능형 테트리스 봇
 

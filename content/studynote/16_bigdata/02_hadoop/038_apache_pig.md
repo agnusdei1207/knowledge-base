@@ -1,11 +1,10 @@
 ---
-title: "16. 아파치 피그 (Apache Pig) - 하둡 데이터 흐름 스크립팅"
+title: "038. Apache Pig"
 date: "2026-03-04"
 tags:
   - "hadoop"
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 - 아파치 피그(Apache Pig)는 복잡한 [맵리듀스](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)([MapReduce](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)) 자바 코드를 직접 짜는 대신, 'Pig Latin'이라는 고수준 스크립트 언어로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 정의하는 플랫폼임.

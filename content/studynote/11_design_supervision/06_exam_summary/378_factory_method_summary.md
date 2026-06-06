@@ -1,10 +1,9 @@
 ---
-title: "378. 팩토리 메서드 패턴 (Factory Method Pattern)"
+title: "Factory Method Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

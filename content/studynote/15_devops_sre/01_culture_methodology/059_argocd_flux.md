@@ -1,10 +1,9 @@
 ---
-title: "59. Argo CD / Flux - GitOps 지속적 배포"
+title: "059. Argocd Flux"
 date: "2026-04-05"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

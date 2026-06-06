@@ -1,10 +1,9 @@
 ---
-title: "842. 마이크로 트러스트 존"
+title: "842. Micro Trust Zone Distributed Firewall Zero Trust"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "528. 앰배서더 패턴 외부 통신 프록시 (Ambassador Pattern External Communication Proxy)"
+title: "Ambassador Pattern External Communication Proxy"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

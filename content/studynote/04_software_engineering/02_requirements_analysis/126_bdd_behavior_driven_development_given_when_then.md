@@ -1,10 +1,9 @@
 ---
-title: "126. BDD (Behavior-Driven Development) - Given/When/Then 행위 기반 개발"
+title: "126. Bdd Behavior Driven Development Given When Then"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: BDD는 <strong>비즈니스 요구사항을 Given(전제)·When(행동)·Then(결과) 형식의 시나리오로 작성</strong>하고, 이 시나리오가 곧 자동화 테스트가 되는 개발 방법론이다.

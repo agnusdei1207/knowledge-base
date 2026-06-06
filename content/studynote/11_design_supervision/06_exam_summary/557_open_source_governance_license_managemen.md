@@ -1,10 +1,9 @@
 ---
-title: "557. 오픈소스 거버넌스 라이선스 관리 (Open Source Governance License Management)"
+title: "Open Source Governance License Management"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ```markdown
 ## 핵심 인사이트 (3줄 요약)

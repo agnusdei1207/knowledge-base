@@ -1,10 +1,9 @@
 ---
-title: "152. 오토스케일링 병목 현상 (Autoscaling Bottleneck) - HPA 콜드 스타트의 파국과 KEDA 구원 쉴드"
+title: "152. Autoscaling Bottleneck Hpa Latency"
 date: "2026-05-03"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 오토스케일링 병목(Autoscaling [Bottleneck](/studynote/02_operating_system/10_security/617_io_bottleneck/))은 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s) [HPA](/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) 대장 뇌가 "어? 트래픽 10배 폭주 터졌네 CPU 80% 타죽는다 [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)) 100개 당장 증식 복사 [스케일 아웃](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 쳐!" 라고 다급히 킬 명령 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 찰칵 눌렀음에도 -> <strong>실제 새 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/">파드</a> 100개가 <a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 파고 자바 앱 부팅 켜서 100% 실전 투입(Readiness 통과) 준비를 마칠 때까지 1~2분 랙 <a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(<a href="/studynote/09_security/11_iam_access_control/528_provisioning/">Provisioning</a> Delay)이 <a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a> 뻗음 걸려버리는 치명적 죽음의 사각지대(Dead Zone) 현상</strong>이다.

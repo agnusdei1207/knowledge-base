@@ -1,10 +1,9 @@
 ---
-title: "245. Seq2Seq (Sequence-to-Sequence) 컨텍스트 벡터 (Context Vector) 어텐션 동적 가중"
+title: "245. Seq2Seq Context Vector Attention Dynamic Weight"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Seq2Seq(Sequence-to-Sequence)는 [인코더](/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)([Encoder](/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/))가 입력 시퀀스를 고정 길이 [컨텍스트 벡터](/studynote/10_ai/02_dl_architecture_new/120_context_vector/)([Context Vector](/studynote/10_ai/02_dl_architecture_new/120_context_vector/))로 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)하고 [디코더](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)([Decoder](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))가 이를 펼쳐 출력 시퀀스를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 아키텍처다.

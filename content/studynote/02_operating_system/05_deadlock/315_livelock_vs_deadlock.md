@@ -1,10 +1,9 @@
 ---
-title: "315. 라이브락 (Livelock)과 교착 상태의 차이점"
+title: "315. Livelock Vs Deadlock"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

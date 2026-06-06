@@ -1,10 +1,9 @@
 ---
-title: "538. 데이터 레이크 원시 데이터 분석 통합 (Data Lake Raw Data Analytics Integration)"
+title: "Data Lake Raw Data Analytics Integration"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 데이터 레이크 원천 데이터 분석 통합은(는) 정형·비정형 원천 데이터를 원본 형태로 저장하고 다양한 분석 엔진이 활용하게 하는 저장/분석 구조이다.

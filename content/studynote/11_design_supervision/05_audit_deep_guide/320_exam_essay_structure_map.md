@@ -1,10 +1,9 @@
 ---
-title: "320. IT 감리 논술 답안 구조 맵 (IT Audit Essay Structure Map)"
+title: "IT Audit Essay Structure Map"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

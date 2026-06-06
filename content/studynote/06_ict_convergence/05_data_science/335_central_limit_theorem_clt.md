@@ -1,10 +1,9 @@
 ---
-title: "335. 중심 극한 정리 (CLT, Central Limit Theorem)"
+title: "CLT, Central Limit Theorem"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

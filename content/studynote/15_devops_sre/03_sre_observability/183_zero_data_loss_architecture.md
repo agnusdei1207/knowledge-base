@@ -1,10 +1,9 @@
 ---
-title: "183. 데이터 손실 제로 (Zero Data Loss) 아키텍처"
+title: "183. Zero Data Loss Architecture"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

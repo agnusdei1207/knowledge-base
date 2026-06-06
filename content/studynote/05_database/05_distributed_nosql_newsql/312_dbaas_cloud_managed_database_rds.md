@@ -1,10 +1,9 @@
 ---
-title: "312. 클라우드 관리형 DB (DBaaS, Database as a Service)"
+title: "DBaaS, Database as a Service"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

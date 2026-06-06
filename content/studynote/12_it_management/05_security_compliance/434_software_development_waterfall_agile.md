@@ -1,10 +1,9 @@
 ---
-title: "434. 소프트웨어 개발 방법론 워터폴 애자일 (Software Development Waterfall Agile)"
+title: "Software Development Waterfall Agile"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

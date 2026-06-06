@@ -1,10 +1,9 @@
 ---
-title: "762. 인터럽트 처리 상프/하프 메커니즘 (Interrupt Top Bottom Half)"
+title: "Interrupt Top Bottom Half"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

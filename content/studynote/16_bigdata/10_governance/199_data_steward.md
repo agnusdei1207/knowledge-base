@@ -1,10 +1,9 @@
 ---
-title: "193. 데이터 스튜어드 (Data Steward) — 도메인 데이터 책임자"
+title: "199. Data Steward"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

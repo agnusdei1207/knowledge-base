@@ -1,10 +1,9 @@
 ---
-title: "150. USB & IEEE 1394 (FireWire) - 고속 시리얼 버스의 대관식과 몰락"
+title: "150. Usb Ieee1394 Firewire"
 date: "2026-05-03"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: USB와 IEEE 1394는 컴퓨터 뒷면에 바글거리던 크고 무거운 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)/[직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 구멍들을 하나로 대통합(Universal)하기 위해 탄생한, 현대 [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 인터페이스의 절대 헌법인 <strong><a href="/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> <a href="/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/">직렬</a>(<a href="/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/">Serial</a>) 통신 <a href="/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a></strong> 규격이다.

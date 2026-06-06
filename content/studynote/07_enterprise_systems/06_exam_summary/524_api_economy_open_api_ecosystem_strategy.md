@@ -1,10 +1,9 @@
 ---
-title: "524. API 경제 오픈 API 생태계 전략 (API Economy Open API Ecosystem Strategy)"
+title: "API Economy Open API Ecosystem Strategy"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: API 이코노미 오픈 API 생태계 전략은(는) 내부 역량과 데이터를 API 상품으로 노출해 파트너 생태계와 신규 수익 모델을 만드는 전략이다.

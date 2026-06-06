@@ -1,10 +1,9 @@
 ---
-title: "449. 벤더 락인 방지 멀티클라우드 전략 (Vendor Lock-in Prevention Multi Cloud Strategy)"
+title: "Vendor Lock-in Prevention Multi Cloud Strategy"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

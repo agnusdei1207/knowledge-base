@@ -1,10 +1,9 @@
 ---
-title: "209. IT 조직 진단 3P (People, Process, Platform/Technology)"
+title: "People, Process, Platform/Technology"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

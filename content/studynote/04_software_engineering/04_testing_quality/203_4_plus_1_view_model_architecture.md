@@ -1,10 +1,9 @@
 ---
-title: "203. 아키텍처 뷰 모델 (4+1 View) - 논리, 구현, 프로세스, 배치 + 유스케이스 뷰"
+title: "203. 4 Plus 1 View Model Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

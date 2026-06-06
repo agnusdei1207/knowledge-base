@@ -1,10 +1,9 @@
 ---
-title: "468. 피처 플래그 토글 점진적 릴리스 (Feature Flag Toggle Gradual Release)"
+title: "Feature Flag Toggle Gradual Release"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

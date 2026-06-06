@@ -1,10 +1,9 @@
 ---
-title: "049. 서비스 카탈로그 — Service Catalog"
+title: "049. Service Catalog"
 date: "2026-04-05"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 > **핵심 인사이트**
 > 1. [서비스 카탈로그](/studynote/12_it_management/02_itsm_itil/872_service_catalog/)([Service Catalog](/studynote/12_it_management/02_itsm_itil/872_service_catalog/))는 IT 조직이 제공하는 모든 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 표준화·가시화하여 비즈니스 사용자가 셀프서비스로 요청할 수 있게 하는 IT [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관리의 핵심 인터페이스 — [ITIL](/studynote/12_it_management/02_itsm_itil/846_itil/) v4에서 [서비스 카탈로그](/studynote/12_it_management/02_itsm_itil/872_service_catalog/)는 "비즈니스가 알아야 할 것"만 담은 고객 대면 뷰이다.

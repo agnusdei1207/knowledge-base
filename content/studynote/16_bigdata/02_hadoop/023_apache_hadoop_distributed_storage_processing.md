@@ -1,11 +1,10 @@
 ---
-title: "01. 아파치 하둡 (Apache Hadoop) - 분산 스토리지 및 처리"
+title: "023. Apache Hadoop Distributed Storage Processing"
 date: "2026-03-04"
 tags:
   - "hadoop"
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 - **빅데이터의 시초**: [아파치 하둡](/studynote/14_data_engineering/01_infrastructure/012_apache_hadoop/)([Apache Hadoop](/studynote/14_data_engineering/01_infrastructure/012_apache_hadoop/))은 방대한 [비정형 데이터](/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)를 저가형 상용 서버(Commodity Hardware) 수백 대에 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 저장하고 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리하는 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 자바 프레임워크입니다.

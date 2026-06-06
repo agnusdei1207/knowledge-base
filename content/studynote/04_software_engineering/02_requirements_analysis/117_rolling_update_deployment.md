@@ -1,10 +1,9 @@
 ---
-title: "117. 롤링 업데이트 (Rolling Update Deployment) - K8s 기본 무중단 배포 전략"
+title: "117. Rolling Update Deployment"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 롤링 업데이트는 <strong>구버전 Pod를 하나씩 종료하고 신버전 Pod를 하나씩 <a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>하여, [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 없이 점진적으로 전체 인스턴스를 교체하는 <strong>K8s Deployment의 기본 배포 <a href="/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>이다.

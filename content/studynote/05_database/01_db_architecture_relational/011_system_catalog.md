@@ -1,11 +1,10 @@
 ---
-title: "11. 시스템 카탈로그 (System Catalog) / 데이터 사전 (Data Dictionary) - 메타데이터(Metadata) 저장소"
+title: "011. System Catalog"
 date: "2024-05-20"
 description: "메타데이터를 관리하는 데이터베이스의 핵심 저장소인 카탈로그와 데이터 사전 메커니즘"
 tags:
   - "database"
 ---
-
 
 # 시스템 [카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/) (System [Catalog](/studynote/05_database/07_exam_summary/394_catalog_metadata/))와 [데이터 사전](/studynote/05_database/07_exam_summary/393_data_dictionary/)
 #### 핵심 인사이트 (3줄 요약)

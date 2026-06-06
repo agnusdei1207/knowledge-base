@@ -1,10 +1,9 @@
 ---
-title: "404. 갱신 이상 (Update Anomaly)"
+title: "Update Anomaly"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "739. 마이크로 세그멘테이션 (Micro Segmentation 시스템망 트래픽 분할 보안통제구조 수평 전파/Lateral Movement 차단 모델)"
+title: "Micro Segmentation /Lateral Movement"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "702. PWA (Progressive Web App) 오프라인 워커"
+title: "702. Pwa Progressive Web App Service Worker"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "1066. 마이크로서비스 서비스 메시 패싱"
+title: "1066. Microservices Service Mesh Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

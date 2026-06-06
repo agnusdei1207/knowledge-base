@@ -1,10 +1,9 @@
 ---
-title: "243. 코드 스멜 진단 (Code Smell Diagnosis)"
+title: "Code Smell Diagnosis"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "280. 동형 암호 연산 데이터 프라이버시 보존 (Homomorphic Encryption Computation Privacy)"
+title: "Homomorphic Encryption Computation Privacy"
 date: "2026-05-09"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

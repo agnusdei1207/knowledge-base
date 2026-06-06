@@ -1,10 +1,9 @@
 ---
-title: "544. Web 3.0 탈중앙화 플랫폼 경제 (Web 3.0 Decentralized Platform Economy)"
+title: "Web 3.0 Decentralized Platform Economy"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

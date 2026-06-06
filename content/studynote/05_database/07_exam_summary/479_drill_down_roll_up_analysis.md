@@ -1,10 +1,9 @@
 ---
-title: "479. 드릴 다운 / 롤 업 계층 분석"
+title: "479. Drill Down Roll Up Analysis"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

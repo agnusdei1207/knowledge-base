@@ -1,10 +1,9 @@
 ---
-title: "335. 스와핑 (Swapping) - 메모리 부족 시 프로세스를 디스크 백킹 스토어(Backing Store)로 쫓아냄"
+title: "335. Swapping"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

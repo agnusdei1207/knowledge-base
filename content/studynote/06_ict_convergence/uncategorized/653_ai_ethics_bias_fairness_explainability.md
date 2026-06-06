@@ -1,10 +1,9 @@
 ---
-title: "653. AI 윤리 편향 공정성 설명 가능성 (AI Ethics Bias Fairness Explainability)"
+title: "AI Ethics Bias Fairness Explainability"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

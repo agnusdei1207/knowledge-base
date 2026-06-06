@@ -1,10 +1,9 @@
 ---
-title: "224. 쇼어 알고리즘 (Shor's Algorithm)"
+title: "Shor's Algorithm"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

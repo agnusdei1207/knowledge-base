@@ -1,10 +1,9 @@
 ---
-title: "400. MVD (다치 종속) 제4정규형"
+title: "400. Mvd 4Nf"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

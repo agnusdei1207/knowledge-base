@@ -1,10 +1,9 @@
 ---
-title: "347. 사용 품질 (Quality in Use) - 유효성, 생산성, 만족도, 리스크 완화"
+title: "347. Quality In Use"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

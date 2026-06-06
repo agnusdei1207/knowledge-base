@@ -1,10 +1,9 @@
 ---
-title: "1097. 브로드캐스트 스톰 (루프 발생)"
+title: "1097. Broadcast Storm Switching Loop Stp"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

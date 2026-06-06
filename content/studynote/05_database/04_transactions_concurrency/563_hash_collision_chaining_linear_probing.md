@@ -1,10 +1,9 @@
 ---
-title: "563. 해시 충돌(Collision) 체이닝 방식 및 선형 탐사 성능 오버헤드 DB 매핑"
+title: "563. Hash Collision Chaining Linear Probing"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

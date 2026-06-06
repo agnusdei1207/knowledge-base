@@ -1,10 +1,9 @@
 ---
-title: "430. FinOps 핀옵스 재무 가시성 비용 최적화 (FinOps)"
+title: "FinOps"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

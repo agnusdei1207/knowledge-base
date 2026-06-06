@@ -1,10 +1,9 @@
 ---
-title: "208. 인출 사이클 (Fetch Cycle)"
+title: "Fetch Cycle"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

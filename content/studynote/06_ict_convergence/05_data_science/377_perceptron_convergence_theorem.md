@@ -1,10 +1,9 @@
 ---
-title: "377. 퍼셉트론 수렴 정리 선형 매핑 분리망 (Convergence Theorem)"
+title: "Convergence Theorem"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

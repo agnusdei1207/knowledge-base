@@ -1,10 +1,9 @@
 ---
-title: "277. OAuth 2.0 OIDC 토큰 권한 위임 체계 마이크로서비스 연동 (OAuth 2.0 / OIDC)"
+title: "OAuth 2.0 / OIDC"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "81. 소프트웨어 아키텍처 (Software Architecture)"
+title: "Software Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

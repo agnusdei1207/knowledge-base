@@ -1,10 +1,9 @@
 ---
-title: "784. 제로화 (Zeroization) 회로"
+title: "784. Zeroization Circuit"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

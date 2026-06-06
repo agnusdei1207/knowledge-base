@@ -1,10 +1,9 @@
 ---
-title: "센서 네트워크 (WSN)"
+title: "WSN"
 date: "2024-03-21"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

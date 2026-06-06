@@ -1,10 +1,9 @@
 ---
-title: "402. 데이터 접근 객체 (Data Access Object, DAO)"
+title: "Data Access Object, DAO"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

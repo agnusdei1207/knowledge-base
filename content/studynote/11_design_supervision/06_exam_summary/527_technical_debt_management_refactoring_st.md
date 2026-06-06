@@ -1,10 +1,9 @@
 ---
-title: "527. 기술 부채 관리 리팩터링 전략 (Technical Debt Management Refactoring Strategy)"
+title: "Technical Debt Management Refactoring Strategy"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 # 527. 기술 부채 관리 리팩터링 전략 (Technical Debt Management Refactoring Strategy)
 

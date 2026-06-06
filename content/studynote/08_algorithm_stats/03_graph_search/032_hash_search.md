@@ -1,10 +1,9 @@
 ---
-title: "3. 해시 탐색 (Hash Search) — O(1) 평균"
+title: "032. Hash Search"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

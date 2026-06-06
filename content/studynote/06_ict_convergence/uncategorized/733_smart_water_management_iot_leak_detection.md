@@ -1,10 +1,9 @@
 ---
-title: "733. 스마트 물관리 IoT 누수 탐지 수질 (Smart Water Management IoT Leak Detection)"
+title: "Smart Water Management IoT Leak Detection"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 # 733. 스마트 물관리 IoT 누수 탐지 수질 (Smart Water Management IoT Leak Detection)
 

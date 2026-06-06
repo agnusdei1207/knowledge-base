@@ -1,9 +1,8 @@
 ---
-title: "68. 계단 함수 (Step Function) - 0 이하면 0, 0 이상이면 1 반환 (미분 불가)"
+title: "068. Step Function Activation"
 tags:
   - "ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

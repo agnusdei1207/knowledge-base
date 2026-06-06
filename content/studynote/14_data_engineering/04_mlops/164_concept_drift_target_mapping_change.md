@@ -1,10 +1,9 @@
 ---
-title: "164. 컨셉 드리프트 (Concept Drift) - 정답 맵핑 규칙 변화"
+title: "164. Concept Drift Target Mapping Change"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 컨셉 드리프트 ([Concept](/studynote/14_data_engineering/02_math_mining/120_concept/) Drift)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 입력 X와 정답 레이블 Y의 조건부 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) P(Y|X)가 변화하는 현상으로, [데이터 드리프트](/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)보다 감지가 어렵고 모델에 더 치명적인 영향을 미친다.

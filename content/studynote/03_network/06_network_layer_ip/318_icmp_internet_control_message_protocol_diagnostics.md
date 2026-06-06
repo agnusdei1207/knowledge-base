@@ -1,10 +1,9 @@
 ---
-title: "318. ICMP (Internet Control Message Protocol) 진단/오류 알림"
+title: "318. Icmp Internet Control Message Protocol Diagnostics"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

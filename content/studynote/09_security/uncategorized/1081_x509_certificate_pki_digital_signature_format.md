@@ -1,10 +1,9 @@
 ---
-title: "1081. X.509 인증서 (X509 Certificate PKI Digital Signature Format)"
+title: "X509 Certificate PKI Digital Signature Format"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

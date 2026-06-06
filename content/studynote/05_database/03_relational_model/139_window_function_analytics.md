@@ -1,10 +1,9 @@
 ---
-title: "139. Window Function (분석 함수) - ROW_NUMBER·RANK·LAG·LEAD"
+title: "139. Window Function Analytics"
 date: "2026-04-19"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Window Function은 <strong><a href="/studynote/05_database/04_transactions_concurrency/522_group_by/">GROUP BY</a> 없이 행 단위로 집계·순위·이전/다음 행 <a href="/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a></strong>를 수행하는 SQL:2003 표준 함수이며, OVER([PARTITION BY](/studynote/05_database/07_exam_summary/436_window_function_over/) ... ORDER BY ...)로 윈도우를 정의한다.

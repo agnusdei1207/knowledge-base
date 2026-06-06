@@ -1,10 +1,9 @@
 ---
-title: "811. TCO (Total Cost of Ownership, 총소유비용)"
+title: "Total Cost of Ownership,"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "437. 비용 산정 FP COCOMO COSMIC (Cost Estimation FP COCOMO COSMIC)"
+title: "Cost Estimation FP COCOMO COSMIC"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

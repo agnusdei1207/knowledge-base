@@ -1,10 +1,9 @@
 ---
-title: "195. EDI와 VAN - B2B 전자문서 연동 구조"
+title: "195. Eai Edi Van B2B Integration"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

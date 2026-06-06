@@ -1,10 +1,9 @@
 ---
-title: "869. Subdomain Takeover (서브도메인 탈취)"
+title: "869. Subdomain Takeover"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

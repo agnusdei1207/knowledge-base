@@ -1,10 +1,9 @@
 ---
-title: "673. 데이터 레이크하우스 통합 분석 플랫폼 (Data Lakehouse Unified Analytics Platform)"
+title: "Data Lakehouse Unified Analytics Platform"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

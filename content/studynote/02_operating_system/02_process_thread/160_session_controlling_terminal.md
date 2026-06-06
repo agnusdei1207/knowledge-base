@@ -1,10 +1,9 @@
 ---
-title: "160. 세션 (Session) 및 제어 터미널 (Controlling Terminal)"
+title: "Controlling Terminal"
 date: "2026-05-05"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

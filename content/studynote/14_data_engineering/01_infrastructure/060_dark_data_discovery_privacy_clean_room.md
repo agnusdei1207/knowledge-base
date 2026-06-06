@@ -1,10 +1,9 @@
 ---
-title: "60. 다크 데이터 (Dark Data) 발굴 및 프라이버시 클린 룸 (Privacy Clean Room)"
+title: "Privacy Clean Room"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

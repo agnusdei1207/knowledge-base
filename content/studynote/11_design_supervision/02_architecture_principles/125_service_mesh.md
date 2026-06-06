@@ -1,10 +1,9 @@
 ---
-title: "125. 서비스 메시 (Service Mesh)"
+title: "Service Mesh"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

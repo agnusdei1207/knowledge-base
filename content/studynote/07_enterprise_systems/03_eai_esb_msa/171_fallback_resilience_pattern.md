@@ -1,10 +1,9 @@
 ---
-title: "171. 폴백 (Fallback) 회복탄력성 패턴"
+title: "171. Fallback Resilience Pattern"
 date: "2026-05-06"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

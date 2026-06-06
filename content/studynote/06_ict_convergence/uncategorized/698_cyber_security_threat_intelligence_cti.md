@@ -1,10 +1,9 @@
 ---
-title: "698. 사이버 보안 위협 인텔리전스 CTI (Cyber Security Threat Intelligence CTI)"
+title: "Cyber Security Threat Intelligence CTI"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

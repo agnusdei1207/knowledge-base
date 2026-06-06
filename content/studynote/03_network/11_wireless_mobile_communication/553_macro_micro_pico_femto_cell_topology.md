@@ -1,10 +1,9 @@
 ---
-title: "553. 매크로 뷰 (Macro Cell) 토폴로지 / 피코 셀(Pico)/마이크로 셀(Micro)"
+title: "Micro"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

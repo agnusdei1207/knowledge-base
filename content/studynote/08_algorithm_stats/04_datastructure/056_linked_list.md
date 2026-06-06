@@ -1,10 +1,9 @@
 ---
-title: "2. 연결 리스트 (Linked List) — 단일/이중/순환"
+title: "056. Linked List"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

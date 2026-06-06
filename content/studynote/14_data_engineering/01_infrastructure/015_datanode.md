@@ -1,11 +1,10 @@
 ---
-title: "15. 데이터노드 (DataNode) - 실제 데이터를 보관하는 수많은 워커 노드"
+title: "015. Datanode"
 date: "2023-10-24"
 description: "HDFS에서 실제 데이터 블록을 물리적 디스크에 저장하고 3중 복제 파이프라인을 구동하는 워커 노드의 심층 메커니즘"
 tags:
   - "data_engineering"
 ---
-
 
 # [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)노드 (DataNode)
 

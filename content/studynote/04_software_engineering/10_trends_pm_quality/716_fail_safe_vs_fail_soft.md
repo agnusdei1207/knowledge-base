@@ -1,10 +1,9 @@
 ---
-title: "716. 페일 세이프 / 페일 소프트 비교"
+title: "716. Fail Safe Vs Fail Soft"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "512. PSP TSP 개인 팀 소프트웨어 프로세스 (PSP TSP Personal Team Software Process)"
+title: "PSP TSP Personal Team Software Process"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

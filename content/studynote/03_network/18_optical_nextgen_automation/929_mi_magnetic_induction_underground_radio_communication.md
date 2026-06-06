@@ -1,10 +1,9 @@
 ---
-title: "929. 지중 통신 (자기유도통신)"
+title: "929. Mi Magnetic Induction Underground Radio Communication"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

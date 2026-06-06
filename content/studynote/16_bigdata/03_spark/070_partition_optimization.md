@@ -1,10 +1,9 @@
 ---
-title: "19. 파티션 최적화 (Partition Optimization) — Repartition vs Coalesce"
+title: "070. Partition Optimization"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

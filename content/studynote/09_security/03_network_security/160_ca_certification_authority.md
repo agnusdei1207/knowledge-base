@@ -1,10 +1,9 @@
 ---
-title: "160. CA (Certification Authority) — 인증서 발급/관리"
+title: "160. Ca Certification Authority"
 date: "2026-05-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트
 

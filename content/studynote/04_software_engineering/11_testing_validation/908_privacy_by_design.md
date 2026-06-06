@@ -1,10 +1,9 @@
 ---
-title: "908. 개인정보 보호 중심 설계 (Privacy by Design)"
+title: "Privacy by Design"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

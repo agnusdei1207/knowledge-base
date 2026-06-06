@@ -1,10 +1,9 @@
 ---
-title: "524. CQRS 명령 조회 분리 읽기 모델 (CQRS Command Query Read Model Separation)"
+title: "CQRS Command Query Read Model Separation"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "204. 그래프 신경망 (GNN)"
+title: "GNN"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "464. 서비스 가상화 (Service Virtualization) - MSA 환경에서 외부 의존 API를 모사하는 스텁 서버"
+title: "464. Service Virtualization"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

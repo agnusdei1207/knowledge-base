@@ -1,10 +1,9 @@
 ---
-title: "11. 빌드, 릴리스, 실행 (Build, Release, Run) 단계의 엄격한 분리"
+title: "011. Build Release Run"
 date: "2026-04-05"
 tags:
   - "devops_sre"
 ---
-
 
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 빌드, 릴리스, 실행 원칙은 코드를 프로덕션에 배포하는 과정을 세 개의 엄격히 분리된 단계로 나누어야 한다는 12팩터 앱의 제5원칙이다. 빌드 단계에서 소스코드를 실행 가능한 바이너리로 변환하고, 릴리스 단계에서 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)과 결합하여 배포 가능한 패키지를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하며, 실행 단계에서 그 패키지를 런타임에서 실행한다.

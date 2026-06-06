@@ -1,10 +1,9 @@
 ---
-title: "220. 스키마 온 리드 (Schema-on-Read)"
+title: "Schema-on-Read"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장할 때 구조를 강제하지 않고, 분석가가 읽을 때 비로소 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)를 정의하는 <strong>"나중 결정" <a href="/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>이다.

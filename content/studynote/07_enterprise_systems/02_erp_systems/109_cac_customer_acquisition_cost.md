@@ -1,10 +1,9 @@
 ---
-title: "109. 고객 획득 비용 (CAC, C고객 Acquisition Cost) - LTV > CAC 공식과 그로스 해킹"
+title: "109. Cac Customer Acquisition Cost"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CAC([C고객](/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/) [Acquisition](/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/) Cost)는 특정 기간 동안 투입한 <strong>총 마케팅·영업 비용을 해당 기간 신규 고객 수로 나눈 값</strong>으로, 고객 1명을 획득하는 데 드는 평균 비용이다.

@@ -1,10 +1,9 @@
 ---
-title: "513. Access Token vs Refresh Token (수명 및 용도 차이)"
+title: "513. Access Token Vs Refresh Token"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

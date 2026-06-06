@@ -1,10 +1,9 @@
 ---
-title: "259. 카산드라 안티 엔트로피 - 머클 트리 복구 (Cassandra Anti Entropy Merkle Tree)"
+title: "Cassandra Anti Entropy Merkle Tree"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [카산드라](/studynote/05_database/05_distributed_nosql_newsql/299_data_lake/) 안티 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/) - [머클 트리](/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/) [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼에서 복잡한 운영의 질서화를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.

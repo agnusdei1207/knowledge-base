@@ -1,10 +1,9 @@
 ---
-title: "300. 페이지 교체 알고리즘 (Page Replacement)"
+title: "Page Replacement"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

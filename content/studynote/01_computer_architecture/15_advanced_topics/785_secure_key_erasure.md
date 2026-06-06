@@ -1,10 +1,9 @@
 ---
-title: "785. 보안 키 소거 (Secure Key Erasure)"
+title: "Secure Key Erasure"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

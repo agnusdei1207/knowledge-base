@@ -1,10 +1,9 @@
 ---
-title: "628. 살충제 패러독스 테스트 갱신"
+title: "628. Pesticide Paradox Test Renewal"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

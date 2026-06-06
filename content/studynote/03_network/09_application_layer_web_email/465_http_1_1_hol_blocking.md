@@ -1,10 +1,9 @@
 ---
-title: "465. HTTP 1.1 HOL 블로킹 (선행 응답 대기 지연)"
+title: "465. Http 1 1 Hol Blocking"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "757. 동형 암호 안전 연산 데이터 보호 (Homomorphic Encryption Secure Computation)"
+title: "Homomorphic Encryption Secure Computation"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

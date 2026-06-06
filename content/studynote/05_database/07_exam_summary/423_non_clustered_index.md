@@ -1,10 +1,9 @@
 ---
-title: "423. 넌클러스터드 인덱스 (포인터 배열)"
+title: "423. Non Clustered Index"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

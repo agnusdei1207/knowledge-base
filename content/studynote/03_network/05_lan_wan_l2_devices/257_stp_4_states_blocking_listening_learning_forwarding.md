@@ -1,10 +1,9 @@
 ---
-title: "257. STP 4단계 상태 전이 (단절, 청취, 학습, 전송)"
+title: "257. Stp 4 States Blocking Listening Learning Forwarding"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

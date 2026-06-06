@@ -1,10 +1,9 @@
 ---
-title: "645. LoRA 효율적 파인 튜닝 어댑터 (LoRA Efficient Fine Tuning Adapter)"
+title: "LoRA Efficient Fine Tuning Adapter"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

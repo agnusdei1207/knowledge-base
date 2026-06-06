@@ -1,10 +1,9 @@
 ---
-title: "417. 하드웨어 가속기 (Hardware Accelerator)"
+title: "Hardware Accelerator"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

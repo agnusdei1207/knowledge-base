@@ -1,10 +1,9 @@
 ---
-title: "521. XP 익스트림 프로그래밍 실천법 (XP Extreme Programming Practice)"
+title: "XP Extreme Programming Practice"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

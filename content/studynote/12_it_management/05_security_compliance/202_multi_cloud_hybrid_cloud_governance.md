@@ -1,10 +1,9 @@
 ---
-title: "202. 멀티 클라우드 (Multi-Cloud) 및 하이브리드 클라우드 (Hybrid Cloud) 데이터 거버넌스"
+title: "202. Multi Cloud Hybrid Cloud Governance"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 멀티 클라우드 (Multi-Cloud) 및 [하이브리드 클라우드](/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/) ([Hybrid Cloud](/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/)) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 거버넌스의 본질은 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델, 자동화, 비용·보안 책임, 운영 관측성이 함께 설계되어야 클라우드 도입 효과가 지속된다.

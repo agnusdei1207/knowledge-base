@@ -1,10 +1,9 @@
 ---
-title: "396. AWS Lambda 함수 컴퓨팅 서비스 (AWS Lambda Function Compute Service)"
+title: "AWS Lambda Function Compute Service"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

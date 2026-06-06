@@ -1,10 +1,9 @@
 ---
-title: "94. 데이터 가용성 (Data Availability, DA) 계층"
+title: "094. Data Availability Da Layer Celestia"
 date: "2024-05-15"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

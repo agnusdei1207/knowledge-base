@@ -1,10 +1,9 @@
 ---
-title: "750. ISO 27001 네트워크 통제 및 개인정보영향평가 인증 모델망 분리 아키텍처 (논리/물리)"
+title: "750. Network Separation Linkage System Iso27001"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

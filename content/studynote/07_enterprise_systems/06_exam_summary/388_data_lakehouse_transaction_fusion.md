@@ -1,10 +1,9 @@
 ---
-title: "388. 데이터 레이크하우스 트랜잭션 융합 (Data Lakehouse)"
+title: "Data Lakehouse"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

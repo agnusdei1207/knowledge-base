@@ -1,10 +1,9 @@
 ---
-title: "56. 하드웨어 Sizing 검증 (Hardware Sizing Verification)"
+title: "Hardware Sizing Verification"
 date: "2026-05-08"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

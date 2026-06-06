@@ -1,10 +1,9 @@
 ---
-title: "781. C-RAN (Cloud RAN 베이스밴드 Unit 원격 중앙 풀링 클라우드 관리 프론트홀 망 구조 통제 트래픽 통합 제어 기술 구성 요소망 구축 방법 구조 효율 제어)"
+title: "Cloud RAN Unit"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

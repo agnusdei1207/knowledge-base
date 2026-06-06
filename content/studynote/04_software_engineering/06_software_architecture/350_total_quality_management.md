@@ -1,10 +1,9 @@
 ---
-title: "350. 전사적 품질 관리 (TQM, Total Quality Management)"
+title: "TQM, Total Quality Management"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

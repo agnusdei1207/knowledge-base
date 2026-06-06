@@ -1,10 +1,9 @@
 ---
-title: "415. 긴급 포인터 (Urgent Pointer)"
+title: "Urgent Pointer"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

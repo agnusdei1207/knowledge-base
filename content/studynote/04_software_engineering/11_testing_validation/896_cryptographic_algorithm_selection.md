@@ -1,10 +1,9 @@
 ---
-title: "896. 암호화 알고리즘 적용 기준"
+title: "896. Cryptographic Algorithm Selection"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

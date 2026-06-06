@@ -1,10 +1,9 @@
 ---
-title: "250. 스크러빙 센터 (Scrubbing Center)"
+title: "Scrubbing Center"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

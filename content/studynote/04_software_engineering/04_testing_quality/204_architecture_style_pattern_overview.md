@@ -1,10 +1,9 @@
 ---
-title: "204. 아키텍처 스타일 및 패턴 개요"
+title: "204. Architecture Style Pattern Overview"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "666. 보안 엔클레이브 (TrustZone, SGX)와 OS TEE (Trusted Execution Environment) 연동 구조"
+title: "666. Secure Enclave Trustzone Sgx Tee"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

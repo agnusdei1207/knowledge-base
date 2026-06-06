@@ -1,10 +1,9 @@
 ---
-title: "507. ITSM 인시던트 문제 변경 관리 (ITSM Incident Problem Change Management)"
+title: "ITSM Incident Problem Change Management"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

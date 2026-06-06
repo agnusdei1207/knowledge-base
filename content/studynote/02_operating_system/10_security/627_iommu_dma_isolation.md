@@ -1,10 +1,9 @@
 ---
-title: "627. IOMMU (Input/Output MMU) 역할 - 가상머신 DMA 장치 할당 및 보호 격리"
+title: "627. Iommu Dma Isolation"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "432. 클라우드 API 게이트웨이 관리 서비스 (Cloud API Gateway Managed Service)"
+title: "Cloud API Gateway Managed Service"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

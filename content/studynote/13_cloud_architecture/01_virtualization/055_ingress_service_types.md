@@ -1,10 +1,9 @@
 ---
-title: "55. Ingress와 Service Type"
+title: "055. Ingress Service Types"
 date: "2026-05-01"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

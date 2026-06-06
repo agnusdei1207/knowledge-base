@@ -1,10 +1,9 @@
 ---
-title: "786. 분산 시스템 옵저버빌리티 Trace ID 상관관계 분석"
+title: "786. Distributed Tracing Observability Trace Id"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

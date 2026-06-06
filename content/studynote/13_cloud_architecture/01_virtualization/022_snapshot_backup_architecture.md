@@ -1,10 +1,9 @@
 ---
-title: "22. 스냅샷 (Snapshot) - 클라우드 스토리지 백업 및 복원 아키텍처"
+title: "022. Snapshot Backup Architecture"
 date: "2026-04-02"
 tags:
   - "studynote-cloud"
 ---
-
 
 # 스냅샷 ([Snapshot](/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/)) - 클라우드 스토리지 [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 및 복원 아키텍처
 

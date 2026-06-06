@@ -1,10 +1,9 @@
 ---
-title: "127. 키-값 데이터베이스 (Key-Value DB) — Redis/DynamoDB/Riak"
+title: "127. Key Value Db"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: 키-값 DB는 [해시 테이블](/studynote/08_algorithm_stats/04_datastructure/067_hash_table/) 구조를 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 환경으로 확장한 가장 단순하면서 가장 빠른 [NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/) 모델로, O(1) 조회 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 본질적 강점이다.

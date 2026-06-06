@@ -1,10 +1,9 @@
 ---
-title: "546. 공간 데이터 쿼리 기하 연산 MBR 근접 분석 기술 구조"
+title: "546. Spatial Data Query Mbr Analysis"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

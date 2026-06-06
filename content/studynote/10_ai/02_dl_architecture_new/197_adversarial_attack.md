@@ -1,10 +1,9 @@
 ---
-title: "197. 적대적 예제 (Adversarial Attack)와 방어"
+title: "197. Adversarial Attack"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

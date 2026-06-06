@@ -1,10 +1,9 @@
 ---
-title: "142. 스키마리스 설계 패턴 (Schemaless Design Patterns) — 임베딩 vs 참조"
+title: "142. Schemaless Design Patterns"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)리스(Schemaless)는 "[스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)가 없음"이 아니라 "[스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)가 애플리케이션 코드에 있음"으로, [데이터 모델](/studynote/05_database/01_db_architecture_relational/014_data_model_components/)링의 책임이 DB에서 애플리케이션으로 이동한 것이다.

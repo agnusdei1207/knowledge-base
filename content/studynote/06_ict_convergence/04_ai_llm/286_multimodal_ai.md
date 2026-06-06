@@ -1,10 +1,9 @@
 ---
-title: "286. 멀티모달 AI (Multimodal)"
+title: "Multimodal"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

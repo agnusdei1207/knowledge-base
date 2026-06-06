@@ -1,10 +1,9 @@
 ---
-title: "770. PACMAN 공격 (ARM PAC 우회)"
+title: "ARM PAC"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

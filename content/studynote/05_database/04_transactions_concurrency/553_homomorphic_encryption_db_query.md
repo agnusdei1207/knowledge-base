@@ -1,10 +1,9 @@
 ---
-title: "553. 동형 암호 DB 질의 성능 한계 극복 가속화 연구망 설계"
+title: "553. Homomorphic Encryption Db Query"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

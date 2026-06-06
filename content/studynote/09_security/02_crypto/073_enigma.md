@@ -1,10 +1,9 @@
 ---
-title: "073. Enigma — 독일 제2차 세계대전 기계식 암호"
+title: "073. Enigma"
 date: "2026-04-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

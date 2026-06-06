@@ -1,10 +1,9 @@
 ---
-title: "507. ISO 20000 IT 서비스 표준 (ISO 20000 IT Service Standard)"
+title: "ISO 20000 IT Service Standard"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

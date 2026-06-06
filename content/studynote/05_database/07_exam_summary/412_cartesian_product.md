@@ -1,10 +1,9 @@
 ---
-title: "412. 카티션 프로덕트 (조인 조건 누락)"
+title: "412. Cartesian Product"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "124. Self-Attention (자기 주의 메커니즘) - 시퀀스 내 모든 위치 상호 참조"
+title: "124. Self Attention"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Self-Attention은 <strong>같은 시퀀스 내에서 각 위치가 다른 모든 위치를 <a href="/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a></strong>하여 문맥을 파악하는 메커니즘이며, Transformer의 핵심 연산이다. Q·K·V가 모두 <strong>같은 시퀀스에서 <a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>된다.

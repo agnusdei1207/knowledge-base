@@ -1,10 +1,9 @@
 ---
-title: "514. 파티션 (Partition) / 슬라이스 / 볼륨 (Volume)"
+title: "Volume"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

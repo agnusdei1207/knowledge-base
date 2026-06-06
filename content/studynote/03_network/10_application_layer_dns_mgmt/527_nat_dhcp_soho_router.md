@@ -1,10 +1,9 @@
 ---
-title: "527. NAT/DHCP 결합 환경 (Soho 라우터/공유기)"
+title: "Soho /"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

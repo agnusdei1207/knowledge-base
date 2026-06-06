@@ -1,10 +1,9 @@
 ---
-title: "742. SWG (Secure Web Gateway 시큐어 웹 게이트웨이 / 프록시 보안 패키지 모델 구조적 설계)"
+title: "Secure Web Gateway /"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

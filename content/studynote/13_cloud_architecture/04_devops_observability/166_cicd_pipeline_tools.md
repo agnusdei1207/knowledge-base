@@ -1,10 +1,9 @@
 ---
-title: "166. CI/CD 파이프라인 도구 (Jenkins, GitLab CI, GitHub Actions)"
+title: "Jenkins, GitLab CI, GitHub Actions"
 date: "2026-03-04"
 tags:
   - "studynote-cloud"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 - [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인의 생애주기(Build-Test-Deploy)를 자동화하는 핵심 소프트웨어 솔루션임.

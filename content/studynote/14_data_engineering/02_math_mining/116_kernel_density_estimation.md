@@ -1,10 +1,9 @@
 ---
-title: "116. 커널 밀도 추정 (KDE, Kernel Density Estimation) - 비모수 확률 밀도 추정"
+title: "116. Kernel Density Estimation"
 date: "2026-04-19"
 tags:
   - "studynote-dataengineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: KDE([Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Density Estimation)는 <strong>히스토그램의 연속적 일반화</strong>로, 각 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인트에 <strong><a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 함수(가우시안 등)를 배치</strong>하고 합산하여 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 밀도 함수(PDF)를 <strong>비모수적으로 추정</strong>하는 기법이다.

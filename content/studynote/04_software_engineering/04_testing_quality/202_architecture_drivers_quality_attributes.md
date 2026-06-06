@@ -1,10 +1,9 @@
 ---
-title: "202. 아키텍처 드라이버 (Architecture Drivers) - 비즈니스 목표, 제약, 품질 속성"
+title: "202. Architecture Drivers Quality Attributes"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "502. 비순차 실행 윈도우 (Out-of-Order Execution Window)"
+title: "Out-of-Order Execution Window"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

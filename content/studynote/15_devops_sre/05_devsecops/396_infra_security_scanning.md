@@ -1,10 +1,9 @@
 ---
-title: "396. 인프라 보안 스캐닝 IaC 취약점 사전 탐지 (Infrastructure Security Scanning Checkov Trivy)"
+title: "Infrastructure Security Scanning Checkov Trivy"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

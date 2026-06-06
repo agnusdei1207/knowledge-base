@@ -1,10 +1,9 @@
 ---
-title: "694. 스레드 로컬 스토리지 (TLS)"
+title: "TLS"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

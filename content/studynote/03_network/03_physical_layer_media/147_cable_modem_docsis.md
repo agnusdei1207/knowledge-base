@@ -1,10 +1,9 @@
 ---
-title: "147. 케이블 모뎀 (Cable Modem) / DOCSIS 표준"
+title: "147. Cable Modem Docsis"
 date: "2026-04-19"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 케이블 [모뎀](/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)(Cable Modem)은 기존 케이블 TV(CATV, Community [Antenna](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) Television) [동축 케이블](/studynote/03_network/03_physical_layer_media/127_coaxial_cable/) 인프라를 재활용해 광대역 인터넷을 제공하는 장치이며, DOCSIS([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Over Cable [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Interface [Specification](/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/)) 표준이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 방식을 정의한다.

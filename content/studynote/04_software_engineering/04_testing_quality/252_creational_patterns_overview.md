@@ -1,10 +1,9 @@
 ---
-title: "252. 생성 패턴 (Creational Patterns) - 객체 생성 메커니즘"
+title: "252. Creational Patterns Overview"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

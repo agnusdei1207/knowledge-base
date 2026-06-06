@@ -1,10 +1,9 @@
 ---
-title: "904. 마이크로서비스 간 보안 - mTLS (상호 TLS 인증)"
+title: "TLS"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

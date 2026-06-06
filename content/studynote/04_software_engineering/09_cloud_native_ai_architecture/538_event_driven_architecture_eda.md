@@ -1,10 +1,9 @@
 ---
-title: "538. 이벤트 기반 아키텍처 (EDA) - 이벤트 생산자, 브로커, 소비자"
+title: "538. Event Driven Architecture Eda"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

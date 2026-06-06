@@ -1,10 +1,9 @@
 ---
-title: "81. 지속적 배포 파이프라인 (CD Pipeline) 아키텍처"
+title: "081. Cd Continuous Deployment Pipeline Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

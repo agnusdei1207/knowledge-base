@@ -1,10 +1,9 @@
 ---
-title: "346. 주소 버스 (Address Bus)"
+title: "Address Bus"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

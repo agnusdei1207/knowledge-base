@@ -1,10 +1,9 @@
 ---
-title: "775. MEC 기반 가속 통신망 라우팅 최적 (User Plane Function UPF 로컬 엣지 트래픽 인터셉트 전환 백홀 지연 개선 구조)"
+title: "User Plane Function UPF"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

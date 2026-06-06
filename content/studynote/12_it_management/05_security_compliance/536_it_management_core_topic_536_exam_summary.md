@@ -1,10 +1,9 @@
 ---
-title: "536. IT 경영 관리 핵심 토픽 536번 시험 요약 (IT Management Core Topic 536 Exam Summary)"
+title: "IT Management Core Topic 536 Exam Summary"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 # 📚 정보관리 기술사 핵심 토픽 — IT 경영 관리 심화 (디지털 전환 시대의 IT 거버넌스 및 가치 실현 전략)
 

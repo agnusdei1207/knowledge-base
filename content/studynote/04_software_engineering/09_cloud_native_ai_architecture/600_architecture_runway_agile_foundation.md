@@ -1,10 +1,9 @@
 ---
-title: "600. 아키텍처 런웨이 (Architecture Runway) - 비즈니스 요구 수용을 위해 사전에 마련하는 기술적 기반 구조"
+title: "600. Architecture Runway Agile Foundation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

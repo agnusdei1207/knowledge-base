@@ -1,10 +1,9 @@
 ---
-title: "635. MC/DC 항공/자동차 안전 표준 조건"
+title: "635. Mcdc Modified Condition Decision Coverage"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

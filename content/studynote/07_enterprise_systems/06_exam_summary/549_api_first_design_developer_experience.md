@@ -1,10 +1,9 @@
 ---
-title: "549. API 퍼스트 설계 개발자 경험 (API First Design Developer Experience)"
+title: "API First Design Developer Experience"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: API First 설계 개발자 경험은(는) 구현보다 API 계약을 먼저 설계해 내외부 개발자가 일관되게 서비스를 사용할 수 있게 하는 방식이다.

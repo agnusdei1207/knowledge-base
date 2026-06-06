@@ -1,10 +1,9 @@
 ---
-title: "603. 엔터프라이즈 시스템 핵심 토픽 603번 시험 요약 (Enterprise System Core Topic 603 Exam Summary)"
+title: "Enterprise System Core Topic 603 Exam Summary"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

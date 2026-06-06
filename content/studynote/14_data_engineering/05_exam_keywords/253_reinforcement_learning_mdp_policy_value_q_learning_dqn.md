@@ -1,10 +1,9 @@
 ---
-title: "253. 강화 학습 (Reinforcement Learning) MDP 정책 가치 Q러닝 DQN"
+title: "253. Reinforcement Learning Mdp Policy Value Q Learning Dqn"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 강화 학습([Reinforcement Learning](/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/))은 시행착오(Trial-and-Error)를 통해 누적 보상(Cumulative Reward)을 최대화하는 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)([Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/))을 스스로 학습하는 패러다임이다.

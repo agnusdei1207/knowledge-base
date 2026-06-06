@@ -1,10 +1,9 @@
 ---
-title: "229. 영지식 증명 (ZKP) 활용 프라이버시 클린 룸 (Data Clean Room) 기업 간 데이터 연합"
+title: "229. Zkp Data Clean Room"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 영지식 증명 ([ZKP](/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/)) 활용 프라이버시 클린 룸 ([Data Clean Room](/studynote/07_enterprise_systems/05_data_bi/305_data_clean_room/)) 기업 간 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연합의 본질은 신원, 합의, 자산, 거버넌스가 함께 설계되어야 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서도 신뢰를 유지할 수 있다.

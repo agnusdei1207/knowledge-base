@@ -1,10 +1,9 @@
 ---
-title: "475. 솔리드 스테이트 드라이브 (SSD, Solid State Drive) 구조 - NAND 플래시, 페이지(Page), 블록(Block)"
+title: "Block"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

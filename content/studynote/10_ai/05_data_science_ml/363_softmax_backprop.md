@@ -1,10 +1,9 @@
 ---
-title: "363. 소프트맥스 역전파 (Softmax Backpropagation)"
+title: "Softmax Backpropagation"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

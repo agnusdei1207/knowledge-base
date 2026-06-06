@@ -1,10 +1,9 @@
 ---
-title: "139. 센서 퓨전 (Camera·LiDAR·Radar) - 자율주행 인지 통합"
+title: "139. Sensor Fusion Camera Lidar Radar"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 센서 퓨전은 <strong>카메라(시각)·<a href="/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/">LiDAR</a>(3D 거리)·레이더(속도·거리)·초음파 등 이종 센서 데이터를 통합</strong>하여 단일 센서보다 정확하고 강건한 환경 인지를 달성하는 기술이다.

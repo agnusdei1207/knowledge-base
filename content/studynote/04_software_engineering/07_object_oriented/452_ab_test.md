@@ -1,10 +1,9 @@
 ---
-title: "452. A/B 테스트 - 두 가지 UI/기능을 실 사용자에게 노출하여 반응 비교"
+title: "452. Ab Test"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

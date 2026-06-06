@@ -1,10 +1,9 @@
 ---
-title: "132. 엔티티와 값 객체 (Entity and Value Object)"
+title: "Entity and Value Object"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "404. 디렉터리 기반 프로토콜 (Directory-based Protocol)"
+title: "Directory-based Protocol"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

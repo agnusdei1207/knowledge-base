@@ -1,10 +1,9 @@
 ---
-title: "250. 교차 검증 (Cross-Validation)"
+title: "Cross-Validation"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

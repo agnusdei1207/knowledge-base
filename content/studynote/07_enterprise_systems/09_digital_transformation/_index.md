@@ -1,9 +1,8 @@
 ---
-title: "09. 디지털 트랜스포메이션 (DX) 전략"
+title: "Enterprise Systems"
 tags:
   - "enterprise_systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

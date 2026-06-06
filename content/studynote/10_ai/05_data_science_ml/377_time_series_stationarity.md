@@ -1,10 +1,9 @@
 ---
-title: "377. 시계열 정상성 (Stationarity)"
+title: "Stationarity"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

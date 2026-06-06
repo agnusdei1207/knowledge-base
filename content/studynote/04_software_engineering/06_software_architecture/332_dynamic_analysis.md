@@ -1,10 +1,9 @@
 ---
-title: "332. 동적 분석 (Dynamic Analysis) - 실행 중 메모리 누수, 성능 병목 탐지"
+title: "332. Dynamic Analysis"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

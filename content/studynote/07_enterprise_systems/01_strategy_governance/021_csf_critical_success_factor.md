@@ -1,11 +1,10 @@
 ---
-title: "21. CSF (Critical Success Factor) - 핵심 성공 요인 (목표 달성을 위해 가장 중요한 요소 도출 기법)"
+title: "021. Csf Critical Success Factor"
 date: "2024-05-24"
 description: "비즈니스 목표 달성을 위해 경영진이 반드시 집중해야 할 소수의 핵심 영역을 식별하는 CSF 방법론의 원리와 실무 적용"
 tags:
   - "enterprise_systems"
 ---
-
 
 # [핵심 성공 요인](/studynote/12_it_management/01_governance_strategy/812_csf_critical_success_factor/) ([CSF](/studynote/12_it_management/01_governance_strategy/017_csf/), Critical Success Factor)
 

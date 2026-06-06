@@ -1,10 +1,9 @@
 ---
-title: "779. ISO/IEC/IEEE 29119 소프트웨어 테스팅 국제 표준"
+title: "779. Iso 29119 Software Testing Standard"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

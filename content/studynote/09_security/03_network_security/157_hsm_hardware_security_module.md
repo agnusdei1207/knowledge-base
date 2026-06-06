@@ -1,10 +1,9 @@
 ---
-title: "157. HSM (Hardware Security Module) — 물리적 키 보호"
+title: "157. Hsm Hardware Security Module"
 date: "2026-05-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트
 

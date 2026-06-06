@@ -1,10 +1,9 @@
 ---
-title: "193. 구성 편류 (Configuration Drift)"
+title: "Configuration Drift"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

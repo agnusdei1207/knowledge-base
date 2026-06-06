@@ -1,10 +1,9 @@
 ---
-title: "592. 혼합현실 MR 공간 컴퓨팅 인터페이스 (Mixed Reality MR Spatial Computing)"
+title: "Mixed Reality MR Spatial Computing"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

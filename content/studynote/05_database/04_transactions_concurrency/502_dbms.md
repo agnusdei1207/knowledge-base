@@ -1,10 +1,9 @@
 ---
-title: "502. 데이터 리니지 흐름 추적 무결성 감사 구조 (DBMS)"
+title: "DBMS"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

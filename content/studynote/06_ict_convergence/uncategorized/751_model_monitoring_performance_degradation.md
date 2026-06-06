@@ -1,10 +1,9 @@
 ---
-title: "751. 모델 모니터링 성능 저하 알림 재학습 (Model Monitoring Performance Degradation)"
+title: "Model Monitoring Performance Degradation"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

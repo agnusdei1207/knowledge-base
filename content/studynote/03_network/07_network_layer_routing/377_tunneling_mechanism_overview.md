@@ -1,10 +1,9 @@
 ---
-title: "377. 터널링 (Tunneling) 메커니즘 개요"
+title: "377. Tunneling Mechanism Overview"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

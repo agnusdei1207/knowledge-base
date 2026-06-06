@@ -1,10 +1,9 @@
 ---
-title: "07. DataStream API / Table API & SQL — Flink 두 계층 처리"
+title: "082. Datastream Api Table Api"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

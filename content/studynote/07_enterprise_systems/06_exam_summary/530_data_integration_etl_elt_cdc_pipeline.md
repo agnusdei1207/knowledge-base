@@ -1,10 +1,9 @@
 ---
-title: "530. 데이터 통합 ETL ELT CDC 파이프라인 (Data Integration ETL ELT CDC Pipeline)"
+title: "Data Integration ETL ELT CDC Pipeline"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 데이터 통합 ETL ELT CDC 파이프라인은(는) 분산 원천 데이터를 배치/스트리밍으로 추출·변환·적재하고 변경분을 지속 반영하는 데이터 파이프라인이다.

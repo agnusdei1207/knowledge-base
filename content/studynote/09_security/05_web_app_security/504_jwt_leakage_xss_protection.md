@@ -1,10 +1,9 @@
 ---
-title: "504. JWT 유출 및 XSS 방어 (JSON Web Token)"
+title: "JSON Web Token"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

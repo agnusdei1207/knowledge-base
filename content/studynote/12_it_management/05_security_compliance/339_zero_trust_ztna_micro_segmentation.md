@@ -1,10 +1,9 @@
 ---
-title: "339. 제로 트러스트 ZTNA 마이크로 세그멘테이션 감리"
+title: "339. Zero Trust Ztna Micro Segmentation"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [제로 트러스트](/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) [ZTNA](/studynote/12_it_management/05_security_compliance/980_ztna/) [마이크로 세그멘테이션](/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/) 감리의 본질은 자산, 위협, [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 통제, 운영 증적이 한 체계로 연결되어야 보안과 규제 대응이 일회성 캠페인으로 끝나지 않는다.

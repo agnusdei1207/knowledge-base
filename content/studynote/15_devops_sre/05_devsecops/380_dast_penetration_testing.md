@@ -1,10 +1,9 @@
 ---
-title: "380. 침투 테스트 자동화 DAST 동적 분석 (Automated Penetration Testing DAST ZAP)"
+title: "Automated Penetration Testing DAST ZAP"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

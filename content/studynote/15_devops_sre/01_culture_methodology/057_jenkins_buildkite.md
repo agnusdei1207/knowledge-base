@@ -1,10 +1,9 @@
 ---
-title: "57. Jenkins / Buildkite - CI 도구 비교와 선택 기준"
+title: "057. Jenkins Buildkite"
 date: "2026-04-05"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

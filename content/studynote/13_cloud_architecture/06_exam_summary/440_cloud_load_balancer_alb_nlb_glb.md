@@ -1,10 +1,9 @@
 ---
-title: "440. 클라우드 로드밸런서 ALB NLB GLB (Cloud Load Balancer ALB NLB GLB)"
+title: "Cloud Load Balancer ALB NLB GLB"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

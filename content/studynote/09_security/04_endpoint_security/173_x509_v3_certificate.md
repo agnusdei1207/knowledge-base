@@ -1,10 +1,9 @@
 ---
-title: "173. X.509 v3 인증서 — Subject/Issuer/SAN/Key Usage/NSC"
+title: "173. X509 V3 Certificate"
 date: "2026-04-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

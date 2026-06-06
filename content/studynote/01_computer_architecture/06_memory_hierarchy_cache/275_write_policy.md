@@ -1,10 +1,9 @@
 ---
-title: "275. 캐시 쓰기 정책 (Write Policy)"
+title: "Write Policy"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 # 275. 캐시 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) (Write [Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/))
 

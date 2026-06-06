@@ -1,10 +1,9 @@
 ---
-title: "67. 서비스 운영 (Service Operation)"
+title: "Service Operation"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 운영 ([Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [Operation](/studynote/05_database/06_dw_olap_trends/329_delta_encoding/))의 본질은 [이벤트 관리](/studynote/12_it_management/02_itsm_itil/074_event_management/), [인시던트 관리](/studynote/12_it_management/02_itsm_itil/859_incident_management/), [문제 관리](/studynote/12_it_management/02_itsm_itil/861_problem_management/), 접근 관리를 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가치와 운영 절차로 연결하는 데 있다.

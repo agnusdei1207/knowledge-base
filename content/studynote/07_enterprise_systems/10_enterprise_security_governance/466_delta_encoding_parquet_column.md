@@ -1,10 +1,9 @@
 ---
-title: "466. 델타 인코딩 압축 파케이 컬럼 스토리지 (Delta Encoding, Parquet, Columnar Storage)"
+title: "Delta Encoding, Parquet, Columnar Storage"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

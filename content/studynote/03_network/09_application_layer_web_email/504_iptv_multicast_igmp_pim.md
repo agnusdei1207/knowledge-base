@@ -1,10 +1,9 @@
 ---
-title: "504. IPTV 멀티캐스트 (IGMP, PIM) 전송"
+title: "504. Iptv Multicast Igmp Pim"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

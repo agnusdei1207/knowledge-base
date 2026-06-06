@@ -1,10 +1,9 @@
 ---
-title: "592. 위성 통신 (Satellite Comm.) 특징"
+title: "592. Satellite Communication Characteristics"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

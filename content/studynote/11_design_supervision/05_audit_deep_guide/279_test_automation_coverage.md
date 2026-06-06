@@ -1,10 +1,9 @@
 ---
-title: "279. 테스트 자동화 커버리지 감리 (Test Automation Coverage Audit)"
+title: "Test Automation Coverage Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

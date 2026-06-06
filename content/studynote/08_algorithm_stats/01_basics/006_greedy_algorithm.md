@@ -1,9 +1,8 @@
 ---
-title: "6. 탐욕 알고리즘 (Greedy Algorithm) — 지역 최적 -> 전체 최적"
+title: "006. Greedy Algorithm"
 tags:
   - "algorithm_stats"
 ---
-
 
 # 06. 탐욕 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Greedy [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))
 

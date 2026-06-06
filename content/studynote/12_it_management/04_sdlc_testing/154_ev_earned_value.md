@@ -1,10 +1,9 @@
 ---
-title: "154. EV (Earned Value, 획득 가치) - EVM 엑스레이의 절대 코어, 진실의 쇳덩이 심장"
+title: "154. Ev Earned Value"
 date: "2026-05-03"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: EV(Earned Value 획득 가치 / BCWP)는 [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/)(획득 가치 관리) 3차원 엑스레이 레이더망에서 -> 개발자가 통장 돈을 얼마나 불태워 썼든([AC](/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/)), 계획표 엑셀에 뭘 적어 놨든([PV](/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/)) 알 바 좆까고 무시한 채!! -> **오직 오늘 아침 내 두 눈앞에 살아서 100% 런타임 완료(Pass) 승인 도장 찍혀 완성된 진짜 물리적 쇳덩이 코드(산출물)의 가치만을 냉혹한 예산 돈($ 달러) 환산 수치로 엑스레이 까발려 도출 척살해 내는 절대 1타 무결점 코어 성적표 팩트(Fact)**다.

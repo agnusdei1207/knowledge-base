@@ -1,10 +1,9 @@
 ---
-title: "457. 클라우드 보안 아키텍처 심층 방어 (Cloud Security Architecture Defense in Depth)"
+title: "Cloud Security Architecture Defense in Depth"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

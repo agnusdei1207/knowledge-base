@@ -1,10 +1,9 @@
 ---
-title: "259. 어댑터 (Adapter) - 인터페이스 호환성 제공"
+title: "259. Adapter Pattern Interface Wrapper"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

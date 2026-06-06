@@ -1,10 +1,9 @@
 ---
-title: "464. CAP 정리 PACELC 분산 DB 결과적 일관성 (CAP Theorem, PACELC, Eventual Consistency)"
+title: "CAP Theorem, PACELC, Eventual Consistency"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

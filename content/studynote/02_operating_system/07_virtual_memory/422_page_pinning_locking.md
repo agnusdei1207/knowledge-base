@@ -1,10 +1,9 @@
 ---
-title: "422. 페이지 고정 (Page Pinning / Locking) - I/O 대기 중인 페이지가 스왑아웃되지 않게 고정 (mlock)"
+title: "mlock"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

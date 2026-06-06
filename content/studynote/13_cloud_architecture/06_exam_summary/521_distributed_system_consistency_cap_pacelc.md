@@ -1,10 +1,9 @@
 ---
-title: "521. 분산 시스템 일관성 모델 CAP PACELC (Distributed System Consistency CAP PACELC)"
+title: "Distributed System Consistency CAP PACELC"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

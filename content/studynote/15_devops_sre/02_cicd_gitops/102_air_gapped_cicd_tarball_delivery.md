@@ -1,10 +1,9 @@
 ---
-title: "에어 갭 (Air-gapped) 환경의 CI/CD: 폐쇄망 배포 전략"
+title: "102. Air Gapped Cicd Tarball Delivery"
 date: "2026-03-04"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 에어 갭 (Air-gapped) 환경의 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD는 외부 인터넷과 물리적으로 단절된 폐쇄망에서 애플리케이션 빌드, 반입, 배포를 안전하게 자동화하는 특수 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.

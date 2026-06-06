@@ -1,10 +1,9 @@
 ---
-title: "523. IoT 기기 펌웨어 무결성 검증망 및 OTA (Over-The-Air) 안전 배포"
+title: "523. Iot Firmware Ota Security"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

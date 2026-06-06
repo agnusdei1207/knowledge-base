@@ -1,10 +1,9 @@
 ---
-title: "442. O-RAN 프론트홀 eCPRI 분할 구조 전송망 (O-RAN Fronthaul eCPRI Split Architecture)"
+title: "O-RAN Fronthaul eCPRI Split Architecture"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

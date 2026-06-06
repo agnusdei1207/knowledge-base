@@ -1,10 +1,9 @@
 ---
-title: "886. 엣지 가상화 (vCPE)"
+title: "vCPE"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "477. 스타 스키마 중심 팩트 방사 차원 단일 계층"
+title: "477. Star Schema Fact Dimension"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

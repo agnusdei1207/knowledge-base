@@ -1,10 +1,9 @@
 ---
-title: "21. 지속적 배포 (CD, Continuous Deployment) - 수동 승인조차 생략하고 테스트를 통과한 모든 코드를 프로덕션 환경까지 완전 자동으로 릴리스"
+title: "021. Continuous Deployment Cd"
 date: "2026-04-02"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 # [지속적 배포](/studynote/04_software_engineering/02_requirements_analysis/099_continuous_deployment_cd/) (CD, [Continuous Deployment](/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/)/Delivery)
 

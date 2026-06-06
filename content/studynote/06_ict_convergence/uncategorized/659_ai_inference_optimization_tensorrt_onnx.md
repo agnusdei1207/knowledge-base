@@ -1,10 +1,9 @@
 ---
-title: "659. AI 추론 최적화 TensorRT ONNX (AI Inference Optimization TensorRT ONNX)"
+title: "AI Inference Optimization TensorRT ONNX"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

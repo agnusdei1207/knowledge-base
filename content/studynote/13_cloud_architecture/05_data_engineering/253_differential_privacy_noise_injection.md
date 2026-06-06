@@ -1,10 +1,9 @@
 ---
-title: "253. 차분 프라이버시 - 노이즈 주입 (Differential Privacy)"
+title: "Differential Privacy"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [차분 프라이버시](/studynote/10_ai/05_data_science_ml/396_differential_privacy/) - 노이즈 주입는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼에서 복잡한 운영의 질서화를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.

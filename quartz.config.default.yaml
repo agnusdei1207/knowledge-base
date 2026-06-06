@@ -6,7 +6,7 @@ configuration:
   enablePopovers: true
   analytics:
     provider: plausible
-  locale: ko-KR
+  locale: en-US
   baseUrl: agnusdei1207.github.io/study
   ignorePatterns:
     - private

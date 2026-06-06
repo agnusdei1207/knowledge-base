@@ -1,10 +1,9 @@
 ---
-title: "542. 데이터 마스킹 부분 비식별화 암호화 비교 체계"
+title: "542. Redis"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

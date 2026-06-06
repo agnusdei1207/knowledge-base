@@ -1,10 +1,9 @@
 ---
-title: "274. 메멘토 (Memento) - 객체 상태 저장 및 복원"
+title: "274. Memento Pattern"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

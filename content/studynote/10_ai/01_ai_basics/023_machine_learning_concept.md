@@ -1,10 +1,9 @@
 ---
-title: "23. 머신러닝 개념 (Machine Learning Concept)"
+title: "Machine Learning Concept"
 date: "2026-04-29"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)(ML, Machine [Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))은 인간이 규칙(Rule)을 직접 코딩하는 대신, 대량의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))와 정답(Label)을 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에 주입하면 <strong>기계가 스스로 수학적 패턴(<a href="/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>, <a href="/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">Weight</a>)을 최적화</strong>하며 예측 함수를 완성하는 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)의 핵심 하위 분야다. (Tom Mitchell, 1997)

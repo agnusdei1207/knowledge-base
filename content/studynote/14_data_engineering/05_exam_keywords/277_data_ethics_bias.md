@@ -1,10 +1,9 @@
 ---
-title: "277. 데이터 윤리 편향 감지 공정성 평가 (Data Ethics Bias Detection Fairness Evaluation)"
+title: "Data Ethics Bias Detection Fairness Evaluation"
 date: "2026-05-09"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

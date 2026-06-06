@@ -1,10 +1,9 @@
 ---
-title: "471. 컨시스턴트 해싱 링 토폴로지"
+title: "471. Consistent Hashing Ring"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

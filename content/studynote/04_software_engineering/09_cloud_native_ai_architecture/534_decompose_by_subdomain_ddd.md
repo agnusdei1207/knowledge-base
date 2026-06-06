@@ -1,10 +1,9 @@
 ---
-title: "534. 하위 도메인에 따른 분해 (Decompose by Subdomain - DDD 기반)"
+title: "Decompose by Subdomain - DDD"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

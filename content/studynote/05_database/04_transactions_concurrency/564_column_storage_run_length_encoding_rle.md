@@ -1,10 +1,9 @@
 ---
-title: "564. 컬럼 기반 스토리지 런 렝스 인코딩(RLE) 압축 효율화 탐색"
+title: "564. Column Storage Run Length Encoding Rle"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

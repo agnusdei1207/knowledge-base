@@ -1,10 +1,9 @@
 ---
-title: "207. 오디오 딥러닝과 멜 스펙트로그램 (Audio MEL Spectrogram)"
+title: "Audio MEL Spectrogram"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

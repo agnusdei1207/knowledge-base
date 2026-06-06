@@ -1,10 +1,9 @@
 ---
-title: "33. 기능점수 검증 (Function Point Verification)"
+title: "Function Point Verification"
 date: "2026-05-08"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "651. 전력 인식(Power-aware) 스케줄러 동적 전압/주파수 스케일링(DVFS) 통합형 CPU 제어"
+title: "651. Power Aware Scheduler Dvfs"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

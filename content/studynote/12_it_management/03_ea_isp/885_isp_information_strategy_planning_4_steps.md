@@ -1,10 +1,9 @@
 ---
-title: "885. 정보화 전략 계획 (ISP) 수행 4단계 절차"
+title: "885. Isp Information Strategy Planning 4 Steps"
 date: "2026-04-10"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

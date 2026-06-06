@@ -1,10 +1,9 @@
 ---
-title: "355. 양자 컴퓨팅 쇼어 보안 붕괴 얽힘 연산 중첩 알고리즘 (Quantum Computing)"
+title: "Quantum Computing"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [양자 컴퓨팅](/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/) 쇼어 보안 붕괴 얽힘 연산 중첩 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)는 클라우드 시스템에서 보안과 통제를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.

@@ -1,10 +1,9 @@
 ---
-title: "08. 알고리즘/자료구조/통계 키워드 목록"
+title: "Keyword List"
 date: "2026-03-03"
 tags:
   - "studynote-algorithm"
 ---
-
 [weight](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) = 9999
 
 # [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) / 자료구조 / 통계 키워드 목록

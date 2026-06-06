@@ -1,10 +1,9 @@
 ---
-title: "456. 브루트포스 (Brute Force)"
+title: "Brute Force"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

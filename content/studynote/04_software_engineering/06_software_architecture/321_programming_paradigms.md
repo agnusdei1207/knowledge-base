@@ -1,10 +1,9 @@
 ---
-title: "321. 프로그래밍 패러다임 - 절차적, 객체지향, 함수형, 논리형"
+title: "321. Programming Paradigms"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "103. HMAC (Hash-based Message Authentication Code) — 키 혼입 해시"
+title: "103. Hmac"
 date: "2026-04-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "049. DataOps — 데이터 운영"
+title: "049. Dataops Data Operations"
 date: "2026-04-05"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 > **핵심 인사이트**
 > 1. [DataOps](/studynote/12_it_management/05_security_compliance/965_dataops/)([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Operations)는 [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 원칙(자동화·[CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD·[모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링)을 [데이터 파이프라인](/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)에 적용하여 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 개발->테스트->배포->운영 사이클을 자동화하는 방법론 — "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링의 [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)"로, [데이터 파이프라인](/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)의 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)·품질·속도를 동시에 향상시킨다.

@@ -1,10 +1,9 @@
 ---
-title: "584. AIOps 지능형 IT 운영 자동화 (AIOps Intelligent IT Operations)"
+title: "AIOps Intelligent IT Operations"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

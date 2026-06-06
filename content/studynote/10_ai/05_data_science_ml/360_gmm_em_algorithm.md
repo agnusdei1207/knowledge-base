@@ -1,10 +1,9 @@
 ---
-title: "360. GMM (Gaussian Mixture Model) 과 EM 알고리즘"
+title: "360. Gmm Em Algorithm"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

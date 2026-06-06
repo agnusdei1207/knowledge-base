@@ -1,10 +1,9 @@
 ---
-title: "097. 해시 함수 — 단방향성, 충돌 저항성, Preimage 저항성"
+title: "097. Hash Function"
 date: "2026-04-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

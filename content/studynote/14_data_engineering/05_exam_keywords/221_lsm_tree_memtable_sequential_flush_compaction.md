@@ -1,10 +1,9 @@
 ---
-title: "221. LSM 트리 (Log-Structured Merge-Tree) 멤테이블 순차 플러시 콤팩션"
+title: "221. Lsm Tree Memtable Sequential Flush Compaction"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: LSM 트리(Log-Structured Merge-Tree)는 랜덤 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 순차 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)로 변환해 [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)/[HDD](/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 극대화하는 저장 엔진 핵심 자료구조이다.

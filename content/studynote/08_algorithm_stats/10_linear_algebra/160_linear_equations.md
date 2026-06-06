@@ -1,10 +1,9 @@
 ---
-title: "1. 선형 연립방정식 — 행렬 표현, 가우스 소거"
+title: "160. Linear Equations"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

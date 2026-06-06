@@ -1,10 +1,9 @@
 ---
-title: "720. 사이보그 기술 뇌-컴퓨터 인터페이스 BCI (Cyborg Technology Brain Computer Interface BCI)"
+title: "Cyborg Technology Brain Computer Interface BCI"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

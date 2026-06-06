@@ -1,10 +1,9 @@
 ---
-title: "94. 채찍 효과 억제 (Bullwhip Effect Mitigation) - POS 데이터 공유와 VMI"
+title: "094. Bullwhip Effect Mitigation Pos Vmi"
 date: "2024-05-15"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

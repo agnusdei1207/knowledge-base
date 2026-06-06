@@ -1,10 +1,9 @@
 ---
-title: "237. 충돌 도메인 (Collision Domain) / 브로드캐스트 도메인 (Broadcast Domain)"
+title: "Broadcast Domain"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "379. 델타 인코딩 (Delta Encoding) 및 시계열 데이터 압축 (Gorilla алгоритм)"
+title: "379. Delta Encoding Gorilla Compression"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

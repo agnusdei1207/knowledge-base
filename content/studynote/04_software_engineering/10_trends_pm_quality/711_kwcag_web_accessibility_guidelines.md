@@ -1,10 +1,9 @@
 ---
-title: "711. KWCAG 웹 접근성 지침"
+title: "711. Kwcag Web Accessibility Guidelines"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

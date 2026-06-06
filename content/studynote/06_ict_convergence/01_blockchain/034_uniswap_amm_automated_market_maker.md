@@ -1,10 +1,9 @@
 ---
-title: "유니스왑·AMM (Automated Market Maker, 자동화 시장 조성자)"
+title: "Automated Market Maker,"
 date: "2026-03-04"
 tags:
   - "studynote-ict"
 ---
-
 
 > **핵심 인사이트 3줄**
 > 1. AMM(Automated Market Maker, 자동화 시장 조성자)은 전통적인 오더북 거래소 대신 수학적 공식(CPMM: x·y=k)으로 자산 가격을 자동 결정하는 [탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 거래 메커니즘이다.

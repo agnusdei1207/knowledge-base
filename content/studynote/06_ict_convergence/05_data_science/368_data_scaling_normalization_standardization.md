@@ -1,10 +1,9 @@
 ---
-title: "368. 데이터 스케일링 민감도 (K-NN, SVM, PCA 등 거리/분산 기반 모델은 필수)"
+title: "K-NN, SVM, PCA /"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

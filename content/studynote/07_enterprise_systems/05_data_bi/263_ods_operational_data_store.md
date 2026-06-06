@@ -1,10 +1,9 @@
 ---
-title: "263. ODS (Operational Data Store) 운영 데이터 저장소"
+title: "263. Ods Operational Data Store"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

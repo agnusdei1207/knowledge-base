@@ -1,10 +1,9 @@
 ---
-title: "690. 오픈 데이터 공공 데이터 활용 전략 (Open Data Public Data Utilization Strategy)"
+title: "Open Data Public Data Utilization Strategy"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "65. 시스템 콜 래퍼 (System Call Wrapper)"
+title: "System Call Wrapper"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

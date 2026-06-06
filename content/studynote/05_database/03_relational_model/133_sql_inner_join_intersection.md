@@ -1,10 +1,9 @@
 ---
-title: "133. SQL INNER JOIN - 교집합 결합의 기본"
+title: "133. Sql Inner Join Intersection"
 date: "2026-04-19"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: INNER JOIN은 <strong>두 테이블에서 조인 조건을 만족하는 행만 반환</strong>하는 교집합(∩) 연산이며, 가장 기본적이고 빈번한 [JOIN](/studynote/05_database/04_transactions_concurrency/521_join/) 유형이다.

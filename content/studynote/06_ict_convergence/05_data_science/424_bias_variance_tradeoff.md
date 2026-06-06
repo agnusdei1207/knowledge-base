@@ -1,10 +1,9 @@
 ---
-title: "424. 과대적합 분산 과소적합 편향 (BIAS Variance Tradeoff)"
+title: "BIAS Variance Tradeoff"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

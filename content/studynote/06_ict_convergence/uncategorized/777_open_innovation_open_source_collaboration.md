@@ -1,10 +1,9 @@
 ---
-title: "777. 개방형 혁신 오픈 이노베이션 협업 (Open Innovation Open Source Collaboration)"
+title: "Open Innovation Open Source Collaboration"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

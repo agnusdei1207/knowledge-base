@@ -1,10 +1,9 @@
 ---
-title: "426. K-Fold 교차 검증 (K FOLD Cross Validation)"
+title: "K FOLD Cross Validation"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

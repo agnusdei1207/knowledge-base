@@ -1,10 +1,9 @@
 ---
-title: "270. 카프카(Kafka) 파이프라인 메시지 무결성 통제망 스키마 레지스트리 (Avro Schema 변이 하위 호환성 강제 방어)"
+title: "Avro Schema"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

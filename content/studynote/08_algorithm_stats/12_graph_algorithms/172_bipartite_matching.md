@@ -1,10 +1,9 @@
 ---
-title: "172. 이분 매칭 (Bipartite Matching)"
+title: "Bipartite Matching"
 date: "2026-05-06"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

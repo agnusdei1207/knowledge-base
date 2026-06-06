@@ -1,10 +1,9 @@
 ---
-title: "503. 벤더 관리 아웃소싱 SLA 성과 평가 (Vendor Management Outsourcing SLA Performance)"
+title: "Vendor Management Outsourcing SLA Performance"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

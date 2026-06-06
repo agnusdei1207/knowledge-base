@@ -1,10 +1,9 @@
 ---
-title: "576. 메타버스 가상 공간 인터랙션 설계 (Metaverse Virtual Space Interaction Design)"
+title: "Metaverse Virtual Space Interaction Design"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

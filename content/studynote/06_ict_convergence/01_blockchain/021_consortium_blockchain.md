@@ -1,11 +1,10 @@
 ---
-title: "21. 컨소시엄 블록체인 (Consortium Blockchain) - 여러 기업이 연합하여 노드 운영"
+title: "021. Consortium Blockchain"
 date: "2024-05-18"
 description: "다수의 허가된 기관이 연합하여 권한을 분산하고 공동으로 원장을 관리하는 엔터프라이즈 분산 원장 기술"
 tags:
   - "ict_convergence"
 ---
-
 
 # 21. 컨소시엄 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) (Consortium [Blockchain](/studynote/06_ict_convergence/01_blockchain/004_blockchain/))
 

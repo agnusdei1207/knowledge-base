@@ -1,10 +1,9 @@
 ---
-title: "043. 데이터 옵저버빌리티"
+title: "255. Data Observability"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"
 ---
-
 
 > **핵심 인사이트**
 > 1. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [옵저버빌리티](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Observability](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/))는 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 통해 흐르는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 상태를 실시간으로 감지·[모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링하는 능력으로 — 신선도(Freshness), 분포(Distribution), 볼륨([Volume](/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/)), [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)([Schema](/studynote/05_database/04_transactions_concurrency/505_schema/)), 계보(Lineage) 5대 기둥으로 구성되며, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 이슈가 비즈니스에 도달하기 전에 사전 탐지한다.

@@ -1,10 +1,9 @@
 ---
-title: "1116. 자율 구동 네트워크 레벨링"
+title: "1116. Adn Autonomous Driving Network Leveling"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

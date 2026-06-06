@@ -1,9 +1,8 @@
 ---
-title: "1058. 스트리밍 텔레메트리 (Streaming Telemetry) - 푸시 기반 실시간 네트워크 관측"
+title: "1058. Streaming Telemetry Network Monitoring"
 tags:
   - "network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

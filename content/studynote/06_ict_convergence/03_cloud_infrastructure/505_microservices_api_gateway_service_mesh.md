@@ -1,10 +1,9 @@
 ---
-title: "505. 마이크로서비스, API 게이트웨이, 서비스 메시 (MSA API Gateway Service Mesh)"
+title: "MSA API Gateway Service Mesh"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

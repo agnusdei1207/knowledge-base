@@ -1,11 +1,10 @@
 ---
-title: "3. 강인공지능 (Strong AI / AGI, Artificial General Intelligence) - 인간과 같거나 뛰어난 범용 지능"
+title: "003. Strong Ai Agi"
 date: "2026-03-04"
 description: "모든 인지적 영역에서 인간과 동등하거나 뛰어난 범용 지능 시스템"
 tags:
   - "ai"
 ---
-
 
 # 3. 강인공지능 (Strong [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) / AGI)
 

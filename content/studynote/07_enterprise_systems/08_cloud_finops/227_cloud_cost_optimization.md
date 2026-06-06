@@ -1,10 +1,9 @@
 ---
-title: "227. 클라우드 비용 최적화 (Cloud Cost Optimization)"
+title: "Cloud Cost Optimization"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

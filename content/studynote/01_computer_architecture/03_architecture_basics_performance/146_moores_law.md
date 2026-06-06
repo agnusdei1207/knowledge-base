@@ -1,10 +1,9 @@
 ---
-title: "146. 무어의 법칙 (Moore's Law)"
+title: "Moore's Law"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

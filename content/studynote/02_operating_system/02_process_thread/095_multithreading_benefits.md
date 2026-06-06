@@ -1,10 +1,9 @@
 ---
-title: "95. 다중 스레드 (Multithreading)의 장점 - 응답성, 자원 공유, 경제성, 다중 처리기 활용"
+title: "095. Multithreading Benefits"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

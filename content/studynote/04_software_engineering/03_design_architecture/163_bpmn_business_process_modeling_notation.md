@@ -1,10 +1,9 @@
 ---
-title: "163. 비즈니스 프로세스 모델링 (BPMN)"
+title: "BPMN"
 date: "2026-04-03"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

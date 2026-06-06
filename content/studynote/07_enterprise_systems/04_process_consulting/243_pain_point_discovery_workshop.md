@@ -1,10 +1,9 @@
 ---
-title: "243. 페인 포인트 발굴 워크숍 (Pain Point Discovery Workshop)"
+title: "Pain Point Discovery Workshop"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "1060. 양자 암호 키 분배 (QKD 인프라 기반망)"
+title: "QKD"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

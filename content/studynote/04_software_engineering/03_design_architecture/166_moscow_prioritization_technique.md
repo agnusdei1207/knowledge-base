@@ -1,10 +1,9 @@
 ---
-title: "166. MoSCoW 기법 - Must, Should, Could, Won't 우선순위 결정"
+title: "166. Moscow Prioritization Technique"
 date: "2026-04-03"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

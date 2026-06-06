@@ -1,10 +1,9 @@
 ---
-title: "406. ELK 스택 로그 분석 검색 시각화 (ELK Stack Log Analysis Search Visualization)"
+title: "ELK Stack Log Analysis Search Visualization"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,9 +1,8 @@
 ---
-title: "56. 비즈니스 연속성 계획 (BCP, Business Continuity Plan) - 재난/재해 시 핵심 업무 기능 유지 지침"
+title: "056. Bcp Business Continuity Plan Bia"
 tags:
   - "enterprise_systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

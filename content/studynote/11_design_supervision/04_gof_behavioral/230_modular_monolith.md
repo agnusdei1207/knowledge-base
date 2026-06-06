@@ -1,10 +1,9 @@
 ---
-title: "230. 모듈형 모놀리스 (Modular Monolith)"
+title: "Modular Monolith"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

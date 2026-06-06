@@ -1,10 +1,9 @@
 ---
-title: "1082. 웹쉘 탐지 프로토콜 파서"
+title: "1082. Webshell Detection Protocol Parser Ids"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

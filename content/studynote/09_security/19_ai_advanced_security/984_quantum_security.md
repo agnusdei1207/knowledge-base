@@ -1,10 +1,9 @@
 ---
-title: "984. 양자 컴퓨팅 보안 (Quantum Security)"
+title: "Quantum Security"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

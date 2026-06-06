@@ -1,10 +1,9 @@
 ---
-title: "044. 카파 아키텍처 — 단일 스트리밍 레이어"
+title: "044. Kappa Architecture Single Streaming Layer"
 date: "2026-04-05"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 > **핵심 인사이트**
 > 1. [카파 아키텍처](/studynote/16_bigdata/04_streaming/096_kappa_architecture/)([Kappa Architecture](/studynote/16_bigdata/04_streaming/096_kappa_architecture/))는 Jay Kreps(LinkedIn)가 2014년 제안한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 아키텍처로 — [람다](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 아키텍처의 "배치 + 스피드 레이어 이중 코드" 문제를 스트리밍 레이어 하나로 통합하여 해결한다.

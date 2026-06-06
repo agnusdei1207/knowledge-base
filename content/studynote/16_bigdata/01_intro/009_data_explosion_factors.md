@@ -1,11 +1,10 @@
 ---
-title: "9. 데이터 폭증 요인 — IoT/SNS/모바일/센서/영상 CCTV"
+title: "009. Data Explosion Factors"
 date: "2024-05-20"
 description: "제타바이트 시대를 이끄는 IoT, SNS, 모바일 트래픽의 아키텍처적 부하와 대응 전략"
 tags:
   - "bigdata"
 ---
-
 
 # [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 폭증 요인 ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Explosion Factors)
 

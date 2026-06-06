@@ -1,10 +1,9 @@
 ---
-title: "77. 크로스 엔트로피 오차 (CEE) - 분류 문제 핵심 손실 함수"
+title: "077. Cross Entropy Error Log Loss"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
 ---
-
 
 # [크로스 엔트로피](/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/) 오차 ([Cross-Entropy](/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/) Error) / Log Loss
 

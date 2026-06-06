@@ -1,10 +1,9 @@
 ---
-title: "665. Virtio 드라이버 모델"
+title: "665. Virtio Driver Model"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

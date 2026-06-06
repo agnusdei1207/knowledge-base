@@ -1,10 +1,9 @@
 ---
-title: "541. LFS (Log-structured File System) - 모든 쓰기를 순차적 로그 형태로만 디스크에 기록 (플래시 메모리에 적합)"
+title: "541. Log Structured File System"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

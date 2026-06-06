@@ -1,10 +1,9 @@
 ---
-title: "427. 텐서 코어 (Tensor Core)"
+title: "Tensor Core"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

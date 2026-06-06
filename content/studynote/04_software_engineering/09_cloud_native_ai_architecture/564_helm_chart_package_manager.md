@@ -1,10 +1,9 @@
 ---
-title: "564. 헬름 (Helm) 차트를 이용한 SW 패키지 관리"
+title: "564. Helm Chart Package Manager"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

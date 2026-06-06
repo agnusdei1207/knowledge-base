@@ -1,10 +1,9 @@
 ---
-title: "727. XSS 방어 HttpOnly 쿠키 속성 설정 원리 스크립트 접근 차단"
+title: "727. Httponly Cookie Xss Defense"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

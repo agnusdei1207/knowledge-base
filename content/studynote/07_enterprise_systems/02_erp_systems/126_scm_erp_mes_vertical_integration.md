@@ -1,10 +1,9 @@
 ---
-title: "126. SCM·ERP·MES 수직 통합 - 계획->실행->현장의 데이터 연속성"
+title: "126. Scm Erp Mes Vertical Integration"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)([공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 계획)->[ERP](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)(경영 자원 계획)->[MES](/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/)(제조 실행)의 <strong>수직 통합</strong>은 수요 예측->생산 계획->현장 실행->실적 피드백의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 끊김 없이 흐르는 체계이다.

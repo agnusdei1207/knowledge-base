@@ -1,10 +1,9 @@
 ---
-title: "736. 하드 링크 / 심볼릭 링크 차이 (Hard Link Vs Symbolic Link)"
+title: "Hard Link Vs Symbolic Link"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "1063. DoH / DoT (웹/전송 보안 계층 DNS 암호화)"
+title: "/ DNS"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

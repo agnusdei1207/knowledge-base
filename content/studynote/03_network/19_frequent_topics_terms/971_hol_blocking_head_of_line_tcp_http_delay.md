@@ -1,10 +1,9 @@
 ---
-title: "971. 홀오브라인 블로킹 (HOL Blocking)"
+title: "HOL Blocking"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "399. 사고 대응 IR 포렌식 분석 절차 (Incident Response IR Forensics Analysis)"
+title: "Incident Response IR Forensics Analysis"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 # 399. 사고 대응 IR 포렌식 분석 절차 (Incident Response IR Forensics Analysis)
 

@@ -1,10 +1,9 @@
 ---
-title: "25. Spark RDD (Resilient Distributed Dataset) — 내결함성 분산 데이터셋"
+title: "025. Spark Rdd Resilient Distributed Dataset"
 date: "2026-04-29"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [RDD](/studynote/13_cloud_architecture/05_data_engineering/310_audit/) (Resilient Distributed Dataset, 내결함성 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋)는 Apache Spark의 핵심 추상화로, 클러스터 전체에 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)된 불변([Immutable](/studynote/13_cloud_architecture/05_data_engineering/298_immutable/)) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)의 집합이다. Resilient는 "복원력 있는(내결함성)"을 의미하며, 리니지(Lineage) 정보를 통해 노드 장애 시 실패한 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)만 재계산하여 자동 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)한다.

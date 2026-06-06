@@ -1,10 +1,9 @@
 ---
-title: "452. DMA 산란-수집 (Scatter-Gather) - 불연속적 물리 메모리 블록을 한 번의 DMA로 전송"
+title: "452. Dma Scatter Gather"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

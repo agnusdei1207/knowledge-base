@@ -1,11 +1,10 @@
 ---
-title: "58. 폴딩 주파수 (Folding Frequency)"
+title: "Folding Frequency"
 date: "2026-03-30"
 tags:
   - "Network"
   - "studynote"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

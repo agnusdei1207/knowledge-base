@@ -1,10 +1,9 @@
 ---
-title: "752. 설명 가능 AI XAI 모델 해석 투명성 (Explainable AI XAI Interpretability Transparency)"
+title: "Explainable AI XAI Interpretability Transparency"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

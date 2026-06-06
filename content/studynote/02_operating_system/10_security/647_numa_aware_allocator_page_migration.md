@@ -1,10 +1,9 @@
 ---
-title: "647. NUMA 인지형 메모리 할당기 커널 페이지 이동 정책 프레임워크 설계 (NUMA Aware Allocator Page Migration)"
+title: "NUMA Aware Allocator Page Migration"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

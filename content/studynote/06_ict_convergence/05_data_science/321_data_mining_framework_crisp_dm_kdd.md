@@ -1,10 +1,9 @@
 ---
-title: "321. 데이터 마이닝 프레임워크 (CRISP-DM, KDD) (Data Mining)"
+title: "Data Mining"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

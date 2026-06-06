@@ -1,10 +1,9 @@
 ---
-title: "425. 해시 인덱스 (버킷 충돌 체이닝)"
+title: "425. Hash Index Bucket Chaining"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

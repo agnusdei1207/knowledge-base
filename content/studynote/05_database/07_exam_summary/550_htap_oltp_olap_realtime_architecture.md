@@ -1,10 +1,9 @@
 ---
-title: "550. HTAP 기술 OLTP, OLAP 메모리 복제/공유 실시간 아키텍처"
+title: "550. Htap Oltp Olap Realtime Architecture"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

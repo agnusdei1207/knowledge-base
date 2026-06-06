@@ -1,10 +1,9 @@
 ---
-title: "592. AI 기반 코드 리뷰 감리 지원 도구 (AI Based Code Review Audit Support Tool)"
+title: "AI Based Code Review Audit Support Tool"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

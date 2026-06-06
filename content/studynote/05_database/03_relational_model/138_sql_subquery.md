@@ -1,10 +1,9 @@
 ---
-title: "138. SQL 서브쿼리 (Subquery) - 쿼리 안의 쿼리"
+title: "138. Sql Subquery"
 date: "2026-04-19"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 서브쿼리([Subquery](/studynote/05_database/04_transactions_concurrency/523_subquery/))는 <strong>SQL 문 안에 중첩된 또 다른 <a href="/studynote/05_database/04_transactions_concurrency/520_select/">SELECT</a> 문</strong>이며, WHERE·FROM·[SELECT](/studynote/05_database/04_transactions_concurrency/520_select/)·HAVING 절에서 사용할 수 있고, 스칼라·[인라인 뷰](/studynote/05_database/03_relational_model/141_inline_view_subquery/)·상관(Correlated) 서브쿼리로 구분된다.

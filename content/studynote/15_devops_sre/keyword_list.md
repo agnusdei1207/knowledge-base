@@ -1,10 +1,9 @@
 ---
-title: "15. 데브옵스 (DevOps) 및 SRE 키워드 목록"
+title: "Keyword List"
 date: "2026-03-04"
 tags:
   - "studynote-devops-sre"
 ---
-
 [weight](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) = 9999
 
 # [데브옵스](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) ([DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)) 및 [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) (사이트 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 공학) 키워드 목록 (심화 확장판)

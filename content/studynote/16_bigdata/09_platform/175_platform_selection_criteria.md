@@ -1,10 +1,9 @@
 ---
-title: "175. 빅데이터 플랫폼 선택 기준 (Big Data Platform Selection Criteria)"
+title: "Big Data Platform Selection Criteria"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

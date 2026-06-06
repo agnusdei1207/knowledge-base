@@ -1,10 +1,9 @@
 ---
-title: "290. DF (Don't Fragment) 비트 / MF (More Fragment) 비트"
+title: "290. Df Dont Fragment Mf More Fragment Bits"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

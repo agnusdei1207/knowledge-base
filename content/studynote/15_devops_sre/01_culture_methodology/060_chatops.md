@@ -1,10 +1,9 @@
 ---
-title: "60. ChatOps (Chat + Operations) 협업 운영 모델"
+title: "060. Chatops"
 date: "2026-04-05"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "399. BCNF 모든 결정자 후보키"
+title: "399. Bcnf Determinant Candidate Key"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

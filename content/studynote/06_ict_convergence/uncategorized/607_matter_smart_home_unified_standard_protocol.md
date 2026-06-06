@@ -1,10 +1,9 @@
 ---
-title: "607. Matter 스마트홈 통합 표준 프로토콜 (Matter Smart Home Unified Standard Protocol)"
+title: "Matter Smart Home Unified Standard Protocol"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

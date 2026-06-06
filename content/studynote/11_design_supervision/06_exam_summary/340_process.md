@@ -1,10 +1,9 @@
 ---
-title: "340. 오픈소스 GPL 컴플라이언스 배포 (Open Source GPL Compliance)"
+title: "Open Source GPL Compliance"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

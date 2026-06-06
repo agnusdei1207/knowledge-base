@@ -1,10 +1,9 @@
 ---
-title: "190. 시큐어 코딩 (Secure Coding) 가이드라인 준수 감리"
+title: "190. Secure Coding Guideline"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 시큐어 코딩 (Secure Coding) 가이드라인 준수 감리의 본질은 행정안전부 47개 소프트웨어 보안 약점 필수 점검 (SQL [인젝션](/studynote/04_software_engineering/11_testing_validation/872_injection/), [XSS](/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/), [무결성](/studynote/09_security/01_intro_principles/003_integrity/) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 미비 등)를 예방·탐지·대응 통제와 증적으로 운영하는 데 있다.

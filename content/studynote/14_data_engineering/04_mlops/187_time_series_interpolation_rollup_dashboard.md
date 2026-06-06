@@ -1,10 +1,9 @@
 ---
-title: "187. 시계열 DB 보간법 (Interpolation) 롤업 (Rollup) 통계 지표 대시보드"
+title: "187. Time Series Interpolation Rollup Dashboard"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

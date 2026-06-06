@@ -1,11 +1,10 @@
 ---
-title: "84. 지지도 (Support) - 연관 규칙 평가 지표"
+title: "084. Support Association Rule Transaction"
 date: "2026-03-04"
 tags:
   - "math-mining"
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

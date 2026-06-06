@@ -1,10 +1,9 @@
 ---
-title: "398. 이행 함수 종속 제3정규형"
+title: "398. Transitive Functional Dependency 3Nf"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

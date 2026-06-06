@@ -1,10 +1,9 @@
 ---
-title: "200. 로우코드 / 노코드 (LC/NC) 기반 엔터프라이즈 워크플로우 자동화"
+title: "200. Low Code No Code Enterprise Workflow Automation"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

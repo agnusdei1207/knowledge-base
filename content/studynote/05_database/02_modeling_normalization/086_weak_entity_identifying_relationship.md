@@ -1,9 +1,8 @@
 ---
-title: "86. 약한 개체 (Weak Entity) - 이중 사각형, 부모 개체에 종속 (식별 관계)"
+title: "086. Weak Entity Identifying Relationship"
 tags:
   - "database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

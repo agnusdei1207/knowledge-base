@@ -1,10 +1,9 @@
 ---
-title: "292. 클라우드 네이티브 DW (Snowflake, BigQuery, Redshift) 아키텍처"
+title: "292. Cloud Native Dw Snowflake Bigquery Redshift"
 date: "2026-04-21"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

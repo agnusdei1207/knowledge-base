@@ -1,10 +1,9 @@
 ---
-title: "522. 하이퍼오토메이션 AI 융합 프로세스 (Hyperautomation AI Convergence Process)"
+title: "Hyperautomation AI Convergence Process"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하이퍼오토메이션 AI 융합 프로세스은(는) RPA, BPM, iPaaS, Process Mining, AI/ML을 결합해 업무 발견-자동화-운영-개선을 폐루프로 수행하는 전사 자동화 접근이다.

@@ -1,10 +1,9 @@
 ---
-title: "583. V2X 차량 통신 C-V2X DSRC 비교 (V2X Vehicle Communication C-V2X DSRC)"
+title: "V2X Vehicle Communication C-V2X DSRC"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

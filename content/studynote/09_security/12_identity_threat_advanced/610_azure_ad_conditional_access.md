@@ -1,10 +1,9 @@
 ---
-title: "610. Azure AD 조건부 액세스 (Conditional Access)"
+title: "Conditional Access"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

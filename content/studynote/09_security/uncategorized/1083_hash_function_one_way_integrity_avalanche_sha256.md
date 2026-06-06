@@ -1,10 +1,9 @@
 ---
-title: "1083. 해시 함수 (Hash Function)"
+title: "Hash Function"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

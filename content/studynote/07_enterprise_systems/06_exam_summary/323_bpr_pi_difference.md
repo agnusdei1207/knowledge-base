@@ -1,10 +1,9 @@
 ---
-title: "323. BPR PI 차이점 근본적 재설계 vs 점진적 혁신 (BPR vs PI)"
+title: "BPR vs PI"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

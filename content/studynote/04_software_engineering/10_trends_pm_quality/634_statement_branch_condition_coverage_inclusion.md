@@ -1,10 +1,9 @@
 ---
-title: "634. 구문, 분기, 조건 커버리지 포함 관계"
+title: "634. Statement Branch Condition Coverage Inclusion"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

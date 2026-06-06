@@ -1,10 +1,9 @@
 ---
-title: "143. Auto-MDIX (크로스 케이블 자동 인식)"
+title: "143. Auto Mdix"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

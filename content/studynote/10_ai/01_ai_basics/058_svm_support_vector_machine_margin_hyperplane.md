@@ -1,10 +1,9 @@
 ---
-title: "58. SVM (Support Vector Machine) - 마진(Margin)을 최대화하는 초평면(Hyperplane) 분할 모델"
+title: "058. Svm Support Vector Machine Margin Hyperplane"
 date: "2026-04-07"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

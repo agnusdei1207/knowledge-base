@@ -1,10 +1,9 @@
 ---
-title: "188. 분산 추적 (Distributed Tracing - OpenTelemetry, Jaeger)"
+title: "Distributed Tracing - OpenTelemetry, Jaeger"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [분산 추적](/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/)([Distributed Tracing](/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/))은 [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 환경에서 하나의 사용자 요청이 수십 개 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 연쇄 호출할 때, 고유 Trace ID로 전체 흐름을 추적하여 병목 구간과 장애 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 정확히 파악하는 [옵저버빌리티](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)의 세 번째 기둥이다.

@@ -1,10 +1,9 @@
 ---
-title: "494. RASP (Runtime Application Self-Protection) - 실행 환경 내부에서 공격 실시간 방어"
+title: "494. Rasp Runtime Protection"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

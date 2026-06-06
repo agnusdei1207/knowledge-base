@@ -1,9 +1,8 @@
 ---
-title: "09. 파일 시스템 및 디스크 관리"
+title: "Operating System"
 tags:
   - "operating_system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

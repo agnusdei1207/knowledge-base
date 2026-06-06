@@ -1,10 +1,9 @@
 ---
-title: "721. 바이오인포매틱스 유전체 분석 정밀의료 (Bioinformatics Genomics Precision Medicine)"
+title: "Bioinformatics Genomics Precision Medicine"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

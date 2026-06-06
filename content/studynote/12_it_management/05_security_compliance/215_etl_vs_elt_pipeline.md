@@ -1,10 +1,9 @@
 ---
-title: "215. ETL (추출-변환-적재) vs ELT (추출-적재-변환 / 클라우드 DW 성능 활용) 파이프라인"
+title: "215. Etl Vs Elt Pipeline"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: ETL (추출-변환-적재) vs [ELT](/studynote/14_data_engineering/01_infrastructure/034_elt/) (추출-적재-변환 / 클라우드 [DW](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 활용) 파이프라인의 본질은 수집, 저장, 품질, 활용, 거버넌스가 분리되지 않아야 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산이 실제 의사결정 가치로 전환된다.

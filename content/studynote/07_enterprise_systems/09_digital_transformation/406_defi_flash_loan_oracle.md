@@ -1,10 +1,9 @@
 ---
-title: "406. DeFi 플래시 론 오라클 (DeFi: Decentralized Finance)"
+title: "DeFi: Decentralized Finance"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

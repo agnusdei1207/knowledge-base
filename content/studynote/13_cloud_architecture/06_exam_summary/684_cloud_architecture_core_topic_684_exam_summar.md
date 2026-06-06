@@ -1,10 +1,9 @@
 ---
-title: "684. 클라우드 아키텍처 핵심 토픽 684번 시험 요약 (Cloud Architecture Core Topic 684 Exam Summary)"
+title: "Cloud Architecture Core Topic 684 Exam Summary"
 date: 2026-05-09
 tags:
   - "studynote-cloud-architecture"
----
-## 핵심 인사이트 (3줄 요약)
+---## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 아키텍처는 VPC/Subnet 네트워크 토폴로지, IAM 기반 Zero-Trust 신원 모델, 컨트롤 플레인(Orchestration)과 데이터 플레인(Workload)의 분리, 그리고 선언적 IaC(Terraform/CloudFormation/Pulumi)를 통한 코드형 인프라 실현이 핵심 골격이며, 12-Factor App과 Well-Architected Framework 6대 기둥(운영 우수성, 보안, 안정성, 성능 효율, 비용 최적화, 지속가능성)을 동시에 만족시켜야 한다.
 > 2. **가치**: 온프레미스 대비 CapEx->OpEx 전환으로 초기 인프라 비용 60~80% 절감, Auto-Scaling으로 Peak 대비 평균 자원 35~50% 활용률 향상, Multi-AZ/Region 구성으로 RTO 분 단위·RPO 0~수 분 달성, MTTR 평균 70% 단축(AWS Well-Architected Lab 기준), 글로벌 엣지 배포로 사용자 체감 latency 100~300ms -> 20~50ms 수준으로 개선.

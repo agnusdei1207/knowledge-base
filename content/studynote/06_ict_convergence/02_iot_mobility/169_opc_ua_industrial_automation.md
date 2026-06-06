@@ -1,10 +1,9 @@
 ---
-title: "169. OPC UA - 스마트 팩토리 산업 자동화 표준 프로토콜"
+title: "169. Opc Ua Industrial Automation"
 date: "2026-04-16"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

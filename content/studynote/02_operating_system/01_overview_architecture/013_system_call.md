@@ -1,10 +1,9 @@
 ---
-title: "13. 시스템 호출 (System Call) - 커널 서비스 요청 인터페이스"
+title: "013. System Call"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 시스템 호출 (System [Call](/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))은 사용자 모드 (User Mode)에서 실행 중인 애플리케이션이 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드 ([Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Mode)의 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 안전하게 요청하기 위해 제공되는 소프트웨어적 인터페이스이자 유일한 진입점이다.

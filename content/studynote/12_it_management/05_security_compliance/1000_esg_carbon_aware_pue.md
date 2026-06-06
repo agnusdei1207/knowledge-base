@@ -1,10 +1,9 @@
 ---
-title: "1000. ESG 경영 탄소 인지 (Carbon-Aware) 데이터센터 PUE 에너지 평가"
+title: "1000. Esg Carbon Aware Pue"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: ESG 경영 탄소 인지 (Carbon-Aware) [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) [PUE](/studynote/06_ict_convergence/03_cloud_infrastructure/237_pue_power_usage_effectiveness_datacenter_metric/) 에너지 평가의 본질은 핵심 기술, 운영 조건, 위험 통제, 생태계 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 함께 봐야 신기술 도입이 유행이 아니라 사업 역량이 된다.

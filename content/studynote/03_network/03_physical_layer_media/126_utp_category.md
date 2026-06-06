@@ -1,10 +1,9 @@
 ---
-title: "126. UTP 카테고리 (Cat 3, Cat 5, Cat 5e, Cat 6, Cat 6a, Cat 7, Cat 8)"
+title: "Cat 3, Cat 5, Cat 5e, Cat 6, Cat 6a, Cat 7, Cat 8"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

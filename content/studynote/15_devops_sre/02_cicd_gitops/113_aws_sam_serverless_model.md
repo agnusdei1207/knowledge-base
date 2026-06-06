@@ -1,10 +1,9 @@
 ---
-title: "113. AWS SAM (Serverless Application Model) - CloudFormation 네이티브 FaaS 배포"
+title: "113. Aws Sam Serverless Model"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: AWS SAM([Serverless](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) Application Model)은 <strong>CloudFormation의 확장 문법</strong>으로, [Lambda](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)·[API Gateway](/studynote/04_software_engineering/11_testing_validation/934_api_gateway/)·[DynamoDB](/studynote/05_database/04_transactions_concurrency/545_dynamodb/)·Step Functions 등 [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 리소스를 <strong>간결한 YAML로 선언</strong>하고 `sam deploy`로 배포하는 AWS 공식 [IaC](/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) 도구다.

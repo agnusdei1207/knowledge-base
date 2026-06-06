@@ -1,10 +1,9 @@
 ---
-title: "815. 전략 체계도 (Strategy Map) - BSC 각 관점의 KPI 인과관계를 도식화"
+title: "815. Strategy Map Bsc"
 date: "2026-04-02"
 tags:
   - "studynote-it-management"
 ---
-
 
 # [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 체계도 ([Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) Map) - [BSC](/studynote/12_it_management/01_governance_strategy/019_bsc/) 기반 조직 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/) 도구
 

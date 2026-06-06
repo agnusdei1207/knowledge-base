@@ -1,10 +1,9 @@
 ---
-title: "389. 대용량 트랜잭션의 배칭(Batching) 삽입 최적화 (Bulk Insert / COPY 명령어)"
+title: "Bulk Insert / COPY"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

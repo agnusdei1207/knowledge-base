@@ -1,10 +1,9 @@
 ---
-title: "115. 리틀 엔디안 (Little-Endian)"
+title: "Little-Endian"
 date: "2026-05-05"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 리틀 엔디안(Little-Endian)은 여러 [바이트](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)로 된 데이터를 메모리에 적재할 때, <strong>가장 낮은 가중치를 가진 최하위 <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">바이트</a>(<a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/079_lsb/">LSB</a>)를 가장 낮은 메모리 주소(맨 앞)에 역순으로 쑤셔 넣는</strong> 아키텍처 규격이다.

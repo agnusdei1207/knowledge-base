@@ -1,10 +1,9 @@
 ---
-title: "571. 에너지테크 스마트 그리드 탈탄소 (EnergyTech Smart Grid Decarbonization)"
+title: "EnergyTech Smart Grid Decarbonization"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 에너지테크 스마트그리드 탄소중립은(는) 전력망과 에너지 소비 데이터를 디지털화해 효율, 수요반응, 재생에너지 통합을 지원하는 기술이다.

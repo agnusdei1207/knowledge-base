@@ -1,10 +1,9 @@
 ---
-title: "178. 인터셉터 / 필터 패턴 (Interceptor / Filter Pattern)"
+title: "Interceptor / Filter Pattern"
 date: "2026-05-06"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "113. 예약 방식 접속 (Reservation Access)"
+title: "Reservation Access"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

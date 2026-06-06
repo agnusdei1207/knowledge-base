@@ -1,10 +1,9 @@
 ---
-title: "203. 갱신 손실 (Lost Update)"
+title: "Lost Update"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

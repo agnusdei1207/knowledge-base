@@ -1,10 +1,9 @@
 ---
-title: "107. 소셜 네트워크 분석 (SNA) — 중심성 / 커뮤니티 탐지 / 영향력"
+title: "107. Classification"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) (Classification)는 과거의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패턴(입력 X)과 정답 레이블(출력 Y)의 관계를 학습하여, 새롭게 주어지는 미지의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어떤 범주에 속하는지 예측하는 기계 학습(Machine [Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

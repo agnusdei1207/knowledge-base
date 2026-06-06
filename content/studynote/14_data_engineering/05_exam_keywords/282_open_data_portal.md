@@ -1,10 +1,9 @@
 ---
-title: "282. 오픈 데이터 공공데이터 포털 표준 API (Open Data Public Data Portal Standard API)"
+title: "Open Data Public Data Portal Standard API"
 date: "2026-05-09"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

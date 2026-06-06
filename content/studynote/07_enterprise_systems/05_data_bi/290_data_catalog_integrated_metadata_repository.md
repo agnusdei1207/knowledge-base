@@ -1,10 +1,9 @@
 ---
-title: "290. 데이터 카탈로그 (Data Catalog) - 통합 메타데이터 저장소"
+title: "290. Data Catalog Integrated Metadata Repository"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

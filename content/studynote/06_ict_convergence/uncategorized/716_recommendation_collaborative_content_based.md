@@ -1,10 +1,9 @@
 ---
-title: "716. 추천 시스템 협업 필터링 콘텐츠 기반 (Recommendation Collaborative Content Based)"
+title: "Recommendation Collaborative Content Based"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

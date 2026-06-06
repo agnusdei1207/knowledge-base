@@ -1,10 +1,9 @@
 ---
-title: "259. 래프트 (Raft) / 팍소스 (Paxos) 알고리즘"
+title: "259. Raft Paxos"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "976. 개인정보 영향 평가 (PIA) 감리 연계"
+title: "976. Privacy Impact Assessment Pia Audit Linkage"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) 영향 평가 (PIA) 감리 연계의 본질은 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/), 역할, 통제, 증빙이 같은 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/) 위에서 움직여야 경영 리스크와 실행 속도를 동시에 관리할 수 있다.

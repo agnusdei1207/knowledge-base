@@ -1,11 +1,10 @@
 ---
-title: "9. 내부 스키마 (Internal Schema) - 물리적 저장 장치 관점"
+title: "009. Internal Schema"
 date: "2024-05-20"
 description: "물리적 저장 장치 관점의 데이터베이스 스키마와 최적화 원리"
 tags:
   - "database"
 ---
-
 
 # 내부 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) (Internal [Schema](/studynote/05_database/04_transactions_concurrency/505_schema/))
 #### 핵심 인사이트 (3줄 요약)

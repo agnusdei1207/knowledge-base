@@ -1,10 +1,9 @@
 ---
-title: "185. 논리 연산 명령어 (Logical Operation Instructions)"
+title: "Logical Operation Instructions"
 date: "2026-05-06"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

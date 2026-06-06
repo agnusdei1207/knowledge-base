@@ -1,10 +1,9 @@
 ---
-title: "036. 올림수 예측 가산기 (Carry Lookahead Adder)"
+title: "Carry Lookahead Adder"
 date: "2026-03-03"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 > **핵심 인사이트**
 > 1. CLA (Carry Lookahead Adder)는 각 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)의 Generate(G)·Propagate(P) 신호를 이용해 캐리를 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 미리 계산함으로써 RCA의 O(n) [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 O(log n)으로 줄인 고속 가산기다.

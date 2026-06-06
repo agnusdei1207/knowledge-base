@@ -1,10 +1,9 @@
 ---
-title: "276. RAG (Retrieval-Augmented Generation / 검색 증강 생성)"
+title: "Retrieval-Augmented Generation /"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

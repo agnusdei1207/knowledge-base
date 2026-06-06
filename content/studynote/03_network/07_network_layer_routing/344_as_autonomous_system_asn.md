@@ -1,10 +1,9 @@
 ---
-title: "344. AS (Autonomous System, 자율 시스템) / ASN 분배"
+title: "344. As Autonomous System Asn"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

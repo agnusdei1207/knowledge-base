@@ -1,10 +1,9 @@
 ---
-title: "515. PCA, LDA, SVD 차원 축소 행렬 분해 (PCA LDA SVD Dimensionality Reduction)"
+title: "PCA LDA SVD Dimensionality Reduction"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

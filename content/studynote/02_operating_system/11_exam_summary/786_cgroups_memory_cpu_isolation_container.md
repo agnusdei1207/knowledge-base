@@ -1,10 +1,9 @@
 ---
-title: "786. cgroups 메모리, CPU 자원 제한 격리 컨테이너 (Cgroups Memory CPU Isolation Container)"
+title: "Cgroups Memory CPU Isolation Container"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "511. SPICE ISO 15504 프로세스 평가 (SPICE ISO 15504 Process Assessment)"
+title: "SPICE ISO 15504 Process Assessment"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

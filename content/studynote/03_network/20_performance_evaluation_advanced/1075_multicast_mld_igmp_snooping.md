@@ -1,10 +1,9 @@
 ---
-title: "1075. 멀티캐스트 MLD / IGMP 스누핑 기법"
+title: "1075. Multicast Mld Igmp Snooping"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

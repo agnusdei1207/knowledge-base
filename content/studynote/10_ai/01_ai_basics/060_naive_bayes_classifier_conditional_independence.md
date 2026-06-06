@@ -1,10 +1,9 @@
 ---
-title: "60. 나이브 베이즈 분류기 (Naive Bayes) - 조건부 독립과 스팸 필터링"
+title: "060. Naive Bayes Classifier Conditional Independence"
 date: "2026-04-07"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

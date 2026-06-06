@@ -1,10 +1,9 @@
 ---
-title: "338. 관점 지향 프로그래밍 (AOP, Aspect Oriented Programming) - 횡단 관심사(Cross-cutting Concern) 분리"
+title: "338. Aspect Oriented Programming"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "914. 블록체인/스마트 컨트랙트 보안 감사"
+title: "914. Smart Contract Security"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

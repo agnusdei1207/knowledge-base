@@ -1,10 +1,9 @@
 ---
-title: "391. 서비스 메시 Envoy 프록시 사이드카 (Service Mesh Envoy Proxy Sidecar)"
+title: "Service Mesh Envoy Proxy Sidecar"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

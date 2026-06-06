@@ -1,10 +1,9 @@
 ---
-title: "59. 체인코드 (Chaincode) - 하이퍼레저의 스마트 컨트랙트"
+title: "059. Chaincode Smart Contract"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "644. 파인 튜닝 전이 학습 도메인 적응 (Fine Tuning Transfer Learning Domain Adaptation)"
+title: "Fine Tuning Transfer Learning Domain Adaptation"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

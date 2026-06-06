@@ -1,10 +1,9 @@
 ---
-title: "728. 인텔 스피드스텝 (SpeedStep)"
+title: "SpeedStep"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

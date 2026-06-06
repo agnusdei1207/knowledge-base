@@ -1,10 +1,9 @@
 ---
-title: "766. 소프트웨어 노후화 기술 부채 연계"
+title: "766. Software Aging Technical Debt"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

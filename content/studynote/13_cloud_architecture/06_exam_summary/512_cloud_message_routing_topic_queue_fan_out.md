@@ -1,10 +1,9 @@
 ---
-title: "512. 클라우드 메시지 라우팅 토픽 큐 팬아웃 (Cloud Message Routing Topic Queue Fan-out)"
+title: "Cloud Message Routing Topic Queue Fan-out"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

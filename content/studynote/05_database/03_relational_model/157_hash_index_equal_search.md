@@ -1,10 +1,9 @@
 ---
-title: "157. 해시 인덱스 (Hash Index) - 동등(=) 검색에 빠름, 범위(Range) 검색 불가"
+title: "157. Hash Index Equal Search"
 date: "2026-05-05"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트
 

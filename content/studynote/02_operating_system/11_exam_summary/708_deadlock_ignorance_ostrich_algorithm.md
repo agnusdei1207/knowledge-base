@@ -1,10 +1,9 @@
 ---
-title: "708. 교착 상태 무시 (타조 알고리즘) (Deadlock Ignorance Ostrich Algorithm)"
+title: "Deadlock Ignorance Ostrich Algorithm"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

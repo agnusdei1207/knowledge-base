@@ -1,10 +1,9 @@
 ---
-title: "183. 양자 내성 암호 (Post-Quantum Cryptography) 클라우드 인프라 키 전환"
+title: "183. Post Quantum Cryptography Key Transition"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

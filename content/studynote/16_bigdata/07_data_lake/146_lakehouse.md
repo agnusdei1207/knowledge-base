@@ -1,10 +1,9 @@
 ---
-title: "146. 레이크하우스 (Lakehouse) — 데이터 레이크 + 웨어하우스 융합"
+title: "146. Lakehouse"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 1. 레이크하우스(Lakehouse)는 [데이터 레이크](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)의 <strong>저비용·유연 저장</strong>과 [데이터 웨어하우스](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)의 <strong>ACID <a href="/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>·<a href="/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong>을 단일 아키텍처로 통합하여 [ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) [이중화](/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 비용을 제거한다.

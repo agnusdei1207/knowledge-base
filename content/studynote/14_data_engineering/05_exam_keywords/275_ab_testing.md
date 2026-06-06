@@ -1,10 +1,9 @@
 ---
-title: "275. A/B 테스트 실험 설계 통계적 유의성 (A/B Testing Experiment Design Statistical Significance)"
+title: "A/B Testing Experiment Design Statistical Significance"
 date: "2026-05-09"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

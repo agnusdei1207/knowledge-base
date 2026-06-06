@@ -1,10 +1,9 @@
 ---
-title: "428. 문제 관리 근본 원인 분석 RCA (Problem Management Root Cause Analysis)"
+title: "Problem Management Root Cause Analysis"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "984. PKI 공개키 인프라"
+title: "984. Pki Public Key Infrastructure"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

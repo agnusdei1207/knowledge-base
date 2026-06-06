@@ -1,10 +1,9 @@
 ---
-title: "692. 테이프 라이브러리 (Tape Library)"
+title: "Tape Library"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

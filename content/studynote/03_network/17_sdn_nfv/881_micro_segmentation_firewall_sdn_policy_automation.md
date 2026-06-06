@@ -1,10 +1,9 @@
 ---
-title: "881. 마이크로세그멘테이션 방화벽"
+title: "881. Micro Segmentation Firewall Sdn Policy Automation"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

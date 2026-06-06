@@ -1,9 +1,8 @@
 ---
-title: "05. 웹 및 애플리케이션 보안"
+title: "Security"
 tags:
   - "security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

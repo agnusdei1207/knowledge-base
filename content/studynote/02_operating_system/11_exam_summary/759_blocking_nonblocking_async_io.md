@@ -1,10 +1,9 @@
 ---
-title: "759. 블로킹 / 논블로킹 / 비동기 I/O (Blocking Nonblocking Async I/O)"
+title: "Blocking Nonblocking Async I/O"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

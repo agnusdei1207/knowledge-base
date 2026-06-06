@@ -1,10 +1,9 @@
 ---
-title: "213. 락킹 기법 (Locking)"
+title: "Locking"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "261. 데이터 웨어하우스 (Data Warehouse) 아키텍처"
+title: "261. Data Warehouse Architecture"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "526. DPU SmartNIC 인프라 오프로딩 가속 (DPU SmartNIC Infrastructure Offloading Acceleration)"
+title: "DPU SmartNIC Infrastructure Offloading Acceleration"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

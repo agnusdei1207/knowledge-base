@@ -1,10 +1,9 @@
 ---
-title: "433. 클라우드 CDN 엣지 캐싱 콘텐츠 전송 (Cloud CDN Edge Caching Content Delivery)"
+title: "Cloud CDN Edge Caching Content Delivery"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "332. 시큐어 코딩 47개 보안 약점 (47 Secure Coding Weaknesses)"
+title: "47 Secure Coding Weaknesses"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

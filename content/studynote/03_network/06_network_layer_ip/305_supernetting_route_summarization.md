@@ -1,10 +1,9 @@
 ---
-title: "305. 슈퍼네팅 (Supernetting) / 경로 요약 (Route Summarization)"
+title: "Route Summarization"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

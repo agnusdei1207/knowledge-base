@@ -1,10 +1,9 @@
 ---
-title: "128. ANN & MLP (인공 신경망 & 다층 퍼셉트론) - 딥러닝의 기본 구조"
+title: "128. Ann Mlp"
 date: "2026-04-19"
 tags:
   - "studynote-dataengineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [ANN](/studynote/05_database/06_dw_olap_trends/350_ann/)([인공 신경망](/studynote/10_ai/01_ai_basics/061_artificial_neural_network_ann_neuron_model/))은 <strong>생물학적 뉴런을 모방</strong>하여 입력->[가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 곱->[활성화 함수](/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)->출력의 구조를 컴퓨터로 구현한 것이며, MLP([다층 퍼셉트론](/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/))는 <strong>은닉층(Hidden Layer)이 1개 이상인 피드포워드 신경망</strong>이다.

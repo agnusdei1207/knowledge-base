@@ -1,10 +1,9 @@
 ---
-title: "47. IT 컴플라이언스 (IT Compliance)"
+title: "IT Compliance"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: IT 컴플라이언스 (IT [Compliance](/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/))의 본질은 기업에 요구되는 법적/규제적 요건([개인정보보호법](/studynote/09_security/16_data_privacy/783_pipa_korea/), [GDPR](/studynote/09_security/16_data_privacy/791_gdpr_eu/), SOX) 준수 통제 체계를 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·조직·프로세스에 내재화하는 데 있다.

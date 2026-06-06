@@ -1,10 +1,9 @@
 ---
-title: "375. SBOM (Software Bill of Materials) - 소프트웨어 구성 요소 명세서 의무화 동향"
+title: "375. Sbom"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

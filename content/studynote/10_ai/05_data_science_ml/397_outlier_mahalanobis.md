@@ -1,10 +1,9 @@
 ---
-title: "397. 이상치 탐지 (Outlier Detection)"
+title: "Outlier Detection"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

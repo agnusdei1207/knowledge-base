@@ -1,10 +1,9 @@
 ---
-title: "222. CNI (Container Network Interface) 플러그인 (Calico, Flannel) 파드 간 오버레이 통신망"
+title: "222. Cni Container Network Interface Calico"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,11 +1,10 @@
 ---
-title: "177. 요구사항 도구 (Jira, DOORS 등) 활용 전략"
+title: "177. Requirements Management Tools Jira Doors"
 date: "2026-04-03"
 description: "Jira와 DOORS 계열 도구를 비교하며 요구사항 추적성, 베이스라인, 변경 통제를 설명한다."
 tags:
   - "software_engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

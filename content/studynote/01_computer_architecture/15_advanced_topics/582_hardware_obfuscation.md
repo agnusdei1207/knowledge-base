@@ -1,10 +1,9 @@
 ---
-title: "582. 하드웨어 기반 난독화 (Hardware Obfuscation)"
+title: "Hardware Obfuscation"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

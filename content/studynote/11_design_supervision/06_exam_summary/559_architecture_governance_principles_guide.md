@@ -1,10 +1,9 @@
 ---
-title: "559. 아키텍처 거버넌스 원칙 가이드라인 (Architecture Governance Principles Guidelines)"
+title: "Architecture Governance Principles Guidelines"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

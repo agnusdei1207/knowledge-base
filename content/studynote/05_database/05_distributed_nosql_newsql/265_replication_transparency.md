@@ -1,10 +1,9 @@
 ---
-title: "265. 복제 투명성 (Replication Transparency)"
+title: "Replication Transparency"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

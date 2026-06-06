@@ -1,10 +1,9 @@
 ---
-title: "352. 동형 암호 클라우드 암호화 연산 보장성"
+title: "352. Homomorphic Encryption Cloud Computing"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [동형 암호](/studynote/09_security/20_extra_exam_prep/1098_homomorphic_encryption/) 클라우드 암호화 연산 보장성의 본질은 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델, 자동화, 비용·보안 책임, 운영 관측성이 함께 설계되어야 클라우드 도입 효과가 지속된다.

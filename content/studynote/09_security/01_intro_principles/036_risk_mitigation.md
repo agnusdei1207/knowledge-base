@@ -1,10 +1,9 @@
 ---
-title: "036. 위험 경감 (Risk Mitigation)"
+title: "Risk Mitigation"
 date: "2026-03-03"
 tags:
   - "studynote-security"
 ---
-
 
 > **핵심 인사이트**
 > 1. 위험 경감([Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) [Mitigation](/studynote/09_security/12_identity_threat_advanced/605_golden_silver_ticket_mitigation/))은 보안 통제([Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Control)를 적용해 위험의 발생 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)(Likelihood) 또는 영향(Impact)을 허용 가능한 수준으로 낮추는 위험 처리 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.

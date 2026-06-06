@@ -1,10 +1,9 @@
 ---
-title: "211. 하둡 에코시스템 (Hadoop Ecosystem)"
+title: "Hadoop Ecosystem"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

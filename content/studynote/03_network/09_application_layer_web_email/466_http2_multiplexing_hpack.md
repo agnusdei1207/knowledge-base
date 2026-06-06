@@ -1,10 +1,9 @@
 ---
-title: "466. HTTP/2 특징"
+title: "466. Http2 Multiplexing Hpack"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "322. 데이터 카탈로그 검색 태깅 인프라"
+title: "322. Data Catalog"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터 카탈로그](/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) 검색 태깅 인프라의 본질은 수집, 저장, 품질, 활용, 거버넌스가 분리되지 않아야 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산이 실제 의사결정 가치로 전환된다.

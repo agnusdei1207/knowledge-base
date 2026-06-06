@@ -1,10 +1,9 @@
 ---
-title: "370. DORA 메트릭스 기반 DevOps 조직 성과 민첩성 리포팅 감리"
+title: "370. Dora Devops"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스 기반 [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 조직 성과 민첩성 리포팅 감리의 본질은 자산, 위협, [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 통제, 운영 증적이 한 체계로 연결되어야 보안과 규제 대응이 일회성 캠페인으로 끝나지 않는다.

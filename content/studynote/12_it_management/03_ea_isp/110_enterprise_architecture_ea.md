@@ -1,10 +1,9 @@
 ---
-title: "110. EA (Enterprise Architecture, 전사적 아키텍처)"
+title: "Enterprise Architecture,"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: EA ([Enterprise Architecture](/studynote/12_it_management/01_governance_strategy/806_ea_enterprise_architecture/), 전사적 아키텍처)의 본질은 기업의 IT 자산을 비즈니스 목표에 맞게 최적화/정렬하기 위한 종합 청사진을 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.

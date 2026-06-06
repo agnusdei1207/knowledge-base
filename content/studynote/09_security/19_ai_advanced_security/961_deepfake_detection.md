@@ -1,10 +1,9 @@
 ---
-title: "961. 딥페이크 탐지 (Detection)"
+title: "Detection"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

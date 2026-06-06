@@ -1,10 +1,9 @@
 ---
-title: "569. 리테일테크 스마트 유통 커머스 (RetailTech Smart Distribution Commerce)"
+title: "RetailTech Smart Distribution Commerce"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 리테일테크 스마트 유통 커머스은(는) 유통·커머스 전 과정을 데이터와 자동화로 최적화하는 디지털 유통 기술이다.

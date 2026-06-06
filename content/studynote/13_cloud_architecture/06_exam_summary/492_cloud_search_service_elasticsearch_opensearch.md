@@ -1,10 +1,9 @@
 ---
-title: "492. 클라우드 검색 서비스 Elasticsearch OpenSearch (Cloud Search Service Elasticsearch OpenSearch)"
+title: "Cloud Search Service Elasticsearch OpenSearch"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

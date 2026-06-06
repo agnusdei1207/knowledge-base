@@ -1,10 +1,9 @@
 ---
-title: "61. Helm Charts (헬름 차트) - 쿠버네티스 패키징"
+title: "061. Helm Charts"
 date: "2026-04-05"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "367. SVM 슬랙 변수 (Slack Variable)"
+title: "Slack Variable"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

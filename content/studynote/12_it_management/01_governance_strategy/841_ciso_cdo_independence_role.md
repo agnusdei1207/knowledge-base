@@ -1,5 +1,5 @@
 ---
-title: "CISO·CDO 독립성과 역할 (CISO & CDO Independence)"
+title: "CISO & CDO Independence"
 date: "2025-01-01"
 description: "CISO와 CDO의 역할 정의, 조직 내 독립성 요건, CIO와의 관계, 거버넌스 구조를 다룬다."
 tags:
@@ -13,7 +13,6 @@ tags:
   - "information security"
   - "studynote-it-mgmt"
 ---
-
 
 > **핵심 인사이트 3줄**
 > 1. [CISO](/studynote/12_it_management/05_security_compliance/173_ciso_role_and_responsibility/)(Chief Information [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Officer)는 정보보안 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 및 위험 관리 총괄 임원으로, CIO나 CTO의 하위 보고 라인에서 독립된 구조일 때 실효성이 높다.

@@ -1,10 +1,9 @@
 ---
-title: "177. 뷰 머징 (View Merging) - 옵티마이저의 쿼리 변환 (인라인 뷰를 메인 쿼리에 병합)"
+title: "177. View Merging Query Transformation"
 date: "2026-05-06"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

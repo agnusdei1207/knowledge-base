@@ -1,10 +1,9 @@
 ---
-title: "905. 멀티캐스트 오디오/비디오 스트리밍 프로토콜 (HLS HTTP Live Streaming)"
+title: "HLS HTTP Live Streaming"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

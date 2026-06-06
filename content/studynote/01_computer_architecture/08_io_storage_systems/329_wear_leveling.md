@@ -1,10 +1,9 @@
 ---
-title: "329. 마모 평준화 (Wear Leveling)"
+title: "Wear Leveling"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 # 329. [마모 평준화](/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/) ([Wear Leveling](/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/))
 

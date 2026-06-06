@@ -1,10 +1,9 @@
 ---
-title: "796. 홀로그램 무선 전송 압축/다시점 비디오 체계 동기망 지터 제어 기술(VTC 지연 민감 체계) 통신망 요구 지표 한계 모델 구조 모델 도입 요망 기술 요소)"
+title: "796. Hologram Volumetric Video Vtc Jitter Control"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

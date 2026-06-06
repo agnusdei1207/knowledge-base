@@ -1,10 +1,9 @@
 ---
-title: "734. 스마트 안전 재난 관리 조기 경보 (Smart Safety Disaster Management Early Warning)"
+title: "Smart Safety Disaster Management Early Warning"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

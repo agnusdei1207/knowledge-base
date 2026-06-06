@@ -1,10 +1,9 @@
 ---
-title: "187. LMAX 디스럽터 아키텍처 (LMAX Disruptor Architecture)"
+title: "LMAX Disruptor Architecture"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

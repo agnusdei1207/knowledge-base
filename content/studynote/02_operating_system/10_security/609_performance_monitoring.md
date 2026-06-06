@@ -1,10 +1,9 @@
 ---
-title: "609. 성능 모니터링 (Performance Monitoring) 및 튜닝 방법론"
+title: "609. Performance Monitoring"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

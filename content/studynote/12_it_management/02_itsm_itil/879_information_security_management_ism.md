@@ -1,10 +1,9 @@
 ---
-title: "879. 정보 보안 관리 - 기밀성, 무결성, 가용성 통제"
+title: "879. Information Security Management Ism"
 date: "2026-04-10"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

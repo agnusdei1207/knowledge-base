@@ -1,9 +1,8 @@
 ---
-title: "643. BPR/ISP 연계 - 구축된 시스템이 당초 전략적 목표(AS-IS 대비 TO-BE 효과)를 달성했는지 사후 평가"
+title: "643. Bpr Isp Integration"
 tags:
   - "design_supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "398. 노이즈 데이터 스플릿 브레인 의사결정 방어 랜덤 포레스트 (Random Forest Noise Bagging)"
+title: "Random Forest Noise Bagging"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

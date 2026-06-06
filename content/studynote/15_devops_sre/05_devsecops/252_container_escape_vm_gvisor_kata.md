@@ -1,10 +1,9 @@
 ---
-title: "252. 컨테이너 이스케이프 (Container Escape) 방어"
+title: "252. Container Escape Vm Gvisor Kata"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

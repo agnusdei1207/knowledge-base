@@ -1,10 +1,9 @@
 ---
-title: "94. 스레드의 독립 자원 - Thread ID, PC, 레지스터 집합, 스택"
+title: "094. Thread Independent Resources"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) ([Thread](/studynote/02_operating_system/02_process_thread/092_thread_lwp/))는 프로세스의 자원을 공유하지만, 독립적인 실행 흐름 (Execution Flow)을 유지하기 위해 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) ID (TID), [프로그램 카운터](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) ([PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)), [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) (Registers), [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) ([Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/))은 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)별로 고유하게 할당받는다.

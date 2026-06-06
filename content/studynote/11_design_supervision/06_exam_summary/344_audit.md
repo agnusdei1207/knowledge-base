@@ -1,10 +1,9 @@
 ---
-title: "344. 모바일 위변조 방지 감리 (Mobile Anti-Tampering Audit)"
+title: "Mobile Anti-Tampering Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

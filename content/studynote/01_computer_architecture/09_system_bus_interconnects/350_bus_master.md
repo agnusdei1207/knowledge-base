@@ -1,10 +1,9 @@
 ---
-title: "350. 버스 마스터 (Bus Master)"
+title: "Bus Master"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

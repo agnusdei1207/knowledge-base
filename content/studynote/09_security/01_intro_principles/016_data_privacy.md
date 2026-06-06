@@ -1,11 +1,10 @@
 ---
-title: "16. 데이터 및 개인정보 보호 (Data & Privacy Protection)"
+title: "Data & Privacy Protection"
 date: "2025-02-24"
 description: "개인정보보호법, GDPR, 비식별화(k-익명성, l-다양성), DLP 및 토큰화 등 데이터 보호 핵심 기술 및 컴플라이언스 통합 가이드"
 tags:
   - "security"
 ---
-
 
 # [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 및 [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) & Privacy [Protection](/studynote/02_operating_system/10_security/571_protection_vs_security/))
 

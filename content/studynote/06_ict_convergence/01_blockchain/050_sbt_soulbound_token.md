@@ -1,5 +1,5 @@
 ---
-title: "SBT — 소울바운드 토큰 (Soulbound Token)"
+title: "Soulbound Token"
 date: "2025-01-01"
 description: "SBT의 개념, 비양도성(non-transferable) 특성, 탈중앙화 신원·학력 증명 활용, 개인정보 이슈를 다룬다."
 tags:
@@ -13,7 +13,6 @@ tags:
   - "studynote-ict"
   - "verifiable credential"
 ---
-
 
 > **핵심 인사이트 3줄**
 > 1. SBT(Soulbound Token)는 특정 지갑(Soul)에 영구 귀속되어 양도·판매할 수 없는 비양도성 토큰으로, Web3 신원·자격 증명의 핵심 도구다.

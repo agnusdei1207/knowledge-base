@@ -1,10 +1,9 @@
 ---
-title: "328. gRPC 프로토콜 버퍼 HTTP/2 양방향 스트리밍 고속 (gRPC HTTP/2)"
+title: "gRPC HTTP/2"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [gRPC](/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 버퍼 [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 양방향 스트리밍 고속는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 애플리케이션에서 복잡한 운영의 질서화를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.

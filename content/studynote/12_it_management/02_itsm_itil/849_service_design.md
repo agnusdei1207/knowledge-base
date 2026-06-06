@@ -1,10 +1,9 @@
 ---
-title: "849. 서비스 설계 (Service Design)"
+title: "Service Design"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 설계 ([Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Design)의 본질은 [서비스 카탈로그](/studynote/12_it_management/02_itsm_itil/872_service_catalog/) 관리, [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) 관리, [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)/연속성 관리를 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가치와 운영 절차로 연결하는 데 있다.

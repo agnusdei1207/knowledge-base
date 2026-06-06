@@ -1,10 +1,9 @@
 ---
-title: "762. 애자일 에픽, 스토리, 테마, 태스크 계층"
+title: "762. Agile Epic Story Theme Task"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

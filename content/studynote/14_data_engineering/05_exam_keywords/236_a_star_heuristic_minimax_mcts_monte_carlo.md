@@ -1,10 +1,9 @@
 ---
-title: "236. A* 휴리스틱 (Heuristic) 미니맥스 (Minimax) MCTS (Monte Carlo Tree Search)"
+title: "Monte Carlo Tree Search"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: A*([A-Star](/studynote/10_ai/01_ai_basics/017_a_star_algorithm/)) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 [휴리스틱](/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 함수 h(n)을 이용해 최단 경로를 효율적으로 탐색하며, [미니맥스](/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/)([Minimax](/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/))는 게임 트리에서 상대의 최선과 자신의 최선을 교차 선택해 최적 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 찾는다.

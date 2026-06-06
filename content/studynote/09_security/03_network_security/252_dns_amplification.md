@@ -1,10 +1,9 @@
 ---
-title: "252. DNS Amplification (DNS 증폭 공격)"
+title: "DNS"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

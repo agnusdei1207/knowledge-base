@@ -1,10 +1,9 @@
 ---
-title: "693. WORM (Write Once Read Many) 스토리지"
+title: "693. Worm Storage"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

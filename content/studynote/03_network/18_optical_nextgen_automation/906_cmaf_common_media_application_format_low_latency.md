@@ -1,10 +1,9 @@
 ---
-title: "906. CMAF (Common Media Application Format DASH/HLS 파편화 인코딩 단일 미디어 컨테이너 포맷 규격화 통일 지연 단축 기술 인프라 규정)"
+title: "Common Media Application Format DASH/HLS"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

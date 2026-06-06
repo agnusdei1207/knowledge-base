@@ -1,10 +1,9 @@
 ---
-title: "724. 최적 알고리즘 (OPT) 구현 불가"
+title: "724. Optimal Page Replacement Unrealizable"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

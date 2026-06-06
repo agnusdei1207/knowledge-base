@@ -1,10 +1,9 @@
 ---
-title: "409. 블록체인 트릴레마 샤딩 분할 확장 (Blockchain Trilemma)"
+title: "Blockchain Trilemma"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

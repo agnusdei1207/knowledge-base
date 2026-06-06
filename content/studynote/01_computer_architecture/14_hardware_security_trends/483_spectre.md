@@ -1,10 +1,9 @@
 ---
-title: "483. 스펙터 (Spectre)"
+title: "Spectre"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

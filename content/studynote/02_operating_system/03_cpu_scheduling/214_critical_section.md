@@ -1,10 +1,9 @@
 ---
-title: "214. 임계 구역 (Critical Section)"
+title: "Critical Section"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

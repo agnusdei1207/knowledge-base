@@ -1,10 +1,9 @@
 ---
-title: "18. 이분 탐색 (Binary Search) — O(log n), 정렬된 배열 필수"
+title: "028. Binary Search"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 이분 탐색은 정렬된 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)에서 탐색 범위를 매 단계 절반으로 줄여 O(log n)에 목표값을 찾는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, "분할 후 정복"의 가장 단순한 형태다.

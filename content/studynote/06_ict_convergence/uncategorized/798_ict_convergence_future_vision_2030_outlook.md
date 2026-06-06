@@ -1,10 +1,9 @@
 ---
-title: "798. ICT 융합 기술 미래 비전 2030 전망 (ICT Convergence Future Vision 2030 Outlook)"
+title: "ICT Convergence Future Vision 2030 Outlook"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

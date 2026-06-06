@@ -1,10 +1,9 @@
 ---
-title: "829. Istio (이스티오)"
+title: "829. Istio Envoy Service Mesh Control Plane"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "787. 정보보호 관리체계 (ISMS-P)"
+title: "ISMS-P"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

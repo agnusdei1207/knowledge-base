@@ -1,10 +1,9 @@
 ---
-title: "044. 기업 애자일 경영"
+title: "044. Agile Management Enterprise"
 date: "2026-04-05"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 > **핵심 인사이트**
 > 1. 기업 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)(Enterprise [Agile](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))은 소프트웨어 개발팀의 [스크럼](/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)/[칸반](/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)을 넘어 — [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오, 제품, 팀의 세 계층에서 반복적 가치 전달과 지속적 개선을 조직 전체로 확장하는 경영 패러다임이다.

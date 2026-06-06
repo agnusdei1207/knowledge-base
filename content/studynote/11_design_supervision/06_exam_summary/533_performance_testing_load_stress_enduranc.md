@@ -1,10 +1,9 @@
 ---
-title: "533. 퍼포먼스 테스팅 부하 스트레스 엔듀런스 (Performance Testing Load Stress Endurance)"
+title: "Performance Testing Load Stress Endurance"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

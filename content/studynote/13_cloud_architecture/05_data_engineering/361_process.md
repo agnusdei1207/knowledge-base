@@ -1,10 +1,9 @@
 ---
-title: "361. 다크 데이터 식별 비식별화 K-익명 통계 안전 연계 (Dark Data)"
+title: "Dark Data"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [다크 데이터](/studynote/12_it_management/02_itsm_itil/062_darkdata/) [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 비식별화 K-익명 통계 안전 연계는 클라우드 시스템에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 표준화를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.

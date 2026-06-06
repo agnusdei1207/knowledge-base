@@ -1,10 +1,9 @@
 ---
-title: "704. 호스트 메모리 버퍼 (HMB, Host Memory Buffer)"
+title: "HMB, Host Memory Buffer"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

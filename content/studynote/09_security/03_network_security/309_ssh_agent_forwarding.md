@@ -1,10 +1,9 @@
 ---
-title: "309. SSH 에이전트 포워딩 (SSH Agent Forwarding)"
+title: "SSH Agent Forwarding"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

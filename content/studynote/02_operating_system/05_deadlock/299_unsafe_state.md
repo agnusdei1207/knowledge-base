@@ -1,10 +1,9 @@
 ---
-title: "299. 불안전 상태 (Unsafe State) - 교착 상태가 발생할 가능성이 있는 상태"
+title: "299. Unsafe State"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

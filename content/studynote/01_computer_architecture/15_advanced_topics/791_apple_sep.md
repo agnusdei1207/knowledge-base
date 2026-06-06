@@ -1,10 +1,9 @@
 ---
-title: "791. 애플 Secure Enclave Processor (SEP)"
+title: "SEP"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

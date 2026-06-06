@@ -1,10 +1,9 @@
 ---
-title: "799. ICT 융합 기술사 최종 종합 마스터 맵 (ICT Convergence PE Final Master Map)"
+title: "ICT Convergence PE Final Master Map"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "483. ETL 병목 적재 전 변환"
+title: "483. Etl Extract Transform Load"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "187. 스트랭글러 피그 패턴 (Strangler Fig Pattern) - 점진적 MSA 전환"
+title: "187. Strangler Fig Pattern Msa Migration"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

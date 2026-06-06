@@ -1,10 +1,9 @@
 ---
-title: "297. 트랜스포머 (Transformer)"
+title: "Transformer"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "608. 기능 점수 검증 — FP 산정의 정확성 확보"
+title: "608. Function Point Verification"
 date: "2026-04-29"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [기능 점수](/studynote/12_it_management/04_sdlc_testing/140_function_point/)([Function Point](/studynote/12_it_management/04_sdlc_testing/140_function_point/), [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/)) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 소프트웨어 개발 규모 산정 결과의 [정확성](/studynote/16_bigdata/01_intro/002_bigdata_5v/)을 감리 관점에서 검토하는 활동이다. [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 산정 오류는 예산·일정·품질 계획 전체에 연쇄 영향을 주므로 감리의 핵심 검토 항목이다.

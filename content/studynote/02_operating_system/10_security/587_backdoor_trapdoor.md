@@ -1,10 +1,9 @@
 ---
-title: "587. 트랩 도어 (Trap Door / Backdoor)"
+title: "Trap Door / Backdoor"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

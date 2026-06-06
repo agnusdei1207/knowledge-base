@@ -1,9 +1,8 @@
 ---
-title: "851. 스킵 리스트 (Skip List)"
+title: "Skip List"
 tags:
   - "it_management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

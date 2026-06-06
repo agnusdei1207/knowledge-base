@@ -1,10 +1,9 @@
 ---
-title: "YARN: 하둡의 클러스터 자원 관리 및 통합 스케줄링 계층"
+title: "035. Yarn Resource Negotiator"
 date: "2026-03-04"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 - [하둡](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 2.0에서 도입되어, 단순 [맵리듀스](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 전용 자원 관리 구조를 탈피하고 범용 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 처리를 가능케 한 차세대 클러스터 OS임.

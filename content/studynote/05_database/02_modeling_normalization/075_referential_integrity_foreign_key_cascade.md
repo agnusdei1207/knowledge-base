@@ -1,9 +1,8 @@
 ---
-title: "75. 참조 무결성 (Referential Integrity) - 외래 키 값은 참조하는 릴레이션의 기본키 값이거나 NULL이어야 함"
+title: "075. Referential Integrity Foreign Key Cascade"
 tags:
   - "database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

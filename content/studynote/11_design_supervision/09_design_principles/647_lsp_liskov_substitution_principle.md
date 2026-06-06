@@ -1,10 +1,9 @@
 ---
-title: "647. LSP (Liskov Substitution Principle, 리스코프 치환 원칙)"
+title: "Liskov Substitution Principle,"
 date: "2026-03-04"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [LSP](/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/) ([Liskov Substitution Principle](/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/))는 자식 클래스가 부모 클래스의 역할을 완벽히 대신할 수 있어야 하며, 치환하더라도 프로그램의 정확성이 깨지지 않아야 한다는 객체지향 설계 원칙이다.

@@ -1,10 +1,9 @@
 ---
-title: "426. 쿠버네티스 Pod 오케스트레이션 노드 관리 (Kubernetes)"
+title: "Kubernetes"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

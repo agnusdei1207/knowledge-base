@@ -1,10 +1,9 @@
 ---
-title: "7. 소스 부호화 정리 (Source Coding Theorem) — 엔트로피 한계"
+title: "156. Source Coding"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

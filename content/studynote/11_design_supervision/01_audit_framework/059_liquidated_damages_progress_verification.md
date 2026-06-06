@@ -1,10 +1,9 @@
 ---
-title: "59. 지체 상금 (Liquidated Damages) - 진척도 및 지연 사유 증빙"
+title: "059. Liquidated Damages Progress Verification"
 date: "2026-04-05"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

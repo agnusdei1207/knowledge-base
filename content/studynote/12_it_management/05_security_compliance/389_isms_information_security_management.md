@@ -1,10 +1,9 @@
 ---
-title: "389. 정보보안 관리체계 ISMS 인증 심사 (ISMS Information Security Management)"
+title: "ISMS Information Security Management"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

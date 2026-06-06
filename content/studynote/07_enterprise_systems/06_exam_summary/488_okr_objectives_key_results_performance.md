@@ -1,10 +1,9 @@
 ---
-title: "488. OKR 목표 핵심 결과 성과 관리 (OKR Objectives Key Results Performance)"
+title: "OKR Objectives Key Results Performance"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "385. 은닉 마르코프 모델 비터비 (Viterbi) 알고리즘 은닉 상태 최적 경로 탐색 동적 계획법 (HMM)"
+title: "HMM"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

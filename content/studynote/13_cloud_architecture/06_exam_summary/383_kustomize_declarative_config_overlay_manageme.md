@@ -1,10 +1,9 @@
 ---
-title: "383. Kustomize 선언적 설정 관리 오버레이 (Kustomize Declarative Config Overlay Management)"
+title: "Kustomize Declarative Config Overlay Management"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

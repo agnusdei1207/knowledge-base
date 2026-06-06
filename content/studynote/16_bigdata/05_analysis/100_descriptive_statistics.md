@@ -1,10 +1,9 @@
 ---
-title: "기술 통계 (Descriptive Statistics)"
+title: "Descriptive Statistics"
 date: "2025-05-22"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 - <strong>기술 통계 (Descriptive <a href="/studynote/05_database/03_relational_model/168_clustering_factor_index_physical_alignment/">Statistics</a>)</strong>: 수집된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 전체적인 특징을 요약하고 설명하기 위해 평균, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/), 분포 등을 산출하는 기초 통계 방법론.

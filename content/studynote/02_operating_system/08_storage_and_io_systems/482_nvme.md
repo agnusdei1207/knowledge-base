@@ -1,10 +1,9 @@
 ---
-title: "482. NVMe (Non-Volatile Memory Express) - PCIe 버스 기반 고속 플래시 프로토콜 (다중/깊은 큐 지원)"
+title: "482. Nvme"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

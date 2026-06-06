@@ -1,10 +1,9 @@
 ---
-title: "470. 해시 샤딩 분산 해시 함수"
+title: "470. Hash Sharding Distribution"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

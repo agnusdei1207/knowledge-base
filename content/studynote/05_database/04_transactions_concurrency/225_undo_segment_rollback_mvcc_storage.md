@@ -1,10 +1,9 @@
 ---
-title: "225. Undo 세그먼트 (Undo Segment Rollback MVCC Storage)"
+title: "Undo Segment Rollback MVCC Storage"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

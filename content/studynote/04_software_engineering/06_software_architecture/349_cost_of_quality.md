@@ -1,10 +1,9 @@
 ---
-title: "349. 품질 비용 (COQ, Cost of Quality) - 예방 비용, 평가 비용, 내부 실패 비용, 외부 실패 비용"
+title: "349. Cost Of Quality"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

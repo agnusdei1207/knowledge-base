@@ -1,10 +1,9 @@
 ---
-title: "286. 엣지 데이터 처리 분산 파이프라인 설계 (Edge Data Processing Distributed Pipeline)"
+title: "Edge Data Processing Distributed Pipeline"
 date: "2026-05-09"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "957. 오퍼레이터 (Operator) 패턴 - 쿠버네티스 사용자 정의 컨트롤러 확장을 통한 복잡한 앱 관리 자동화"
+title: "957. Operator Pattern"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

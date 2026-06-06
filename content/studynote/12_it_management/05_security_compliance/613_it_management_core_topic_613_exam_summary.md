@@ -1,10 +1,9 @@
 ---
-title: "613. IT 경영 관리 핵심 토픽 613번 시험 요약 (IT Management Core Topic 613 Exam Summary)"
+title: "IT Management Core Topic 613 Exam Summary"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 # 613. IT 경영 관리 핵심 토픽 613번 시험 요약 (IT Management Core Topic 613 Exam Summary)
 

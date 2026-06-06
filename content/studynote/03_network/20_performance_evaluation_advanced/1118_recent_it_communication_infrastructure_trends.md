@@ -1,10 +1,9 @@
 ---
-title: "1118. 정보통신 기술사 최근 기출 토픽 기반"
+title: "1118. Recent It Communication Infrastructure Trends"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

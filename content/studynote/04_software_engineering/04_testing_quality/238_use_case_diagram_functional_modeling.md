@@ -1,10 +1,9 @@
 ---
-title: "238. 유스케이스 다이어그램 (정적/기능)"
+title: "238. Use Case Diagram Functional Modeling"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "497. 행정안전부/KISA 소프트웨어 개발 보안 가이드 (47개 보안 약점)"
+title: "497. Kisa Secure Coding Guide"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

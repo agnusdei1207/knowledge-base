@@ -1,10 +1,9 @@
 ---
-title: "391. 스토리지 컴퓨팅 분리 클라우드 확장 (Storage-Compute Separation)"
+title: "Storage-Compute Separation"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

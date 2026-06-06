@@ -1,10 +1,9 @@
 ---
-title: "470. SSTF (Shortest Seek Time First) - 현재 헤드 위치에서 가장 가까운 요청 처리 (기아 발생 가능)"
+title: "470. Sstf Disk Scheduling"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "463. CAP 이론 정합성 가용성 파티션 분산 특성"
+title: "463. Cap Theorem Consistency Availability"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "675. 멀티태스킹 (Multitasking) 용어"
+title: "675. Multitasking Terminology Preemptive"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

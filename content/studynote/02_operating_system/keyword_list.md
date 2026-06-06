@@ -1,10 +1,9 @@
 ---
-title: "02. 운영체제 키워드 목록"
+title: "Keyword List"
 date: "2026-03-04"
 tags:
   - "studynote-operating-system"
 ---
-
 [weight](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) = 9999
 
 # [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 심화 키워드 목록 (기술사 최적화 800제)

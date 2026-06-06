@@ -1,10 +1,9 @@
 ---
-title: "164. I/O 바운드 프로세스 (I/O Bound Process)"
+title: "I/O Bound Process"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

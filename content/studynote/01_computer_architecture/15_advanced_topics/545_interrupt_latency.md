@@ -1,10 +1,9 @@
 ---
-title: "545. 인터럽트 지연 시간 (Interrupt Latency) 최소화"
+title: "545. Interrupt Latency"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

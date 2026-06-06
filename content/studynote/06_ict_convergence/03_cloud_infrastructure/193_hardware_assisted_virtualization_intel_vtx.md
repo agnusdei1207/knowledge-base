@@ -1,10 +1,9 @@
 ---
-title: "193. 하드웨어 보조 가상화 (Intel VT-x)"
+title: "Intel VT-x"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

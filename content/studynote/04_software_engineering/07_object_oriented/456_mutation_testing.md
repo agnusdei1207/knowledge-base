@@ -1,10 +1,9 @@
 ---
-title: "456. 뮤테이션 테스팅 (Mutation Testing / 돌연변이 테스팅) - 원본 코드에 고의로 에러(돌연변이)를 주입하여 기존 테스트 케이스가 이를 잡아내는지(Kill) 검증 (테스트 케이스의 품질 평가)"
+title: "456. Mutation Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

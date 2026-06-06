@@ -1,10 +1,9 @@
 ---
-title: "312. 모델 양자화 (Quantization)"
+title: "Quantization"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "778. 기술 사업화 스타트업 생태계 VC (Technology Commercialization Startup Ecosystem)"
+title: "Technology Commercialization Startup Ecosystem"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

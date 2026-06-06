@@ -1,10 +1,9 @@
 ---
-title: "256. 하이브리드 워크플레이스 보안 아키텍처 제로 트러스트 (Hybrid Workplace Zero Trust Security Architecture)"
+title: "Hybrid Workplace Zero Trust Security Architecture"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

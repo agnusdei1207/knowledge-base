@@ -1,10 +1,9 @@
 ---
-title: "1042. SASE 네트워킹/보안 융합 클라우드"
+title: "1042. Sase Secure Access Service Edge Cloud"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

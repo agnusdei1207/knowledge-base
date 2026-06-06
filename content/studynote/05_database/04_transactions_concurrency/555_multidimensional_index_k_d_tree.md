@@ -1,10 +1,9 @@
 ---
-title: "555. 다차원 인덱스 K-d 트리 공간/다변량 질의 처리망 데이터 구조 분석"
+title: "555. Multidimensional Index K D Tree"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

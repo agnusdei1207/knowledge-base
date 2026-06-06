@@ -1,10 +1,9 @@
 ---
-title: "63. 중심 경향도 (평균, 중앙값) 및 산포도 (분산, IQR) 분석"
+title: "063. Central Tendency Dispersion Variance Iqr"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

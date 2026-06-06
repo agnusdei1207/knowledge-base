@@ -1,10 +1,9 @@
 ---
-title: "356. 마할라노비스 거리 (Mahalanobis Distance)"
+title: "Mahalanobis Distance"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

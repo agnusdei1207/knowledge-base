@@ -1,11 +1,10 @@
 ---
-title: "7. 지식 표현 (Knowledge Representation) - 규칙 기반, 의미망, 프레임, 스크립트 등"
+title: "007. Knowledge Representation"
 date: "2024-05-20"
 description: "인간의 지식을 컴퓨터가 이해하고 추론할 수 있도록 정형화하는 AI의 핵심 설계 기법"
 tags:
   - "ai"
 ---
-
 
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 암묵적인 인간의 지식을 컴퓨터가 연산하고 추론할 수 있도록 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적, 구조적, 절차적으로 모델링하는 기법이다.

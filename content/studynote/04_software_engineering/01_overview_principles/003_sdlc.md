@@ -1,11 +1,10 @@
 ---
-title: "3. 소프트웨어 생명주기 (SDLC, Software Development Life Cycle)"
+title: "SDLC, Software Development Life Cycle"
 date: "2024-05-20"
 description: "소프트웨어 생명주기(SDLC)의 각 단계별 핵심 목적, 데이터 흐름, 그리고 프로세스 관점의 공학적 모델링 분석"
 tags:
   - "software_engineering"
 ---
-
 
 # 소프트웨어 생명주기 ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle)
 #### 핵심 인사이트 (3줄 요약)

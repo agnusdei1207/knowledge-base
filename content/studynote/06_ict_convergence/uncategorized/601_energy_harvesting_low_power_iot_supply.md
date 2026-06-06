@@ -1,10 +1,9 @@
 ---
-title: "601. 에너지 하베스팅 저전력 IoT 전원 (Energy Harvesting Low Power IoT Supply)"
+title: "Energy Harvesting Low Power IoT Supply"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

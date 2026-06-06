@@ -1,10 +1,9 @@
 ---
-title: "232. 프로젝트 헌장 (Project Charter) 제정 및 스폰서 역할"
+title: "232. Project Charter Sponsor"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

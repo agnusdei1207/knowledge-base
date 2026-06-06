@@ -1,10 +1,9 @@
 ---
-title: "119. 앙상블 보팅 (Ensemble Voting Methods) - 하드/소프트 보팅·다수결 원리"
+title: "119. Ensemble Voting Methods"
 date: "2026-04-19"
 tags:
   - "studynote-dataengineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [앙상블](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) [보팅](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)은 <strong>여러 분류기의 예측 결과를 투표(<a href="/studynote/10_ai/03_llm_nlp/258_voting_ensemble/">Voting</a>)</strong>로 결합하여 최종 예측을 도출하는 기법이며, <strong>하드 <a href="/studynote/10_ai/03_llm_nlp/258_voting_ensemble/">보팅</a>(다수결)</strong>과 <strong>소프트 <a href="/studynote/10_ai/03_llm_nlp/258_voting_ensemble/">보팅</a>(<a href="/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> 평균)</strong>으로 나뉜다.

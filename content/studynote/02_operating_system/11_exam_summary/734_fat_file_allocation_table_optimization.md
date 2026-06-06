@@ -1,10 +1,9 @@
 ---
-title: "734. FAT 방식 연결 할당 최적화 (Fat File Allocation Table Optimization)"
+title: "Fat File Allocation Table Optimization"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "218. 소프트웨어적 동기화 해결책 (Software Synchronization Solutions)"
+title: "Software Synchronization Solutions"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

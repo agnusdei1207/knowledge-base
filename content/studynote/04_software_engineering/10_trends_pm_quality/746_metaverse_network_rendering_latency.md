@@ -1,10 +1,9 @@
 ---
-title: "746. 메타버스 네트워크 렌더링 지연 단축 기술"
+title: "746. Metaverse Network Rendering Latency"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

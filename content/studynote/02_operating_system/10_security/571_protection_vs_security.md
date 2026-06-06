@@ -1,10 +1,9 @@
 ---
-title: "571. 보호 (Protection) vs 보안 (Security)의 개념 차이"
+title: "571. Protection Vs Security"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

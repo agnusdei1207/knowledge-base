@@ -1,10 +1,9 @@
 ---
-title: "25. 편향-분산 트레이드오프 (Bias-Variance Tradeoff)"
+title: "Bias-Variance Tradeoff"
 date: "2026-04-29"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 편향([Bias](/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))-[분산](/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/studynote/08_algorithm_stats/08_stats/136_variance/)) 트레이드오프는 모델의 총 예측 오차(Total Error)가 편향^(Bias^) + [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/studynote/08_algorithm_stats/08_stats/136_variance/)) + 노이즈(Noise)로 분해됨을 나타내는 원리로, 모델 복잡도(Complexity)를 늘리면 편향은 낮아지지만 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)이 높아지는 상충 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 존재한다.

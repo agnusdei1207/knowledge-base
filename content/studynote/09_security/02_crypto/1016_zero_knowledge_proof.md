@@ -1,10 +1,9 @@
 ---
-title: "1016. 영지식 증명 (Zero Knowledge Proof, ZKP)"
+title: "Zero Knowledge Proof, ZKP"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

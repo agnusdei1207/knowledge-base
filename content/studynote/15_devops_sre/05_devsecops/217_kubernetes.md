@@ -1,10 +1,9 @@
 ---
-title: "217. 컨테이너 오케스트레이션 (Kubernetes) 아키텍처"
+title: "217. Kubernetes"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "174. 호위 효과 (Convoy Effect) - FCFS의 단점"
+title: "174. Convoy Effect"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

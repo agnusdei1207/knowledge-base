@@ -1,10 +1,9 @@
 ---
-title: "570. 탈중앙화 거래소 DEX AMM 유동성 (Decentralized Exchange DEX AMM Liquidity)"
+title: "Decentralized Exchange DEX AMM Liquidity"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

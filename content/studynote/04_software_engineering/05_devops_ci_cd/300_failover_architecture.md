@@ -1,10 +1,9 @@
 ---
-title: "300. 페일 오버 (Failover) - 장애 시 예비 시스템으로 자동 전환"
+title: "300. Failover Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

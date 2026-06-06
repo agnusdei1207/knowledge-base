@@ -1,10 +1,9 @@
 ---
-title: "120. 타원곡선 (Elliptic Curve Equation)"
+title: "Elliptic Curve Equation"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

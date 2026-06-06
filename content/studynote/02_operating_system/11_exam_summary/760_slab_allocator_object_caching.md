@@ -1,10 +1,9 @@
 ---
-title: "760. 슬랩 (Slab) 할당기 객체 캐싱"
+title: "760. Slab Allocator Object Caching"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "359. PLM BOM 도면 제품 수명 주기 (PLM BOM Product Lifecycle Management)"
+title: "PLM BOM Product Lifecycle Management"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

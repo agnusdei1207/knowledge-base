@@ -1,10 +1,9 @@
 ---
-title: "676. EVM (Earned Value Management) SPI, CPI 계산"
+title: "676. Evm Earned Value Management"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

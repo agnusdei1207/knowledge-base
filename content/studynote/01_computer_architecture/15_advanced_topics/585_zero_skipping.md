@@ -1,10 +1,9 @@
 ---
-title: "585. 영(Zero) 데이터 건너뛰기 로직 (Zero-skipping)"
+title: "Zero-skipping"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

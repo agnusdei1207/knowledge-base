@@ -1,10 +1,9 @@
 ---
-title: "278. 개인정보 비식별화 가명처리 k-익명성 (De-identification Pseudonymization k-Anonymity)"
+title: "De-identification Pseudonymization k-Anonymity"
 date: "2026-05-09"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

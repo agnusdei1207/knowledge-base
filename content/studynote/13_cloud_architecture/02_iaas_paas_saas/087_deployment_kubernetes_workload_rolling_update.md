@@ -1,10 +1,9 @@
 ---
-title: "87. 디플로이먼트 (Deployment) - K8s 무중단 배포 사령관"
+title: "087. Deployment Kubernetes Workload Rolling Update"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

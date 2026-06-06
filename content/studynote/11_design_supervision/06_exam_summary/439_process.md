@@ -1,10 +1,9 @@
 ---
-title: "439. 웹어셈블리 브라우저 프런트엔드 가속 모듈 (WebAssembly Browser Front-End Acceleration Module)"
+title: "WebAssembly Browser Front-End Acceleration Module"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 1. **본질**: [웹어셈블리](/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/) ([WebAssembly](/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/), [Wasm](/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/))는 브라우저 안에서 저수준 바이너리 형식으로 실행되어, 계산량이 큰 기능을 자바스크립트 (JavaScript)보다 예측 가능하고 빠르게 처리하도록 돕는 실행 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 기술이다.

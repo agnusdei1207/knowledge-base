@@ -1,5 +1,5 @@
 ---
-title: "데이터 패브릭 가상화 (Data Fabric Virtualization)"
+title: "Data Fabric Virtualization"
 date: "2025-01-01"
 description: "데이터 패브릭의 개념, 데이터 가상화와의 차이, AI 기반 메타데이터 관리, 실시간 데이터 통합 아키텍처를 다룬다."
 tags:
@@ -12,7 +12,6 @@ tags:
   - "metadata"
   - "studynote-dataeng"
 ---
-
 
 > **핵심 인사이트 3줄**
 > 1. [데이터 패브릭](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)([Data Fabric](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/))은 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스를 물리적으로 이동하지 않고 단일 통합 레이어를 통해 접근할 수 있게 하는 아키텍처 패턴이다.

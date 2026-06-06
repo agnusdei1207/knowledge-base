@@ -1,9 +1,8 @@
 ---
-title: "84. 블록체인 상호운용성 (Interoperability) 폴카닷(Polkadot), 코스모스(Cosmos) 네트워크"
+title: "084. Blockchain Interoperability Polkadot Cosmos"
 tags:
   - "ict_convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

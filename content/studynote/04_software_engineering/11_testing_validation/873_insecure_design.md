@@ -1,10 +1,9 @@
 ---
-title: "873. Insecure Design (안전하지 않은 설계)"
+title: "873. Insecure Design"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

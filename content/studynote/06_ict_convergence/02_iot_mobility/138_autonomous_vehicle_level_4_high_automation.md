@@ -1,10 +1,9 @@
 ---
-title: "138. 자율주행 Level 4 고도 자율 - 특정 영역 완전 무인"
+title: "138. Autonomous Vehicle Level 4 High Automation"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SAE Level 4는 <strong>특정 ODD(지역·날씨·속도) 내에서 인간 개입 없이 완전 자율주행</strong>이 가능하며, Takeover 요청이 없어 **운전석이 필요 없을 수 있다**.

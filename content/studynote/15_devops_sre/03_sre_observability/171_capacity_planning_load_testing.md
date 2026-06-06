@@ -1,10 +1,9 @@
 ---
-title: "171. 용량 계획 및 부하 테스트 (Capacity Planning/Load Testing)"
+title: "Capacity Planning/Load Testing"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

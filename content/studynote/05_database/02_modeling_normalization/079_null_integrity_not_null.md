@@ -1,10 +1,9 @@
 ---
-title: "079. NULL 무결성과 NOT NULL 제약조건"
+title: "079. Null Integrity Not Null"
 date: "2026-05-05"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)에서 `NULL`은 0이나 공백(Space)이 아니라 <strong>"아직 값이 할당되지 않았음(Unknown)" 또는 "해당 사항 없음(Inapplicable)"</strong>을 뜻하는 관계형 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 특유의 미지의 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 상태다.

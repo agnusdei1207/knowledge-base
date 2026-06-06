@@ -1,10 +1,9 @@
 ---
-title: "400. 통합 테스트 (Integration Test) - 모듈 간 인터페이스 검증"
+title: "400. Integration Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

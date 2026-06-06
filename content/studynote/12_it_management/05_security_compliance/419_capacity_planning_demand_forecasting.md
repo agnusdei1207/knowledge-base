@@ -1,10 +1,9 @@
 ---
-title: "419. 용량 계획 수요 예측 확장 전략 (Capacity Planning Demand Forecasting)"
+title: "Capacity Planning Demand Forecasting"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

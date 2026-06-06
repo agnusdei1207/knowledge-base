@@ -1,11 +1,10 @@
 ---
-title: "7. 나선형 모델 (Spiral Model) - 위험 분석(Risk Analysis) 강조, 점진적 확장"
+title: "007. Spiral Model"
 date: "2026-03-04"
 description: "점진적인 프로토타이핑과 철저한 위험 분석을 결합하여 대규모 시스템의 불확실성을 통제하는 진화적 생명주기"
 tags:
   - "software_engineering"
 ---
-
 
 # 07. 나선형 모델 (Spiral Model)
 

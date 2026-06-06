@@ -1,10 +1,9 @@
 ---
-title: "927. 무선 인체 통신망 (WBAN)"
+title: "WBAN"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

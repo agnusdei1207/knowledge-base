@@ -1,10 +1,9 @@
 ---
-title: "504. FEAF 연방 EA 프레임워크 (FEAF Federal EA Framework)"
+title: "FEAF Federal EA Framework"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 # 504. FEAF 연방 EA 프레임워크 (FEAF Federal EA Framework)
 

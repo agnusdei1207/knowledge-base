@@ -1,10 +1,9 @@
 ---
-title: "900. 인증 (Authentication) 트렌드 - MFA, FIDO, WebAuthn, Passwordless"
+title: "900. Authentication Trends"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

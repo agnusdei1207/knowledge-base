@@ -1,10 +1,9 @@
 ---
-title: "499. API Versioning (API 버전 관리와 보안)"
+title: "API"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

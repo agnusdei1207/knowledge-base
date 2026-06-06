@@ -1,10 +1,9 @@
 ---
-title: "614. 페이지 랭크 알고리즘 하드웨어 맵핑"
+title: "614. Pagerank Hw Mapping"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

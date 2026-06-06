@@ -1,10 +1,9 @@
 ---
-title: "389. 데이터 카탈로그 검색 메타 태깅 (Data Catalog)"
+title: "Data Catalog"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

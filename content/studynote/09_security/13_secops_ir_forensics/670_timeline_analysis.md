@@ -1,10 +1,9 @@
 ---
-title: "670. 타임라인 분석 (Timeline Analysis / Super Timeline)"
+title: "Timeline Analysis / Super Timeline"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

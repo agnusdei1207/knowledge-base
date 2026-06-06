@@ -1,10 +1,9 @@
 ---
-title: "499. 클라우드 알림 SNS PagerDuty 통합 (Cloud Alerting SNS PagerDuty Integration)"
+title: "Cloud Alerting SNS PagerDuty Integration"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

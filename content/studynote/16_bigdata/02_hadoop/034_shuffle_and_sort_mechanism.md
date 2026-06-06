@@ -1,10 +1,9 @@
 ---
-title: "셔플 및 정렬 (Shuffle & Sort): 분산 컴퓨팅의 네트워크 병목"
+title: "034. Shuffle And Sort Mechanism"
 date: "2026-03-04"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 - 맵(Map)의 출력 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 리듀서(Reducer)로 전달하기 위해 네트워크를 통해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 이동시키고 정렬하는 핵심 매커니즘임.

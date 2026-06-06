@@ -1,10 +1,9 @@
 ---
-title: "514. GraphQL 클라우드 API 스키마 퍼스트 (GraphQL Cloud API Schema First)"
+title: "GraphQL Cloud API Schema First"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

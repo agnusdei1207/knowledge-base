@@ -1,10 +1,9 @@
 ---
-title: "570. 모빌리티 MaaS 자율주행 서비스 (Mobility MaaS Autonomous Driving Service)"
+title: "Mobility MaaS Autonomous Driving Service"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 모빌리티 MaaS 자율주행 서비스은(는) 교통수단을 통합 예약·결제·이용하게 하고 자율주행/연결 서비스를 결합하는 이동 서비스 모델이다.

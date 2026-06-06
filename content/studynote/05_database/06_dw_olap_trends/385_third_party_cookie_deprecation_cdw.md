@@ -1,10 +1,9 @@
 ---
-title: "385. 서드파티 (3rd Party) 쿠키 소멸에 대비한 퍼스트파티 고객 데이터 저장소(CDW) 아키텍처"
+title: "385. Third Party Cookie Deprecation Cdw"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

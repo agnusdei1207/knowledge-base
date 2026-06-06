@@ -1,10 +1,9 @@
 ---
-title: "169. 정적 팩토리 메서드 (Static Factory Method)"
+title: "Static Factory Method"
 date: "2026-04-21"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

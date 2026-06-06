@@ -1,10 +1,9 @@
 ---
-title: "168. 프로젝트 리스크 대응 전략 (Risk Response Strategies)"
+title: "Risk Response Strategies"
 date: "2026-04-21"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

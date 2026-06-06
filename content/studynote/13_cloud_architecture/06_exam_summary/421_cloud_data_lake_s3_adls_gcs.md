@@ -1,10 +1,9 @@
 ---
-title: "421. 클라우드 데이터 레이크 S3 ADLS GCS (Cloud Data Lake S3 ADLS GCS)"
+title: "Cloud Data Lake S3 ADLS GCS"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "214. 이벤트 드리븐 아키텍처 (EDA, Event-Driven Architecture)"
+title: "EDA, Event-Driven Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

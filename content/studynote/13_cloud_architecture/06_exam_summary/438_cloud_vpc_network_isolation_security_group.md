@@ -1,10 +1,9 @@
 ---
-title: "438. 클라우드 VPC 네트워크 분리 보안 그룹 (Cloud VPC Network Isolation Security Group)"
+title: "Cloud VPC Network Isolation Security Group"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

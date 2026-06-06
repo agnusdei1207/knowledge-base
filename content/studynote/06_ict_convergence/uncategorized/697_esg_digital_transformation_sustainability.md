@@ -1,10 +1,9 @@
 ---
-title: "697. ESG 디지털 전환 지속가능 경영 (ESG Digital Transformation Sustainability)"
+title: "ESG Digital Transformation Sustainability"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

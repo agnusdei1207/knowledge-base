@@ -1,10 +1,9 @@
 ---
-title: "61. Secure by Default (기본값 안전)"
+title: "061. Secure By Default"
 date: "2026-04-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "506. IT 서비스 관리 ITIL 프레임워크 (IT Service Management ITIL Framework)"
+title: "IT Service Management ITIL Framework"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

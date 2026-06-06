@@ -1,10 +1,9 @@
 ---
-title: "127. DDD (Domain-Driven Design) - 도메인 중심 소프트웨어 설계"
+title: "127. Ddd Domain Driven Design"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: DDD는 <strong>복잡한 비즈니스 <a href="/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>을 소프트웨어 모델의 중심에 놓고</strong>, [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전문가와 개발자가 <strong><a href="/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/">유비쿼터스 언어</a>(<a href="/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/">Ubiquitous Language</a>)</strong>를 공유하여 모델과 코드를 일치시키는 설계 방법론이다.

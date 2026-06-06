@@ -1,10 +1,9 @@
 ---
-title: "791. 락 엘리전 하드웨어 트랜잭션 메모리 활용 (Lock Elision Hardware Transactional Memory)"
+title: "Lock Elision Hardware Transactional Memory"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

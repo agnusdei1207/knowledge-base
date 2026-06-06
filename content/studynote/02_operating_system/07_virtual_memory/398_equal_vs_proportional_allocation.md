@@ -1,10 +1,9 @@
 ---
-title: "398. 균등 할당 (Equal Allocation) vs 비례 할당 (Proportional Allocation)"
+title: "Proportional Allocation"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

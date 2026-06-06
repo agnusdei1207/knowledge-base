@@ -1,10 +1,9 @@
 ---
-title: "085. AES 키 스케줄 — 라운드 키 생성"
+title: "085. Aes Key Schedule"
 date: "2026-04-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

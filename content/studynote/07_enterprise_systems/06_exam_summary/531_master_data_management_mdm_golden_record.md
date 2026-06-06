@@ -1,10 +1,9 @@
 ---
-title: "531. 마스터 데이터 관리 MDM 골든 레코드 (Master Data Management MDM Golden Record)"
+title: "Master Data Management MDM Golden Record"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 마스터 데이터 관리 MDM 골든 레코드은(는) 고객·상품·조직 등 핵심 기준 데이터를 식별·정제·병합해 신뢰 가능한 단일 기준 레코드를 만드는 체계이다.

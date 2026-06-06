@@ -1,10 +1,9 @@
 ---
-title: "367. 서비스 디스커버리 Eureka Consul (Service Discovery)"
+title: "Service Discovery"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

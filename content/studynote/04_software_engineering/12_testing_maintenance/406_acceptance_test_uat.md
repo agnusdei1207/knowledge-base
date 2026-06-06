@@ -1,10 +1,9 @@
 ---
-title: "406. 인수 테스트 (Acceptance Test) - 사용자 요구사항 최종 확인"
+title: "406. Acceptance Test Uat"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

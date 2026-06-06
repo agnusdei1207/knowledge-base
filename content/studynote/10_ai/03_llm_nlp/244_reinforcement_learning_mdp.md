@@ -1,10 +1,9 @@
 ---
-title: "244. 강화 학습 (Reinforcement Learning)"
+title: "Reinforcement Learning"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

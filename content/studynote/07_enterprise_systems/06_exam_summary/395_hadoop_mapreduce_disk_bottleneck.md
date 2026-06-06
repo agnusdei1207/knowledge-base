@@ -1,10 +1,9 @@
 ---
-title: "395. 하둡 맵리듀스 디스크 병목 분산 처리 (Hadoop MapReduce)"
+title: "Hadoop MapReduce"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

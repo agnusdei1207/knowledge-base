@@ -1,10 +1,9 @@
 ---
-title: "157. OOM (Out Of Memory) Killer 프로세스 종료 정책"
+title: "157. Oom Killer"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

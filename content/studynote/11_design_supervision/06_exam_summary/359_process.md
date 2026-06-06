@@ -1,10 +1,9 @@
 ---
-title: "359. 의존 역전 원칙 (Dependency Inversion Principle, DIP)"
+title: "Dependency Inversion Principle, DIP"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

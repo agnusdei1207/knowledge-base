@@ -1,10 +1,9 @@
 ---
-title: "792. API 게이트웨이 인증 및 라우팅 병목 관리망"
+title: "792. Api Gateway Authentication Routing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

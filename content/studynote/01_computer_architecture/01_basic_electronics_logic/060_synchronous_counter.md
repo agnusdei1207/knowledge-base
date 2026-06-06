@@ -1,10 +1,9 @@
 ---
-title: "60. 동기식 카운터 (Synchronous Counter)"
+title: "Synchronous Counter"
 date: "2026-03-19"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

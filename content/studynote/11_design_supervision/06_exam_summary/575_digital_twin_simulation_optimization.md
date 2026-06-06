@@ -1,10 +1,9 @@
 ---
-title: "575. 디지털 트윈 시뮬레이션 최적화 (Digital Twin Simulation Optimization)"
+title: "Digital Twin Simulation Optimization"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

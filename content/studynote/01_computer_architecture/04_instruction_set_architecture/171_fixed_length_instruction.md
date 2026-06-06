@@ -1,10 +1,9 @@
 ---
-title: "171. 고정 길이 명령어 (Fixed-Length Instruction)"
+title: "Fixed-Length Instruction"
 date: "2026-03-19"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

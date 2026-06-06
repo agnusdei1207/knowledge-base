@@ -1,10 +1,9 @@
 ---
-title: "224. 다중 버전 동시성 제어 (MVCC, Multi-Version Concurrency Control)"
+title: "MVCC, Multi-Version Concurrency Control"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

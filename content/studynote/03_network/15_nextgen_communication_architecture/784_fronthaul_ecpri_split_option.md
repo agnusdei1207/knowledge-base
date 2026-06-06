@@ -1,10 +1,9 @@
 ---
-title: "784. 프론트홀 (Fronthaul 안테나-DU망 광인터페이스 eCPRI 규격 모델 구조 구성 패킷망 확장망)"
+title: "Fronthaul -DU eCPRI"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

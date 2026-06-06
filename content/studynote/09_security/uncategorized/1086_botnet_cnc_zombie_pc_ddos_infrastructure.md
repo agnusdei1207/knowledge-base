@@ -1,10 +1,9 @@
 ---
-title: "1086. 봇넷 (Botnet) C&C (Botnet Cnc Zombie Pc Ddos Infrastructure)"
+title: "Botnet Cnc Zombie Pc Ddos Infrastructure"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

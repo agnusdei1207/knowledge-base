@@ -1,10 +1,9 @@
 ---
-title: "445. 기본 계정 및 비밀번호 (Default Accounts & Passwords)"
+title: "Default Accounts & Passwords"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

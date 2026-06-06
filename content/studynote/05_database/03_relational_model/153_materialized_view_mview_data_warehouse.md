@@ -1,10 +1,9 @@
 ---
-title: "153. 구체화된 뷰 (MVIEW, Materialized View) - OLAP 캐싱 박제 마법"
+title: "153. Materialized View Mview Data Warehouse"
 date: "2026-05-03"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 일반 뷰([View](/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))가 하드디스크 공간을 1바이트도 차지하지 않는 단순한 `SELECT` 문장(가짜 껍데기)이라면 -> 구체화된 뷰(MVIEW)는 10억 건의 거대 조인 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 밤새 쌩으로 믹서기 돌려서 얻어낸 <strong>'요약된 결과 텍스트 엑기스'를 아예 진짜 물리적인 하드디스크 콘크리트로 쾅쾅 얼려 저장(Materialize)해 박제해두는 <a href="/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/">데이터 웨어하우스</a>(<a href="/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/">DW</a>)의 0순위 쇳덩이 캐시 무기</strong>다.

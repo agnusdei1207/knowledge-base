@@ -1,10 +1,9 @@
 ---
-title: "964. IPv6 헤더 압축 / SLAAC"
+title: "964. Ipv6 Header Compression Slaac 6Lowpan Iot"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

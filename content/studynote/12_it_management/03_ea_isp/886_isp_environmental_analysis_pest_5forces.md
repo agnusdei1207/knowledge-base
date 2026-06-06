@@ -1,10 +1,9 @@
 ---
-title: "886. 환경 분석 - 거시 환경(PEST), 산업 환경(5 Forces), 내부 역량"
+title: "886. Isp Environmental Analysis Pest 5Forces"
 date: "2026-04-10"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

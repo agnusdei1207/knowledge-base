@@ -1,10 +1,9 @@
 ---
-title: "03. 지연 평가 (Lazy Evaluation) — 연산 최적화 전략"
+title: "054. Lazy Evaluation"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"
 ---
-
 
 # [지연 평가](/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/) ([Lazy Evaluation](/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)) - 계산을 미루는 지혜의 모든 것
 

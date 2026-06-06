@@ -1,10 +1,9 @@
 ---
-title: "456. 캐싱 (Caching) - 자주 사용하는 데이터 복사본 유지 (속도 빠른 메모리 활용)"
+title: "456. Caching"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

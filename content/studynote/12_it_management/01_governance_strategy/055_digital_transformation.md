@@ -1,10 +1,9 @@
 ---
-title: "55. 디지털 전환 (Digital Transformation)"
+title: "Digital Transformation"
 date: "2026-05-01"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

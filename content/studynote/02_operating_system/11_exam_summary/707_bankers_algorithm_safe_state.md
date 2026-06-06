@@ -1,10 +1,9 @@
 ---
-title: "707. 은행원 알고리즘 안전 상태 (Bankers Algorithm Safe State)"
+title: "Bankers Algorithm Safe State"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

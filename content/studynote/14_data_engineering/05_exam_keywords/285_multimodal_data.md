@@ -1,10 +1,9 @@
 ---
-title: "285. 멀티모달 데이터 처리 통합 분석 (Multimodal Data Processing Unified Analytics)"
+title: "Multimodal Data Processing Unified Analytics"
 date: "2026-05-09"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

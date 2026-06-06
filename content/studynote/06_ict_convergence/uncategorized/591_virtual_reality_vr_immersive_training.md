@@ -1,10 +1,9 @@
 ---
-title: "591. 가상현실 VR 몰입형 교육 훈련 (Virtual Reality VR Immersive Training)"
+title: "Virtual Reality VR Immersive Training"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

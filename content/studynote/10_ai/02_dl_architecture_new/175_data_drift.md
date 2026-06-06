@@ -1,10 +1,9 @@
 ---
-title: "175. 데이터 드리프트 (Data Drift)"
+title: "Data Drift"
 date: "2026-04-17"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

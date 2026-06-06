@@ -1,10 +1,9 @@
 ---
-title: "494. V2X 차량 통신과 C-V2X 5G 연계 (V2X Vehicle Communication and C-V2X 5G)"
+title: "V2X Vehicle Communication and C-V2X 5G"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

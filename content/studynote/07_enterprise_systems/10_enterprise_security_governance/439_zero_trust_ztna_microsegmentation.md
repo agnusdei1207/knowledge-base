@@ -1,10 +1,9 @@
 ---
-title: "439. 제로 트러스트 ZTNA 마이크로 세그멘테이션 (Zero Trust / ZTNA)"
+title: "Zero Trust / ZTNA"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "493. NoSQL LSM 트리 쓰기 병합 엔진 구조 분석"
+title: "493. Nosql Lsm Tree Write Optimization"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

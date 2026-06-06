@@ -1,10 +1,9 @@
 ---
-title: "321. 정보시스템 감리 목적 3대 속성 (Three Objectives of Information System Audit)"
+title: "Three Objectives of Information System Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "227. 아키텍처 평가 기법 개요"
+title: "227. Architecture Evaluation Methods Overview"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

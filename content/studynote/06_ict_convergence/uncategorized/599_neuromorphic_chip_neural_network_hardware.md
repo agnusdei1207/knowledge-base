@@ -1,10 +1,9 @@
 ---
-title: "599. 뉴로모픽 칩 신경망 하드웨어 (Neuromorphic Chip Neural Network Hardware)"
+title: "Neuromorphic Chip Neural Network Hardware"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

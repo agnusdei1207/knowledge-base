@@ -1,10 +1,9 @@
 ---
-title: "564. API 설계 RESTful GraphQL gRPC (API Design RESTful GraphQL gRPC)"
+title: "API Design RESTful GraphQL gRPC"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

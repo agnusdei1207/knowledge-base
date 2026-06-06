@@ -1,10 +1,9 @@
 ---
-title: "410. 온콜 관리 에스컬레이션 인시던트 대응 (On-Call Management Escalation Incident Response)"
+title: "On-Call Management Escalation Incident Response"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

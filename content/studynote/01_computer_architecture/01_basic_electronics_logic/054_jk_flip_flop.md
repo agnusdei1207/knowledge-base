@@ -1,10 +1,9 @@
 ---
-title: "54. J-K 플립플롭 (J-K Flip-Flop)"
+title: "J-K Flip-Flop"
 date: "2026-05-01"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

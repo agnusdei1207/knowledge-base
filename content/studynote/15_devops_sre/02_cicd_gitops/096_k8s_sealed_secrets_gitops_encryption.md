@@ -1,11 +1,10 @@
 ---
-title: "96. K8s Sealed Secrets - GitOps 시크릿 암호화 관리"
+title: "096. K8S Sealed Secrets Gitops Encryption"
 date: "2026-03-04"
 tags:
   - "cicd-gitops"
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

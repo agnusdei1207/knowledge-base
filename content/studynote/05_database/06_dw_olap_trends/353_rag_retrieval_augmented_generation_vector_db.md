@@ -1,10 +1,9 @@
 ---
-title: "353. RAG (Retrieval-Augmented Generation) 패턴"
+title: "353. Rag Retrieval Augmented Generation Vector Db"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

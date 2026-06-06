@@ -1,10 +1,9 @@
 ---
-title: "738. 사이버 위협 인텔리전스 CTI TTP IOC (Cyber Threat Intelligence CTI TTP IOC)"
+title: "Cyber Threat Intelligence CTI TTP IOC"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ```markdown
 ## 핵심 인사이트 (3줄 요약)

@@ -1,9 +1,8 @@
 ---
-title: "178. 스몰셀 (Small Cell) / 매크로셀 (Macro Cell) / 펨토셀 (Femto Cell)"
+title: "Femto Cell"
 tags:
   - "network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "221. K8s 서비스 퍼블리싱 (ClusterIP, NodePort, LoadBalancer, Ingress) 라우팅 패러다임"
+title: "221. K8S Clusterip Nodeport Loadbalancer Ingress"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

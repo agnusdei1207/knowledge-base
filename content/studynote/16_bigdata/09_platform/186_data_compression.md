@@ -1,10 +1,9 @@
 ---
-title: "186. 데이터 컴프레션 전략 (Data Compression Strategy) — Snappy/Zstd/Gzip"
+title: "186. Data Compression"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

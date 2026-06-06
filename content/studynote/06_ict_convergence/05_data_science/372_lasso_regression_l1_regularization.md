@@ -1,10 +1,9 @@
 ---
-title: "372. 라쏘 회귀의 L1 정규화 모델의 변수 선택 (특성 희소성/계수 0) 기능 (Lasso)"
+title: "Lasso"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "89. 데몬셋 (DaemonSet) - K8s 전 노드 백그라운드 파드 배포"
+title: "089. Daemonset Kubernetes Background Node Agent"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 데몬셋 ([DaemonSet](/studynote/11_design_supervision/06_exam_summary/334_process/))은 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) ([Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)) 클러스터의 모든 워커 노드에 특정 [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) ([Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))를 1개씩 강제로 백그라운드에서 실행시키는 배포 컨트롤러다.

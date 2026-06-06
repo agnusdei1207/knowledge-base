@@ -1,10 +1,9 @@
 ---
-title: "103. 헬름 (Helm) - 쿠버네티스 패키지 매니저 및 템플릿 엔진"
+title: "103. Helm Kubernetes Package Manager Chart Template"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,5 +1,5 @@
 ---
-title: "기능점수 간이법 vs 상세법 (FP Simple vs Detailed)"
+title: "FP Simple vs Detailed"
 date: "2025-01-01"
 description: "기능점수(FP) 추정의 간이법과 상세법 차이, 조정 인자, COSMIC FP와의 비교를 다룬다."
 tags:
@@ -14,7 +14,6 @@ tags:
   - "간이법"
   - "상세법"
 ---
-
 
 > **핵심 인사이트 3줄**
 > 1. [기능점수](/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/)([FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/), [Function Point](/studynote/12_it_management/04_sdlc_testing/140_function_point/))는 소프트웨어의 기능 크기를 사용자 관점에서 정량화하는 표준 규모 측정 기법으로, IFPUG가 국제 표준을 관리한다.

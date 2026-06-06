@@ -1,10 +1,9 @@
 ---
-title: "245. 상호작용형 애플리케이션 보안 테스트 (IAST, Interactive Application Security Testing)"
+title: "IAST, Interactive Application Security Testing"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

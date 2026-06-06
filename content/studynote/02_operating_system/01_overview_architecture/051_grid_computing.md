@@ -1,10 +1,9 @@
 ---
-title: "51. 그리드 컴퓨팅 (Grid Computing)"
+title: "Grid Computing"
 date: "2026-04-30"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

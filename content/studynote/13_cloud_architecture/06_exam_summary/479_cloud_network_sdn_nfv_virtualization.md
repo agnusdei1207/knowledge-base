@@ -1,10 +1,9 @@
 ---
-title: "479. 클라우드 네트워크 SDN NFV 가상화 (Cloud Network SDN NFV Virtualization)"
+title: "Cloud Network SDN NFV Virtualization"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

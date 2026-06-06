@@ -1,10 +1,9 @@
 ---
-title: "05. Apache Oozie와 Airflow - 워크플로우 오케스트레이션의 진화"
+title: "027. Oozie Airflow"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"
 ---
-
 
 # Apache Oozie와 Airflow - 워크플로우 [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)의 진화
 

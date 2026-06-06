@@ -1,10 +1,9 @@
 ---
-title: "560. 데이터 메시 (Data Mesh) - 데이터 소유권의 탈중앙화 (도메인 중심)"
+title: "560. Data Mesh Decentralized Data Ownership"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "209. 해독 사이클 (Decode Cycle)"
+title: "Decode Cycle"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "343. 샤딩 컨시스턴트 해싱 링 분배 데이터 편향 방지 (Cloud Architecture Concept)"
+title: "Cloud Architecture Concept"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [샤딩](/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) [컨시스턴트 해싱](/studynote/13_cloud_architecture/05_data_engineering/244_consistent_hashing_ring_distribution/) 링 분배 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 편향 방지는 클라우드 시스템에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 표준화를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.

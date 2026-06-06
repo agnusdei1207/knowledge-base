@@ -1,9 +1,8 @@
 ---
-title: "70. 마스터 데이터 관리 (MDM, Master Data Management) - 전사 공통 기준정보 단일화 (Single Source of Truth)"
+title: "Single Source of Truth"
 tags:
   - "enterprise_systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

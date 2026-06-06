@@ -1,10 +1,9 @@
 ---
-title: "407. Fluentd Fluent Bit 로그 전달 파이프라인 (Fluentd Fluent Bit Log Pipeline)"
+title: "Fluentd Fluent Bit Log Pipeline"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

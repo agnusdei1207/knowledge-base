@@ -1,10 +1,9 @@
 ---
-title: "192. gRPC - Protocol Buffers와 HTTP/2 기반 고성능 RPC"
+title: "192. Grpc Protocol Buffers Http2"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

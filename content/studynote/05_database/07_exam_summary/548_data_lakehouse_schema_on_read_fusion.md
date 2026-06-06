@@ -1,10 +1,9 @@
 ---
-title: "548. 데이터 레이크하우스 스키마 온 리드 융합 엔진 구성 기초 분석"
+title: "548. Data Lakehouse Schema On Read Fusion"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

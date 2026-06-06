@@ -1,10 +1,9 @@
 ---
-title: "424. 클라우드 스트리밍 카프카 Kinesis 플링크 (Cloud Streaming Kafka Kinesis Flink)"
+title: "Cloud Streaming Kafka Kinesis Flink"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

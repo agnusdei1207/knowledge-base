@@ -1,10 +1,9 @@
 ---
-title: "420. 화이트박스 테스트 (White-box Test / 구조 기반 테스트) - 소스코드의 내부 논리 구조를 모두 검증"
+title: "420. Whitebox Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

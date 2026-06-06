@@ -1,10 +1,9 @@
 ---
-title: "184. 재해 복구 훈련과 카오스 엔지니어링 융합 (Disaster Recovery + Chaos 엔진ering)"
+title: "Disaster Recovery + Chaos ering"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

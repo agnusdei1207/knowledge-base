@@ -1,10 +1,9 @@
 ---
-title: "01. 소프트웨어 공학 기초 및 프로세스 모델"
+title: "Software Engineering"
 tags:
   - "Process Models"
   - "Software Engineering"
 ---
-
 
 > 💡 **핵심 인사이트**
 > - 소프트웨어 공학은 소프트웨어의 비용, 일정, 품질 사이의 균형을 찾는 학문으로, 엔지니어링 원칙을 소프트웨어 개발에 체계적으로 적용한다.

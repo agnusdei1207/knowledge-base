@@ -1,10 +1,9 @@
 ---
-title: "123. SLO (Service Level Objective) - 서비스 수준 목표 설정과 Error Budget"
+title: "123. Slo Service Level Objective"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SLO는 <strong><a href="/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/">SLI</a>(측정 지표)에 대한 목표 <a href="/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/">임계치</a></strong>이며, "[가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) [SLI](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) ≥ 99.9%"처럼 정의하여 <strong><a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> <a href="/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a>의 정량적 기준</strong>을 제공한다.

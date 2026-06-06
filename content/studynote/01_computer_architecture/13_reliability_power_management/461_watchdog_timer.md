@@ -1,10 +1,9 @@
 ---
-title: "461. 워치독 타이머 (Watchdog Timer)"
+title: "Watchdog Timer"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 # 워치독 타이머 (Watchdog [Timer](/studynote/02_operating_system/01_overview_architecture/071_os_timer/))
 

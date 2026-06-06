@@ -1,10 +1,9 @@
 ---
-title: "59. 정보기술 아웃소싱 (ITO, IT Outsourcing) / BPO (비즈니스 프로세스 아웃소싱)"
+title: "059. It Outsourcing Ito Bpo"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

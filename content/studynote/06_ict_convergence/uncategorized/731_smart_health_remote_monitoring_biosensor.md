@@ -1,10 +1,9 @@
 ---
-title: "731. 스마트 헬스 원격 모니터링 바이오센서 (Smart Health Remote Monitoring Biosensor)"
+title: "Smart Health Remote Monitoring Biosensor"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "304. TLS 암호 스위트 (TLS Cipher Suite)"
+title: "TLS Cipher Suite"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

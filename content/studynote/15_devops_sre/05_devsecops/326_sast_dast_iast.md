@@ -1,10 +1,9 @@
 ---
-title: "326. SAST DAST IAST 보안 테스트 비교 CI 파이프라인 배치 (SAST DAST IAST Security Testing Pipeline)"
+title: "SAST DAST IAST Security Testing Pipeline"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

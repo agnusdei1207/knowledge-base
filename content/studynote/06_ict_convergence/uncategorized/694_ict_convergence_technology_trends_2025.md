@@ -1,10 +1,9 @@
 ---
-title: "694. ICT 융합 기술 최신 동향 2025 (ICT Convergence Technology Trends 2025)"
+title: "ICT Convergence Technology Trends 2025"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

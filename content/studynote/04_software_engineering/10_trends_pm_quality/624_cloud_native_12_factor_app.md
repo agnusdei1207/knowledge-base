@@ -1,10 +1,9 @@
 ---
-title: "624. 클라우드 네이티브 12 Factor App"
+title: "624. Cloud Native 12 Factor App"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

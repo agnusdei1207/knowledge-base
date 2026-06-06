@@ -1,10 +1,9 @@
 ---
-title: "402. DevSecOps 보안 내재화 파이프라인 (DevSecOps Security Integration Pipeline)"
+title: "DevSecOps Security Integration Pipeline"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

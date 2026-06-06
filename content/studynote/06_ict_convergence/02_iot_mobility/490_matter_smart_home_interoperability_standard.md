@@ -1,10 +1,9 @@
 ---
-title: "490. Matter 스마트홈 상호 운용성 표준 (Matter Smart Home Interoperability Standard)"
+title: "Matter Smart Home Interoperability Standard"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

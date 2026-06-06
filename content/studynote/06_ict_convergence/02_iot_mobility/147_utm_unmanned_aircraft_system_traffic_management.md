@@ -1,10 +1,9 @@
 ---
-title: "147. UTM (Unmanned Aircraft System Traffic Management) - 무인 비행체 교통 관제 시스템"
+title: "147. Utm Unmanned Aircraft System Traffic Management"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: UTM(Unmanned Aircraft System Traffic [Management](/studynote/12_it_management/05_security_compliance/1013_management/), 무인 비행체 교통 관제 시스템)은 도심 저고도(150m 이하) 공역에서 드론(Drone) 등 무인 항공기(UAS, Unmanned Aircraft System)의 안전한 운항을 관리하는 디지털 항공 교통 관제 체계다.

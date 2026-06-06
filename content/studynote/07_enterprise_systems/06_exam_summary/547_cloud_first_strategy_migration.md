@@ -1,10 +1,9 @@
 ---
-title: "547. 클라우드 퍼스트 전략 마이그레이션 (Cloud First Strategy Migration)"
+title: "Cloud First Strategy Migration"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 퍼스트 전략 마이그레이션은(는) 신규 시스템과 현대화 대상에 클라우드 우선 원칙을 적용해 민첩성과 확장성을 확보하는 전략이다.

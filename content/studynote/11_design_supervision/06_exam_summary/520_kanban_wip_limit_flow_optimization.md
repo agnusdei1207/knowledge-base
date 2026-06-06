@@ -1,10 +1,9 @@
 ---
-title: "520. 칸반 WIP 제한 흐름 최적화 (Kanban WIP Limit Flow Optimization)"
+title: "Kanban WIP Limit Flow Optimization"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

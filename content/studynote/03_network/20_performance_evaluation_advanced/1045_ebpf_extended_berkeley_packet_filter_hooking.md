@@ -1,10 +1,9 @@
 ---
-title: "1045. eBPF 커널 네트워킹 후킹 시스템"
+title: "1045. Ebpf Extended Berkeley Packet Filter Hooking"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

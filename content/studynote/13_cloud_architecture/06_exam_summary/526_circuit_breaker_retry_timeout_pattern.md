@@ -1,10 +1,9 @@
 ---
-title: "526. 서킷 브레이커 재시도 타임아웃 패턴 (Circuit Breaker Retry Timeout Pattern)"
+title: "Circuit Breaker Retry Timeout Pattern"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

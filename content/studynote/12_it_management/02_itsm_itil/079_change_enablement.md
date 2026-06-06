@@ -1,10 +1,9 @@
 ---
-title: "79. 변경 관리 (Change Management / Change Enablement)"
+title: "Change Management / Change Enablement"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 변경 관리 ([Change Management](/studynote/04_software_engineering/01_overview_principles/027_change_management/) / Change Enablement)의 본질은 시스템 수정/업데이트로 인한 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 통제, 모든 변경은 승인을 거침을 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가치와 운영 절차로 연결하는 데 있다.

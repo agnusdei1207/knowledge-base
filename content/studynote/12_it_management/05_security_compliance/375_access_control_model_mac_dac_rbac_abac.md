@@ -1,10 +1,9 @@
 ---
-title: "375. 접근 제어 모델 MAC DAC RBAC ABAC (Access Control Model MAC DAC RBAC ABAC)"
+title: "Access Control Model MAC DAC RBAC ABAC"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

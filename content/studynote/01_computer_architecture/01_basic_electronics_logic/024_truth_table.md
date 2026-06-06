@@ -1,10 +1,9 @@
 ---
-title: "24. 진리표 (Truth Table) — 논리 함수의 완전한 진술"
+title: "024. Truth Table"
 date: "2026-04-29"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 진리표(Truth Table)는 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 함수의 모든 입력 조합에 대한 출력 값을 열거하여 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로·소프트웨어 조건을 완전하고 명확하게 정의하는 형식적 도구다. n개의 입력 변수에 대해 2ⁿ개 행이 필요하다.

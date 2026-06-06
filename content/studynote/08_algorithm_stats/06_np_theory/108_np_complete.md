@@ -1,10 +1,9 @@
 ---
-title: "003. NP-완전 (NP-Complete)"
+title: "NP-Complete"
 date: "2026-04-05"
 tags:
   - "studynote-algorithm-stats"
 ---
-
 
 > **핵심 인사이트**
 > 1. NP-완전(NP-Complete)은 NP 문제 중에서도 "NP에서 가장 어려운" 문제로, 이를 다항시간에 풀 수 있으면 모든 NP 문제를 다항시간에 풀 수 있다는 특성을 가져 P=NP 문제 해결의 열쇠가 된다.

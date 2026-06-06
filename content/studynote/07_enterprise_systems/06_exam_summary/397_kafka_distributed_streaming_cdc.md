@@ -1,10 +1,9 @@
 ---
-title: "397. 카프카 분산 큐 메시지 스트리밍 CDC (Apache Kafka)"
+title: "Apache Kafka"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

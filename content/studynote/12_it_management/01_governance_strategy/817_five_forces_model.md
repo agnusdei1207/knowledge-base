@@ -1,10 +1,9 @@
 ---
-title: "817. 파이브 포스 모델 (Five Forces Model)"
+title: "Five Forces Model"
 date: "2026-04-29"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 파이브 포스 모델([Five Forces](/studynote/12_it_management/01_governance_strategy/023_five_forces/) Model)은 마이클 포터(Michael E. Porter)가 1979년 제시한 산업 구조 분석 프레임워크로, 신규 진입자 위협·공급자 교섭력·구매자 교섭력·대체재 위협·기존 경쟁자 간 경쟁이라는 5가지 힘이 산업의 수익성(Profitability)을 결정한다는 이론이다.

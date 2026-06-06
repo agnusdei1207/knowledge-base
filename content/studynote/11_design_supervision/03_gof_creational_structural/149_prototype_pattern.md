@@ -1,10 +1,9 @@
 ---
-title: "149. 프로토타입 패턴 (Prototype Pattern) - 객체 복제를 통한 생성 최적화"
+title: "149. Prototype Pattern"
 date: "2026-05-03"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [프로토타입](/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) 패턴([Prototype](/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) Pattern)은 클래스에서 `new` 키워드로 인스턴스를 무겁게 처음부터 찍어내는 대신, 이미 완벽하게 세팅된 기존 원본 객체([Prototype](/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/))의 배를 갈라 <strong>세포를 <a href="/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a>(<a href="/studynote/02_operating_system/02_process_thread/149_clone_system_call/">Clone</a>)</strong>하여 새로운 객체를 1초 만에 쑥쑥 복사해 내는 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(Creational) 패턴이다.

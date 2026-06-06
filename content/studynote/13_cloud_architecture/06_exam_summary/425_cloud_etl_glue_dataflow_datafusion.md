@@ -1,10 +1,9 @@
 ---
-title: "425. 클라우드 ETL 글루 데이터플로 데이터퓨전 (Cloud ETL Glue Dataflow DataFusion)"
+title: "Cloud ETL Glue Dataflow DataFusion"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "260. 브리지 (Bridge) - 구현부에서 추상층을 분리"
+title: "260. Bridge Pattern Abstraction Implementation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

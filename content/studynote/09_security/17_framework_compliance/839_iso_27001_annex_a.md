@@ -1,10 +1,9 @@
 ---
-title: "839. ISO 27001 Annex A (보안 통제 항목)"
+title: "839. Iso 27001 Annex A"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

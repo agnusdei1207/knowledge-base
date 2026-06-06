@@ -1,10 +1,9 @@
 ---
-title: "170. 선택도 (Selectivity) / 기수성 (Cardinality) / 분포도 (Distribution)"
+title: "Distribution"
 date: "2026-05-06"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

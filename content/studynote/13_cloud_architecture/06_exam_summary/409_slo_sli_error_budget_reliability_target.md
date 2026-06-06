@@ -1,10 +1,9 @@
 ---
-title: "409. SLO SLI 에러 버짓 신뢰성 목표 (SLO SLI Error Budget Reliability Target)"
+title: "SLO SLI Error Budget Reliability Target"
 date: 2026-05-09
 tags:
   - "studynote-cloud-architecture"
----
-## 핵심 인사이트 (3줄 요약)
+---## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SLO(Service Level Objective)는 **신뢰성을 "허용 가능한 실패량"이라는 수학적 약속**으로 재정의하며, SLI(Service Level Indicator)는 이를 측정하는 **원시 신호(원자 지표)**, 에러 버짓(Error Budget)은 `(1 - SLO) × 측정 기간`으로 산출되는 **신뢰성 화폐(currency of reliability)**다. 이는 Google SRE Workbook이 정의한 **"100% 신뢰성은 비싸고 비현실적이며 잘못된 목표"** 라는 패러다임에서 출발한다.
 > 2. **가치**: 99% vs 99.9% vs 99.99%의 차이는 **월 7.3시간 vs 43.8분 vs 4.38분 다운타임**이며, 마지막 0.09%를 개선하는 비용은 기하급수적으로 증가(추가 인프라 10배~)한다. SLO는 주관적인 "안정성" 논쟁을 제거하고 **데이터 기반 출시(Deployment)/투자/리스크 의사결정**을 가능케 한다.

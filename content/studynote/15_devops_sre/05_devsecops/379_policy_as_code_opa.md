@@ -1,10 +1,9 @@
 ---
-title: "379. 정책 코드화 OPA Rego 거버넌스 자동화 (Policy as Code OPA Rego Kyverno)"
+title: "Policy as Code OPA Rego Kyverno"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

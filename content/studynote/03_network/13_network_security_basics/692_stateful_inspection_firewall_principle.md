@@ -1,10 +1,9 @@
 ---
-title: "692. 상태 기반 감시 (Stateful Inspection / 세션 테이블 체크 메모리) 기술의 원리"
+title: "692. Stateful Inspection Firewall Principle"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

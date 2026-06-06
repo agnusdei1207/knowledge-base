@@ -1,10 +1,9 @@
 ---
-title: "165. SOA vs MSA 차이점 - SOA는 전사적 재사용과 ESB 중앙 파이프 집중 (Smart Pipe, Dumb Endpoint), MSA는 독립 배포/자율적 팀 주도, 메시지 큐 비동기 중심 (Dumb Pipe, Smart Endpoint) 결합"
+title: "165. Soa Vs Msa Architecture"
 date: "2026-05-05"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트
 

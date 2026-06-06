@@ -1,9 +1,8 @@
 ---
-title: "107. MLOps - 머신러닝 생명주기 관리"
+title: "107. Mlops Machine Learning Lifecycle"
 tags:
   - "software_engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [MLOps](/studynote/12_it_management/05_security_compliance/348_mlops/) ([Machine Learning Operations](/studynote/12_it_management/05_security_compliance/220_mlops_machine_learning_operations/))는 실험실에서 만든 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델을 운영 서버에 올리고, 지속적으로 학습시켜 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 부패를 막는 전 과정의 자동화 생태계다.

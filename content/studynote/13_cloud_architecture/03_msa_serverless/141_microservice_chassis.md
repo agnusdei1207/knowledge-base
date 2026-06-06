@@ -1,10 +1,9 @@
 ---
-title: "141. Microservice Chassis - MSA 공통 관심사 프레임워크"
+title: "141. Microservice Chassis"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Microservice Chassis는 <strong>로깅·<a href="/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a>·헬스체크·<a href="/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a>·보안 등 모든 마이크로서비스에 공통으로 필요한 횡단 관심사(Cross-cutting Concerns)를 프레임워크로 제공</strong>하여 보일러플레이트를 제거하는 패턴이다.

@@ -1,10 +1,9 @@
 ---
-title: "65. 로그 및 감사 추적 (Audit Trail) - 위변조 방지 컴플라이언스 점검"
+title: "065. Audit Trail Worm Storage Compliance"
 date: "2026-04-10"
 tags:
   - "studynote-design"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

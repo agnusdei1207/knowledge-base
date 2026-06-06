@@ -1,10 +1,9 @@
 ---
-title: "037. 문서 저장소 (Document Store)"
+title: "Document Store"
 date: "2026-03-03"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 > **핵심 인사이트**
 > 1. 문서 저장소(Document Store)는 [JSON](/studynote/11_design_supervision/06_exam_summary/343_json/)·BSON·XML 형태의 반정형 문서를 고유 ID와 함께 저장하는 [NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/) 데이터베이스로, 스키마를 사전에 정의하지 않아도 다양한 구조의 문서를 유연하게 저장할 수 있다.

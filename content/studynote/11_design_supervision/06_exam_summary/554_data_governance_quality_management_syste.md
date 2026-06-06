@@ -1,10 +1,9 @@
 ---
-title: "554. 데이터 거버넌스 품질 관리 체계 (Data Governance Quality Management System)"
+title: "Data Governance Quality Management System"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

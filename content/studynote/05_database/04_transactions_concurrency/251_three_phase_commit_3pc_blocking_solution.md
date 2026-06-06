@@ -1,10 +1,9 @@
 ---
-title: "251. 3단계 커밋 (3PC, Three-Phase Commit)"
+title: "3PC, Three-Phase Commit"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

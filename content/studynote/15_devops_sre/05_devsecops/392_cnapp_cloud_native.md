@@ -1,10 +1,9 @@
 ---
-title: "392. CNAPP 클라우드 네이티브 보안 통합 플랫폼 (Cloud Native Application Protection Platform CNAPP)"
+title: "Cloud Native Application Protection Platform CNAPP"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

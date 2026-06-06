@@ -1,10 +1,9 @@
 ---
-title: "407. ZKP 영지식 증명 비대화형 (ZKP: Zero-Knowledge Proof)"
+title: "ZKP: Zero-Knowledge Proof"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

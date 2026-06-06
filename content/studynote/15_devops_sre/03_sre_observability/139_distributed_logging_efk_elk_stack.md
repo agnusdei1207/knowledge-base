@@ -1,10 +1,9 @@
 ---
-title: "139. 분산 로깅 (EFK/ELK Stack) - 중앙 집중 로그 관리"
+title: "139. Distributed Logging Efk Elk Stack"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 로깅은 <strong>수십~수백 개 <a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/">마이크로서비스</a>의 <a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>를 중앙 수집·저장·검색하는 시스템</strong>이며, ELK([Elasticsearch](/studynote/05_database/05_distributed_nosql_newsql/302_cdc/)·Logstash·[Kibana](/studynote/16_bigdata/08_visualization/169_kibana/))·EFK([Elasticsearch](/studynote/05_database/05_distributed_nosql_newsql/302_cdc/)·Fluentd·[Kibana](/studynote/16_bigdata/08_visualization/169_kibana/))·[Grafana](/studynote/16_bigdata/08_visualization/168_grafana/) Loki가 대표 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)이다.

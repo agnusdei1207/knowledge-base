@@ -1,10 +1,9 @@
 ---
-title: "341. CDC 트랜잭션 변경 실시간 캡처 DB 이관 (Change Data Capture)"
+title: "Change Data Capture"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

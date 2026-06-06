@@ -1,10 +1,9 @@
 ---
-title: "51. 벤더 종속 (Vendor Lock-in) - 클라우드 아키텍처의 함정"
+title: "051. Vendor Lock In Cloud Computing"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 # 51. 벤더 종속 ([Vendor Lock-in](/studynote/06_ict_convergence/03_cloud_infrastructure/254_cloud_vendor_lock_in_avoidance_portability_multi_cloud/))
 

@@ -1,10 +1,9 @@
 ---
-title: "594. 키-밸류 스토리지 (Key-Value Solid-State Drive)"
+title: "Key-Value Solid-State Drive"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

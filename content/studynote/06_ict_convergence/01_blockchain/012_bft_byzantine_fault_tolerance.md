@@ -1,11 +1,10 @@
 ---
-title: "12. 비잔틴 장애 허용 (BFT, Byzantine Fault Tolerance) - 1/3 미만의 악의적 노드가 있어도 정상 합의 보장"
+title: "012. Bft Byzantine Fault Tolerance"
 date: "2024-05-18"
 description: "1/3 미만의 악의적 노드가 있어도 정상 합의를 보장하는 매커니즘"
 tags:
   - "ict_convergence"
 ---
-
 
 # [비잔틴 장애 허용](/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/) ([BFT](/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/), Byzantine [Fault Tolerance](/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/))
 

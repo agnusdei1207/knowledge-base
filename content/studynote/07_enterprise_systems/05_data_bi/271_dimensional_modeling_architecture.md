@@ -1,10 +1,9 @@
 ---
-title: "271. 다차원 모델링 (Dimensional Modeling) 아키텍처 설계"
+title: "271. Dimensional Modeling Architecture"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

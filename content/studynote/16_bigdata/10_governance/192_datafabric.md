@@ -1,10 +1,9 @@
 ---
-title: "02. 데이터 패브릭 (Data Fabric) - 지능형 데이터 통합 아키텍처"
+title: "192. Datafabric"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"
 ---
-
 
 # [데이터 패브릭](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/) ([Data Fabric](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)) - 지능형 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합 아키텍처
 

@@ -1,11 +1,10 @@
 ---
-title: "6. 정보화 전략 계획 (ISP, Information Strategy Planning) - 전사 비즈니스 목표 달성을 위한 중장기 정보화 마스터플랜"
+title: "006. Information Strategy Plan"
 date: "2026-04-05"
 description: "기업의 비즈니스 전략과 IT 전략을 정렬시키고 중장기 IT 발전 방향을 제시하는 정보화 전략 계획"
 tags:
   - "it_management"
 ---
-
 
 # [정보화 전략 계획](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) ([ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/): Information [Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) Planning)
 

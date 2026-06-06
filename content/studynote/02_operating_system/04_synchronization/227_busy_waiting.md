@@ -1,10 +1,9 @@
 ---
-title: "227. 바쁜 대기 (Busy Waiting)"
+title: "Busy Waiting"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

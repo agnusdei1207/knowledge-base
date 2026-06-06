@@ -1,10 +1,9 @@
 ---
-title: "166. 데코레이터 vs 프록시 (Decorator vs Proxy)"
+title: "Decorator vs Proxy"
 date: "2026-04-21"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

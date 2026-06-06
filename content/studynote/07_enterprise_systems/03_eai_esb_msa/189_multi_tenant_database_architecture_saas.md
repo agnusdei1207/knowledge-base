@@ -1,10 +1,9 @@
 ---
-title: "189. 멀티 테넌트 데이터베이스 아키텍처 (Multi-Tenant Database Architecture) - SaaS 격리 설계"
+title: "189. Multi Tenant Database Architecture Saas"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "554. 트리 구조 매핑 Nested Set 성능 검색 비교 Nested Path 모델"
+title: "554. Tree Mapping Nested Set Vs Path"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "115. Thread 프로토콜 (Thread Protocol) - IPv6 기반 저전력 메시·Matter 핵심 전송 계층"
+title: "115. Thread Protocol Ipv6 Smart Home"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Thread는 IEEE 802.15.4 PHY/[MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 위에 <strong><a href="/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a> + <a href="/studynote/06_ict_convergence/02_iot_mobility/117_6lowpan_iot_ipv6/">6LoWPAN</a></strong>을 구현한 저전력 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 네트워크 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로, 각 디바이스가 <strong>IP 주소를 가져 인터넷과 <a href="/studynote/02_operating_system/02_process_thread/120_direct_communication/">직접 통신</a></strong> 가능하다.

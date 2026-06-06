@@ -1,10 +1,9 @@
 ---
-title: "405. 로키 로그 수집 쿼리 경량 스택 (Loki Log Collection Query Lightweight Stack)"
+title: "Loki Log Collection Query Lightweight Stack"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "570. IT 경영 관리 핵심 토픽 570번 시험 요약 (IT Management Core Topic 570 Exam Summary)"
+title: "IT Management Core Topic 570 Exam Summary"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 # 570. IT 경영 관리 핵심 토픽 570번 시험 요약
 

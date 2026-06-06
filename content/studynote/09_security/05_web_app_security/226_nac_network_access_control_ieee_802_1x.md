@@ -1,10 +1,9 @@
 ---
-title: "226. NAC (Network Access Control) 및 IEEE 802.1X (Network Access Control)"
+title: "Network Access Control"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

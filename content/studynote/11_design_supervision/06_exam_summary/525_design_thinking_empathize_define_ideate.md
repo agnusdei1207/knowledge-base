@@ -1,10 +1,9 @@
 ---
-title: "525. 디자인 씽킹 공감 정의 아이디어 (Design Thinking Empathize Define Ideate)"
+title: "Design Thinking Empathize Define Ideate"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

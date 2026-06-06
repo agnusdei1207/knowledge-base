@@ -1,10 +1,9 @@
 ---
-title: "176. 분산 DB 쿼리 플랜 지연 역추적 (Slow Query Tracing)"
+title: "Slow Query Tracing"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

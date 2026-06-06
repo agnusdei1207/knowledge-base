@@ -1,10 +1,9 @@
 ---
-title: "785. 마이크로서비스 데이터 일관성 결과적 일관성 확보"
+title: "785. Msa Eventual Consistency Data"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "300. 툼스톤 (Tombstone) 메커니즘"
+title: "300. Schema On Write Vs Read"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "563. 탈중앙화 신원 DID 자기주권 신원 (Decentralized Identity DID Self-Sovereign)"
+title: "Decentralized Identity DID Self-Sovereign"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

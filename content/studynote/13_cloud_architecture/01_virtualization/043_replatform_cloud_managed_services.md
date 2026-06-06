@@ -1,10 +1,9 @@
 ---
-title: "043. Re-platform — 클라우드 관리형 서비스 전환"
+title: "043. Replatform Cloud Managed Services"
 date: "2026-04-05"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 > **핵심 인사이트**
 > 1. Re-platform(재플랫폼)은 6R [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 중 Rehost(그대로 이전)와 Re-architect(전면 재설계)의 중간 단계로 — 최소한의 코드 변경으로 클라우드 관리형 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(RDS, EKS, Elastic Beanstalk 등)로 전환하여 운영 부담을 줄이면서 클라우드 이점을 부분적으로 활용한다.

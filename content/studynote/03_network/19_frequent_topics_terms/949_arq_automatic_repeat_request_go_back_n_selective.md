@@ -1,10 +1,9 @@
 ---
-title: "949. 자동 재전송 요구 (ARQ) 선택적/GBN"
+title: "949. Arq Automatic Repeat Request Go Back N Selective"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

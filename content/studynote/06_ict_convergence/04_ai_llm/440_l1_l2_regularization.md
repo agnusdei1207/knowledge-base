@@ -1,10 +1,9 @@
 ---
-title: "440. L1 L2 정규화 페널티 (L1 L2 Regularization)"
+title: "L1 L2 Regularization"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

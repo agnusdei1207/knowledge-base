@@ -1,10 +1,9 @@
 ---
-title: "283. 로라 (LoRA, Low-Rank Adaptation)"
+title: "LoRA, Low-Rank Adaptation"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

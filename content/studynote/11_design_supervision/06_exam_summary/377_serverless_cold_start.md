@@ -1,10 +1,9 @@
 ---
-title: "377. 서버리스 콜드 스타트 (Serverless Cold Start)"
+title: "Serverless Cold Start"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

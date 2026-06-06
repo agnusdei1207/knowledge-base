@@ -1,10 +1,9 @@
 ---
-title: "1030. 시그폭스 (SigFox) 협대역 통신"
+title: "1030. Lpwan Sigfox"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

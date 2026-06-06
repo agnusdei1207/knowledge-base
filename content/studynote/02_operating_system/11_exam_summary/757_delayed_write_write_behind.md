@@ -1,10 +1,9 @@
 ---
-title: "757. 파일 지연 쓰기 (Delayed Write)"
+title: "Delayed Write"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

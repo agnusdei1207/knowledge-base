@@ -1,9 +1,8 @@
 ---
-title: "08. 엔터프라이즈 핀옵스 (FinOps)"
+title: "Enterprise Systems"
 tags:
   - "enterprise_systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

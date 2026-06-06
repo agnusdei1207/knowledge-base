@@ -1,10 +1,9 @@
 ---
-title: "112. 서버리스 K8s (Serverless Kubernetes) - AWS Fargate·Azure ACI·Virtual Kubelet"
+title: "112. Serverless Kubernetes Fargate"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) K8s는 <strong>노드(서버) 관리 없이 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/">파드</a>만 선언하면 클라우드가 자동으로 컴퓨팅 자원을 할당</strong>하는 모델로, K8s의 [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) API를 유지하면서 노드 [프로비저닝](/studynote/09_security/11_iam_access_control/528_provisioning/)·패치·[스케일링](/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 부담을 제거한다.

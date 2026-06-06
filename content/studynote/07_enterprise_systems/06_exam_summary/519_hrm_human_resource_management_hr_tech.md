@@ -1,10 +1,9 @@
 ---
-title: "519. HRM 인적 자원 관리 HR 테크 (HRM Human Resource Management HR Tech)"
+title: "HRM Human Resource Management HR Tech"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

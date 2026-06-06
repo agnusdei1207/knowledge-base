@@ -1,10 +1,9 @@
 ---
-title: "037. 클라우드 브로커와 MSP (Cloud Broker & MSP)"
+title: "Cloud Broker & MSP"
 date: "2026-03-03"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 > **핵심 인사이트**
 > 1. 클라우드 브로커(Cloud Broker)는 기업과 클라우드 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자([CSP](/studynote/09_security/05_web_app_security/475_csp/)) 사이에서 중개·통합·조율 역할을 하는 존재로, NIST [SP](/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) 800-145에서 5가지 역할 중 하나로 정의되어 있다.

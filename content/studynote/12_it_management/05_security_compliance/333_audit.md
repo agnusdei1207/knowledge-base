@@ -1,10 +1,9 @@
 ---
-title: "333. 시큐어 코딩 47개 취약점 진단 점검"
+title: "333. Audit"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [시큐어 코딩](/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) 47개 취약점 진단 점검의 본질은 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/), 역할, 통제, 증빙이 같은 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/) 위에서 움직여야 경영 리스크와 실행 속도를 동시에 관리할 수 있다.

@@ -1,10 +1,9 @@
 ---
-title: "온디맨드·예약·스팟 인스턴스 (On-Demand · Reserved · Spot Instances)"
+title: "On-Demand · Reserved · Spot Instances"
 date: "2026-03-04"
 tags:
   - "studynote-cloud"
 ---
-
 
 > **핵심 인사이트 3줄**
 > 1. AWS EC2 인스턴스 구매 옵션은 온디맨드(즉시·고비용)·예약(약정·할인)·스팟(잉여 자원·최저가·중단 가능) 3가지로, 워크로드 특성에 맞는 조합이 클라우드 비용 최적화의 핵심이다.

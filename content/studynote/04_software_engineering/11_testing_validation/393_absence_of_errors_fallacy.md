@@ -1,10 +1,9 @@
 ---
-title: "393. 오류 부재의 궤변 (Absence of Errors Fallacy)"
+title: "Absence of Errors Fallacy"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

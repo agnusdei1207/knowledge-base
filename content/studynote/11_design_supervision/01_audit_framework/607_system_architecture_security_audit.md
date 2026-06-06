@@ -1,10 +1,9 @@
 ---
-title: "607. 시스템 아키텍처/보안 영역 감리 (System Architecture and Security Audit)"
+title: "System Architecture and Security Audit"
 date: "2026-05-08"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

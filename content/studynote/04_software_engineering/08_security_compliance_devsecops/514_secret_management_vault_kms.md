@@ -1,10 +1,9 @@
 ---
-title: "514. 시크릿(Secret) 관리 도구 - 하드코딩 금지, HashiCorp Vault, AWS Secrets Manager 활용"
+title: "514. Secret Management Vault Kms"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

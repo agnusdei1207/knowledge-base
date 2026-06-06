@@ -1,10 +1,9 @@
 ---
-title: "380. 텐서플로우/파이토치 계산 그래프 지연 실행(Lazy) vs 즉시 실행(Eager/Dynamic) 모드 차이 (Computational Graph)"
+title: "Computational Graph"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

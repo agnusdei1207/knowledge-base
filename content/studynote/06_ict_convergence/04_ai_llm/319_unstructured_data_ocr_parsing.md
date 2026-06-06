@@ -1,10 +1,9 @@
 ---
-title: "319. 데이터 파이프라인 내 비정형 데이터 OCR 및 LLM 문서 파싱 파이프라인 (ETL)"
+title: "ETL"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "450. MTBF (평균 무고장 시간)"
+title: "450. Mtbf"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "17. 신뢰 구간 (Confidence Interval) — 모수 추정의 불확실성"
+title: "146. Confidence Interval"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트
 

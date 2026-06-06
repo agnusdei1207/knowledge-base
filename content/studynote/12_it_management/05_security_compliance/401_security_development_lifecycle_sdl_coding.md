@@ -1,10 +1,9 @@
 ---
-title: "401. 보안 개발 생명주기 SDL 보안 코딩 (Security Development Lifecycle SDL Coding)"
+title: "Security Development Lifecycle SDL Coding"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

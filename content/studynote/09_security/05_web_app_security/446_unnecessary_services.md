@@ -1,10 +1,9 @@
 ---
-title: "446. 불필요한 서비스 및 포트 (Unnecessary Services & Ports)"
+title: "Unnecessary Services & Ports"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

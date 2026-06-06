@@ -1,11 +1,10 @@
 ---
-title: "7. 보안 정책 (Security Policy)"
+title: "Security Policy"
 date: "2026-03-26"
 description: "조직의 정보보안을 규율하는 정책과 표준"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 # 보안 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) ([Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) [Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/))
 

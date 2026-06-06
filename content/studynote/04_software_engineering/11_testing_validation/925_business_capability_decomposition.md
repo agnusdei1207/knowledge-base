@@ -1,10 +1,9 @@
 ---
-title: "925. 비즈니스 능력에 따른 분해"
+title: "925. Business Capability Decomposition"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

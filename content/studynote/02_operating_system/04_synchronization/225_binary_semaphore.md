@@ -1,10 +1,9 @@
 ---
-title: "225. 이진 세마포어 (Binary Semaphore)"
+title: "Binary Semaphore"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

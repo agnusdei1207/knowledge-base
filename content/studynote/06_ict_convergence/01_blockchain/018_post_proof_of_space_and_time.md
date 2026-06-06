@@ -1,11 +1,10 @@
 ---
-title: "18. 공간/시간 증명 (PoST, Proof of Space and Time) - 스토리지 자원 증명 (Chia Network)"
+title: "Chia Network"
 date: "2026-03-04"
 description: "디스크 공간(Space)과 데이터를 유지한 시간(Time)을 증명하여 블록 생성 권한을 획득하는 친환경·분산형 스토리지 기반 합의 알고리즘"
 tags:
   - "ict_convergence"
 ---
-
 
 # 18. 공간 및 시간 증명 (PoST, Proof of Space and Time)
 

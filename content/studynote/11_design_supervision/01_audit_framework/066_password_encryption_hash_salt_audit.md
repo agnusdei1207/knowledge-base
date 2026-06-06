@@ -1,10 +1,9 @@
 ---
-title: "66. 비밀번호 암호화 저장 방식 (단방향 해시 및 솔팅) 감리"
+title: "066. Password Encryption Hash Salt Audit"
 date: "2026-04-10"
 tags:
   - "studynote-design"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

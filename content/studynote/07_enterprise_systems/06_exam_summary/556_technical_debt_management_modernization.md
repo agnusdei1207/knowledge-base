@@ -1,10 +1,9 @@
 ---
-title: "556. 기술 부채 관리 현대화 전략 (Technical Debt Management Modernization)"
+title: "Technical Debt Management Modernization"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 기술 부채 관리 현대화은(는) 단기 의사결정으로 누적된 구조적 결함을 식별하고 우선순위에 따라 상환하는 관리 활동이다.

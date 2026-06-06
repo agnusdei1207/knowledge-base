@@ -1,10 +1,9 @@
 ---
-title: "76. 가치 흐름 매핑 (Value Stream Mapping) - Lean 기법, 낭비(Muda) 요소 식별 제거"
+title: "076. Value Stream Mapping Lean"
 date: "2026-04-07"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "206. 아파치 스파크 (Apache Spark) 인메모리 RDD 지연 평가 계보"
+title: "206. Spark Inmemory Rdd Lazy Evaluation Lineage"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Apache Spark의 [RDD](/studynote/13_cloud_architecture/05_data_engineering/310_audit/) ([Resilient Distributed Dataset](/studynote/14_data_engineering/01_infrastructure/025_spark_rdd_resilient_distributed_dataset/))는 불변성(Immutability)·[분산](/studynote/08_algorithm_stats/08_stats/136_variance/)성(Distribution)·내결함성([Fault Tolerance](/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/))을 가진 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 컬렉션으로, [지연 평가](/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)([Lazy Evaluation](/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/))와 [DAG](/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) ([Directed Acyclic Graph](/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/)) [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)를 통해 [MapReduce](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 대비 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~100배 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 달성한다.

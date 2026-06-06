@@ -1,10 +1,9 @@
 ---
-title: "441. 클라크-윌슨 무결 트랜잭션 접근 제어 모델 (Clark-Wilson Integrity Model)"
+title: "Clark-Wilson Integrity Model"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

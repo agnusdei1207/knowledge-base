@@ -1,10 +1,9 @@
 ---
-title: "282. 성능 (Performance) - 자원 요구 관리, 자원 관리, 스케줄링 전술"
+title: "282. Performance Tactics"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

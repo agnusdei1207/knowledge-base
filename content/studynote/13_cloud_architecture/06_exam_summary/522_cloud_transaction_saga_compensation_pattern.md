@@ -1,10 +1,9 @@
 ---
-title: "522. 클라우드 트랜잭션 사가 보상 패턴 (Cloud Transaction Saga Compensation Pattern)"
+title: "Cloud Transaction Saga Compensation Pattern"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "15. Kafka MirrorMaker 2 — 클러스터 간 복제 및 DR"
+title: "090. Kafka Mirrormaker2"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

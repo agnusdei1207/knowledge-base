@@ -1,10 +1,9 @@
 ---
-title: "470. 클라우드 성능 최적화 레이턴시 처리량 (Cloud Performance Optimization Latency Throughput)"
+title: "Cloud Performance Optimization Latency Throughput"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "OCP (Open-Closed Principle, 개방-폐쇄 원칙)"
+title: "Open-Closed Principle, -"
 date: "2026-03-04"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

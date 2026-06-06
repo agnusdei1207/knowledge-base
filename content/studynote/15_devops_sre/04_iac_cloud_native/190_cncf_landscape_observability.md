@@ -1,10 +1,9 @@
 ---
-title: "190. 클라우드 네이티브 생태계 (CNCF) Landscape 진화 방향 (Observability 통일화)"
+title: "Observability"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

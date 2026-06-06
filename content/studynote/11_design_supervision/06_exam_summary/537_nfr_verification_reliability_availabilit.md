@@ -1,10 +1,9 @@
 ---
-title: "537. 비기능 요구사항 검증 신뢰성 가용성 (NFR Verification Reliability Availability)"
+title: "NFR Verification Reliability Availability"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

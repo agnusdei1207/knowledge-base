@@ -1,10 +1,9 @@
 ---
-title: "745. 데이터옵스 파이프라인 자동화 품질 (DataOps Pipeline Automation Quality)"
+title: "DataOps Pipeline Automation Quality"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

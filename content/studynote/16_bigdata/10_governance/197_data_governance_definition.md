@@ -1,10 +1,9 @@
 ---
-title: "191. 데이터 거버넌스 정의 (Data Governance Definition) — 데이터 소유·관리·사용 원칙 체계"
+title: "197. Data Governance Definition"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

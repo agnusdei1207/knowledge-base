@@ -1,10 +1,9 @@
 ---
-title: "403. 분산 합의 PoW PoS BFT 알고리즘 (Distributed Consensus)"
+title: "Distributed Consensus"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

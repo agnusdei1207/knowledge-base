@@ -1,10 +1,9 @@
 ---
-title: "646. RAG 검색 증강 생성 벡터 검색 (RAG Retrieval Augmented Generation Vector Search)"
+title: "RAG Retrieval Augmented Generation Vector Search"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

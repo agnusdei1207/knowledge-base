@@ -1,10 +1,9 @@
 ---
-title: "179. BCI (Brain-Computer Interface) - 뇌파를 직접 인식하여 기계를 제어하는 신경망 인터페이스 기술 (뉴럴링크)"
+title: "179. Bci Brain Computer Interface"
 date: "2026-05-06"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

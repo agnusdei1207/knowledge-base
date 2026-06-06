@@ -1,10 +1,9 @@
 ---
-title: "531. 분산 환경 2PC 블로킹 한계 코디네이터 다운"
+title: "531. Distributed 2Pc Blocking Coordinator"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

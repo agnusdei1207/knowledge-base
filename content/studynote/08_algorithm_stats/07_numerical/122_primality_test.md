@@ -1,10 +1,9 @@
 ---
-title: "003. 소수 판별 — Primality Test"
+title: "122. Primality Test"
 date: "2026-04-05"
 tags:
   - "studynote-algorithm-stats"
 ---
-
 
 > **핵심 인사이트**
 > 1. 소수 판별(Primality Test)의 기본 최적화는 √N까지만 나눗셈을 시도하는 것 — N이 합성수라면 N=a×b에서 min(a,b) ≤ √N이 항상 성립하므로, √N 이하의 약수가 없으면 소수다.

@@ -1,10 +1,9 @@
 ---
-title: "619. 사가 (Saga) 패턴 2PC 한계 극복 분산 트랜잭션"
+title: "619. Saga Pattern Distributed Transaction"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

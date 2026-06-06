@@ -1,10 +1,9 @@
 ---
-title: "737. 서멀 페이스트 (TIM)"
+title: "TIM"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

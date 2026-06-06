@@ -1,10 +1,9 @@
 ---
-title: "742. 인텐트 기반 네트워킹 IBN 자동화 (Intent Based Networking IBN Automation)"
+title: "Intent Based Networking IBN Automation"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

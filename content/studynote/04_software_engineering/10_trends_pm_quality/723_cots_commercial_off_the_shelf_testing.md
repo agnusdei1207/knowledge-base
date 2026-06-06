@@ -1,10 +1,9 @@
 ---
-title: "723. COTS 상용 기성품 통합 테스팅"
+title: "723. Cots Commercial Off The Shelf Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

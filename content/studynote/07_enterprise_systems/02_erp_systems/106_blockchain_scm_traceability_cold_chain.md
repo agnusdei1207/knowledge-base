@@ -1,9 +1,8 @@
 ---
-title: "106. 블록체인 SCM 이력 추적 - 물류 운송 단계별 콜드체인 온도 및 조작 불가 원장 저장"
+title: "106. Blockchain Scm Traceability Cold Chain"
 tags:
   - "enterprise_systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

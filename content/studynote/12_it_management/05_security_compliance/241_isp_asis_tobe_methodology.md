@@ -1,10 +1,9 @@
 ---
-title: "241. 정보화 전략 계획 (ISP) AS-IS / TO-BE"
+title: "241. Isp Asis Tobe Methodology"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [정보화 전략 계획](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) ([ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/)) [AS-IS](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) / TO-BE의 본질은 현행 구조, 목표 구조, 전환 과제의 추적성이 확보되어야 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서가 실제 투자와 아키텍처 변화로 이어진다.

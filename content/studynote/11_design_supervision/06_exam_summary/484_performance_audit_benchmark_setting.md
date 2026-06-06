@@ -1,10 +1,9 @@
 ---
-title: "484. 성능 감리 벤치마크 기준 설정 (Performance Audit Benchmark Setting)"
+title: "Performance Audit Benchmark Setting"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

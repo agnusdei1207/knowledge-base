@@ -1,10 +1,9 @@
 ---
-title: "300. 벡터 인덱싱 (ANN: Approximate Nearest Neighbor)"
+title: "ANN: Approximate Nearest Neighbor"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

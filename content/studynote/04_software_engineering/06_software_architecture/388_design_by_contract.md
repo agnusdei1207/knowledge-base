@@ -1,10 +1,9 @@
 ---
-title: "388. 디자인 바이 컨트랙트 (Design by Contract) - 사전조건, 사후조건, 불변조건 명시"
+title: "388. Design By Contract"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

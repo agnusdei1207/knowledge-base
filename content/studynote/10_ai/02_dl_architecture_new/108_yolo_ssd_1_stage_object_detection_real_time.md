@@ -1,10 +1,9 @@
 ---
-title: "108. YOLO와 SSD (1-Stage 객체 탐지)"
+title: "1-Stage"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: YOLO(You Only Look Once)와 [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)(Single Shot MultiBox Detector)는 이미지를 여러 번 쪼개어 판독하던 기존 2-Stage 방식의 치명적인 속도 저하를 극복하기 위해, 단 한 번의 딥러닝 망([CNN](/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)) 통과만으로 객체의 위치(Bounding Box)와 종류(Class)를 동시에 예측하는 1-Stage [객체 탐지](/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/) 아키텍처다.

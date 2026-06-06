@@ -1,10 +1,9 @@
 ---
-title: "856. OpenFlow 플로우 테이블"
+title: "856. Openflow Flow Table Match Action Stats"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

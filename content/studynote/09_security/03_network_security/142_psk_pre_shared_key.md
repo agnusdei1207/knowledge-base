@@ -1,10 +1,9 @@
 ---
-title: "142. PSK (Pre-Shared Key, 사전 공유 키)"
+title: "Pre-Shared Key,"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

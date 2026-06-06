@@ -1,10 +1,9 @@
 ---
-title: "11. 마르코프 체인 (Markov Chain) — 전이 확률, 정상 분포"
+title: "140. Markov Chain"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트
 

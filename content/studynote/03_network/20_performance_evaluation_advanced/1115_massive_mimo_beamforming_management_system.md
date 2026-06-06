@@ -1,10 +1,9 @@
 ---
-title: "1115. Massive MIMO 빔 관리 시스템"
+title: "1115. Massive Mimo Beamforming Management System"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

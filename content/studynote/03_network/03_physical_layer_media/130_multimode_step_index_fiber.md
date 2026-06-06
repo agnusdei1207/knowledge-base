@@ -1,10 +1,9 @@
 ---
-title: "130. 멀티모드 계단형 광섬유 (Multi-mode Step-index)"
+title: "Multi-mode Step-index"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "223. CSI (Container Storage Interface) 퍼시스턴트 볼륨(PV/PVC) 동적 스토리지 할당"
+title: "223. Csi Container Storage Interface Pv"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

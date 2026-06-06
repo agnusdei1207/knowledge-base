@@ -1,10 +1,9 @@
 ---
-title: "802. 데이터센터 Spine-Leaf 아키텍처"
+title: "802. Spine Leaf Architecture Data Center East West"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

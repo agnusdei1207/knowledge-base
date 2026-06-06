@@ -1,10 +1,9 @@
 ---
-title: "536. 샤드 키 불균형 데이터 핫스팟 현상 대처"
+title: "536. Shard Key Hotspot Imbalance"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

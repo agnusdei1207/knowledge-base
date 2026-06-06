@@ -1,10 +1,9 @@
 ---
-title: "241. 디자인 씽킹 5단계 (Design Thinking: Empathize·Define·Ideate·Prototype·Test)"
+title: "Design Thinking: Empathize·Define·Ideate·Prototype·Test"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

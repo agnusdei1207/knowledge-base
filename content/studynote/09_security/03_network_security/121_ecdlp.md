@@ -1,10 +1,9 @@
 ---
-title: "121. ECDLP (타원곡선 이산 대수 문제)"
+title: "121. Ecdlp"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

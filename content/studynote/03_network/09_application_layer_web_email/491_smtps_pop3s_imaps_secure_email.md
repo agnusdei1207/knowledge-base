@@ -1,10 +1,9 @@
 ---
-title: "491. SMTPS, POP3S, IMAPS (보안 캡슐화)"
+title: "491. Smtps Pop3S Imaps Secure Email"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

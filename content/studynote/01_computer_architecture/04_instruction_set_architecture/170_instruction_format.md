@@ -1,10 +1,9 @@
 ---
-title: "170. 명령어 형식 (Instruction Format)"
+title: "Instruction Format"
 date: "2026-03-19"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

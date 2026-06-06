@@ -1,10 +1,9 @@
 ---
-title: "268. 카나리 분석기 (Canary Analysis) 자동화"
+title: "268. Canary Analysis Cpu Spinnaker Kayenta"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

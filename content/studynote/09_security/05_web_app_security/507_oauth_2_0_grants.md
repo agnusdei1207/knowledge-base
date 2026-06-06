@@ -1,10 +1,9 @@
 ---
-title: "507. OAuth 2.0 4가지 Grant (OAUTH 2 0 Grants)"
+title: "OAUTH 2 0 Grants"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,9 +1,8 @@
 ---
-title: "58. 데이터베이스 인스턴스 (Database Instance) - 메모리와 백그라운드 프로세스"
+title: "058. Database Instance Architecture"
 tags:
   - "database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

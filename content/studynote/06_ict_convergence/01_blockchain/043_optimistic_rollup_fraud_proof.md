@@ -1,10 +1,9 @@
 ---
-title: "043. 옵티미스틱 롤업 & 사기 증명 (Optimistic Rollup & Fraud Proof)"
+title: "Optimistic Rollup & Fraud Proof"
 date: "2026-04-05"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 > **핵심 인사이트**
 > 1. 옵티미스틱 [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)(Optimistic [Rollup](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/))은 "일단 믿고, 문제 있으면 증명"하는 낙관적 가정으로 설계된 이더리움 Layer 2 확장 솔루션으로 — ZK [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)과 달리 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 유효성 증명을 즉시 생성하지 않아 [가스](/studynote/06_ict_convergence/01_blockchain/024_gas/) 비용이 낮지만, 출금 시 7일 이의제기 기간(Challenge Period)이 발생한다.

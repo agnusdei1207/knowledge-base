@@ -1,10 +1,9 @@
 ---
-title: "521. RPA 업무 자동화 봇 관리 전략 (RPA Business Automation Bot Management)"
+title: "RPA Business Automation Bot Management"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "28. BCG 매트릭스 (BCG Matrix)"
+title: "BCG Matrix"
 date: "2026-04-29"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: BCG 매트릭스(Boston Consulting Group Matrix)는 시장 성장률(Market Growth Rate)과 상대적 시장 점유율(Relative Market Share)로 사업 단위(SBU)를 Star, Cash [Cow](/studynote/02_operating_system/09_file_system/542_cow_file_system/), Question Mark, Dog 4개 사분면으로 분류하는 포트폴리오 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 도구다.

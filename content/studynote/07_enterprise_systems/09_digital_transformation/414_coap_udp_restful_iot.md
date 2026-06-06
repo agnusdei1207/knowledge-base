@@ -1,10 +1,9 @@
 ---
-title: "414. CoAP UDP RESTful P2P IoT 경량 프로토콜 (CoAP)"
+title: "CoAP"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

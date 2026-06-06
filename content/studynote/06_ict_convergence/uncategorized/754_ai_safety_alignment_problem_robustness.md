@@ -1,10 +1,9 @@
 ---
-title: "754. AI 안전 정렬 문제 강건성 검증 (AI Safety Alignment Problem Robustness)"
+title: "AI Safety Alignment Problem Robustness"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "437. 미니배치 SGD 확률 하강 (Minibatch SGD)"
+title: "Minibatch SGD"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

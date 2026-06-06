@@ -1,10 +1,9 @@
 ---
-title: "257. 앙상블 (Ensemble) 학습"
+title: "257. Ensemble Learning"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

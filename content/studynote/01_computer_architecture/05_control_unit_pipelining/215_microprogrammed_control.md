@@ -1,10 +1,9 @@
 ---
-title: "215. 마이크로프로그래밍 (Microprogrammed Control)"
+title: "Microprogrammed Control"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

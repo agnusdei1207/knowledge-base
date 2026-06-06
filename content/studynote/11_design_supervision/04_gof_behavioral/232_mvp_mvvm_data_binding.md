@@ -1,10 +1,9 @@
 ---
-title: "232. MVP/MVVM 데이터 바인딩 (MVP/MVVM Data Binding)"
+title: "MVP/MVVM Data Binding"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

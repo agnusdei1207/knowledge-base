@@ -1,10 +1,9 @@
 ---
-title: "282. KMS 지식 관리 암묵지 형식지 SECI 모델"
+title: "282. Kms Seci"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [KMS](/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/) 지식 관리 암묵지 [형식지](/studynote/07_enterprise_systems/02_erp_systems/129_explicit_knowledge_formalization/) SECI 모델의 본질은 자산, 위협, [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 통제, 운영 증적이 한 체계로 연결되어야 보안과 규제 대응이 일회성 캠페인으로 끝나지 않는다.

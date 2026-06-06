@@ -1,10 +1,9 @@
 ---
-title: "487. 클라우드 파일 스토리지 EFS NFS 공유 (Cloud File Storage EFS NFS Shared)"
+title: "Cloud File Storage EFS NFS Shared"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

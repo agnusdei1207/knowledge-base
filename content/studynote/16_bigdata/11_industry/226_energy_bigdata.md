@@ -1,10 +1,9 @@
 ---
-title: "221. 에너지 빅데이터 (Energy Big Data) — 전력수요예측/신재생에너지/스마트미터"
+title: "226. Energy Bigdata"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

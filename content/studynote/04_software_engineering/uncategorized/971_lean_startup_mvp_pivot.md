@@ -1,10 +1,9 @@
 ---
-title: "971. 린 스타트업 MVP 피벗 사이클"
+title: "971. Lean Startup Mvp Pivot"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

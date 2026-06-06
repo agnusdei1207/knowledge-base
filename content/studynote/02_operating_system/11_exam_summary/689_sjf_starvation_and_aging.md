@@ -1,10 +1,9 @@
 ---
-title: "689. SJF 기아 (Starvation) 발생"
+title: "689. Sjf Starvation And Aging"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

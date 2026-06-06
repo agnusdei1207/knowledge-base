@@ -1,10 +1,9 @@
 ---
-title: "418. 서비스 디자인 서비스 블루프린트 (Service Design Service Blueprint)"
+title: "Service Design Service Blueprint"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "268. 기준 정보 관리 (MDM)"
+title: "MDM"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

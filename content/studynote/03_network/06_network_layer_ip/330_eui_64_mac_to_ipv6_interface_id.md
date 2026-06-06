@@ -1,10 +1,9 @@
 ---
-title: "330. EUI-64 (MAC 기반 IPv6 호스트 주소 자동생성)"
+title: "MAC IPv6"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

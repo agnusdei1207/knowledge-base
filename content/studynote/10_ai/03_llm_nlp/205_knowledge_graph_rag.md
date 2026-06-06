@@ -1,10 +1,9 @@
 ---
-title: "205. 지식 그래프 (Knowledge Graph) 지능형 연계"
+title: "205. Knowledge Graph Rag"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

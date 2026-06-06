@@ -1,10 +1,9 @@
 ---
-title: "858. 소프트웨어 정의 데이터센터 (SDDC)"
+title: "SDDC"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

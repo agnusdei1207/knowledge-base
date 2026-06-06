@@ -1,10 +1,9 @@
 ---
-title: "297. 인프라스트럭처 애즈 코드 테라폼 멱등성 (IaC)"
+title: "IaC"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [인프라스트럭처 애즈 코드](/studynote/12_it_management/05_security_compliance/207_iac_terraform_immutable_infrastructure/) [테라폼](/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) [멱등성](/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)는 클라우드 시스템에서 복잡한 운영의 질서화를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.

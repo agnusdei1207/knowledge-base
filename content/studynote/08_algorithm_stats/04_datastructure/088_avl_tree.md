@@ -1,10 +1,9 @@
 ---
-title: "31. AVL 트리 — 자가 균형 이진 탐색 트리"
+title: "088. Avl Tree"
 date: "2026-04-29"
 tags:
   - "studynote-algorithm-stats"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: AVL 트리는 모든 노드에서 왼쪽·오른쪽 서브트리 높이 차이(Balance Factor)가 최대 1인 자가 균형(Self-balancing) BST([Binary Search](/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) Tree)다. Adelson-Velsky & Landis(1962)가 발명했다.

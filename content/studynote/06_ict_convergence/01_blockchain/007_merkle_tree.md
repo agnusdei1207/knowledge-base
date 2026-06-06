@@ -1,9 +1,8 @@
 ---
-title: "7. 머클 트리 (Merkle Tree / Hash Tree) - 트랜잭션 무결성 검증을 위한 해시 트리"
+title: "007. Merkle Tree"
 tags:
   - "ict_convergence"
 ---
-
 
 # 07. 머클 트리 (Merkle Tree)
 

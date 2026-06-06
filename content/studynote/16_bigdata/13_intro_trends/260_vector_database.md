@@ -1,10 +1,9 @@
 ---
-title: "048. 벡터 데이터베이스 — Vector Database"
+title: "260. Vector Database"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"
 ---
-
 
 > **핵심 인사이트**
 > 1. [벡터 데이터베이스](/studynote/12_it_management/05_security_compliance/223_vector_database_embedding/)([Vector Database](/studynote/12_it_management/05_security_compliance/223_vector_database_embedding/))는 고차원 벡터 [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)을 저장하고 근사 최근접 이웃([ANN](/studynote/05_database/06_dw_olap_trends/350_ann/)) 검색을 수행하도록 특화된 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) — [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)·이미지 인식·[추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/)에서 "의미적으로 유사한 항목을 빠르게 찾는" 핵심 인프라가 되었다.

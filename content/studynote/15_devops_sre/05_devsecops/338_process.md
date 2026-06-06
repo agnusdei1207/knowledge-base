@@ -1,10 +1,9 @@
 ---
-title: "338. Platform 엔진ering IDP Golden Path 개발자 경험 (Platform 엔진ering Internal Developer Platform Golden Path Backstage DX)"
+title: "Platform ering Internal Developer Platform Golden Path Backstage DX"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

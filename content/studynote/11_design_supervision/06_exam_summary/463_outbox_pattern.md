@@ -1,10 +1,9 @@
 ---
-title: "463. 아웃박스 패턴 메시지 보장 (Outbox Pattern Message Guarantee)"
+title: "Outbox Pattern Message Guarantee"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

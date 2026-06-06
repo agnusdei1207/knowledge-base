@@ -1,10 +1,9 @@
 ---
-title: "281. OLAP 연산 (Drill-down, Roll-up, Slice, Dice, Pivot)"
+title: "Drill-down, Roll-up, Slice, Dice, Pivot"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

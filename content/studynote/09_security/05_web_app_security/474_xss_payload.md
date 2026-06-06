@@ -1,10 +1,9 @@
 ---
-title: "474. XSS 페이로드 (Cross-Site Scripting)"
+title: "Cross-Site Scripting"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

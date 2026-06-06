@@ -1,10 +1,9 @@
 ---
-title: "271. CIR (Committed Information Rate) / FECN, BECN 혼잡 알림"
+title: "271. Cir Fecn Becn Congestion Notification"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

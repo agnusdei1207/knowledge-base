@@ -1,10 +1,9 @@
 ---
-title: "Apache Hive: 하둡 기반의 SQL 온 하둡(SQL-on-Hadoop) 데이터 웨어하우스"
+title: "036. Apache Hive Sql Interface"
 date: "2026-03-04"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 - 복잡한 자바 [맵리듀스](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 코드를 작성하지 않고도, 표준 SQL과 유사한 HiveQL을 통해 대규모 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 질의할 수 있는 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층임.

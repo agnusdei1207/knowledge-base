@@ -1,10 +1,9 @@
 ---
-title: "920. 난독화 (Obfuscation) 및 안티 디버깅 (Anti-debugging)"
+title: "Anti-debugging"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

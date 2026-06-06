@@ -1,10 +1,9 @@
 ---
-title: "686. MAC-then-Encrypt 패러다임 / AEAD 전환 보안 구조"
+title: "686. Mac Then Encrypt Vs Aead"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "192. 엣지 AI 컴파일러 (Edge AI - ONNX, TensorRT) 모델 직렬화 패키징 배포망"
+title: "192. Edge Ai Onnx Tensorrt Model Serialization"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 엣지 AI는 모델을 클라우드 대신 엣지 디바이스에서 추론하여 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없는 실시간 처리와 오프라인 동작을 실현한다.

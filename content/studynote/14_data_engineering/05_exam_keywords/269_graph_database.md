@@ -1,10 +1,9 @@
 ---
-title: "269. 그래프 데이터베이스 관계 모델링 지식 그래프 (Graph Database Knowledge Graph Neo4j)"
+title: "Graph Database Knowledge Graph Neo4j"
 date: "2026-05-09"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

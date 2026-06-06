@@ -1,10 +1,9 @@
 ---
-title: "458. TLS 1.3 기본 내장"
+title: "458. Quic Tls 1 3 Integration"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

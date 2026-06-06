@@ -1,10 +1,9 @@
 ---
-title: "699. 뮤텍스 락 (Mutex Lock)"
+title: "Mutex Lock"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

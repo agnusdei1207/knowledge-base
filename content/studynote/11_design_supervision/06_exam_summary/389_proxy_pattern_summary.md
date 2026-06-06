@@ -1,10 +1,9 @@
 ---
-title: "389. 프록시 패턴 (Proxy Pattern)"
+title: "Proxy Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

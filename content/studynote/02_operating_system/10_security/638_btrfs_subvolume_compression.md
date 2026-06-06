@@ -1,10 +1,9 @@
 ---
-title: "638. Btrfs 서브볼륨 및 압축/암호화 통합 커널 파일 시스템 동향 (Btrfs Subvolume Compression)"
+title: "Btrfs Subvolume Compression"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

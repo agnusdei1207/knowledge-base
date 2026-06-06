@@ -1,10 +1,9 @@
 ---
-title: "044. 셸 — Shell"
+title: "044. Shell"
 date: "2026-04-05"
 tags:
   - "studynote-operating-system"
 ---
-
 
 > **핵심 인사이트**
 > 1. 셸(Shell)은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)과 사용자 사이의 인터페이스로 — 사용자의 명령을 해석·실행하는 명령 해석기([Command](/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) [Interpreter](/studynote/04_software_engineering/05_devops_ci_cd/277_interpreter_pattern/))이며, 이름처럼 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 감싸는 "껍데기" 역할을 한다.

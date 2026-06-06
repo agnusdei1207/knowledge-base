@@ -1,10 +1,9 @@
 ---
-title: "635. GPU 클라우드 AI 인프라 최적화 (GPU Cloud AI Infrastructure Optimization)"
+title: "GPU Cloud AI Infrastructure Optimization"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

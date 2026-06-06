@@ -1,10 +1,9 @@
 ---
-title: "82. 프로세스 메모리 구조 - Text(Code), Data, BSS, Heap, Stack"
+title: "082. Process Memory Structure"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

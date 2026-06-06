@@ -1,10 +1,9 @@
 ---
-title: "957. SCD 데이터 이력 유지 방식 (Type 2 로우 추가)"
+title: "Type 2"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [SCD](/studynote/07_enterprise_systems/05_data_bi/277_scd_slowly_changing_dimension_modeling/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이력 유지 방식 (Type 2 로우 추가)의 본질은 자산, 위협, [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 통제, 운영 증적이 한 체계로 연결되어야 보안과 규제 대응이 일회성 캠페인으로 끝나지 않는다.

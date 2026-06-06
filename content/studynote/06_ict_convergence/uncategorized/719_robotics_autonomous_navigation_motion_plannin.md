@@ -1,10 +1,9 @@
 ---
-title: "719. 로보틱스 자율 내비게이션 모션 플래닝 (Robotics Autonomous Navigation Motion Planning)"
+title: "Robotics Autonomous Navigation Motion Planning"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

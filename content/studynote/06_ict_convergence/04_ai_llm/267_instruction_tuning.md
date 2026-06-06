@@ -1,10 +1,9 @@
 ---
-title: "267. 인스트럭션 튜닝 (Instruction Tuning)"
+title: "Instruction Tuning"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

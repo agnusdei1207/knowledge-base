@@ -1,10 +1,9 @@
 ---
-title: "654. 리얼타임 리눅스 (PREEMPT_RT) 커널 스핀락을 뮤텍스로 변환하는 선점 허용 구조 개요"
+title: "654. Preempt Rt Linux Spinlock Mutex"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

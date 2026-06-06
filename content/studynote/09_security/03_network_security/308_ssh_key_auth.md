@@ -1,10 +1,9 @@
 ---
-title: "308. SSH 공개키 인증 (SSH Key-Based Authentication)"
+title: "SSH Key-Based Authentication"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

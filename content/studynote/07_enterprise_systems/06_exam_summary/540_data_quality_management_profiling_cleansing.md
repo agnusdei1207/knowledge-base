@@ -1,10 +1,9 @@
 ---
-title: "540. 데이터 품질 관리 프로파일링 클렌징 (Data Quality Management Profiling Cleansing)"
+title: "Data Quality Management Profiling Cleansing"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 데이터 품질 관리 프로파일링 정제은(는) 정확성, 완전성, 일관성, 적시성 기준으로 데이터를 측정하고 정제하는 관리 활동이다.

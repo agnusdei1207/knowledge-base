@@ -1,10 +1,9 @@
 ---
-title: "679. 시스템 콜 API 래퍼 (System Call API Wrapper)"
+title: "System Call API Wrapper"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

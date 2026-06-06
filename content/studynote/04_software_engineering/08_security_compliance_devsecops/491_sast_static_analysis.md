@@ -1,10 +1,9 @@
 ---
-title: "491. SAST (Static Application Security Testing) - 소스코드 정적 분석 도구 (보안 룰셋 기반)"
+title: "491. Sast Static Analysis"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

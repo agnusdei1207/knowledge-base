@@ -1,10 +1,9 @@
 ---
-title: "631. 보안 장비 정책 룰셋 최적화 상태 점검 (Security Device Ruleset Audit)"
+title: "Security Device Ruleset Audit"
 date: "2026-05-08"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

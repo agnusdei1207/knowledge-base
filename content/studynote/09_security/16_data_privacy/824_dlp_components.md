@@ -1,10 +1,9 @@
 ---
-title: "824. DLP 구성요소 (Data Loss Prevention)"
+title: "Data Loss Prevention"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

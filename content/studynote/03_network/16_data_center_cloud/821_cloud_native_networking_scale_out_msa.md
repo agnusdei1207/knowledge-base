@@ -1,10 +1,9 @@
 ---
-title: "821. 클라우드 네이티브 네트워킹"
+title: "821. Cloud Native Networking Scale Out Msa"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

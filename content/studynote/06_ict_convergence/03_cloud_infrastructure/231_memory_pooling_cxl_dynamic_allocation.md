@@ -1,10 +1,9 @@
 ---
-title: "231. 메모리 풀링 (Memory Pooling)"
+title: "Memory Pooling"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

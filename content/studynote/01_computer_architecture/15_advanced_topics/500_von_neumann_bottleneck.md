@@ -1,10 +1,9 @@
 ---
-title: "500. 폰 노이만 병목 개선 기법"
+title: "500. Von Neumann Bottleneck"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

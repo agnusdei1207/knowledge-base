@@ -1,11 +1,10 @@
 ---
-title: "800. 클라우드 / 데이터 / DevOps 융합 아키텍처 마스터 맵 종결"
+title: "800. Cloud Computing"
 date: "2026-03-26"
 description: "클라우드 컴퓨팅의 정의, 특성, 발전 과정"
 tags:
   - "cloud_architecture"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [클라우드 컴퓨팅](/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/) ([Cloud Computing](/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/))은 온디맨드 (On-Demand) 방식으로 컴퓨팅 자원 (CPU, Memory, Storage, Network)을 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 형태로 제공하여, 사용자가 인프라를 소유하지 않고도 필요 시 언제든지 인프라를 활용할 수 있는 패러다임이다.
 > 2. **가치**: [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자 비용 (CapEx, Capital Expenditure)을 운영 비용 (OpEx, Operational Expenditure)으로 전환하고, 물리적 인프라 조달 시간 수 주를 수 분으로 단축하여 비즈니스 민첩성을 비약적으로 향상시킨다.

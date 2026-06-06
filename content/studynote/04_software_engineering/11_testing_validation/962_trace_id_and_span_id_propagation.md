@@ -1,10 +1,9 @@
 ---
-title: "962. Trace ID와 Span ID의 전파 (Context Propagation)"
+title: "Context Propagation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

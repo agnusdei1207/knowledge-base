@@ -1,10 +1,9 @@
 ---
-title: "678. IT 감리 논술 답안 구조 총정리 (IT Audit Essay Structure Summary)"
+title: "IT Audit Essay Structure Summary"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

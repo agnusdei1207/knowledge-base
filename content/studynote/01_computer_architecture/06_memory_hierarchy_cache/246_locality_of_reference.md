@@ -1,10 +1,9 @@
 ---
-title: "246. 참조의 지역성 (Locality of Reference)"
+title: "Locality of Reference"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 # 246. [참조의 지역성](/studynote/02_operating_system/04_synchronization/253_locality_of_reference/) ([Locality of Reference](/studynote/02_operating_system/04_synchronization/253_locality_of_reference/))
 

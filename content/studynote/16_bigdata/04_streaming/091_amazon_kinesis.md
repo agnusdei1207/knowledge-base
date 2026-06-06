@@ -1,10 +1,9 @@
 ---
-title: "16. Amazon Kinesis Data Streams — AWS 관리형 스트리밍"
+title: "091. Amazon Kinesis"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

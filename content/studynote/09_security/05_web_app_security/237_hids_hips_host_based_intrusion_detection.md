@@ -1,10 +1,9 @@
 ---
-title: "237. HIDS/HIPS (호스트 기반 침입 탐지/방지 시스템)"
+title: "237. Hids Hips Host Based Intrusion Detection"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

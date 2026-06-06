@@ -1,10 +1,9 @@
 ---
-title: "533. LDM 잠재 디퓨전 모델과 생성 최적화 (LDM Latent Diffusion Model Generation Optimization)"
+title: "LDM Latent Diffusion Model Generation Optimization"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

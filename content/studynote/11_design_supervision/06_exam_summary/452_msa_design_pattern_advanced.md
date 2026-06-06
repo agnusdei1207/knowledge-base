@@ -1,10 +1,9 @@
 ---
-title: "452. 마이크로서비스 아키텍처 설계 패턴 심화 (MSA Design Pattern Advanced)"
+title: "MSA Design Pattern Advanced"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

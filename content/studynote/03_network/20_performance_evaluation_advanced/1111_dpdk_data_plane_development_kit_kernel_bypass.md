@@ -1,10 +1,9 @@
 ---
-title: "1111. DPDK 패킷 바이패스"
+title: "1111. Dpdk Data Plane Development Kit Kernel Bypass"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

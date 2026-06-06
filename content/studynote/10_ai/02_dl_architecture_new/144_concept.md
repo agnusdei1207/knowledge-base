@@ -1,10 +1,9 @@
 ---
-title: "144. RAG (Retrieval-Augmented Generation) - 검색 증강 생성"
+title: "144. Concept"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: RAG는 <strong>LLM이 답변 <a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 전에 외부 지식 저장소(벡터 DB)에서 관련 문서를 검색(Retrieve)하여 프롬프트에 포함</strong>시킨 후 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(Generate)하는 기법이며, [환각](/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)([Hallucination](/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/))을 줄이고 최신 정보를 반영한다.

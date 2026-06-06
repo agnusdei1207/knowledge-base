@@ -1,10 +1,9 @@
 ---
-title: "1102. 광섬유 싱글모드 다중모드"
+title: "1102. Optical Fiber Single Mode Multi Mode"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "646. 리눅스 시스템 콜 테이블 (sys_call_table) 확장 및 보안 훅 추가"
+title: "646. Syscall Table Hooking Expansion"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

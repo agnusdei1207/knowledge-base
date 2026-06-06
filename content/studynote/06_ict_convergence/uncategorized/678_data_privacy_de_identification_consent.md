@@ -1,10 +1,9 @@
 ---
-title: "678. 데이터 프라이버시 비식별화 동의 관리 (Data Privacy De-identification Consent)"
+title: "Data Privacy De-identification Consent"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

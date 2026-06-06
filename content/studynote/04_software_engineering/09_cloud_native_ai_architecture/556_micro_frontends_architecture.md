@@ -1,10 +1,9 @@
 ---
-title: "556. 마이크로 프론트엔드 (Micro Frontends) - 모놀리식 프론트엔드를 독립적 팀 단위 컴포넌트로 분할"
+title: "556. Micro Frontends Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

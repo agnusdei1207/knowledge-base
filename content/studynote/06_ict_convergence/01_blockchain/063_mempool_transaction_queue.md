@@ -1,9 +1,8 @@
 ---
-title: "63. 트랜잭션 풀 (Mempool / Memory Pool) - 블록에 포함되지 않은 대기 중인 트랜잭션 저장소"
+title: "063. Mempool Transaction Queue"
 tags:
   - "ict_convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "234. 마스터 데이터 관리 (MDM, Master Data Management) 골든 레코드 클린 룸"
+title: "234. Master Data Management Mdm Golden Record Clean Room"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [MDM](/studynote/05_database/07_exam_summary/539_mdm_master_data_management/)(Master [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/))은 조직 전체에서 공유되는 핵심 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(고객·제품·공급자)의 단일 권위 있는 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 관리하여 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치와 [사일로](/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))를 제거한다.

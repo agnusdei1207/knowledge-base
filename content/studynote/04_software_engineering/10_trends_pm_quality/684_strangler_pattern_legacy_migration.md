@@ -1,10 +1,9 @@
 ---
-title: "684. 스트랭글러 패턴 레거시 분할"
+title: "684. Strangler Pattern Legacy Migration"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

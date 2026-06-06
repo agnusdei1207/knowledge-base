@@ -1,10 +1,9 @@
 ---
-title: "038. 데이터 주권 (Data Sovereignty)"
+title: "Data Sovereignty"
 date: "2026-03-03"
 tags:
   - "studynote-bigdata"
 ---
-
 
 > **핵심 인사이트**
 > 1. [데이터 주권](/studynote/09_security/16_data_privacy/809_data_sovereignty/)([Data Sovereignty](/studynote/06_ict_convergence/05_data_science/410_ai_intellectual_property_data_sovereignty_data_act/))은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 국가/개인의 법률과 거버넌스 체계에 따라 통제되어야 한다는 원칙으로, 클라우드 글로벌화로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 국경을 넘나드는 시대에 국가 안보·경제적 이해·[개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)의 핵심 쟁점으로 부상했다.

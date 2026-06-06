@@ -1,10 +1,9 @@
 ---
-title: "390. ISO 27001 정보보안 표준 요구사항 (ISO 27001 InfoSec Standard Requirements)"
+title: "ISO 27001 InfoSec Standard Requirements"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

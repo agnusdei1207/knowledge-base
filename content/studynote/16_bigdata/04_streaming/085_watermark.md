@@ -1,10 +1,9 @@
 ---
-title: "10. 워터마크 (Watermark) — 지연 이벤트 허용 임계"
+title: "085. Watermark"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

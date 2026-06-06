@@ -1,10 +1,9 @@
 ---
-title: "55. 컴퓨트와 스토리지 분리 (Separation of Compute and Storage / Cloud DW)"
+title: "Separation of Compute and Storage / Cloud DW"
 date: "2026-05-01"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

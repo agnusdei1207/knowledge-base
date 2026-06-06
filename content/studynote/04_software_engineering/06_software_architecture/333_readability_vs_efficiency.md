@@ -1,10 +1,9 @@
 ---
-title: "333. 가독성 (Readability) vs 효율성 (Efficiency) 트레이드오프"
+title: "333. Readability Vs Efficiency"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "콘웨이의 법칙과 역 콘웨이 기동 (Conway's Law & Inverse Conway Maneuver)"
+title: "Conway's Law & Inverse Conway Maneuver"
 date: "2026-03-03"
 tags:
   - "studynote-devops"
 ---
-
 
 > **핵심 인사이트 3줄**
 > 1. 콘웨이의 법칙(Conway's Law)은 조직의 커뮤니케이션 구조가 시스템 아키텍처를 결정한다는 원칙으로, [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 전환 시 팀 구조 재편이 아키텍처 재설계만큼 중요하다.

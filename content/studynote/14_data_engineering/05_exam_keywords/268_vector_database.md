@@ -1,10 +1,9 @@
 ---
-title: "268. 벡터 데이터베이스 임베딩 유사도 검색 (Vector Database Embedding Similarity Search)"
+title: "Vector Database Embedding Similarity Search"
 date: "2026-05-09"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

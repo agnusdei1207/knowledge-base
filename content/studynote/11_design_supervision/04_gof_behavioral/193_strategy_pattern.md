@@ -1,10 +1,9 @@
 ---
-title: "193. 전략 패턴 (Strategy Pattern)"
+title: "Strategy Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

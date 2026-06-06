@@ -1,10 +1,9 @@
 ---
-title: "065. STRIDE 모델 — Spoofing/Tampering/Repudiation/Information Disclosure/DoS/Elevation"
+title: "065. Stride Model"
 date: "2026-04-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

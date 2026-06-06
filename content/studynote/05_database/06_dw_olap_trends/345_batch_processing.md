@@ -1,10 +1,9 @@
 ---
-title: "345. 배치 처리 (Batch Processing) 파이프라인"
+title: "345. Batch Processing"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

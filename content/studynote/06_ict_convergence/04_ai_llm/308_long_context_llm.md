@@ -1,10 +1,9 @@
 ---
-title: "308. 장기 문맥 처리 (Long-context)"
+title: "Long-context"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

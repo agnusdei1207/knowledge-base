@@ -1,10 +1,9 @@
 ---
-title: "654. IR 준비 (Preparation)"
+title: "Preparation"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

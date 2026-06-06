@@ -1,10 +1,9 @@
 ---
-title: "144. 키 파생 함수 (KDF)와 TLS 1.3의 HKDF (Hkdf TLS 1 3)"
+title: "Hkdf TLS 1 3"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "929. 분산 모놀리스 (Distributed Monolith) 안티패턴"
+title: "929. Distributed Monolith Antipattern"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

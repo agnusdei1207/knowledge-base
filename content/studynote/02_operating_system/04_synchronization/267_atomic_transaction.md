@@ -1,10 +1,9 @@
 ---
-title: "267. 원자적 트랜잭션 (Atomic Transaction) 개념"
+title: "267. Atomic Transaction"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

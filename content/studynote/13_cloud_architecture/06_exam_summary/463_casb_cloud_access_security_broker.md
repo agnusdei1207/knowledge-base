@@ -1,10 +1,9 @@
 ---
-title: "463. CASB 클라우드 접근 보안 브로커 (CASB Cloud Access Security Broker)"
+title: "CASB Cloud Access Security Broker"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

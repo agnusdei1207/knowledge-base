@@ -1,10 +1,9 @@
 ---
-title: "381. 메인 메모리 DB의 스냅샷 로깅 (Checkpointing in IMDB)"
+title: "Checkpointing in IMDB"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "167. 트래픽 섀도잉 (Traffic Shadowing)"
+title: "Traffic Shadowing"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

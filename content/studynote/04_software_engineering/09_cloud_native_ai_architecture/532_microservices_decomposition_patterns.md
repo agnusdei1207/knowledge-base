@@ -1,10 +1,9 @@
 ---
-title: "532. 마이크로서비스 (Microservices) 분해 패턴"
+title: "532. Microservices Decomposition Patterns"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

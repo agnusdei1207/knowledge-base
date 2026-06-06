@@ -1,10 +1,9 @@
 ---
-title: "493. 마이크로서비스 감리 분산 시스템 진단 (Microservice Audit Distributed System)"
+title: "Microservice Audit Distributed System"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 # 493. 마이크로서비스 감리 · 분산 시스템 진단 (Microservice Audit · Distributed System Diagnostics)
 

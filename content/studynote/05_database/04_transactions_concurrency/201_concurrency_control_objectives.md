@@ -1,10 +1,9 @@
 ---
-title: "201. 동시성 제어 의 목적 (Concurrency Control / 병행 제어)"
+title: "Concurrency Control /"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

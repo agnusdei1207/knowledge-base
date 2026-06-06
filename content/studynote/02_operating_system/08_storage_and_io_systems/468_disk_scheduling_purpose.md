@@ -1,10 +1,9 @@
 ---
-title: "468. 디스크 스케줄링 (Disk Scheduling) 목적 - 탐색 시간 최소화, 처리량 극대화"
+title: "468. Disk Scheduling Purpose"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

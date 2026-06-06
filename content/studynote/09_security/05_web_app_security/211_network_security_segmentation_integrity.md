@@ -1,10 +1,9 @@
 ---
-title: "211. 네트워크 보안 3대 영역 (Network Security Segmentation Integrity)"
+title: "Network Security Segmentation Integrity"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

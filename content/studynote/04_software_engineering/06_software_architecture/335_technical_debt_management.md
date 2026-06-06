@@ -1,10 +1,9 @@
 ---
-title: "335. 기술 부채 (Technical Debt)의 관리 및 상환 전략"
+title: "335. Technical Debt Management"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

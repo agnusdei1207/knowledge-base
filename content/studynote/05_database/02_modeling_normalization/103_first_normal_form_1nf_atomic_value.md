@@ -1,9 +1,8 @@
 ---
-title: "103. 제1정규형 (1NF) - 도메인이 원자값만으로 구성"
+title: "103. First Normal Form 1Nf Atomic Value"
 tags:
   - "database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

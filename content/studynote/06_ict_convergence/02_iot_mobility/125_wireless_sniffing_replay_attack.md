@@ -1,10 +1,9 @@
 ---
-title: "125. 무선 스니핑 & 리플레이 공격 - IoT/무선 환경 도청·재전송 위협"
+title: "125. Wireless Sniffing Replay Attack"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 무선 스니핑은 <strong>무선 통신(Wi-Fi·<a href="/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/">BLE</a>·<a href="/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/">Zigbee</a>)의 패킷을 <a href="/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/">도청</a></strong>하는 것이고, 리플레이 공격은 <strong>정상 통신을 캡처한 후 동일 패킷을 재전송(Replay)</strong>하여 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 우회·명령 재실행을 수행하는 공격이다.

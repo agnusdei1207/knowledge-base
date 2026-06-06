@@ -1,10 +1,9 @@
 ---
-title: "675. 핫 데이터 (Hot Data) 캐싱"
+title: "675. Hot Data Caching"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

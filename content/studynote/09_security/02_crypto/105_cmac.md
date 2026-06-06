@@ -1,10 +1,9 @@
 ---
-title: "105. CMAC (Cipher-based MAC) — 블록 암호 기반"
+title: "105. Cmac"
 date: "2026-04-05"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

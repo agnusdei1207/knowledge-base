@@ -1,10 +1,9 @@
 ---
-title: "512. ERP 도입 방법론 단계별 구현 전략 (ERP Implementation Methodology Phased Strategy)"
+title: "ERP Implementation Methodology Phased Strategy"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

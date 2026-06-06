@@ -1,10 +1,9 @@
 ---
-title: "537. 데이터 웨어하우스 클라우드 현대화 (Data Warehouse Cloud Modernization)"
+title: "Data Warehouse Cloud Modernization"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 데이터 웨어하우스 클라우드 현대화은(는) 온프레미스 DW를 클라우드 탄력성과 분리형 저장/컴퓨팅 구조로 전환하는 현대화이다.

@@ -1,10 +1,9 @@
 ---
-title: "411. 디비전 (Division) 연산"
+title: "411. Division Operation"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "361. 다크 데이터 (Dark Data) 관리 및 발견"
+title: "361. Dark Data"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "331. 로지스틱 회귀 (Logistic Regression)"
+title: "Logistic Regression"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

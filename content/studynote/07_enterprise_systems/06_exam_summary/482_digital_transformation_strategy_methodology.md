@@ -1,10 +1,9 @@
 ---
-title: "482. 디지털 전환 전략 수립 방법론 (Digital Transformation Strategy Methodology)"
+title: "Digital Transformation Strategy Methodology"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

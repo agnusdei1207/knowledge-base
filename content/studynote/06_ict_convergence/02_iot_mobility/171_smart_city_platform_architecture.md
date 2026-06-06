@@ -1,10 +1,9 @@
 ---
-title: "171. 스마트 시티 (Smart City) 플랫폼 아키텍처"
+title: "171. Smart City Platform Architecture"
 date: "2026-05-06"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

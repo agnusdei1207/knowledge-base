@@ -1,10 +1,9 @@
 ---
-title: "972. TEE 기반 ML (Trusted Execution Environment)"
+title: "Trusted Execution Environment"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

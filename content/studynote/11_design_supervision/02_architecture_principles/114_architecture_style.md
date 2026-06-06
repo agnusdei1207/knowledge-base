@@ -1,10 +1,9 @@
 ---
-title: "114. 아키텍처 스타일 (Architecture Style)"
+title: "Architecture Style"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

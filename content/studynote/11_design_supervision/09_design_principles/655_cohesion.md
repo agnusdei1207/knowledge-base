@@ -1,10 +1,9 @@
 ---
-title: "655. 응집도 (Cohesion)"
+title: "Cohesion"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 - [응집도](/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)는 하나의 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 내부 요소들이 하나의 목적을 위해 얼마나 단단히 모여 있는지를 보여 주는 품질 지표다.

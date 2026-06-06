@@ -1,10 +1,9 @@
 ---
-title: "242. 규제 드롭아웃 (Dropout) 조기 종료 L1 L2 라쏘 릿지 종합"
+title: "242. Regularization Dropout Early Stopping L1 L2 Lasso Ridge"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)([Regularization](/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/))는 모델이 훈련 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에만 과도하게 적합하는 과적합([Overfitting](/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))을 막아 새로운 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에도 잘 작동하게 만드는 제약 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.

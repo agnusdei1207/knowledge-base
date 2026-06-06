@@ -1,10 +1,9 @@
 ---
-title: "167. 페이딩 (Fading) - 대규모(Large-scale) 페이딩 vs 소규모(Small-scale) 페이딩"
+title: "167. Fading Large Scale Small Scale"
 date: "2026-05-05"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

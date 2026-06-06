@@ -1,10 +1,9 @@
 ---
-title: "211. 데이터 메시 (Data Mesh)"
+title: "Data Mesh"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) ([Data Mesh](/studynote/12_it_management/05_security_compliance/320_data_mesh/))의 본질은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리를 중앙 팀 사일로에서 벗어나, [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 주도의 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 오너십 체계로 전환하여 '[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 프로덕트'로 제공하는 조직적/기술적 패러다임 전환을 수집·통합·품질·활용 체계로 정렬하는 데 있다.

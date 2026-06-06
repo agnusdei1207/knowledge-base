@@ -1,10 +1,9 @@
 ---
-title: "469. A/B 테스팅 실험 주도 개발 (A/B Testing Experiment Driven Development)"
+title: "A/B Testing Experiment Driven Development"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

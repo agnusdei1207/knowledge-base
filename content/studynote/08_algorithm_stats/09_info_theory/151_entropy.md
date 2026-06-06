@@ -1,10 +1,9 @@
 ---
-title: "2. 엔트로피 (Shannon Entropy) — H(X) = -Σ p·log₂p"
+title: "151. Entropy"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

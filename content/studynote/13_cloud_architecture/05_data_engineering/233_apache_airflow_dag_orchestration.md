@@ -1,10 +1,9 @@
 ---
-title: "233. 아파치 에어플로우 (Apache Airflow)"
+title: "Apache Airflow"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Apache Airflow는 복잡한 [데이터 파이프라인](/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)의 선후행 의존성을 <strong><a href="/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/">DAG</a>(<a href="/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/">Directed Acyclic Graph</a>, 방향성 비순환 <a href="/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a>)</strong>로 Python 코드로 정의하고 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링·모니터링하는 워크플로우 [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 도구다.

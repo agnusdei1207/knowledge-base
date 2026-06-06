@@ -1,10 +1,9 @@
 ---
-title: "475. 애그리게이트 루트 일관성 경계 (Aggregate Root Consistency Boundary)"
+title: "Aggregate Root Consistency Boundary"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

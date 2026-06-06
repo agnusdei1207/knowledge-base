@@ -1,10 +1,9 @@
 ---
-title: "043. 관계 대수 — 조인 (Relational Algebra Join)"
+title: "Relational Algebra Join"
 date: "2026-04-05"
 tags:
   - "studynote-database"
 ---
-
 
 > **핵심 인사이트**
 > 1. 조인([Join](/studynote/05_database/04_transactions_concurrency/521_join/))은 두 [릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)을 연결하는 [관계 대수](/studynote/05_database/01_db_architecture_relational/038_relational_algebra/)의 핵심 연산으로, 카티전 프로덕트(×)와 셀렉션(σ)의 조합이지만 — [DBMS](/studynote/05_database/04_transactions_concurrency/502_dbms/) 내부적으로는 [Nested Loop](/studynote/05_database/07_exam_summary/431_nested_loop_join/), [Hash Join](/studynote/05_database/03_relational_model/174_hash_join/), Merge [Join](/studynote/05_database/04_transactions_concurrency/521_join/) 세 가지 물리적 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 중 [옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 비용 기반으로 선택한다.

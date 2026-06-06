@@ -1,10 +1,9 @@
 ---
-title: "442. 리호스트 리프트 앤 시프트 마이그레이션 (Rehost Lift and Shift Migration)"
+title: "Rehost Lift and Shift Migration"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

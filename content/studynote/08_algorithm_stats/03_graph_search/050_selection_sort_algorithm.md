@@ -1,10 +1,9 @@
 ---
-title: "22. 힙 정렬 (Heap Sort) — O(n log n), 불안정, 제자리"
+title: "050. Selection Sort Algorithm"
 date: "2026-04-02"
 tags:
   - "studynote-algorithm"
 ---
-
 
 # [선택 정렬](/studynote/08_algorithm_stats/02_sorting/024_selection_sort/) ([Selection Sort](/studynote/08_algorithm_stats/02_sorting/024_selection_sort/)) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 

@@ -1,10 +1,9 @@
 ---
-title: "350. CBAM 경제성 관점 확장 (Cost Benefit Analysis Method)"
+title: "Cost Benefit Analysis Method"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

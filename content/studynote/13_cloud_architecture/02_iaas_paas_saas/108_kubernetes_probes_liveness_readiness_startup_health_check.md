@@ -1,10 +1,9 @@
 ---
-title: "108. K8s 프로브(Probes) 생명주기 관리"
+title: "108. Kubernetes Probes Liveness Readiness Startup Health Check"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)의 프로브(Probes)는 [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)) 내부의 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 단순히 '실행 중(Running)'인지 여부를 넘어, 실제 애플리케이션이 트래픽을 처리할 준비가 되었는지, 혹은 [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))에 빠지지 않았는지를 주기적으로 찔러 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 자가 진단 및 치유(Auto-Healing) 메커니즘이다.

@@ -1,10 +1,9 @@
 ---
-title: "727. 우주 기술 뉴스페이스 발사체 위성 (Space Technology NewSpace Launch Satellite)"
+title: "Space Technology NewSpace Launch Satellite"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

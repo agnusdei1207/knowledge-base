@@ -1,10 +1,9 @@
 ---
-title: "202. 병행 수행 시 문제점 (Concurrent Execution Problems Overview)"
+title: "Concurrent Execution Problems Overview"
 date: "2026-05-08"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

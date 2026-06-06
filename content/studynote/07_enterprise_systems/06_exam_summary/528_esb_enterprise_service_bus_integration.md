@@ -1,10 +1,9 @@
 ---
-title: "528. ESB 엔터프라이즈 서비스 버스 통합 (ESB Enterprise Service Bus Integration)"
+title: "ESB Enterprise Service Bus Integration"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ESB 엔터프라이즈 서비스 버스 통합은(는) 서비스 호출, 메시지 변환, 프로토콜 중재를 중앙 버스에서 처리하는 SOA 기반 통합 방식이다.

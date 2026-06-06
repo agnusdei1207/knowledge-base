@@ -1,10 +1,9 @@
 ---
-title: "131. 멀티모드 언덕형 광섬유 (Multi-mode Graded-index)"
+title: "Multi-mode Graded-index"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

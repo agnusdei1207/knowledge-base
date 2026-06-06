@@ -1,9 +1,8 @@
 ---
-title: "02. 하둡 에코시스템 및 HDFS"
+title: "Big Data"
 tags:
   - "bigdata"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

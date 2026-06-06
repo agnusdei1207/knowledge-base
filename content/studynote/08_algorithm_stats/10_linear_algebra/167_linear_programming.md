@@ -1,10 +1,9 @@
 ---
-title: "8. 선형 프로그래밍 (LP, Linear Programming) — 심플렉스법"
+title: "167. Linear Programming"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

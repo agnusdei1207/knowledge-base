@@ -1,10 +1,9 @@
 ---
-title: "254. 클라우드 보안 형상 관리 (CSPM, Cloud Security Posture Management)"
+title: "CSPM, Cloud Security Posture Management"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

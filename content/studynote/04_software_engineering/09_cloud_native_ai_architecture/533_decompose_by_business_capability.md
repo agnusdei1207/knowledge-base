@@ -1,10 +1,9 @@
 ---
-title: "533. 비즈니스 능력에 따른 분해 (Decompose by Business Capability)"
+title: "Decompose by Business Capability"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "01. 컴퓨터구조 키워드 목록"
+title: "Keyword List"
 date: "2026-03-04"
 tags:
   - "studynote-computer-architecture"
 ---
-
 [weight](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) = 9999
 
 # 컴퓨터구조 심화 키워드 목록 (기술사 최적화 1000제)

@@ -1,10 +1,9 @@
 ---
-title: "537. 오토 벡터라이제이션 (Auto-vectorization)"
+title: "Auto-vectorization"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

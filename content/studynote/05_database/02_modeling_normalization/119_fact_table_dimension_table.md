@@ -1,10 +1,9 @@
 ---
-title: "119. 팩트 테이블과 디멘전 테이블 (Fact & Dimension Table) - DW 스타 스키마 핵심 구성 요소"
+title: "119. Fact Table Dimension Table"
 date: "2026-04-19"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [팩트 테이블](/studynote/14_data_engineering/05_exam_keywords/210_fact_dimension_table_snowflake_schema/)은 <strong>비즈니스 이벤트의 측정값(매출액·수량·클릭 수)</strong>을 저장하는 대용량 테이블이고, 디멘전 테이블은 <strong>분석 축(날짜·상품·고객·지역)</strong>의 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 저장하는 마스터 테이블이다.

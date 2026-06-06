@@ -1,10 +1,9 @@
 ---
-title: "21. 퀵 정렬 최적화 — 3-way Partition, Median-of-3 Pivot"
+title: "048. Bubble Sort Algorithm"
 date: "2026-04-02"
 tags:
   - "studynote-algorithm"
 ---
-
 
 # 거품 정렬 ([Bubble Sort](/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/)) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 

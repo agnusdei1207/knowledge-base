@@ -1,10 +1,9 @@
 ---
-title: "175. SJF (Shortest Job First) 스케줄링 - 최적의 평균 대기 시간"
+title: "175. Sjf Scheduling"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

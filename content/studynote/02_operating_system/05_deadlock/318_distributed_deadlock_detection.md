@@ -1,10 +1,9 @@
 ---
-title: "318. 분산 시스템에서의 교착 상태 탐지 (Distributed Deadlock Detection)"
+title: "Distributed Deadlock Detection"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

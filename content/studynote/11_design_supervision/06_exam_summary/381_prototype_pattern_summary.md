@@ -1,10 +1,9 @@
 ---
-title: "381. 프로토타입 패턴 (Prototype Pattern)"
+title: "Prototype Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

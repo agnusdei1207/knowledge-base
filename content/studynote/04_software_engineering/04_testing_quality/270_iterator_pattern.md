@@ -1,10 +1,9 @@
 ---
-title: "270. 이터레이터 (Iterator) - 내부 표현 노출 없이 순차 접근"
+title: "270. Iterator Pattern"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

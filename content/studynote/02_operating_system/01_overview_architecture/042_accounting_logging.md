@@ -1,10 +1,9 @@
 ---
-title: "042. 회계 및 로깅 (Accounting and Logging)"
+title: "Accounting and Logging"
 date: "2026-04-05"
 tags:
   - "studynote-operating-system"
 ---
-
 
 > **핵심 인사이트**
 > 1. OS 회계(Accounting)는 프로세스별 CPU 시간·메모리 사용량·I/O 횟수 등 자원 소비를 측정·기록하는 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 기능으로, 과금(Billing)·[성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 분석·보안 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)의 기반 데이터를 제공한다.

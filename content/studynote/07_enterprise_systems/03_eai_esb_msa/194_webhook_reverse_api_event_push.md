@@ -1,10 +1,9 @@
 ---
-title: "194. 웹훅 (Webhook) - 역방향 API 기반 이벤트 푸시 연동"
+title: "194. Webhook Reverse Api Event Push"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

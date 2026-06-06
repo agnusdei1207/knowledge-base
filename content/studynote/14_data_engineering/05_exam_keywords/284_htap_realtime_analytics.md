@@ -1,10 +1,9 @@
 ---
-title: "284. 실시간 분석 HTAP 하이브리드 트랜잭션 (Real-time Analytics HTAP Hybrid Transaction)"
+title: "Real-time Analytics HTAP Hybrid Transaction"
 date: "2026-05-09"
 tags:
   - "studynote-data-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

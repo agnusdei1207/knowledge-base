@@ -1,10 +1,9 @@
 ---
-title: "426. 비트맵 인덱스 분포도 낮음 특화"
+title: "426. Bitmap Index Low Cardinality"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "87. 가중치 초기화 (Weight Initialization) - Xavier와 He 초기화"
+title: "087. Weight Initialization Xavier He Glorot"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

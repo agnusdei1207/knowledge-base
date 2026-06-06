@@ -1,10 +1,9 @@
 ---
-title: "524. 연결 할당 (Linked Allocation) - 블록들이 포인터로 연결됨, 외부 단편화 없음, 랜덤 접근 불가, 포인터 오버헤드"
+title: "524. Linked Allocation"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

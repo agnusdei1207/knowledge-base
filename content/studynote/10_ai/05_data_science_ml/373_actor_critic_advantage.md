@@ -1,10 +1,9 @@
 ---
-title: "373. Actor-Critic (A2C) 와 Advantage"
+title: "373. Actor Critic Advantage"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

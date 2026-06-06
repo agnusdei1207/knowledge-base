@@ -1,10 +1,9 @@
 ---
-title: "321. Destination Unreachable (목적지 도달 불가"
+title: "321. Destination Unreachable Port Host Prohibited"
 date: "2026-05-08"
 tags:
   - "studynote-network"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

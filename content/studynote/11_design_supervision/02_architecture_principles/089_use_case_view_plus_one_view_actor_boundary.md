@@ -1,10 +1,9 @@
 ---
-title: "89. 유스케이스 뷰 (Use Case View / +1 View)"
+title: "Use Case View / +1 View"
 date: "2026-04-10"
 tags:
   - "studynote-design"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

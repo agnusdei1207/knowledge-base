@@ -1,10 +1,9 @@
 ---
-title: "238. 클라우드 마이그레이션 6R (Rehost, Replatform, Refactor 등) 전환 전략망"
+title: "238. 6R Rehost Replatform Refactor"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

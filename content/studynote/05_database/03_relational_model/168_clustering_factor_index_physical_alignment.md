@@ -1,11 +1,10 @@
 ---
-title: "168. 데이터 딕셔너리 통계 정보 (Statistics) - 테이블 건수, 블록 수, 인덱스 높이, 클러스터링 팩터 등"
+title: "168. Clustering Factor Index Physical Alignment"
 date: "2026-04-03"
 description: "클러스터링 팩터를 중심으로 인덱스 정렬 순서와 테이블의 물리적 저장 정렬이 성능에 미치는 영향을 설명한다."
 tags:
   - "database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

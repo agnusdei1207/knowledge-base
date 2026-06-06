@@ -1,10 +1,9 @@
 ---
-title: "101. 두 수준 (Two-level) 모델"
+title: "101. Two Level Model"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 두 수준 (Two-level) 모델은 여러 사용자 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 소수의 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에 연결하는 '[다대다](/studynote/02_operating_system/02_process_thread/100_many_to_many_model/)(M:N)' 방식과 핵심 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 1:1로 고정하는 '[일대일](/studynote/02_operating_system/02_process_thread/099_one_to_one_model/)' 방식을 혼합한 하이브리드 스레딩 아키텍처다.

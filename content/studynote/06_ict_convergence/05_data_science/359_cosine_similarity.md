@@ -1,10 +1,9 @@
 ---
-title: "359. 코사인 유사도 (Cosine Similarity)"
+title: "Cosine Similarity"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

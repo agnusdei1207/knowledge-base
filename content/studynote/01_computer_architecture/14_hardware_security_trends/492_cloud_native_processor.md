@@ -1,10 +1,9 @@
 ---
-title: "492. 클라우드 네이티브 프로세서 (ARM Neoverse 등)"
+title: "ARM Neoverse"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

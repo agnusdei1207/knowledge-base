@@ -1,10 +1,9 @@
 ---
-title: "547. 실시간 시스템 타이머"
+title: "547. Rtos Timer"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "414. Test-and-Set 연산"
+title: "414. Test And Set"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

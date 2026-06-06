@@ -1,10 +1,9 @@
 ---
-title: "217. 로직 트리 (Logic Tree) 구조 분해 프레임워크"
+title: "217. Logic Tree Framework"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

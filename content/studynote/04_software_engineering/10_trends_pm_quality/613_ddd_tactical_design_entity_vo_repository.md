@@ -1,10 +1,9 @@
 ---
-title: "613. 도메인 주도 설계 (DDD) 기본 구성 (엔티티, VO, 리포지토리)"
+title: ", VO,"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

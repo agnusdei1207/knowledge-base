@@ -1,10 +1,9 @@
 ---
-title: "702. 생체 인증 FIDO2 패스키 인증 체계 (Biometric Auth FIDO2 Passkey Authentication)"
+title: "Biometric Auth FIDO2 Passkey Authentication"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "771. 플래시 메모리 마모 평준화 (Wear Leveling)"
+title: "Wear Leveling"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

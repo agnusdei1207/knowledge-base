@@ -1,10 +1,9 @@
 ---
-title: "640. 오픈 컴퓨트 프로젝트 (OCP, Open Compute Project)"
+title: "OCP, Open Compute Project"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

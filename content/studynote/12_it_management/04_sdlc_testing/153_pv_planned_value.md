@@ -1,10 +1,9 @@
 ---
-title: "153. PV (Planned Value, 계획 가치) - EVM 인바디 엑스레이의 절대 0순위 베이스캠프"
+title: "153. Pv Planned Value"
 date: "2026-05-03"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: PV (Planned Value, 계획 가치 / BCWS)는 [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/)(획득 가치 관리) 3차원 엑스레이 생태계에서, 런칭 전날 사장님 도장 쾅 찍은 프로젝트 100억 원 전체 예산표([WBS](/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/))를 시간 흐름(Time)에 따라 쪼개서 늘어놓은 <strong>"오늘 아침 9시 이 시점까지는 최소한 10억어치 삽질 작업이 100% 끝났어야 정상이지 ㅋ" 라는 차가운 팩트 목표 <a href="/studynote/04_software_engineering/01_overview_principles/025_baseline/">기준선</a>(<a href="/studynote/04_software_engineering/01_overview_principles/025_baseline/">Baseline</a> 텐트 쉴드)</strong>이다.

@@ -1,10 +1,9 @@
 ---
-title: "53. D 플립플롭 (D Flip-Flop)"
+title: "D Flip-Flop"
 date: "2026-05-01"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

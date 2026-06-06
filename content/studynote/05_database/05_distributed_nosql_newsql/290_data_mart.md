@@ -1,10 +1,9 @@
 ---
-title: "290. NewSQL 데이터베이스"
+title: "290. Data Mart"
 date: "2026-05-09"
 tags:
   - "studynote-database"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

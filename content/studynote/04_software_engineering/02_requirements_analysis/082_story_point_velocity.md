@@ -1,10 +1,9 @@
 ---
-title: "82. 스토리 포인트 (Story Point) - 상대적 규모 산정"
+title: "082. Story Point Velocity"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "58. 반가상화 (Paravirtualization) - 하이퍼콜 (Hypercall)"
+title: "Hypercall"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

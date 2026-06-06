@@ -1,10 +1,9 @@
 ---
-title: "813. 데이터 가명화 (Pseudonymization)"
+title: "Pseudonymization"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

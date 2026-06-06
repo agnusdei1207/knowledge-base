@@ -1,10 +1,9 @@
 ---
-title: "191. 0-주소 명령어 (Zero-Address Instruction)"
+title: "Zero-Address Instruction"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

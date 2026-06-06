@@ -1,10 +1,9 @@
 ---
-title: "278. 이진 세마포어 vs 뮤텍스 차이 (소유권 유무) (Binary Semaphore Vs Mutex)"
+title: "Binary Semaphore Vs Mutex"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

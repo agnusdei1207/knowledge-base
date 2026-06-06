@@ -1,10 +1,9 @@
 ---
-title: "363. 마이크로 프론트엔드 배포 독립성 컴포넌트 결합망 진단"
+title: "363. Audit"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [마이크로 프론트엔드 배포](/studynote/15_devops_sre/02_cicd_gitops/111_micro_frontends_deployment/) 독립성 [컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 결합망 진단의 본질은 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/), 역할, 통제, 증빙이 같은 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/) 위에서 움직여야 경영 리스크와 실행 속도를 동시에 관리할 수 있다.

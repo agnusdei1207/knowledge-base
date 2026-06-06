@@ -1,10 +1,9 @@
 ---
-title: "04. 소프트웨어공학 키워드 목록"
+title: "Keyword List"
 date: "2026-03-04"
 tags:
   - "studynote-se"
 ---
-
 [weight](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) = 9999
 
 # 소프트웨어공학 ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) 키워드 목록 (심화 확장판)

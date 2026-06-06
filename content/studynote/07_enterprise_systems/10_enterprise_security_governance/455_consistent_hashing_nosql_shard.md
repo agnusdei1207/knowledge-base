@@ -1,10 +1,9 @@
 ---
-title: "455. 컨시스턴트 해싱 NoSQL 샤드 리밸런싱 분산 (Consistent Hashing & NoSQL Sharding)"
+title: "Consistent Hashing & NoSQL Sharding"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

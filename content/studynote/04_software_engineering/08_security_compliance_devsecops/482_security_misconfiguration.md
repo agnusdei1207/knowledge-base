@@ -1,10 +1,9 @@
 ---
-title: "482. Security Misconfiguration (보안 설정 오류)"
+title: "482. Security Misconfiguration"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

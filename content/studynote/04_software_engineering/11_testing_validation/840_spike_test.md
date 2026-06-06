@@ -1,10 +1,9 @@
 ---
-title: "840. 스파이크 테스트 (Spike Test)"
+title: "Spike Test"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

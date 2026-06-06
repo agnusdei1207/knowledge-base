@@ -1,10 +1,9 @@
 ---
-title: "434. 클라우드 DNS Route53 Cloud DNS 관리 (Cloud DNS Route53 Cloud DNS Management)"
+title: "Cloud DNS Route53 Cloud DNS Management"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

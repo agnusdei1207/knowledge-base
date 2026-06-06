@@ -1,10 +1,9 @@
 ---
-title: "587. 에이전틱 AI (Agentic AI) 시스템 - 도구(Tool)를 직접 호출하는 자율형 SW 모듈 설계"
+title: "587. Agentic Ai Autonomous Tools"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

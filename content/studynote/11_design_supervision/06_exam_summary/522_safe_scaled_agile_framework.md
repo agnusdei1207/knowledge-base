@@ -1,10 +1,9 @@
 ---
-title: "522. SAFe 대규모 애자일 프레임워크 (SAFe Scaled Agile Framework)"
+title: "SAFe Scaled Agile Framework"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

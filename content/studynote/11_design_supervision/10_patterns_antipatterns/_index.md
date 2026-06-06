@@ -1,9 +1,8 @@
 ---
-title: "10. 디자인 패턴 심화 및 안티패턴"
+title: "Design & Supervision"
 tags:
   - "design_supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

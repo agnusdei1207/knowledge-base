@@ -1,10 +1,9 @@
 ---
-title: "580. 컴포저블 아키텍처 모듈화 재사용 (Composable Architecture Modular Reuse)"
+title: "Composable Architecture Modular Reuse"
 date: "2026-05-09"
 tags:
   - "studynote-design-supervision"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

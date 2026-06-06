@@ -1,10 +1,9 @@
 ---
-title: "134. USE 메서드 (Utilization·Saturation·Errors) - 리소스 중심 분석"
+title: "134. Use Method Resource Analysis"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: USE 메서드는 <strong>모든 리소스(CPU·메모리·디스크·네트워크)에 대해 Utilization(사용률)·Saturation(포화도)·Errors(에러)를 점검</strong>하여 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목을 체계적으로 찾는 Brendan Gregg의 방법론이다.

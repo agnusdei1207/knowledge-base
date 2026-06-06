@@ -1,10 +1,9 @@
 ---
-title: "633. 제로 트러스트 네트워크 마이크로세그먼트 (Zero Trust Network Microsegmentation)"
+title: "Zero Trust Network Microsegmentation"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

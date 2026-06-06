@@ -1,10 +1,9 @@
 ---
-title: "102. 완전 연결 층 (FC Layer) - 추출된 특징의 1차원 분류"
+title: "102. Fully Connected Layer Dense Flatten Softmax"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

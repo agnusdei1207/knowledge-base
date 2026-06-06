@@ -1,10 +1,9 @@
 ---
-title: "11. 다이오드 (Diode)"
+title: "Diode"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 다이오드 (Diode)는 P형과 N형 [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)를 결합하여 한쪽 방향으로만 전류를 통과시키고 반대 방향은 차단하는 고체 상태의 일방통행 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)다.

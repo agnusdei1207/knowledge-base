@@ -1,9 +1,8 @@
 ---
-title: "69. 데일리 스탠드업 (Daily Scrum) - 진행 상황 공유, 장애 파악"
+title: "069. Daily Standup Scrum"
 tags:
   - "software_engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

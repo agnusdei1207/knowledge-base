@@ -1,10 +1,9 @@
 ---
-title: "272. CI 캐시 중독(Cache Poisoning) 및 러너(Runner) 인스턴스 침해 격리 보안망 구조 (일회성 Ephemeral 러너)"
+title: "Ephemeral"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

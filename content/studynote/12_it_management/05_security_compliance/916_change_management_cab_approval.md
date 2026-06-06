@@ -1,10 +1,9 @@
 ---
-title: "916. 변경 관리 CAB 위원회 승인"
+title: "916. Change Management Cab Approval"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [변경 관리](/studynote/12_it_management/02_itsm_itil/079_change_enablement/) [CAB](/studynote/12_it_management/02_itsm_itil/080_cab/) 위원회 승인의 본질은 자산, 위협, [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 통제, 운영 증적이 한 체계로 연결되어야 보안과 규제 대응이 일회성 캠페인으로 끝나지 않는다.

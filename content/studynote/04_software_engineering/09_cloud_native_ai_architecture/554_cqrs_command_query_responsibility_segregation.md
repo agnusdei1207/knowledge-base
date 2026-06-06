@@ -1,10 +1,9 @@
 ---
-title: "554. CQRS (명령과 조회 책임 분리) - 쓰기 DB와 읽기 DB 분리, 동기화 문제 해결 (Eventual Consistency)"
+title: "Eventual Consistency"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

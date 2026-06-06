@@ -1,10 +1,9 @@
 ---
-title: "211. 스트랭글러 피그 (Strangler Fig) 패턴"
+title: "211. Strangler Fig Msa"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

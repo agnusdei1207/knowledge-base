@@ -1,10 +1,9 @@
 ---
-title: "542. OAuth 2.0 vs OIDC 비교 (Oauth2 Vs OIDC)"
+title: "Oauth2 Vs OIDC"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

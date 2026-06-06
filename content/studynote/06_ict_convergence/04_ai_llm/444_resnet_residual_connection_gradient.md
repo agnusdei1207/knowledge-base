@@ -1,10 +1,9 @@
 ---
-title: "444. ResNet 잔차 연결 기울기 전달 (Resnet Residual Connection Gradient)"
+title: "Resnet Residual Connection Gradient"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
 ---
-title: "861. Java Deserialization 취약점 (Java Deserialization)"
+title: "Java Deserialization"
 date: "2026-05-08"
 tags:
   - "studynote-security"
 ---
-
 
 ## 핵심 인사이트 (3줄 요약)
 
