@@ -88,15 +88,54 @@ input {
  * long folder/file titles bleed out of the 34px column and only the
  * last character remains visible at the left edge (e.g. "e)" from
  * "01_computer_architecture"). Force the explorer column itself to
- * clip its contents so only the toggle button is visible.
+ * clip its contents so only the toggle button is visible — BUT ONLY
+ * while the drawer is collapsed. When the user taps the hamburger,
+ * the .explorer gets the `:not(.collapsed)` state and the drawer
+ * overlay (100vw × 100dvh, z-index 100) must extend OUT of the 34px
+ * column. Without this exception, the overlay gets clipped to 34px
+ * and the body content stays in place covering it.
  */
 @media all and (max-width: 800px) {
   .sidebar.left {
     overflow: hidden;
   }
 
-  .explorer {
+  .explorer.collapsed {
     overflow: hidden;
+  }
+
+  // Drawer is open: let the overlay escape the 34px column.
+  .explorer:not(.collapsed) {
+    overflow: visible;
+  }
+}
+
+/* ====== Mobile drawer: push body off-screen when open (2026-06-06) ======
+ * The Explorer plugin's CSS expects the `#quartz-body` to get a
+ * `.lock-scroll` class while the drawer is open, which translates
+ * the body children (`.center`, `.sidebar.right`) off-screen via
+ * `transform: translateX(100dvw)`. The plugin's inline JS only
+ * toggles `.mobile-no-scroll` on `documentElement` — it never adds
+ * `.lock-scroll` to `#quartz-body`. Net effect: the body stays
+ * visible under the drawer overlay, so users see no drawer at all
+ * on tap. Patch in CSS using `:has()` so we don't need to fork the
+ * plugin. When the explorer is open (`:not(.collapsed)`), push
+ * every body child except the left sidebar off-screen.
+ */
+@media all and (max-width: 800px) {
+  .page > #quartz-body > :not(.sidebar.left) {
+    transition: transform 300ms ease-in-out;
+  }
+
+  .page > #quartz-body:has(.explorer:not(.collapsed)) > :not(.sidebar.left) {
+    transform: translateX(100dvw);
+  }
+
+  // Belt-and-braces: lift the open drawer above any z-index conflict
+  // with `.sidebar.left` (which has z-index:1 on desktop, dropping
+  // to position:initial on mobile and losing its stacking context).
+  .explorer:not(.collapsed) > .explorer-content {
+    z-index: 9999;
   }
 }
 
