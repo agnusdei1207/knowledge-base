@@ -3,6 +3,7 @@ title: "Study Hub"
 page-label: "Study Hub"
 tags:
   - "studynote"
+weight: 1
 ---
 
 
