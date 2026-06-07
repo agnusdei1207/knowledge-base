@@ -5,7 +5,7 @@ tags:
   - "studynote-it-management"
 weight: 50
 ---
-# IT 경영 및 [서비스](/studynote/12_it_management/02_itsm_itil/090_RNN_LSTM/) 관리([ITSM](/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/)) 키워드 목록 (심화 확장판)
+# IT 경영 및 [서비스](/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 관리([ITSM](/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/)) 키워드 목록 (심화 확장판)
 
 정보관리기술사, 컴퓨터응용시스템기술사 합격을 위한 IT 거버넌스, IT 투자 평가, [ITIL](/studynote/12_it_management/02_itsm_itil/846_itil/)/[ITSM](/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/), 정보화 [전략](/studynote/12_it_management/05_security_compliance/268_rto_rpo_objectives/), [리스크](/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000/) 및 컴플라이언스 관리 전 영역 핵심/심화 키워드 800선입니다.
 
@@ -73,7 +73,7 @@ weight: 50
 59. [바이모달 IT ([Bimodal IT](/studynote/12_it_management/01_governance_strategy/059_bimodal_it/), 가트너) - 모드 1(안정성/전통적 IT)과 모드 2(민첩성/혁신 IT)의 투트랙 운영 [전략](/studynote/12_it_management/01_governance_strategy/059_bimodal_it/)](/studynote/12_it_management/01_governance_strategy/059_bimodal_it/)
 60. [RPA](/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) ([Robotic Process Automation](/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/)) / [초자동화](/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) ([Hyperautomation](/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/)) 업무 효율화
 
-## 2. IT [서비스](/studynote/12_it_management/02_itsm_itil/090_RNN_LSTM/) 관리 ([ITSM](/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/)) 및 [ITIL](/studynote/12_it_management/02_itsm_itil/846_itil/) 프레임워크 (70개)
+## 2. IT [서비스](/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 관리 ([ITSM](/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/)) 및 [ITIL](/studynote/12_it_management/02_itsm_itil/846_itil/) 프레임워크 (70개)
 61. [ITSM](/studynote/12_it_management/02_itsm_itil/845_itsm/) ([IT Service Management](/studynote/12_it_management/02_itsm_itil/845_itsm/)) - IT 시스템 중심에서 '[서비스](/studynote/12_it_management/02_itsm_itil/845_itsm/)'와 '고객' 중심으로 IT 운영 관리 패러다임 전환
 62. [ITIL](/studynote/12_it_management/02_itsm_itil/062_darkdata/) ([IT Infrastructure Library](/studynote/12_it_management/02_itsm_itil/062_darkdata/)) - [ITSM](/studynote/12_it_management/02_itsm_itil/062_darkdata/) 구축을 위한 영국(OGC) 제정 글로벌 베스트 프랙티스 [라이브러리](/studynote/12_it_management/02_itsm_itil/062_darkdata/)
 63. [ITIL](/studynote/12_it_management/02_itsm_itil/847_itil_v3_service_lifecycle/) V3 의 [서비스](/studynote/12_it_management/02_itsm_itil/847_itil_v3_service_lifecycle/) 수명주기 ([Service Lifecycle](/studynote/12_it_management/02_itsm_itil/847_itil_v3_service_lifecycle/)) 5단계
@@ -402,4 +402,4 @@ weight: 50
 
 ---
 **총합 요약 : 총 800개 주요 키워드 수록**
-(IT 거버넌스, [BPR](/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/), [ERP](/studynote/12_it_management/02_itsm_itil/081_ecab/)/[CRM](/studynote/12_it_management/03_ea_isp/107_classification/), ITSM부터 [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/), 클라우드 [전략](/studynote/12_it_management/05_security_compliance/268_rto_rpo_objectives/), [RAG](/studynote/12_it_management/05_security_compliance/276_erp_enterprise_resource_planning/), [데이터 메시](/exam/12_it_management/211_data_mesh_domain_ownership/) 등 차세대 IT 경영/[서비스](/studynote/12_it_management/02_itsm_itil/090_RNN_LSTM/) 관리 전 영역의 키워드를 총망라하였습니다.)
+(IT 거버넌스, [BPR](/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/), [ERP](/studynote/12_it_management/02_itsm_itil/081_ecab/)/[CRM](/studynote/12_it_management/03_ea_isp/107_classification/), ITSM부터 [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/), 클라우드 [전략](/studynote/12_it_management/05_security_compliance/268_rto_rpo_objectives/), [RAG](/studynote/12_it_management/05_security_compliance/276_erp_enterprise_resource_planning/), [데이터 메시](/exam/12_it_management/211_data_mesh_domain_ownership/) 등 차세대 IT 경영/[서비스](/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 관리 전 영역의 키워드를 총망라하였습니다.)

@@ -12,8 +12,8 @@ weight: 50
 ---
 
 ## 1. [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 문화 및 개발 방법론 (60개)
-1. [데브옵스](/studynote/15_devops_sre/01_culture_methodology/001_devops_saSang/) ([DevOps](/studynote/15_devops_sre/01_culture_methodology/001_devops_saSang/)) 사상 - 개발(Dev)과 운영(Ops) 간의 소통, 협업, 통합을 강조하여 소프트웨어 배포 속도와 안정성을 극대화하는 문화적/기술적 패러다임
-2. [사일로](/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) ([Silo](/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)) 현상 타파 - 부서 간 장벽을 허물고 공동의 목표(빠른 배포와 시스템 안정성) 달성
+1. [데브옵스](/studynote/15_devops_sre/01_culture_methodology/001_devops_definition_culture/) ([DevOps](/studynote/15_devops_sre/01_culture_methodology/001_devops_definition_culture/)) 사상 - 개발(Dev)과 운영(Ops) 간의 소통, 협업, 통합을 강조하여 소프트웨어 배포 속도와 안정성을 극대화하는 문화적/기술적 패러다임
+2. [사일로](/studynote/15_devops_sre/01_culture_methodology/002_silo_effect_devops/) ([Silo](/studynote/15_devops_sre/01_culture_methodology/002_silo_effect_devops/)) 현상 타파 - 부서 간 장벽을 허물고 공동의 목표(빠른 배포와 시스템 안정성) 달성
 3. [CALMS](/studynote/15_devops_sre/01_culture_methodology/003_calms_framework/) 프레임워크 - [DevOps](/studynote/15_devops_sre/01_culture_methodology/003_calms_framework/) 5대 핵심 가치 (Culture 문화, Automation 자동화, [Lean](/studynote/15_devops_sre/01_culture_methodology/003_calms_framework/) 린 IT, Measurement 측정, Sharing 공유)
 4. [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) ([Agile](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))과의 [관계](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) - [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)이 개발(기획~코딩)의 속도를 높인다면, DevOps는 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)의 속도를 운영(배포~[모니터](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)링)까지 확장한 체계
 5. [피드백 루프](/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/) ([Feedback Loop](/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)) - 운영 환경의 이슈와 사용자 반응을 즉각적으로 개발 계획에 반영하는 순환 구조
