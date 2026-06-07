@@ -122,7 +122,7 @@ plugins:
     enabled: true
   - source: github:quartz-community/tag-page
     enabled: true
-  - source: github:quartz-community/explorer
+  - source: ./plugins/explorer
     enabled: true
     options:
       folderClickBehavior: "collapse"
