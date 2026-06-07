@@ -1,5 +1,5 @@
 ---
-title: "447. Stress Test"
+title: "Stress Test"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

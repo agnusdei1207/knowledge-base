@@ -1,5 +1,5 @@
 ---
-title: "4 Core Components"
+title: "Core Components"
 date: "2026-05-05"
 tags:
   - "studynote-computer-architecture"

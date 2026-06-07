@@ -1,5 +1,5 @@
 ---
-title: "178. Modern Data Stack"
+title: "Modern Data Stack"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

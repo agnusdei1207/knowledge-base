@@ -1,5 +1,5 @@
 ---
-title: "260. uRPF (Unicast Reverse Path Forwarding)"
+title: "uRPF (Unicast Reverse Path Forwarding)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

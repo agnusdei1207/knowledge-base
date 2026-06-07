@@ -1,5 +1,5 @@
 ---
-title: "097. Regression Metrics Mse Rmse Mae"
+title: "Regression Metrics Mse Rmse Mae"
 date: "2026-03-04"
 tags:
   - "studynote-data-engineering"

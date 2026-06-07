@@ -1,5 +1,5 @@
 ---
-title: "048. Consistent Hashing Ring Structure"
+title: "Consistent Hashing Ring Structure"
 date: "2026-04-05"
 tags:
   - "studynote-data-engineering"

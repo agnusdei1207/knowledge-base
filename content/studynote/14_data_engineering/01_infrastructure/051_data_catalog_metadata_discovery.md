@@ -1,5 +1,5 @@
 ---
-title: "051. Data Catalog Metadata Discovery"
+title: "Data Catalog Metadata Discovery"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"

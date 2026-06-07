@@ -1,5 +1,5 @@
 ---
-title: "360. Thunderbolt"
+title: "Thunderbolt"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"

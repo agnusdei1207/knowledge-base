@@ -1,5 +1,5 @@
 ---
-title: "176. Join Order Optimization"
+title: "Join Order Optimization"
 date: "2026-05-06"
 tags:
   - "studynote-database"

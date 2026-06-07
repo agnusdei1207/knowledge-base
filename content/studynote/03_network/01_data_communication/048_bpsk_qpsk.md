@@ -1,5 +1,5 @@
 ---
-title: "048. Bpsk Qpsk"
+title: "Bpsk Qpsk"
 date: "2026-04-05"
 tags:
   - "studynote-network"

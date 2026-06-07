@@ -1,5 +1,5 @@
 ---
-title: "292. LSTM (Long Short-Term Memory)"
+title: "LSTM (Long Short-Term Memory)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

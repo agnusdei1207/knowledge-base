@@ -1,5 +1,5 @@
 ---
-title: "151. Sba Service Based Architecture 5G"
+title: "Sba Service Based Architecture 5G"
 date: "2026-05-03"
 tags:
   - "studynote-ict-convergence"

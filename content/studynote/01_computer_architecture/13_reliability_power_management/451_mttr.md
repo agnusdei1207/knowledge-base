@@ -1,5 +1,5 @@
 ---
-title: "451. Mttr"
+title: "Mttr"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"

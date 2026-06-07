@@ -1,5 +1,5 @@
 ---
-title: "692. Threat Modeling Stride"
+title: "Threat Modeling Stride"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

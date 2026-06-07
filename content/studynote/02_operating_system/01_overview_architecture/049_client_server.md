@@ -1,5 +1,5 @@
 ---
-title: "049. Client Server"
+title: "Client Server"
 date: "2026-04-05"
 tags:
   - "studynote-operating-system"

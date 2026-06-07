@@ -1,5 +1,5 @@
 ---
-title: "233. 스마트 시티 통합 플랫폼 아키텍처"
+title: "스마트 시티 통합 플랫폼 아키텍처"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

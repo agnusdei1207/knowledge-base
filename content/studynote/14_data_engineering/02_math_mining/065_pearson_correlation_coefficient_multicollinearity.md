@@ -1,5 +1,5 @@
 ---
-title: "065. Pearson Correlation Coefficient Multicollinearity"
+title: "Pearson Correlation Coefficient Multicollinearity"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"

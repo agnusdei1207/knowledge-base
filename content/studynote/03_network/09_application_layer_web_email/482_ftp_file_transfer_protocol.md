@@ -1,5 +1,5 @@
 ---
-title: "482. FTP (File Transfer Protocol)"
+title: "FTP (File Transfer Protocol)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

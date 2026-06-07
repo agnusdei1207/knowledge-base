@@ -1,5 +1,5 @@
 ---
-title: "669. Hardware Trng Kernel Entropy Pool"
+title: "Hardware Trng Kernel Entropy Pool"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

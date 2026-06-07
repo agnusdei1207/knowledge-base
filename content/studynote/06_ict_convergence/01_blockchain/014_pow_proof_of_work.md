@@ -1,5 +1,5 @@
 ---
-title: "014. Pow Proof Of Work"
+title: "Pow Proof Of Work"
 date: "2024-05-18"
 tags:
   - "ict_convergence"

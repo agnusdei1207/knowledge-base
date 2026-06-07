@@ -1,5 +1,5 @@
 ---
-title: "093. Smart Contract Formal Verification"
+title: "Smart Contract Formal Verification"
 date: "2026-06-07"
 tags:
   - "ict_convergence"

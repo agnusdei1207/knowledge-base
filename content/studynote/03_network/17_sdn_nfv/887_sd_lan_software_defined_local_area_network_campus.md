@@ -1,5 +1,5 @@
 ---
-title: "887. Sd Lan Software Defined Local Area Network Campus"
+title: "Sd Lan Software Defined Local Area Network Campus"
 date: "2026-05-08"
 tags:
   - "studynote-network"

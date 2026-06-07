@@ -1,5 +1,5 @@
 ---
-title: "087. Account Abstraction Erc 4337"
+title: "Account Abstraction Erc 4337"
 date: "2026-06-07"
 tags:
   - "ict_convergence"

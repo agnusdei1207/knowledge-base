@@ -1,5 +1,5 @@
 ---
-title: "854. Union Find"
+title: "Union Find"
 date: "2026-06-07"
 tags:
   - "it_management"

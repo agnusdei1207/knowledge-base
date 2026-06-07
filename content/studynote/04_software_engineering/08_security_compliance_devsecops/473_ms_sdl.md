@@ -1,5 +1,5 @@
 ---
-title: "473. Ms Sdl"
+title: "Ms Sdl"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

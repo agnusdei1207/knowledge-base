@@ -1,5 +1,5 @@
 ---
-title: "778. 3D Mimo Full Dimension Elevation Beamforming"
+title: "3D Mimo Full Dimension Elevation Beamforming"
 date: "2026-05-08"
 tags:
   - "studynote-network"

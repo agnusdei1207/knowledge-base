@@ -1,5 +1,5 @@
 ---
-title: "631. OPC UA"
+title: "OPC UA"
 date: "2026-05-08"
 tags:
   - "studynote-network"

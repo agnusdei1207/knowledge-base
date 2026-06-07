@@ -1,5 +1,5 @@
 ---
-title: "181. Reverse Engineering Requirements"
+title: "Reverse Engineering Requirements"
 date: "2026-05-06"
 tags:
   - "studynote-software-engineering"

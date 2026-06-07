@@ -1,5 +1,5 @@
 ---
-title: "588. Logic Bomb"
+title: "Logic Bomb"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

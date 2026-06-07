@@ -1,5 +1,5 @@
 ---
-title: "588. MANET (Mobile Ad-hoc Network)"
+title: "MANET (Mobile Ad-hoc Network)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "149. Clone System Call"
+title: "Clone System Call"
 date: "2026-05-03"
 tags:
   - "studynote-operating-system"

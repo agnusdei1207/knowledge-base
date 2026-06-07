@@ -1,5 +1,5 @@
 ---
-title: "236. Data Contract"
+title: "Data Contract"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

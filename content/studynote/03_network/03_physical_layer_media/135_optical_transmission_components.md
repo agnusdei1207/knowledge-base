@@ -1,5 +1,5 @@
 ---
-title: "135. Optical Transmission Components"
+title: "Optical Transmission Components"
 date: "2026-05-08"
 tags:
   - "studynote-network"

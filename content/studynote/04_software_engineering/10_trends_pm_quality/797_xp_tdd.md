@@ -1,5 +1,5 @@
 ---
-title: "797. Xp Tdd"
+title: "Xp Tdd"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

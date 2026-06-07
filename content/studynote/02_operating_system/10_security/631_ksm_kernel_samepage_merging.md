@@ -1,5 +1,5 @@
 ---
-title: "631. Ksm Kernel Samepage Merging"
+title: "Ksm Kernel Samepage Merging"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

@@ -1,5 +1,5 @@
 ---
-title: "021. Consortium Blockchain"
+title: "Consortium Blockchain"
 date: "2024-05-18"
 tags:
   - "ict_convergence"

@@ -1,5 +1,5 @@
 ---
-title: "214. Delphi Method Expert Consensus Forecasting"
+title: "Delphi Method Expert Consensus Forecasting"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise-systems"

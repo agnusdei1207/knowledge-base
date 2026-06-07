@@ -1,5 +1,5 @@
 ---
-title: "783. 모바일 환경 에너지 인지 스케줄러"
+title: "모바일 환경 에너지 인지 스케줄러"
 date: "2026-06-07"
 tags:
   - "studynote-operating-system"

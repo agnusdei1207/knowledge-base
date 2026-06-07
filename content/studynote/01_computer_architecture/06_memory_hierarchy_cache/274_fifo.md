@@ -1,5 +1,5 @@
 ---
-title: "274. FIFO (First-In, First-Out)"
+title: "FIFO (First-In, First-Out)"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"

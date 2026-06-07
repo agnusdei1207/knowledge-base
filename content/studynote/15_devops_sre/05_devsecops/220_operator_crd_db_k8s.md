@@ -1,5 +1,5 @@
 ---
-title: "220. Operator Crd Db K8S"
+title: "Operator Crd Db K8S"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

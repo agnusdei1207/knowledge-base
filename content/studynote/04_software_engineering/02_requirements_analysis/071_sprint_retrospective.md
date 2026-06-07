@@ -1,5 +1,5 @@
 ---
-title: "071. Sprint Retrospective"
+title: "Sprint Retrospective"
 date: "2026-06-07"
 tags:
   - "software_engineering"

@@ -1,5 +1,5 @@
 ---
-title: "757. LTE-A (LTE-Advanced)"
+title: "LTE-A (LTE-Advanced)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

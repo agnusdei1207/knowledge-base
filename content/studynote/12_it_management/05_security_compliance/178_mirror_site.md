@@ -1,5 +1,5 @@
 ---
-title: "178. 미러 사이트 (Mirror Site)"
+title: "미러 사이트 (Mirror Site)"
 date: "2026-05-06"
 tags:
   - "studynote-it-management"

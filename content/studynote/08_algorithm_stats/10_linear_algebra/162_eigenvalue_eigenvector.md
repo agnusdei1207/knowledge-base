@@ -1,5 +1,5 @@
 ---
-title: "162. Eigenvalue Eigenvector"
+title: "Eigenvalue Eigenvector"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

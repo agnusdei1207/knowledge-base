@@ -1,5 +1,5 @@
 ---
-title: "239. Component Deployment Diagram Uml"
+title: "Component Deployment Diagram Uml"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

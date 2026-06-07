@@ -1,5 +1,5 @@
 ---
-title: "497. GraphQL DoS (GraphQL DoS)"
+title: "GraphQL DoS (GraphQL DoS)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

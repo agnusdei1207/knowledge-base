@@ -1,5 +1,5 @@
 ---
-title: "891. OT (Operational Technology)"
+title: "OT (Operational Technology)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

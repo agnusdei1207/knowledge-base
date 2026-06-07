@@ -1,5 +1,5 @@
 ---
-title: "310. ALG (Application Layer Gateway)"
+title: "ALG (Application Layer Gateway)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

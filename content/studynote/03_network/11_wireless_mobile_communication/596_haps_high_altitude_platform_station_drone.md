@@ -1,5 +1,5 @@
 ---
-title: "596. Haps High Altitude Platform Station Drone"
+title: "Haps High Altitude Platform Station Drone"
 date: "2026-05-08"
 tags:
   - "studynote-network"

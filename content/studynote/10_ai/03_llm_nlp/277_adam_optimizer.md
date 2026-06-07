@@ -1,5 +1,5 @@
 ---
-title: "277. Adam (Adaptive Moment Estimation)"
+title: "Adam (Adaptive Moment Estimation)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

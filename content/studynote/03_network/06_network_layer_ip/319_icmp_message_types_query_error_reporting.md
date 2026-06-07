@@ -1,5 +1,5 @@
 ---
-title: "319. Icmp Message Types Query Error Reporting"
+title: "Icmp Message Types Query Error Reporting"
 date: "2026-05-08"
 tags:
   - "studynote-network"

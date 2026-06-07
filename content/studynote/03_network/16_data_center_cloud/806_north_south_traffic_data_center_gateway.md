@@ -1,5 +1,5 @@
 ---
-title: "806. North South Traffic Data Center Gateway"
+title: "North South Traffic Data Center Gateway"
 date: "2026-05-08"
 tags:
   - "studynote-network"

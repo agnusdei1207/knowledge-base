@@ -1,5 +1,5 @@
 ---
-title: "343. FORTIFY_SOURCE (FORTIFY_SOURCE)"
+title: "FORTIFY_SOURCE (FORTIFY_SOURCE)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

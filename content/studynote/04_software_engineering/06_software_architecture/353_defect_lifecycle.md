@@ -1,5 +1,5 @@
 ---
-title: "353. Defect Lifecycle"
+title: "Defect Lifecycle"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

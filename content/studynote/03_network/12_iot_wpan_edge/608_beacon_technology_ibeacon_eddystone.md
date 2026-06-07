@@ -1,5 +1,5 @@
 ---
-title: "608. Beacon Technology Ibeacon Eddystone"
+title: "Beacon Technology Ibeacon Eddystone"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "595. NTLM Hash (NTLM Hash)"
+title: "NTLM Hash (NTLM Hash)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

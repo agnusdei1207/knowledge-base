@@ -1,5 +1,5 @@
 ---
-title: "1090. Rsvp Resource Reservation Protocol Qos"
+title: "Rsvp Resource Reservation Protocol Qos"
 date: "2026-05-08"
 tags:
   - "studynote-network"

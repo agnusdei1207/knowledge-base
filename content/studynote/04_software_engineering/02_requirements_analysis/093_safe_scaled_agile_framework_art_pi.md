@@ -1,5 +1,5 @@
 ---
-title: "093. Safe Scaled Agile Framework Art Pi"
+title: "Safe Scaled Agile Framework Art Pi"
 date: "2026-05-10"
 tags:
   - "studynote-software-engineering"

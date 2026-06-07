@@ -1,5 +1,5 @@
 ---
-title: "350. 연합 학습 엣지 분산 데이터 프라이버시 검열망"
+title: "연합 학습 엣지 분산 데이터 프라이버시 검열망"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

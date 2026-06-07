@@ -1,5 +1,5 @@
 ---
-title: "118. Mqtt Protocol"
+title: "Mqtt Protocol"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"

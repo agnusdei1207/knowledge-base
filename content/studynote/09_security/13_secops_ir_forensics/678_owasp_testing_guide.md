@@ -1,5 +1,5 @@
 ---
-title: "678. OWASP Testing Guide (OWASP Testing Guide)"
+title: "OWASP Testing Guide (OWASP Testing Guide)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

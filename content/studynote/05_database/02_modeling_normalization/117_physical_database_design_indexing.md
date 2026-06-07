@@ -1,5 +1,5 @@
 ---
-title: "117. Physical Database Design Indexing"
+title: "Physical Database Design Indexing"
 date: "2026-04-19"
 tags:
   - "studynote-database"

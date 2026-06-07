@@ -1,5 +1,5 @@
 ---
-title: "248. Dry Dont Repeat Yourself Principle"
+title: "Dry Dont Repeat Yourself Principle"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

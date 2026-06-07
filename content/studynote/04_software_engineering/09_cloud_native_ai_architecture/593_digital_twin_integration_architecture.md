@@ -1,5 +1,5 @@
 ---
-title: "593. Digital Twin Integration Architecture"
+title: "Digital Twin Integration Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

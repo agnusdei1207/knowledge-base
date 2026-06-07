@@ -1,5 +1,5 @@
 ---
-title: "681. Monorepo Vs Multirepo"
+title: "Monorepo Vs Multirepo"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

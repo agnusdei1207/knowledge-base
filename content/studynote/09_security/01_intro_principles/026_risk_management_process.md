@@ -1,5 +1,5 @@
 ---
-title: "026. Risk Management Process"
+title: "Risk Management Process"
 date: "2026-04-29"
 tags:
   - "studynote-security"

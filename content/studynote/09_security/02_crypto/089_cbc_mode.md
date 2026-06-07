@@ -1,5 +1,5 @@
 ---
-title: "089. Cbc Mode"
+title: "Cbc Mode"
 date: "2026-04-05"
 tags:
   - "studynote-security"

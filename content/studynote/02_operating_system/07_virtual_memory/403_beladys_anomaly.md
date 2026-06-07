@@ -1,5 +1,5 @@
 ---
-title: "403. Beladys Anomaly"
+title: "Beladys Anomaly"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

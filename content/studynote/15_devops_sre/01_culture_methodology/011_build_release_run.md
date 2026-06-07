@@ -1,5 +1,5 @@
 ---
-title: "011. Build Release Run"
+title: "Build Release Run"
 date: "2026-04-05"
 tags:
   - "devops_sre"

@@ -1,5 +1,5 @@
 ---
-title: "059. Quantization"
+title: "Quantization"
 date: "2026-03-30"
 tags:
   - "studynote-network"

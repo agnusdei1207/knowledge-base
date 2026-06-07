@@ -1,5 +1,5 @@
 ---
-title: "609. Zigbee Ieee 802 15 4 Mesh Iot"
+title: "Zigbee Ieee 802 15 4 Mesh Iot"
 date: "2026-05-08"
 tags:
   - "studynote-network"

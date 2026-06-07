@@ -1,5 +1,5 @@
 ---
-title: "1015. Hold Your Own Key (HYOK) — 외부 키 보관"
+title: "Hold Your Own Key (HYOK) — 외부 키 보관"
 date: "2026-06-07"
 tags:
   - "studynote-security"

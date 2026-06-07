@@ -1,5 +1,5 @@
 ---
-title: "200. Real Time Kernel Preempt Rt"
+title: "Real Time Kernel Preempt Rt"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"

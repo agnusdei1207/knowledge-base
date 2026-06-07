@@ -1,5 +1,5 @@
 ---
-title: "188. Oom Memory Protection Gc Spark Spill"
+title: "Oom Memory Protection Gc Spark Spill"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

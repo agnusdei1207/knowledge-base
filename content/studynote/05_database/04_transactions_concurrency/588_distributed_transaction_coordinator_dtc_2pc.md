@@ -1,5 +1,5 @@
 ---
-title: "588. Distributed Transaction Coordinator Dtc 2Pc"
+title: "Distributed Transaction Coordinator Dtc 2Pc"
 date: "2026-05-09"
 tags:
   - "studynote-database"

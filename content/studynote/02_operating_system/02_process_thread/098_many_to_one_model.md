@@ -1,5 +1,5 @@
 ---
-title: "098. Many To One Model"
+title: "Many To One Model"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"

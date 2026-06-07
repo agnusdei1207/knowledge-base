@@ -1,5 +1,5 @@
 ---
-title: "358. TF-IDF (Term Frequency - Inverse Document Frequency)"
+title: "TF-IDF (Term Frequency - Inverse Document Frequency)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"

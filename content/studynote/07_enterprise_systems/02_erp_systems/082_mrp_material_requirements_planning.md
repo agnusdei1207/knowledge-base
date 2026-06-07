@@ -1,5 +1,5 @@
 ---
-title: "82. MRP (Material Requirements Planning)"
+title: "MRP (Material Requirements Planning)"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise-systems"

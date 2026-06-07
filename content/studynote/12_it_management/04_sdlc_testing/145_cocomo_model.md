@@ -1,5 +1,5 @@
 ---
-title: "145. COCOMO (Constructive Cost Model)"
+title: "COCOMO (Constructive Cost Model)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

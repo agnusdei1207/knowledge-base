@@ -1,5 +1,5 @@
 ---
-title: "331. 과업 대비표 요건 충족 대조망"
+title: "과업 대비표 요건 충족 대조망"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

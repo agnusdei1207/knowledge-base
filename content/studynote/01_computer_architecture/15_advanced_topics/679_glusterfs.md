@@ -1,5 +1,5 @@
 ---
-title: "679. Glusterfs"
+title: "Glusterfs"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

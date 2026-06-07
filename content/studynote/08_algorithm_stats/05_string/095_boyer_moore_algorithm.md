@@ -1,5 +1,5 @@
 ---
-title: "095. Boyer Moore Algorithm"
+title: "Boyer Moore Algorithm"
 date: "2024-03-21"
 tags:
   - "studynote-algorithm-stats"

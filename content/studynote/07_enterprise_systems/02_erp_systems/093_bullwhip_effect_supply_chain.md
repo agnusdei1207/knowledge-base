@@ -1,5 +1,5 @@
 ---
-title: "093. Bullwhip Effect Supply Chain"
+title: "Bullwhip Effect Supply Chain"
 date: "2026-06-07"
 tags:
   - "enterprise_systems"

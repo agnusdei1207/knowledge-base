@@ -1,5 +1,5 @@
 ---
-title: "284. Modifiability Tactics"
+title: "Modifiability Tactics"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

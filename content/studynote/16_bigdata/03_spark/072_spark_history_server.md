@@ -1,5 +1,5 @@
 ---
-title: "072. Spark History Server"
+title: "Spark History Server"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

@@ -1,5 +1,5 @@
 ---
-title: "341. 감리 독립성 지배 구조"
+title: "감리 독립성 지배 구조"
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

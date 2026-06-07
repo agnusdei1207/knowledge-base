@@ -1,5 +1,5 @@
 ---
-title: "648. Ccb Configuration Control Board"
+title: "Ccb Configuration Control Board"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

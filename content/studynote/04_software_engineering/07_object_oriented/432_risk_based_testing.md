@@ -1,5 +1,5 @@
 ---
-title: "432. Risk Based Testing"
+title: "Risk Based Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

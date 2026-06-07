@@ -1,5 +1,5 @@
 ---
-title: "1016. LAA (Licensed Assisted Access)"
+title: "LAA (Licensed Assisted Access)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

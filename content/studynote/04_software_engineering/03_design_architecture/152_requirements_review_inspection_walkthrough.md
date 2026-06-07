@@ -1,5 +1,5 @@
 ---
-title: "152. Requirements Review Inspection Walkthrough"
+title: "Requirements Review Inspection Walkthrough"
 date: "2026-05-03"
 tags:
   - "software_engineering"

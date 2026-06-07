@@ -1,5 +1,5 @@
 ---
-title: "033. Reduce Function Aggregation Logic"
+title: "Reduce Function Aggregation Logic"
 date: "2026-03-04"
 tags:
   - "studynote-bigdata"

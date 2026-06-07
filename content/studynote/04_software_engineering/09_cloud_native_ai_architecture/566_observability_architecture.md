@@ -1,5 +1,5 @@
 ---
-title: "566. Observability Architecture"
+title: "Observability Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "1041. Sd Wan Software Defined Branch Routing"
+title: "Sd Wan Software Defined Branch Routing"
 date: "2026-05-08"
 tags:
   - "studynote-network"

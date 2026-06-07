@@ -1,5 +1,5 @@
 ---
-title: "238. Project Steering Committee"
+title: "Project Steering Committee"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"

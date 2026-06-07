@@ -1,5 +1,5 @@
 ---
-title: "370. Code Smell"
+title: "Code Smell"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

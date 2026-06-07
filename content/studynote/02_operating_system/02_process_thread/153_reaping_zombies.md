@@ -1,5 +1,5 @@
 ---
-title: "153. Reaping Zombies"
+title: "Reaping Zombies"
 date: "2026-05-03"
 tags:
   - "studynote-operating-system"

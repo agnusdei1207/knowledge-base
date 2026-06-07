@@ -1,5 +1,5 @@
 ---
-title: "882. Self Service Portal Helpdesk Automation"
+title: "Self Service Portal Helpdesk Automation"
 date: "2026-04-10"
 tags:
   - "studynote-it-management"

@@ -1,5 +1,5 @@
 ---
-title: "316. OLAP 드릴다운 롤업 다이스 분석"
+title: "OLAP 드릴다운 롤업 다이스 분석"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

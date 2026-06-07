@@ -1,5 +1,5 @@
 ---
-title: "251. DRAM (Dynamic RAM)"
+title: "DRAM (Dynamic RAM)"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"

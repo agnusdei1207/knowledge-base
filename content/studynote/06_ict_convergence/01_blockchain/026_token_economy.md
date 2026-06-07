@@ -1,5 +1,5 @@
 ---
-title: "026. Token Economy"
+title: "Token Economy"
 date: "2026-04-29"
 tags:
   - "studynote-ict-convergence"

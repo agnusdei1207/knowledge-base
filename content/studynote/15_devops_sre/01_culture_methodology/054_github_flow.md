@@ -1,5 +1,5 @@
 ---
-title: "54. GitHub Flow"
+title: "GitHub Flow"
 date: "2026-05-01"
 tags:
   - "studynote-devops-sre"

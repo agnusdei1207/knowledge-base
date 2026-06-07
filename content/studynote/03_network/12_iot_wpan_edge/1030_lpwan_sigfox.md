@@ -1,5 +1,5 @@
 ---
-title: "1030. Lpwan Sigfox"
+title: "Lpwan Sigfox"
 date: "2026-05-08"
 tags:
   - "studynote-network"

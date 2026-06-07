@@ -1,5 +1,5 @@
 ---
-title: "142. Schemaless Design Patterns"
+title: "Schemaless Design Patterns"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

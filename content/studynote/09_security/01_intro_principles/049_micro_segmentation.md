@@ -1,5 +1,5 @@
 ---
-title: "049. Micro Segmentation"
+title: "Micro Segmentation"
 date: "2026-04-05"
 tags:
   - "studynote-security"

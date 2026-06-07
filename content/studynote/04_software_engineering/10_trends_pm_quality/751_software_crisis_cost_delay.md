@@ -1,5 +1,5 @@
 ---
-title: "751. Software Crisis Cost Delay"
+title: "Software Crisis Cost Delay"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

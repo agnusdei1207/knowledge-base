@@ -1,5 +1,5 @@
 ---
-title: "020. Data Structure Ratio"
+title: "Data Structure Ratio"
 date: "2024-05-24"
 tags:
   - "bigdata"

@@ -1,5 +1,5 @@
 ---
-title: "174. 개인정보 영향평가 (Privacy Impact Assessment, PIA)"
+title: "개인정보 영향평가 (Privacy Impact Assessment, PIA)"
 date: "2026-03-04"
 tags:
   - "studynote-it-management"

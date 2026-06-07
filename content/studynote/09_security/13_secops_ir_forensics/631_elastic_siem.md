@@ -1,5 +1,5 @@
 ---
-title: "631. Elastic SIEM (Elastic SIEM)"
+title: "Elastic SIEM (Elastic SIEM)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

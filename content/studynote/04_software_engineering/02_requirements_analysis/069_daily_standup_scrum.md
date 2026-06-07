@@ -1,5 +1,5 @@
 ---
-title: "069. Daily Standup Scrum"
+title: "Daily Standup Scrum"
 date: "2026-06-07"
 tags:
   - "software_engineering"

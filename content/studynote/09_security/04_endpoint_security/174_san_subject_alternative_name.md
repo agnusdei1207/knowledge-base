@@ -1,5 +1,5 @@
 ---
-title: "174. San Subject Alternative Name"
+title: "San Subject Alternative Name"
 date: "2026-04-05"
 tags:
   - "studynote-security"

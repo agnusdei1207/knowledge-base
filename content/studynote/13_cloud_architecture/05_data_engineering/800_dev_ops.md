@@ -1,5 +1,5 @@
 ---
-title: "800. 클라우드 / 데이터 / DevOps 융합 아키텍처 마스터 맵 종결"
+title: "클라우드 / 데이터 / DevOps 융합 아키텍처 마스터 맵 종결"
 date: "2026-06-07"
 tags:
   - "studynote-cloud-architecture"

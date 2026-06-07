@@ -1,5 +1,5 @@
 ---
-title: "171. Fallback Resilience Pattern"
+title: "Fallback Resilience Pattern"
 date: "2026-05-06"
 tags:
   - "studynote-enterprise-systems"

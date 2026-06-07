@@ -1,5 +1,5 @@
 ---
-title: "135. Regtech Regulatory Technology Aml"
+title: "Regtech Regulatory Technology Aml"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"

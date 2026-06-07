@@ -1,5 +1,5 @@
 ---
-title: "275. AAL (ATM Adaptation Layer)"
+title: "AAL (ATM Adaptation Layer)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

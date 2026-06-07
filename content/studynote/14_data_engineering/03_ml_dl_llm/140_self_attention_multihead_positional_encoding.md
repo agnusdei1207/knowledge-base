@@ -1,5 +1,5 @@
 ---
-title: "140. Self Attention Multihead Positional Encoding"
+title: "Self Attention Multihead Positional Encoding"
 date: "2026-04-19"
 tags:
   - "studynote-data-engineering"

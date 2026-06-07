@@ -1,5 +1,5 @@
 ---
-title: "577. Rbac Role Based Access Control"
+title: "Rbac Role Based Access Control"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

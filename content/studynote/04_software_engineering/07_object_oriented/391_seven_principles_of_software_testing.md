@@ -1,5 +1,5 @@
 ---
-title: "391. Seven Principles Of Software Testing"
+title: "Seven Principles Of Software Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

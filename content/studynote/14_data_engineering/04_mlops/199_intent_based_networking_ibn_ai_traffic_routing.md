@@ -1,5 +1,5 @@
 ---
-title: "199. Intent Based Networking Ibn Ai Traffic Routing"
+title: "Intent Based Networking Ibn Ai Traffic Routing"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

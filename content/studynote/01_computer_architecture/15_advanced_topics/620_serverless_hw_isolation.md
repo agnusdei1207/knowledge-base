@@ -1,5 +1,5 @@
 ---
-title: "620. Serverless Hw Isolation"
+title: "Serverless Hw Isolation"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "755. Markov Model"
+title: "Markov Model"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

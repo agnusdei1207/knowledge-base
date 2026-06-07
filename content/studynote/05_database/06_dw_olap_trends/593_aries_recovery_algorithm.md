@@ -1,5 +1,5 @@
 ---
-title: "593. ARIES 복구 알고리즘 생존자 Analysis Redo Undo 3페이즈 시스템 복구 표준 원리"
+title: "ARIES 복구 알고리즘 생존자 Analysis Redo Undo 3페이즈 시스템 복구 표준 원리"
 date: "2026-05-09"
 tags:
   - "studynote-database"

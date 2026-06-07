@@ -1,5 +1,5 @@
 ---
-title: "1004. Erlang Traffic Load Unit Calculation"
+title: "Erlang Traffic Load Unit Calculation"
 date: "2026-05-08"
 tags:
   - "studynote-network"

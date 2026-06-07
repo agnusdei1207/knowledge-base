@@ -1,5 +1,5 @@
 ---
-title: "665. Windows Registry Configuration Manager"
+title: "Windows Registry Configuration Manager"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

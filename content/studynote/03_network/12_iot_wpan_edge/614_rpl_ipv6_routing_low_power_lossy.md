@@ -1,5 +1,5 @@
 ---
-title: "614. RPL (IPv6 Routing Protocol for Low-Power and Lossy Networks)"
+title: "RPL (IPv6 Routing Protocol for Low-Power and Lossy Networks)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

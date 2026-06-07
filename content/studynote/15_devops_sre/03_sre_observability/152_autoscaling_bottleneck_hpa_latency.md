@@ -1,5 +1,5 @@
 ---
-title: "152. Autoscaling Bottleneck Hpa Latency"
+title: "Autoscaling Bottleneck Hpa Latency"
 date: "2026-05-03"
 tags:
   - "studynote-devops-sre"

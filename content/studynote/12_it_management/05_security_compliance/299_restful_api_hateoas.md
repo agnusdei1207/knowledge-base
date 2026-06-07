@@ -1,5 +1,5 @@
 ---
-title: "299. RESTful API 무상태성 HATEOAS"
+title: "RESTful API 무상태성 HATEOAS"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

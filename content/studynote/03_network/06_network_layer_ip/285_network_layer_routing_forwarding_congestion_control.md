@@ -1,5 +1,5 @@
 ---
-title: "285. Network Layer Routing Forwarding Congestion Control"
+title: "Network Layer Routing Forwarding Congestion Control"
 date: "2026-05-08"
 tags:
   - "studynote-network"

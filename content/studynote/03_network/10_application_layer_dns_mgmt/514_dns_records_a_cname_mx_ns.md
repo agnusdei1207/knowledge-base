@@ -1,5 +1,5 @@
 ---
-title: "514. Dns Records A Cname Mx Ns"
+title: "Dns Records A Cname Mx Ns"
 date: "2026-05-08"
 tags:
   - "studynote-network"

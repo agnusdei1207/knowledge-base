@@ -1,5 +1,5 @@
 ---
-title: "468. A10. SSRF (A10. SSRF)"
+title: "A10. SSRF (A10. SSRF)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

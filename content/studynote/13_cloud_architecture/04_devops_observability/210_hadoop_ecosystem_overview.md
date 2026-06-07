@@ -1,5 +1,5 @@
 ---
-title: "210. Hadoop Ecosystem Overview"
+title: "Hadoop Ecosystem Overview"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"

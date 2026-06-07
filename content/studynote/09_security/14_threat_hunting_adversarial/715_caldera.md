@@ -1,5 +1,5 @@
 ---
-title: "715. Caldera (Caldera)"
+title: "Caldera (Caldera)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

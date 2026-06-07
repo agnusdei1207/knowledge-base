@@ -1,5 +1,5 @@
 ---
-title: "320. Edge Computing Architecture"
+title: "Edge Computing Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

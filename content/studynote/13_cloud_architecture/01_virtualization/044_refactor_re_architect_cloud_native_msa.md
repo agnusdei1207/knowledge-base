@@ -1,5 +1,5 @@
 ---
-title: "044. Refactor Re Architect Cloud Native Msa"
+title: "Refactor Re Architect Cloud Native Msa"
 date: "2026-04-05"
 tags:
   - "studynote-cloud-architecture"

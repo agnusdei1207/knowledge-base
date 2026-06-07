@@ -1,5 +1,5 @@
 ---
-title: "140. Consistency Levels"
+title: "Consistency Levels"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

@@ -1,5 +1,5 @@
 ---
-title: "195. Eai Edi Van B2B Integration"
+title: "Eai Edi Van B2B Integration"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise-systems"

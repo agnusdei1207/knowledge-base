@@ -1,5 +1,5 @@
 ---
-title: "174. Llmops Prompt Template Rag Pipeline"
+title: "Llmops Prompt Template Rag Pipeline"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

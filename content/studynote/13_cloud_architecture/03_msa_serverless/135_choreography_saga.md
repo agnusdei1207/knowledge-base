@@ -1,5 +1,5 @@
 ---
-title: "135. Choreography Saga"
+title: "Choreography Saga"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"

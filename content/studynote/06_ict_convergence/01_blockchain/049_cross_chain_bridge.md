@@ -1,5 +1,5 @@
 ---
-title: "049. Cross Chain Bridge"
+title: "Cross Chain Bridge"
 date: "2026-04-05"
 tags:
   - "studynote-ict-convergence"

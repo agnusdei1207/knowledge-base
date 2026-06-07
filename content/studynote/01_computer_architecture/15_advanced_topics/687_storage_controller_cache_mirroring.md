@@ -1,5 +1,5 @@
 ---
-title: "687. Storage Controller Cache Mirroring"
+title: "Storage Controller Cache Mirroring"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

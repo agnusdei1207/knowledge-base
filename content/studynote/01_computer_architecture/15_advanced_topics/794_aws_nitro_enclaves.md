@@ -1,5 +1,5 @@
 ---
-title: "794. AWS Nitro Enclaves (AWS Nitro Enclaves)"
+title: "AWS Nitro Enclaves (AWS Nitro Enclaves)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

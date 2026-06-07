@@ -1,5 +1,5 @@
 ---
-title: "160. Non Clustered Index Secondary"
+title: "Non Clustered Index Secondary"
 date: "2026-05-05"
 tags:
   - "studynote-database"

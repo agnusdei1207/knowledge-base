@@ -1,5 +1,5 @@
 ---
-title: "244. Ocp Open Closed Principle"
+title: "Ocp Open Closed Principle"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

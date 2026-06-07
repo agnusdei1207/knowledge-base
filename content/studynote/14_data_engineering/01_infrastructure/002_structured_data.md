@@ -1,5 +1,5 @@
 ---
-title: "002. Structured Data"
+title: "Structured Data"
 date: "2024-05-24"
 tags:
   - "data_engineering"

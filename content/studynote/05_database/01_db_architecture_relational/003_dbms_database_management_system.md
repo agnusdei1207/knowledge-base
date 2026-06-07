@@ -1,5 +1,5 @@
 ---
-title: "003. Dbms Database Management System"
+title: "Dbms Database Management System"
 date: "2024-05-20"
 tags:
   - "database"

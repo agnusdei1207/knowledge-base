@@ -1,5 +1,5 @@
 ---
-title: "493. S/MIME"
+title: "S/MIME"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "027. Regularization Techniques"
+title: "Regularization Techniques"
 date: "2026-04-29"
 tags:
   - "studynote-ai"

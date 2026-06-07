@@ -1,5 +1,5 @@
 ---
-title: "176. Ev Extended Validation Certificate"
+title: "Ev Extended Validation Certificate"
 date: "2026-04-05"
 tags:
   - "studynote-security"

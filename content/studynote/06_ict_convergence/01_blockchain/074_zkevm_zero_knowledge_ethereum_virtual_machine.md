@@ -1,5 +1,5 @@
 ---
-title: "74. zkEVM (Zero-Knowledge Ethereum Virtual Machine)"
+title: "zkEVM (Zero-Knowledge Ethereum Virtual Machine)"
 date: "2026-04-07"
 tags:
   - "studynote-ict-convergence"

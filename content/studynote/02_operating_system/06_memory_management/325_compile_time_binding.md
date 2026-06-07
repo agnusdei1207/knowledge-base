@@ -1,5 +1,5 @@
 ---
-title: "325. Compile Time Binding"
+title: "Compile Time Binding"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

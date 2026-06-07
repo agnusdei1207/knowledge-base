@@ -1,5 +1,5 @@
 ---
-title: "073. Enigma"
+title: "Enigma"
 date: "2026-04-05"
 tags:
   - "studynote-security"

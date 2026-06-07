@@ -1,5 +1,5 @@
 ---
-title: "096. Rabin Karp Algorithm"
+title: "Rabin Karp Algorithm"
 date: "2024-03-21"
 tags:
   - "studynote-algorithm-stats"

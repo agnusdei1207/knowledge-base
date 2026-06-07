@@ -1,5 +1,5 @@
 ---
-title: "369. Sisd"
+title: "Sisd"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"

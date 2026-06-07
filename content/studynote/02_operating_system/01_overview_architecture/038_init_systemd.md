@@ -1,5 +1,5 @@
 ---
-title: "038. Init Systemd"
+title: "Init Systemd"
 date: "2026-03-03"
 tags:
   - "studynote-operating-system"

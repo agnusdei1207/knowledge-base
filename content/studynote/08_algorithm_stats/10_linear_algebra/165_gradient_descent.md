@@ -1,5 +1,5 @@
 ---
-title: "165. Gradient Descent"
+title: "Gradient Descent"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

@@ -1,5 +1,5 @@
 ---
-title: "849. Sd Wan Software Defined Wide Area Network"
+title: "Sd Wan Software Defined Wide Area Network"
 date: "2026-05-08"
 tags:
   - "studynote-network"

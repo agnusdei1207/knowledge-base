@@ -1,5 +1,5 @@
 ---
-title: "819. Stt Stateless Transport Tunneling Offload"
+title: "Stt Stateless Transport Tunneling Offload"
 date: "2026-05-08"
 tags:
   - "studynote-network"

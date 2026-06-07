@@ -1,5 +1,5 @@
 ---
-title: "028. Binary Search"
+title: "Binary Search"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

@@ -1,5 +1,5 @@
 ---
-title: "545. eduGAIN (eduGAIN)"
+title: "eduGAIN (eduGAIN)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

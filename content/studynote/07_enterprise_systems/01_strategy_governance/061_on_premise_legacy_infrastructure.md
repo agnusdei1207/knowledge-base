@@ -1,5 +1,5 @@
 ---
-title: "061. On Premise Legacy Infrastructure"
+title: "On Premise Legacy Infrastructure"
 date: "2026-04-07"
 tags:
   - "studynote-enterprise-systems"

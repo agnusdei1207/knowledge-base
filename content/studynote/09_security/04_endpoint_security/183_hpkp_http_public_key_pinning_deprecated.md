@@ -1,5 +1,5 @@
 ---
-title: "183. Hpkp Http Public Key Pinning Deprecated"
+title: "Hpkp Http Public Key Pinning Deprecated"
 date: "2026-05-06"
 tags:
   - "studynote-security"

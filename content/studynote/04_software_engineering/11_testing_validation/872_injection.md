@@ -1,5 +1,5 @@
 ---
-title: "872. Injection"
+title: "Injection"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "591. Buffer Overflow"
+title: "Buffer Overflow"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

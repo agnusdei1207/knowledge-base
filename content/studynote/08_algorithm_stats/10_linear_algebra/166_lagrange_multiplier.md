@@ -1,5 +1,5 @@
 ---
-title: "166. Lagrange Multiplier"
+title: "Lagrange Multiplier"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

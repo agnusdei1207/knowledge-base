@@ -1,5 +1,5 @@
 ---
-title: "072. Vigenere Cipher"
+title: "Vigenere Cipher"
 date: "2026-04-05"
 tags:
   - "studynote-security"

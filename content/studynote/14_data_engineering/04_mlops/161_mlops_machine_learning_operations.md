@@ -1,5 +1,5 @@
 ---
-title: "161. Mlops Machine Learning Operations"
+title: "Mlops Machine Learning Operations"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

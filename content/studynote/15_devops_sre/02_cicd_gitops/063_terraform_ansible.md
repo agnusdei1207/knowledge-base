@@ -1,5 +1,5 @@
 ---
-title: "63. Terraform vs Ansible"
+title: "Terraform vs Ansible"
 date: "2026-04-05"
 tags:
   - "studynote-devops-sre"

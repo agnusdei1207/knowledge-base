@@ -1,5 +1,5 @@
 ---
-title: "208. Data Deidentification Techniques"
+title: "Data Deidentification Techniques"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

@@ -1,5 +1,5 @@
 ---
-title: "782. Memory Safety Rust Compiler Verification"
+title: "Memory Safety Rust Compiler Verification"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

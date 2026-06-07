@@ -1,5 +1,5 @@
 ---
-title: "115. Atlantis Terraform Ci"
+title: "Atlantis Terraform Ci"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"

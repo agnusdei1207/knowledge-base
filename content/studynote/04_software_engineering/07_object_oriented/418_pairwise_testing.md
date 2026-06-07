@@ -1,5 +1,5 @@
 ---
-title: "418. Pairwise Testing"
+title: "Pairwise Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

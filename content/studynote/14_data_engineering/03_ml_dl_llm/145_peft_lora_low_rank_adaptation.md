@@ -1,5 +1,5 @@
 ---
-title: "145. Peft Lora Low Rank Adaptation"
+title: "Peft Lora Low Rank Adaptation"
 date: "2026-04-19"
 tags:
   - "studynote-data-engineering"

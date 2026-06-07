@@ -1,5 +1,5 @@
 ---
-title: "135. Red Method Service Analysis"
+title: "Red Method Service Analysis"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"

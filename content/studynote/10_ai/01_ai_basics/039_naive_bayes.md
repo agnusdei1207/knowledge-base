@@ -1,5 +1,5 @@
 ---
-title: "039. Naive Bayes"
+title: "Naive Bayes"
 date: "2026-03-04"
 tags:
   - "studynote-ai"

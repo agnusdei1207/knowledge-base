@@ -1,5 +1,5 @@
 ---
-title: "206. Pipa Bigdata Exception"
+title: "Pipa Bigdata Exception"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

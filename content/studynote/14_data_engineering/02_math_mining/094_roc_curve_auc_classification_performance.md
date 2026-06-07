@@ -1,5 +1,5 @@
 ---
-title: "094. Roc Curve Auc Classification Performance"
+title: "Roc Curve Auc Classification Performance"
 date: "2026-03-04"
 tags:
   - "studynote-data-engineering"

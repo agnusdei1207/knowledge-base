@@ -1,5 +1,5 @@
 ---
-title: "299. Private Ip Ranges 10 172 192"
+title: "Private Ip Ranges 10 172 192"
 date: "2026-05-08"
 tags:
   - "studynote-network"

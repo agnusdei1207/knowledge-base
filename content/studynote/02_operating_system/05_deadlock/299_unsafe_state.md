@@ -1,5 +1,5 @@
 ---
-title: "299. Unsafe State"
+title: "Unsafe State"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

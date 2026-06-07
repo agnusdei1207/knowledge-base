@@ -1,5 +1,5 @@
 ---
-title: "105. Operator Pattern Crd Custom Controller Kubernetes"
+title: "Operator Pattern Crd Custom Controller Kubernetes"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"

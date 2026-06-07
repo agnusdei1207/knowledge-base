@@ -1,5 +1,5 @@
 ---
-title: "990. 봇넷 (Botnet) C&C (Botnet Cnc Zombie Pc Ddos Infrastructure)"
+title: "봇넷 (Botnet) C&C (Botnet Cnc Zombie Pc Ddos Infrastructure)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

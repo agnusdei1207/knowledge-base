@@ -1,5 +1,5 @@
 ---
-title: "1048. Ptp Ieee 1588 Precision Time Protocol Sync"
+title: "Ptp Ieee 1588 Precision Time Protocol Sync"
 date: "2026-05-08"
 tags:
   - "studynote-network"

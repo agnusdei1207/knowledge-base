@@ -1,5 +1,5 @@
 ---
-title: "1113. 5G Sa Nsa Standalone Non Standalone Architecture"
+title: "5G Sa Nsa Standalone Non Standalone Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-network"

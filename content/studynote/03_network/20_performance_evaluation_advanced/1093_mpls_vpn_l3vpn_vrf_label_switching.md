@@ -1,5 +1,5 @@
 ---
-title: "1093. Mpls Vpn L3Vpn Vrf Label Switching"
+title: "Mpls Vpn L3Vpn Vrf Label Switching"
 date: "2026-05-08"
 tags:
   - "studynote-network"

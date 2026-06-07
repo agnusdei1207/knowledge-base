@@ -1,5 +1,5 @@
 ---
-title: "035. Yarn Resource Negotiator"
+title: "Yarn Resource Negotiator"
 date: "2026-03-04"
 tags:
   - "studynote-bigdata"

@@ -1,5 +1,5 @@
 ---
-title: "694. Snort Suricata Misuse Anomaly Detection"
+title: "Snort Suricata Misuse Anomaly Detection"
 date: "2026-05-08"
 tags:
   - "studynote-network"

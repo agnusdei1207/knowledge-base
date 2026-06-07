@@ -1,5 +1,5 @@
 ---
-title: "431. Blind SQL Injection (Blind SQL Injection)"
+title: "Blind SQL Injection (Blind SQL Injection)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "594. NTLM (NTLM)"
+title: "NTLM (NTLM)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

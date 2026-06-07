@@ -1,5 +1,5 @@
 ---
-title: "063. Single Layer Perceptron Xor Problem"
+title: "Single Layer Perceptron Xor Problem"
 date: "2026-04-07"
 tags:
   - "studynote-ai"

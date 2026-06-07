@@ -1,5 +1,5 @@
 ---
-title: "128. Water Scrum Fall Anti Pattern"
+title: "Water Scrum Fall Anti Pattern"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"

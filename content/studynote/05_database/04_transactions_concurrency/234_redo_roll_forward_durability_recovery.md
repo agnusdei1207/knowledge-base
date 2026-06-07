@@ -1,5 +1,5 @@
 ---
-title: "234. Redo (Redo Roll Forward Durability Recovery)"
+title: "Redo (Redo Roll Forward Durability Recovery)"
 date: "2026-05-08"
 tags:
   - "studynote-database"

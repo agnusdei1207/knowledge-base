@@ -1,5 +1,5 @@
 ---
-title: "356. Eigrp Features Bounded Update Unequal Cost Load Balancing"
+title: "Eigrp Features Bounded Update Unequal Cost Load Balancing"
 date: "2026-05-08"
 tags:
   - "studynote-network"

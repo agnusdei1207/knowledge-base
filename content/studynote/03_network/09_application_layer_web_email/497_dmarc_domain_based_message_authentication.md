@@ -1,5 +1,5 @@
 ---
-title: "497. DMARC"
+title: "DMARC"
 date: "2026-05-08"
 tags:
   - "studynote-network"

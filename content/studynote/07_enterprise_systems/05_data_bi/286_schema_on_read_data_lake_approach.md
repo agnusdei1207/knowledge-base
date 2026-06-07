@@ -1,5 +1,5 @@
 ---
-title: "286. Schema On Read Data Lake Approach"
+title: "Schema On Read Data Lake Approach"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"

@@ -1,5 +1,5 @@
 ---
-title: "242. WAF (Web Application Firewall)"
+title: "WAF (Web Application Firewall)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

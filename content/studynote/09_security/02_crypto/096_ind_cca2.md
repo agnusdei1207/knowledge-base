@@ -1,5 +1,5 @@
 ---
-title: "096. Ind Cca2"
+title: "Ind Cca2"
 date: "2026-04-05"
 tags:
   - "studynote-security"

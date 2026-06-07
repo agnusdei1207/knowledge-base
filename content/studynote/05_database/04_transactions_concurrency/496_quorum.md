@@ -1,5 +1,5 @@
 ---
-title: "496. Quorum 읽기 쓰기 일관성 보정 정족수 합의 구조"
+title: "Quorum 읽기 쓰기 일관성 보정 정족수 합의 구조"
 date: "2026-06-07"
 tags:
   - "studynote-database"

@@ -1,5 +1,5 @@
 ---
-title: "487. Email Architecture Mua Mta Mda"
+title: "Email Architecture Mua Mta Mda"
 date: "2026-05-08"
 tags:
   - "studynote-network"

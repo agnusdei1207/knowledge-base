@@ -1,5 +1,5 @@
 ---
-title: "921. Memory Safety Languages"
+title: "Memory Safety Languages"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

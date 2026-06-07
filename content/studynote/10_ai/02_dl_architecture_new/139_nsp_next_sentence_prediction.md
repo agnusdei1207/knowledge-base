@@ -1,5 +1,5 @@
 ---
-title: "139. Nsp Next Sentence Prediction"
+title: "Nsp Next Sentence Prediction"
 date: "2026-04-19"
 tags:
   - "studynote-ai"

@@ -1,5 +1,5 @@
 ---
-title: "271. Dimensional Modeling Architecture"
+title: "Dimensional Modeling Architecture"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"

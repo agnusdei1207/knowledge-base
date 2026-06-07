@@ -1,5 +1,5 @@
 ---
-title: "61. ITSM (IT Service Management)"
+title: "ITSM (IT Service Management)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

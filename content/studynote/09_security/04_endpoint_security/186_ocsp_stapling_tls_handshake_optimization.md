@@ -1,5 +1,5 @@
 ---
-title: "186. Ocsp Stapling Tls Handshake Optimization"
+title: "Ocsp Stapling Tls Handshake Optimization"
 date: "2026-05-06"
 tags:
   - "studynote-security"

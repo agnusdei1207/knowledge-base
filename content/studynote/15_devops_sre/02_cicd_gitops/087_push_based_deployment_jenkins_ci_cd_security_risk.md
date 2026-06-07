@@ -1,5 +1,5 @@
 ---
-title: "087. Push Based Deployment Jenkins Ci Cd Security Risk"
+title: "Push Based Deployment Jenkins Ci Cd Security Risk"
 date: "2026-04-10"
 tags:
   - "studynote-devops-sre"

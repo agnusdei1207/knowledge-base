@@ -1,5 +1,5 @@
 ---
-title: "051. Help Desk Service Desk Spoc"
+title: "Help Desk Service Desk Spoc"
 date: "2026-05-05"
 tags:
   - "studynote-enterprise-systems"

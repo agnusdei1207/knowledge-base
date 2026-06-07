@@ -1,5 +1,5 @@
 ---
-title: "486. FTPS (FTP over SSL/TLS)"
+title: "FTPS (FTP over SSL/TLS)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

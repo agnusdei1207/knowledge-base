@@ -1,5 +1,5 @@
 ---
-title: "827. Ingress Egress Traffic Routing L7 Proxy"
+title: "Ingress Egress Traffic Routing L7 Proxy"
 date: "2026-05-08"
 tags:
   - "studynote-network"

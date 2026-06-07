@@ -1,5 +1,5 @@
 ---
-title: "397. GLBP (Gateway Load Balancing Protocol)"
+title: "GLBP (Gateway Load Balancing Protocol)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

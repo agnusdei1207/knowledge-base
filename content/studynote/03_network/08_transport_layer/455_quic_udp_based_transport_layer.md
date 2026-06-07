@@ -1,5 +1,5 @@
 ---
-title: "455. Quic Udp Based Transport Layer"
+title: "Quic Udp Based Transport Layer"
 date: "2026-05-08"
 tags:
   - "studynote-network"

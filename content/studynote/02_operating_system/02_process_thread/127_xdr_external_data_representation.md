@@ -1,5 +1,5 @@
 ---
-title: "127. XDR (External Data Representation)"
+title: "XDR (External Data Representation)"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"

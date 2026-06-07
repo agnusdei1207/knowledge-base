@@ -1,5 +1,5 @@
 ---
-title: "271. Cir Fecn Becn Congestion Notification"
+title: "Cir Fecn Becn Congestion Notification"
 date: "2026-05-08"
 tags:
   - "studynote-network"

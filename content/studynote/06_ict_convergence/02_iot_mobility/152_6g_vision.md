@@ -1,5 +1,5 @@
 ---
-title: "152. 6G Vision"
+title: "6G Vision"
 date: "2026-05-03"
 tags:
   - "studynote-ict-convergence"

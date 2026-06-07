@@ -1,5 +1,5 @@
 ---
-title: "692. Stateful Inspection Firewall Principle"
+title: "Stateful Inspection Firewall Principle"
 date: "2026-05-08"
 tags:
   - "studynote-network"

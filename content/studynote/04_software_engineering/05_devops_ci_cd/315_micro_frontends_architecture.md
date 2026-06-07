@@ -1,5 +1,5 @@
 ---
-title: "315. Micro Frontends Architecture"
+title: "Micro Frontends Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

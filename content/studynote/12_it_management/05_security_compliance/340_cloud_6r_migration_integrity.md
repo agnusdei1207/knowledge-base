@@ -1,5 +1,5 @@
 ---
-title: "340. 클라우드 6R 마이그레이션 이관 무결성 통제망"
+title: "클라우드 6R 마이그레이션 이관 무결성 통제망"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

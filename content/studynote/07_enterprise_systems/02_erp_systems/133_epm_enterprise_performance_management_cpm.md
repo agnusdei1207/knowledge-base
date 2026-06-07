@@ -1,5 +1,5 @@
 ---
-title: "133. Epm Enterprise Performance Management Cpm"
+title: "Epm Enterprise Performance Management Cpm"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"

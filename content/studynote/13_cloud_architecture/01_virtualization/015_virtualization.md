@@ -1,5 +1,5 @@
 ---
-title: "015. Virtualization"
+title: "Virtualization"
 date: "2026-03-04"
 tags:
   - "cloud_architecture"

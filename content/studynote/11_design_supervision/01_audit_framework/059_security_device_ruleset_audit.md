@@ -1,5 +1,5 @@
 ---
-title: "59. 보안 장비 정책 룰셋 최적화 상태 점검 (Security Device Ruleset Audit)"
+title: "보안 장비 정책 룰셋 최적화 상태 점검 (Security Device Ruleset Audit)"
 date: "2026-05-08"
 tags:
   - "studynote-design-supervision"

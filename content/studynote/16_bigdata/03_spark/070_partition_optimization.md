@@ -1,5 +1,5 @@
 ---
-title: "070. Partition Optimization"
+title: "Partition Optimization"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

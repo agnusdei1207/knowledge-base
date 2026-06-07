@@ -1,5 +1,5 @@
 ---
-title: "035. Line Coding & Block Coding"
+title: "Line Coding & Block Coding"
 date: "2026-03-03"
 tags:
   - "studynote-network"

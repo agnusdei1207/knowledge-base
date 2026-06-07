@@ -1,5 +1,5 @@
 ---
-title: "164. Rbo Rule Based Optimizer"
+title: "Rbo Rule Based Optimizer"
 date: "2026-04-03"
 tags:
   - "database"

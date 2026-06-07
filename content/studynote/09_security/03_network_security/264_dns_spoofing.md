@@ -1,5 +1,5 @@
 ---
-title: "264. DNS Spoofing (DNS Spoofing)"
+title: "DNS Spoofing (DNS Spoofing)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

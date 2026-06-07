@@ -1,5 +1,5 @@
 ---
-title: "031. Cross Validation"
+title: "Cross Validation"
 date: "2026-04-29"
 tags:
   - "studynote-ai"

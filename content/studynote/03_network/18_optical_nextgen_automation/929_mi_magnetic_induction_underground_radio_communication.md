@@ -1,5 +1,5 @@
 ---
-title: "929. Mi Magnetic Induction Underground Radio Communication"
+title: "Mi Magnetic Induction Underground Radio Communication"
 date: "2026-05-08"
 tags:
   - "studynote-network"

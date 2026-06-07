@@ -1,5 +1,5 @@
 ---
-title: "066. Data Governance Framework"
+title: "Data Governance Framework"
 date: "2026-06-07"
 tags:
   - "enterprise_systems"

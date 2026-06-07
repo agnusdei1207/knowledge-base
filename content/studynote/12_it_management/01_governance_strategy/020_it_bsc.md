@@ -1,5 +1,5 @@
 ---
-title: "020. It Bsc"
+title: "It Bsc"
 date: "2024-05-20"
 tags:
   - "it_management"

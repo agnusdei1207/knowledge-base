@@ -1,5 +1,5 @@
 ---
-title: "720. Dataops Automation Pipeline"
+title: "Dataops Automation Pipeline"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

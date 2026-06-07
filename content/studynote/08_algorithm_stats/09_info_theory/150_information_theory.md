@@ -1,5 +1,5 @@
 ---
-title: "150. Information Theory"
+title: "Information Theory"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

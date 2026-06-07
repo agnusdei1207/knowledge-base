@@ -1,5 +1,5 @@
 ---
-title: "006. Semi Structured Data"
+title: "Semi Structured Data"
 date: "2024-05-20"
 tags:
   - "bigdata"

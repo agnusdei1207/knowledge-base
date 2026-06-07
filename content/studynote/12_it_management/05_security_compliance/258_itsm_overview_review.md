@@ -1,5 +1,5 @@
 ---
-title: "258. ITSM IT 서비스 관리"
+title: "ITSM IT 서비스 관리"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

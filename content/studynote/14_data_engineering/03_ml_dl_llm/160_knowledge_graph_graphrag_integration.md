@@ -1,5 +1,5 @@
 ---
-title: "160. Knowledge Graph Graphrag Integration"
+title: "Knowledge Graph Graphrag Integration"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "112. Serverless Kubernetes Fargate"
+title: "Serverless Kubernetes Fargate"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"

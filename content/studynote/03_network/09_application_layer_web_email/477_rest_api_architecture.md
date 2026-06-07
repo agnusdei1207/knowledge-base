@@ -1,5 +1,5 @@
 ---
-title: "477. REST API (Representational State Transfer)"
+title: "REST API (Representational State Transfer)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

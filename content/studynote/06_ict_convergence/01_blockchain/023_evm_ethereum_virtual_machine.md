@@ -1,5 +1,5 @@
 ---
-title: "023. Evm Ethereum Virtual Machine"
+title: "Evm Ethereum Virtual Machine"
 date: "2026-04-29"
 tags:
   - "studynote-ict-convergence"

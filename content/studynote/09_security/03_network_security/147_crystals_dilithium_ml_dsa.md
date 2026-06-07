@@ -1,5 +1,5 @@
 ---
-title: "147. Crystals Dilithium Ml Dsa"
+title: "Crystals Dilithium Ml Dsa"
 date: "2026-04-19"
 tags:
   - "studynote-security"

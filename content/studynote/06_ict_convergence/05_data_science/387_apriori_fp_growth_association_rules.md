@@ -1,5 +1,5 @@
 ---
-title: "387. Apriori Fp Growth Association Rules"
+title: "Apriori Fp Growth Association Rules"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"

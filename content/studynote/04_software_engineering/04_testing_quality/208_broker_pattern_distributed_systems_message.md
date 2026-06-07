@@ -1,5 +1,5 @@
 ---
-title: "208. Broker Pattern Distributed Systems Message"
+title: "Broker Pattern Distributed Systems Message"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

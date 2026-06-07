@@ -1,5 +1,5 @@
 ---
-title: "049. Sr Latch"
+title: "Sr Latch"
 date: "2026-04-05"
 tags:
   - "studynote-computer-architecture"

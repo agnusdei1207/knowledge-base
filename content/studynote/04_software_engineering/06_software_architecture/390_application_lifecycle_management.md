@@ -1,5 +1,5 @@
 ---
-title: "390. Application Lifecycle Management"
+title: "Application Lifecycle Management"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "233. Expert System"
+title: "Expert System"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

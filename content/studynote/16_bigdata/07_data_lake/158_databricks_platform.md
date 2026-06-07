@@ -1,5 +1,5 @@
 ---
-title: "158. Databricks Platform"
+title: "Databricks Platform"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

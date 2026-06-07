@@ -1,5 +1,5 @@
 ---
-title: "037. B Plus Tree"
+title: "B Plus Tree"
 date: "2026-03-03"
 tags:
   - "studynote-database"

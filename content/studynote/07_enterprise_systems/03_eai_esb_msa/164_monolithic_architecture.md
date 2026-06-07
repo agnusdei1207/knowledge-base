@@ -1,5 +1,5 @@
 ---
-title: "164. Monolithic Architecture"
+title: "Monolithic Architecture"
 date: "2026-06-07"
 tags:
   - "enterprise_systems"

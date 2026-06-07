@@ -1,5 +1,5 @@
 ---
-title: "185. Mlfq Scheduling"
+title: "Mlfq Scheduling"
 date: "2026-05-06"
 tags:
   - "studynote-operating-system"

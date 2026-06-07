@@ -1,5 +1,5 @@
 ---
-title: "055. 워크플로우 오케스트레이터 (Workflow Orchestrator)"
+title: "워크플로우 오케스트레이터 (Workflow Orchestrator)"
 date: "2026-06-07"
 tags:
   - "studynote-devops-sre"

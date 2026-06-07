@@ -1,5 +1,5 @@
 ---
-title: "408. CLIP (Contrastive Language-Image Pre-training)"
+title: "CLIP (Contrastive Language-Image Pre-training)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

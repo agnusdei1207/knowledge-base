@@ -1,5 +1,5 @@
 ---
-title: "314. Transactional Outbox Pattern"
+title: "Transactional Outbox Pattern"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

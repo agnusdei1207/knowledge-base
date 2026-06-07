@@ -1,5 +1,5 @@
 ---
-title: "645. Cyber Kill Chain (Cyber Kill Chain)"
+title: "Cyber Kill Chain (Cyber Kill Chain)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "275. MDM 마스터 데이터 관리"
+title: "MDM 마스터 데이터 관리"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

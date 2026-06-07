@@ -1,5 +1,5 @@
 ---
-title: "104. Process Creation"
+title: "Process Creation"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"

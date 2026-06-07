@@ -1,5 +1,5 @@
 ---
-title: "258. Slowloris (Slowloris)"
+title: "Slowloris (Slowloris)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

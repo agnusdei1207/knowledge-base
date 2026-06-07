@@ -1,5 +1,5 @@
 ---
-title: "413. Equivalence Partitioning"
+title: "Equivalence Partitioning"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "164. Use Case Scenario Flows"
+title: "Use Case Scenario Flows"
 date: "2026-04-03"
 tags:
   - "software_engineering"

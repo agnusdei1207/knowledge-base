@@ -1,5 +1,5 @@
 ---
-title: "026. Apache Zookeeper"
+title: "Apache Zookeeper"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"

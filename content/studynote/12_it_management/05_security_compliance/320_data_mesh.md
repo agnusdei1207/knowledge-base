@@ -1,5 +1,5 @@
 ---
-title: "320. 데이터 메시 도메인 주도 데이터 오너십 분산"
+title: "데이터 메시 도메인 주도 데이터 오너십 분산"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

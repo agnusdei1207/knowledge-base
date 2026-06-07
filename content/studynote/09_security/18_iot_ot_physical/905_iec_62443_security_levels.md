@@ -1,5 +1,5 @@
 ---
-title: "905. ISA/IEC 62443 Security Levels (SL 0-4)"
+title: "ISA/IEC 62443 Security Levels (SL 0-4)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "804. Ecmp Equal Cost Multi Path Routing Load Balancing"
+title: "Ecmp Equal Cost Multi Path Routing Load Balancing"
 date: "2026-05-08"
 tags:
   - "studynote-network"

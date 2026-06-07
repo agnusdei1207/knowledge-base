@@ -1,5 +1,5 @@
 ---
-title: "443. Spurious Retransmission Unnecessary Recovery"
+title: "Spurious Retransmission Unnecessary Recovery"
 date: "2026-05-08"
 tags:
   - "studynote-network"

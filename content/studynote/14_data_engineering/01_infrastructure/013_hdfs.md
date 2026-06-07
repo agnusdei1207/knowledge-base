@@ -1,5 +1,5 @@
 ---
-title: "013. Hdfs"
+title: "Hdfs"
 date: "2023-10-24"
 tags:
   - "data_engineering"

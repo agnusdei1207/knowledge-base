@@ -1,5 +1,5 @@
 ---
-title: "073. Container Orchestration Tools"
+title: "Container Orchestration Tools"
 date: "2026-04-07"
 tags:
   - "studynote-cloud-architecture"

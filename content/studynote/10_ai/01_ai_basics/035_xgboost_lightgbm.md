@@ -1,5 +1,5 @@
 ---
-title: "035. XGBoost & LightGBM"
+title: "XGBoost & LightGBM"
 date: "2026-03-03"
 tags:
   - "studynote-ai"

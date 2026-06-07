@@ -1,5 +1,5 @@
 ---
-title: "120. Euclidean Algorithm"
+title: "Euclidean Algorithm"
 date: "2026-04-05"
 tags:
   - "studynote-algorithm-stats"

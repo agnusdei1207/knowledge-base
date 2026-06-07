@@ -1,5 +1,5 @@
 ---
-title: "562. Docker Image Layer Optimization"
+title: "Docker Image Layer Optimization"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

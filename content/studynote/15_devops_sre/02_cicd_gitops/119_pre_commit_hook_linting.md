@@ -1,5 +1,5 @@
 ---
-title: "119. Pre Commit Hook Linting"
+title: "Pre Commit Hook Linting"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"

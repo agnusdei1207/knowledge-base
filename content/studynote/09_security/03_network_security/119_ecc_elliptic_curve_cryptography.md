@@ -1,5 +1,5 @@
 ---
-title: "119. ECC (Elliptic Curve Cryptography)"
+title: "ECC (Elliptic Curve Cryptography)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "807. East West Traffic Data Center Microservice Spine Leaf"
+title: "East West Traffic Data Center Microservice Spine Leaf"
 date: "2026-05-08"
 tags:
   - "studynote-network"

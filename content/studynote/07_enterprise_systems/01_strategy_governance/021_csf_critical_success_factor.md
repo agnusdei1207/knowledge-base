@@ -1,5 +1,5 @@
 ---
-title: "021. Csf Critical Success Factor"
+title: "Csf Critical Success Factor"
 date: "2024-05-24"
 tags:
   - "enterprise_systems"

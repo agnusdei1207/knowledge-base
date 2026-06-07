@@ -1,5 +1,5 @@
 ---
-title: "999. Mec Mobile Edge Computing"
+title: "Mec Mobile Edge Computing"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "535. SP (Service Provider)"
+title: "SP (Service Provider)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

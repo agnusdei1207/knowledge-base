@@ -1,5 +1,5 @@
 ---
-title: "229. DPU / IPU (Data Processing Unit)"
+title: "DPU / IPU (Data Processing Unit)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"

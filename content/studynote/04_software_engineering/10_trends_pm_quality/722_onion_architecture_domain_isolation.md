@@ -1,5 +1,5 @@
 ---
-title: "722. Onion Architecture Domain Isolation"
+title: "Onion Architecture Domain Isolation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

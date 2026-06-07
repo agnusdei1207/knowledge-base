@@ -1,5 +1,5 @@
 ---
-title: "228. SAAM (Software Architecture Analysis Method)"
+title: "SAAM (Software Architecture Analysis Method)"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

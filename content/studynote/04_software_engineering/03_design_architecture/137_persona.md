@@ -1,5 +1,5 @@
 ---
-title: "137. 페르소나 분석 - 가상 사용자 모델링 (Persona)"
+title: "페르소나 분석 - 가상 사용자 모델링 (Persona)"
 date: "2026-06-07"
 tags:
   - "studynote-software-engineering"

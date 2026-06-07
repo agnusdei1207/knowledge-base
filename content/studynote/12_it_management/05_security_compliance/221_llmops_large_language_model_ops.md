@@ -1,5 +1,5 @@
 ---
-title: "221. LLMOps"
+title: "LLMOps"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

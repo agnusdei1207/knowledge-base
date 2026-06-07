@@ -1,5 +1,5 @@
 ---
-title: "082. Kubelet Node Agent"
+title: "Kubelet Node Agent"
 date: "2026-06-07"
 tags:
   - "cloud_architecture"

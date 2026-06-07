@@ -1,5 +1,5 @@
 ---
-title: "790. POSIX 스레드 (pthreads) 표준 API"
+title: "POSIX 스레드 (pthreads) 표준 API"
 date: "2026-06-07"
 tags:
   - "studynote-operating-system"

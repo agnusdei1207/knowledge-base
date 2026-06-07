@@ -1,5 +1,5 @@
 ---
-title: "006. Block Structure"
+title: "Block Structure"
 date: "2026-06-07"
 tags:
   - "ict_convergence"

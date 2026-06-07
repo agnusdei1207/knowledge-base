@@ -1,5 +1,5 @@
 ---
-title: "574. Swapping Mechanism"
+title: "Swapping Mechanism"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

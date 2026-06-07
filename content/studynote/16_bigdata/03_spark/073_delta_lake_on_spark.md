@@ -1,5 +1,5 @@
 ---
-title: "073. Delta Lake On Spark"
+title: "Delta Lake On Spark"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

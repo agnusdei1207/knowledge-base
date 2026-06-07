@@ -1,5 +1,5 @@
 ---
-title: "379. Delta Encoding Gorilla Compression"
+title: "Delta Encoding Gorilla Compression"
 date: "2026-05-09"
 tags:
   - "studynote-database"

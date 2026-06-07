@@ -1,5 +1,5 @@
 ---
-title: "1043. Ztna Zero Trust Network Access Architecture"
+title: "Ztna Zero Trust Network Access Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-network"

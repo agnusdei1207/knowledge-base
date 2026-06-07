@@ -1,5 +1,5 @@
 ---
-title: "113. Aws Sam Serverless Model"
+title: "Aws Sam Serverless Model"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"

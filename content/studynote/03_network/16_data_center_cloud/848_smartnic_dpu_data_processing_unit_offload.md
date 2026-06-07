@@ -1,5 +1,5 @@
 ---
-title: "848. Smartnic Dpu Data Processing Unit Offload"
+title: "Smartnic Dpu Data Processing Unit Offload"
 date: "2026-05-08"
 tags:
   - "studynote-network"

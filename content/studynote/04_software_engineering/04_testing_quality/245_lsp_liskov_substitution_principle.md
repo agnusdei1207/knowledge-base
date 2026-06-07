@@ -1,5 +1,5 @@
 ---
-title: "245. Lsp Liskov Substitution Principle"
+title: "Lsp Liskov Substitution Principle"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "1055. PCI DSS 12 Requirements (PCI DSS 12 Requirements)"
+title: "PCI DSS 12 Requirements (PCI DSS 12 Requirements)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

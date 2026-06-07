@@ -1,5 +1,5 @@
 ---
-title: "155. AC (Actual Cost)"
+title: "AC (Actual Cost)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

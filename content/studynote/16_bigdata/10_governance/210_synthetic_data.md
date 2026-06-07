@@ -1,5 +1,5 @@
 ---
-title: "210. Synthetic Data"
+title: "Synthetic Data"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

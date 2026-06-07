@@ -1,5 +1,5 @@
 ---
-title: "156. CV (Cost Variance) = EV"
+title: "CV (Cost Variance) = EV"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

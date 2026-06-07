@@ -1,5 +1,5 @@
 ---
-title: "017. Logs Event Stream"
+title: "Logs Event Stream"
 date: "2026-03-04"
 tags:
   - "devops_sre"

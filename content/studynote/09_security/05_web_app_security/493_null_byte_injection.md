@@ -1,5 +1,5 @@
 ---
-title: "493. Null Byte Injection"
+title: "Null Byte Injection"
 date: "2026-05-08"
 tags:
   - "studynote-security"

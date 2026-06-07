@@ -1,5 +1,5 @@
 ---
-title: "714. Fmea Fta Fault Analysis"
+title: "Fmea Fta Fault Analysis"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

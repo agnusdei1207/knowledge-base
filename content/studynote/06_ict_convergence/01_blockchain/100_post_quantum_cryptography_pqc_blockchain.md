@@ -1,5 +1,5 @@
 ---
-title: "100. Post Quantum Cryptography Pqc Blockchain"
+title: "Post Quantum Cryptography Pqc Blockchain"
 date: "2026-06-07"
 tags:
   - "ict_convergence"

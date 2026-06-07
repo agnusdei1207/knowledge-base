@@ -1,5 +1,5 @@
 ---
-title: "529. MIB (Management Information Base) / OID (Object Identifier)"
+title: "MIB (Management Information Base) / OID (Object Identifier)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

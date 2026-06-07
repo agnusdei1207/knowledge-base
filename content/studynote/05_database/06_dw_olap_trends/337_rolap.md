@@ -1,5 +1,5 @@
 ---
-title: "337. ROLAP (Relational OLAP)"
+title: "ROLAP (Relational OLAP)"
 date: "2026-05-09"
 tags:
   - "studynote-database"

@@ -1,5 +1,5 @@
 ---
-title: "078. Hybrid Encryption"
+title: "Hybrid Encryption"
 date: "2026-03-26"
 tags:
   - "studynote-security"

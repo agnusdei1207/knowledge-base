@@ -1,5 +1,5 @@
 ---
-title: "513. Access Token Vs Refresh Token"
+title: "Access Token Vs Refresh Token"
 date: "2026-05-08"
 tags:
   - "studynote-security"

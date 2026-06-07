@@ -1,5 +1,5 @@
 ---
-title: "323. AV (Anti-Virus)"
+title: "AV (Anti-Virus)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

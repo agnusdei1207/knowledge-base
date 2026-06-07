@@ -1,5 +1,5 @@
 ---
-title: "355. 메타버스 가상 자산 통제망"
+title: "메타버스 가상 자산 통제망"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

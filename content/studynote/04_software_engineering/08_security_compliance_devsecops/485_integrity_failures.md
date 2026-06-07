@@ -1,5 +1,5 @@
 ---
-title: "485. Integrity Failures"
+title: "Integrity Failures"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

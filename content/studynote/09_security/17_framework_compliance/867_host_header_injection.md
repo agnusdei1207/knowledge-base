@@ -1,5 +1,5 @@
 ---
-title: "867. Host Header Injection"
+title: "Host Header Injection"
 date: "2026-05-08"
 tags:
   - "studynote-security"

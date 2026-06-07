@@ -1,5 +1,5 @@
 ---
-title: "358. Ospf Adjacency Hello Lsa Lsdb"
+title: "Ospf Adjacency Hello Lsa Lsdb"
 date: "2026-05-08"
 tags:
   - "studynote-network"

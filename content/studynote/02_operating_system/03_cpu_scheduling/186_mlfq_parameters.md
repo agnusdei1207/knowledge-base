@@ -1,5 +1,5 @@
 ---
-title: "186. Mlfq Parameters"
+title: "Mlfq Parameters"
 date: "2026-05-06"
 tags:
   - "studynote-operating-system"

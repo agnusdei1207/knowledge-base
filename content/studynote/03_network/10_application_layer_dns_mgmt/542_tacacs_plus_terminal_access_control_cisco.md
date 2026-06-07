@@ -1,5 +1,5 @@
 ---
-title: "542. TACACS+ (Terminal Access Controller Access Control System Plus)"
+title: "TACACS+ (Terminal Access Controller Access Control System Plus)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

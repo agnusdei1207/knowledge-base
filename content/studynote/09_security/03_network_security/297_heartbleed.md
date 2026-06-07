@@ -1,5 +1,5 @@
 ---
-title: "297. HEARTBLEED (HEARTBLEED)"
+title: "HEARTBLEED (HEARTBLEED)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

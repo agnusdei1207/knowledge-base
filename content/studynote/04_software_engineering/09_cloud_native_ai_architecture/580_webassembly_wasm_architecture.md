@@ -1,5 +1,5 @@
 ---
-title: "580. Webassembly Wasm Architecture"
+title: "Webassembly Wasm Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "369. Cnn Batch Norm"
+title: "Cnn Batch Norm"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

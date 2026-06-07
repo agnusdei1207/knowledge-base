@@ -1,5 +1,5 @@
 ---
-title: "210. DANE (DNS-Based Auth of Named Entities)"
+title: "DANE (DNS-Based Auth of Named Entities)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

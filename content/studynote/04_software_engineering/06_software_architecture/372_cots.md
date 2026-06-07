@@ -1,5 +1,5 @@
 ---
-title: "372. Cots"
+title: "Cots"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

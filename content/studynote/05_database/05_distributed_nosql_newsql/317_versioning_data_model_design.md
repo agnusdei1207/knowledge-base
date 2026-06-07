@@ -1,5 +1,5 @@
 ---
-title: "317. Versioning Data Model Design"
+title: "Versioning Data Model Design"
 date: "2026-05-09"
 tags:
   - "studynote-database"

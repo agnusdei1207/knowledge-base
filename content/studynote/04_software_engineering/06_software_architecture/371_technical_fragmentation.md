@@ -1,5 +1,5 @@
 ---
-title: "371. Technical Fragmentation"
+title: "Technical Fragmentation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

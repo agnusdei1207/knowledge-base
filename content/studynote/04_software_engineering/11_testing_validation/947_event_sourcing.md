@@ -1,5 +1,5 @@
 ---
-title: "947. Event Sourcing"
+title: "Event Sourcing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

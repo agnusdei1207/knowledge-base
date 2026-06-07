@@ -1,5 +1,5 @@
 ---
-title: "140. 10GBASE-T / 10GBASE-SR / 10GBASE-LR"
+title: "10GBASE-T / 10GBASE-SR / 10GBASE-LR"
 date: "2026-05-08"
 tags:
   - "studynote-network"

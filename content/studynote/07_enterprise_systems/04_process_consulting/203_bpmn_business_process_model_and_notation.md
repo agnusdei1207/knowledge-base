@@ -1,5 +1,5 @@
 ---
-title: "203. BPMN (Business Process Model and Notation)"
+title: "BPMN (Business Process Model and Notation)"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise-systems"

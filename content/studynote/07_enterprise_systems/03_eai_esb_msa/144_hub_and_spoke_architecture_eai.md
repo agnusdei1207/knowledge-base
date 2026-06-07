@@ -1,5 +1,5 @@
 ---
-title: "144. Hub And Spoke Architecture Eai"
+title: "Hub And Spoke Architecture Eai"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"

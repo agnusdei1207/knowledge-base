@@ -1,5 +1,5 @@
 ---
-title: "484. Identification Authentication Failures"
+title: "Identification Authentication Failures"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "074. Law Of Large Numbers Lln Convergence Probability"
+title: "Law Of Large Numbers Lln Convergence Probability"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "707. AS-REP Roasting (AS-REP Roasting)"
+title: "AS-REP Roasting (AS-REP Roasting)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

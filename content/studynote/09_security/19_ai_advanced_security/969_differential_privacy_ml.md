@@ -1,5 +1,5 @@
 ---
-title: "969. differential privacy in ML (differential privacy in ML)"
+title: "differential privacy in ML (differential privacy in ML)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

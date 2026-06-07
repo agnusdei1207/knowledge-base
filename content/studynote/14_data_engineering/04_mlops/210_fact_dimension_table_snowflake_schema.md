@@ -1,5 +1,5 @@
 ---
-title: "210. 팩트 차원 테이블 스노우플레이크 눈송이"
+title: "팩트 차원 테이블 스노우플레이크 눈송이"
 date: "2026-06-07"
 tags:
   - "studynote-data-engineering"

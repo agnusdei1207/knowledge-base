@@ -1,5 +1,5 @@
 ---
-title: "005. Unstructured Data"
+title: "Unstructured Data"
 date: "2024-05-24"
 tags:
   - "bigdata"

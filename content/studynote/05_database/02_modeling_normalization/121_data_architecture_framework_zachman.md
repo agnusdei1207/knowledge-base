@@ -1,5 +1,5 @@
 ---
-title: "121. Data Architecture Framework Zachman"
+title: "Data Architecture Framework Zachman"
 date: "2026-04-19"
 tags:
   - "studynote-database"

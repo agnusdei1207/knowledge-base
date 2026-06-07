@@ -1,5 +1,5 @@
 ---
-title: "287. Tailscale (Tailscale)"
+title: "Tailscale (Tailscale)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

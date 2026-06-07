@@ -1,5 +1,5 @@
 ---
-title: "291. Information Architecture"
+title: "Information Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

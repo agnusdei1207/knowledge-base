@@ -1,5 +1,5 @@
 ---
-title: "344. First Fit"
+title: "First Fit"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

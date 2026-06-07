@@ -1,5 +1,5 @@
 ---
-title: "106. CSMA/CD (Wired Ethernet Collision Detection)"
+title: "CSMA/CD (Wired Ethernet Collision Detection)"
 date: "2026-04-01"
 tags:
   - "network"

@@ -1,5 +1,5 @@
 ---
-title: "877. Recommendation System"
+title: "Recommendation System"
 date: "2026-04-05"
 tags:
   - "it_management"

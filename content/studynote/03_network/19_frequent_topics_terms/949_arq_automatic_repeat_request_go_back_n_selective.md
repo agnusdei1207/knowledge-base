@@ -1,5 +1,5 @@
 ---
-title: "949. Arq Automatic Repeat Request Go Back N Selective"
+title: "Arq Automatic Repeat Request Go Back N Selective"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "269. DR 센터 (미러, 핫, 웜, 콜드)"
+title: "DR 센터 (미러, 핫, 웜, 콜드)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

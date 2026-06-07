@@ -1,5 +1,5 @@
 ---
-title: "252. AIOps (Artificial Intelligence for IT Operations)"
+title: "AIOps (Artificial Intelligence for IT Operations)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"

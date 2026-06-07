@@ -1,5 +1,5 @@
 ---
-title: "048. Slm Ola Uc"
+title: "Slm Ola Uc"
 date: "2026-04-05"
 tags:
   - "studynote-enterprise-systems"

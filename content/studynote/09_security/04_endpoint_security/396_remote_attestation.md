@@ -1,5 +1,5 @@
 ---
-title: "396. Remote Attestation"
+title: "Remote Attestation"
 date: "2026-05-08"
 tags:
   - "studynote-security"

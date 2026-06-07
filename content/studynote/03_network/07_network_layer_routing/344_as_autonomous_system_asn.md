@@ -1,5 +1,5 @@
 ---
-title: "344. As Autonomous System Asn"
+title: "As Autonomous System Asn"
 date: "2026-05-08"
 tags:
   - "studynote-network"

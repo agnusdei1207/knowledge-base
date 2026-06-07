@@ -1,5 +1,5 @@
 ---
-title: "182. Status Page Public Sla"
+title: "Status Page Public Sla"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"

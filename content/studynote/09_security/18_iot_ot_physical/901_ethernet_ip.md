@@ -1,5 +1,5 @@
 ---
-title: "901. EtherNet/IP (EtherNet/IP)"
+title: "EtherNet/IP (EtherNet/IP)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

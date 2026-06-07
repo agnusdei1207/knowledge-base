@@ -1,5 +1,5 @@
 ---
-title: "711. CrackMapExec (CrackMapExec)"
+title: "CrackMapExec (CrackMapExec)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

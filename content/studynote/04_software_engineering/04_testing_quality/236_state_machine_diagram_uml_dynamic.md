@@ -1,5 +1,5 @@
 ---
-title: "236. State Machine Diagram Uml Dynamic"
+title: "State Machine Diagram Uml Dynamic"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

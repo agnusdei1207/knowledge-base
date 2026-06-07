@@ -1,5 +1,5 @@
 ---
-title: "145. Sidecar Proxy Pattern"
+title: "Sidecar Proxy Pattern"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "623. Test Plan Scenario Verification"
+title: "Test Plan Scenario Verification"
 date: "2026-04-05"
 tags:
   - "studynote-design-supervision"

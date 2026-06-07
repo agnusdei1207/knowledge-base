@@ -1,5 +1,5 @@
 ---
-title: "031. Echo"
+title: "Echo"
 date: "2026-04-29"
 tags:
   - "studynote-network"

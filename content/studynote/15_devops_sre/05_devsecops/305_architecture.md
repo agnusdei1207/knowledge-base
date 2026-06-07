@@ -1,5 +1,5 @@
 ---
-title: "305. 스트랭글러 피그 레거시 교체 패턴 (Architecture)"
+title: "스트랭글러 피그 레거시 교체 패턴 (Architecture)"
 date: "2026-06-07"
 tags:
   - "studynote-devops-sre"

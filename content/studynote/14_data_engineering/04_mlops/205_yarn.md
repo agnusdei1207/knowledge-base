@@ -1,5 +1,5 @@
 ---
-title: "205. 셔플 정렬 YARN 리소스 매니저"
+title: "셔플 정렬 YARN 리소스 매니저"
 date: "2026-06-07"
 tags:
   - "studynote-data-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "401. SMT (Statistical Machine Translation) vs NMT (Neural Machine Translation)"
+title: "SMT (Statistical Machine Translation) vs NMT (Neural Machine Translation)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

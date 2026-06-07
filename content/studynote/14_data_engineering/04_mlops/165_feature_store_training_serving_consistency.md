@@ -1,5 +1,5 @@
 ---
-title: "165. Feature Store Training Serving Consistency"
+title: "Feature Store Training Serving Consistency"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

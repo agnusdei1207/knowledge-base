@@ -1,5 +1,5 @@
 ---
-title: "153. Circuit Breaker State Machine"
+title: "Circuit Breaker State Machine"
 date: "2026-05-03"
 tags:
   - "studynote-devops-sre"

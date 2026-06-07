@@ -1,5 +1,5 @@
 ---
-title: "161. Composite Index Leading Column"
+title: "Composite Index Leading Column"
 date: "2026-05-05"
 tags:
   - "studynote-database"

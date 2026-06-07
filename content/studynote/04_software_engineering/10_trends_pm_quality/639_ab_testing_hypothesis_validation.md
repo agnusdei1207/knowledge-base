@@ -1,5 +1,5 @@
 ---
-title: "639. Ab Testing Hypothesis Validation"
+title: "Ab Testing Hypothesis Validation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

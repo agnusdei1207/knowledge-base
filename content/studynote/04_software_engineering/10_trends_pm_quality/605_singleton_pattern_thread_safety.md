@@ -1,5 +1,5 @@
 ---
-title: "605. Singleton Pattern Thread Safety"
+title: "Singleton Pattern Thread Safety"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

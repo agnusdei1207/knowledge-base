@@ -1,5 +1,5 @@
 ---
-title: "773. Test Harness Stub Driver Suite"
+title: "Test Harness Stub Driver Suite"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

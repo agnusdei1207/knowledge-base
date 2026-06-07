@@ -1,5 +1,5 @@
 ---
-title: "528. SNMP (Simple Network Management Protocol)"
+title: "SNMP (Simple Network Management Protocol)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

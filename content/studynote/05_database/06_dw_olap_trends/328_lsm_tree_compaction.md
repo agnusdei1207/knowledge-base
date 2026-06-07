@@ -1,5 +1,5 @@
 ---
-title: "328. OLAP (On-Line Analytical Processing)"
+title: "OLAP (On-Line Analytical Processing)"
 date: "2026-05-09"
 tags:
   - "studynote-database"

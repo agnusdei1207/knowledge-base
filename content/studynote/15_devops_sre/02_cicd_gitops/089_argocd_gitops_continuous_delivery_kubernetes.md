@@ -1,5 +1,5 @@
 ---
-title: "089. Argocd Gitops Continuous Delivery Kubernetes"
+title: "Argocd Gitops Continuous Delivery Kubernetes"
 date: "2026-04-10"
 tags:
   - "studynote-devops-sre"

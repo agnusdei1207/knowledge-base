@@ -1,5 +1,5 @@
 ---
-title: "590. Edge Ai Model Compression Architecture"
+title: "Edge Ai Model Compression Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

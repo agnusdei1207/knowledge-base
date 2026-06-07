@@ -1,5 +1,5 @@
 ---
-title: "182. Epic Agile Requirements"
+title: "Epic Agile Requirements"
 date: "2026-05-06"
 tags:
   - "studynote-software-engineering"

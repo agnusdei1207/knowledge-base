@@ -1,5 +1,5 @@
 ---
-title: "591. C-V2X (Cellular V2X)"
+title: "C-V2X (Cellular V2X)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

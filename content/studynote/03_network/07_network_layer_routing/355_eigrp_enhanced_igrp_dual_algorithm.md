@@ -1,5 +1,5 @@
 ---
-title: "355. EIGRP (Enhanced IGRP)"
+title: "EIGRP (Enhanced IGRP)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

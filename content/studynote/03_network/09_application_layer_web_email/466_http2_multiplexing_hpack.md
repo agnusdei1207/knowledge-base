@@ -1,5 +1,5 @@
 ---
-title: "466. Http2 Multiplexing Hpack"
+title: "Http2 Multiplexing Hpack"
 date: "2026-05-08"
 tags:
   - "studynote-network"

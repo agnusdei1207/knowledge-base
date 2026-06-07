@@ -1,5 +1,5 @@
 ---
-title: "121. Ab Testing"
+title: "Ab Testing"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

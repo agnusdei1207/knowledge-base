@@ -1,5 +1,5 @@
 ---
-title: "446. 공공 클라우드 CSAP 보안 인증 점검 통제"
+title: "공공 클라우드 CSAP 보안 인증 점검 통제"
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

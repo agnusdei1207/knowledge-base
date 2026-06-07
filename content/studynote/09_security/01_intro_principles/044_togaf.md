@@ -1,5 +1,5 @@
 ---
-title: "044. Togaf"
+title: "Togaf"
 date: "2026-04-05"
 tags:
   - "studynote-security"

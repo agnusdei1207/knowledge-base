@@ -1,5 +1,5 @@
 ---
-title: "121. Monolithic Architecture"
+title: "Monolithic Architecture"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"

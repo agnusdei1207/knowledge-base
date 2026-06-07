@@ -1,5 +1,5 @@
 ---
-title: "161. Ra Registration Authority"
+title: "Ra Registration Authority"
 date: "2026-05-05"
 tags:
   - "studynote-security"

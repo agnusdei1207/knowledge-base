@@ -1,5 +1,5 @@
 ---
-title: "114. Feature Flag Toggle Deployment"
+title: "Feature Flag Toggle Deployment"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"

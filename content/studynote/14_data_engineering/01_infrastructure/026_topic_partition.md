@@ -1,5 +1,5 @@
 ---
-title: "026. Topic Partition"
+title: "Topic Partition"
 date: "2026-04-29"
 tags:
   - "studynote-data-engineering"

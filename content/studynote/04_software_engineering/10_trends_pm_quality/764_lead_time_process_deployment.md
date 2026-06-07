@@ -1,5 +1,5 @@
 ---
-title: "764. Lead Time Process Deployment"
+title: "Lead Time Process Deployment"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

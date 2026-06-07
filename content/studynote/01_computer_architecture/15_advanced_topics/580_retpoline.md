@@ -1,5 +1,5 @@
 ---
-title: "580. Retpoline (Return Trampoline)"
+title: "Retpoline (Return Trampoline)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

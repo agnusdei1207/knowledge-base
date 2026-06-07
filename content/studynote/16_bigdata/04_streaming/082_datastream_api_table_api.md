@@ -1,5 +1,5 @@
 ---
-title: "082. Datastream Api Table Api"
+title: "Datastream Api Table Api"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

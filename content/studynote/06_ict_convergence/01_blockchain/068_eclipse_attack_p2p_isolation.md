@@ -1,5 +1,5 @@
 ---
-title: "068. Eclipse Attack P2P Isolation"
+title: "Eclipse Attack P2P Isolation"
 date: "2026-06-07"
 tags:
   - "ict_convergence"

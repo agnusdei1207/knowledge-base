@@ -1,5 +1,5 @@
 ---
-title: "282. KMS 지식 관리 암묵지 형식지 SECI 모델"
+title: "KMS 지식 관리 암묵지 형식지 SECI 모델"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

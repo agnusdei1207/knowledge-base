@@ -1,5 +1,5 @@
 ---
-title: "063. Linux Namespace Isolation"
+title: "Linux Namespace Isolation"
 date: "2026-04-07"
 tags:
   - "studynote-cloud-architecture"

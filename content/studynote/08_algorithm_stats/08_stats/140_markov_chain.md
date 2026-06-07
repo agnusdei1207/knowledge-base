@@ -1,5 +1,5 @@
 ---
-title: "140. Markov Chain"
+title: "Markov Chain"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

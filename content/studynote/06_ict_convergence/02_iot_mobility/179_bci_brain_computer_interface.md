@@ -1,5 +1,5 @@
 ---
-title: "179. Bci Brain Computer Interface"
+title: "Bci Brain Computer Interface"
 date: "2026-05-06"
 tags:
   - "studynote-ict-convergence"

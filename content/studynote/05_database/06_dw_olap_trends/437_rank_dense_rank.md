@@ -1,5 +1,5 @@
 ---
-title: "437. RANK() 동점 점프 / DENSE_RANK() 비점프"
+title: "RANK() 동점 점프 / DENSE_RANK() 비점프"
 date: "2026-06-07"
 tags:
   - "studynote-database"

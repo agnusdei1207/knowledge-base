@@ -1,5 +1,5 @@
 ---
-title: "290. Nielsen Norman 10 Heuristics"
+title: "Nielsen Norman 10 Heuristics"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

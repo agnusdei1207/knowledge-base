@@ -1,5 +1,5 @@
 ---
-title: "709. Broker Pattern Distributed Middleware"
+title: "Broker Pattern Distributed Middleware"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

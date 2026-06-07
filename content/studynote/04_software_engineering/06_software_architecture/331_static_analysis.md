@@ -1,5 +1,5 @@
 ---
-title: "331. Static Analysis"
+title: "Static Analysis"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

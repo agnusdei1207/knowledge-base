@@ -1,5 +1,5 @@
 ---
-title: "336. MOLAP (Multidimensional OLAP)"
+title: "MOLAP (Multidimensional OLAP)"
 date: "2026-05-09"
 tags:
   - "studynote-database"

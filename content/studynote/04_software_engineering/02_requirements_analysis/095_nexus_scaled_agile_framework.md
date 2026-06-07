@@ -1,5 +1,5 @@
 ---
-title: "095. Nexus Scaled Agile Framework"
+title: "Nexus Scaled Agile Framework"
 date: "2026-06-07"
 tags:
   - "software_engineering"

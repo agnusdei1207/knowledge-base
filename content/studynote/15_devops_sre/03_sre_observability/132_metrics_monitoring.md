@@ -1,5 +1,5 @@
 ---
-title: "132. Metrics Monitoring"
+title: "Metrics Monitoring"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"

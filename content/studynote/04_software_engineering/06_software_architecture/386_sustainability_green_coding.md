@@ -1,5 +1,5 @@
 ---
-title: "386. Sustainability Green Coding"
+title: "Sustainability Green Coding"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

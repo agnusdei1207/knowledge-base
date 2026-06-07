@@ -1,5 +1,5 @@
 ---
-title: "331. RAID (Redundant Array of Independent Disks)"
+title: "RAID (Redundant Array of Independent Disks)"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "628. Objective Evidence Collection"
+title: "Objective Evidence Collection"
 date: "2026-04-05"
 tags:
   - "studynote-design-supervision"

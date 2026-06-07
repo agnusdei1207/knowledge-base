@@ -1,5 +1,5 @@
 ---
-title: "163. Data Drift Statistical Distribution Shift"
+title: "Data Drift Statistical Distribution Shift"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

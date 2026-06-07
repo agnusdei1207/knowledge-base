@@ -1,5 +1,5 @@
 ---
-title: "278. Scd Type1 Overwrite No History"
+title: "Scd Type1 Overwrite No History"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"

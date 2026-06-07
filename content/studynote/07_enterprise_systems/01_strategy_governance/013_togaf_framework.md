@@ -1,5 +1,5 @@
 ---
-title: "013. Togaf Framework"
+title: "Togaf Framework"
 date: "2024-05-24"
 tags:
   - "enterprise_systems"

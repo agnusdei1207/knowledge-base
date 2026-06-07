@@ -1,5 +1,5 @@
 ---
-title: "374. Quad Tree Spatial Index"
+title: "Quad Tree Spatial Index"
 date: "2026-05-09"
 tags:
   - "studynote-database"

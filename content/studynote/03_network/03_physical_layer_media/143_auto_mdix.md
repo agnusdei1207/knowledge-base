@@ -1,5 +1,5 @@
 ---
-title: "143. Auto Mdix"
+title: "Auto Mdix"
 date: "2026-05-08"
 tags:
   - "studynote-network"

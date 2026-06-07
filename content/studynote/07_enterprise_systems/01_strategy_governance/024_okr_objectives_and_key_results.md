@@ -1,5 +1,5 @@
 ---
-title: "024. Okr Objectives And Key Results"
+title: "Okr Objectives And Key Results"
 date: "2026-04-29"
 tags:
   - "studynote-enterprise-systems"

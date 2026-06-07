@@ -1,5 +1,5 @@
 ---
-title: "366. Column Block Encryption"
+title: "Column Block Encryption"
 date: "2026-05-09"
 tags:
   - "studynote-database"

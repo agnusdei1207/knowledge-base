@@ -1,5 +1,5 @@
 ---
-title: "064. Mlp Multi Layer Perceptron Hidden Layer"
+title: "Mlp Multi Layer Perceptron Hidden Layer"
 date: "2026-04-07"
 tags:
   - "studynote-ai"

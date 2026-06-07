@@ -1,5 +1,5 @@
 ---
-title: "196. Hard Soft Real Time"
+title: "Hard Soft Real Time"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"

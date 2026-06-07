@@ -1,5 +1,5 @@
 ---
-title: "113. Social Crm Listening Sentiment Analysis"
+title: "Social Crm Listening Sentiment Analysis"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"

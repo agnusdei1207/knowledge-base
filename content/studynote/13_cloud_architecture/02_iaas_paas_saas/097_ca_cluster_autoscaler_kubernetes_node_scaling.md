@@ -1,5 +1,5 @@
 ---
-title: "097. Ca Cluster Autoscaler Kubernetes Node Scaling"
+title: "Ca Cluster Autoscaler Kubernetes Node Scaling"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"

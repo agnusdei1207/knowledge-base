@@ -1,5 +1,5 @@
 ---
-title: "109. Multi Cluster Federation Karmada Cloud Bursting"
+title: "Multi Cluster Federation Karmada Cloud Bursting"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"

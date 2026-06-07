@@ -1,5 +1,5 @@
 ---
-title: "144. Bayesian Estimation"
+title: "Bayesian Estimation"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

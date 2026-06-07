@@ -1,5 +1,5 @@
 ---
-title: "301. Fault Avoidance Techniques"
+title: "Fault Avoidance Techniques"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

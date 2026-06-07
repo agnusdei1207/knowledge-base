@@ -1,5 +1,5 @@
 ---
-title: "664. 대규모 애자일 SAFe, LeSS"
+title: "대규모 애자일 SAFe, LeSS"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

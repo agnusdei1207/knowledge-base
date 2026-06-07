@@ -1,5 +1,5 @@
 ---
-title: "114. Vertex Cover"
+title: "Vertex Cover"
 date: "2026-04-05"
 tags:
   - "studynote-algorithm-stats"

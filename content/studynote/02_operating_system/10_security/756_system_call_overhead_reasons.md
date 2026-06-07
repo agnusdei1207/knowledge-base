@@ -1,5 +1,5 @@
 ---
-title: "756. 시스템 콜 오버헤드 이유"
+title: "시스템 콜 오버헤드 이유"
 date: "2026-06-07"
 tags:
   - "studynote-operating-system"

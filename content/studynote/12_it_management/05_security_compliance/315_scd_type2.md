@@ -1,5 +1,5 @@
 ---
-title: "315. SCD 데이터 이력 유지 방식 (Type 2 로우 추가)"
+title: "SCD 데이터 이력 유지 방식 (Type 2 로우 추가)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

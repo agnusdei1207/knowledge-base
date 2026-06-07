@@ -1,5 +1,5 @@
 ---
-title: "283. SSL VPN (SSL VPN)"
+title: "SSL VPN (SSL VPN)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

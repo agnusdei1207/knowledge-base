@@ -1,5 +1,5 @@
 ---
-title: "382. Neuromorphic Ai Database Trends"
+title: "Neuromorphic Ai Database Trends"
 date: "2026-05-09"
 tags:
   - "studynote-database"

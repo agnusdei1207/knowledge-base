@@ -1,5 +1,5 @@
 ---
-title: "168. Grafana"
+title: "Grafana"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

@@ -1,5 +1,5 @@
 ---
-title: "221. SDLC (Synchronous Data Link Control)"
+title: "SDLC (Synchronous Data Link Control)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

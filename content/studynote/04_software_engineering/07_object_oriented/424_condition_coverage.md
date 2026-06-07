@@ -1,5 +1,5 @@
 ---
-title: "424. Condition Coverage"
+title: "Condition Coverage"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

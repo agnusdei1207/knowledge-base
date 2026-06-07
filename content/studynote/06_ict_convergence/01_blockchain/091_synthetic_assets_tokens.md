@@ -1,5 +1,5 @@
 ---
-title: "091. Synthetic Assets Tokens"
+title: "Synthetic Assets Tokens"
 date: "2026-06-07"
 tags:
   - "ict_convergence"

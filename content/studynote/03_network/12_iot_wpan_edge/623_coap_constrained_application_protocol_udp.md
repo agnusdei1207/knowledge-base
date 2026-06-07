@@ -1,5 +1,5 @@
 ---
-title: "623. CoAP (Constrained Application Protocol)"
+title: "CoAP (Constrained Application Protocol)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "135. 요구사항 도출 기법 - 인터뷰, 설문, 워크숍, 관찰 (Elicitation)"
+title: "요구사항 도출 기법 - 인터뷰, 설문, 워크숍, 관찰 (Elicitation)"
 date: "2026-06-07"
 tags:
   - "studynote-software-engineering"

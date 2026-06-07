@@ -1,5 +1,5 @@
 ---
-title: "142. Gpt Decoder Autoregressive Generation"
+title: "Gpt Decoder Autoregressive Generation"
 date: "2026-04-19"
 tags:
   - "studynote-data-engineering"

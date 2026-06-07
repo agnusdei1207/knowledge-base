@@ -1,5 +1,5 @@
 ---
-title: "048. Msp Managed Service Provider Cloud"
+title: "Msp Managed Service Provider Cloud"
 date: "2026-04-05"
 tags:
   - "studynote-cloud-architecture"

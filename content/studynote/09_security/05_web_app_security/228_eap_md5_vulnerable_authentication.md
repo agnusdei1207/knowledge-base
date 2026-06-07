@@ -1,5 +1,5 @@
 ---
-title: "228. EAP-MD5 (EAP-MD5)"
+title: "EAP-MD5 (EAP-MD5)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

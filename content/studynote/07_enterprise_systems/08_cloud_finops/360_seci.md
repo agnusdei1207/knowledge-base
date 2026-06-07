@@ -1,5 +1,5 @@
 ---
-title: "360. 지식 관리 SECI 모델 내면화"
+title: "지식 관리 SECI 모델 내면화"
 date: "2026-06-07"
 tags:
   - "studynote-enterprise-systems"

@@ -1,5 +1,5 @@
 ---
-title: "026. Version Control System"
+title: "Version Control System"
 date: "2026-04-29"
 tags:
   - "studynote-software-engineering"

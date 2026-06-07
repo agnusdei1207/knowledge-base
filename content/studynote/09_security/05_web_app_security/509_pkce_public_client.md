@@ -1,5 +1,5 @@
 ---
-title: "509. PKCE (Proof Key for Code Exchange)"
+title: "PKCE (Proof Key for Code Exchange)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

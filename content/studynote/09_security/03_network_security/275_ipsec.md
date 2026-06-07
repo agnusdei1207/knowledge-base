@@ -1,5 +1,5 @@
 ---
-title: "275. IPsec (IPsec)"
+title: "IPsec (IPsec)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

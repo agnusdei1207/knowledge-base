@@ -1,5 +1,5 @@
 ---
-title: "114. Graph Analytics"
+title: "Graph Analytics"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

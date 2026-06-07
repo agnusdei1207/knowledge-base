@@ -1,5 +1,5 @@
 ---
-title: "447. SCTP (Stream Control Transmission Protocol)"
+title: "SCTP (Stream Control Transmission Protocol)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

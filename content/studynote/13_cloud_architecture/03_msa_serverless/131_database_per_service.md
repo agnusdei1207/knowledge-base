@@ -1,5 +1,5 @@
 ---
-title: "131. Database Per Service"
+title: "Database Per Service"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"

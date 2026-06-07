@@ -1,5 +1,5 @@
 ---
-title: "012. Mydata"
+title: "Mydata"
 date: "2024-05-23"
 tags:
   - "bigdata"

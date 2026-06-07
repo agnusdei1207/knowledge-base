@@ -1,5 +1,5 @@
 ---
-title: "384. Realtime Cdp Database Model"
+title: "Realtime Cdp Database Model"
 date: "2026-05-09"
 tags:
   - "studynote-database"

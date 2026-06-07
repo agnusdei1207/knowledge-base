@@ -1,5 +1,5 @@
 ---
-title: "130. Relu Activation Function"
+title: "Relu Activation Function"
 date: "2026-04-19"
 tags:
   - "studynote-data-engineering"

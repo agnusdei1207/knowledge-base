@@ -1,5 +1,5 @@
 ---
-title: "341. CAP 파티션 감내 일관 가용성 트레이드 오프 (CAP)"
+title: "CAP 파티션 감내 일관 가용성 트레이드 오프 (CAP)"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"

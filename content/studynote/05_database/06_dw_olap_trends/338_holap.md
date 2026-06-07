@@ -1,5 +1,5 @@
 ---
-title: "338. HOLAP (Hybrid OLAP)"
+title: "HOLAP (Hybrid OLAP)"
 date: "2026-05-09"
 tags:
   - "studynote-database"

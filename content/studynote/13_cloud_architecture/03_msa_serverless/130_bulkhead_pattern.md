@@ -1,5 +1,5 @@
 ---
-title: "130. Bulkhead Pattern"
+title: "Bulkhead Pattern"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"

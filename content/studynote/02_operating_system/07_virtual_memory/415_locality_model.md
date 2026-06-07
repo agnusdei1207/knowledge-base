@@ -1,5 +1,5 @@
 ---
-title: "415. Locality Model"
+title: "Locality Model"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

@@ -1,5 +1,5 @@
 ---
-title: "127. Masked Self Attention"
+title: "Masked Self Attention"
 date: "2026-04-19"
 tags:
   - "studynote-ai"

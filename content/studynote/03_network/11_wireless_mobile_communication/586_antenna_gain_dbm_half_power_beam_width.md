@@ -1,5 +1,5 @@
 ---
-title: "586. Antenna Gain Dbm Half Power Beam Width"
+title: "Antenna Gain Dbm Half Power Beam Width"
 date: "2026-05-08"
 tags:
   - "studynote-network"

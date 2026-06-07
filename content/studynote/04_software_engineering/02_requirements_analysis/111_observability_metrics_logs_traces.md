@@ -1,5 +1,5 @@
 ---
-title: "111. Observability Metrics Logs Traces"
+title: "Observability Metrics Logs Traces"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"

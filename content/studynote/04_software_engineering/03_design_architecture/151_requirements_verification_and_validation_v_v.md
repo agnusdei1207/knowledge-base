@@ -1,5 +1,5 @@
 ---
-title: "151. Requirements Verification And Validation V V"
+title: "Requirements Verification And Validation V V"
 date: "2026-05-03"
 tags:
   - "studynote-software-engineering"

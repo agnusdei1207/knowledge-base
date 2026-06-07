@@ -1,5 +1,5 @@
 ---
-title: "472. IT 프로젝트 관리 PERT CPM 주경로 여유망 계산"
+title: "IT 프로젝트 관리 PERT CPM 주경로 여유망 계산"
 date: "2026-06-07"
 tags:
   - "studynote-enterprise-systems"

@@ -1,5 +1,5 @@
 ---
-title: "021. Digital Vs Analog"
+title: "Digital Vs Analog"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"

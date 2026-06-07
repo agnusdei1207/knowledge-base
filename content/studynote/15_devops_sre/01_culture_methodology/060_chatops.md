@@ -1,5 +1,5 @@
 ---
-title: "060. Chatops"
+title: "Chatops"
 date: "2026-04-05"
 tags:
   - "studynote-devops-sre"

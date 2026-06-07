@@ -1,5 +1,5 @@
 ---
-title: "540. Mongodb"
+title: "Mongodb"
 date: "2026-05-09"
 tags:
   - "studynote-database"

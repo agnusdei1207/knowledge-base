@@ -1,5 +1,5 @@
 ---
-title: "012. Defense In Depth"
+title: "Defense In Depth"
 date: "2026-03-25"
 tags:
   - "security"

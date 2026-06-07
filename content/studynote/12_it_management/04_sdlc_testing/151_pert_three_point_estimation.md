@@ -1,5 +1,5 @@
 ---
-title: "151. Pert Three Point Estimation"
+title: "Pert Three Point Estimation"
 date: "2026-05-03"
 tags:
   - "studynote-it-management"

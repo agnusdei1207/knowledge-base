@@ -1,5 +1,5 @@
 ---
-title: "162. Gold Plating Anti Pattern"
+title: "Gold Plating Anti Pattern"
 date: "2026-04-03"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "342. ARIMA (Auto-Regressive Integrated Moving Average)"
+title: "ARIMA (Auto-Regressive Integrated Moving Average)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"

@@ -1,5 +1,5 @@
 ---
-title: "163. Ocsp Online Certificate Status Protocol"
+title: "Ocsp Online Certificate Status Protocol"
 date: "2026-05-05"
 tags:
   - "studynote-security"

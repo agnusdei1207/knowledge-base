@@ -1,5 +1,5 @@
 ---
-title: "050. Hadoop Security Kerberos Ranger Atlas"
+title: "Hadoop Security Kerberos Ranger Atlas"
 date: "2026-04-29"
 tags:
   - "studynote-bigdata"

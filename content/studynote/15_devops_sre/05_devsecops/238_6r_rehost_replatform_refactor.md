@@ -1,5 +1,5 @@
 ---
-title: "238. 6R Rehost Replatform Refactor"
+title: "6R Rehost Replatform Refactor"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

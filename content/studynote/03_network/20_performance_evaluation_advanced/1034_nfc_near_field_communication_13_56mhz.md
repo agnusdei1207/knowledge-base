@@ -1,5 +1,5 @@
 ---
-title: "13.56MHz"
+title: "56MHz"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "710. Atdd Acceptance Test Driven Development"
+title: "Atdd Acceptance Test Driven Development"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

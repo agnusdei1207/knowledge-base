@@ -1,5 +1,5 @@
 ---
-title: "105. 1-Persistent, Non-Persistent, p-Persistent CSMA"
+title: "1-Persistent, Non-Persistent, p-Persistent CSMA"
 date: "2026-03-04"
 tags:
   - "network"

@@ -1,5 +1,5 @@
 ---
-title: "106. P Class"
+title: "P Class"
 date: "2025-05-14"
 tags:
   - "studynote-algorithm-stats"

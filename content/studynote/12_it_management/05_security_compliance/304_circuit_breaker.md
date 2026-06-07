@@ -1,5 +1,5 @@
 ---
-title: "304. 서킷 브레이커 장애 연쇄 차단 폴백"
+title: "서킷 브레이커 장애 연쇄 차단 폴백"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

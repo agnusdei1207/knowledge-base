@@ -1,5 +1,5 @@
 ---
-title: "579. Referential Integrity Cascade Restrict Set Null"
+title: "Referential Integrity Cascade Restrict Set Null"
 date: "2026-05-09"
 tags:
   - "studynote-database"

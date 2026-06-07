@@ -1,5 +1,5 @@
 ---
-title: "301. Sweet32 (Sweet32)"
+title: "Sweet32 (Sweet32)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

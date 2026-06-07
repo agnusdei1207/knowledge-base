@@ -1,5 +1,5 @@
 ---
-title: "356. Software Reliability Growth Model"
+title: "Software Reliability Growth Model"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

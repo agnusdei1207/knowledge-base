@@ -1,5 +1,5 @@
 ---
-title: "243. Switching Method Store And Forward"
+title: "Switching Method Store And Forward"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "026. Da Data Administrator"
+title: "Da Data Administrator"
 date: "2026-04-29"
 tags:
   - "studynote-database"

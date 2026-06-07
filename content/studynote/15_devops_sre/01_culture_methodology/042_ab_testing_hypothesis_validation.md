@@ -1,5 +1,5 @@
 ---
-title: "042. Ab Testing Hypothesis Validation"
+title: "Ab Testing Hypothesis Validation"
 date: "2026-04-05"
 tags:
   - "studynote-devops-sre"

@@ -1,5 +1,5 @@
 ---
-title: "062. Scrum Framework Overview"
+title: "Scrum Framework Overview"
 date: "2026-06-07"
 tags:
   - "software_engineering"

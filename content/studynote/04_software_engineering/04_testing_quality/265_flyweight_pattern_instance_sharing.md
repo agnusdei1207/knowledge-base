@@ -1,5 +1,5 @@
 ---
-title: "265. Flyweight Pattern Instance Sharing"
+title: "Flyweight Pattern Instance Sharing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

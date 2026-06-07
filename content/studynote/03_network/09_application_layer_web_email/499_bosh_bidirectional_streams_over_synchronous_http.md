@@ -1,5 +1,5 @@
 ---
-title: "499. BOSH (Bidirectional-streams Over Synchronous HTTP)"
+title: "BOSH (Bidirectional-streams Over Synchronous HTTP)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

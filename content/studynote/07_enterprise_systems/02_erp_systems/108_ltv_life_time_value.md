@@ -1,5 +1,5 @@
 ---
-title: "108. Ltv Life Time Value"
+title: "Ltv Life Time Value"
 date: "2026-04-10"
 tags:
   - "studynote-enterprise-systems"

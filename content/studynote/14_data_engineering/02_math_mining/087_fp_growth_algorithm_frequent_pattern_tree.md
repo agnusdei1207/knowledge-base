@@ -1,5 +1,5 @@
 ---
-title: "087. Fp Growth Algorithm Frequent Pattern Tree"
+title: "Fp Growth Algorithm Frequent Pattern Tree"
 date: "2026-03-04"
 tags:
   - "math-mining"

@@ -1,5 +1,5 @@
 ---
-title: "277. SCM 공급망 관리 채찍 효과"
+title: "SCM 공급망 관리 채찍 효과"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

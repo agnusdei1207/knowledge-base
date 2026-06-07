@@ -1,5 +1,5 @@
 ---
-title: "230. Digital Twin Simulation Calibration"
+title: "Digital Twin Simulation Calibration"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

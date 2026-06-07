@@ -1,5 +1,5 @@
 ---
-title: "1033. OWASP Top 10 2021 Overview (OWASP Top 10 2021 Overview)"
+title: "OWASP Top 10 2021 Overview (OWASP Top 10 2021 Overview)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "090. Accuracy Precision Recall F1 Score"
+title: "Accuracy Precision Recall F1 Score"
 date: "2026-03-04"
 tags:
   - "studynote-data-engineering"

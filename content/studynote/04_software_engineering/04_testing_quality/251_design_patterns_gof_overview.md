@@ -1,5 +1,5 @@
 ---
-title: "251. Design Patterns Gof Overview"
+title: "Design Patterns Gof Overview"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

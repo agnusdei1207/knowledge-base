@@ -1,5 +1,5 @@
 ---
-title: "139. 프로토타이핑 - Low-fidelity vs High-fidelity (Prototyping)"
+title: "프로토타이핑 - Low-fidelity vs High-fidelity (Prototyping)"
 date: "2026-06-07"
 tags:
   - "studynote-software-engineering"

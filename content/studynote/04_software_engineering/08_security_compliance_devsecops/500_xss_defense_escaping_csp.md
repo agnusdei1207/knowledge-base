@@ -1,5 +1,5 @@
 ---
-title: "500. Xss Defense Escaping Csp"
+title: "Xss Defense Escaping Csp"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

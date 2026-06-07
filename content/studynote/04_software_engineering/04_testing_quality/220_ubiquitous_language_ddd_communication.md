@@ -1,5 +1,5 @@
 ---
-title: "220. Ubiquitous Language Ddd Communication"
+title: "Ubiquitous Language Ddd Communication"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

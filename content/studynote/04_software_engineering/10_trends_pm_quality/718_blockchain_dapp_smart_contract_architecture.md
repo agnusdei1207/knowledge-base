@@ -1,5 +1,5 @@
 ---
-title: "718. Blockchain Dapp Smart Contract Architecture"
+title: "Blockchain Dapp Smart Contract Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

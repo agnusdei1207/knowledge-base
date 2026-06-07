@@ -1,5 +1,5 @@
 ---
-title: "137. Lstm Gru Long Short Term Memory"
+title: "Lstm Gru Long Short Term Memory"
 date: "2026-04-19"
 tags:
   - "studynote-data-engineering"

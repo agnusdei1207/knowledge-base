@@ -1,5 +1,5 @@
 ---
-title: "608. Strategy Pattern Algorithm Swap"
+title: "Strategy Pattern Algorithm Swap"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

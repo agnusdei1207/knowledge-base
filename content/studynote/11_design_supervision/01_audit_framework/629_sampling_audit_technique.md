@@ -1,5 +1,5 @@
 ---
-title: "629. Sampling Audit Technique"
+title: "Sampling Audit Technique"
 date: "2026-04-05"
 tags:
   - "studynote-design-supervision"

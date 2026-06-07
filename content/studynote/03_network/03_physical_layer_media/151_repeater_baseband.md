@@ -1,5 +1,5 @@
 ---
-title: "151. Repeater Baseband"
+title: "Repeater Baseband"
 date: "2026-05-03"
 tags:
   - "studynote-network"

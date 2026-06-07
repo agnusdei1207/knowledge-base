@@ -1,5 +1,5 @@
 ---
-title: "384. Pure Demand Paging"
+title: "Pure Demand Paging"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

@@ -1,5 +1,5 @@
 ---
-title: "865. Nfv Network Functions Virtualization Architecture"
+title: "Nfv Network Functions Virtualization Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-network"

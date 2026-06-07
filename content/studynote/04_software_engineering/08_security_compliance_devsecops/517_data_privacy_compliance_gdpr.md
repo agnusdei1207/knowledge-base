@@ -1,5 +1,5 @@
 ---
-title: "517. Data Privacy Compliance Gdpr"
+title: "Data Privacy Compliance Gdpr"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "690. Firewall Generation Evolution"
+title: "Firewall Generation Evolution"
 date: "2026-05-08"
 tags:
   - "studynote-network"

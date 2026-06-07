@@ -1,5 +1,5 @@
 ---
-title: "385. SSL VPN / TLS VPN"
+title: "SSL VPN / TLS VPN"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "885. IAST (Interactive Application Security Testing)"
+title: "IAST (Interactive Application Security Testing)"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

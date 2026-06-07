@@ -1,5 +1,5 @@
 ---
-title: "100. Many To Many Model"
+title: "Many To Many Model"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"

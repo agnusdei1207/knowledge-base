@@ -1,5 +1,5 @@
 ---
-title: "602. Follow Up Action Verification"
+title: "Follow Up Action Verification"
 date: "2026-03-04"
 tags:
   - "design_supervision"

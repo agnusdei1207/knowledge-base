@@ -1,5 +1,5 @@
 ---
-title: "154. Radio Wave Classification"
+title: "Radio Wave Classification"
 date: "2026-05-03"
 tags:
   - "studynote-network"

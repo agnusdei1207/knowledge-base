@@ -1,5 +1,5 @@
 ---
-title: "065. Development Team Scrum"
+title: "Development Team Scrum"
 date: "2026-06-07"
 tags:
   - "software_engineering"

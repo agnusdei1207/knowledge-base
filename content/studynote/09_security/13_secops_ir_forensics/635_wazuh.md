@@ -1,5 +1,5 @@
 ---
-title: "635. Wazuh (Wazuh)"
+title: "Wazuh (Wazuh)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

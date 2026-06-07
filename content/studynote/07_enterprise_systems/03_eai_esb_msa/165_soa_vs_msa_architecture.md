@@ -1,5 +1,5 @@
 ---
-title: "165. Soa Vs Msa Architecture"
+title: "Soa Vs Msa Architecture"
 date: "2026-05-05"
 tags:
   - "studynote-enterprise-systems"

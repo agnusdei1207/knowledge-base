@@ -1,5 +1,5 @@
 ---
-title: "165. Ct Certificate Transparency"
+title: "Ct Certificate Transparency"
 date: "2026-05-05"
 tags:
   - "studynote-security"

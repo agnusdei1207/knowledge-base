@@ -1,5 +1,5 @@
 ---
-title: "335. 개인정보 영향 평가 (PIA) 감리 연계"
+title: "개인정보 영향 평가 (PIA) 감리 연계"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

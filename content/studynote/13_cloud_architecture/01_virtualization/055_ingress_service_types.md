@@ -1,5 +1,5 @@
 ---
-title: "055. Ingress Service Types"
+title: "Ingress Service Types"
 date: "2026-05-01"
 tags:
   - "studynote-cloud-architecture"

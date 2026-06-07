@@ -1,5 +1,5 @@
 ---
-title: "779. Iso 29119 Software Testing Standard"
+title: "Iso 29119 Software Testing Standard"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

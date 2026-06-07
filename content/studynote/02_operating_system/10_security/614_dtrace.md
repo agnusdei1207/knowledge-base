@@ -1,5 +1,5 @@
 ---
-title: "614. Dtrace"
+title: "Dtrace"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

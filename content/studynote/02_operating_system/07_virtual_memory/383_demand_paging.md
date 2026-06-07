@@ -1,5 +1,5 @@
 ---
-title: "383. Demand Paging"
+title: "Demand Paging"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

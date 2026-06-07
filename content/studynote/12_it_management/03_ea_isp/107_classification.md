@@ -1,5 +1,5 @@
 ---
-title: "107. Classification"
+title: "Classification"
 date: "2026-04-05"
 tags:
   - "studynote-it-management"

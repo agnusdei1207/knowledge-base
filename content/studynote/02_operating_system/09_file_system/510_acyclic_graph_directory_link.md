@@ -1,5 +1,5 @@
 ---
-title: "510. Acyclic Graph Directory Link"
+title: "Acyclic Graph Directory Link"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

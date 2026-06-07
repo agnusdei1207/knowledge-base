@@ -1,5 +1,5 @@
 ---
-title: "012. Bft Byzantine Fault Tolerance"
+title: "Bft Byzantine Fault Tolerance"
 date: "2024-05-18"
 tags:
   - "ict_convergence"

@@ -1,5 +1,5 @@
 ---
-title: "022. Bsc Balanced Scorecard"
+title: "Bsc Balanced Scorecard"
 date: "2024-05-24"
 tags:
   - "enterprise_systems"

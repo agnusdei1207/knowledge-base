@@ -1,5 +1,5 @@
 ---
-title: "679. 시스템 콜 [API] 래퍼"
+title: "시스템 콜 [API] 래퍼"
 date: "2026-06-07"
 tags:
   - "studynote-operating-system"

@@ -1,5 +1,5 @@
 ---
-title: "470. Sstf Disk Scheduling"
+title: "Sstf Disk Scheduling"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

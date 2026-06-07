@@ -1,5 +1,5 @@
 ---
-title: "092. Google Pubsub"
+title: "Google Pubsub"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

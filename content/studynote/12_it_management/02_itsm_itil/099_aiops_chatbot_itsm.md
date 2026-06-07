@@ -1,5 +1,5 @@
 ---
-title: "099. Aiops Chatbot Itsm"
+title: "Aiops Chatbot Itsm"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

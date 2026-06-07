@@ -1,5 +1,5 @@
 ---
-title: "221. LSM 트리 멤테이블 순차 플러시 콤팩션"
+title: "LSM 트리 멤테이블 순차 플러시 콤팩션"
 date: "2026-06-07"
 tags:
   - "studynote-data-engineering"

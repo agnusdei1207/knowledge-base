@@ -1,5 +1,5 @@
 ---
-title: "1103. Wdm Lossless Optical Amplification Edfa"
+title: "Wdm Lossless Optical Amplification Edfa"
 date: "2026-05-08"
 tags:
   - "studynote-network"

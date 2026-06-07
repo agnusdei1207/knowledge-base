@@ -1,5 +1,5 @@
 ---
-title: "864. BSIMM (Building Security In Maturity Model)"
+title: "BSIMM (Building Security In Maturity Model)"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

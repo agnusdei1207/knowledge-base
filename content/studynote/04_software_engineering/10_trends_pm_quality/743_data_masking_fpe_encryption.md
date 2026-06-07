@@ -1,5 +1,5 @@
 ---
-title: "743. Data Masking Fpe Encryption"
+title: "Data Masking Fpe Encryption"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

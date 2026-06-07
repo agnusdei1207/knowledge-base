@@ -1,5 +1,5 @@
 ---
-title: "371. 플랫폼 비즈니스 양면 시장 수수료 모델 아키텍처 IT 거버넌스"
+title: "플랫폼 비즈니스 양면 시장 수수료 모델 아키텍처 IT 거버넌스"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

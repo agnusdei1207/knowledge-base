@@ -1,5 +1,5 @@
 ---
-title: "338. Pca Principal Component Analysis"
+title: "Pca Principal Component Analysis"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"

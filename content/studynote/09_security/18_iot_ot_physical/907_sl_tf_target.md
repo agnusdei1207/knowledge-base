@@ -1,5 +1,5 @@
 ---
-title: "907. SL-TF (Security Level Target)"
+title: "SL-TF (Security Level Target)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

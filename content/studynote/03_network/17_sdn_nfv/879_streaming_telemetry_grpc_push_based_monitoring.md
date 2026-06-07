@@ -1,5 +1,5 @@
 ---
-title: "879. Streaming Telemetry Grpc Push Based Monitoring"
+title: "Streaming Telemetry Grpc Push Based Monitoring"
 date: "2026-05-08"
 tags:
   - "studynote-network"

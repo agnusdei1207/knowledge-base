@@ -1,5 +1,5 @@
 ---
-title: "057. Stack"
+title: "Stack"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

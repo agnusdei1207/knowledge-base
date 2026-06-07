@@ -1,5 +1,5 @@
 ---
-title: "152. Hub Dummy Switching Intelligent"
+title: "Hub Dummy Switching Intelligent"
 date: "2026-05-03"
 tags:
   - "studynote-network"

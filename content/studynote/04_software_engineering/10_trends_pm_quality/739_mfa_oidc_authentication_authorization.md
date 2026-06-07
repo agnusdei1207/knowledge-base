@@ -1,5 +1,5 @@
 ---
-title: "739. Mfa Oidc Authentication Authorization"
+title: "Mfa Oidc Authentication Authorization"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

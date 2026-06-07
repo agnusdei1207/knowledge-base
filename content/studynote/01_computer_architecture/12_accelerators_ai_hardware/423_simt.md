@@ -1,5 +1,5 @@
 ---
-title: "423. SIMT (Single Instruction Multiple Threads)"
+title: "SIMT (Single Instruction Multiple Threads)"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"

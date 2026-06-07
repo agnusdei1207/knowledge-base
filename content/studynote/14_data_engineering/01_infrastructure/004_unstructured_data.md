@@ -1,5 +1,5 @@
 ---
-title: "004. Unstructured Data"
+title: "Unstructured Data"
 date: "2024-05-24"
 tags:
   - "data_engineering"

@@ -1,5 +1,5 @@
 ---
-title: "283. RPA 초자동화 봇"
+title: "RPA 초자동화 봇"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

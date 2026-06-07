@@ -1,5 +1,5 @@
 ---
-title: "229. Atam Architecture Trade Off Analysis Method"
+title: "Atam Architecture Trade Off Analysis Method"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

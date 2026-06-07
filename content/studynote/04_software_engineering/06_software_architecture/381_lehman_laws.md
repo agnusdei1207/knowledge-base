@@ -1,5 +1,5 @@
 ---
-title: "381. Lehman Laws"
+title: "Lehman Laws"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

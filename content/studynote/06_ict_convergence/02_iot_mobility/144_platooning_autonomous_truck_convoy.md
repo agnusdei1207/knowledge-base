@@ -1,5 +1,5 @@
 ---
-title: "144. Platooning Autonomous Truck Convoy"
+title: "Platooning Autonomous Truck Convoy"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"

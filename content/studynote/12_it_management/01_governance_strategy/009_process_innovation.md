@@ -1,5 +1,5 @@
 ---
-title: "9. PI (Process Innovation) - 점진적이고 지속적인 프로세스 혁신"
+title: "PI (Process Innovation) - 점진적이고 지속적인 프로세스 혁신"
 date: "2026-04-05"
 tags:
   - "studynote"

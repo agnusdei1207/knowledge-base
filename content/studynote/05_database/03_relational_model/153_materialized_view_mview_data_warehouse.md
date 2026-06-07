@@ -1,5 +1,5 @@
 ---
-title: "153. Materialized View Mview Data Warehouse"
+title: "Materialized View Mview Data Warehouse"
 date: "2026-05-03"
 tags:
   - "studynote-database"

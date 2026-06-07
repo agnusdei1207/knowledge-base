@@ -1,5 +1,5 @@
 ---
-title: "139. SPICE (ISO/IEC 15504)"
+title: "SPICE (ISO/IEC 15504)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

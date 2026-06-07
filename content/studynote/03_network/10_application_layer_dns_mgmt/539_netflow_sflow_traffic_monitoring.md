@@ -1,5 +1,5 @@
 ---
-title: "539. Netflow Sflow Traffic Monitoring"
+title: "Netflow Sflow Traffic Monitoring"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "072. Platform Business Two Sided Market"
+title: "Platform Business Two Sided Market"
 date: "2026-06-07"
 tags:
   - "enterprise_systems"

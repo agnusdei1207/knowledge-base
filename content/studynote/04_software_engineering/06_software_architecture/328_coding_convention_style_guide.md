@@ -1,5 +1,5 @@
 ---
-title: "328. Coding Convention Style Guide"
+title: "Coding Convention Style Guide"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

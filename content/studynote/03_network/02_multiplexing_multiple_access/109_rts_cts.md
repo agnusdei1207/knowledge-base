@@ -1,5 +1,5 @@
 ---
-title: "109. RTS/CTS (Request To Send / Clear To Send)"
+title: "RTS/CTS (Request To Send / Clear To Send)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

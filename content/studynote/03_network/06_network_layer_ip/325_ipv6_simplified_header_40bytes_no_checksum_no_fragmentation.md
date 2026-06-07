@@ -1,5 +1,5 @@
 ---
-title: "325. Ipv6 Simplified Header 40Bytes No Checksum No Fragmentation"
+title: "Ipv6 Simplified Header 40Bytes No Checksum No Fragmentation"
 date: "2026-05-08"
 tags:
   - "studynote-network"

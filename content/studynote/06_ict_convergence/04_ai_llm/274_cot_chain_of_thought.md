@@ -1,5 +1,5 @@
 ---
-title: "274. ToT / GoT (Graph of Thoughts) (Tree of Thoughts)"
+title: "ToT / GoT (Graph of Thoughts) (Tree of Thoughts)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"

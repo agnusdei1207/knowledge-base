@@ -1,5 +1,5 @@
 ---
-title: "122. Master Data Management Db Perspective"
+title: "Master Data Management Db Perspective"
 date: "2026-04-19"
 tags:
   - "studynote-database"

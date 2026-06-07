@@ -1,5 +1,5 @@
 ---
-title: "097. Kernel Level Thread"
+title: "Kernel Level Thread"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"

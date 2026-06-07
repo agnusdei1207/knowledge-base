@@ -1,5 +1,5 @@
 ---
-title: "642. Observability Telemetry"
+title: "Observability Telemetry"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

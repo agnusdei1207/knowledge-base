@@ -1,5 +1,5 @@
 ---
-title: "057. Jenkins Buildkite"
+title: "Jenkins Buildkite"
 date: "2026-04-05"
 tags:
   - "studynote-devops-sre"

@@ -1,5 +1,5 @@
 ---
-title: "270. Lock Elision"
+title: "Lock Elision"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

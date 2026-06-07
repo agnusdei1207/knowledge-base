@@ -1,5 +1,5 @@
 ---
-title: "296. EAI 허브 앤 스포크 포인트 투 포인트"
+title: "EAI 허브 앤 스포크 포인트 투 포인트"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

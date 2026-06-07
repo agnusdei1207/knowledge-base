@@ -1,5 +1,5 @@
 ---
-title: "030. Crypto Wallet Mnemonic"
+title: "Crypto Wallet Mnemonic"
 date: "2026-04-29"
 tags:
   - "studynote-ict-convergence"

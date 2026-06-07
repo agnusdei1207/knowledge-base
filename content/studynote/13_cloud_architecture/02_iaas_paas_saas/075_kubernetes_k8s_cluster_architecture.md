@@ -1,5 +1,5 @@
 ---
-title: "075. Kubernetes K8S Cluster Architecture"
+title: "Kubernetes K8S Cluster Architecture"
 date: "2026-04-07"
 tags:
   - "studynote-cloud-architecture"

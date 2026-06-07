@@ -1,5 +1,5 @@
 ---
-title: "578. Supertype Subtype Physical Data Model Conversion"
+title: "Supertype Subtype Physical Data Model Conversion"
 date: "2026-05-09"
 tags:
   - "studynote-database"

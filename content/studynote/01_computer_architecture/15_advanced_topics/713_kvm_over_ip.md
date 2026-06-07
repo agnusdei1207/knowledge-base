@@ -1,5 +1,5 @@
 ---
-title: "713. Kvm Over Ip"
+title: "Kvm Over Ip"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

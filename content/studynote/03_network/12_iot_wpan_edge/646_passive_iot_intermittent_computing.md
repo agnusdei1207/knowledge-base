@@ -1,5 +1,5 @@
 ---
-title: "646. Passive Iot Intermittent Computing"
+title: "Passive Iot Intermittent Computing"
 date: "2026-05-08"
 tags:
   - "studynote-network"

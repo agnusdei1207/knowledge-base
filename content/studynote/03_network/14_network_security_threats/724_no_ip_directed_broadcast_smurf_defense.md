@@ -1,5 +1,5 @@
 ---
-title: "724. No Ip Directed Broadcast Smurf Defense"
+title: "No Ip Directed Broadcast Smurf Defense"
 date: "2026-05-08"
 tags:
   - "studynote-network"

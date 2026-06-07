@@ -1,5 +1,5 @@
 ---
-title: "181. Service Mesh Istio Linkerd"
+title: "Service Mesh Istio Linkerd"
 date: "2026-04-10"
 tags:
   - "studynote-enterprise-systems"

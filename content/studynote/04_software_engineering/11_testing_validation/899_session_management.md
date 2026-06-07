@@ -1,5 +1,5 @@
 ---
-title: "899. Session Management"
+title: "Session Management"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

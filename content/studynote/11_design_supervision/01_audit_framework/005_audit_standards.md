@@ -1,5 +1,5 @@
 ---
-title: "005. Audit Standards"
+title: "Audit Standards"
 date: "2026-04-05"
 tags:
   - "design_supervision"

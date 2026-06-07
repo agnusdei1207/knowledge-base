@@ -1,5 +1,5 @@
 ---
-title: "306. PEFT (Parameter-Efficient Fine-Tuning) / LoRA (Low-Rank Adaptation)"
+title: "PEFT (Parameter-Efficient Fine-Tuning) / LoRA (Low-Rank Adaptation)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

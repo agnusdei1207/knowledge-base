@@ -1,5 +1,5 @@
 ---
-title: "305. 사가 패턴 (Saga) 보상 트랜잭션"
+title: "사가 패턴 (Saga) 보상 트랜잭션"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

@@ -1,5 +1,5 @@
 ---
-title: "026. Value Chain Analysis"
+title: "Value Chain Analysis"
 date: "2026-04-29"
 tags:
   - "studynote-enterprise-systems"

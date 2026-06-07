@@ -1,5 +1,5 @@
 ---
-title: "466. Blindness (Logging failure)"
+title: "Blindness (Logging failure)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

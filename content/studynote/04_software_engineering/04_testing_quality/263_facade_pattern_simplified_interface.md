@@ -1,5 +1,5 @@
 ---
-title: "263. Facade Pattern Simplified Interface"
+title: "Facade Pattern Simplified Interface"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

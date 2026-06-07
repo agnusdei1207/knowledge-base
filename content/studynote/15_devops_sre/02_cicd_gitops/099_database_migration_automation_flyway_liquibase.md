@@ -1,5 +1,5 @@
 ---
-title: "099. Database Migration Automation Flyway Liquibase"
+title: "Database Migration Automation Flyway Liquibase"
 date: "2026-03-04"
 tags:
   - "cicd-gitops"

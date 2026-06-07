@@ -1,5 +1,5 @@
 ---
-title: "349. XAI 설명 가능한 AI 판단 로직 (LIME/SHAP) 근거 증빙"
+title: "XAI 설명 가능한 AI 판단 로직 (LIME/SHAP) 근거 증빙"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

@@ -1,5 +1,5 @@
 ---
-title: "464. HTTP 1.1"
+title: "HTTP 1.1"
 date: "2026-05-08"
 tags:
   - "studynote-network"

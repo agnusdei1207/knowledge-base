@@ -1,5 +1,5 @@
 ---
-title: "219. Ddd Domain Driven Design Eric Evans"
+title: "Ddd Domain Driven Design Eric Evans"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

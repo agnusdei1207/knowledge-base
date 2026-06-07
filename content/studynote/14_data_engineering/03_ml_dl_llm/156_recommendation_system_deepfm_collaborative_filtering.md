@@ -1,5 +1,5 @@
 ---
-title: "156. Recommendation System Deepfm Collaborative Filtering"
+title: "Recommendation System Deepfm Collaborative Filtering"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

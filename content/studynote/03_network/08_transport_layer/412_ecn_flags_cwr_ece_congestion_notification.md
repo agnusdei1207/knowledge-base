@@ -1,5 +1,5 @@
 ---
-title: "412. Ecn Flags Cwr Ece Congestion Notification"
+title: "Ecn Flags Cwr Ece Congestion Notification"
 date: "2026-05-08"
 tags:
   - "studynote-network"

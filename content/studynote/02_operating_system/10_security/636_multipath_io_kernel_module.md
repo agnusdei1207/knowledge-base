@@ -1,5 +1,5 @@
 ---
-title: "636. Multipath Io Kernel Module"
+title: "Multipath Io Kernel Module"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

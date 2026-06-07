@@ -1,5 +1,5 @@
 ---
-title: "025. Security Procedure Manual"
+title: "Security Procedure Manual"
 date: "2026-04-29"
 tags:
   - "studynote-security"

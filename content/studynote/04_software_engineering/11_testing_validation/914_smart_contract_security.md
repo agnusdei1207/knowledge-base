@@ -1,5 +1,5 @@
 ---
-title: "914. Smart Contract Security"
+title: "Smart Contract Security"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

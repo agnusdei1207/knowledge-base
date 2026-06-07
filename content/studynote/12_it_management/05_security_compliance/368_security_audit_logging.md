@@ -1,5 +1,5 @@
 ---
-title: "368. 보안 감사 로깅 6하 원칙 WORM 보존 기간 법적 준수 진단"
+title: "보안 감사 로깅 6하 원칙 WORM 보존 기간 법적 준수 진단"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

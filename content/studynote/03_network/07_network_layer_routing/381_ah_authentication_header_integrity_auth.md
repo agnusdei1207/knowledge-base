@@ -1,5 +1,5 @@
 ---
-title: "381. AH (Authentication Header)"
+title: "AH (Authentication Header)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

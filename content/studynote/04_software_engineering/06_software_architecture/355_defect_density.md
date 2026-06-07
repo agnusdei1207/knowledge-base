@@ -1,5 +1,5 @@
 ---
-title: "355. Defect Density"
+title: "Defect Density"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "804. BPR (Business Process Reengineering)"
+title: "BPR (Business Process Reengineering)"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"

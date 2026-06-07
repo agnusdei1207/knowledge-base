@@ -1,5 +1,5 @@
 ---
-title: "447. Quantum Computer"
+title: "Quantum Computer"
 date: "2026-03-28"
 tags:
   - "studynote-computer-architecture"

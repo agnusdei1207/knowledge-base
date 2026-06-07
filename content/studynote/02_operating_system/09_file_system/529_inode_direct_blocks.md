@@ -1,5 +1,5 @@
 ---
-title: "529. Inode Direct Blocks"
+title: "Inode Direct Blocks"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

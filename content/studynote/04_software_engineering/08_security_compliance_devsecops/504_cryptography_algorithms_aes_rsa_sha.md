@@ -1,5 +1,5 @@
 ---
-title: "504. Cryptography Algorithms Aes Rsa Sha"
+title: "Cryptography Algorithms Aes Rsa Sha"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

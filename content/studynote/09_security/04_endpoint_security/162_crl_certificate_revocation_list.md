@@ -1,5 +1,5 @@
 ---
-title: "162. Crl Certificate Revocation List"
+title: "Crl Certificate Revocation List"
 date: "2026-05-05"
 tags:
   - "studynote-security"

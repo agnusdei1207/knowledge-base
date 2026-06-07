@@ -1,5 +1,5 @@
 ---
-title: "981. ESP (Encapsulating Security Payload)"
+title: "ESP (Encapsulating Security Payload)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

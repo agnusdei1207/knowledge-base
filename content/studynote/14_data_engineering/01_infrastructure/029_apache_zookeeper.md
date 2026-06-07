@@ -1,5 +1,5 @@
 ---
-title: "29. Apache ZooKeeper"
+title: "Apache ZooKeeper"
 date: "2026-04-29"
 tags:
   - "studynote-data-engineering"

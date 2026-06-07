@@ -1,5 +1,5 @@
 ---
-title: "255. Data Observability"
+title: "Data Observability"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"

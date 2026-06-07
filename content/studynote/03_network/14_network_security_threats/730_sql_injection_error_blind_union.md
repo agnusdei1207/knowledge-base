@@ -1,5 +1,5 @@
 ---
-title: "730. Sql Injection Error Blind Union"
+title: "Sql Injection Error Blind Union"
 date: "2026-05-08"
 tags:
   - "studynote-network"

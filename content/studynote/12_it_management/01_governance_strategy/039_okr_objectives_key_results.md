@@ -1,5 +1,5 @@
 ---
-title: "39. OKR (Objectives and Key Results)"
+title: "OKR (Objectives and Key Results)"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"

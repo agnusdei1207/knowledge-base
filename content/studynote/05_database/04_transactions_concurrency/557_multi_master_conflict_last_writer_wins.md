@@ -1,5 +1,5 @@
 ---
-title: "557. Multi Master Conflict Last Writer Wins"
+title: "Multi Master Conflict Last Writer Wins"
 date: "2026-05-09"
 tags:
   - "studynote-database"

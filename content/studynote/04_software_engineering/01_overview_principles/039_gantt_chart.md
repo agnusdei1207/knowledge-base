@@ -1,5 +1,5 @@
 ---
-title: "039. Gantt Chart"
+title: "Gantt Chart"
 date: "2026-03-04"
 tags:
   - "studynote-software-engineering"

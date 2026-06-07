@@ -1,5 +1,5 @@
 ---
-title: "150. Hallucination Rag Retrieval Augmented Generation"
+title: "Hallucination Rag Retrieval Augmented Generation"
 date: "2026-05-03"
 tags:
   - "studynote-data-engineering"

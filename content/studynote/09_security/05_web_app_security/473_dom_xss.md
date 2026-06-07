@@ -1,5 +1,5 @@
 ---
-title: "473. DOM-based XSS (DOM-based XSS)"
+title: "DOM-based XSS (DOM-based XSS)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

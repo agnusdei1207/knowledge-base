@@ -1,5 +1,5 @@
 ---
-title: "752. Lte Long Term Evolution 4G"
+title: "Lte Long Term Evolution 4G"
 date: "2026-05-08"
 tags:
   - "studynote-network"

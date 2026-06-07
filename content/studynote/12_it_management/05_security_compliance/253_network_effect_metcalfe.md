@@ -1,5 +1,5 @@
 ---
-title: "253. 네트워크 효과 (메트칼프)"
+title: "네트워크 효과 (메트칼프)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

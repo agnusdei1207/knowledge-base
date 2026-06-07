@@ -1,5 +1,5 @@
 ---
-title: "103. First Normal Form 1Nf Atomic Value"
+title: "First Normal Form 1Nf Atomic Value"
 date: "2026-06-07"
 tags:
   - "database"

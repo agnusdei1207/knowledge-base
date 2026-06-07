@@ -1,5 +1,5 @@
 ---
-title: "857. Ibn Intent Based Networking Declarative Automation"
+title: "Ibn Intent Based Networking Declarative Automation"
 date: "2026-05-08"
 tags:
   - "studynote-network"

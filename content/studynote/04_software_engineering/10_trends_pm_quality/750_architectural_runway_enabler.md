@@ -1,5 +1,5 @@
 ---
-title: "750. Architectural Runway Enabler"
+title: "Architectural Runway Enabler"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "382. Positional Encoding Math"
+title: "Positional Encoding Math"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

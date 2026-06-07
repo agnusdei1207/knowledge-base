@@ -1,5 +1,5 @@
 ---
-title: "400. Integration Testing"
+title: "Integration Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

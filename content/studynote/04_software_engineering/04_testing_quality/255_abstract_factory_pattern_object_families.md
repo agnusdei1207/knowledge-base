@@ -1,5 +1,5 @@
 ---
-title: "255. Abstract Factory Pattern Object Families"
+title: "Abstract Factory Pattern Object Families"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

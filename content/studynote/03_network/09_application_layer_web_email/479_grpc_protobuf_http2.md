@@ -1,5 +1,5 @@
 ---
-title: "479. gRPC"
+title: "gRPC"
 date: "2026-05-08"
 tags:
   - "studynote-network"

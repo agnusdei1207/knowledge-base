@@ -1,5 +1,5 @@
 ---
-title: "039. Decoder"
+title: "Decoder"
 date: "2026-03-04"
 tags:
   - "studynote-computer-architecture"

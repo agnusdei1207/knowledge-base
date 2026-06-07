@@ -1,5 +1,5 @@
 ---
-title: "912. Supply Chain Attack Sign Commit Ci Protection"
+title: "Supply Chain Attack Sign Commit Ci Protection"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

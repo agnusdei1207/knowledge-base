@@ -1,5 +1,5 @@
 ---
-title: "110. Operational Crm Sfa Ma Css"
+title: "Operational Crm Sfa Ma Css"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"

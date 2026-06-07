@@ -1,5 +1,5 @@
 ---
-title: "900. Authentication Trends"
+title: "Authentication Trends"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

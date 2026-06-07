@@ -1,5 +1,5 @@
 ---
-title: "316. LDAPS (LDAP over SSL)"
+title: "LDAPS (LDAP over SSL)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

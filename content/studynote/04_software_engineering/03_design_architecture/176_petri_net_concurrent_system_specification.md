@@ -1,5 +1,5 @@
 ---
-title: "176. Petri Net Concurrent System Specification"
+title: "Petri Net Concurrent System Specification"
 date: "2026-04-03"
 tags:
   - "software_engineering"

@@ -1,5 +1,5 @@
 ---
-title: "088. Optimizer"
+title: "Optimizer"
 date: "2026-04-05"
 tags:
   - "it_management"

@@ -1,5 +1,5 @@
 ---
-title: "214. Sliding Window Protocol"
+title: "Sliding Window Protocol"
 date: "2026-05-08"
 tags:
   - "studynote-network"

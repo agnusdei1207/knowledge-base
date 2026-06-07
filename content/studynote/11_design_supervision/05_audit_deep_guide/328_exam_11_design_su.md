@@ -1,5 +1,5 @@
 ---
-title: "328. 샘플링 감리 [신뢰 구간]"
+title: "샘플링 감리 [신뢰 구간]"
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

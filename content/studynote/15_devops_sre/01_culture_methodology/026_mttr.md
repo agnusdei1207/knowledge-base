@@ -1,5 +1,5 @@
 ---
-title: "026. Mttr"
+title: "Mttr"
 date: "2026-04-29"
 tags:
   - "studynote-devops-sre"

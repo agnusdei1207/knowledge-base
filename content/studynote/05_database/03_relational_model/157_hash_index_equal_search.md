@@ -1,5 +1,5 @@
 ---
-title: "157. Hash Index Equal Search"
+title: "Hash Index Equal Search"
 date: "2026-05-05"
 tags:
   - "studynote-database"

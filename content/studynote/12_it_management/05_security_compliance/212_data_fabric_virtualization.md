@@ -1,5 +1,5 @@
 ---
-title: "212. 데이터 패브릭 (Data Fabric)"
+title: "데이터 패브릭 (Data Fabric)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

@@ -1,5 +1,5 @@
 ---
-title: "081. Cd Continuous Deployment Pipeline Architecture"
+title: "Cd Continuous Deployment Pipeline Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

@@ -1,5 +1,5 @@
 ---
-title: "091. Precision Vs Recall Tradeoff"
+title: "Precision Vs Recall Tradeoff"
 date: "2026-03-04"
 tags:
   - "studynote-data-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "576. Zanzibar (Zanzibar)"
+title: "Zanzibar (Zanzibar)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

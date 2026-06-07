@@ -1,5 +1,5 @@
 ---
-title: "573. 802 11 Wifi Standards Evolution"
+title: "802 11 Wifi Standards Evolution"
 date: "2026-05-08"
 tags:
   - "studynote-network"

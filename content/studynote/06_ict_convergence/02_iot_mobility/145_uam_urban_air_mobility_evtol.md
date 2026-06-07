@@ -1,5 +1,5 @@
 ---
-title: "145. Uam Urban Air Mobility Evtol"
+title: "Uam Urban Air Mobility Evtol"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"

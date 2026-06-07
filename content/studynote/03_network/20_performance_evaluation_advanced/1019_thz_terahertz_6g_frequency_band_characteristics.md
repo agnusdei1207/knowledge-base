@@ -1,5 +1,5 @@
 ---
-title: "1019. Thz Terahertz 6G Frequency Band Characteristics"
+title: "Thz Terahertz 6G Frequency Band Characteristics"
 date: "2026-05-08"
 tags:
   - "studynote-network"

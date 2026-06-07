@@ -1,5 +1,5 @@
 ---
-title: "091. Pcb Elements"
+title: "Pcb Elements"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"

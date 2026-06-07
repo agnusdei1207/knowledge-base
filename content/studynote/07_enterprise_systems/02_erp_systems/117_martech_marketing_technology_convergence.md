@@ -1,5 +1,5 @@
 ---
-title: "117. Martech Marketing Technology Convergence"
+title: "Martech Marketing Technology Convergence"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"

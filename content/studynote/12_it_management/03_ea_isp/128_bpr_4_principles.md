@@ -1,5 +1,5 @@
 ---
-title: "128. Bpr 4 Principles"
+title: "Bpr 4 Principles"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

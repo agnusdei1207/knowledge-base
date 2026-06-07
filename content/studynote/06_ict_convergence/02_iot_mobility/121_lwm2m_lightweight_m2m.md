@@ -1,5 +1,5 @@
 ---
-title: "121. Lwm2M Lightweight M2M"
+title: "Lwm2M Lightweight M2M"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"

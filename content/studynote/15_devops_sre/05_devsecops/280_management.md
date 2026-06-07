@@ -1,5 +1,5 @@
 ---
-title: "280. Management"
+title: "Management"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

@@ -1,5 +1,5 @@
 ---
-title: "354. 객체지향 [SOLID] 5원칙"
+title: "객체지향 [SOLID] 5원칙"
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

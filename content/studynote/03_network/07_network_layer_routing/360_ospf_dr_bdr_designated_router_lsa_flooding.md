@@ -1,5 +1,5 @@
 ---
-title: "360. DR (Designated Router), BDR"
+title: "DR (Designated Router), BDR"
 date: "2026-05-08"
 tags:
   - "studynote-network"

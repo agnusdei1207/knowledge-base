@@ -1,5 +1,5 @@
 ---
-title: "001. Algorithm Definition"
+title: "Algorithm Definition"
 date: "2026-06-07"
 tags:
   - "algorithm_stats"

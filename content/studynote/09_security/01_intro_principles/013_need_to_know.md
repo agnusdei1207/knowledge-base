@@ -1,5 +1,5 @@
 ---
-title: "013. Need To Know"
+title: "Need To Know"
 date: "2026-03-25"
 tags:
   - "security"

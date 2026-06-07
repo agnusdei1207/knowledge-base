@@ -1,5 +1,5 @@
 ---
-title: "167. Kubeflow Kubernetes Ml Pipeline"
+title: "Kubeflow Kubernetes Ml Pipeline"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "616. Identity Bridge"
+title: "Identity Bridge"
 date: "2026-05-08"
 tags:
   - "studynote-security"

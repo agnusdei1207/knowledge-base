@@ -1,5 +1,5 @@
 ---
-title: "304. Deadlock Detection"
+title: "Deadlock Detection"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

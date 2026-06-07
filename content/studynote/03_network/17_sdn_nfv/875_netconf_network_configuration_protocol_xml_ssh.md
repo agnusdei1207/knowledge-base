@@ -1,5 +1,5 @@
 ---
-title: "875. Netconf Network Configuration Protocol Xml Ssh"
+title: "Netconf Network Configuration Protocol Xml Ssh"
 date: "2026-05-08"
 tags:
   - "studynote-network"

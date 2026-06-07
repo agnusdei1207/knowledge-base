@@ -1,5 +1,5 @@
 ---
-title: "075. Referential Integrity Foreign Key Cascade"
+title: "Referential Integrity Foreign Key Cascade"
 date: "2026-06-07"
 tags:
   - "database"

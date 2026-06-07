@@ -1,5 +1,5 @@
 ---
-title: "1112. Smartnic Dpu Hardware Acceleration Offloading"
+title: "Smartnic Dpu Hardware Acceleration Offloading"
 date: "2026-05-08"
 tags:
   - "studynote-network"

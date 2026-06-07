@@ -1,5 +1,5 @@
 ---
-title: "912. OWASP IoT Top 10 (OWASP IoT Top 10)"
+title: "OWASP IoT Top 10 (OWASP IoT Top 10)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

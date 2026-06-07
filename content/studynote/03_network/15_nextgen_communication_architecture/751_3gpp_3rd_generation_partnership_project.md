@@ -1,5 +1,5 @@
 ---
-title: "751. 3Gpp 3Rd Generation Partnership Project"
+title: "3Gpp 3Rd Generation Partnership Project"
 date: "2026-05-08"
 tags:
   - "studynote-network"

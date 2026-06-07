@@ -1,5 +1,5 @@
 ---
-title: "047. Sla Service Level Agreement"
+title: "Sla Service Level Agreement"
 date: "2026-04-05"
 tags:
   - "studynote-enterprise-systems"

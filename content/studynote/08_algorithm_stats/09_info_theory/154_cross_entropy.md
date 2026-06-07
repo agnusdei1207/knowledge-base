@@ -1,5 +1,5 @@
 ---
-title: "154. Cross Entropy"
+title: "Cross Entropy"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

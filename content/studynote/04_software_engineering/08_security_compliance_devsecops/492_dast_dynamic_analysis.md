@@ -1,5 +1,5 @@
 ---
-title: "492. Dast Dynamic Analysis"
+title: "Dast Dynamic Analysis"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "491. Web Cache Deception"
+title: "Web Cache Deception"
 date: "2026-05-08"
 tags:
   - "studynote-security"

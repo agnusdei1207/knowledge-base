@@ -1,5 +1,5 @@
 ---
-title: "882. CVSS (Common Vulnerability Scoring System)"
+title: "CVSS (Common Vulnerability Scoring System)"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

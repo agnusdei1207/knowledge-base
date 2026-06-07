@@ -1,5 +1,5 @@
 ---
-title: "387. Top-K / Top-P (Nucleus Sampling)"
+title: "Top-K / Top-P (Nucleus Sampling)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

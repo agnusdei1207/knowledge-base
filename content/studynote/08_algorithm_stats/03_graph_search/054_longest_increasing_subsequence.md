@@ -1,5 +1,5 @@
 ---
-title: "054. Longest Increasing Subsequence"
+title: "Longest Increasing Subsequence"
 date: "2026-04-29"
 tags:
   - "studynote-algorithm-stats"

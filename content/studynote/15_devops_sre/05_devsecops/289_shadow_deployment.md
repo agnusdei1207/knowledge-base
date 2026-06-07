@@ -1,5 +1,5 @@
 ---
-title: "289. 섀도우 배포 트래픽 미러링 백그라운드 테스트 (Process)"
+title: "섀도우 배포 트래픽 미러링 백그라운드 테스트 (Process)"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

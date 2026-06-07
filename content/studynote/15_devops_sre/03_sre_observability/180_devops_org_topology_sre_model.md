@@ -1,5 +1,5 @@
 ---
-title: "180. Devops Org Topology Sre Model"
+title: "Devops Org Topology Sre Model"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"

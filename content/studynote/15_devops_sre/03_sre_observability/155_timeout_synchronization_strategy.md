@@ -1,5 +1,5 @@
 ---
-title: "155. Timeout Synchronization Strategy"
+title: "Timeout Synchronization Strategy"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

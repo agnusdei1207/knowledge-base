@@ -1,5 +1,5 @@
 ---
-title: "044. Sequential Logic"
+title: "Sequential Logic"
 date: "2026-04-05"
 tags:
   - "studynote-computer-architecture"

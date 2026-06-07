@@ -1,5 +1,5 @@
 ---
-title: "297. N Version Programming"
+title: "N Version Programming"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

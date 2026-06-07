@@ -1,5 +1,5 @@
 ---
-title: "046. Zero Trust"
+title: "Zero Trust"
 date: "2026-04-05"
 tags:
   - "studynote-security"

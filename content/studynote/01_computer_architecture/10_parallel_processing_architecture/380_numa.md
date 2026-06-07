@@ -1,5 +1,5 @@
 ---
-title: "380. NUMA (Non-Uniform Memory Access)"
+title: "NUMA (Non-Uniform Memory Access)"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "221. Isaca Cisa Framework"
+title: "Isaca Cisa Framework"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise-systems"

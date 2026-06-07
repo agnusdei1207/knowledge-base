@@ -1,5 +1,5 @@
 ---
-title: "141. Focus Group Interview Fgi"
+title: "Focus Group Interview Fgi"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"

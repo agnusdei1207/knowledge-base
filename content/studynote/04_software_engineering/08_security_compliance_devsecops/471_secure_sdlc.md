@@ -1,5 +1,5 @@
 ---
-title: "471. Secure Sdlc"
+title: "Secure Sdlc"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

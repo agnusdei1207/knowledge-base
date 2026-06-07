@@ -1,5 +1,5 @@
 ---
-title: "422. 동적 [성능] 메모리 릭 진단기"
+title: "동적 [성능] 메모리 릭 진단기"
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

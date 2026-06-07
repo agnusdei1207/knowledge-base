@@ -1,5 +1,5 @@
 ---
-title: "864. Prototype Pollution (JavaScript Prototype Pollution)"
+title: "Prototype Pollution (JavaScript Prototype Pollution)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

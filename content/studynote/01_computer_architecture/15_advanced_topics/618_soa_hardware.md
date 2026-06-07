@@ -1,5 +1,5 @@
 ---
-title: "618. Soa Hardware"
+title: "Soa Hardware"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "177. Orchestration Saga Controller"
+title: "Orchestration Saga Controller"
 date: "2026-05-06"
 tags:
   - "studynote-enterprise-systems"

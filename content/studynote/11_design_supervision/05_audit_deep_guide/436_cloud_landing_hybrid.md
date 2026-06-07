@@ -1,5 +1,5 @@
 ---
-title: "436. 클라우드 랜딩 존 하이브리드 거버넌스"
+title: "클라우드 랜딩 존 하이브리드 거버넌스"
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

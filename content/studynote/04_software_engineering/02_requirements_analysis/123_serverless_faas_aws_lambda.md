@@ -1,5 +1,5 @@
 ---
-title: "123. Serverless Faas Aws Lambda"
+title: "Serverless Faas Aws Lambda"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"

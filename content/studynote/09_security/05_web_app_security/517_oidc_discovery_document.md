@@ -1,5 +1,5 @@
 ---
-title: "517. Discovery Document (Discovery Document)"
+title: "Discovery Document (Discovery Document)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

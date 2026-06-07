@@ -1,5 +1,5 @@
 ---
-title: "417. Isn Initial Sequence Number Randomization"
+title: "Isn Initial Sequence Number Randomization"
 date: "2026-05-08"
 tags:
   - "studynote-network"

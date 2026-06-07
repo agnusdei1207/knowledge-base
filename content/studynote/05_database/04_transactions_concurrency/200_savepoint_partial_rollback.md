@@ -1,5 +1,5 @@
 ---
-title: "200. SAVEPOINT (Savepoint Partial Rollback)"
+title: "SAVEPOINT (Savepoint Partial Rollback)"
 date: "2026-05-08"
 tags:
   - "studynote-database"

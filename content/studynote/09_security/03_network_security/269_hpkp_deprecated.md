@@ -1,5 +1,5 @@
 ---
-title: "269. HTTP Public Key Pinning (HPKP, Deprecated)"
+title: "HTTP Public Key Pinning (HPKP, Deprecated)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

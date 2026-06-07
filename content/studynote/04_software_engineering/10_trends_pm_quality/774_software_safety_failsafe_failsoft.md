@@ -1,5 +1,5 @@
 ---
-title: "774. Software Safety Failsafe Failsoft"
+title: "Software Safety Failsafe Failsoft"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

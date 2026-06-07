@@ -1,5 +1,5 @@
 ---
-title: "428. 델타 암호 해시 [키 스트레칭] 난독"
+title: "델타 암호 해시 [키 스트레칭] 난독"
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

@@ -1,5 +1,5 @@
 ---
-title: "122. Msa Microservices Architecture"
+title: "Msa Microservices Architecture"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"

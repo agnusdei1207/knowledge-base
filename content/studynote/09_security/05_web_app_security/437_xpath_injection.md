@@ -1,5 +1,5 @@
 ---
-title: "437. XPath Injection (XPath Injection)"
+title: "XPath Injection (XPath Injection)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

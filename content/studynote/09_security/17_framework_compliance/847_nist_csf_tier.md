@@ -1,5 +1,5 @@
 ---
-title: "847. Nist Csf Tier"
+title: "Nist Csf Tier"
 date: "2026-05-08"
 tags:
   - "studynote-security"

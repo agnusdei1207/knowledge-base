@@ -1,5 +1,5 @@
 ---
-title: "170. Scheduling Criteria"
+title: "Scheduling Criteria"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"

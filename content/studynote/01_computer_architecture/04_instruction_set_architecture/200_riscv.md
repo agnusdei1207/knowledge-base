@@ -1,5 +1,5 @@
 ---
-title: "200. RISC-V"
+title: "RISC-V"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"

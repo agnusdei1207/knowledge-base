@@ -1,5 +1,5 @@
 ---
-title: "135. 자율주행 자동차 기술 단계 (Autonomous Vehicle)"
+title: "자율주행 자동차 기술 단계 (Autonomous Vehicle)"
 date: "2026-06-07"
 tags:
   - "studynote-ict-convergence"

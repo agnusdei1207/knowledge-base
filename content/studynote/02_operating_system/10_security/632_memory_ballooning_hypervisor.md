@@ -1,5 +1,5 @@
 ---
-title: "632. Memory Ballooning Hypervisor"
+title: "Memory Ballooning Hypervisor"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

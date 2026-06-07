@@ -1,5 +1,5 @@
 ---
-title: "086. Des Data Encryption Standard"
+title: "Des Data Encryption Standard"
 date: "2026-04-05"
 tags:
   - "studynote-security"

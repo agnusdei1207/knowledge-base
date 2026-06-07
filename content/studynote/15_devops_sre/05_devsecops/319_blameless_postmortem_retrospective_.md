@@ -1,5 +1,5 @@
 ---
-title: "319. 무비난 포스트모템 회고 문화"
+title: "무비난 포스트모템 회고 문화"
 date: "2026-06-07"
 tags:
   - "studynote-devops-sre"

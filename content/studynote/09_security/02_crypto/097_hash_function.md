@@ -1,5 +1,5 @@
 ---
-title: "097. Hash Function"
+title: "Hash Function"
 date: "2026-04-05"
 tags:
   - "studynote-security"

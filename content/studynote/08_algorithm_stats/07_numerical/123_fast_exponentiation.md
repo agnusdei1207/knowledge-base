@@ -1,5 +1,5 @@
 ---
-title: "123. Fast Exponentiation"
+title: "Fast Exponentiation"
 date: "2026-04-05"
 tags:
   - "studynote-algorithm-stats"

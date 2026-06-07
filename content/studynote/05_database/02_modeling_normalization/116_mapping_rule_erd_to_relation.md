@@ -1,5 +1,5 @@
 ---
-title: "116. Mapping Rule Erd To Relation"
+title: "Mapping Rule Erd To Relation"
 date: "2026-04-19"
 tags:
   - "studynote-database"

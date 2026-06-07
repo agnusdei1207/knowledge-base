@@ -1,5 +1,5 @@
 ---
-title: "074. Pair Programming Driver Navigator"
+title: "Pair Programming Driver Navigator"
 date: "2026-06-07"
 tags:
   - "software_engineering"

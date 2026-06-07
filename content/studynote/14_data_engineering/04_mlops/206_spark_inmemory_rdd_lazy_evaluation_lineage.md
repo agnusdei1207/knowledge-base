@@ -1,5 +1,5 @@
 ---
-title: "206. 스파크 인메모리 RDD 지연 평가 계보 복구"
+title: "스파크 인메모리 RDD 지연 평가 계보 복구"
 date: "2026-06-07"
 tags:
   - "studynote-data-engineering"

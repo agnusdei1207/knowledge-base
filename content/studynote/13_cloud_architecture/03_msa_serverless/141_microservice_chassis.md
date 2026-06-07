@@ -1,5 +1,5 @@
 ---
-title: "141. Microservice Chassis"
+title: "Microservice Chassis"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "192. Grpc Protocol Buffers Http2"
+title: "Grpc Protocol Buffers Http2"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise-systems"

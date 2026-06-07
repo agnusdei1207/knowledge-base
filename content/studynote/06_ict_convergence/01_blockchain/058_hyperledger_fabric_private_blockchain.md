@@ -1,5 +1,5 @@
 ---
-title: "058. Hyperledger Fabric Private Blockchain"
+title: "Hyperledger Fabric Private Blockchain"
 date: "2026-06-07"
 tags:
   - "ict_convergence"

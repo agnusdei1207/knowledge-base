@@ -1,5 +1,5 @@
 ---
-title: "630. Equivalence Partitioning Boundary Value Analysis"
+title: "Equivalence Partitioning Boundary Value Analysis"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

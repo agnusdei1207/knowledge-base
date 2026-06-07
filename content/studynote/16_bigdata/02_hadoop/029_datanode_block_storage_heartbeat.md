@@ -1,5 +1,5 @@
 ---
-title: "029. Datanode Block Storage Heartbeat"
+title: "Datanode Block Storage Heartbeat"
 date: "2026-03-04"
 tags:
   - "hadoop"

@@ -1,5 +1,5 @@
 ---
-title: "630. Splunk (Splunk)"
+title: "Splunk (Splunk)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

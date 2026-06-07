@@ -1,5 +1,5 @@
 ---
-title: "614. Pagerank Hw Mapping"
+title: "Pagerank Hw Mapping"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

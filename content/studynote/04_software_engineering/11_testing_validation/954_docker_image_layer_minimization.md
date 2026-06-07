@@ -1,5 +1,5 @@
 ---
-title: "954. Docker Image Layer Minimization"
+title: "Docker Image Layer Minimization"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

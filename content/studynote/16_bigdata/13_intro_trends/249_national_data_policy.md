@@ -1,5 +1,5 @@
 ---
-title: "249. National Data Policy"
+title: "National Data Policy"
 date: "2026-03-03"
 tags:
   - "studynote-bigdata"

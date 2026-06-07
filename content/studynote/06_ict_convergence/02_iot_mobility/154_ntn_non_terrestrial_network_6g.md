@@ -1,5 +1,5 @@
 ---
-title: "154. Ntn Non Terrestrial Network 6G"
+title: "Ntn Non Terrestrial Network 6G"
 date: "2026-05-03"
 tags:
   - "studynote-ict-convergence"

@@ -1,5 +1,5 @@
 ---
-title: "282. Business Intelligence Bi Technology Framework"
+title: "Business Intelligence Bi Technology Framework"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"

@@ -1,5 +1,5 @@
 ---
-title: "008. Loosely Coupled System"
+title: "Loosely Coupled System"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"

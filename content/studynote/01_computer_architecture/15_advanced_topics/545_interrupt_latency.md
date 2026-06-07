@@ -1,5 +1,5 @@
 ---
-title: "545. Interrupt Latency"
+title: "Interrupt Latency"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

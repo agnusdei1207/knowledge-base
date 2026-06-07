@@ -1,5 +1,5 @@
 ---
-title: "467. Logging Without Alert (Logging Without Alert)"
+title: "Logging Without Alert (Logging Without Alert)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

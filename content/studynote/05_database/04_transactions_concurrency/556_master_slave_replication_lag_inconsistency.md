@@ -1,5 +1,5 @@
 ---
-title: "556. Master Slave Replication Lag Inconsistency"
+title: "Master Slave Replication Lag Inconsistency"
 date: "2026-05-09"
 tags:
   - "studynote-database"

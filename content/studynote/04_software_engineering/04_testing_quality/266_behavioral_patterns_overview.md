@@ -1,5 +1,5 @@
 ---
-title: "266. Behavioral Patterns Overview"
+title: "Behavioral Patterns Overview"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

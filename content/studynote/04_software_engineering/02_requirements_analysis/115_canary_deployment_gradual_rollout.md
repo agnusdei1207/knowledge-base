@@ -1,5 +1,5 @@
 ---
-title: "115. Canary Deployment Gradual Rollout"
+title: "Canary Deployment Gradual Rollout"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "085. Pod Kubernetes Container Unit"
+title: "Pod Kubernetes Container Unit"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"

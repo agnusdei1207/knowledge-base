@@ -1,5 +1,5 @@
 ---
-title: "535. Syslog Protocol Udp 514"
+title: "Syslog Protocol Udp 514"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "636. W3C WoT (Web of Things)"
+title: "W3C WoT (Web of Things)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

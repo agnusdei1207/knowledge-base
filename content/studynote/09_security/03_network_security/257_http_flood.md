@@ -1,5 +1,5 @@
 ---
-title: "257. HTTP Flood (HTTP Flood)"
+title: "HTTP Flood (HTTP Flood)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

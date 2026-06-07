@@ -1,5 +1,5 @@
 ---
-title: "056. Omni Channel"
+title: "Omni Channel"
 date: "2024-03-24"
 tags:
   - "studynote-it-management"

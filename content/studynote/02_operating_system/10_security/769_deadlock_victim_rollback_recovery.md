@@ -1,5 +1,5 @@
 ---
-title: "769. 데드락 희생자 롤백 복구망"
+title: "데드락 희생자 롤백 복구망"
 date: "2026-06-07"
 tags:
   - "studynote-operating-system"

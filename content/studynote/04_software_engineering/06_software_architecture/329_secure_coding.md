@@ -1,5 +1,5 @@
 ---
-title: "329. Secure Coding"
+title: "Secure Coding"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

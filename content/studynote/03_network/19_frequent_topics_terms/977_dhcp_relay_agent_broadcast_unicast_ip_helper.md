@@ -1,5 +1,5 @@
 ---
-title: "977. Dhcp Relay Agent Broadcast Unicast Ip Helper"
+title: "Dhcp Relay Agent Broadcast Unicast Ip Helper"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "624. Cloud Native 12 Factor App"
+title: "Cloud Native 12 Factor App"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

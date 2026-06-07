@@ -1,5 +1,5 @@
 ---
-title: "717. Cloud Native Storage Compute Separation"
+title: "Cloud Native Storage Compute Separation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "103. Ascii"
+title: "Ascii"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"

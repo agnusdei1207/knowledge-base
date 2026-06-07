@@ -1,5 +1,5 @@
 ---
-title: "158. Bitmap Index Cardinality Dml"
+title: "Bitmap Index Cardinality Dml"
 date: "2026-05-05"
 tags:
   - "studynote-database"

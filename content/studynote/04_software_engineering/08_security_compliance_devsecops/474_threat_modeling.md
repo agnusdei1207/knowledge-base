@@ -1,5 +1,5 @@
 ---
-title: "474. Threat Modeling"
+title: "Threat Modeling"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

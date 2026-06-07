@@ -1,5 +1,5 @@
 ---
-title: "184. Paas Platform As A Service"
+title: "Paas Platform As A Service"
 date: "2026-05-06"
 tags:
   - "studynote-ict-convergence"

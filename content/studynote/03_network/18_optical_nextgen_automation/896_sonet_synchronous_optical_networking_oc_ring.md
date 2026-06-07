@@ -1,5 +1,5 @@
 ---
-title: "896. Sonet Synchronous Optical Networking Oc Ring"
+title: "Sonet Synchronous Optical Networking Oc Ring"
 date: "2026-05-08"
 tags:
   - "studynote-network"

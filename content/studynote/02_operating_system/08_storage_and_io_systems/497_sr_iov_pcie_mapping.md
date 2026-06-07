@@ -1,5 +1,5 @@
 ---
-title: "497. Sr Iov Pcie Mapping"
+title: "Sr Iov Pcie Mapping"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

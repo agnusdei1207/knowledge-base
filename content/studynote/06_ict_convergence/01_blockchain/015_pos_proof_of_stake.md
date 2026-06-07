@@ -1,5 +1,5 @@
 ---
-title: "015. Pos Proof Of Stake"
+title: "Pos Proof Of Stake"
 date: "2024-05-18"
 tags:
   - "ict_convergence"

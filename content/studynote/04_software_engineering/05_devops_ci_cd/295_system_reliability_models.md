@@ -1,5 +1,5 @@
 ---
-title: "295. System Reliability Models"
+title: "System Reliability Models"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

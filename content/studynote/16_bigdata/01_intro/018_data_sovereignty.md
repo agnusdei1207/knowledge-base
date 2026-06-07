@@ -1,5 +1,5 @@
 ---
-title: "018. Data Sovereignty"
+title: "Data Sovereignty"
 date: "2024-05-24"
 tags:
   - "bigdata"

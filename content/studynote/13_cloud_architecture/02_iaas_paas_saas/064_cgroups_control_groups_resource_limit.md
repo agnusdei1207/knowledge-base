@@ -1,5 +1,5 @@
 ---
-title: "064. Cgroups Control Groups Resource Limit"
+title: "Cgroups Control Groups Resource Limit"
 date: "2026-04-07"
 tags:
   - "studynote-cloud-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "700. Nac Network Access Control"
+title: "Nac Network Access Control"
 date: "2026-05-08"
 tags:
   - "studynote-network"

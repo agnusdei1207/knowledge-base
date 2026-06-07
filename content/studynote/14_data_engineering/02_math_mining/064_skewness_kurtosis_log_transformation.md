@@ -1,5 +1,5 @@
 ---
-title: "064. Skewness Kurtosis Log Transformation"
+title: "Skewness Kurtosis Log Transformation"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"

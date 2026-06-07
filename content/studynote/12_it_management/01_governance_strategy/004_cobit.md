@@ -1,5 +1,5 @@
 ---
-title: "004. Cobit"
+title: "Cobit"
 date: "2026-03-04"
 tags:
   - "it_management"

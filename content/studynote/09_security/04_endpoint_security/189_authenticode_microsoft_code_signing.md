@@ -1,5 +1,5 @@
 ---
-title: "189. Authenticode (Authenticode)"
+title: "Authenticode (Authenticode)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "838. Sla Service Level Agreement Metrics"
+title: "Sla Service Level Agreement Metrics"
 date: "2026-04-05"
 tags:
   - "studynote-it-management"

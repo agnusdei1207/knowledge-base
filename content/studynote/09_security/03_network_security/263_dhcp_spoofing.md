@@ -1,5 +1,5 @@
 ---
-title: "263. DHCP Spoofing (DHCP Spoofing)"
+title: "DHCP Spoofing (DHCP Spoofing)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

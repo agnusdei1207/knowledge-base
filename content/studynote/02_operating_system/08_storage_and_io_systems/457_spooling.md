@@ -1,5 +1,5 @@
 ---
-title: "457. Spooling"
+title: "Spooling"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

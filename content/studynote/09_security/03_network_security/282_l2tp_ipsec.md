@@ -1,5 +1,5 @@
 ---
-title: "282. L2TP/IPsec (L2TP/IPsec)"
+title: "L2TP/IPsec (L2TP/IPsec)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

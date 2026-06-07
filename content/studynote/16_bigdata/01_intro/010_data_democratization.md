@@ -1,5 +1,5 @@
 ---
-title: "010. Data Democratization"
+title: "Data Democratization"
 date: "2024-05-20"
 tags:
   - "bigdata"

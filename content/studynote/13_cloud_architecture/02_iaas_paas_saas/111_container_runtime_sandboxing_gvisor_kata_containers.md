@@ -1,5 +1,5 @@
 ---
-title: "111. Container Runtime Sandboxing Gvisor Kata Containers"
+title: "Container Runtime Sandboxing Gvisor Kata Containers"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "859. Whitebox Switch Open Hardware Nos"
+title: "Whitebox Switch Open Hardware Nos"
 date: "2026-05-08"
 tags:
   - "studynote-network"

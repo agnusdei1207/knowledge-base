@@ -1,5 +1,5 @@
 ---
-title: "175. Rlhf Ranking Reward Model Human Labeler"
+title: "Rlhf Ranking Reward Model Human Labeler"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

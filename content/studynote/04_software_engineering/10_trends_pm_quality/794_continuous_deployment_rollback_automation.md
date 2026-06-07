@@ -1,5 +1,5 @@
 ---
-title: "794. Continuous Deployment Rollback Automation"
+title: "Continuous Deployment Rollback Automation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

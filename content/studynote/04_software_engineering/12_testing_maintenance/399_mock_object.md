@@ -1,5 +1,5 @@
 ---
-title: "399. Mock Object"
+title: "Mock Object"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

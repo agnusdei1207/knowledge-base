@@ -1,5 +1,5 @@
 ---
-title: "117. Kubernetes Network Policy Micro Segmentation"
+title: "Kubernetes Network Policy Micro Segmentation"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"

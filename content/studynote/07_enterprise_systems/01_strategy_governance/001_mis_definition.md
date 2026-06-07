@@ -1,5 +1,5 @@
 ---
-title: "001. Mis Definition"
+title: "Mis Definition"
 date: "2026-03-04"
 tags:
   - "enterprise_systems"

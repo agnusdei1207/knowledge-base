@@ -1,5 +1,5 @@
 ---
-title: "161. Ionospheric Reflection Tropospheric Scatter"
+title: "Ionospheric Reflection Tropospheric Scatter"
 date: "2026-05-05"
 tags:
   - "studynote-network"

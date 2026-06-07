@@ -1,5 +1,5 @@
 ---
-title: "138. 사용자 여정 지도 (User Journey Map)"
+title: "사용자 여정 지도 (User Journey Map)"
 date: "2026-06-07"
 tags:
   - "studynote-software-engineering"

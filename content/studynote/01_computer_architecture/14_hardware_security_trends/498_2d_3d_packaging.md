@@ -1,5 +1,5 @@
 ---
-title: "498. 2D 3D Packaging"
+title: "2D 3D Packaging"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"

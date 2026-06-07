@@ -1,5 +1,5 @@
 ---
-title: "012. Metadata"
+title: "Metadata"
 date: "2024-05-18"
 tags:
   - "database"

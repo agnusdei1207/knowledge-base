@@ -1,5 +1,5 @@
 ---
-title: "184. Data Catalog Integration"
+title: "Data Catalog Integration"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

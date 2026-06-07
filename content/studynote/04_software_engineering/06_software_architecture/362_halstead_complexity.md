@@ -1,5 +1,5 @@
 ---
-title: "362. Halstead Complexity"
+title: "Halstead Complexity"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

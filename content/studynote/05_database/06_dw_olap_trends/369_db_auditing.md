@@ -1,5 +1,5 @@
 ---
-title: "369. Db Auditing"
+title: "Db Auditing"
 date: "2026-05-09"
 tags:
   - "studynote-database"

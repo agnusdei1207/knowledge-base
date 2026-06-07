@@ -1,5 +1,5 @@
 ---
-title: "682. Micro Frontend Webpack Federation"
+title: "Micro Frontend Webpack Federation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

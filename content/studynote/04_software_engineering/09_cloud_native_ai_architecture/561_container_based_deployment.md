@@ -1,5 +1,5 @@
 ---
-title: "561. Container Based Deployment"
+title: "Container Based Deployment"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

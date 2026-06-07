@@ -1,5 +1,5 @@
 ---
-title: "019. Data De Identification"
+title: "Data De Identification"
 date: "2024-05-24"
 tags:
   - "bigdata"

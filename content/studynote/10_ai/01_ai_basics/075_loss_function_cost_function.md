@@ -1,5 +1,5 @@
 ---
-title: "075. Loss Function Cost Function"
+title: "Loss Function Cost Function"
 date: "2026-04-10"
 tags:
   - "studynote-ai"

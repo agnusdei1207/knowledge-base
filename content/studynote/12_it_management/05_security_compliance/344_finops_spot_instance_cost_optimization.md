@@ -1,5 +1,5 @@
 ---
-title: "344. FinOps 스팟 인스턴스 비용 절감 모니터 감리"
+title: "FinOps 스팟 인스턴스 비용 절감 모니터 감리"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

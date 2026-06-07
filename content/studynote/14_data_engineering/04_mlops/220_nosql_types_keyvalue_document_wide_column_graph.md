@@ -1,5 +1,5 @@
 ---
-title: "220. 키-값 도큐먼트 컬럼 패밀리 그래프 데이터베이스"
+title: "키-값 도큐먼트 컬럼 패밀리 그래프 데이터베이스"
 date: "2026-06-07"
 tags:
   - "studynote-data-engineering"

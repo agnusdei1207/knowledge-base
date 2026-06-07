@@ -1,5 +1,5 @@
 ---
-title: "011. System Catalog"
+title: "System Catalog"
 date: "2024-05-20"
 tags:
   - "database"

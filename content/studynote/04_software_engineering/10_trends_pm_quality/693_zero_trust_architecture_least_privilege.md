@@ -1,5 +1,5 @@
 ---
-title: "693. Zero Trust Architecture Least Privilege"
+title: "Zero Trust Architecture Least Privilege"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "100. Huffman Coding"
+title: "Huffman Coding"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

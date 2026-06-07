@@ -1,5 +1,5 @@
 ---
-title: "240. 초자동화 (Hyperautomation) 프로세스 마이닝 + RPA + AI + 챗봇 결합 하이브리드 워크포스 통합 플랫폼"
+title: "초자동화 (Hyperautomation) 프로세스 마이닝 + RPA + AI + 챗봇 결합 하이브리드 워크포스 통합 플랫폼"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

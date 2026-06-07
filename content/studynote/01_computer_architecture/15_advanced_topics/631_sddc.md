@@ -1,5 +1,5 @@
 ---
-title: "631. SDDC (Software Defined Data Center)"
+title: "SDDC (Software Defined Data Center)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

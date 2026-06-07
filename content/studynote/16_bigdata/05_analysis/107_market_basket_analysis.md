@@ -1,5 +1,5 @@
 ---
-title: "107. Market Basket Analysis"
+title: "Market Basket Analysis"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

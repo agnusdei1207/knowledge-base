@@ -1,5 +1,5 @@
 ---
-title: "248. DTP (Dynamic Trunking Protocol) / VTP (VLAN Trunking Protocol)"
+title: "DTP (Dynamic Trunking Protocol) / VTP (VLAN Trunking Protocol)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

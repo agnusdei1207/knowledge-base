@@ -1,5 +1,5 @@
 ---
-title: "1120. Uam Urban Air Mobility Satellite Routing"
+title: "Uam Urban Air Mobility Satellite Routing"
 date: "2026-05-08"
 tags:
   - "studynote-network"

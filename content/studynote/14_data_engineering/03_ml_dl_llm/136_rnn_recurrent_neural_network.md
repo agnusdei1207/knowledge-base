@@ -1,5 +1,5 @@
 ---
-title: "136. Rnn Recurrent Neural Network"
+title: "Rnn Recurrent Neural Network"
 date: "2026-04-19"
 tags:
   - "studynote-data-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "059. Bolt On Security"
+title: "Bolt On Security"
 date: "2026-04-05"
 tags:
   - "studynote-security"

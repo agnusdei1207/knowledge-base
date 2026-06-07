@@ -1,5 +1,5 @@
 ---
-title: "016. Hypervisor"
+title: "Hypervisor"
 date: "2024-05-20"
 tags:
   - "cloud_architecture"

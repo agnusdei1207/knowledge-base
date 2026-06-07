@@ -1,5 +1,5 @@
 ---
-title: "024. Learning Paradigms"
+title: "Learning Paradigms"
 date: "2026-04-29"
 tags:
   - "studynote-ai"

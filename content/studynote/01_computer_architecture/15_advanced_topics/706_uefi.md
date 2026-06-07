@@ -1,5 +1,5 @@
 ---
-title: "706. UEFI (Unified Extensible Firmware Interface)"
+title: "UEFI (Unified Extensible Firmware Interface)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

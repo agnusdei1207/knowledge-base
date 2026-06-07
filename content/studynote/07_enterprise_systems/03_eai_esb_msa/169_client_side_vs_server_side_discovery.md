@@ -1,5 +1,5 @@
 ---
-title: "169. Client Side Vs Server Side Discovery"
+title: "Client Side Vs Server Side Discovery"
 date: "2026-04-10"
 tags:
   - "studynote-enterprise-systems"

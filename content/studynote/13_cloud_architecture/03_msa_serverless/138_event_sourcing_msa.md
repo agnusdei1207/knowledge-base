@@ -1,5 +1,5 @@
 ---
-title: "138. Event Sourcing Msa"
+title: "Event Sourcing Msa"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"

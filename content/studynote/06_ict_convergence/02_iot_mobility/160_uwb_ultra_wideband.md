@@ -1,5 +1,5 @@
 ---
-title: "160. Uwb Ultra Wideband"
+title: "Uwb Ultra Wideband"
 date: "2026-05-05"
 tags:
   - "studynote-ict-convergence"

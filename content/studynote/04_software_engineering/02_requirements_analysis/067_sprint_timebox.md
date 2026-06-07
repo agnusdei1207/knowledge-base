@@ -1,5 +1,5 @@
 ---
-title: "067. Sprint Timebox"
+title: "Sprint Timebox"
 date: "2026-06-07"
 tags:
   - "software_engineering"

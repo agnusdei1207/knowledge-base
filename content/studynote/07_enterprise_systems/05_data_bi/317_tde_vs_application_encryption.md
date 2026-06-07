@@ -1,5 +1,5 @@
 ---
-title: "317. Tde Vs Application Encryption"
+title: "Tde Vs Application Encryption"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"

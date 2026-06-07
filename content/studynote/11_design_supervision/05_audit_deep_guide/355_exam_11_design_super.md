@@ -1,5 +1,5 @@
 ---
-title: "355. 단일 책임 [응집도] 극대"
+title: "단일 책임 [응집도] 극대"
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

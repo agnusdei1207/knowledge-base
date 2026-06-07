@@ -1,5 +1,5 @@
 ---
-title: "352. Centralized Arbitration"
+title: "Centralized Arbitration"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"

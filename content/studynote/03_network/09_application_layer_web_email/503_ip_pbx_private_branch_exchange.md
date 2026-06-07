@@ -1,5 +1,5 @@
 ---
-title: "503. IP PBX"
+title: "IP PBX"
 date: "2026-05-08"
 tags:
   - "studynote-network"

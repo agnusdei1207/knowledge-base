@@ -1,5 +1,5 @@
 ---
-title: "110. Fifth Normal Form 5Nf Pjnf"
+title: "Fifth Normal Form 5Nf Pjnf"
 date: "2026-04-19"
 tags:
   - "studynote-database"

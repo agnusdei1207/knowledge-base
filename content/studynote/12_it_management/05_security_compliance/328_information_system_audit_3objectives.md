@@ -1,5 +1,5 @@
 ---
-title: "328. 정보시스템 감리 3대 목적 절차 산출물 성과"
+title: "정보시스템 감리 3대 목적 절차 산출물 성과"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

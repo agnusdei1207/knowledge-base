@@ -1,5 +1,5 @@
 ---
-title: "190. 시큐어 코딩 (Secure Coding) 가이드라인 준수 감리"
+title: "시큐어 코딩 (Secure Coding) 가이드라인 준수 감리"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

@@ -1,5 +1,5 @@
 ---
-title: "262. CMDB 자산 구성 항목 (CI)"
+title: "CMDB 자산 구성 항목 (CI)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

@@ -1,5 +1,5 @@
 ---
-title: "746. Ti Threat Intelligence Ioc Stix Taxii"
+title: "Ti Threat Intelligence Ioc Stix Taxii"
 date: "2026-05-08"
 tags:
   - "studynote-network"

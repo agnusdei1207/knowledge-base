@@ -1,5 +1,5 @@
 ---
-title: "016. Europe Data Strategy"
+title: "Europe Data Strategy"
 date: "2024-05-24"
 tags:
   - "bigdata"

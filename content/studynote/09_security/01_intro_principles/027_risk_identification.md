@@ -1,5 +1,5 @@
 ---
-title: "027. Risk Identification"
+title: "Risk Identification"
 date: "2026-04-29"
 tags:
   - "studynote-security"

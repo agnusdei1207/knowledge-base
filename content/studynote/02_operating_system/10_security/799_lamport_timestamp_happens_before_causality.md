@@ -1,5 +1,5 @@
 ---
-title: "799. 람포트 타임스탬프 인과 관계 정렬"
+title: "람포트 타임스탬프 인과 관계 정렬"
 date: "2026-06-07"
 tags:
   - "studynote-operating-system"

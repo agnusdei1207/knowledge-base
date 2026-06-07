@@ -1,5 +1,5 @@
 ---
-title: "011. 3 Stage Audit"
+title: "3 Stage Audit"
 date: "2024-05-20"
 tags:
   - "design_supervision"

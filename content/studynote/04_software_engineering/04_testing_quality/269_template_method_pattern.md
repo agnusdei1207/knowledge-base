@@ -1,5 +1,5 @@
 ---
-title: "269. Template Method Pattern"
+title: "Template Method Pattern"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

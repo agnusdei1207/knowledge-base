@@ -1,5 +1,5 @@
 ---
-title: "389. Mesh Topology"
+title: "Mesh Topology"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "645. Data Pipeline Acceleration"
+title: "Data Pipeline Acceleration"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

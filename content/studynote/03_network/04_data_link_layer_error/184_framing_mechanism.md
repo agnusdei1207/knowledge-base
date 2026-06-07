@@ -1,5 +1,5 @@
 ---
-title: "184. Framing Mechanism"
+title: "Framing Mechanism"
 date: "2026-05-06"
 tags:
   - "studynote-network"

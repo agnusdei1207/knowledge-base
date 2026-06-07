@@ -1,5 +1,5 @@
 ---
-title: "252. Creational Patterns Overview"
+title: "Creational Patterns Overview"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

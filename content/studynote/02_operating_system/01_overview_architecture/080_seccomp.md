@@ -1,5 +1,5 @@
 ---
-title: "080. seccomp (Secure Computing Mode)"
+title: "seccomp (Secure Computing Mode)"
 date: "2026-05-05"
 tags:
   - "studynote-operating-system"

@@ -1,5 +1,5 @@
 ---
-title: "140. Sql Subquery"
+title: "Sql Subquery"
 date: "2026-04-19"
 tags:
   - "studynote-database"

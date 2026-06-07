@@ -1,5 +1,5 @@
 ---
-title: "331. Slaac Stateless Address Autoconfiguration Ndp"
+title: "Slaac Stateless Address Autoconfiguration Ndp"
 date: "2026-05-08"
 tags:
   - "studynote-network"

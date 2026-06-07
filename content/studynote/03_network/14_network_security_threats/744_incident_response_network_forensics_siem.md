@@ -1,5 +1,5 @@
 ---
-title: "744. Incident Response Network Forensics Siem"
+title: "Incident Response Network Forensics Siem"
 date: "2026-05-08"
 tags:
   - "studynote-network"

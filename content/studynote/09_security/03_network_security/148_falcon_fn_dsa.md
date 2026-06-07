@@ -1,5 +1,5 @@
 ---
-title: "148. Falcon Fn Dsa"
+title: "Falcon Fn Dsa"
 date: "2026-05-03"
 tags:
   - "studynote-security"

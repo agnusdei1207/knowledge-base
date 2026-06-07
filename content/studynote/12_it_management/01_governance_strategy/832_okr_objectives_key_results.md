@@ -1,5 +1,5 @@
 ---
-title: "832. Okr Objectives Key Results"
+title: "Okr Objectives Key Results"
 date: "2026-04-21"
 tags:
   - "studynote-it-management"

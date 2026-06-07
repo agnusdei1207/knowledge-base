@@ -1,5 +1,5 @@
 ---
-title: "270. Olap Online Analytical Processing Multidimensional"
+title: "Olap Online Analytical Processing Multidimensional"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"

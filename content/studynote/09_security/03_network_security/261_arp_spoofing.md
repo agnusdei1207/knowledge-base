@@ -1,5 +1,5 @@
 ---
-title: "261. ARP Spoofing (ARP Spoofing)"
+title: "ARP Spoofing (ARP Spoofing)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

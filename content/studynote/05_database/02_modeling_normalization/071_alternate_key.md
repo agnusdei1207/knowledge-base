@@ -1,5 +1,5 @@
 ---
-title: "071. Alternate Key"
+title: "Alternate Key"
 date: "2026-06-07"
 tags:
   - "database"

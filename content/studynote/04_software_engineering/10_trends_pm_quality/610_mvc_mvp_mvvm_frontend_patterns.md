@@ -1,5 +1,5 @@
 ---
-title: "610. Mvc Mvp Mvvm Frontend Patterns"
+title: "Mvc Mvp Mvvm Frontend Patterns"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

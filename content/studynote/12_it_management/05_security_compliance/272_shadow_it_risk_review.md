@@ -1,5 +1,5 @@
 ---
-title: "272. 섀도우 IT 리스크"
+title: "섀도우 IT 리스크"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

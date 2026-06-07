@@ -1,5 +1,5 @@
 ---
-title: "072. Foreign Key Fk"
+title: "Foreign Key Fk"
 date: "2026-06-07"
 tags:
   - "database"

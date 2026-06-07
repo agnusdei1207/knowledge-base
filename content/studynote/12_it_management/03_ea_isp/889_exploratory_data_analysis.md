@@ -1,5 +1,5 @@
 ---
-title: "889. Exploratory Data Analysis"
+title: "Exploratory Data Analysis"
 date: "2026-04-05"
 tags:
   - "studynote-it-management"

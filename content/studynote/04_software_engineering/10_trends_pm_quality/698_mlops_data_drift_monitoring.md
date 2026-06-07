@@ -1,5 +1,5 @@
 ---
-title: "698. Mlops Data Drift Monitoring"
+title: "Mlops Data Drift Monitoring"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

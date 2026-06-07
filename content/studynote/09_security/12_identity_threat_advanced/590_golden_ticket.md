@@ -1,5 +1,5 @@
 ---
-title: "590. Golden Ticket (Golden Ticket)"
+title: "Golden Ticket (Golden Ticket)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

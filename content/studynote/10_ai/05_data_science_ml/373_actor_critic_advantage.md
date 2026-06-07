@@ -1,5 +1,5 @@
 ---
-title: "373. Actor Critic Advantage"
+title: "Actor Critic Advantage"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

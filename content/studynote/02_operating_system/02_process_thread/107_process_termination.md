@@ -1,5 +1,5 @@
 ---
-title: "107. Process Termination"
+title: "Process Termination"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"

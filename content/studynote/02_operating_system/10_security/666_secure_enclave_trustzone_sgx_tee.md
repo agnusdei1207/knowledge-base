@@ -1,5 +1,5 @@
 ---
-title: "666. Secure Enclave Trustzone Sgx Tee"
+title: "Secure Enclave Trustzone Sgx Tee"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

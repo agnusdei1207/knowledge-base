@@ -1,5 +1,5 @@
 ---
-title: "377. Spectre/Meltdown (Spectre/Meltdown)"
+title: "Spectre/Meltdown (Spectre/Meltdown)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

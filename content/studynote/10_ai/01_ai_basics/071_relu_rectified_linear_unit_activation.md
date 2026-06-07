@@ -1,5 +1,5 @@
 ---
-title: "071. Relu Rectified Linear Unit Activation"
+title: "Relu Rectified Linear Unit Activation"
 date: "2026-06-07"
 tags:
   - "ai"

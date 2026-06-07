@@ -1,5 +1,5 @@
 ---
-title: "318. 데이터 레이크 스키마 온 리드 구조"
+title: "데이터 레이크 스키마 온 리드 구조"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

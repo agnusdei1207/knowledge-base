@@ -1,5 +1,5 @@
 ---
-title: "398. IP SLA"
+title: "IP SLA"
 date: "2026-05-08"
 tags:
   - "studynote-network"

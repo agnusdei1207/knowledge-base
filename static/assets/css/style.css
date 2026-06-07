@@ -154,16 +154,22 @@ tr,
 }
 
 strong {
-    color: var(--dark);
+    color: var(--secondary);
     font-weight: 700;
+}
+
+em {
+    color: var(--tertiary);
+    font-style: italic;
 }
 
 mark,
 .text-highlight {
     background-color: var(--textHighlight);
     color: var(--dark);
-    border-radius: 5px;
-    padding: 0 0.1rem;
+    border-radius: 3px;
+    padding: 0.05rem 0.25rem;
+    font-weight: 600;
 }
 
 .page {
@@ -528,15 +534,20 @@ pre code.hljs {
     overflow-x: auto;
     background: transparent;
     font-size: 0.85rem;
+    color: inherit;
+    border: none;
+    font-weight: normal;
 }
 
 code {
-    padding: 0.1rem 0.2rem;
-    color: var(--dark);
-    background: var(--lightgray);
-    border-radius: 5px;
+    padding: 0.1rem 0.35rem;
+    color: var(--secondary);
+    background: color-mix(in srgb, var(--secondary) 10%, var(--light));
+    border: 1px solid color-mix(in srgb, var(--secondary) 20%, transparent);
+    border-radius: 4px;
     font-family: var(--codeFont);
-    font-size: 0.9em;
+    font-size: 0.88em;
+    font-weight: 500;
 }
 
 table {
@@ -689,6 +700,15 @@ img {
     min-width: 0;
     color: inherit;
     font-weight: 600;
+}
+
+.fi-num {
+    color: var(--secondary);
+    font-family: var(--codeFont);
+    font-size: 0.82em;
+    font-weight: 600;
+    opacity: 0.85;
+    margin-right: 0.2em;
 }
 
 .fi-meta,

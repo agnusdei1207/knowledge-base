@@ -1,5 +1,5 @@
 ---
-title: "425. 아키텍처 [개념 무결성] 통일 프레임워크"
+title: "아키텍처 [개념 무결성] 통일 프레임워크"
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

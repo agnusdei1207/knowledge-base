@@ -1,5 +1,5 @@
 ---
-title: "084. Momentum Optimizer Local Minima Escape"
+title: "Momentum Optimizer Local Minima Escape"
 date: "2026-04-10"
 tags:
   - "studynote-ai"

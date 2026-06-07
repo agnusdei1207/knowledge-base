@@ -1,5 +1,5 @@
 ---
-title: "916. Secure Boot"
+title: "Secure Boot"
 date: "2026-05-08"
 tags:
   - "studynote-security"

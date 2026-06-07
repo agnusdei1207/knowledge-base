@@ -1,5 +1,5 @@
 ---
-title: "540. OIDC Scope (OpenID Connect Scope)"
+title: "OIDC Scope (OpenID Connect Scope)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "007. Big Data Ecosystem"
+title: "Big Data Ecosystem"
 date: "2024-05-20"
 tags:
   - "bigdata"

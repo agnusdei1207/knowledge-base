@@ -1,5 +1,5 @@
 ---
-title: "273. Mse Cross Entropy Loss"
+title: "Mse Cross Entropy Loss"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

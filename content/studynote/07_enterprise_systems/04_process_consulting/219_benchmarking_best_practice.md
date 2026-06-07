@@ -1,5 +1,5 @@
 ---
-title: "219. Benchmarking Best Practice"
+title: "Benchmarking Best Practice"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise-systems"

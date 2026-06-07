@@ -1,5 +1,5 @@
 ---
-title: "298. Molap Rolap Holap"
+title: "Molap Rolap Holap"
 date: "2026-05-09"
 tags:
   - "studynote-database"

@@ -1,5 +1,5 @@
 ---
-title: "153. Kl Divergence"
+title: "Kl Divergence"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

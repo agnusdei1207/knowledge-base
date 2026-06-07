@@ -1,5 +1,5 @@
 ---
-title: "046. Itsm It Service Management"
+title: "Itsm It Service Management"
 date: "2026-04-05"
 tags:
   - "studynote-enterprise-systems"

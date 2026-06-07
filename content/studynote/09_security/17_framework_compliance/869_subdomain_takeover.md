@@ -1,5 +1,5 @@
 ---
-title: "869. Subdomain Takeover"
+title: "Subdomain Takeover"
 date: "2026-05-08"
 tags:
   - "studynote-security"

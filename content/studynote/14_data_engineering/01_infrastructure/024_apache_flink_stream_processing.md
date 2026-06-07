@@ -1,5 +1,5 @@
 ---
-title: "024. Apache Flink Stream Processing"
+title: "Apache Flink Stream Processing"
 date: "2026-04-29"
 tags:
   - "studynote-data-engineering"

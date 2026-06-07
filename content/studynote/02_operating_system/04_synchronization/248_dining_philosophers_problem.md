@@ -1,5 +1,5 @@
 ---
-title: "248. Dining Philosophers Problem"
+title: "Dining Philosophers Problem"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

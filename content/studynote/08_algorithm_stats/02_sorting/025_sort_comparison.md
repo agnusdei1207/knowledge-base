@@ -1,5 +1,5 @@
 ---
-title: "025. Sort Comparison"
+title: "Sort Comparison"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

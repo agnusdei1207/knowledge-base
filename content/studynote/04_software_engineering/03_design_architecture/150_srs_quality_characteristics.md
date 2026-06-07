@@ -1,5 +1,5 @@
 ---
-title: "150. Srs Quality Characteristics"
+title: "Srs Quality Characteristics"
 date: "2026-05-03"
 tags:
   - "software_engineering"

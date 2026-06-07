@@ -1,5 +1,5 @@
 ---
-title: "190. Split Brain Zookeeper Fencing Quorum"
+title: "Split Brain Zookeeper Fencing Quorum"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

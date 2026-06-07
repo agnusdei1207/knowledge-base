@@ -1,5 +1,5 @@
 ---
-title: "1090. IDS / IPS (Intrusion Detection System)"
+title: "IDS / IPS (Intrusion Detection System)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

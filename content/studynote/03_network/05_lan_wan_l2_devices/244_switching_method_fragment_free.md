@@ -1,5 +1,5 @@
 ---
-title: "244. Switching Method Fragment Free"
+title: "Switching Method Fragment Free"
 date: "2026-05-08"
 tags:
   - "studynote-network"

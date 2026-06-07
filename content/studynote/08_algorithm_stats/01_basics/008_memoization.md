@@ -1,5 +1,5 @@
 ---
-title: "008. Memoization"
+title: "Memoization"
 date: "2026-06-07"
 tags:
   - "algorithm_stats"

@@ -1,5 +1,5 @@
 ---
-title: "402. Tensorflow Js"
+title: "Tensorflow Js"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

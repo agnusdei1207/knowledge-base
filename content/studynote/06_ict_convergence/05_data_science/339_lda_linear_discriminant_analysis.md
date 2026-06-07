@@ -1,5 +1,5 @@
 ---
-title: "339. Lda Linear Discriminant Analysis"
+title: "Lda Linear Discriminant Analysis"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"

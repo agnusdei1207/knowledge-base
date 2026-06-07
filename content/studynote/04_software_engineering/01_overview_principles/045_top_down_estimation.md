@@ -1,5 +1,5 @@
 ---
-title: "045. Top Down Estimation"
+title: "Top Down Estimation"
 date: "2026-04-05"
 tags:
   - "studynote-software-engineering"

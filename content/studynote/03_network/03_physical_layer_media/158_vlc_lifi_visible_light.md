@@ -1,5 +1,5 @@
 ---
-title: "158. Vlc Lifi Visible Light"
+title: "Vlc Lifi Visible Light"
 date: "2026-04-05"
 tags:
   - "studynote-network"

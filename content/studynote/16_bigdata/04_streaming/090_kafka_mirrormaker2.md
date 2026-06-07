@@ -1,5 +1,5 @@
 ---
-title: "090. Kafka Mirrormaker2"
+title: "Kafka Mirrormaker2"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

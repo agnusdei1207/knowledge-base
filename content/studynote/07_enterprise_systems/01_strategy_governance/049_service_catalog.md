@@ -1,5 +1,5 @@
 ---
-title: "049. Service Catalog"
+title: "Service Catalog"
 date: "2026-04-05"
 tags:
   - "studynote-enterprise-systems"

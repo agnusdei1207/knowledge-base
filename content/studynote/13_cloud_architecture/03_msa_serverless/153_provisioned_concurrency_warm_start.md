@@ -1,5 +1,5 @@
 ---
-title: "153. Provisioned Concurrency Warm Start"
+title: "Provisioned Concurrency Warm Start"
 date: "2026-05-03"
 tags:
   - "studynote-cloud-architecture"

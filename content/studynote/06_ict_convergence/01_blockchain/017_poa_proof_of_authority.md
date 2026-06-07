@@ -1,5 +1,5 @@
 ---
-title: "017. Poa Proof Of Authority"
+title: "Poa Proof Of Authority"
 date: "2026-03-04"
 tags:
   - "ict_convergence"

@@ -1,5 +1,5 @@
 ---
-title: "1091. Gre Generic Routing Encapsulation Tunneling"
+title: "Gre Generic Routing Encapsulation Tunneling"
 date: "2026-05-08"
 tags:
   - "studynote-network"

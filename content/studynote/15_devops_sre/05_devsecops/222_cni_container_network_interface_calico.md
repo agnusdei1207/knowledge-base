@@ -1,5 +1,5 @@
 ---
-title: "222. Cni Container Network Interface Calico"
+title: "Cni Container Network Interface Calico"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

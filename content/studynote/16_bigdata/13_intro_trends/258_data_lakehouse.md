@@ -1,5 +1,5 @@
 ---
-title: "258. Data Lakehouse"
+title: "Data Lakehouse"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"

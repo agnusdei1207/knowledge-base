@@ -1,5 +1,5 @@
 ---
-title: "925. TARA (Threat Analysis and Risk Assessment)"
+title: "TARA (Threat Analysis and Risk Assessment)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

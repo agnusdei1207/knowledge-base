@@ -1,5 +1,5 @@
 ---
-title: "574. 11n (Wi-Fi 4)"
+title: "11n (Wi-Fi 4)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

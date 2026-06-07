@@ -1,5 +1,5 @@
 ---
-title: "276. Write Through"
+title: "Write Through"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"

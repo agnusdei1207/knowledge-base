@@ -1,5 +1,5 @@
 ---
-title: "001. Cia Triad"
+title: "Cia Triad"
 date: "2023-10-24"
 tags:
   - "security"

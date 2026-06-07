@@ -1,5 +1,5 @@
 ---
-title: "200. Autonomous Driving Imitation Learning Digital Twin"
+title: "Autonomous Driving Imitation Learning Digital Twin"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

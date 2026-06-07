@@ -1,5 +1,5 @@
 ---
-title: "56. TOGAF EA Framework"
+title: "TOGAF EA Framework"
 date: "2026-05-01"
 tags:
   - "studynote-software-engineering"

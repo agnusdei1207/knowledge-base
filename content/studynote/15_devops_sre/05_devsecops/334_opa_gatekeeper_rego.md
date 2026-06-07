@@ -1,5 +1,5 @@
 ---
-title: "334. Policy as Code OPA Gatekeeper Rego (OPA Open Policy Agent Gatekeeper Rego"
+title: "Policy as Code OPA Gatekeeper Rego (OPA Open Policy Agent Gatekeeper Rego"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"

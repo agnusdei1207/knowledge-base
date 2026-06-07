@@ -1,5 +1,5 @@
 ---
-title: "025. Spark Rdd Resilient Distributed Dataset"
+title: "Spark Rdd Resilient Distributed Dataset"
 date: "2026-04-29"
 tags:
   - "studynote-data-engineering"

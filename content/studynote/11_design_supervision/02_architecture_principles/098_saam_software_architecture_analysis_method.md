@@ -1,5 +1,5 @@
 ---
-title: "098. Saam Software Architecture Analysis Method"
+title: "Saam Software Architecture Analysis Method"
 date: "2026-03-04"
 tags:
   - "studynote-design-supervision"

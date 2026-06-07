@@ -1,5 +1,5 @@
 ---
-title: "144. Cpu Affinity"
+title: "Cpu Affinity"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"

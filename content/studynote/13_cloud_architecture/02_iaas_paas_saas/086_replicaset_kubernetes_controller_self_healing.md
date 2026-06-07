@@ -1,5 +1,5 @@
 ---
-title: "086. Replicaset Kubernetes Controller Self Healing"
+title: "Replicaset Kubernetes Controller Self Healing"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "218. Porter Generic Strategies"
+title: "Porter Generic Strategies"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise-systems"

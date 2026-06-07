@@ -1,5 +1,5 @@
 ---
-title: "115. Lstm Long Short Term Memory"
+title: "Lstm Long Short Term Memory"
 date: "2026-04-19"
 tags:
   - "studynote-ai"

@@ -1,5 +1,5 @@
 ---
-title: "066. Gitlab Flow Environment Branch Strategy"
+title: "Gitlab Flow Environment Branch Strategy"
 date: "2026-04-10"
 tags:
   - "studynote-devops-sre"

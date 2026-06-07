@@ -1,5 +1,5 @@
 ---
-title: "085. Confidence Association Rule Conditional Probability"
+title: "Confidence Association Rule Conditional Probability"
 date: "2026-03-04"
 tags:
   - "math-mining"

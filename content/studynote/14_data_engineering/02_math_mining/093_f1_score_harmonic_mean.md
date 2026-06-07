@@ -1,5 +1,5 @@
 ---
-title: "093. F1 Score Harmonic Mean"
+title: "F1 Score Harmonic Mean"
 date: "2026-03-04"
 tags:
   - "studynote-data-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "58. 고가용성 및 이중화 클러스터 페일오버 시나리오 실지 테스트 참관 (HA Failover Test Audit)"
+title: "고가용성 및 이중화 클러스터 페일오버 시나리오 실지 테스트 참관 (HA Failover Test Audit)"
 date: "2026-05-08"
 tags:
   - "studynote-design-supervision"

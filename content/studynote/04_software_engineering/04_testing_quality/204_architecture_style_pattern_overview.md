@@ -1,5 +1,5 @@
 ---
-title: "204. Architecture Style Pattern Overview"
+title: "Architecture Style Pattern Overview"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

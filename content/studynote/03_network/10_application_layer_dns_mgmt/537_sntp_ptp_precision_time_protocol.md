@@ -1,5 +1,5 @@
 ---
-title: "537. SNTP (Simple NTP) / PTP (Precision Time Protocol, IEEE 1588"
+title: "SNTP (Simple NTP) / PTP (Precision Time Protocol, IEEE 1588"
 date: "2026-05-08"
 tags:
   - "studynote-network"

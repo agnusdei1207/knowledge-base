@@ -1,5 +1,5 @@
 ---
-title: "025. Hybrid Kernel"
+title: "Hybrid Kernel"
 date: "2026-04-29"
 tags:
   - "studynote-operating-system"

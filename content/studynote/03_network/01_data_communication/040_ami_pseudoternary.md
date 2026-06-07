@@ -1,5 +1,5 @@
 ---
-title: "040. Ami Pseudoternary"
+title: "Ami Pseudoternary"
 date: "2026-03-30"
 tags:
   - "studynote-network"

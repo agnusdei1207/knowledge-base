@@ -1,5 +1,5 @@
 ---
-title: "182. 망분리 (Network Separation) 모델"
+title: "망분리 (Network Separation) 모델"
 date: "2026-05-06"
 tags:
   - "studynote-it-management"

@@ -1,5 +1,5 @@
 ---
-title: "575. ReBAC (Relationship-Based Access Control)"
+title: "ReBAC (Relationship-Based Access Control)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

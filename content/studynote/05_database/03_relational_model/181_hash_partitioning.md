@@ -1,5 +1,5 @@
 ---
-title: "181. Hash Partitioning"
+title: "Hash Partitioning"
 date: "2026-05-06"
 tags:
   - "studynote-database"

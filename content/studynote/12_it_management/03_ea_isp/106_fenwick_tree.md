@@ -1,5 +1,5 @@
 ---
-title: "106. Fenwick Tree"
+title: "Fenwick Tree"
 date: "2026-06-07"
 tags:
   - "it_management"

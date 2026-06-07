@@ -1,5 +1,5 @@
 ---
-title: "174. Bigdata Visualization Challenges"
+title: "Bigdata Visualization Challenges"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

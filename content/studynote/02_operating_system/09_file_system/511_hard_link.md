@@ -1,5 +1,5 @@
 ---
-title: "511. Hard Link"
+title: "Hard Link"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

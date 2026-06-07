@@ -1,5 +1,5 @@
 ---
-title: "407. Mahalanobis Distance Covariance"
+title: "Mahalanobis Distance Covariance"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"

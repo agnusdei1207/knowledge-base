@@ -1,5 +1,5 @@
 ---
-title: "573. Ods Operational Data Store Near Real Time"
+title: "Ods Operational Data Store Near Real Time"
 date: "2026-05-09"
 tags:
   - "studynote-database"

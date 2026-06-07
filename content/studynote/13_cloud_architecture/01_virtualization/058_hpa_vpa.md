@@ -1,5 +1,5 @@
 ---
-title: "058. Hpa Vpa"
+title: "Hpa Vpa"
 date: "2026-06-07"
 tags:
   - "cloud_architecture"

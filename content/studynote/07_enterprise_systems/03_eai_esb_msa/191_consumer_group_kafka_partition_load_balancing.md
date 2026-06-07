@@ -1,5 +1,5 @@
 ---
-title: "191. Consumer Group Kafka Partition Load Balancing"
+title: "Consumer Group Kafka Partition Load Balancing"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise-systems"

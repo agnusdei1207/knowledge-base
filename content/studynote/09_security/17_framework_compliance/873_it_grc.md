@@ -1,5 +1,5 @@
 ---
-title: "873. IT GRC (Governance, Risk, Compliance)"
+title: "IT GRC (Governance, Risk, Compliance)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "360. 클라우드 인프라 DPU/SmartNIC 오프로딩 가속망 효율 분석"
+title: "클라우드 인프라 DPU/SmartNIC 오프로딩 가속망 효율 분석"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

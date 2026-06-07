@@ -1,5 +1,5 @@
 ---
-title: "096. Risk Non Risk Architecture Evaluation Flaws"
+title: "Risk Non Risk Architecture Evaluation Flaws"
 date: "2026-04-10"
 tags:
   - "studynote-design-supervision"

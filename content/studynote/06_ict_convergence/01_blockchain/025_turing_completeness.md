@@ -1,5 +1,5 @@
 ---
-title: "025. Turing Completeness"
+title: "Turing Completeness"
 date: "2026-04-29"
 tags:
   - "studynote-ict-convergence"

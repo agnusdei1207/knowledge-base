@@ -1,5 +1,5 @@
 ---
-title: "358. 스마트 팩토리 산업 이더넷 TSN 결정론적 시간 보장 진단"
+title: "스마트 팩토리 산업 이더넷 TSN 결정론적 시간 보장 진단"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

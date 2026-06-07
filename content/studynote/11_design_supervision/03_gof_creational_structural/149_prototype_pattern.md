@@ -1,5 +1,5 @@
 ---
-title: "149. Prototype Pattern"
+title: "Prototype Pattern"
 date: "2026-05-03"
 tags:
   - "studynote-design-supervision"

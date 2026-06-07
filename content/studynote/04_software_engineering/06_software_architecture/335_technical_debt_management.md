@@ -1,5 +1,5 @@
 ---
-title: "335. Technical Debt Management"
+title: "Technical Debt Management"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

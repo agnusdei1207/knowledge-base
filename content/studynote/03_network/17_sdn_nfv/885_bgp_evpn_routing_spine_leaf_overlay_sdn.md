@@ -1,5 +1,5 @@
 ---
-title: "885. Bgp Evpn Routing Spine Leaf Overlay Sdn"
+title: "Bgp Evpn Routing Spine Leaf Overlay Sdn"
 date: "2026-05-08"
 tags:
   - "studynote-network"

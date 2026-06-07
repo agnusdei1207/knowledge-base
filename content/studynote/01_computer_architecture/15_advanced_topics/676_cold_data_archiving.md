@@ -1,5 +1,5 @@
 ---
-title: "676. Cold Data Archiving"
+title: "Cold Data Archiving"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "533. Snmp Commands Get Set Trap"
+title: "Snmp Commands Get Set Trap"
 date: "2026-05-08"
 tags:
   - "studynote-network"

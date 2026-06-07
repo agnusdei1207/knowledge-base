@@ -1,5 +1,5 @@
 ---
-title: "140. Structured Logging Json Format"
+title: "Structured Logging Json Format"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"

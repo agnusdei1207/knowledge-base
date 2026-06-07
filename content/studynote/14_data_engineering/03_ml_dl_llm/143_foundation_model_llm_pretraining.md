@@ -1,5 +1,5 @@
 ---
-title: "143. Foundation Model Llm Pretraining"
+title: "Foundation Model Llm Pretraining"
 date: "2026-04-19"
 tags:
   - "studynote-data-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "530. Segregation Of Duties Sod"
+title: "Segregation Of Duties Sod"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "763. Software Rejuvenation"
+title: "Software Rejuvenation"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

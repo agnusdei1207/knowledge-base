@@ -1,5 +1,5 @@
 ---
-title: "650. Ha Cluster Split Brain Stonith"
+title: "Ha Cluster Split Brain Stonith"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

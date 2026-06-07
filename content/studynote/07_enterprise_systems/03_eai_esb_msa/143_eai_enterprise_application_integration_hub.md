@@ -1,5 +1,5 @@
 ---
-title: "143. EAI (Enterprise Application Integration) - Hub-and-Spoke"
+title: "EAI (Enterprise Application Integration) - Hub-and-Spoke"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"

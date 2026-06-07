@@ -1,5 +1,5 @@
 ---
-title: "063. Cloud Vendor Lock In Avoidance"
+title: "Cloud Vendor Lock In Avoidance"
 date: "2026-04-07"
 tags:
   - "studynote-enterprise-systems"

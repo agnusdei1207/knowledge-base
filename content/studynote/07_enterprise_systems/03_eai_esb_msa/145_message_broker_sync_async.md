@@ -1,5 +1,5 @@
 ---
-title: "145. Message Broker Sync Async"
+title: "Message Broker Sync Async"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"

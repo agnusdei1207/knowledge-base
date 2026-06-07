@@ -1,5 +1,5 @@
 ---
-title: "564. Helm Chart Package Manager"
+title: "Helm Chart Package Manager"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

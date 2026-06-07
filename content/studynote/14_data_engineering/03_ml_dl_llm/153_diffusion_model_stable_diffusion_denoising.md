@@ -1,5 +1,5 @@
 ---
-title: "153. Diffusion Model Stable Diffusion Denoising"
+title: "Diffusion Model Stable Diffusion Denoising"
 date: "2026-05-03"
 tags:
   - "studynote-data-engineering"

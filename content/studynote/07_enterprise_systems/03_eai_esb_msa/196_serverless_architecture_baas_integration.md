@@ -1,5 +1,5 @@
 ---
-title: "196. Serverless Architecture Baas Integration"
+title: "Serverless Architecture Baas Integration"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise-systems"

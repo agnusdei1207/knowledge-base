@@ -1,5 +1,5 @@
 ---
-title: "365. GloVe (Global Vectors for Word Representation)"
+title: "GloVe (Global Vectors for Word Representation)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

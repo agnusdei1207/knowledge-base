@@ -1,5 +1,5 @@
 ---
-title: "139. Distributed Logging Efk Elk Stack"
+title: "Distributed Logging Efk Elk Stack"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"

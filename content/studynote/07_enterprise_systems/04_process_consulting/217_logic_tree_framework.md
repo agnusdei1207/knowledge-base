@@ -1,5 +1,5 @@
 ---
-title: "217. Logic Tree Framework"
+title: "Logic Tree Framework"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise-systems"

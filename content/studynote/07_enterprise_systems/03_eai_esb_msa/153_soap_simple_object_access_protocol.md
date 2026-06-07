@@ -1,5 +1,5 @@
 ---
-title: "153. Soap Simple Object Access Protocol"
+title: "Soap Simple Object Access Protocol"
 date: "2026-05-03"
 tags:
   - "studynote-enterprise-systems"

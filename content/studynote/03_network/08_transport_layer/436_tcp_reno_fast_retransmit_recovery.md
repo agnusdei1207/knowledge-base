@@ -1,5 +1,5 @@
 ---
-title: "436. Tcp Reno Fast Retransmit Recovery"
+title: "Tcp Reno Fast Retransmit Recovery"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "669. Sha 2 Family Sha256 Sha512"
+title: "Sha 2 Family Sha256 Sha512"
 date: "2026-05-08"
 tags:
   - "studynote-network"

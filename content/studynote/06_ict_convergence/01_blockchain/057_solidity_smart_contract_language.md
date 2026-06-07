@@ -1,5 +1,5 @@
 ---
-title: "057. Solidity Smart Contract Language"
+title: "Solidity Smart Contract Language"
 date: "2026-06-07"
 tags:
   - "ict_convergence"

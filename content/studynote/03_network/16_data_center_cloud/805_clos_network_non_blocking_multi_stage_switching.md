@@ -1,5 +1,5 @@
 ---
-title: "805. Clos Network Non Blocking Multi Stage Switching"
+title: "Clos Network Non Blocking Multi Stage Switching"
 date: "2026-05-08"
 tags:
   - "studynote-network"

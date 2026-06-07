@@ -1,5 +1,5 @@
 ---
-title: "558. TOTP (Time-based OTP)"
+title: "TOTP (Time-based OTP)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

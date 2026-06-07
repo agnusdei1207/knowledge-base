@@ -1,5 +1,5 @@
 ---
-title: "225. Micro Frontends Msa Ui"
+title: "Micro Frontends Msa Ui"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

@@ -1,5 +1,5 @@
 ---
-title: "013. Randomized Algorithm"
+title: "Randomized Algorithm"
 date: "2026-06-07"
 tags:
   - "algorithm_stats"

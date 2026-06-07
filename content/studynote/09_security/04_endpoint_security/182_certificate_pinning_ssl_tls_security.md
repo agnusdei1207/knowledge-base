@@ -1,5 +1,5 @@
 ---
-title: "182. Certificate Pinning Ssl Tls Security"
+title: "Certificate Pinning Ssl Tls Security"
 date: "2026-05-06"
 tags:
   - "studynote-security"

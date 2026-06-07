@@ -1,5 +1,5 @@
 ---
-title: "170. Pkcs7 Cms"
+title: "Pkcs7 Cms"
 date: "2026-04-05"
 tags:
   - "studynote-security"

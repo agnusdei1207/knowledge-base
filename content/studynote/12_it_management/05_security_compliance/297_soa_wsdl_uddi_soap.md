@@ -1,5 +1,5 @@
 ---
-title: "297. SOA WSDL UDDI SOAP 서비스 지향"
+title: "SOA WSDL UDDI SOAP 서비스 지향"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

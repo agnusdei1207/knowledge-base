@@ -1,5 +1,5 @@
 ---
-title: "996. Nfv Virtual Network Function"
+title: "Nfv Virtual Network Function"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "261. Knowledge Graph"
+title: "Knowledge Graph"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"

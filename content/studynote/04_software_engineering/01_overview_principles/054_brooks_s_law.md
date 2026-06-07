@@ -1,5 +1,5 @@
 ---
-title: "054. 브룩스의 법칙 - 지체된 프로젝트에 인력 투입 시 더 지체됨 (Brooks's Law)"
+title: "브룩스의 법칙 - 지체된 프로젝트에 인력 투입 시 더 지체됨 (Brooks's Law)"
 date: "2026-06-07"
 tags:
   - "studynote-software-engineering"

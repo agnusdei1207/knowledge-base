@@ -1,5 +1,5 @@
 ---
-title: "183. 망연계 시스템 (Network Linkage System)"
+title: "망연계 시스템 (Network Linkage System)"
 date: "2026-05-06"
 tags:
   - "studynote-it-management"

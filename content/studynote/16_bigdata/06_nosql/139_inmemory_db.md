@@ -1,5 +1,5 @@
 ---
-title: "139. Inmemory Db"
+title: "Inmemory Db"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

@@ -1,5 +1,5 @@
 ---
-title: "035. Nosql"
+title: "Nosql"
 date: "2026-03-03"
 tags:
   - "studynote-data-engineering"

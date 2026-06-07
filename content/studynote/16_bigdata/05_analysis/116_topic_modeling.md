@@ -1,5 +1,5 @@
 ---
-title: "116. Topic Modeling"
+title: "Topic Modeling"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

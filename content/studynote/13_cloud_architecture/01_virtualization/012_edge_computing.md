@@ -1,5 +1,5 @@
 ---
-title: "012. Edge Computing"
+title: "Edge Computing"
 date: "2026-03-04"
 tags:
   - "cloud_architecture"

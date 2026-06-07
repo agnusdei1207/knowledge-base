@@ -1,5 +1,5 @@
 ---
-title: "367. 테스트 더블 (Mock, Stub) 단위 테스트 격리 커버리지 100% 검수"
+title: "테스트 더블 (Mock, Stub) 단위 테스트 격리 커버리지 100% 검수"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

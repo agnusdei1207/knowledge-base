@@ -1,5 +1,5 @@
 ---
-title: "445. 레거시 현대화 [스트랭글러 피그] 변환 감리"
+title: "레거시 현대화 [스트랭글러 피그] 변환 감리"
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

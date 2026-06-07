@@ -1,5 +1,5 @@
 ---
-title: "1105. Vcpe Nfv Virtual Customer Premises Equipment"
+title: "Vcpe Nfv Virtual Customer Premises Equipment"
 date: "2026-05-08"
 tags:
   - "studynote-network"

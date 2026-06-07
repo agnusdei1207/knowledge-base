@@ -1,5 +1,5 @@
 ---
-title: "126. Bagging Random Forest"
+title: "Bagging Random Forest"
 date: "2026-04-19"
 tags:
   - "studynote-data-engineering"

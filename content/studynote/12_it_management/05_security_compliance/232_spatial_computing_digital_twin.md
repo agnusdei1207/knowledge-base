@@ -1,5 +1,5 @@
 ---
-title: "232. 공간 컴퓨팅 (Spatial Computing) 기반 디지털 트윈(Digital Twin) 시뮬레이션"
+title: "공간 컴퓨팅 (Spatial Computing) 기반 디지털 트윈(Digital Twin) 시뮬레이션"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

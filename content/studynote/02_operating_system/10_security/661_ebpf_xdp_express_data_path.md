@@ -1,5 +1,5 @@
 ---
-title: "661. Ebpf Xdp Express Data Path"
+title: "Ebpf Xdp Express Data Path"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

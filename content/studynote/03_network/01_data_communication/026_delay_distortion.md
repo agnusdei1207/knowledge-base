@@ -1,5 +1,5 @@
 ---
-title: "026. Delay Distortion"
+title: "Delay Distortion"
 date: "2026-04-29"
 tags:
   - "studynote-network"

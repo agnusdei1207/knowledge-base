@@ -1,5 +1,5 @@
 ---
-title: "085. Stack Segment"
+title: "Stack Segment"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"

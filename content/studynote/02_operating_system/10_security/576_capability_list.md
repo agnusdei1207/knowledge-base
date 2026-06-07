@@ -1,5 +1,5 @@
 ---
-title: "576. Capability List"
+title: "Capability List"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

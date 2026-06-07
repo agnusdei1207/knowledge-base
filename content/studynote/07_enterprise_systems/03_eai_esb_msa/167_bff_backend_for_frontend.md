@@ -1,5 +1,5 @@
 ---
-title: "167. BFF (Backend For Frontend)"
+title: "BFF (Backend For Frontend)"
 date: "2026-04-09"
 tags:
   - "studynote-enterprise-systems"

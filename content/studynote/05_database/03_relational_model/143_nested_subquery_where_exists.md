@@ -1,5 +1,5 @@
 ---
-title: "143. Nested Subquery Where Exists"
+title: "Nested Subquery Where Exists"
 date: "2026-04-19"
 tags:
   - "studynote-database"

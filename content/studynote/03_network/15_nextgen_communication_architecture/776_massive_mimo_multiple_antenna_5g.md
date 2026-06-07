@@ -1,5 +1,5 @@
 ---
-title: "776. Massive Mimo Multiple Antenna 5G"
+title: "Massive Mimo Multiple Antenna 5G"
 date: "2026-05-08"
 tags:
   - "studynote-network"

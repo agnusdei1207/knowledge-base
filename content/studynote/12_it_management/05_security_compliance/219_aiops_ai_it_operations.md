@@ -1,5 +1,5 @@
 ---
-title: "219. AI옵스 (AIOps, AI for IT Operations)"
+title: "AI옵스 (AIOps, AI for IT Operations)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

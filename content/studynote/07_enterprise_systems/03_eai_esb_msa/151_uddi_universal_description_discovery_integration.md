@@ -1,5 +1,5 @@
 ---
-title: "151. Uddi Universal Description Discovery Integration"
+title: "Uddi Universal Description Discovery Integration"
 date: "2026-05-03"
 tags:
   - "studynote-enterprise-systems"

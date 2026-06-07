@@ -1,5 +1,5 @@
 ---
-title: "129. Monte Carlo Integration"
+title: "Monte Carlo Integration"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

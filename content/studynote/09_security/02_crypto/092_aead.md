@@ -1,5 +1,5 @@
 ---
-title: "092. Aead"
+title: "Aead"
 date: "2026-04-05"
 tags:
   - "studynote-security"

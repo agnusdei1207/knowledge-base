@@ -1,5 +1,5 @@
 ---
-title: "237. Activity Diagram Dynamic Workflow Uml"
+title: "Activity Diagram Dynamic Workflow Uml"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

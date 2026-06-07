@@ -1,5 +1,5 @@
 ---
-title: "260. Bridge Pattern Abstraction Implementation"
+title: "Bridge Pattern Abstraction Implementation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

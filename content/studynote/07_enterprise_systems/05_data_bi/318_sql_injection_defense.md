@@ -1,5 +1,5 @@
 ---
-title: "318. Sql Injection Defense"
+title: "Sql Injection Defense"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"

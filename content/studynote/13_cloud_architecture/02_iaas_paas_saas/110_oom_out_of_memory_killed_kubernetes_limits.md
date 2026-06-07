@@ -1,5 +1,5 @@
 ---
-title: "110. Oom Out Of Memory Killed Kubernetes Limits"
+title: "Oom Out Of Memory Killed Kubernetes Limits"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"

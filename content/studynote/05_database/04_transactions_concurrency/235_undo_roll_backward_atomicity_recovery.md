@@ -1,5 +1,5 @@
 ---
-title: "235. Undo (Undo Roll Backward Atomicity Recovery)"
+title: "Undo (Undo Roll Backward Atomicity Recovery)"
 date: "2026-05-08"
 tags:
   - "studynote-database"

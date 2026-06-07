@@ -1,5 +1,5 @@
 ---
-title: "084. Blue Green Deployment Zero Downtime Fast Rollback"
+title: "Blue Green Deployment Zero Downtime Fast Rollback"
 date: "2026-04-10"
 tags:
   - "studynote-devops-sre"

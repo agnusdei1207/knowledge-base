@@ -1,5 +1,5 @@
 ---
-title: "071. Oci Open Container Initiative Standard"
+title: "Oci Open Container Initiative Standard"
 date: "2026-04-07"
 tags:
   - "studynote-cloud-architecture"

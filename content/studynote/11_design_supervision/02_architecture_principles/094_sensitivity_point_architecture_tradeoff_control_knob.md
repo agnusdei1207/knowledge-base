@@ -1,5 +1,5 @@
 ---
-title: "094. Sensitivity Point Architecture Tradeoff Control Knob"
+title: "Sensitivity Point Architecture Tradeoff Control Knob"
 date: "2026-04-10"
 tags:
   - "studynote-design-supervision"

@@ -1,5 +1,5 @@
 ---
-title: "450. Benchmark Test"
+title: "Benchmark Test"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

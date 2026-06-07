@@ -1,5 +1,5 @@
 ---
-title: "254. BPDU (Bridge Protocol Data Unit)"
+title: "BPDU (Bridge Protocol Data Unit)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

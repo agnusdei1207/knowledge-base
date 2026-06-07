@@ -1,5 +1,5 @@
 ---
-title: "35. 린 스타트업 (Lean Startup)"
+title: "린 스타트업 (Lean Startup)"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"

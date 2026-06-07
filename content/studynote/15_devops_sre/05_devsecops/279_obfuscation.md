@@ -1,5 +1,5 @@
 ---
-title: "279. Obfuscation"
+title: "Obfuscation"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

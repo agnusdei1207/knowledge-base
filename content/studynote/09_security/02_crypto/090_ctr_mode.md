@@ -1,5 +1,5 @@
 ---
-title: "090. Ctr Mode"
+title: "Ctr Mode"
 date: "2026-04-05"
 tags:
   - "studynote-security"

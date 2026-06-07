@@ -1,5 +1,5 @@
 ---
-title: "781. ZFS Copy-on-Write 볼륨 관리 통합"
+title: "ZFS Copy-on-Write 볼륨 관리 통합"
 date: "2026-06-07"
 tags:
   - "studynote-operating-system"

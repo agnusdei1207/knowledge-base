@@ -1,5 +1,5 @@
 ---
-title: "265. PoE (Power over Ethernet)"
+title: "PoE (Power over Ethernet)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

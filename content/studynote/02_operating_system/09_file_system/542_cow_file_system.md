@@ -1,5 +1,5 @@
 ---
-title: "542. Cow File System"
+title: "Cow File System"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

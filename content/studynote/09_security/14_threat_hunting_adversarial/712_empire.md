@@ -1,5 +1,5 @@
 ---
-title: "712. Empire / PowerShell Empire (Empire / PowerShell Empire)"
+title: "Empire / PowerShell Empire (Empire / PowerShell Empire)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

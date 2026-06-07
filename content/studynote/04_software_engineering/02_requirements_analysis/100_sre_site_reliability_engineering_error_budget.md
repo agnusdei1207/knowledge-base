@@ -1,5 +1,5 @@
 ---
-title: "100. Sre Site Reliability Engineering Error Budget"
+title: "Sre Site Reliability Engineering Error Budget"
 date: "2026-06-07"
 tags:
   - "software_engineering"

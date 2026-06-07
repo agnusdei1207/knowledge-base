@@ -1,5 +1,5 @@
 ---
-title: "432. Cache Coloring Optimization"
+title: "Cache Coloring Optimization"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

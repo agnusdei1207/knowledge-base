@@ -1,5 +1,5 @@
 ---
-title: "030. Audit Automation Tools"
+title: "Audit Automation Tools"
 date: "2026-04-29"
 tags:
   - "studynote-design-supervision"

@@ -1,5 +1,5 @@
 ---
-title: "144. Fine Tuning Transfer Learning"
+title: "Fine Tuning Transfer Learning"
 date: "2026-04-19"
 tags:
   - "studynote-data-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "354. DID 탈중앙 신원 증명 영지식 증명 (ZKP) 인증망"
+title: "DID 탈중앙 신원 증명 영지식 증명 (ZKP) 인증망"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

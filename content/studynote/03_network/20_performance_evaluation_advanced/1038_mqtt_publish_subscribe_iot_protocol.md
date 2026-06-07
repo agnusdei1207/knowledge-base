@@ -1,5 +1,5 @@
 ---
-title: "1038. Mqtt Publish Subscribe Iot Protocol"
+title: "Mqtt Publish Subscribe Iot Protocol"
 date: "2026-05-08"
 tags:
   - "studynote-network"

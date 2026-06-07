@@ -1,5 +1,5 @@
 ---
-title: "595. Data Literacy"
+title: "Data Literacy"
 date: "2026-05-09"
 tags:
   - "studynote-database"

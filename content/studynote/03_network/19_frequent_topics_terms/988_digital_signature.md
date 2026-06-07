@@ -1,5 +1,5 @@
 ---
-title: "988. Digital Signature"
+title: "Digital Signature"
 date: "2026-05-08"
 tags:
   - "studynote-network"

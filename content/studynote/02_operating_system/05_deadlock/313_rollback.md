@@ -1,5 +1,5 @@
 ---
-title: "313. Rollback"
+title: "Rollback"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

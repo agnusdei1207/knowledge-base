@@ -1,5 +1,5 @@
 ---
-title: "035. Pmbok 10 Knowledge Areas"
+title: "Pmbok 10 Knowledge Areas"
 date: "2026-03-03"
 tags:
   - "studynote-software-engineering"

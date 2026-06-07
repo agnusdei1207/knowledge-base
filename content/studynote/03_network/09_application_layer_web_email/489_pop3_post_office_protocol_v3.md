@@ -1,5 +1,5 @@
 ---
-title: "489. POP3 (Post Office Protocol v3)"
+title: "POP3 (Post Office Protocol v3)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

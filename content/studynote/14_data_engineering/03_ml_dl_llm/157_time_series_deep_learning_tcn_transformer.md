@@ -1,5 +1,5 @@
 ---
-title: "157. Time Series Deep Learning Tcn Transformer"
+title: "Time Series Deep Learning Tcn Transformer"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

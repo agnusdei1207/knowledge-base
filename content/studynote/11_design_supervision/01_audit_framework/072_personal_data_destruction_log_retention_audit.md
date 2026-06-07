@@ -1,5 +1,5 @@
 ---
-title: "072. Personal Data Destruction Log Retention Audit"
+title: "Personal Data Destruction Log Retention Audit"
 date: "2026-04-10"
 tags:
   - "studynote-design-supervision"

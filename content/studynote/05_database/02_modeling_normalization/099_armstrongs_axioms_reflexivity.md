@@ -1,5 +1,5 @@
 ---
-title: "099. Armstrongs Axioms Reflexivity"
+title: "Armstrongs Axioms Reflexivity"
 date: "2026-06-07"
 tags:
   - "database"

@@ -1,5 +1,5 @@
 ---
-title: "146. Window Function Partition By Order By"
+title: "Window Function Partition By Order By"
 date: "2026-04-19"
 tags:
   - "studynote-database"

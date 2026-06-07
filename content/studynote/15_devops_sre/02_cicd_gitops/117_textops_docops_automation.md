@@ -1,5 +1,5 @@
 ---
-title: "117. Textops Docops Automation"
+title: "Textops Docops Automation"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"

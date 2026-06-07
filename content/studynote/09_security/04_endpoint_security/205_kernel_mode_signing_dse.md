@@ -1,5 +1,5 @@
 ---
-title: "205. Kernel Mode Signing (Kernel Mode Signing)"
+title: "Kernel Mode Signing (Kernel Mode Signing)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

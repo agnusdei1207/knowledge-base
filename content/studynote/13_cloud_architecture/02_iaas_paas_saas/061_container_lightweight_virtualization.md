@@ -1,5 +1,5 @@
 ---
-title: "061. Container Lightweight Virtualization"
+title: "Container Lightweight Virtualization"
 date: "2026-04-07"
 tags:
   - "studynote-cloud-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "225. VRF (Virtual Routing and Forwarding)"
+title: "VRF (Virtual Routing and Forwarding)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

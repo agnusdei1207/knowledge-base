@@ -1,5 +1,5 @@
 ---
-title: "382. Defensive Programming"
+title: "Defensive Programming"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

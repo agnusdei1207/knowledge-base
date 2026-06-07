@@ -1,5 +1,5 @@
 ---
-title: "521. Open File Table"
+title: "Open File Table"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

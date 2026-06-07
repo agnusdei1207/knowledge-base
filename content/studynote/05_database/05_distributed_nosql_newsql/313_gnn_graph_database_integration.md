@@ -1,5 +1,5 @@
 ---
-title: "313. Gnn Graph Database Integration"
+title: "Gnn Graph Database Integration"
 date: "2026-05-09"
 tags:
   - "studynote-database"

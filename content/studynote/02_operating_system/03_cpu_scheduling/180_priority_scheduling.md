@@ -1,5 +1,5 @@
 ---
-title: "180. Priority Scheduling"
+title: "Priority Scheduling"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"

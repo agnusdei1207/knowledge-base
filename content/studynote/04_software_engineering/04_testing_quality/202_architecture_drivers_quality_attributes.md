@@ -1,5 +1,5 @@
 ---
-title: "202. Architecture Drivers Quality Attributes"
+title: "Architecture Drivers Quality Attributes"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

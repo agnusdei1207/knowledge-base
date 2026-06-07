@@ -1,5 +1,5 @@
 ---
-title: "142. Externalized Configuration"
+title: "Externalized Configuration"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "083. Flink Savepoint Checkpoint"
+title: "Flink Savepoint Checkpoint"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

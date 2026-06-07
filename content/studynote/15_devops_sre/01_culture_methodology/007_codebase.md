@@ -1,5 +1,5 @@
 ---
-title: "007. Codebase"
+title: "Codebase"
 date: "2026-04-05"
 tags:
   - "devops_sre"

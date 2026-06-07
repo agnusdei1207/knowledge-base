@@ -1,5 +1,5 @@
 ---
-title: "348. MLOps 드리프트 탐지 파이프라인 모니터링 감사"
+title: "MLOps 드리프트 탐지 파이프라인 모니터링 감사"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

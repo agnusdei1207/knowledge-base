@@ -1,5 +1,5 @@
 ---
-title: "089. Rb Tree"
+title: "Rb Tree"
 date: "2026-04-29"
 tags:
   - "studynote-algorithm-stats"

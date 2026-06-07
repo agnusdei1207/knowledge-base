@@ -1,5 +1,5 @@
 ---
-title: "734. Firewall Bypass Tunneling Fragmentation"
+title: "Firewall Bypass Tunneling Fragmentation"
 date: "2026-05-08"
 tags:
   - "studynote-network"

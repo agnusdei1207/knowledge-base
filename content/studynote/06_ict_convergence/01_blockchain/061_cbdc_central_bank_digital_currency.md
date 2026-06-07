@@ -1,5 +1,5 @@
 ---
-title: "061. Cbdc Central Bank Digital Currency"
+title: "Cbdc Central Bank Digital Currency"
 date: "2026-04-07"
 tags:
   - "studynote-ict-convergence"

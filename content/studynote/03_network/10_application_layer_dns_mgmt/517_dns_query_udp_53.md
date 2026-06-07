@@ -1,5 +1,5 @@
 ---
-title: "517. Dns Query Udp 53"
+title: "Dns Query Udp 53"
 date: "2026-05-08"
 tags:
   - "studynote-network"

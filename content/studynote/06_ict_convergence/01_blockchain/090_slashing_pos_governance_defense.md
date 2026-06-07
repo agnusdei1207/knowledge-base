@@ -1,5 +1,5 @@
 ---
-title: "090. Slashing Pos Governance Defense"
+title: "Slashing Pos Governance Defense"
 date: "2026-06-07"
 tags:
   - "ict_convergence"

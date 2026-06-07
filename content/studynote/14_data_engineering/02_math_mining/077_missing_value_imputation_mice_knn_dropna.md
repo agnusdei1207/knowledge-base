@@ -1,5 +1,5 @@
 ---
-title: "077. Missing Value Imputation Mice Knn Dropna"
+title: "Missing Value Imputation Mice Knn Dropna"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"

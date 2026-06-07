@@ -1,5 +1,5 @@
 ---
-title: "037. Subtractor"
+title: "Subtractor"
 date: "2026-03-03"
 tags:
   - "studynote-computer-architecture"

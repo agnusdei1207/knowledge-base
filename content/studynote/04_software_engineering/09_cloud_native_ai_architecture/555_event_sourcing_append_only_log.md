@@ -1,5 +1,5 @@
 ---
-title: "555. Event Sourcing Append Only Log"
+title: "Event Sourcing Append Only Log"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

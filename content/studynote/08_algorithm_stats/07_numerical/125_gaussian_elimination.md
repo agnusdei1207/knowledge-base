@@ -1,5 +1,5 @@
 ---
-title: "125. Gaussian Elimination"
+title: "Gaussian Elimination"
 date: "2026-04-05"
 tags:
   - "studynote-algorithm-stats"

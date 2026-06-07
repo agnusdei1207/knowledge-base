@@ -1,5 +1,5 @@
 ---
-title: "095. Tradeoff Point Architecture Evaluation Atam Conflict"
+title: "Tradeoff Point Architecture Evaluation Atam Conflict"
 date: "2026-04-10"
 tags:
   - "studynote-design-supervision"

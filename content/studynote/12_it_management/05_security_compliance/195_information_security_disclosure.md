@@ -1,5 +1,5 @@
 ---
-title: "195. 정보보호 공시 제도"
+title: "정보보호 공시 제도"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

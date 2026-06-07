@@ -1,5 +1,5 @@
 ---
-title: "068. Significance Level Alpha P Value Hypothesis"
+title: "Significance Level Alpha P Value Hypothesis"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"

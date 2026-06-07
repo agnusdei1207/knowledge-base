@@ -1,5 +1,5 @@
 ---
-title: "120. Coap Constrained Application Protocol"
+title: "Coap Constrained Application Protocol"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"

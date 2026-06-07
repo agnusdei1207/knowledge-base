@@ -1,5 +1,5 @@
 ---
-title: "002. Silo Hyeonhyung"
+title: "Silo Hyeonhyung"
 date: "2026-04-05"
 tags:
   - "devops_sre"

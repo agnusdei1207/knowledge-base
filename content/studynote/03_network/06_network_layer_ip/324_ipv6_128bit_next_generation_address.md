@@ -1,5 +1,5 @@
 ---
-title: "324. IPv6 (Internet Protocol Version 6)"
+title: "IPv6 (Internet Protocol Version 6)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

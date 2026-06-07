@@ -1,5 +1,5 @@
 ---
-title: "494. Rasp Runtime Protection"
+title: "Rasp Runtime Protection"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

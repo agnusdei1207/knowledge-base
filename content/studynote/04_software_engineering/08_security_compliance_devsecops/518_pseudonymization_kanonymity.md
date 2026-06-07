@@ -1,5 +1,5 @@
 ---
-title: "518. Pseudonymization Kanonymity"
+title: "Pseudonymization Kanonymity"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

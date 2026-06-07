@@ -1,5 +1,5 @@
 ---
-title: "198. Pod Kubernetes Minimum Deployment Unit"
+title: "Pod Kubernetes Minimum Deployment Unit"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"

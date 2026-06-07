@@ -1,5 +1,5 @@
 ---
-title: "971. Homomorphic Encryption in ML (Homomorphic Encryption in ML)"
+title: "Homomorphic Encryption in ML (Homomorphic Encryption in ML)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

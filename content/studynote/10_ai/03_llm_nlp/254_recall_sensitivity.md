@@ -1,5 +1,5 @@
 ---
-title: "254. Recall Sensitivity"
+title: "Recall Sensitivity"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

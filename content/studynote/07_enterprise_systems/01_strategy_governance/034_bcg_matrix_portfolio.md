@@ -1,5 +1,5 @@
 ---
-title: "034. Bcg Matrix Portfolio"
+title: "Bcg Matrix Portfolio"
 date: "2026-03-04"
 tags:
   - "studynote-enterprise-systems"

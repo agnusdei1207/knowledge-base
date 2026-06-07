@@ -1,5 +1,5 @@
 ---
-title: "791. GDPR (EU General Data Protection Regulation)"
+title: "GDPR (EU General Data Protection Regulation)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

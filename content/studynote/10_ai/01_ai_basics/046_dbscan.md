@@ -1,5 +1,5 @@
 ---
-title: "046. Dbscan"
+title: "Dbscan"
 date: "2026-04-05"
 tags:
   - "studynote-ai"

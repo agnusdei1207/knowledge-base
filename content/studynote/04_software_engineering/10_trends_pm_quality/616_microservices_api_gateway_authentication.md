@@ -1,5 +1,5 @@
 ---
-title: "616. Microservices Api Gateway Authentication"
+title: "Microservices Api Gateway Authentication"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "125. ECDSA (Elliptic Curve DSA)"
+title: "ECDSA (Elliptic Curve DSA)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

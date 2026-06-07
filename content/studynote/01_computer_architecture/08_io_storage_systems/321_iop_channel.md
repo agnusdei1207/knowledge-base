@@ -1,5 +1,5 @@
 ---
-title: "321. IOP (I/O Processor / Channel)"
+title: "IOP (I/O Processor / Channel)"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"

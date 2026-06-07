@@ -1,5 +1,5 @@
 ---
-title: "890. Ta As Is Analysis"
+title: "Ta As Is Analysis"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

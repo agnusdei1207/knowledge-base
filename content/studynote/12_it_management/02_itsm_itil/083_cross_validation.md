@@ -1,5 +1,5 @@
 ---
-title: "083. Cross Validation"
+title: "Cross Validation"
 date: "2026-04-05"
 tags:
   - "it_management"

@@ -1,5 +1,5 @@
 ---
-title: "351. RIP (Routing Information Protocol)"
+title: "RIP (Routing Information Protocol)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

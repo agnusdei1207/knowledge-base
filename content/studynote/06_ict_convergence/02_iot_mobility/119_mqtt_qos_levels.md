@@ -1,5 +1,5 @@
 ---
-title: "119. Mqtt Qos Levels"
+title: "Mqtt Qos Levels"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"

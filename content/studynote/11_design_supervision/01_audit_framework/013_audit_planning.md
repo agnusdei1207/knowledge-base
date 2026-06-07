@@ -1,5 +1,5 @@
 ---
-title: "013. Audit Planning"
+title: "Audit Planning"
 date: "2026-04-05"
 tags:
   - "design_supervision"

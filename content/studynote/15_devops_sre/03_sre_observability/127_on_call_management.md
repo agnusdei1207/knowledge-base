@@ -1,5 +1,5 @@
 ---
-title: "127. On Call Management"
+title: "On Call Management"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"

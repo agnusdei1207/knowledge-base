@@ -1,5 +1,5 @@
 ---
-title: "466. Mlops Pipeline Ci Cd Ct"
+title: "Mlops Pipeline Ci Cd Ct"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"

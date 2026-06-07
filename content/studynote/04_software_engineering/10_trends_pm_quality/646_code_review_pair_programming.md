@@ -1,5 +1,5 @@
 ---
-title: "646. Code Review Pair Programming"
+title: "Code Review Pair Programming"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

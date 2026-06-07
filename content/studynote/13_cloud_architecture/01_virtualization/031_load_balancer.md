@@ -1,5 +1,5 @@
 ---
-title: "031. Load Balancer"
+title: "Load Balancer"
 date: "2026-04-29"
 tags:
   - "studynote-cloud-architecture"

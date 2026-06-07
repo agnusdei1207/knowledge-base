@@ -1,5 +1,5 @@
 ---
-title: "842. Micro Trust Zone Distributed Firewall Zero Trust"
+title: "Micro Trust Zone Distributed Firewall Zero Trust"
 date: "2026-05-08"
 tags:
   - "studynote-network"

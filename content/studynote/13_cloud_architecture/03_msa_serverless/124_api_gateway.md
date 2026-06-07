@@ -1,5 +1,5 @@
 ---
-title: "124. Api Gateway"
+title: "Api Gateway"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"

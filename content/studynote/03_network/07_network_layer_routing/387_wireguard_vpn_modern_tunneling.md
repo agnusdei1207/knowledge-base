@@ -1,5 +1,5 @@
 ---
-title: "387. Wireguard Vpn Modern Tunneling"
+title: "Wireguard Vpn Modern Tunneling"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "399. Global Replacement"
+title: "Global Replacement"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

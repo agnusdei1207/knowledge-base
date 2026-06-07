@@ -1,5 +1,5 @@
 ---
-title: "243. Srp Single Responsibility Principle"
+title: "Srp Single Responsibility Principle"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

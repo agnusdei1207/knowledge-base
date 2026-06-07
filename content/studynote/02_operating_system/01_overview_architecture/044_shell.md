@@ -1,5 +1,5 @@
 ---
-title: "044. Shell"
+title: "Shell"
 date: "2026-04-05"
 tags:
   - "studynote-operating-system"

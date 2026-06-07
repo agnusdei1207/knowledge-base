@@ -1,5 +1,5 @@
 ---
-title: "101. Iot Concept"
+title: "Iot Concept"
 date: "2024-03-21"
 tags:
   - "studynote-ict-convergence"

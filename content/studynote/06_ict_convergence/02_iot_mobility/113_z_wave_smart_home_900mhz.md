@@ -1,5 +1,5 @@
 ---
-title: "113. Z Wave Smart Home 900Mhz"
+title: "Z Wave Smart Home 900Mhz"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"

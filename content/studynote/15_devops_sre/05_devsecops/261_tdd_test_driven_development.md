@@ -1,5 +1,5 @@
 ---
-title: "261. Tdd Test Driven Development"
+title: "Tdd Test Driven Development"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

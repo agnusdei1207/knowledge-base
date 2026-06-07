@@ -1,5 +1,5 @@
 ---
-title: "583. Parameter Sniffing Execution Plan Cache Pollution"
+title: "Parameter Sniffing Execution Plan Cache Pollution"
 date: "2026-05-09"
 tags:
   - "studynote-database"

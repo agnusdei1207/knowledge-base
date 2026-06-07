@@ -1,5 +1,5 @@
 ---
-title: "307. NAT (Network Address Translation)"
+title: "NAT (Network Address Translation)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

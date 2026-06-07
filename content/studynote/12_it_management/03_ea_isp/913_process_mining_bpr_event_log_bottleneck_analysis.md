@@ -1,5 +1,5 @@
 ---
-title: "913. Process Mining Bpr Event Log Bottleneck Analysis"
+title: "Process Mining Bpr Event Log Bottleneck Analysis"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

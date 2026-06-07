@@ -1,5 +1,5 @@
 ---
-title: "086. Learning Rate Gradient Descent"
+title: "Learning Rate Gradient Descent"
 date: "2026-04-05"
 tags:
   - "it_management"

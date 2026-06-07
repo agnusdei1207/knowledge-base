@@ -1,5 +1,5 @@
 ---
-title: "713. Functional Safety Iso26262 Asil"
+title: "Functional Safety Iso26262 Asil"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

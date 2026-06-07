@@ -1,5 +1,5 @@
 ---
-title: "469. Model Based Testing Mbt"
+title: "Model Based Testing Mbt"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

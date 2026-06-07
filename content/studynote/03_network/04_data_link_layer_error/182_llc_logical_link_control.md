@@ -1,5 +1,5 @@
 ---
-title: "182. Llc Logical Link Control"
+title: "Llc Logical Link Control"
 date: "2026-05-06"
 tags:
   - "studynote-network"

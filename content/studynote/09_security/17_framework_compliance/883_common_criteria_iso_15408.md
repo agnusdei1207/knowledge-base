@@ -1,5 +1,5 @@
 ---
-title: "883. CC (Common Criteria) / ISO 15408 (Common Criteria)"
+title: "CC (Common Criteria) / ISO 15408 (Common Criteria)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

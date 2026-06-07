@@ -1,5 +1,5 @@
 ---
-title: "136. Fso Free Space Optics Laser"
+title: "Fso Free Space Optics Laser"
 date: "2026-05-08"
 tags:
   - "studynote-network"

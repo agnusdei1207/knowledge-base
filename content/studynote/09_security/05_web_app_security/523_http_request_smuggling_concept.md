@@ -1,5 +1,5 @@
 ---
-title: "523. Http Request Smuggling Concept"
+title: "Http Request Smuggling Concept"
 date: "2026-05-08"
 tags:
   - "studynote-security"

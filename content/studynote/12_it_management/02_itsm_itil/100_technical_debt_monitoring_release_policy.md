@@ -1,5 +1,5 @@
 ---
-title: "100. Technical Debt Monitoring Release Policy"
+title: "Technical Debt Monitoring Release Policy"
 date: "2026-04-10"
 tags:
   - "studynote-it-management"

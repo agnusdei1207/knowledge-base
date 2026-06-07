@@ -1,5 +1,5 @@
 ---
-title: "843. ISO 27018 (Cloud PII)"
+title: "ISO 27018 (Cloud PII)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

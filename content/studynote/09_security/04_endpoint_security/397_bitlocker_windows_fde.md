@@ -1,5 +1,5 @@
 ---
-title: "397. BitLocker (Windows Full Disk Encryption)"
+title: "BitLocker (Windows Full Disk Encryption)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

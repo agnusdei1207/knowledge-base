@@ -1,5 +1,5 @@
 ---
-title: "063. Differential PCM (DPCM)"
+title: "Differential PCM (DPCM)"
 date: "2024-05-15"
 tags:
   - "network"

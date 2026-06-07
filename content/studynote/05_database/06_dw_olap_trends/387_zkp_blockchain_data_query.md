@@ -1,5 +1,5 @@
 ---
-title: "387. Zkp Blockchain Data Query"
+title: "Zkp Blockchain Data Query"
 date: "2026-05-09"
 tags:
   - "studynote-database"

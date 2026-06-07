@@ -1,5 +1,5 @@
 ---
-title: "537. Anti Pattern Distributed Monolith"
+title: "Anti Pattern Distributed Monolith"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

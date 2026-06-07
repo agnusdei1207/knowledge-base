@@ -1,5 +1,5 @@
 ---
-title: "033. Enq Ack Nak Eot"
+title: "Enq Ack Nak Eot"
 date: "2026-03-03"
 tags:
   - "studynote-network"

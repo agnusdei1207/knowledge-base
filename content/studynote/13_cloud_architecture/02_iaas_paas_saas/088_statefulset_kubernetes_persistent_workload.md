@@ -1,5 +1,5 @@
 ---
-title: "088. Statefulset Kubernetes Persistent Workload"
+title: "Statefulset Kubernetes Persistent Workload"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"

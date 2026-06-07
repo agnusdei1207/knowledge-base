@@ -1,5 +1,5 @@
 ---
-title: "048. Mlops Machine Learning Operations"
+title: "Mlops Machine Learning Operations"
 date: "2026-04-05"
 tags:
   - "studynote-devops-sre"

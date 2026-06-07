@@ -1,5 +1,5 @@
 ---
-title: "715. N Version Programming Diversity"
+title: "N Version Programming Diversity"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

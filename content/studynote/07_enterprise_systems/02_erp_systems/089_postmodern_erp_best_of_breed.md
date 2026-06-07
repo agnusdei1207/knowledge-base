@@ -1,5 +1,5 @@
 ---
-title: "089. Postmodern Erp Best Of Breed"
+title: "Postmodern Erp Best Of Breed"
 date: "2026-06-07"
 tags:
   - "enterprise_systems"

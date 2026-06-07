@@ -1,5 +1,5 @@
 ---
-title: "64. 서비스 전략 (Service Strategy)"
+title: "서비스 전략 (Service Strategy)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

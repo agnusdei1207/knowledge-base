@@ -1,5 +1,5 @@
 ---
-title: "064. Relation Domain"
+title: "Relation Domain"
 date: "2026-06-07"
 tags:
   - "database"

@@ -1,5 +1,5 @@
 ---
-title: "396. Validation"
+title: "Validation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

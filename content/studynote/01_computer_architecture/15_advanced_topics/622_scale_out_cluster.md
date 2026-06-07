@@ -1,5 +1,5 @@
 ---
-title: "622. Scale Out Cluster"
+title: "Scale Out Cluster"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

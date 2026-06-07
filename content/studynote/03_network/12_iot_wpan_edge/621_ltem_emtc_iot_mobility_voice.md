@@ -1,5 +1,5 @@
 ---
-title: "621. LTE-M (eMTC)"
+title: "LTE-M (eMTC)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "120. W-CDMA (Wideband CDMA) / HSPA (High Speed Packet Access)"
+title: "W-CDMA (Wideband CDMA) / HSPA (High Speed Packet Access)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

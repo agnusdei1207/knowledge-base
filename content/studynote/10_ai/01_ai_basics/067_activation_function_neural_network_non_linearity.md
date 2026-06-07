@@ -1,5 +1,5 @@
 ---
-title: "067. Activation Function Neural Network Non Linearity"
+title: "Activation Function Neural Network Non Linearity"
 date: "2026-06-07"
 tags:
   - "ai"

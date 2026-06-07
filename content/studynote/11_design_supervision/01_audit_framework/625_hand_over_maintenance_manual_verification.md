@@ -1,5 +1,5 @@
 ---
-title: "625. Hand Over Maintenance Manual Verification"
+title: "Hand Over Maintenance Manual Verification"
 date: "2026-04-05"
 tags:
   - "studynote-design-supervision"

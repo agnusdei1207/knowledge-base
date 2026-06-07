@@ -1,5 +1,5 @@
 ---
-title: "252. SDRAM (Synchronous DRAM)"
+title: "SDRAM (Synchronous DRAM)"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"

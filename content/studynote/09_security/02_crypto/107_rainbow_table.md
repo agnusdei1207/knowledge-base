@@ -1,5 +1,5 @@
 ---
-title: "107. Rainbow Table"
+title: "Rainbow Table"
 date: "2026-04-05"
 tags:
   - "studynote-security"

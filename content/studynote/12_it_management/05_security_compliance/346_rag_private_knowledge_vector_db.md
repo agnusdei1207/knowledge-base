@@ -1,5 +1,5 @@
 ---
-title: "346. RAG 프라이빗 지식 벡터 DB 임베딩 무결성 구조"
+title: "RAG 프라이빗 지식 벡터 DB 임베딩 무결성 구조"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

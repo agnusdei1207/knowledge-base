@@ -1,5 +1,5 @@
 ---
-title: "010. Multi Cloud"
+title: "Multi Cloud"
 date: "2024-05-24"
 tags:
   - "cloud_architecture"

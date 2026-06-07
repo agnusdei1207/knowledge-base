@@ -1,5 +1,5 @@
 ---
-title: "298. DROWN (DROWN)"
+title: "DROWN (DROWN)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

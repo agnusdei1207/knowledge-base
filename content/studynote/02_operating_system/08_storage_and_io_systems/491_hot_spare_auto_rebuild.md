@@ -1,5 +1,5 @@
 ---
-title: "491. Hot Spare Auto Rebuild"
+title: "Hot Spare Auto Rebuild"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

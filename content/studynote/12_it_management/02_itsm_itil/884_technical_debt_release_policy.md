@@ -1,5 +1,5 @@
 ---
-title: "884. Technical Debt Release Policy"
+title: "Technical Debt Release Policy"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

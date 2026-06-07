@@ -1,5 +1,5 @@
 ---
-title: "044. Agile Management Enterprise"
+title: "Agile Management Enterprise"
 date: "2026-04-05"
 tags:
   - "studynote-enterprise-systems"

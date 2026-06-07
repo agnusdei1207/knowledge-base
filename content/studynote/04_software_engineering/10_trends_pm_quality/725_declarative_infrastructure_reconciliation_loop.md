@@ -1,5 +1,5 @@
 ---
-title: "725. Declarative Infrastructure Reconciliation Loop"
+title: "Declarative Infrastructure Reconciliation Loop"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

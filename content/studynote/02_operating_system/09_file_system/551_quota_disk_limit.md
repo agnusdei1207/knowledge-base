@@ -1,5 +1,5 @@
 ---
-title: "551. Quota Disk Limit"
+title: "Quota Disk Limit"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

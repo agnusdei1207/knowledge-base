@@ -1,5 +1,5 @@
 ---
-title: "538. OIDC Discovery (OIDC Discovery)"
+title: "OIDC Discovery (OIDC Discovery)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "250. Yagni You Arent Gonna Need It"
+title: "Yagni You Arent Gonna Need It"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

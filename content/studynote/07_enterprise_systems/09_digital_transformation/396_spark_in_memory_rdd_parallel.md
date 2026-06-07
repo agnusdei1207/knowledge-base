@@ -1,5 +1,5 @@
 ---
-title: "396. 스파크 인메모리 RDD 병렬"
+title: "스파크 인메모리 RDD 병렬"
 date: "2026-06-07"
 tags:
   - "studynote-enterprise-systems"

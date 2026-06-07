@@ -1,5 +1,5 @@
 ---
-title: "078. Backpropagation Chain Rule Gradient"
+title: "Backpropagation Chain Rule Gradient"
 date: "2026-04-10"
 tags:
   - "studynote-ai"

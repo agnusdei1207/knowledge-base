@@ -1,5 +1,5 @@
 ---
-title: "639. Threat Intelligence (Threat Intelligence)"
+title: "Threat Intelligence (Threat Intelligence)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

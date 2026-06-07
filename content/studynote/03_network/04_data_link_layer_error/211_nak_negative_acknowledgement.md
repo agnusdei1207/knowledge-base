@@ -1,5 +1,5 @@
 ---
-title: "211. NAK (Negative Acknowledgement)"
+title: "NAK (Negative Acknowledgement)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

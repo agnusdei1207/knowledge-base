@@ -1,5 +1,5 @@
 ---
-title: "038. Residual Risk"
+title: "Residual Risk"
 date: "2026-03-03"
 tags:
   - "studynote-security"

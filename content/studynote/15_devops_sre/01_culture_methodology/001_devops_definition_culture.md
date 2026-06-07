@@ -1,5 +1,5 @@
 ---
-title: "001. Devops Sasang"
+title: "Devops Sasang"
 date: "2026-04-05"
 tags:
   - "devops_sre"

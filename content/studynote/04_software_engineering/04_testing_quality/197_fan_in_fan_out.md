@@ -1,5 +1,5 @@
 ---
-title: "197. Fan In Fan Out"
+title: "Fan In Fan Out"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

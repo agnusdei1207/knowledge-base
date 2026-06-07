@@ -1,5 +1,5 @@
 ---
-title: "601. Iot Internet Of Things 3 Elements"
+title: "Iot Internet Of Things 3 Elements"
 date: "2026-05-08"
 tags:
   - "studynote-network"

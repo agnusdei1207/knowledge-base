@@ -1,5 +1,5 @@
 ---
-title: "388. Intel TXT (Trusted Execution Technology)"
+title: "Intel TXT (Trusted Execution Technology)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

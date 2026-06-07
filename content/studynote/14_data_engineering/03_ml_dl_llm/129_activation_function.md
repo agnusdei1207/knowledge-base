@@ -1,5 +1,5 @@
 ---
-title: "129. Activation Function"
+title: "Activation Function"
 date: "2026-04-19"
 tags:
   - "studynote-data-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "103. Edit Distance"
+title: "Edit Distance"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

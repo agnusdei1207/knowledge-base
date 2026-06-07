@@ -1,5 +1,5 @@
 ---
-title: "136. Proptech Property Technology Real Estate"
+title: "Proptech Property Technology Real Estate"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"

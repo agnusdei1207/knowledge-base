@@ -1,5 +1,5 @@
 ---
-title: "1057. Netconf Yang Network Configuration Modeling"
+title: "Netconf Yang Network Configuration Modeling"
 date: "2026-06-07"
 tags:
   - "network"

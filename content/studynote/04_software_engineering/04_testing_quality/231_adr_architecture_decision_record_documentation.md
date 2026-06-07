@@ -1,5 +1,5 @@
 ---
-title: "231. Adr Architecture Decision Record Documentation"
+title: "Adr Architecture Decision Record Documentation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

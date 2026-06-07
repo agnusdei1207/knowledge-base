@@ -1,5 +1,5 @@
 ---
-title: "346. Worst Fit"
+title: "Worst Fit"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

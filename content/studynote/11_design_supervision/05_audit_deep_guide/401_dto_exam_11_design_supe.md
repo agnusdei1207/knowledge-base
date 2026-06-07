@@ -1,5 +1,5 @@
 ---
-title: "401. DTO 계층 [데이터] 운반 객체"
+title: "DTO 계층 [데이터] 운반 객체"
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

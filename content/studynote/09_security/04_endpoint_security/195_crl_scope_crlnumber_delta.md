@@ -1,5 +1,5 @@
 ---
-title: "195. CRL Scope (Certificate Revocation List)"
+title: "CRL Scope (Certificate Revocation List)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

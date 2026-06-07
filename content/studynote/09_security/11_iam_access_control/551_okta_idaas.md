@@ -1,5 +1,5 @@
 ---
-title: "551. Okta (IDaaS)"
+title: "Okta (IDaaS)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

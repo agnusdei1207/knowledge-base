@@ -1,5 +1,5 @@
 ---
-title: "279. Quality Attributes Scenario"
+title: "Quality Attributes Scenario"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

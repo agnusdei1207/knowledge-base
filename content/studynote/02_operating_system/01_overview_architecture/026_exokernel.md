@@ -1,5 +1,5 @@
 ---
-title: "026. Exokernel"
+title: "Exokernel"
 date: "2026-04-29"
 tags:
   - "studynote-operating-system"

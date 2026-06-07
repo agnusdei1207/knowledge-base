@@ -1,5 +1,5 @@
 ---
-title: "185. Byte Counting Framing"
+title: "Byte Counting Framing"
 date: "2026-05-06"
 tags:
   - "studynote-network"

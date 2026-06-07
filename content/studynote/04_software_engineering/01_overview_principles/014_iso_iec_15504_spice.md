@@ -1,5 +1,5 @@
 ---
-title: "014. Iso Iec 15504 Spice"
+title: "Iso Iec 15504 Spice"
 date: "2024-05-01"
 tags:
   - "software_engineering"

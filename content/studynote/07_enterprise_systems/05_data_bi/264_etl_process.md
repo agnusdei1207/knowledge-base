@@ -1,5 +1,5 @@
 ---
-title: "264. ETL (Extract, Transform, Load)"
+title: "ETL (Extract, Transform, Load)"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"

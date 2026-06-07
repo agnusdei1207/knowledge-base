@@ -1,5 +1,5 @@
 ---
-title: "632. Backup Archiving Policy Full Incremental"
+title: "Backup Archiving Policy Full Incremental"
 date: "2026-04-10"
 tags:
   - "studynote-design-supervision"

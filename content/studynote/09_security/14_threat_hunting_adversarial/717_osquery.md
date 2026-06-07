@@ -1,5 +1,5 @@
 ---
-title: "717. osquery (osquery)"
+title: "osquery (osquery)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

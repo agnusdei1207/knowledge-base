@@ -1,5 +1,5 @@
 ---
-title: "791. Soa Esb Performance Bottleneck"
+title: "Soa Esb Performance Bottleneck"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

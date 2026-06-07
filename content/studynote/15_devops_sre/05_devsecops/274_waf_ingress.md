@@ -1,5 +1,5 @@
 ---
-title: "274. Waf Ingress"
+title: "Waf Ingress"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

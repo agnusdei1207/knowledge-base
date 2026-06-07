@@ -1,5 +1,5 @@
 ---
-title: "359. Ospf Hierarchical Area Structure Abr Asbr"
+title: "Ospf Hierarchical Area Structure Abr Asbr"
 date: "2026-05-08"
 tags:
   - "studynote-network"

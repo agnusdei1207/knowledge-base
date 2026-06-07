@@ -1,5 +1,5 @@
 ---
-title: "246. KPI / CSF 상관관계"
+title: "KPI / CSF 상관관계"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

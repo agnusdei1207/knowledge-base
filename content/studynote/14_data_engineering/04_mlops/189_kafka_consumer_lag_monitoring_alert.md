@@ -1,5 +1,5 @@
 ---
-title: "189. Kafka Consumer Lag Monitoring Alert"
+title: "Kafka Consumer Lag Monitoring Alert"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

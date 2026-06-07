@@ -1,5 +1,5 @@
 ---
-title: "180. Event Sourcing Immutable Log"
+title: "Event Sourcing Immutable Log"
 date: "2026-05-06"
 tags:
   - "studynote-enterprise-systems"

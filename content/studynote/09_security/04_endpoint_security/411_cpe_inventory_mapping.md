@@ -1,5 +1,5 @@
 ---
-title: "411. CPE (Common Platform Enumeration)"
+title: "CPE (Common Platform Enumeration)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

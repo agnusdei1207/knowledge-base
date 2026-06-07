@@ -1,5 +1,5 @@
 ---
-title: "067. Data Steward Data Quality"
+title: "Data Steward Data Quality"
 date: "2026-06-07"
 tags:
   - "enterprise_systems"

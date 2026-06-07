@@ -1,5 +1,5 @@
 ---
-title: "798. Backscatter Communication Zero Energy Iot Ris"
+title: "Backscatter Communication Zero Energy Iot Ris"
 date: "2026-05-08"
 tags:
   - "studynote-network"

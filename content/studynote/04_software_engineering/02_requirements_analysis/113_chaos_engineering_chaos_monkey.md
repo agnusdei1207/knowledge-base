@@ -1,5 +1,5 @@
 ---
-title: "113. Chaos Engineering Chaos Monkey"
+title: "Chaos Engineering Chaos Monkey"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"

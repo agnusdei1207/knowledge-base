@@ -1,5 +1,5 @@
 ---
-title: "064. Bft Pbft Consensus 3 Phases"
+title: "Bft Pbft Consensus 3 Phases"
 date: "2026-06-07"
 tags:
   - "ict_convergence"

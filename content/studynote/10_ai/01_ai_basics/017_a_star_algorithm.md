@@ -1,5 +1,5 @@
 ---
-title: "017. A Star Algorithm"
+title: "A Star Algorithm"
 date: "2024-05-24"
 tags:
   - "ai"

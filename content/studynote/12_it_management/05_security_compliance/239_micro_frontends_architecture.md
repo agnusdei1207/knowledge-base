@@ -1,5 +1,5 @@
 ---
-title: "239. 마이크로 프론트엔드 (Micro Frontends)"
+title: "마이크로 프론트엔드 (Micro Frontends)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

@@ -1,5 +1,5 @@
 ---
-title: "194. Deepdream Gradcam"
+title: "Deepdream Gradcam"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

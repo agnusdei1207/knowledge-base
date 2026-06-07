@@ -1,5 +1,5 @@
 ---
-title: "487. Ssrf Server Side Request Forgery"
+title: "Ssrf Server Side Request Forgery"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

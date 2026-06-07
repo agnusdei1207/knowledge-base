@@ -1,5 +1,5 @@
 ---
-title: "584. 802 1X Pnac Eap Radius"
+title: "802 1X Pnac Eap Radius"
 date: "2026-05-08"
 tags:
   - "studynote-network"

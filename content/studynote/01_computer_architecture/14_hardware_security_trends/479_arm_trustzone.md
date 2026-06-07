@@ -1,5 +1,5 @@
 ---
-title: "479. ARM TrustZone"
+title: "ARM TrustZone"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"

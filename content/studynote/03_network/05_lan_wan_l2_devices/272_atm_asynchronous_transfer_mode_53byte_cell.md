@@ -1,5 +1,5 @@
 ---
-title: "272. ATM (Asynchronous Transfer Mode)"
+title: "ATM (Asynchronous Transfer Mode)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

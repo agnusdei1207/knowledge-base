@@ -1,5 +1,5 @@
 ---
-title: "383. IKE (Internet Key Exchange), ISAKMP, SA (Security Associations)"
+title: "IKE (Internet Key Exchange), ISAKMP, SA (Security Associations)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

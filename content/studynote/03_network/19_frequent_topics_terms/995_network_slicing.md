@@ -1,5 +1,5 @@
 ---
-title: "995. Network Slicing"
+title: "Network Slicing"
 date: "2026-05-08"
 tags:
   - "studynote-network"

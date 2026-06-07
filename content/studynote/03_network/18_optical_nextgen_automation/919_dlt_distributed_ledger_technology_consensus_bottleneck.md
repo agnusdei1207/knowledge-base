@@ -1,5 +1,5 @@
 ---
-title: "919. Dlt Distributed Ledger Technology Consensus Bottleneck"
+title: "Dlt Distributed Ledger Technology Consensus Bottleneck"
 date: "2026-05-08"
 tags:
   - "studynote-network"

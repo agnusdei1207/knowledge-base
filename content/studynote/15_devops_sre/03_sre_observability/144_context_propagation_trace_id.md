@@ -1,5 +1,5 @@
 ---
-title: "144. Context Propagation Trace Id"
+title: "Context Propagation Trace Id"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"

@@ -1,5 +1,5 @@
 ---
-title: "007. External Schema"
+title: "External Schema"
 date: "2024-05-20"
 tags:
   - "database"

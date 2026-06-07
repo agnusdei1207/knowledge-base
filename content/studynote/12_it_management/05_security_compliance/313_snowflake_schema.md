@@ -1,5 +1,5 @@
 ---
-title: "313. 스노우플레이크 스키마 정규화 트리 형태"
+title: "스노우플레이크 스키마 정규화 트리 형태"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

@@ -1,5 +1,5 @@
 ---
-title: "589. Virus"
+title: "Virus"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

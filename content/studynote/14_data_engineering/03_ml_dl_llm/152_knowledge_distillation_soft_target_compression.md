@@ -1,5 +1,5 @@
 ---
-title: "152. Knowledge Distillation Soft Target Compression"
+title: "Knowledge Distillation Soft Target Compression"
 date: "2026-05-03"
 tags:
   - "studynote-data-engineering"

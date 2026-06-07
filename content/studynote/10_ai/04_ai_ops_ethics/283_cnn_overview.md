@@ -1,5 +1,5 @@
 ---
-title: "283. CNN (Convolutional Neural Network)"
+title: "CNN (Convolutional Neural Network)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

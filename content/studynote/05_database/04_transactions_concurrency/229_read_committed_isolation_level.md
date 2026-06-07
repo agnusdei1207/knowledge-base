@@ -1,5 +1,5 @@
 ---
-title: "229. Read Committed (Read committed Isolation Level)"
+title: "Read Committed (Read committed Isolation Level)"
 date: "2026-05-08"
 tags:
   - "studynote-database"

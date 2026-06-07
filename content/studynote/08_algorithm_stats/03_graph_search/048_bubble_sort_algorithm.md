@@ -1,5 +1,5 @@
 ---
-title: "048. Bubble Sort Algorithm"
+title: "Bubble Sort Algorithm"
 date: "2026-04-02"
 tags:
   - "studynote-algorithm-stats"

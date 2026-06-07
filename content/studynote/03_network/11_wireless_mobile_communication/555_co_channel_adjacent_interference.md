@@ -1,5 +1,5 @@
 ---
-title: "555. Co Channel Adjacent Interference"
+title: "Co Channel Adjacent Interference"
 date: "2026-05-08"
 tags:
   - "studynote-network"

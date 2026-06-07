@@ -1,5 +1,5 @@
 ---
-title: "322. Logical Virtual Address"
+title: "Logical Virtual Address"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

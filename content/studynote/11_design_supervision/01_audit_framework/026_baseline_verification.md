@@ -1,5 +1,5 @@
 ---
-title: "026. 베이스라인 검증 (Baseline Verification)"
+title: "베이스라인 검증 (Baseline Verification)"
 date: "2026-05-05"
 tags:
   - "studynote-design-supervision"

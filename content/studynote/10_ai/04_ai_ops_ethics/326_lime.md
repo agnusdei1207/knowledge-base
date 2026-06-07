@@ -1,5 +1,5 @@
 ---
-title: "326. LIME (Local Interpretable Model-agnostic Explanations)"
+title: "LIME (Local Interpretable Model-agnostic Explanations)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

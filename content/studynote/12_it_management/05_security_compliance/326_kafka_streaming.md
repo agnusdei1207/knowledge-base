@@ -1,5 +1,5 @@
 ---
-title: "326. 카프카 분산 메시지 큐 스트리밍 토픽"
+title: "카프카 분산 메시지 큐 스트리밍 토픽"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

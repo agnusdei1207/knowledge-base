@@ -1,5 +1,5 @@
 ---
-title: "242. Data Democratization"
+title: "Data Democratization"
 date: "2026-04-29"
 tags:
   - "studynote-bigdata"

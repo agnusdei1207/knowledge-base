@@ -1,5 +1,5 @@
 ---
-title: "521. mDNS (Multicast DNS) / LMNR"
+title: "mDNS (Multicast DNS) / LMNR"
 date: "2026-05-08"
 tags:
   - "studynote-network"

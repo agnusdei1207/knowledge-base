@@ -1,5 +1,5 @@
 ---
-title: "1056. Onos Opendaylight Sdn Controller Comparison"
+title: "Onos Opendaylight Sdn Controller Comparison"
 date: "2026-05-08"
 tags:
   - "studynote-network"

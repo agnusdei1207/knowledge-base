@@ -1,5 +1,5 @@
 ---
-title: "915. Iot Firmware Ota Integrity"
+title: "Iot Firmware Ota Integrity"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

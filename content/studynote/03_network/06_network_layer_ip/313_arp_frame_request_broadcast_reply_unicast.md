@@ -1,5 +1,5 @@
 ---
-title: "313. Arp Frame Request Broadcast Reply Unicast"
+title: "Arp Frame Request Broadcast Reply Unicast"
 date: "2026-05-08"
 tags:
   - "studynote-network"

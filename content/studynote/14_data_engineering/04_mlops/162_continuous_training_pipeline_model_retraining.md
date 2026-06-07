@@ -1,5 +1,5 @@
 ---
-title: "162. Continuous Training Pipeline Model Retraining"
+title: "Continuous Training Pipeline Model Retraining"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

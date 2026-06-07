@@ -1,5 +1,5 @@
 ---
-title: "043. Lambda Architecture Batch Speed Layer"
+title: "Lambda Architecture Batch Speed Layer"
 date: "2026-04-05"
 tags:
   - "studynote-data-engineering"

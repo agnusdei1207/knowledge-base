@@ -1,5 +1,5 @@
 ---
-title: "161. Short Term Scheduler"
+title: "Short Term Scheduler"
 date: "2026-05-05"
 tags:
   - "studynote-operating-system"

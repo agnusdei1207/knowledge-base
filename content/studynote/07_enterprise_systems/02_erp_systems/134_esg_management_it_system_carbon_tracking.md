@@ -1,5 +1,5 @@
 ---
-title: "134. Esg Management It System Carbon Tracking"
+title: "Esg Management It System Carbon Tracking"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"

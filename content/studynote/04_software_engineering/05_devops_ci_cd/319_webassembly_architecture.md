@@ -1,5 +1,5 @@
 ---
-title: "319. Webassembly Architecture"
+title: "Webassembly Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

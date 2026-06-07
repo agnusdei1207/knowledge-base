@@ -1,5 +1,5 @@
 ---
-title: "757. Failure Stages"
+title: "Failure Stages"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "131. Column Family Db"
+title: "Column Family Db"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

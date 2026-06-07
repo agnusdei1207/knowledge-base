@@ -1,5 +1,5 @@
 ---
-title: "095. Modular Blockchain Execution Da Consensus"
+title: "Modular Blockchain Execution Da Consensus"
 date: "2026-06-07"
 tags:
   - "ict_convergence"

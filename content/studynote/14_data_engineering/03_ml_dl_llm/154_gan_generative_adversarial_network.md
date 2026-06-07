@@ -1,5 +1,5 @@
 ---
-title: "154. Gan Generative Adversarial Network"
+title: "Gan Generative Adversarial Network"
 date: "2026-05-03"
 tags:
   - "studynote-data-engineering"

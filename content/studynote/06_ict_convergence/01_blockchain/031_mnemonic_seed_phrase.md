@@ -1,5 +1,5 @@
 ---
-title: "031. Mnemonic Seed Phrase"
+title: "Mnemonic Seed Phrase"
 date: "2026-04-29"
 tags:
   - "studynote-ict-convergence"

@@ -1,5 +1,5 @@
 ---
-title: "524. AIOps, LLMOps, 옵저버빌리티, 분산 추적 (AIOps LLMOps Observability Distributed Tracing)"
+title: "AIOps, LLMOps, 옵저버빌리티, 분산 추적 (AIOps LLMOps Observability Distributed Tracing)"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"

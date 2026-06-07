@@ -1,5 +1,5 @@
 ---
-title: "023. External Sort"
+title: "External Sort"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

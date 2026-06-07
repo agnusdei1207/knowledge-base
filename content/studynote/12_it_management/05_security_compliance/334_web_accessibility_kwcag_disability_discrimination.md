@@ -1,5 +1,5 @@
 ---
-title: "334. 웹 접근성 KWCAG 장애 차별 금지"
+title: "웹 접근성 KWCAG 장애 차별 금지"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

@@ -1,5 +1,5 @@
 ---
-title: "100. Pooling Layer Max Pooling Downsampling Cnn"
+title: "Pooling Layer Max Pooling Downsampling Cnn"
 date: "2026-04-10"
 tags:
   - "studynote-ai"

@@ -1,5 +1,5 @@
 ---
-title: "719. Cpu Downclocking"
+title: "Cpu Downclocking"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

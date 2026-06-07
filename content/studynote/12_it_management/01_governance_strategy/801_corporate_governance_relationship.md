@@ -1,5 +1,5 @@
 ---
-title: "801. Corporate Governance Relationship"
+title: "Corporate Governance Relationship"
 date: "2026-05-05"
 tags:
   - "studynote-it-management"

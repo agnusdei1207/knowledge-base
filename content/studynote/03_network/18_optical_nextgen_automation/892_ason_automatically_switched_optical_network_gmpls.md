@@ -1,5 +1,5 @@
 ---
-title: "892. Ason Automatically Switched Optical Network Gmpls"
+title: "Ason Automatically Switched Optical Network Gmpls"
 date: "2026-05-08"
 tags:
   - "studynote-network"

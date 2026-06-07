@@ -1,5 +1,5 @@
 ---
-title: "1099. Inter Vlan Routing Router On A Stick"
+title: "Inter Vlan Routing Router On A Stick"
 date: "2026-05-08"
 tags:
   - "studynote-network"

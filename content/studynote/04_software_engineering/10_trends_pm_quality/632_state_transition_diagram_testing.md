@@ -1,5 +1,5 @@
 ---
-title: "632. State Transition Diagram Testing"
+title: "State Transition Diagram Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

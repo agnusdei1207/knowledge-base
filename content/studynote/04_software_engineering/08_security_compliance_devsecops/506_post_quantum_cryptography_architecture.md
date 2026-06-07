@@ -1,5 +1,5 @@
 ---
-title: "506. Post Quantum Cryptography Architecture"
+title: "Post Quantum Cryptography Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

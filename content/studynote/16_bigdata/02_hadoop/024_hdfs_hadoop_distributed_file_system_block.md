@@ -1,5 +1,5 @@
 ---
-title: "024. Hdfs Hadoop Distributed File System Block"
+title: "Hdfs Hadoop Distributed File System Block"
 date: "2026-03-04"
 tags:
   - "hadoop"

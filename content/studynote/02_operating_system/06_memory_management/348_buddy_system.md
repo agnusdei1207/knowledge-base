@@ -1,5 +1,5 @@
 ---
-title: "348. Buddy System"
+title: "Buddy System"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

@@ -1,5 +1,5 @@
 ---
-title: "316. Redis Thundering Herd"
+title: "Redis Thundering Herd"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"

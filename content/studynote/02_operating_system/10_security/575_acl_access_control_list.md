@@ -1,5 +1,5 @@
 ---
-title: "575. Acl Access Control List"
+title: "Acl Access Control List"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

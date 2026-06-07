@@ -1,5 +1,5 @@
 ---
-title: "230. Cbam Cost Benefit Analysis Method"
+title: "Cbam Cost Benefit Analysis Method"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

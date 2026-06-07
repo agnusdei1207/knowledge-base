@@ -1,5 +1,5 @@
 ---
-title: "534. SNMP Trap"
+title: "SNMP Trap"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "530. SMI (Structure of Management Information)"
+title: "SMI (Structure of Management Information)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

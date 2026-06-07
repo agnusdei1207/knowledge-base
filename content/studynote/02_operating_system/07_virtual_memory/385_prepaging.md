@@ -1,5 +1,5 @@
 ---
-title: "385. Prepaging"
+title: "Prepaging"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

@@ -1,5 +1,5 @@
 ---
-title: "415. Integrity Failures (Integrity Failures)"
+title: "Integrity Failures (Integrity Failures)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

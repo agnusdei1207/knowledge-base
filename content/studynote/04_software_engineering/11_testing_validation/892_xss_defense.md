@@ -1,5 +1,5 @@
 ---
-title: "892. Xss Defense"
+title: "Xss Defense"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

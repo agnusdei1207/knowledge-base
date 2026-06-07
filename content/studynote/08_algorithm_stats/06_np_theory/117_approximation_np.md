@@ -1,5 +1,5 @@
 ---
-title: "117. Approximation Np"
+title: "Approximation Np"
 date: "2026-04-05"
 tags:
   - "studynote-algorithm-stats"

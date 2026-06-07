@@ -1,5 +1,5 @@
 ---
-title: "796. DPIA (Data Protection Impact Assessment)"
+title: "DPIA (Data Protection Impact Assessment)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

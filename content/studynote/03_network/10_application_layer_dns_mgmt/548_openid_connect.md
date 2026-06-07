@@ -1,5 +1,5 @@
 ---
-title: "548. OpenID Connect"
+title: "OpenID Connect"
 date: "2026-05-08"
 tags:
   - "studynote-network"

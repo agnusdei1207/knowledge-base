@@ -1,5 +1,5 @@
 ---
-title: "716. Red Canary (Red Canary)"
+title: "Red Canary (Red Canary)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

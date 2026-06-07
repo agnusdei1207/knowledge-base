@@ -1,5 +1,5 @@
 ---
-title: "17. MOSFET"
+title: "MOSFET"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"

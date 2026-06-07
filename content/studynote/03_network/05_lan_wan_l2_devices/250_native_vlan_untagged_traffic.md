@@ -1,5 +1,5 @@
 ---
-title: "250. Native Vlan Untagged Traffic"
+title: "Native Vlan Untagged Traffic"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "142. Point To Point Integration Spaghetti"
+title: "Point To Point Integration Spaghetti"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"

@@ -1,5 +1,5 @@
 ---
-title: "348. Link State Routing Dijkstra Spf"
+title: "Link State Routing Dijkstra Spf"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "392. File Backed Memory"
+title: "File Backed Memory"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

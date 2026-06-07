@@ -1,5 +1,5 @@
 ---
-title: "013. Public Bigdata"
+title: "Public Bigdata"
 date: "2024-05-23"
 tags:
   - "bigdata"

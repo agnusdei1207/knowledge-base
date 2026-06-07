@@ -1,5 +1,5 @@
 ---
-title: "866. Vnf Virtual Network Function Software Appliance"
+title: "Vnf Virtual Network Function Software Appliance"
 date: "2026-05-08"
 tags:
   - "studynote-network"

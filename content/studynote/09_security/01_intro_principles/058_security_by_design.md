@@ -1,5 +1,5 @@
 ---
-title: "058. Security By Design"
+title: "Security By Design"
 date: "2026-04-05"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "966. Bulkhead"
+title: "Bulkhead"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

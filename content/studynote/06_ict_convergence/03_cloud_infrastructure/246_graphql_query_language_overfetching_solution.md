@@ -1,5 +1,5 @@
 ---
-title: "246. GraphQL (Graphql Query Language Overfetching Solution)"
+title: "GraphQL (Graphql Query Language Overfetching Solution)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"

@@ -1,5 +1,5 @@
 ---
-title: "124. Named Pipe Fifo"
+title: "Named Pipe Fifo"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"

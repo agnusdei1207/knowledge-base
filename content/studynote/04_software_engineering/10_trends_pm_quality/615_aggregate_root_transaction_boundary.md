@@ -1,5 +1,5 @@
 ---
-title: "615. Aggregate Root Transaction Boundary"
+title: "Aggregate Root Transaction Boundary"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "772. Atdd Acceptance Testing Structure"
+title: "Atdd Acceptance Testing Structure"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

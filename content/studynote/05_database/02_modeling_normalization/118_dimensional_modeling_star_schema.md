@@ -1,5 +1,5 @@
 ---
-title: "118. Dimensional Modeling Star Schema"
+title: "Dimensional Modeling Star Schema"
 date: "2026-04-19"
 tags:
   - "studynote-database"

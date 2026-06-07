@@ -1,5 +1,5 @@
 ---
-title: "509. Authorization Models Rbac Abac"
+title: "Authorization Models Rbac Abac"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "012. Approximation Algorithm"
+title: "Approximation Algorithm"
 date: "2026-06-07"
 tags:
   - "algorithm_stats"

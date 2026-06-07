@@ -1,5 +1,5 @@
 ---
-title: "151. Steady State Hypothesis Validation"
+title: "Steady State Hypothesis Validation"
 date: "2026-05-03"
 tags:
   - "studynote-devops-sre"

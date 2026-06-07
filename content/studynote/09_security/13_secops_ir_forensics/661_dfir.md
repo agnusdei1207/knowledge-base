@@ -1,5 +1,5 @@
 ---
-title: "661. DFIR (Digital Forensics and Incident Response)"
+title: "DFIR (Digital Forensics and Incident Response)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

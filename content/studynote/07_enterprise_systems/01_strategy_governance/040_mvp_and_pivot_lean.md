@@ -1,5 +1,5 @@
 ---
-title: "040. Mvp And Pivot Lean"
+title: "Mvp And Pivot Lean"
 date: "2026-03-19"
 tags:
   - "studynote-enterprise-systems"

@@ -1,5 +1,5 @@
 ---
-title: "168. Airflow Dag Pipeline Scheduling"
+title: "Airflow Dag Pipeline Scheduling"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

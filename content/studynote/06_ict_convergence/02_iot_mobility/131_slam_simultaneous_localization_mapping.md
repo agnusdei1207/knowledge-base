@@ -1,5 +1,5 @@
 ---
-title: "131. Slam Simultaneous Localization Mapping"
+title: "Slam Simultaneous Localization Mapping"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"

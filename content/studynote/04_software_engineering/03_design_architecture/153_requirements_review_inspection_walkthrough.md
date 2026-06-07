@@ -1,5 +1,5 @@
 ---
-title: "153. Requirements Review Inspection Walkthrough"
+title: "Requirements Review Inspection Walkthrough"
 date: "2026-05-03"
 tags:
   - "studynote-software-engineering"

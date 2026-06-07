@@ -1,5 +1,5 @@
 ---
-title: "211. 데이터 메시 (Data Mesh)"
+title: "데이터 메시 (Data Mesh)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

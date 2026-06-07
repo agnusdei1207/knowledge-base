@@ -1,5 +1,5 @@
 ---
-title: "218. Retail Logistics Bigdata"
+title: "Retail Logistics Bigdata"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

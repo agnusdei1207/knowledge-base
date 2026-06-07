@@ -1,5 +1,5 @@
 ---
-title: "583. WPA3"
+title: "WPA3"
 date: "2026-05-08"
 tags:
   - "studynote-network"

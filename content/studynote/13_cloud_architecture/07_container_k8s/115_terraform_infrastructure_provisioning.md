@@ -1,5 +1,5 @@
 ---
-title: "115. Terraform Infrastructure Provisioning"
+title: "Terraform Infrastructure Provisioning"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"

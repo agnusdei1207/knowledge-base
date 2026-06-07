@@ -1,5 +1,5 @@
 ---
-title: "900. PROFINET (PROFINET)"
+title: "PROFINET (PROFINET)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

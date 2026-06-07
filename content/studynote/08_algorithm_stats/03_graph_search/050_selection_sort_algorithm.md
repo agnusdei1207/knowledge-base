@@ -1,5 +1,5 @@
 ---
-title: "050. Selection Sort Algorithm"
+title: "Selection Sort Algorithm"
 date: "2026-04-02"
 tags:
   - "studynote-algorithm-stats"

@@ -1,5 +1,5 @@
 ---
-title: "752. Prototyping Throwaway Vs Evolutionary"
+title: "Prototyping Throwaway Vs Evolutionary"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

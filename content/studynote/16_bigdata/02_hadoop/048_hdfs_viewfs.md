@@ -1,5 +1,5 @@
 ---
-title: "048. Hdfs Viewfs"
+title: "Hdfs Viewfs"
 date: "2026-04-29"
 tags:
   - "studynote-bigdata"

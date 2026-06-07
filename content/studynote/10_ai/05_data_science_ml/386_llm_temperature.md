@@ -1,5 +1,5 @@
 ---
-title: "386. Llm Temperature"
+title: "Llm Temperature"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

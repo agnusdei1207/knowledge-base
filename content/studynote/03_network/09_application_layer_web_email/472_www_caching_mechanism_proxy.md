@@ -1,5 +1,5 @@
 ---
-title: "472. Www Caching Mechanism Proxy"
+title: "Www Caching Mechanism Proxy"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "169. Clustering Factor Index Physical Sort"
+title: "Clustering Factor Index Physical Sort"
 date: "2026-04-03"
 tags:
   - "studynote-database"

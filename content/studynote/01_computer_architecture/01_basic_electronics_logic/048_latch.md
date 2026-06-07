@@ -1,5 +1,5 @@
 ---
-title: "048. Latch"
+title: "Latch"
 date: "2026-04-05"
 tags:
   - "studynote-computer-architecture"

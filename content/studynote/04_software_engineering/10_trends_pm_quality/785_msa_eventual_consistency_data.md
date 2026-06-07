@@ -1,5 +1,5 @@
 ---
-title: "785. Msa Eventual Consistency Data"
+title: "Msa Eventual Consistency Data"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

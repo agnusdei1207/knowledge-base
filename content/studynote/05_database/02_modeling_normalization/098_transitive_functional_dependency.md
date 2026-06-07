@@ -1,5 +1,5 @@
 ---
-title: "098. Transitive Functional Dependency"
+title: "Transitive Functional Dependency"
 date: "2026-06-07"
 tags:
   - "database"

@@ -1,5 +1,5 @@
 ---
-title: "094. Bullwhip Effect Mitigation Pos Vmi"
+title: "Bullwhip Effect Mitigation Pos Vmi"
 date: "2024-05-15"
 tags:
   - "studynote-enterprise-systems"

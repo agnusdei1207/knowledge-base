@@ -1,5 +1,5 @@
 ---
-title: "755. Pmo Project Management Office"
+title: "Pmo Project Management Office"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

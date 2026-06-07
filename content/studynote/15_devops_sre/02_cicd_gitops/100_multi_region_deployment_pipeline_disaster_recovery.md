@@ -1,5 +1,5 @@
 ---
-title: "100. Multi Region Deployment Pipeline Disaster Recovery"
+title: "Multi Region Deployment Pipeline Disaster Recovery"
 date: "2026-03-04"
 tags:
   - "cicd-gitops"

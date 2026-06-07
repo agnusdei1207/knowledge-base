@@ -1,5 +1,5 @@
 ---
-title: "097. Cbam Cost Benefit Analysis Method Architecture Roi"
+title: "Cbam Cost Benefit Analysis Method Architecture Roi"
 date: "2026-04-10"
 tags:
   - "studynote-design-supervision"

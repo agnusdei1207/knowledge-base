@@ -1,5 +1,5 @@
 ---
-title: "369. Memory Pool"
+title: "Memory Pool"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

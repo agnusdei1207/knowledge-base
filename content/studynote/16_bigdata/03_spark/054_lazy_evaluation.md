@@ -1,5 +1,5 @@
 ---
-title: "054. Lazy Evaluation"
+title: "Lazy Evaluation"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"

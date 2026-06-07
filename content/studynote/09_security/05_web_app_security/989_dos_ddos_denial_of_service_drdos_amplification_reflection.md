@@ -1,5 +1,5 @@
 ---
-title: "989. 서비스 거부 공격 (DoS/DDoS)"
+title: "서비스 거부 공격 (DoS/DDoS)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

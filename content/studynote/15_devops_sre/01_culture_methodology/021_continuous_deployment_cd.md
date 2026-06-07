@@ -1,5 +1,5 @@
 ---
-title: "021. Continuous Deployment Cd"
+title: "Continuous Deployment Cd"
 date: "2026-04-02"
 tags:
   - "studynote-devops-sre"

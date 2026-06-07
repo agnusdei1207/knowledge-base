@@ -1,5 +1,5 @@
 ---
-title: "748. Lowcode Nocode Shadow It"
+title: "Lowcode Nocode Shadow It"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "113. Manifold Hypothesis Dimensionality Reduction"
+title: "Manifold Hypothesis Dimensionality Reduction"
 date: "2026-04-19"
 tags:
   - "studynote-data-engineering"

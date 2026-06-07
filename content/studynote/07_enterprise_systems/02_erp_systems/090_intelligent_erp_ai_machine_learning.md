@@ -1,5 +1,5 @@
 ---
-title: "090. Intelligent Erp Ai Machine Learning"
+title: "Intelligent Erp Ai Machine Learning"
 date: "2026-06-07"
 tags:
   - "enterprise_systems"

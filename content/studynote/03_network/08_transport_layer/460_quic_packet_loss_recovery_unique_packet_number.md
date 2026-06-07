@@ -1,5 +1,5 @@
 ---
-title: "460. Quic Packet Loss Recovery Unique Packet Number"
+title: "Quic Packet Loss Recovery Unique Packet Number"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "103. Cicd Metrics Dashboard Deployment Analytics"
+title: "Cicd Metrics Dashboard Deployment Analytics"
 date: "2026-03-04"
 tags:
   - "studynote-devops-sre"

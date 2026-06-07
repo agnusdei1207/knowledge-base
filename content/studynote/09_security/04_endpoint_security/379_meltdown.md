@@ -1,5 +1,5 @@
 ---
-title: "379. Meltdown (Meltdown)"
+title: "Meltdown (Meltdown)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

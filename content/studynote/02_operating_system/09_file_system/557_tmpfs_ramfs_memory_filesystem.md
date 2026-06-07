@@ -1,5 +1,5 @@
 ---
-title: "557. Tmpfs Ramfs Memory Filesystem"
+title: "Tmpfs Ramfs Memory Filesystem"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

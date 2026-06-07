@@ -1,5 +1,5 @@
 ---
-title: "087. Weight Initialization Xavier He Glorot"
+title: "Weight Initialization Xavier He Glorot"
 date: "2026-04-10"
 tags:
   - "studynote-ai"

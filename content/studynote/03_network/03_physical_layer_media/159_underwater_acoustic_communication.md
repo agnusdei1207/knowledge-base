@@ -1,5 +1,5 @@
 ---
-title: "159. Underwater Acoustic Communication"
+title: "Underwater Acoustic Communication"
 date: "2026-05-05"
 tags:
   - "studynote-network"

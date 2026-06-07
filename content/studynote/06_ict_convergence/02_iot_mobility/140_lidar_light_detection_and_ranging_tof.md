@@ -1,5 +1,5 @@
 ---
-title: "140. Lidar Light Detection And Ranging Tof"
+title: "Lidar Light Detection And Ranging Tof"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"

@@ -1,5 +1,5 @@
 ---
-title: "148. Soa Service Oriented Architecture"
+title: "Soa Service Oriented Architecture"
 date: "2026-05-03"
 tags:
   - "studynote-enterprise-systems"

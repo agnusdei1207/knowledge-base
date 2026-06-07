@@ -1,5 +1,5 @@
 ---
-title: "363. IS-IS (Intermediate System to Intermediate System)"
+title: "IS-IS (Intermediate System to Intermediate System)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

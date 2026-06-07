@@ -1,5 +1,5 @@
 ---
-title: "128. Ann Mlp"
+title: "Ann Mlp"
 date: "2026-04-19"
 tags:
   - "studynote-data-engineering"

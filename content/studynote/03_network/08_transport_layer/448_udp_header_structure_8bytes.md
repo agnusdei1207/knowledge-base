@@ -1,5 +1,5 @@
 ---
-title: "448. Udp Header Structure 8Bytes"
+title: "Udp Header Structure 8Bytes"
 date: "2026-05-08"
 tags:
   - "studynote-network"

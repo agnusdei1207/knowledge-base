@@ -1,5 +1,5 @@
 ---
-title: "315. LDAP (LDAP)"
+title: "LDAP (LDAP)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

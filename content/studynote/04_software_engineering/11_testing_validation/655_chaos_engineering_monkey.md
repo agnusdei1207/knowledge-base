@@ -1,5 +1,5 @@
 ---
-title: "655. 카오스 엔지니어링 카오스 몽키 복원력"
+title: "카오스 엔지니어링 카오스 몽키 복원력"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

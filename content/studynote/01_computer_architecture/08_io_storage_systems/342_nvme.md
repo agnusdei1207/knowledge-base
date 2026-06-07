@@ -1,5 +1,5 @@
 ---
-title: "342. NVMe (Non-Volatile Memory Express)"
+title: "NVMe (Non-Volatile Memory Express)"
 date: "2026-05-06"
 tags:
   - "studynote-computer-architecture"

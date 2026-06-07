@@ -1,5 +1,5 @@
 ---
-title: "166. Looker"
+title: "Looker"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

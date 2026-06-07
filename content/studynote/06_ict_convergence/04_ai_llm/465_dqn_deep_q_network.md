@@ -1,5 +1,5 @@
 ---
-title: "465. Dqn Deep Q Network"
+title: "Dqn Deep Q Network"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"

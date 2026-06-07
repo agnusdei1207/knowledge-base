@@ -1,5 +1,5 @@
 ---
-title: "139. O2O Online To Offline Platform"
+title: "O2O Online To Offline Platform"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"

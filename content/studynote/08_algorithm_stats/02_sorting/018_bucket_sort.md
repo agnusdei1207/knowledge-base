@@ -1,5 +1,5 @@
 ---
-title: "018. Bucket Sort"
+title: "Bucket Sort"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

@@ -1,5 +1,5 @@
 ---
-title: "140. Event Driven Architecture Eda"
+title: "Event Driven Architecture Eda"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"

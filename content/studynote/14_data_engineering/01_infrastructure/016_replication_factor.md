@@ -1,5 +1,5 @@
 ---
-title: "016. Replication Factor"
+title: "Replication Factor"
 date: "2025-01-01"
 tags:
   - "data_engineering"

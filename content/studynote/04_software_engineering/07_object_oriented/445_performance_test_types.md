@@ -1,5 +1,5 @@
 ---
-title: "445. Performance Test Types"
+title: "Performance Test Types"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

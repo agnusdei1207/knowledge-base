@@ -1,5 +1,5 @@
 ---
-title: "227. Architecture Evaluation Methods Overview"
+title: "Architecture Evaluation Methods Overview"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

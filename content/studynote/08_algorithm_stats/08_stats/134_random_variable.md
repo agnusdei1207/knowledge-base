@@ -1,5 +1,5 @@
 ---
-title: "134. Random Variable"
+title: "Random Variable"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

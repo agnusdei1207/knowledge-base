@@ -1,5 +1,5 @@
 ---
-title: "096. Oversampling Smote"
+title: "Oversampling Smote"
 date: "2026-03-04"
 tags:
   - "studynote-data-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "868. Nfv Mano Management And Orchestration Framework"
+title: "Nfv Mano Management And Orchestration Framework"
 date: "2026-05-08"
 tags:
   - "studynote-network"

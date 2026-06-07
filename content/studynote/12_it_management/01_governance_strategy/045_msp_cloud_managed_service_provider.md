@@ -1,5 +1,5 @@
 ---
-title: "045. Msp Cloud Managed Service Provider"
+title: "Msp Cloud Managed Service Provider"
 date: "2026-04-05"
 tags:
   - "studynote-it-management"

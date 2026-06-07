@@ -1,5 +1,5 @@
 ---
-title: "524. Scm Tiering"
+title: "Scm Tiering"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

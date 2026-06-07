@@ -1,5 +1,5 @@
 ---
-title: "274. Star Schema Fact Centric Radial Structure"
+title: "Star Schema Fact Centric Radial Structure"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"

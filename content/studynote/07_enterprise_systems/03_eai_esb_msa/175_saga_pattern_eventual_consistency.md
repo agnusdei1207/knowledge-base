@@ -1,5 +1,5 @@
 ---
-title: "175. Saga Pattern Eventual Consistency"
+title: "Saga Pattern Eventual Consistency"
 date: "2026-05-06"
 tags:
   - "studynote-enterprise-systems"

@@ -1,5 +1,5 @@
 ---
-title: "463. Http Status Codes 1Xx 5Xx"
+title: "Http Status Codes 1Xx 5Xx"
 date: "2026-05-08"
 tags:
   - "studynote-network"

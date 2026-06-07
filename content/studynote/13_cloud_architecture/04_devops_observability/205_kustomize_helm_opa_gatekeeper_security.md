@@ -1,5 +1,5 @@
 ---
-title: "205. Kustomize Helm Opa Gatekeeper Security"
+title: "Kustomize Helm Opa Gatekeeper Security"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "070. Sybil Attack Fake Nodes"
+title: "Sybil Attack Fake Nodes"
 date: "2026-06-07"
 tags:
   - "ict_convergence"

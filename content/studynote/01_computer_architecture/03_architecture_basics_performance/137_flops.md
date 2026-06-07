@@ -1,5 +1,5 @@
 ---
-title: "137. FLOPS (Floating-point Operations Per Second)"
+title: "FLOPS (Floating-point Operations Per Second)"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"

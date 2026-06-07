@@ -1,5 +1,5 @@
 ---
-title: "005. Feedback Loop"
+title: "Feedback Loop"
 date: "2026-04-05"
 tags:
   - "devops_sre"

@@ -1,5 +1,5 @@
 ---
-title: "635. Mcdc Modified Condition Decision Coverage"
+title: "Mcdc Modified Condition Decision Coverage"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

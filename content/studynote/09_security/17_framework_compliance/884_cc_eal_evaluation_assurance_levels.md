@@ -1,5 +1,5 @@
 ---
-title: "884. CC EAL (Evaluation Assurance Levels 1-7)"
+title: "CC EAL (Evaluation Assurance Levels 1-7)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

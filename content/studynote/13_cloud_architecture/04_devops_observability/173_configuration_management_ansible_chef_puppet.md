@@ -1,5 +1,5 @@
 ---
-title: "173. Configuration Management Ansible Chef Puppet"
+title: "Configuration Management Ansible Chef Puppet"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"

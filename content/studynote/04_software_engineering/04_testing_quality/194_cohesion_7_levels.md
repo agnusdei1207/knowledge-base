@@ -1,5 +1,5 @@
 ---
-title: "194. Cohesion 7 Levels"
+title: "Cohesion 7 Levels"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

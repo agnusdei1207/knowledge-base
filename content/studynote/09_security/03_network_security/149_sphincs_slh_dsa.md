@@ -1,5 +1,5 @@
 ---
-title: "149. Sphincs Slh Dsa"
+title: "Sphincs Slh Dsa"
 date: "2026-05-03"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "065. Docker Container Platform"
+title: "Docker Container Platform"
 date: "2026-04-07"
 tags:
   - "studynote-cloud-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "009. Rad Model"
+title: "Rad Model"
 date: "2026-03-04"
 tags:
   - "software_engineering"

@@ -1,5 +1,5 @@
 ---
-title: "149. Serial Communication Rs232 Rs485"
+title: "Serial Communication Rs232 Rs485"
 date: "2026-05-03"
 tags:
   - "studynote-network"

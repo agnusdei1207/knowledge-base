@@ -1,5 +1,5 @@
 ---
-title: "097. Deployment Approval Gate Automation"
+title: "Deployment Approval Gate Automation"
 date: "2026-03-04"
 tags:
   - "cicd-gitops"

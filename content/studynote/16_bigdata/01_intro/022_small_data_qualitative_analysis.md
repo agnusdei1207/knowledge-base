@@ -1,5 +1,5 @@
 ---
-title: "022. Small Data Qualitative Analysis"
+title: "Small Data Qualitative Analysis"
 date: "2026-04-02"
 tags:
   - "studynote-bigdata"

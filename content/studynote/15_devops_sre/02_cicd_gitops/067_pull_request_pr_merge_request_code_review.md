@@ -1,5 +1,5 @@
 ---
-title: "067. Pull Request Pr Merge Request Code Review"
+title: "Pull Request Pr Merge Request Code Review"
 date: "2026-04-10"
 tags:
   - "studynote-devops-sre"

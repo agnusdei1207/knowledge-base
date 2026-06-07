@@ -1,5 +1,5 @@
 ---
-title: "011. Branch And Bound"
+title: "Branch And Bound"
 date: "2026-06-07"
 tags:
   - "algorithm_stats"

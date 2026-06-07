@@ -1,5 +1,5 @@
 ---
-title: "119. Quantum Complexity"
+title: "Quantum Complexity"
 date: "2026-04-05"
 tags:
   - "studynote-algorithm-stats"

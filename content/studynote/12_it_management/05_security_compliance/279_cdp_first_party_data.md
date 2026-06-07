@@ -1,5 +1,5 @@
 ---
-title: "279. CDP 고객 데이터 플랫폼 (1st Party)"
+title: "CDP 고객 데이터 플랫폼 (1st Party)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

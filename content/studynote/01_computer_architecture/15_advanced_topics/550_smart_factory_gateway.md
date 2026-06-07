@@ -1,5 +1,5 @@
 ---
-title: "550. Smart Factory Gateway"
+title: "Smart Factory Gateway"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"

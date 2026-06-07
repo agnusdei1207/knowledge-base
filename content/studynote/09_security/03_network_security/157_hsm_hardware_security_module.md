@@ -1,5 +1,5 @@
 ---
-title: "157. Hsm Hardware Security Module"
+title: "Hsm Hardware Security Module"
 date: "2026-05-05"
 tags:
   - "studynote-security"

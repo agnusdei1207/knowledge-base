@@ -1,5 +1,5 @@
 ---
-title: "647. Bft Verification"
+title: "Bft Verification"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

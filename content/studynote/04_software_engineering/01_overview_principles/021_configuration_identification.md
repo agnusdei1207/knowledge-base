@@ -1,5 +1,5 @@
 ---
-title: "021. Configuration Identification"
+title: "Configuration Identification"
 date: "2026-03-04"
 tags:
   - "software_engineering"

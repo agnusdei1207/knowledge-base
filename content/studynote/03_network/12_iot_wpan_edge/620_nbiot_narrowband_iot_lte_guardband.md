@@ -1,5 +1,5 @@
 ---
-title: "620. NB-IoT (Narrowband IoT)"
+title: "NB-IoT (Narrowband IoT)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

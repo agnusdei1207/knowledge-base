@@ -1,5 +1,5 @@
 ---
-title: "001. Artificial Intelligence"
+title: "Artificial Intelligence"
 date: "2026-03-04"
 tags:
   - "ai"

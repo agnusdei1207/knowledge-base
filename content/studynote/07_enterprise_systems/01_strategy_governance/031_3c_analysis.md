@@ -1,5 +1,5 @@
 ---
-title: "031. 3C Analysis"
+title: "3C Analysis"
 date: "2026-04-29"
 tags:
   - "studynote-enterprise-systems"

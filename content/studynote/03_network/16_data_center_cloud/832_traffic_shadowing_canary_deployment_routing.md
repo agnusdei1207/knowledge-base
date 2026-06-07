@@ -1,5 +1,5 @@
 ---
-title: "832. Traffic Shadowing Canary Deployment Routing"
+title: "Traffic Shadowing Canary Deployment Routing"
 date: "2026-05-08"
 tags:
   - "studynote-network"

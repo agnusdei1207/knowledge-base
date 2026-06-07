@@ -1,5 +1,5 @@
 ---
-title: "525. Http Response Smuggling"
+title: "Http Response Smuggling"
 date: "2026-05-08"
 tags:
   - "studynote-security"

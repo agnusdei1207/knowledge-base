@@ -1,5 +1,5 @@
 ---
-title: "289. CPM 주공정법 임계 경로"
+title: "CPM 주공정법 임계 경로"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

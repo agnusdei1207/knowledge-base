@@ -1,5 +1,5 @@
 ---
-title: "292. Accessibility Kwcag Wcag"
+title: "Accessibility Kwcag Wcag"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

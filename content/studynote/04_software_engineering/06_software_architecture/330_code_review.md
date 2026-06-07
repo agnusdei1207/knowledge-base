@@ -1,5 +1,5 @@
 ---
-title: "330. Code Review"
+title: "Code Review"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

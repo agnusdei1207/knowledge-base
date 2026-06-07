@@ -1,5 +1,5 @@
 ---
-title: "080. Heap Sort"
+title: "Heap Sort"
 date: "2026-04-29"
 tags:
   - "studynote-algorithm-stats"

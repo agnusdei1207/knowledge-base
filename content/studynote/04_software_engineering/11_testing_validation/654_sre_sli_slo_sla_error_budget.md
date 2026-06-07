@@ -1,5 +1,5 @@
 ---
-title: "654. SRE SLI, SLO, SLA 에러 예산"
+title: "SRE SLI, SLO, SLA 에러 예산"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

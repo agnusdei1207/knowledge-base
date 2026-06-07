@@ -1,5 +1,5 @@
 ---
-title: "226. AI 거버넌스 및 윤리 (AI Ethics & Governance) 가이드라인 제정"
+title: "AI 거버넌스 및 윤리 (AI Ethics & Governance) 가이드라인 제정"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

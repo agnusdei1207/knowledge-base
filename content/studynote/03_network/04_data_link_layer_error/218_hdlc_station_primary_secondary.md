@@ -1,5 +1,5 @@
 ---
-title: "218. Hdlc Station Primary Secondary"
+title: "Hdlc Station Primary Secondary"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "761. Mil Hdbk 217"
+title: "Mil Hdbk 217"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "103. SAT (Satisfiability) — 최초 NP-완전 증명 (Cook-Levin)"
+title: "SAT (Satisfiability) — 최초 NP-완전 증명 (Cook-Levin)"
 date: "2026-01-01"
 tags:
   - "studynote"

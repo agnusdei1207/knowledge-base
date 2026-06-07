@@ -1,5 +1,5 @@
 ---
-title: "345. Best Fit"
+title: "Best Fit"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

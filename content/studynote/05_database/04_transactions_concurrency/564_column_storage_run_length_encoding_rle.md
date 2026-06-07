@@ -1,5 +1,5 @@
 ---
-title: "564. Column Storage Run Length Encoding Rle"
+title: "Column Storage Run Length Encoding Rle"
 date: "2026-05-09"
 tags:
   - "studynote-database"

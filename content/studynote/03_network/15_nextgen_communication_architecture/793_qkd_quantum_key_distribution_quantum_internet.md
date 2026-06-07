@@ -1,5 +1,5 @@
 ---
-title: "793. Qkd Quantum Key Distribution Quantum Internet"
+title: "Qkd Quantum Key Distribution Quantum Internet"
 date: "2026-05-08"
 tags:
   - "studynote-network"

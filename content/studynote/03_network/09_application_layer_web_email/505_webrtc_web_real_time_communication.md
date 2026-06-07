@@ -1,5 +1,5 @@
 ---
-title: "505. WebRTC (Web Real-Time Communication)"
+title: "WebRTC (Web Real-Time Communication)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

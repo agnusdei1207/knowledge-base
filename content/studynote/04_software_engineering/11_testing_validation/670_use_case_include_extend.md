@@ -1,5 +1,5 @@
 ---
-title: "670. 유스케이스 포함(Include) 확장(Extend)"
+title: "유스케이스 포함(Include) 확장(Extend)"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

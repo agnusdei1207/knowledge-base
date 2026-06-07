@@ -1,5 +1,5 @@
 ---
-title: "721. Drdos Scrubbing Center Mitigation"
+title: "Drdos Scrubbing Center Mitigation"
 date: "2026-05-08"
 tags:
   - "studynote-network"

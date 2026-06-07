@@ -1,5 +1,5 @@
 ---
-title: "312. Victim Selection Cost"
+title: "Victim Selection Cost"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

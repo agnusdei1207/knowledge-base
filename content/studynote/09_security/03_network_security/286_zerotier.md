@@ -1,5 +1,5 @@
 ---
-title: "286. ZeroTier (ZeroTier)"
+title: "ZeroTier (ZeroTier)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

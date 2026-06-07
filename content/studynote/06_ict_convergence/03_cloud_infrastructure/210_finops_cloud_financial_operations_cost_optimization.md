@@ -1,5 +1,5 @@
 ---
-title: "210. FinOps (Cloud Financial Operations)"
+title: "FinOps (Cloud Financial Operations)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"

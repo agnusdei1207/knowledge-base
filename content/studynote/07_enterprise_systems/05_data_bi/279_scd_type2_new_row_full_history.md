@@ -1,5 +1,5 @@
 ---
-title: "279. Scd Type2 New Row Full History"
+title: "Scd Type2 New Row Full History"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"

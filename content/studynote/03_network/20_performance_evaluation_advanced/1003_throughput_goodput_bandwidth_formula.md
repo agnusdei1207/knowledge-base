@@ -1,5 +1,5 @@
 ---
-title: "1003. Throughput Goodput Bandwidth Formula"
+title: "Throughput Goodput Bandwidth Formula"
 date: "2026-05-08"
 tags:
   - "studynote-network"

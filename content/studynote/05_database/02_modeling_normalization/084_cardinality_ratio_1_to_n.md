@@ -1,5 +1,5 @@
 ---
-title: "084. Cardinality Ratio 1 To N"
+title: "Cardinality Ratio 1 To N"
 date: "2026-06-07"
 tags:
   - "database"

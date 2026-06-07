@@ -1,5 +1,5 @@
 ---
-title: "795. Confidential Computing"
+title: "Confidential Computing"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

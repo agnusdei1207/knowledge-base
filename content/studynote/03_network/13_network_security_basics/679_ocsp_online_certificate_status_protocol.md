@@ -1,5 +1,5 @@
 ---
-title: "679. OCSP (Online Certificate Status Protocol)"
+title: "OCSP (Online Certificate Status Protocol)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

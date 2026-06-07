@@ -1,5 +1,5 @@
 ---
-title: "788. iOS 앱 [샌드박싱] 구조"
+title: "iOS 앱 [샌드박싱] 구조"
 date: "2026-06-07"
 tags:
   - "studynote-operating-system"

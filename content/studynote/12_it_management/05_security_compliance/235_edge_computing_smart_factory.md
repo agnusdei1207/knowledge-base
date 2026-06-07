@@ -1,5 +1,5 @@
 ---
-title: "235. 엣지 컴퓨팅 (Edge Computing) 분산 지연(Latency) 단축 모델 (스마트팩토리 CPS)"
+title: "엣지 컴퓨팅 (Edge Computing) 분산 지연(Latency) 단축 모델 (스마트팩토리 CPS)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

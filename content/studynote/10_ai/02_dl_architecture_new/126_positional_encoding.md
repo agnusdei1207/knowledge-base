@@ -1,5 +1,5 @@
 ---
-title: "126. Positional Encoding"
+title: "Positional Encoding"
 date: "2026-04-19"
 tags:
   - "studynote-ai"

@@ -1,5 +1,5 @@
 ---
-title: "82. Salsa20/ChaCha20 (Salsa20/ChaCha20)"
+title: "Salsa20/ChaCha20 (Salsa20/ChaCha20)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

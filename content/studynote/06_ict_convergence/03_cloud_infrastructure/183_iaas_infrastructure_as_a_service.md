@@ -1,5 +1,5 @@
 ---
-title: "183. Iaas Infrastructure As A Service"
+title: "Iaas Infrastructure As A Service"
 date: "2026-05-06"
 tags:
   - "studynote-ict-convergence"

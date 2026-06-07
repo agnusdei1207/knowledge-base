@@ -1,5 +1,5 @@
 ---
-title: "118. Ephemeral Ci Runner Isolation"
+title: "Ephemeral Ci Runner Isolation"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"

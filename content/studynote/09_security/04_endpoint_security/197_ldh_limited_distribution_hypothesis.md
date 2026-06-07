@@ -1,5 +1,5 @@
 ---
-title: "197. LDH (Limited Distribution Hypothesis)"
+title: "LDH (Limited Distribution Hypothesis)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

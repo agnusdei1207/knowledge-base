@@ -1,5 +1,5 @@
 ---
-title: "871. Vim Virtualised Infrastructure Manager Openstack K8S"
+title: "Vim Virtualised Infrastructure Manager Openstack K8S"
 date: "2026-05-08"
 tags:
   - "studynote-network"

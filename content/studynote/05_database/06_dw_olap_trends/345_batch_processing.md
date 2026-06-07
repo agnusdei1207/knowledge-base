@@ -1,5 +1,5 @@
 ---
-title: "345. Batch Processing"
+title: "Batch Processing"
 date: "2026-05-09"
 tags:
   - "studynote-database"

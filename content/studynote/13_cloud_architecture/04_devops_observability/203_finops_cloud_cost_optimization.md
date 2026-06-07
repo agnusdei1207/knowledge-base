@@ -1,5 +1,5 @@
 ---
-title: "203. Finops Cloud Cost Optimization"
+title: "Finops Cloud Cost Optimization"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"

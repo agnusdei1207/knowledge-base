@@ -1,5 +1,5 @@
 ---
-title: "440. Consistent Oracle"
+title: "Consistent Oracle"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

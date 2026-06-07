@@ -1,5 +1,5 @@
 ---
-title: "185. Scalability Design"
+title: "Scalability Design"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

@@ -1,5 +1,5 @@
 ---
-title: "478. GraphQL"
+title: "GraphQL"
 date: "2026-05-08"
 tags:
   - "studynote-network"

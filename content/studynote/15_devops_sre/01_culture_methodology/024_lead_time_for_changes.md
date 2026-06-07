@@ -1,5 +1,5 @@
 ---
-title: "024. Lead Time For Changes"
+title: "Lead Time For Changes"
 date: "2026-04-29"
 tags:
   - "studynote-devops-sre"

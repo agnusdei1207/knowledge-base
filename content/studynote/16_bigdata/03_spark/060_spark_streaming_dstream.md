@@ -1,5 +1,5 @@
 ---
-title: "060. Spark Streaming Dstream"
+title: "Spark Streaming Dstream"
 date: "2024-03-24"
 tags:
   - "studynote-bigdata"

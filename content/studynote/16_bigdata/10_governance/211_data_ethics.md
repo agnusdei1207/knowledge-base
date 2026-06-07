@@ -1,5 +1,5 @@
 ---
-title: "211. Data Ethics"
+title: "Data Ethics"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

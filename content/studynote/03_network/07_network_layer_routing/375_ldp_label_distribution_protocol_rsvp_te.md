@@ -1,5 +1,5 @@
 ---
-title: "375. LDP (Label Distribution Protocol), RSVP-TE"
+title: "LDP (Label Distribution Protocol), RSVP-TE"
 date: "2026-05-08"
 tags:
   - "studynote-network"

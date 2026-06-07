@@ -1,5 +1,5 @@
 ---
-title: "359. Data Fabric"
+title: "Data Fabric"
 date: "2026-05-09"
 tags:
   - "studynote-database"

@@ -1,5 +1,5 @@
 ---
-title: "681. Erasure Coding"
+title: "Erasure Coding"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

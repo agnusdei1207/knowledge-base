@@ -1,5 +1,5 @@
 ---
-title: "109. Lpwan Low Power Wide Area Network"
+title: "Lpwan Low Power Wide Area Network"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"

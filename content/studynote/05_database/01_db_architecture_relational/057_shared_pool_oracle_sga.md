@@ -1,5 +1,5 @@
 ---
-title: "057. Shared Pool Oracle Sga"
+title: "Shared Pool Oracle Sga"
 date: "2026-06-07"
 tags:
   - "database"

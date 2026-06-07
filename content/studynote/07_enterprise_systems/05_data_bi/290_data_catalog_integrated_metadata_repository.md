@@ -1,5 +1,5 @@
 ---
-title: "290. Data Catalog Integrated Metadata Repository"
+title: "Data Catalog Integrated Metadata Repository"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"

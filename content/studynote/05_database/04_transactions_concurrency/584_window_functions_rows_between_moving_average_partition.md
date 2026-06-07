@@ -1,5 +1,5 @@
 ---
-title: "584. Window Functions Rows Between Moving Average Partition"
+title: "Window Functions Rows Between Moving Average Partition"
 date: "2026-05-09"
 tags:
   - "studynote-database"

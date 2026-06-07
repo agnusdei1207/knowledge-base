@@ -1,5 +1,5 @@
 ---
-title: "005. V Model"
+title: "V Model"
 date: "2024-05-20"
 tags:
   - "software_engineering"

@@ -1,5 +1,5 @@
 ---
-title: "511. Api Rate Limiting Throttling"
+title: "Api Rate Limiting Throttling"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

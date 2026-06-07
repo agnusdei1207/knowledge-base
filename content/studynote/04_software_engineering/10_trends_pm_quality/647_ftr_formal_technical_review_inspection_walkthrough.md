@@ -1,5 +1,5 @@
 ---
-title: "647. Ftr Formal Technical Review Inspection Walkthrough"
+title: "Ftr Formal Technical Review Inspection Walkthrough"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

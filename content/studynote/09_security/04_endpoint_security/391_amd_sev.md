@@ -1,5 +1,5 @@
 ---
-title: "391. AMD SEV (Secure Encrypted Virtualization)"
+title: "AMD SEV (Secure Encrypted Virtualization)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "677. PTES (PTES)"
+title: "PTES (PTES)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

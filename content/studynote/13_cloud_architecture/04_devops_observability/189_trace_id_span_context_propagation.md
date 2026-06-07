@@ -1,5 +1,5 @@
 ---
-title: "189. Trace ID / Span ID / Context Propagation"
+title: "Trace ID / Span ID / Context Propagation"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"

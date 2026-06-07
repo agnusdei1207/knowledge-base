@@ -1,5 +1,5 @@
 ---
-title: "038. Water Scrum Fall"
+title: "Water Scrum Fall"
 date: "2026-03-03"
 tags:
   - "studynote-devops-sre"

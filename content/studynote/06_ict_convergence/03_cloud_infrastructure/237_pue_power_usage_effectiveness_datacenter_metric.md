@@ -1,5 +1,5 @@
 ---
-title: "237. PUE (Power Usage Effectiveness)"
+title: "PUE (Power Usage Effectiveness)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"

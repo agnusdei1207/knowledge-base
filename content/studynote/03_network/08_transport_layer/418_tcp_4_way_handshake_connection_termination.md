@@ -1,5 +1,5 @@
 ---
-title: "418. TCP 4-Way Handshake"
+title: "TCP 4-Way Handshake"
 date: "2026-05-08"
 tags:
   - "studynote-network"

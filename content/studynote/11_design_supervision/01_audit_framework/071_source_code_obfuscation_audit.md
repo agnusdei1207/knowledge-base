@@ -1,5 +1,5 @@
 ---
-title: "071. Source Code Obfuscation Audit"
+title: "Source Code Obfuscation Audit"
 date: "2026-04-10"
 tags:
   - "studynote-design-supervision"

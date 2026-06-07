@@ -1,5 +1,5 @@
 ---
-title: "258. Structural Patterns Overview"
+title: "Structural Patterns Overview"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

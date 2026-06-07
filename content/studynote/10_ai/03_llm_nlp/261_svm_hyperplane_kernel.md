@@ -1,5 +1,5 @@
 ---
-title: "261. SVM (Support Vector Machine)"
+title: "SVM (Support Vector Machine)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

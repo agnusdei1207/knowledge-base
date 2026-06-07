@@ -1,5 +1,5 @@
 ---
-title: "163. Long Term Scheduler"
+title: "Long Term Scheduler"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"

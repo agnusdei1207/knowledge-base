@@ -1,5 +1,5 @@
 ---
-title: "018. Admin Processes"
+title: "Admin Processes"
 date: "2026-03-04"
 tags:
   - "devops_sre"

@@ -1,5 +1,5 @@
 ---
-title: "164. ESS (Energy Storage System)"
+title: "ESS (Energy Storage System)"
 date: "2026-04-09"
 tags:
   - "studynote"

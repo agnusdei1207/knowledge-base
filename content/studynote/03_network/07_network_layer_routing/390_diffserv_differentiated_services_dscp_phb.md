@@ -1,5 +1,5 @@
 ---
-title: "390. DiffServ (Differentiated Services)"
+title: "DiffServ (Differentiated Services)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

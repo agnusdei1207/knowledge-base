@@ -1,5 +1,5 @@
 ---
-title: "277. Scd Slowly Changing Dimension Modeling"
+title: "Scd Slowly Changing Dimension Modeling"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"

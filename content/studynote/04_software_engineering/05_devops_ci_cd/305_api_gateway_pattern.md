@@ -1,5 +1,5 @@
 ---
-title: "305. Api Gateway Pattern"
+title: "Api Gateway Pattern"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

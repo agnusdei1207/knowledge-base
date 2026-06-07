@@ -1,5 +1,5 @@
 ---
-title: "084. Aes Spn Structure"
+title: "Aes Spn Structure"
 date: "2026-04-05"
 tags:
   - "studynote-security"

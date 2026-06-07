@@ -1,5 +1,5 @@
 ---
-title: "139. 1000BASE-T (Gigabit Ethernet)"
+title: "1000BASE-T (Gigabit Ethernet)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "847. Itil V3 Service Lifecycle"
+title: "Itil V3 Service Lifecycle"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

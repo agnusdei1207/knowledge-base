@@ -1,5 +1,5 @@
 ---
-title: "213. 데이터 카탈로그 (Data Catalog) 시스템"
+title: "데이터 카탈로그 (Data Catalog) 시스템"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

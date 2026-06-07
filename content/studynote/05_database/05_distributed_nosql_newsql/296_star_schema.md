@@ -1,5 +1,5 @@
 ---
-title: "296. Star Schema"
+title: "Star Schema"
 date: "2026-05-09"
 tags:
   - "studynote-database"

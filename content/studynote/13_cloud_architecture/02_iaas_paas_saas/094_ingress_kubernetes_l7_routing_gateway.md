@@ -1,5 +1,5 @@
 ---
-title: "094. Ingress Kubernetes L7 Routing Gateway"
+title: "Ingress Kubernetes L7 Routing Gateway"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"

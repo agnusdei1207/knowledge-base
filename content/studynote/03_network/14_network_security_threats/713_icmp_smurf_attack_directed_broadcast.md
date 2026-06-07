@@ -1,5 +1,5 @@
 ---
-title: "713. Icmp Smurf Attack Directed Broadcast"
+title: "Icmp Smurf Attack Directed Broadcast"
 date: "2026-05-08"
 tags:
   - "studynote-network"

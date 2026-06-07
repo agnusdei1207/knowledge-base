@@ -1,5 +1,5 @@
 ---
-title: "207. Arq Protocol Types Overview"
+title: "Arq Protocol Types Overview"
 date: "2026-05-08"
 tags:
   - "studynote-network"

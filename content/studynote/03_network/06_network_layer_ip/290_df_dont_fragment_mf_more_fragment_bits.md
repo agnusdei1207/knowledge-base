@@ -1,5 +1,5 @@
 ---
-title: "290. Df Dont Fragment Mf More Fragment Bits"
+title: "Df Dont Fragment Mf More Fragment Bits"
 date: "2026-05-08"
 tags:
   - "studynote-network"

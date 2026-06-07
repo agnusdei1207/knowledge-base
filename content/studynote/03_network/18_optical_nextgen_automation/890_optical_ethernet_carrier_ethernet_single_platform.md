@@ -1,5 +1,5 @@
 ---
-title: "890. Optical Ethernet Carrier Ethernet Single Platform"
+title: "Optical Ethernet Carrier Ethernet Single Platform"
 date: "2026-05-08"
 tags:
   - "studynote-network"

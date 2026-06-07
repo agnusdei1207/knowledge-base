@@ -1,5 +1,5 @@
 ---
-title: "695. Ips Network Intrusion Prevention System"
+title: "Ips Network Intrusion Prevention System"
 date: "2026-05-08"
 tags:
   - "studynote-network"

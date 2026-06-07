@@ -1,5 +1,5 @@
 ---
-title: "680. Reverse Conways Law Architecture"
+title: "Reverse Conways Law Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

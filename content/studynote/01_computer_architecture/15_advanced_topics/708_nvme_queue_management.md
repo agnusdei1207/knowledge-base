@@ -1,5 +1,5 @@
 ---
-title: "708. SMBIOS (System Management BIOS)"
+title: "SMBIOS (System Management BIOS)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

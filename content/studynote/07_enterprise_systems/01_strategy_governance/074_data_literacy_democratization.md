@@ -1,5 +1,5 @@
 ---
-title: "074. Data Literacy Democratization"
+title: "Data Literacy Democratization"
 date: "2026-04-07"
 tags:
   - "studynote-enterprise-systems"

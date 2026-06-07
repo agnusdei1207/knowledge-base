@@ -1,5 +1,5 @@
 ---
-title: "158. Tpm Trusted Platform Module"
+title: "Tpm Trusted Platform Module"
 date: "2026-05-05"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "581. Tablespace System Capacity Management Datafiles"
+title: "Tablespace System Capacity Management Datafiles"
 date: "2026-05-09"
 tags:
   - "studynote-database"

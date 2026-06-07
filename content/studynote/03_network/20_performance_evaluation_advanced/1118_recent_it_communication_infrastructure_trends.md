@@ -1,5 +1,5 @@
 ---
-title: "1118. Recent It Communication Infrastructure Trends"
+title: "Recent It Communication Infrastructure Trends"
 date: "2026-05-08"
 tags:
   - "studynote-network"

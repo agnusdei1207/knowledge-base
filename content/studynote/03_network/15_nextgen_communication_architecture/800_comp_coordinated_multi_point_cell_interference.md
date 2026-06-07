@@ -1,5 +1,5 @@
 ---
-title: "800. Comp Coordinated Multi Point Cell Interference"
+title: "Comp Coordinated Multi Point Cell Interference"
 date: "2026-05-08"
 tags:
   - "studynote-network"

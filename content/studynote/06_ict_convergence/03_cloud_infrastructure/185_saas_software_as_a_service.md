@@ -1,5 +1,5 @@
 ---
-title: "185. Saas Software As A Service"
+title: "Saas Software As A Service"
 date: "2026-05-06"
 tags:
   - "studynote-ict-convergence"

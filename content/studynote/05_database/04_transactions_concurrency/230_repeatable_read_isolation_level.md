@@ -1,5 +1,5 @@
 ---
-title: "230. Repeatable Read (Repeatable read Isolation Level)"
+title: "Repeatable Read (Repeatable read Isolation Level)"
 date: "2026-05-08"
 tags:
   - "studynote-database"

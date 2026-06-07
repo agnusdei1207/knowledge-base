@@ -1,5 +1,5 @@
 ---
-title: "634. Statement Branch Condition Coverage Inclusion"
+title: "Statement Branch Condition Coverage Inclusion"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "265. DNS Cache Poisoning (DNS Cache Poisoning)"
+title: "DNS Cache Poisoning (DNS Cache Poisoning)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

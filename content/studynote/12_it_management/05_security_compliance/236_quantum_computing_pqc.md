@@ -1,5 +1,5 @@
 ---
-title: "236. 양자 컴퓨팅 (Quantum Computing) 보안 위협 방어용 PQC (양자 내성 암호) 로드맵 적용"
+title: "양자 컴퓨팅 (Quantum Computing) 보안 위협 방어용 PQC (양자 내성 암호) 로드맵 적용"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

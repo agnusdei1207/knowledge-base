@@ -1,5 +1,5 @@
 ---
-title: "174. Distributed Transaction 2Pc Limit"
+title: "Distributed Transaction 2Pc Limit"
 date: "2026-05-06"
 tags:
   - "studynote-enterprise-systems"

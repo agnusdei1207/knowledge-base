@@ -1,5 +1,5 @@
 ---
-title: "203. 4 Plus 1 View Model Architecture"
+title: "4 Plus 1 View Model Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

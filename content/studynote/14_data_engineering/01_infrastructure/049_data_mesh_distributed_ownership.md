@@ -1,5 +1,5 @@
 ---
-title: "049. Data Mesh Distributed Ownership"
+title: "Data Mesh Distributed Ownership"
 date: "2026-04-05"
 tags:
   - "studynote-data-engineering"

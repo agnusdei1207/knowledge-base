@@ -1,5 +1,5 @@
 ---
-title: "226. ETL (Extract, Transform, Load)"
+title: "ETL (Extract, Transform, Load)"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"

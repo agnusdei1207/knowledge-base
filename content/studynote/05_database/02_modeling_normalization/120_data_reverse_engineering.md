@@ -1,5 +1,5 @@
 ---
-title: "120. Data Reverse Engineering"
+title: "Data Reverse Engineering"
 date: "2026-04-19"
 tags:
   - "studynote-database"

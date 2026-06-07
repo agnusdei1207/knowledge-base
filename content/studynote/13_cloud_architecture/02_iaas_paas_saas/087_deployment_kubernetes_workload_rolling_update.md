@@ -1,5 +1,5 @@
 ---
-title: "087. Deployment Kubernetes Workload Rolling Update"
+title: "Deployment Kubernetes Workload Rolling Update"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"

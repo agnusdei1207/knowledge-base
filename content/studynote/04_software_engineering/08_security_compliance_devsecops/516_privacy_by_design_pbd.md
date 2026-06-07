@@ -1,5 +1,5 @@
 ---
-title: "516. Privacy By Design Pbd"
+title: "Privacy By Design Pbd"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

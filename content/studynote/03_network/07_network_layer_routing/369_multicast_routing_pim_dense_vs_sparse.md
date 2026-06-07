@@ -1,5 +1,5 @@
 ---
-title: "369. Multicast Routing Pim Dense Vs Sparse"
+title: "Multicast Routing Pim Dense Vs Sparse"
 date: "2026-05-08"
 tags:
   - "studynote-network"

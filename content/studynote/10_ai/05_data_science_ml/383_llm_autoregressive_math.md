@@ -1,5 +1,5 @@
 ---
-title: "383. Llm Autoregressive Math"
+title: "Llm Autoregressive Math"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

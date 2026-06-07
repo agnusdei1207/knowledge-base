@@ -1,5 +1,5 @@
 ---
-title: "195. Real Time Scheduling"
+title: "Real Time Scheduling"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"

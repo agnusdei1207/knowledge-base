@@ -1,5 +1,5 @@
 ---
-title: "093. Cell Breathing Phenomenon"
+title: "Cell Breathing Phenomenon"
 date: "2026-03-31"
 tags:
   - "network"

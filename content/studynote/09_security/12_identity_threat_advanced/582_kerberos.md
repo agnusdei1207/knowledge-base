@@ -1,5 +1,5 @@
 ---
-title: "582. Kerberos (Kerberos)"
+title: "Kerberos (Kerberos)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

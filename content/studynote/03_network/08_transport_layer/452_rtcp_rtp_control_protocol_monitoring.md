@@ -1,5 +1,5 @@
 ---
-title: "452. RTCP (RTP Control Protocol)"
+title: "RTCP (RTP Control Protocol)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

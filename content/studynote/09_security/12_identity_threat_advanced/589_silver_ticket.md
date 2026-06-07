@@ -1,5 +1,5 @@
 ---
-title: "589. Silver Ticket (Silver Ticket)"
+title: "Silver Ticket (Silver Ticket)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

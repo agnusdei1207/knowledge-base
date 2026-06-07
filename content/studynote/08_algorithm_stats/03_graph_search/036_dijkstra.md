@@ -1,5 +1,5 @@
 ---
-title: "036. Dijkstra"
+title: "Dijkstra"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

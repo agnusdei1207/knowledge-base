@@ -1,5 +1,5 @@
 ---
-title: "031. Sysgen"
+title: "Sysgen"
 date: "2026-04-29"
 tags:
   - "studynote-operating-system"

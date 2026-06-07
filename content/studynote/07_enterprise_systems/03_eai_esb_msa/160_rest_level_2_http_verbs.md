@@ -1,5 +1,5 @@
 ---
-title: "160. Rest Level 2 Http Verbs"
+title: "Rest Level 2 Http Verbs"
 date: "2026-05-05"
 tags:
   - "studynote-enterprise-systems"

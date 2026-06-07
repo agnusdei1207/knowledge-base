@@ -1,5 +1,5 @@
 ---
-title: "1067. Istio Envoy Sidecar Proxy Service Mesh"
+title: "Istio Envoy Sidecar Proxy Service Mesh"
 date: "2026-05-08"
 tags:
   - "studynote-network"

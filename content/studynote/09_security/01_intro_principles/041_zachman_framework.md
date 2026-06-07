@@ -1,5 +1,5 @@
 ---
-title: "041. Zachman Framework"
+title: "Zachman Framework"
 date: "2026-04-05"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "292. CMMI 성숙도 5단계 (초기, 관리, 정의, 정량, 최적화)"
+title: "CMMI 성숙도 5단계 (초기, 관리, 정의, 정량, 최적화)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

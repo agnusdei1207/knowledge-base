@@ -1,5 +1,5 @@
 ---
-title: "094. Data Availability Da Layer Celestia"
+title: "Data Availability Da Layer Celestia"
 date: "2024-05-15"
 tags:
   - "studynote-ict-convergence"

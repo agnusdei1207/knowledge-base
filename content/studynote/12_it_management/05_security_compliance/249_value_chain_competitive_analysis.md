@@ -1,5 +1,5 @@
 ---
-title: "249. 가치 사슬 (Value Chain) 경쟁력 분석"
+title: "가치 사슬 (Value Chain) 경쟁력 분석"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

@@ -1,5 +1,5 @@
 ---
-title: "066. Null Value Three Valued Logic"
+title: "Null Value Three Valued Logic"
 date: "2026-06-07"
 tags:
   - "database"

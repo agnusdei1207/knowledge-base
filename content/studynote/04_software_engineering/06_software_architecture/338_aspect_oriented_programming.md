@@ -1,5 +1,5 @@
 ---
-title: "338. Aspect Oriented Programming"
+title: "Aspect Oriented Programming"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

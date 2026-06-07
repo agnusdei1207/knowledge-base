@@ -1,5 +1,5 @@
 ---
-title: "077. Cross Entropy Error Log Loss"
+title: "Cross Entropy Error Log Loss"
 date: "2026-04-10"
 tags:
   - "studynote-ai"

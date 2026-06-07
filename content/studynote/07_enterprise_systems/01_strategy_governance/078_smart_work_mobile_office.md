@@ -1,5 +1,5 @@
 ---
-title: "078. Smart Work Mobile Office"
+title: "Smart Work Mobile Office"
 date: "2026-04-07"
 tags:
   - "studynote-enterprise-systems"

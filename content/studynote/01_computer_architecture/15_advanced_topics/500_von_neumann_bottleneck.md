@@ -1,5 +1,5 @@
 ---
-title: "500. Von Neumann Bottleneck"
+title: "Von Neumann Bottleneck"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "985. X509 Certificate"
+title: "X509 Certificate"
 date: "2026-05-08"
 tags:
   - "studynote-network"

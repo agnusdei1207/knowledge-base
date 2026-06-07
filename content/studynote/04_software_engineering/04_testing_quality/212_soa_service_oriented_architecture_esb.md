@@ -1,5 +1,5 @@
 ---
-title: "212. Soa Service Oriented Architecture Esb"
+title: "Soa Service Oriented Architecture Esb"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

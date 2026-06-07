@@ -1,5 +1,5 @@
 ---
-title: "472. C Scan Scheduling"
+title: "C Scan Scheduling"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

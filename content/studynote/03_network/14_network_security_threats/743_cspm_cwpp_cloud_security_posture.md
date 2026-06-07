@@ -1,5 +1,5 @@
 ---
-title: "743. Cspm Cwpp Cloud Security Posture"
+title: "Cspm Cwpp Cloud Security Posture"
 date: "2026-05-08"
 tags:
   - "studynote-network"

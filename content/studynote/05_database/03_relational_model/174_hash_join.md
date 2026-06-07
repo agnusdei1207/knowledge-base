@@ -1,5 +1,5 @@
 ---
-title: "174. Hash Join"
+title: "Hash Join"
 date: "2026-05-06"
 tags:
   - "studynote-database"

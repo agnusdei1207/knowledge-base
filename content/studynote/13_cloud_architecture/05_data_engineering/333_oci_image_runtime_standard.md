@@ -1,5 +1,5 @@
 ---
-title: "333. OCI 이미지 표준 런타임 (OCI)"
+title: "OCI 이미지 표준 런타임 (OCI)"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"

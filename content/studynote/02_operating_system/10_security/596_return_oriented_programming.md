@@ -1,5 +1,5 @@
 ---
-title: "596. Return Oriented Programming"
+title: "Return Oriented Programming"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

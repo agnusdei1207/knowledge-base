@@ -1,5 +1,5 @@
 ---
-title: "274. Memento Pattern"
+title: "Memento Pattern"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

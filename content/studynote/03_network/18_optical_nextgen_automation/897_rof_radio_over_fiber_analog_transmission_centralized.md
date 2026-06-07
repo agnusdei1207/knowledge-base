@@ -1,5 +1,5 @@
 ---
-title: "897. RoF (Radio over Fiber)"
+title: "RoF (Radio over Fiber)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

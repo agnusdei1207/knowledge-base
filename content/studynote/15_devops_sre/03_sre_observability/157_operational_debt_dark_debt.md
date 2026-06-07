@@ -1,5 +1,5 @@
 ---
-title: "157. Operational Debt Dark Debt"
+title: "Operational Debt Dark Debt"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"

@@ -1,5 +1,5 @@
 ---
-title: "103. Snop Sales And Operations Planning"
+title: "Snop Sales And Operations Planning"
 date: "2026-06-07"
 tags:
   - "enterprise_systems"

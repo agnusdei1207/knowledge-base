@@ -1,5 +1,5 @@
 ---
-title: "044. Zk Rollup Validity Proof"
+title: "Zk Rollup Validity Proof"
 date: "2026-04-05"
 tags:
   - "studynote-ict-convergence"

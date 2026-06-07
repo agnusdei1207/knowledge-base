@@ -1,5 +1,5 @@
 ---
-title: "102. Configmap Secret Kubernetes 12 Factor App"
+title: "Configmap Secret Kubernetes 12 Factor App"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"

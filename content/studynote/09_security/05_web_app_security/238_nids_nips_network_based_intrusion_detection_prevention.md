@@ -1,5 +1,5 @@
 ---
-title: "238. Nids Nips Network Based Intrusion Detection Prevention"
+title: "Nids Nips Network Based Intrusion Detection Prevention"
 date: "2026-05-08"
 tags:
   - "studynote-security"

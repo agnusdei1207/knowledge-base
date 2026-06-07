@@ -1,5 +1,5 @@
 ---
-title: "031. Universal Gate"
+title: "Universal Gate"
 date: "2026-04-29"
 tags:
   - "studynote-computer-architecture"

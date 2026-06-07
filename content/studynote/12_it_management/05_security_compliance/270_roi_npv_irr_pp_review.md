@@ -1,5 +1,5 @@
 ---
-title: "270. ROI, NPV, IRR, PP 타당성 분석 지표"
+title: "ROI, NPV, IRR, PP 타당성 분석 지표"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

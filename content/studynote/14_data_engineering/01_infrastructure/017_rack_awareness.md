@@ -1,5 +1,5 @@
 ---
-title: "017. Rack Awareness"
+title: "Rack Awareness"
 date: "2025-01-01"
 tags:
   - "data_engineering"

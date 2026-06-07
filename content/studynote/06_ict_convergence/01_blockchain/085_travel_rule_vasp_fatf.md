@@ -1,5 +1,5 @@
 ---
-title: "085. Travel Rule Vasp Fatf"
+title: "Travel Rule Vasp Fatf"
 date: "2026-06-07"
 tags:
   - "ict_convergence"

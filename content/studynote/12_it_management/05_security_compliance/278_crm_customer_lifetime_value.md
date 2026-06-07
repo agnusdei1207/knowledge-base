@@ -1,5 +1,5 @@
 ---
-title: "278. CRM 고객 관계 관리 LTV"
+title: "CRM 고객 관계 관리 LTV"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

@@ -1,5 +1,5 @@
 ---
-title: "073. Central Limit Theorem Clt Sample Mean Normal Distribution"
+title: "Central Limit Theorem Clt Sample Mean Normal Distribution"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "225. Delta Lake Apache Iceberg Hudi"
+title: "Delta Lake Apache Iceberg Hudi"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"

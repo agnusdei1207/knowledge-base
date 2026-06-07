@@ -1,5 +1,5 @@
 ---
-title: "967. Tcp Sliding Window Flow Control Buffer Management"
+title: "Tcp Sliding Window Flow Control Buffer Management"
 date: "2026-05-08"
 tags:
   - "studynote-network"

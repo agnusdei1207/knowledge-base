@@ -1,5 +1,5 @@
 ---
-title: "206. Chase Combining / IR (Incremental Redundancy)"
+title: "Chase Combining / IR (Incremental Redundancy)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

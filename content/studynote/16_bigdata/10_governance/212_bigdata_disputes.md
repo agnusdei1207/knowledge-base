@@ -1,5 +1,5 @@
 ---
-title: "212. Bigdata Disputes"
+title: "Bigdata Disputes"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

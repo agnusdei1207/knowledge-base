@@ -1,5 +1,5 @@
 ---
-title: "062. Bitcoin Halving Supply Shock"
+title: "Bitcoin Halving Supply Shock"
 date: "2026-06-07"
 tags:
   - "ict_convergence"

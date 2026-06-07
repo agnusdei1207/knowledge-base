@@ -1,5 +1,5 @@
 ---
-title: "394. 상태 상태별 행동 위임"
+title: "상태 상태별 행동 위임"
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

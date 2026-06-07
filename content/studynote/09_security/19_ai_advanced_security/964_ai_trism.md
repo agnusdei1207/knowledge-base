@@ -1,5 +1,5 @@
 ---
-title: "964. AI TRiSM (AI TRiSM)"
+title: "AI TRiSM (AI TRiSM)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

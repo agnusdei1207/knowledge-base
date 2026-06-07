@@ -1,5 +1,5 @@
 ---
-title: "047. Prescriptive Analytics"
+title: "Prescriptive Analytics"
 date: "2026-04-29"
 tags:
   - "studynote-bigdata"

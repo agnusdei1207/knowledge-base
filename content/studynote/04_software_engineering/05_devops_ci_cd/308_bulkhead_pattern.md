@@ -1,5 +1,5 @@
 ---
-title: "308. Bulkhead Pattern"
+title: "Bulkhead Pattern"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

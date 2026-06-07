@@ -1,5 +1,5 @@
 ---
-title: "553. Homomorphic Encryption Db Query"
+title: "Homomorphic Encryption Db Query"
 date: "2026-05-09"
 tags:
   - "studynote-database"

@@ -1,5 +1,5 @@
 ---
-title: "196. CRC-16, CRC-32 (Ethernet FCS), CRC-CCITT"
+title: "CRC-16, CRC-32 (Ethernet FCS), CRC-CCITT"
 date: "2026-05-08"
 tags:
   - "studynote-network"

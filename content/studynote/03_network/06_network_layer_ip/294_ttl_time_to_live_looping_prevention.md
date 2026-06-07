@@ -1,5 +1,5 @@
 ---
-title: "294. TTL (Time to Live)"
+title: "TTL (Time to Live)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

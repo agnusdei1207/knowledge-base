@@ -1,5 +1,5 @@
 ---
-title: "587. Nic Offloading"
+title: "Nic Offloading"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

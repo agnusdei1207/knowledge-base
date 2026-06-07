@@ -1,5 +1,5 @@
 ---
-title: "096. Monolithic Blockchain Solana"
+title: "Monolithic Blockchain Solana"
 date: "2026-06-07"
 tags:
   - "ict_convergence"

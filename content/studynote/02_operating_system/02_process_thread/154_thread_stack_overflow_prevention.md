@@ -1,5 +1,5 @@
 ---
-title: "154. Thread Stack Overflow Prevention"
+title: "Thread Stack Overflow Prevention"
 date: "2026-05-03"
 tags:
   - "studynote-operating-system"

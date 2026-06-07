@@ -1,5 +1,5 @@
 ---
-title: "007. Knowledge Representation"
+title: "Knowledge Representation"
 date: "2024-05-20"
 tags:
   - "ai"

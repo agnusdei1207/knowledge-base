@@ -1,5 +1,5 @@
 ---
-title: "889. Kisa Software Development Security Guide"
+title: "Kisa Software Development Security Guide"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

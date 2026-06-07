@@ -1,5 +1,5 @@
 ---
-title: "238. Switch Operation Principles"
+title: "Switch Operation Principles"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "044. Software Cost Estimation Overview"
+title: "Software Cost Estimation Overview"
 date: "2026-04-05"
 tags:
   - "studynote-software-engineering"

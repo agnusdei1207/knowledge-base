@@ -1,5 +1,5 @@
 ---
-title: "312. 데이터 마트 Kimball 다차원 스타 스키마"
+title: "데이터 마트 Kimball 다차원 스타 스키마"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

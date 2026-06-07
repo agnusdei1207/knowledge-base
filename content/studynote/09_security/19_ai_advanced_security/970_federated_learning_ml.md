@@ -1,5 +1,5 @@
 ---
-title: "970. Federated Learning in ML (Federated Learning in ML)"
+title: "Federated Learning in ML (Federated Learning in ML)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

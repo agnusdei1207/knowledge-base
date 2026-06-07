@@ -1,5 +1,5 @@
 ---
-title: "166. Model Registry Versioning Mlflow"
+title: "Model Registry Versioning Mlflow"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

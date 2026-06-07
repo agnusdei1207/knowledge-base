@@ -1,5 +1,5 @@
 ---
-title: "895. Sdh Synchronous Digital Hierarchy Stm1"
+title: "Sdh Synchronous Digital Hierarchy Stm1"
 date: "2026-05-08"
 tags:
   - "studynote-network"

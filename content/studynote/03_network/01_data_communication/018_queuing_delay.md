@@ -1,5 +1,5 @@
 ---
-title: "018. Queuing Delay"
+title: "Queuing Delay"
 date: "2026-03-30"
 tags:
   - "Network"

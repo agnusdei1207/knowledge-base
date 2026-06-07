@@ -1,5 +1,5 @@
 ---
-title: "176. Automl Hyperparameter Optimization Bayesian"
+title: "Automl Hyperparameter Optimization Bayesian"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

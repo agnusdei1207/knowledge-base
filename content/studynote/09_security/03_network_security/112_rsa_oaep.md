@@ -1,5 +1,5 @@
 ---
-title: "112. RSA-OAEP (RSA-OAEP)"
+title: "RSA-OAEP (RSA-OAEP)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

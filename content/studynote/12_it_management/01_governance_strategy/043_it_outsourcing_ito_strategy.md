@@ -1,5 +1,5 @@
 ---
-title: "043. It Outsourcing Ito Strategy"
+title: "It Outsourcing Ito Strategy"
 date: "2026-04-05"
 tags:
   - "studynote-it-management"

@@ -1,5 +1,5 @@
 ---
-title: "225. Cqrs Command Query Responsibility Segregation"
+title: "Cqrs Command Query Responsibility Segregation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

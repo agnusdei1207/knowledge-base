@@ -1,5 +1,5 @@
 ---
-title: "651. Power Aware Scheduler Dvfs"
+title: "Power Aware Scheduler Dvfs"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

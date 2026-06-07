@@ -1,5 +1,5 @@
 ---
-title: "490. IMAP4 (Internet Message Access Protocol v4)"
+title: "IMAP4 (Internet Message Access Protocol v4)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

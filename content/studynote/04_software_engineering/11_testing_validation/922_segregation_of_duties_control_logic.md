@@ -1,5 +1,5 @@
 ---
-title: "922. Segregation Of Duties Control Logic"
+title: "Segregation Of Duties Control Logic"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

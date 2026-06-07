@@ -1,5 +1,5 @@
 ---
-title: "064. Scrum Master Sm"
+title: "Scrum Master Sm"
 date: "2026-06-07"
 tags:
   - "software_engineering"

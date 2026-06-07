@@ -1,5 +1,5 @@
 ---
-title: "188. Feature Model Variability Tree"
+title: "Feature Model Variability Tree"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

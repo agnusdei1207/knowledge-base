@@ -1,5 +1,5 @@
 ---
-title: "119. Mes Manufacturing Execution System"
+title: "Mes Manufacturing Execution System"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"

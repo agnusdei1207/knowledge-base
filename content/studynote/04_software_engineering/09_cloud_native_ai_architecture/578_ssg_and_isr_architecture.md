@@ -1,5 +1,5 @@
 ---
-title: "578. Ssg And Isr Architecture"
+title: "Ssg And Isr Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

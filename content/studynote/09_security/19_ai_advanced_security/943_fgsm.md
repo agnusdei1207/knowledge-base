@@ -1,5 +1,5 @@
 ---
-title: "943. FGSM (Fast Gradient Sign Method)"
+title: "FGSM (Fast Gradient Sign Method)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

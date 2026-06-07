@@ -1,5 +1,5 @@
 ---
-title: "295. Olap Operations"
+title: "Olap Operations"
 date: "2026-05-09"
 tags:
   - "studynote-database"

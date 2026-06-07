@@ -1,5 +1,5 @@
 ---
-title: "017. Audit Execution"
+title: "Audit Execution"
 date: "2026-03-04"
 tags:
   - "design_supervision"

@@ -1,5 +1,5 @@
 ---
-title: "406. Acceptance Test Uat"
+title: "Acceptance Test Uat"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "635. Ietf Core Working Group Coap"
+title: "Ietf Core Working Group Coap"
 date: "2026-05-08"
 tags:
   - "studynote-network"

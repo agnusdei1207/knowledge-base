@@ -1,5 +1,5 @@
 ---
-title: "613. Graph Bfs Memory"
+title: "Graph Bfs Memory"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

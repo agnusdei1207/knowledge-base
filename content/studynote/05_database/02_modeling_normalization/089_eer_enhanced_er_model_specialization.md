@@ -1,5 +1,5 @@
 ---
-title: "089. Eer Enhanced Er Model Specialization"
+title: "Eer Enhanced Er Model Specialization"
 date: "2026-06-07"
 tags:
   - "database"

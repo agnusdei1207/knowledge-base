@@ -1,5 +1,5 @@
 ---
-title: "086. Gitops Declarative Infrastructure Continuous Synchronization Argocd"
+title: "Gitops Declarative Infrastructure Continuous Synchronization Argocd"
 date: "2026-04-10"
 tags:
   - "studynote-devops-sre"

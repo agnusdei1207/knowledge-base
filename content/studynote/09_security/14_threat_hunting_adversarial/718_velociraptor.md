@@ -1,5 +1,5 @@
 ---
-title: "718. Velociraptor (Endpoint Monitoring & Forensics)"
+title: "Velociraptor (Endpoint Monitoring & Forensics)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

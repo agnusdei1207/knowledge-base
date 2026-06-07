@@ -1,5 +1,5 @@
 ---
-title: "101. 3Pl Third Party Logistics 4Pl"
+title: "3Pl Third Party Logistics 4Pl"
 date: "2026-06-07"
 tags:
   - "enterprise_systems"

@@ -1,5 +1,5 @@
 ---
-title: "385. Third Party Cookie Deprecation Cdw"
+title: "Third Party Cookie Deprecation Cdw"
 date: "2026-05-09"
 tags:
   - "studynote-database"

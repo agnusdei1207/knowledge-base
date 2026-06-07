@@ -1,5 +1,5 @@
 ---
-title: "152. Simple View Vs Complex View"
+title: "Simple View Vs Complex View"
 date: "2026-05-03"
 tags:
   - "studynote-database"

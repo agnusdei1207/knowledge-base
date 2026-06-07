@@ -1,5 +1,5 @@
 ---
-title: "500. XMPP (Extensible Messaging and Presence Protocol)"
+title: "XMPP (Extensible Messaging and Presence Protocol)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

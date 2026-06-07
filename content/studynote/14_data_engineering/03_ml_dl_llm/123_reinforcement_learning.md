@@ -1,5 +1,5 @@
 ---
-title: "123. Reinforcement Learning"
+title: "Reinforcement Learning"
 date: "2026-04-19"
 tags:
   - "studynote-data-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "015. Open Design"
+title: "Open Design"
 date: "2026-03-25"
 tags:
   - "security"

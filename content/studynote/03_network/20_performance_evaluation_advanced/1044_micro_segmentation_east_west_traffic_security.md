@@ -1,5 +1,5 @@
 ---
-title: "1044. Micro Segmentation East West Traffic Security"
+title: "Micro Segmentation East West Traffic Security"
 date: "2026-05-08"
 tags:
   - "studynote-network"

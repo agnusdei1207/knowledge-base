@@ -1,5 +1,5 @@
 ---
-title: "199. 사이버 킬체인 (Cyber Kill Chain) 방어 및 마이터 어택 (MITRE ATT&CK) 프레임워크 기반 관제"
+title: "사이버 킬체인 (Cyber Kill Chain) 방어 및 마이터 어택 (MITRE ATT&CK) 프레임워크 기반 관제"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

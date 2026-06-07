@@ -1,5 +1,5 @@
 ---
-title: "020. Alpha Beta Pruning"
+title: "Alpha Beta Pruning"
 date: "2024-05-24"
 tags:
   - "ai"

@@ -1,5 +1,5 @@
 ---
-title: "220. It Audit Overview"
+title: "It Audit Overview"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise-systems"

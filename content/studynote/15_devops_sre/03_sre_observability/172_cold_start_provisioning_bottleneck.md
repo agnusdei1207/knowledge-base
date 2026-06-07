@@ -1,5 +1,5 @@
 ---
-title: "172. Cold Start Provisioning Bottleneck"
+title: "Cold Start Provisioning Bottleneck"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"

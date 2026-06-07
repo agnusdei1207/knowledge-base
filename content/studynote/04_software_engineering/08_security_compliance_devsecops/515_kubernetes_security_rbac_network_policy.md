@@ -1,5 +1,5 @@
 ---
-title: "515. Kubernetes Security Rbac Network Policy"
+title: "Kubernetes Security Rbac Network Policy"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

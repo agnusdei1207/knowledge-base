@@ -1,5 +1,5 @@
 ---
-title: "287. Schema On Write Rdb Dw Approach"
+title: "Schema On Write Rdb Dw Approach"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"

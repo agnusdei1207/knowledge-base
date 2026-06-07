@@ -1,5 +1,5 @@
 ---
-title: "1052. SOC 2 Type I/II (Security Operations Center)"
+title: "SOC 2 Type I/II (Security Operations Center)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "971. Lean Startup Mvp Pivot"
+title: "Lean Startup Mvp Pivot"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

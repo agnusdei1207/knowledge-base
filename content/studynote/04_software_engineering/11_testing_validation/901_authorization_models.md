@@ -1,5 +1,5 @@
 ---
-title: "901. Authorization Models"
+title: "Authorization Models"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

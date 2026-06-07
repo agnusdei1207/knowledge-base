@@ -1,5 +1,5 @@
 ---
-title: "083. Association Rule Apriori Market Basket"
+title: "Association Rule Apriori Market Basket"
 date: "2026-03-04"
 tags:
   - "math-mining"

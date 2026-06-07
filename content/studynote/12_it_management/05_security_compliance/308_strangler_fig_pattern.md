@@ -1,5 +1,5 @@
 ---
-title: "308. 스트랭글러 피그 패턴 레거시 분할"
+title: "스트랭글러 피그 패턴 레거시 분할"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

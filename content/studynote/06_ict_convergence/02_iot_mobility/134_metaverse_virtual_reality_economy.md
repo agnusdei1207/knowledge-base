@@ -1,5 +1,5 @@
 ---
-title: "134. Metaverse Virtual Reality Economy"
+title: "Metaverse Virtual Reality Economy"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"

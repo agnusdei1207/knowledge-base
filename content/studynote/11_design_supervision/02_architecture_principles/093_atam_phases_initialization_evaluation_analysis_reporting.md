@@ -1,5 +1,5 @@
 ---
-title: "093. Atam Phases Initialization Evaluation Analysis Reporting"
+title: "Atam Phases Initialization Evaluation Analysis Reporting"
 date: "2026-04-10"
 tags:
   - "studynote-design-supervision"

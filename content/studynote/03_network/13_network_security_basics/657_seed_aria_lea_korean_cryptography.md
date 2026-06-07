@@ -1,5 +1,5 @@
 ---
-title: "657. SEED, ARIA, LEA"
+title: "SEED, ARIA, LEA"
 date: "2026-05-08"
 tags:
   - "studynote-network"

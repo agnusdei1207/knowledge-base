@@ -1,5 +1,5 @@
 ---
-title: "188. PL/SQL , T-SQL (Oracle)"
+title: "PL/SQL , T-SQL (Oracle)"
 date: "2026-05-08"
 tags:
   - "studynote-database"

@@ -1,5 +1,5 @@
 ---
-title: "890. Input Validation Principles"
+title: "Input Validation Principles"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "137. BERT (Bidirectional Encoder Representations from Transformers)"
+title: "BERT (Bidirectional Encoder Representations from Transformers)"
 date: "2026-04-19"
 tags:
   - "studynote-ai"

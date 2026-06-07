@@ -1,5 +1,5 @@
 ---
-title: "200. Low Code No Code Enterprise Workflow Automation"
+title: "Low Code No Code Enterprise Workflow Automation"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise-systems"

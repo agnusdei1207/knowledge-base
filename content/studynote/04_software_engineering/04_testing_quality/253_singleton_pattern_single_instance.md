@@ -1,5 +1,5 @@
 ---
-title: "253. Singleton Pattern Single Instance"
+title: "Singleton Pattern Single Instance"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

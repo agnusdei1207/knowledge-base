@@ -1,5 +1,5 @@
 ---
-title: "970. Xp Tdd Refactoring"
+title: "Xp Tdd Refactoring"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

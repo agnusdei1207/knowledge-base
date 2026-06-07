@@ -1,5 +1,5 @@
 ---
-title: "230. EAP-TLS (EAP-TLS)"
+title: "EAP-TLS (EAP-TLS)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

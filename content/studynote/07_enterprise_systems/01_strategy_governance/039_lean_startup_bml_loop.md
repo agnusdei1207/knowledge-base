@@ -1,5 +1,5 @@
 ---
-title: "039. Lean Startup Bml Loop"
+title: "Lean Startup Bml Loop"
 date: "2026-03-04"
 tags:
   - "studynote-enterprise-systems"

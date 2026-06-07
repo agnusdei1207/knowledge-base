@@ -1,5 +1,5 @@
 ---
-title: "629. Microgrid Ami Smart Meter Plc Rf"
+title: "Microgrid Ami Smart Meter Plc Rf"
 date: "2026-05-08"
 tags:
   - "studynote-network"

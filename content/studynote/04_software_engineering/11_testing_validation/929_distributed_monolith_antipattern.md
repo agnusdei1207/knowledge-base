@@ -1,5 +1,5 @@
 ---
-title: "929. Distributed Monolith Antipattern"
+title: "Distributed Monolith Antipattern"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "975. OWASP LLM Top 10 (OWASP LLM Top 10)"
+title: "OWASP LLM Top 10 (OWASP LLM Top 10)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

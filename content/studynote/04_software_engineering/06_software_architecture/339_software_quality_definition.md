@@ -1,5 +1,5 @@
 ---
-title: "339. Software Quality Definition"
+title: "Software Quality Definition"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

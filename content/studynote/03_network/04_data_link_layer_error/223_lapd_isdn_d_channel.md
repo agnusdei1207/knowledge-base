@@ -1,5 +1,5 @@
 ---
-title: "223. LAPD (Link Access Procedure on the D channel)"
+title: "LAPD (Link Access Procedure on the D channel)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

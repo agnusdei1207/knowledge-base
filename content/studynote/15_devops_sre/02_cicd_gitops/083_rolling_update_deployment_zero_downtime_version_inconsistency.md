@@ -1,5 +1,5 @@
 ---
-title: "083. Rolling Update Deployment Zero Downtime Version Inconsistency"
+title: "Rolling Update Deployment Zero Downtime Version Inconsistency"
 date: "2026-04-10"
 tags:
   - "studynote-devops-sre"

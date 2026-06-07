@@ -1,5 +1,5 @@
 ---
-title: "368. FPE (Format Preserving Encryption)"
+title: "FPE (Format Preserving Encryption)"
 date: "2026-05-09"
 tags:
   - "studynote-database"

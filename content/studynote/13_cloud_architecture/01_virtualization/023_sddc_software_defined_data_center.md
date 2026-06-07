@@ -1,5 +1,5 @@
 ---
-title: "023. Sddc Software Defined Data Center"
+title: "Sddc Software Defined Data Center"
 date: "2026-04-29"
 tags:
   - "studynote-cloud-architecture"

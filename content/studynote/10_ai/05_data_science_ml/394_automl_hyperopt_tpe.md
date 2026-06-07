@@ -1,5 +1,5 @@
 ---
-title: "394. AutoML / Hyperopt (Automl Hyperopt TPE)"
+title: "AutoML / Hyperopt (Automl Hyperopt TPE)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

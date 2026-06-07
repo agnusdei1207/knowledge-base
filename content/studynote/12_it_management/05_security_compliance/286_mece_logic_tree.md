@@ -1,5 +1,5 @@
 ---
-title: "286. MECE 논리 트리 중복 누락 배제"
+title: "MECE 논리 트리 중복 누락 배제"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

@@ -1,5 +1,5 @@
 ---
-title: "012. Stateless Processes"
+title: "Stateless Processes"
 date: "2026-04-05"
 tags:
   - "devops_sre"

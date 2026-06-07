@@ -1,5 +1,5 @@
 ---
-title: "216. RDD (Resilient Distributed Dataset)"
+title: "RDD (Resilient Distributed Dataset)"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"

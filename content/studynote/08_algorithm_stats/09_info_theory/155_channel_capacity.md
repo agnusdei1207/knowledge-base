@@ -1,5 +1,5 @@
 ---
-title: "155. Channel Capacity"
+title: "Channel Capacity"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

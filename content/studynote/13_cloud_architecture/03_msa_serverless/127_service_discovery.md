@@ -1,5 +1,5 @@
 ---
-title: "127. Service Discovery"
+title: "Service Discovery"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "598. NTLMv2 (NTLMv2)"
+title: "NTLMv2 (NTLMv2)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

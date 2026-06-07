@@ -1,5 +1,5 @@
 ---
-title: "202. 멀티 클라우드 (Multi-Cloud) 및 하이브리드 클라우드 (Hybrid Cloud) 데이터 거버넌스"
+title: "멀티 클라우드 (Multi-Cloud) 및 하이브리드 클라우드 (Hybrid Cloud) 데이터 거버넌스"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

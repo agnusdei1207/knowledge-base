@@ -1,5 +1,5 @@
 ---
-title: "728. Csrf Cross Site Request Forgery Concept"
+title: "Csrf Cross Site Request Forgery Concept"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "259. IP Spoofing (IP Spoofing)"
+title: "IP Spoofing (IP Spoofing)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

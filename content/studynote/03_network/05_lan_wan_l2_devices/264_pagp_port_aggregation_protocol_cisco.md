@@ -1,5 +1,5 @@
 ---
-title: "264. PAgP (Port Aggregation Protocol)"
+title: "PAgP (Port Aggregation Protocol)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

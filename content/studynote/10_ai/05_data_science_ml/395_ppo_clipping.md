@@ -1,5 +1,5 @@
 ---
-title: "395. PPO (Proximal Policy Optimization)"
+title: "PPO (Proximal Policy Optimization)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

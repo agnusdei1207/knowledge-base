@@ -1,5 +1,5 @@
 ---
-title: "725. ACPI S-States (S0 ~ S5)"
+title: "ACPI S-States (S0 ~ S5)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

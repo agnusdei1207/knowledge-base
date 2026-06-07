@@ -1,5 +1,5 @@
 ---
-title: "056. Deterrent Controls"
+title: "Deterrent Controls"
 date: "2026-04-05"
 tags:
   - "studynote-security"

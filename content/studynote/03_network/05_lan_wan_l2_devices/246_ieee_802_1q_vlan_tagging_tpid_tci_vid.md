@@ -1,5 +1,5 @@
 ---
-title: "246. IEEE 802.1Q"
+title: "IEEE 802.1Q"
 date: "2026-05-08"
 tags:
   - "studynote-network"

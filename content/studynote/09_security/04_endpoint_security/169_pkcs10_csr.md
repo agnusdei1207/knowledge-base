@@ -1,5 +1,5 @@
 ---
-title: "169. Pkcs10 Csr"
+title: "Pkcs10 Csr"
 date: "2026-04-05"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "074. Forward Propagation Neural Network"
+title: "Forward Propagation Neural Network"
 date: "2026-06-07"
 tags:
   - "ai"

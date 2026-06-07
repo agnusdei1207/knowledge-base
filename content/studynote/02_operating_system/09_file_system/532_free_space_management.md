@@ -1,5 +1,5 @@
 ---
-title: "532. Free Space Management"
+title: "Free Space Management"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

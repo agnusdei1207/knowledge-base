@@ -1,5 +1,5 @@
 ---
-title: "197. Burst Error Detection Crc"
+title: "Burst Error Detection Crc"
 date: "2026-05-08"
 tags:
   - "studynote-network"

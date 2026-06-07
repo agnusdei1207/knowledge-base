@@ -1,5 +1,5 @@
 ---
-title: "154. Key Management Lifecycle"
+title: "Key Management Lifecycle"
 date: "2026-05-03"
 tags:
   - "studynote-security"

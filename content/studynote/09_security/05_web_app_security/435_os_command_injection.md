@@ -1,5 +1,5 @@
 ---
-title: "435. OS Command Injection (OS Command Injection)"
+title: "OS Command Injection (OS Command Injection)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

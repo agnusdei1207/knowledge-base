@@ -1,5 +1,5 @@
 ---
-title: "331. Dynamic Loading"
+title: "Dynamic Loading"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

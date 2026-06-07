@@ -1,5 +1,5 @@
 ---
-title: "254. Factory Method Pattern Subclass Creation"
+title: "Factory Method Pattern Subclass Creation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

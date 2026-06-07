@@ -1,5 +1,5 @@
 ---
-title: "143. C V2X Cellular Based Communication"
+title: "C V2X Cellular Based Communication"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"

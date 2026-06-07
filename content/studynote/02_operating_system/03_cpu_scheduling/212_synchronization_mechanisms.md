@@ -1,5 +1,5 @@
 ---
-title: "212. Synchronization Mechanisms"
+title: "Synchronization Mechanisms"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

@@ -1,5 +1,5 @@
 ---
-title: "079. Kube Scheduler Pod Placement"
+title: "Kube Scheduler Pod Placement"
 date: "2026-04-07"
 tags:
   - "studynote-cloud-architecture"

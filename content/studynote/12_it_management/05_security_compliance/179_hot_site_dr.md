@@ -1,5 +1,5 @@
 ---
-title: "179. 핫 사이트 (Hot Site)"
+title: "핫 사이트 (Hot Site)"
 date: "2026-05-06"
 tags:
   - "studynote-it-management"

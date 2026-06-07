@@ -1,5 +1,5 @@
 ---
-title: "666. Diffie Hellman Key Exchange Mitm"
+title: "Diffie Hellman Key Exchange Mitm"
 date: "2026-05-08"
 tags:
   - "studynote-network"

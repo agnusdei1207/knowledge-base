@@ -1,5 +1,5 @@
 ---
-title: "122. Causal Inference"
+title: "Causal Inference"
 date: "2026-04-29"
 tags:
   - "studynote-bigdata"

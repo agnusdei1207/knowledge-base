@@ -1,5 +1,5 @@
 ---
-title: "036. Network Effect Metcalfes Law"
+title: "Network Effect Metcalfes Law"
 date: "2026-03-03"
 tags:
   - "studynote-enterprise-systems"

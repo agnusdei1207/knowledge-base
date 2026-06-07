@@ -1,5 +1,5 @@
 ---
-title: "223. 벡터 데이터베이스 (Vector Database)"
+title: "벡터 데이터베이스 (Vector Database)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

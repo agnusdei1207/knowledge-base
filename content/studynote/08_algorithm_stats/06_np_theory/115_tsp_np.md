@@ -1,5 +1,5 @@
 ---
-title: "115. Tsp Np"
+title: "Tsp Np"
 date: "2026-04-05"
 tags:
   - "studynote-algorithm-stats"

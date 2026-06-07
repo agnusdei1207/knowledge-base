@@ -1,5 +1,5 @@
 ---
-title: "997. Sdn Data Control Plane"
+title: "Sdn Data Control Plane"
 date: "2026-05-08"
 tags:
   - "studynote-network"

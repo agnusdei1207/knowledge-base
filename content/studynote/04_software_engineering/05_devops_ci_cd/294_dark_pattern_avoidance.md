@@ -1,5 +1,5 @@
 ---
-title: "294. Dark Pattern Avoidance"
+title: "Dark Pattern Avoidance"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

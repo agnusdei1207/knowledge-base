@@ -1,5 +1,5 @@
 ---
-title: "128. Circuit Breaker"
+title: "Circuit Breaker"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"

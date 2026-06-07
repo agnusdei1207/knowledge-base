@@ -1,5 +1,5 @@
 ---
-title: "643. Mutual Authentication P2P Certificate Distribution"
+title: "Mutual Authentication P2P Certificate Distribution"
 date: "2026-05-08"
 tags:
   - "studynote-network"

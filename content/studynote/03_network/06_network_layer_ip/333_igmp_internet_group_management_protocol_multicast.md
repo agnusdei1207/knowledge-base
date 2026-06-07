@@ -1,5 +1,5 @@
 ---
-title: "333. IGMP (Internet Group Management Protocol)"
+title: "IGMP (Internet Group Management Protocol)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

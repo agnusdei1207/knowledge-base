@@ -1,5 +1,5 @@
 ---
-title: "161. Visualization Principles"
+title: "Visualization Principles"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

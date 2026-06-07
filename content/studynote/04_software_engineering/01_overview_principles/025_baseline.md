@@ -1,5 +1,5 @@
 ---
-title: "025. Baseline"
+title: "Baseline"
 date: "2026-04-29"
 tags:
   - "studynote-software-engineering"

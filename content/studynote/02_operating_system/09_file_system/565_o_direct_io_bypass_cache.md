@@ -1,5 +1,5 @@
 ---
-title: "565. O Direct Io Bypass Cache"
+title: "O Direct Io Bypass Cache"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

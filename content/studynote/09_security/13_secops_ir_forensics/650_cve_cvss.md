@@ -1,5 +1,5 @@
 ---
-title: "650. CVE/CVSS (CVE/CVSS)"
+title: "CVE/CVSS (CVE/CVSS)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

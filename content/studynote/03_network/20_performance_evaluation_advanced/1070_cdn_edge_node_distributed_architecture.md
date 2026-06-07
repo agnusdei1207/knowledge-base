@@ -1,5 +1,5 @@
 ---
-title: "1070. Cdn Edge Node Distributed Architecture"
+title: "Cdn Edge Node Distributed Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-network"

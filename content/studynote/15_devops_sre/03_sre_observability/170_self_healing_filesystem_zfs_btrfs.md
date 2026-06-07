@@ -1,5 +1,5 @@
 ---
-title: "170. Self Healing Filesystem Zfs Btrfs"
+title: "Self Healing Filesystem Zfs Btrfs"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"

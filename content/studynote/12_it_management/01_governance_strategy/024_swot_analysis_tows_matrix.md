@@ -1,5 +1,5 @@
 ---
-title: "024. Swot Analysis Tows Matrix"
+title: "Swot Analysis Tows Matrix"
 date: "2026-04-29"
 tags:
   - "studynote-it-management"

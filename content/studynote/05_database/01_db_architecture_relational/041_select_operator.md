@@ -1,5 +1,5 @@
 ---
-title: "041. Select Operator"
+title: "Select Operator"
 date: "2026-03-19"
 tags:
   - "studynote-database"

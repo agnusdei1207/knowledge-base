@@ -1,5 +1,5 @@
 ---
-title: "763. 5G Nr New Radio Scalable Numerology"
+title: "5G Nr New Radio Scalable Numerology"
 date: "2026-05-08"
 tags:
   - "studynote-network"

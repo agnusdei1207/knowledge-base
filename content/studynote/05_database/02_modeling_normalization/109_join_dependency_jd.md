@@ -1,5 +1,5 @@
 ---
-title: "109. Join Dependency Jd"
+title: "Join Dependency Jd"
 date: "2026-04-19"
 tags:
   - "studynote-database"

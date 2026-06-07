@@ -1,5 +1,5 @@
 ---
-title: "327. OLTP (On-Line Transaction Processing)"
+title: "OLTP (On-Line Transaction Processing)"
 date: "2026-05-09"
 tags:
   - "studynote-database"

@@ -1,5 +1,5 @@
 ---
-title: "951. Model Inversion"
+title: "Model Inversion"
 date: "2026-05-08"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "017. Process Assets Osp"
+title: "Process Assets Osp"
 date: "2026-03-04"
 tags:
   - "software_engineering"

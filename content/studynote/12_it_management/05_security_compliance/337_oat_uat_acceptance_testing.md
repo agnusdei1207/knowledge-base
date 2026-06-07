@@ -1,5 +1,5 @@
 ---
-title: "337. OAT / UAT 인수 테스트 승인 확인"
+title: "OAT / UAT 인수 테스트 승인 확인"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

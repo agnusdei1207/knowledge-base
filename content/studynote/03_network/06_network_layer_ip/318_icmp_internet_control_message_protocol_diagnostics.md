@@ -1,5 +1,5 @@
 ---
-title: "318. Icmp Internet Control Message Protocol Diagnostics"
+title: "Icmp Internet Control Message Protocol Diagnostics"
 date: "2026-05-08"
 tags:
   - "studynote-network"

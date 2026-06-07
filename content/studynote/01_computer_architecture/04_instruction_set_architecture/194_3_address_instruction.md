@@ -1,5 +1,5 @@
 ---
-title: "194. 3 Address Instruction"
+title: "3 Address Instruction"
 date: "2026-03-19"
 tags:
   - "studynote-computer-architecture"

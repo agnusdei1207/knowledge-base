@@ -1,5 +1,5 @@
 ---
-title: "129. DHE (Ephemeral DH)"
+title: "DHE (Ephemeral DH)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

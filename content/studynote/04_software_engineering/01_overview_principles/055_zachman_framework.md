@@ -1,5 +1,5 @@
 ---
-title: "55. Zachman Framework"
+title: "Zachman Framework"
 date: "2026-05-01"
 tags:
   - "studynote-software-engineering"

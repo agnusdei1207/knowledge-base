@@ -1,5 +1,5 @@
 ---
-title: "008. Big Data Vs Traditional Data"
+title: "Big Data Vs Traditional Data"
 date: "2024-05-20"
 tags:
   - "bigdata"

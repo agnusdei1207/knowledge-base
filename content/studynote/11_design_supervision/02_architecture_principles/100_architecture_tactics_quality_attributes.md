@@ -1,5 +1,5 @@
 ---
-title: "100. Architecture Tactics Quality Attributes"
+title: "Architecture Tactics Quality Attributes"
 date: "2026-03-04"
 tags:
   - "studynote-design-supervision"

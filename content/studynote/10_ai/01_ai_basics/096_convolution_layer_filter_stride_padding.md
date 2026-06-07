@@ -1,5 +1,5 @@
 ---
-title: "096. Convolution Layer Filter Stride Padding"
+title: "Convolution Layer Filter Stride Padding"
 date: "2026-04-10"
 tags:
   - "studynote-ai"

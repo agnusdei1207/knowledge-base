@@ -1,5 +1,5 @@
 ---
-title: "420. Whitebox Testing"
+title: "Whitebox Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

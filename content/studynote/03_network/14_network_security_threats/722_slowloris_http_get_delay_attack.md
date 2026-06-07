@@ -1,5 +1,5 @@
 ---
-title: "722. Slowloris Http Get Delay Attack"
+title: "Slowloris Http Get Delay Attack"
 date: "2026-05-08"
 tags:
   - "studynote-network"

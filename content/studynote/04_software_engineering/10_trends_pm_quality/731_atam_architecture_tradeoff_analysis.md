@@ -1,5 +1,5 @@
 ---
-title: "731. Atam Architecture Tradeoff Analysis"
+title: "Atam Architecture Tradeoff Analysis"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

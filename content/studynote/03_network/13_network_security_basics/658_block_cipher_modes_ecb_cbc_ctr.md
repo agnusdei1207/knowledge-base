@@ -1,5 +1,5 @@
 ---
-title: "658. Block Cipher Modes Ecb Cbc Ctr"
+title: "Block Cipher Modes Ecb Cbc Ctr"
 date: "2026-05-08"
 tags:
   - "studynote-network"

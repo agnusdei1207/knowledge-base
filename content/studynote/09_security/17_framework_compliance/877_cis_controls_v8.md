@@ -1,5 +1,5 @@
 ---
-title: "877. CIS Controls v8 (CIS Controls v8)"
+title: "CIS Controls v8 (CIS Controls v8)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

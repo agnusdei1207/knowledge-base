@@ -1,5 +1,5 @@
 ---
-title: "550. X509 V3 Digital Certificate Standard"
+title: "X509 V3 Digital Certificate Standard"
 date: "2026-05-08"
 tags:
   - "studynote-network"

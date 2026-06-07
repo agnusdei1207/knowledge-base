@@ -1,5 +1,5 @@
 ---
-title: "785. Backhaul Midhaul Xhaul Transport Network"
+title: "Backhaul Midhaul Xhaul Transport Network"
 date: "2026-05-08"
 tags:
   - "studynote-network"

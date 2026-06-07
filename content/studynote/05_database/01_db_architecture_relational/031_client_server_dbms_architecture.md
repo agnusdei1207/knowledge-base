@@ -1,5 +1,5 @@
 ---
-title: "031. Client Server Dbms Architecture"
+title: "Client Server Dbms Architecture"
 date: "2026-04-29"
 tags:
   - "studynote-database"

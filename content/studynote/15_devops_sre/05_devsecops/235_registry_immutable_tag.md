@@ -1,5 +1,5 @@
 ---
-title: "235. Registry Immutable Tag"
+title: "Registry Immutable Tag"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

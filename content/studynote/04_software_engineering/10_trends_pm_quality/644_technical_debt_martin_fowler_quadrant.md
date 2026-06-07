@@ -1,5 +1,5 @@
 ---
-title: "644. Technical Debt Martin Fowler Quadrant"
+title: "Technical Debt Martin Fowler Quadrant"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

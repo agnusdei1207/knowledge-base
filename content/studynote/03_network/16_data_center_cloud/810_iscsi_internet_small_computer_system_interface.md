@@ -1,5 +1,5 @@
 ---
-title: "810. iSCSI (Internet Small Computer System Interface)"
+title: "iSCSI (Internet Small Computer System Interface)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

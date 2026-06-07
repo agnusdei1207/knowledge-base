@@ -1,5 +1,5 @@
 ---
-title: "207. DKIM (DomainKeys Identified Mail)"
+title: "DKIM (DomainKeys Identified Mail)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

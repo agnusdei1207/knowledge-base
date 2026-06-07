@@ -1,5 +1,5 @@
 ---
-title: "295. Seq2Seq (Sequence to Sequence)"
+title: "Seq2Seq (Sequence to Sequence)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

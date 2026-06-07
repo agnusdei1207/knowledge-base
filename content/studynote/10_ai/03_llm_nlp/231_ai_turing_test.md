@@ -1,5 +1,5 @@
 ---
-title: "231. Ai Turing Test"
+title: "Ai Turing Test"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

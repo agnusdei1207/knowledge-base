@@ -1,5 +1,5 @@
 ---
-title: "724. Infrastructure As Code Terraform"
+title: "Infrastructure As Code Terraform"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

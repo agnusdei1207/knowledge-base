@@ -1,5 +1,5 @@
 ---
-title: "641. Iso 25010 Software Quality Model"
+title: "Iso 25010 Software Quality Model"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

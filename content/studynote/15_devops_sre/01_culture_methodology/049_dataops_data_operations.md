@@ -1,5 +1,5 @@
 ---
-title: "049. Dataops Data Operations"
+title: "Dataops Data Operations"
 date: "2026-04-05"
 tags:
   - "studynote-devops-sre"

@@ -1,5 +1,5 @@
 ---
-title: "097. Stride Convolutional Neural Network Downsampling"
+title: "Stride Convolutional Neural Network Downsampling"
 date: "2026-04-10"
 tags:
   - "studynote-ai"

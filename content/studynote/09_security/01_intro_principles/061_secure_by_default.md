@@ -1,5 +1,5 @@
 ---
-title: "061. Secure By Default"
+title: "Secure By Default"
 date: "2026-04-05"
 tags:
   - "studynote-security"

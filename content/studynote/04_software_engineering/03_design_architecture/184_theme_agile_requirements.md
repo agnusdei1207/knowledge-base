@@ -1,5 +1,5 @@
 ---
-title: "184. Theme Agile Requirements"
+title: "Theme Agile Requirements"
 date: "2026-05-06"
 tags:
   - "studynote-software-engineering"

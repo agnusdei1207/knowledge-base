@@ -1,5 +1,5 @@
 ---
-title: "663. Elgamal Dsa Discrete Logarithm Digital Signature"
+title: "Elgamal Dsa Discrete Logarithm Digital Signature"
 date: "2026-05-08"
 tags:
   - "studynote-network"

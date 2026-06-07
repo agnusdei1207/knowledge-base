@@ -1,5 +1,5 @@
 ---
-title: "623. Serverless Cold Start Issue"
+title: "Serverless Cold Start Issue"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

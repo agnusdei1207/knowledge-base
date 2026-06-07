@@ -1,5 +1,5 @@
 ---
-title: "923. Cloud Native Architecture"
+title: "Cloud Native Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

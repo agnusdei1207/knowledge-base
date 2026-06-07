@@ -1,5 +1,5 @@
 ---
-title: "829. Istio Envoy Service Mesh Control Plane"
+title: "Istio Envoy Service Mesh Control Plane"
 date: "2026-05-08"
 tags:
   - "studynote-network"

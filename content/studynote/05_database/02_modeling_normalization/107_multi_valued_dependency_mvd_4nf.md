@@ -1,5 +1,5 @@
 ---
-title: "107. Multi Valued Dependency Mvd 4Nf"
+title: "Multi Valued Dependency Mvd 4Nf"
 date: "2026-06-07"
 tags:
   - "database"

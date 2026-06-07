@@ -1,5 +1,5 @@
 ---
-title: "222. Agriculture Bigdata"
+title: "Agriculture Bigdata"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

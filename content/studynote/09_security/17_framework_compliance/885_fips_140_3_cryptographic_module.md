@@ -1,5 +1,5 @@
 ---
-title: "885. FIPS 140-3 (Cryptographic Module Standard)"
+title: "FIPS 140-3 (Cryptographic Module Standard)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

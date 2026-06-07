@@ -1,5 +1,5 @@
 ---
-title: "459. Quic Fec Forward Error Correction"
+title: "Quic Fec Forward Error Correction"
 date: "2026-05-08"
 tags:
   - "studynote-network"

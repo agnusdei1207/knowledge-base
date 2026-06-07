@@ -1,5 +1,5 @@
 ---
-title: "684. White Team (White Team)"
+title: "White Team (White Team)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

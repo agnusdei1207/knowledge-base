@@ -1,5 +1,5 @@
 ---
-title: "257. COBIT 2019 통제 모델"
+title: "COBIT 2019 통제 모델"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

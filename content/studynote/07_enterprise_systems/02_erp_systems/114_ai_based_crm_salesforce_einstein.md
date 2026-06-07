@@ -1,5 +1,5 @@
 ---
-title: "114. Ai Based Crm Salesforce Einstein"
+title: "Ai Based Crm Salesforce Einstein"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"

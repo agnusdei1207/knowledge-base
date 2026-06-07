@@ -1,5 +1,5 @@
 ---
-title: "364. Is Is L1 L2 Router Area System"
+title: "Is Is L1 L2 Router Area System"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "573. Timeout Retry Backoff Strategy"
+title: "Timeout Retry Backoff Strategy"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

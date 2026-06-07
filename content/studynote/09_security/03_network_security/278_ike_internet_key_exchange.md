@@ -1,5 +1,5 @@
 ---
-title: "278. IKE (Internet Key Exchange)"
+title: "IKE (Internet Key Exchange)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

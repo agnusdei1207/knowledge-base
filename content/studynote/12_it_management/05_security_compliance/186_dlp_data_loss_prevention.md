@@ -1,5 +1,5 @@
 ---
-title: "186. 데이터 유출 방지 (DLP, Data Loss Prevention) 시스템"
+title: "데이터 유출 방지 (DLP, Data Loss Prevention) 시스템"
 date: "2026-04-21"
 tags:
   - "studynote-it-management"

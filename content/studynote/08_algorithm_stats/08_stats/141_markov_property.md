@@ -1,5 +1,5 @@
 ---
-title: "141. Markov Property"
+title: "Markov Property"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

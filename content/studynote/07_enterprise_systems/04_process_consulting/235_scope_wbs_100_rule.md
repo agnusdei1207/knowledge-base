@@ -1,5 +1,5 @@
 ---
-title: "235. Scope Wbs 100 Rule"
+title: "Scope Wbs 100 Rule"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"

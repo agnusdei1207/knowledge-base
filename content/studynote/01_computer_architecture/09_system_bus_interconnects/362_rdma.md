@@ -1,5 +1,5 @@
 ---
-title: "362. RDMA (Remote Direct Memory Access)"
+title: "RDMA (Remote Direct Memory Access)"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"

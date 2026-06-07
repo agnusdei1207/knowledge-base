@@ -1,5 +1,5 @@
 ---
-title: "063. Mempool Transaction Queue"
+title: "Mempool Transaction Queue"
 date: "2026-06-07"
 tags:
   - "ict_convergence"

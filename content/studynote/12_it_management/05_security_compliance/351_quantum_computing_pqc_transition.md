@@ -1,5 +1,5 @@
 ---
-title: "351. 양자 컴퓨팅 쇼어 알고리즘 양자 내성 암호 (PQC) 전환 통제"
+title: "양자 컴퓨팅 쇼어 알고리즘 양자 내성 암호 (PQC) 전환 통제"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

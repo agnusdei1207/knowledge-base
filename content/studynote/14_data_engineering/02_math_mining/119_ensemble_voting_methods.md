@@ -1,5 +1,5 @@
 ---
-title: "119. Ensemble Voting Methods"
+title: "Ensemble Voting Methods"
 date: "2026-04-19"
 tags:
   - "studynote-data-engineering"

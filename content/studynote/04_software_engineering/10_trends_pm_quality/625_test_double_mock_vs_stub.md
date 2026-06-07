@@ -1,5 +1,5 @@
 ---
-title: "625. Test Double Mock Vs Stub"
+title: "Test Double Mock Vs Stub"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "179. Self Signed Certificate"
+title: "Self Signed Certificate"
 date: "2026-05-06"
 tags:
   - "studynote-security"

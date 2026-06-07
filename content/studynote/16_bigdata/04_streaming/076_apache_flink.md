@@ -1,5 +1,5 @@
 ---
-title: "076. Apache Flink"
+title: "Apache Flink"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"

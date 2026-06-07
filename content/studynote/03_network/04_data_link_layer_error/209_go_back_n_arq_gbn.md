@@ -1,5 +1,5 @@
 ---
-title: "209. GBN ARQ (Go-Back-N ARQ)"
+title: "GBN ARQ (Go-Back-N ARQ)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

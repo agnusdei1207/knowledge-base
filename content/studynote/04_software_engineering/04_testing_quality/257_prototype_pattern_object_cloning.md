@@ -1,5 +1,5 @@
 ---
-title: "257. Prototype Pattern Object Cloning"
+title: "Prototype Pattern Object Cloning"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

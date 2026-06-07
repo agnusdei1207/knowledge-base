@@ -1,5 +1,5 @@
 ---
-title: "801. Data Center 3 Tier Architecture Core Aggregation Access"
+title: "Data Center 3 Tier Architecture Core Aggregation Access"
 date: "2026-05-08"
 tags:
   - "studynote-network"

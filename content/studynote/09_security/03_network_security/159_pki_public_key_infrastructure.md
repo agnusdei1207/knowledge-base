@@ -1,5 +1,5 @@
 ---
-title: "159. Pki Public Key Infrastructure"
+title: "Pki Public Key Infrastructure"
 date: "2026-05-05"
 tags:
   - "studynote-security"

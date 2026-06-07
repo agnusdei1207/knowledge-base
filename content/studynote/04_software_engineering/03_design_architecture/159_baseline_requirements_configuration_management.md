@@ -1,5 +1,5 @@
 ---
-title: "159. Baseline Requirements Configuration Management"
+title: "Baseline Requirements Configuration Management"
 date: "2026-05-05"
 tags:
   - "studynote-software-engineering"

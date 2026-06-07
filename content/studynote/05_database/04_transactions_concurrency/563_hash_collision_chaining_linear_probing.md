@@ -1,5 +1,5 @@
 ---
-title: "563. Hash Collision Chaining Linear Probing"
+title: "Hash Collision Chaining Linear Probing"
 date: "2026-05-09"
 tags:
   - "studynote-database"

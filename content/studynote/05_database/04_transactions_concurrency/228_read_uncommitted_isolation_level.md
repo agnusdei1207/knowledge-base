@@ -1,5 +1,5 @@
 ---
-title: "228. Read Uncommitted (Read uncommitted Isolation Level)"
+title: "Read Uncommitted (Read uncommitted Isolation Level)"
 date: "2026-05-08"
 tags:
   - "studynote-database"

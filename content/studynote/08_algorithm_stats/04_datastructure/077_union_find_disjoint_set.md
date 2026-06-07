@@ -1,5 +1,5 @@
 ---
-title: "077. Union Find Disjoint Set"
+title: "Union Find Disjoint Set"
 date: "2026-04-29"
 tags:
   - "studynote-algorithm-stats"

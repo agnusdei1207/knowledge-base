@@ -1,5 +1,5 @@
 ---
-title: "045. Itil Itsm Framework"
+title: "Itil Itsm Framework"
 date: "2026-04-05"
 tags:
   - "studynote-enterprise-systems"

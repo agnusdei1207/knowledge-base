@@ -1,5 +1,5 @@
 ---
-title: "4 Golden Signals - SRE"
+title: "Golden Signals - SRE"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"

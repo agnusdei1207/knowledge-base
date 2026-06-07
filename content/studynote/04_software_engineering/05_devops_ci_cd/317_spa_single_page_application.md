@@ -1,5 +1,5 @@
 ---
-title: "317. Spa Single Page Application"
+title: "Spa Single Page Application"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

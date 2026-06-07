@@ -1,5 +1,5 @@
 ---
-title: "701. Sniffing Eavesdropping Promiscuous"
+title: "Sniffing Eavesdropping Promiscuous"
 date: "2026-05-08"
 tags:
   - "studynote-network"

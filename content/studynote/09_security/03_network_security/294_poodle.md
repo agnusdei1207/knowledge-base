@@ -1,5 +1,5 @@
 ---
-title: "294. POODLE (Padding Oracle On Downgraded Legacy Encryption)"
+title: "POODLE (Padding Oracle On Downgraded Legacy Encryption)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

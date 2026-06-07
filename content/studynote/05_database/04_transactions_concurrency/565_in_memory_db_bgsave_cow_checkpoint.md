@@ -1,5 +1,5 @@
 ---
-title: "565. In Memory Db Bgsave Cow Checkpoint"
+title: "In Memory Db Bgsave Cow Checkpoint"
 date: "2026-05-09"
 tags:
   - "studynote-database"

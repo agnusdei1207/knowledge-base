@@ -1,5 +1,5 @@
 ---
-title: "260. Split Brain"
+title: "Split Brain"
 date: "2026-05-09"
 tags:
   - "studynote-database"

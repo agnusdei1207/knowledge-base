@@ -1,5 +1,5 @@
 ---
-title: "043. Replatform Cloud Managed Services"
+title: "Replatform Cloud Managed Services"
 date: "2026-04-05"
 tags:
   - "studynote-cloud-architecture"

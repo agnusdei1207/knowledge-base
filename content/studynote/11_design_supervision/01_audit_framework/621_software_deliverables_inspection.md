@@ -1,5 +1,5 @@
 ---
-title: "621. Software Deliverables Inspection"
+title: "Software Deliverables Inspection"
 date: "2026-04-05"
 tags:
   - "studynote-design-supervision"

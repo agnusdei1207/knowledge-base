@@ -1,5 +1,5 @@
 ---
-title: "707. 은행원 알고리즘 안전 상태"
+title: "은행원 알고리즘 안전 상태"
 date: "2026-06-07"
 tags:
   - "studynote-operating-system"

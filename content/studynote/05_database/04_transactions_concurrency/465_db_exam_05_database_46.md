@@ -1,5 +1,5 @@
 ---
-title: "465. 키-값 DB [레디스] 인메모리"
+title: "키-값 DB [레디스] 인메모리"
 date: "2026-06-07"
 tags:
   - "studynote-database"

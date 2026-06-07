@@ -1,5 +1,5 @@
 ---
-title: "680. 모놀리식 vs 마이크로 커널 성능 비교"
+title: "모놀리식 vs 마이크로 커널 성능 비교"
 date: "2026-06-07"
 tags:
   - "studynote-operating-system"

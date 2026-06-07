@@ -1,5 +1,5 @@
 ---
-title: "126. Bdd Behavior Driven Development Given When Then"
+title: "Bdd Behavior Driven Development Given When Then"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"

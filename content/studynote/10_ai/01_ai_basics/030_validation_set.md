@@ -1,5 +1,5 @@
 ---
-title: "030. Validation Set"
+title: "Validation Set"
 date: "2026-04-29"
 tags:
   - "studynote-ai"

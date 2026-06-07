@@ -1,5 +1,5 @@
 ---
-title: "217. Manufacturing Bigdata"
+title: "Manufacturing Bigdata"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

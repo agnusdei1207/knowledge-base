@@ -1,5 +1,5 @@
 ---
-title: "131. 그룹웨어 및 엔터프라이즈 2.0 협업 툴 (Groupware)"
+title: "그룹웨어 및 엔터프라이즈 2.0 협업 툴 (Groupware)"
 date: "2026-06-07"
 tags:
   - "studynote-enterprise-systems"

@@ -1,5 +1,5 @@
 ---
-title: "772. 다중 큐 SSD NVMe 프로토콜 장점"
+title: "다중 큐 SSD NVMe 프로토콜 장점"
 date: "2026-06-07"
 tags:
   - "studynote-operating-system"

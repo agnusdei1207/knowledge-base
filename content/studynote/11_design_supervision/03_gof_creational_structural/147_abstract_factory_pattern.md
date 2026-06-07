@@ -1,5 +1,5 @@
 ---
-title: "147. Abstract Factory Pattern"
+title: "Abstract Factory Pattern"
 date: "2026-04-19"
 tags:
   - "studynote-design-supervision"

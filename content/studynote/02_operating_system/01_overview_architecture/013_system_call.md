@@ -1,5 +1,5 @@
 ---
-title: "013. System Call"
+title: "System Call"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"

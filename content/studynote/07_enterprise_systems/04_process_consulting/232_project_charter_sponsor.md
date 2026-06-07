@@ -1,5 +1,5 @@
 ---
-title: "232. Project Charter Sponsor"
+title: "Project Charter Sponsor"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"

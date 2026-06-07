@@ -1,5 +1,5 @@
 ---
-title: "150. Structural Patterns Purpose"
+title: "Structural Patterns Purpose"
 date: "2026-05-03"
 tags:
   - "studynote-design-supervision"

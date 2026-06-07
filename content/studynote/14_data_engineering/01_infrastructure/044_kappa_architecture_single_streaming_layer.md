@@ -1,5 +1,5 @@
 ---
-title: "044. Kappa Architecture Single Streaming Layer"
+title: "Kappa Architecture Single Streaming Layer"
 date: "2026-04-05"
 tags:
   - "studynote-data-engineering"

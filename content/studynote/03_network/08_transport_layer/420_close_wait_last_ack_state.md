@@ -1,5 +1,5 @@
 ---
-title: "420. Close Wait Last Ack State"
+title: "Close Wait Last Ack State"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "519. DoT (DNS over TLS)"
+title: "DoT (DNS over TLS)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "770. Petri Net Formal Specification"
+title: "Petri Net Formal Specification"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

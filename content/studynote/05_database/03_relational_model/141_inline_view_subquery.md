@@ -1,5 +1,5 @@
 ---
-title: "141. Inline View Subquery"
+title: "Inline View Subquery"
 date: "2026-04-19"
 tags:
   - "studynote-database"

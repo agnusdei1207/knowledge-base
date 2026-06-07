@@ -1,5 +1,5 @@
 ---
-title: "314. Starvation Prevention"
+title: "Starvation Prevention"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

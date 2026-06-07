@@ -1,5 +1,5 @@
 ---
-title: "164. Convex Function"
+title: "Convex Function"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

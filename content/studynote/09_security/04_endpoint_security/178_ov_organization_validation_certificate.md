@@ -1,5 +1,5 @@
 ---
-title: "178. Ov Organization Validation Certificate"
+title: "Ov Organization Validation Certificate"
 date: "2026-05-06"
 tags:
   - "studynote-security"

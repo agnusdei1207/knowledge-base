@@ -1,5 +1,5 @@
 ---
-title: "006. Singularity"
+title: "Singularity"
 date: "2024-05-20"
 tags:
   - "ai"

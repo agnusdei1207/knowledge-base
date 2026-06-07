@@ -1,5 +1,5 @@
 ---
-title: "202. Data Quality Tools"
+title: "Data Quality Tools"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

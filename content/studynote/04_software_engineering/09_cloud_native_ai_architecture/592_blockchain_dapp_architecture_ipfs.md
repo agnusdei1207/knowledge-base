@@ -1,5 +1,5 @@
 ---
-title: "592. Blockchain Dapp Architecture Ipfs"
+title: "Blockchain Dapp Architecture Ipfs"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

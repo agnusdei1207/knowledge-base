@@ -1,5 +1,5 @@
 ---
-title: "545. Windows Ntfs Mft"
+title: "Windows Ntfs Mft"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

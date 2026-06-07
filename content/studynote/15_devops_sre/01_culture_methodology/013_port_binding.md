@@ -1,5 +1,5 @@
 ---
-title: "013. Port Binding"
+title: "Port Binding"
 date: "2026-04-05"
 tags:
   - "devops_sre"

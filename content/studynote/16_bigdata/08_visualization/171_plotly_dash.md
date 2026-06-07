@@ -1,5 +1,5 @@
 ---
-title: "171. Plotly Dash"
+title: "Plotly Dash"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

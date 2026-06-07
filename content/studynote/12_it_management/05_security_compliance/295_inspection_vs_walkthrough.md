@@ -1,5 +1,5 @@
 ---
-title: "295. 인스펙션 중재자 리뷰 워크스루 비공식 차이"
+title: "인스펙션 중재자 리뷰 워크스루 비공식 차이"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

@@ -1,5 +1,5 @@
 ---
-title: "314. Nosql Query Driven Modeling"
+title: "Nosql Query Driven Modeling"
 date: "2026-05-09"
 tags:
   - "studynote-database"

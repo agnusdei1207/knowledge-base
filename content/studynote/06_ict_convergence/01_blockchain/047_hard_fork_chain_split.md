@@ -1,5 +1,5 @@
 ---
-title: "047. Hard Fork Chain Split"
+title: "Hard Fork Chain Split"
 date: "2026-04-05"
 tags:
   - "studynote-ict-convergence"

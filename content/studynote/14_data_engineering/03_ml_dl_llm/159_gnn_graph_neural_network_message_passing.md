@@ -1,5 +1,5 @@
 ---
-title: "159. Gnn Graph Neural Network Message Passing"
+title: "Gnn Graph Neural Network Message Passing"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

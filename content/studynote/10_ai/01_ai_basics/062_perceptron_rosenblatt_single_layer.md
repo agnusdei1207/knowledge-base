@@ -1,5 +1,5 @@
 ---
-title: "062. Perceptron Rosenblatt Single Layer"
+title: "Perceptron Rosenblatt Single Layer"
 date: "2026-04-07"
 tags:
   - "studynote-ai"

@@ -1,5 +1,5 @@
 ---
-title: "147. Thread Safe"
+title: "Thread Safe"
 date: "2026-04-19"
 tags:
   - "studynote-operating-system"

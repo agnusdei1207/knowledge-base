@@ -1,5 +1,5 @@
 ---
-title: "030. Swot Analysis"
+title: "Swot Analysis"
 date: "2026-04-29"
 tags:
   - "studynote-enterprise-systems"

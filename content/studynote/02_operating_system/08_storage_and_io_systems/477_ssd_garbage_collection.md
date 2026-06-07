@@ -1,5 +1,5 @@
 ---
-title: "477. Ssd Garbage Collection"
+title: "Ssd Garbage Collection"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

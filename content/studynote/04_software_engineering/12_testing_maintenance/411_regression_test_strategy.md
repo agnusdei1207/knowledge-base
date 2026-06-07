@@ -1,5 +1,5 @@
 ---
-title: "411. 리그레션 테스트 자동화 및 선택적 수행 (Retest All vs Selective)"
+title: "리그레션 테스트 자동화 및 선택적 수행 (Retest All vs Selective)"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "709. IPMI (Intelligent Platform Management Interface)"
+title: "IPMI (Intelligent Platform Management Interface)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

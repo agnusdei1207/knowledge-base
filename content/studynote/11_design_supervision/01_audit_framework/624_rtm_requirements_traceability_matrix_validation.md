@@ -1,5 +1,5 @@
 ---
-title: "624. Rtm Requirements Traceability Matrix Validation"
+title: "Rtm Requirements Traceability Matrix Validation"
 date: "2026-04-05"
 tags:
   - "studynote-design-supervision"

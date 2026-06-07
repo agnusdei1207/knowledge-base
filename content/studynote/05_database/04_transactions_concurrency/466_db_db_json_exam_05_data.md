@@ -1,5 +1,5 @@
 ---
-title: "466. 도큐먼트 DB 몽고DB [JSON] BSON"
+title: "도큐먼트 DB 몽고DB [JSON] BSON"
 date: "2026-06-07"
 tags:
   - "studynote-database"

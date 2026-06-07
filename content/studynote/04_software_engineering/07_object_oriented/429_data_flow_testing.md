@@ -1,5 +1,5 @@
 ---
-title: "429. Data Flow Testing"
+title: "Data Flow Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

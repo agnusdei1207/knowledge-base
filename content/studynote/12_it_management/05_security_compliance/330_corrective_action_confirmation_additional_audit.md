@@ -1,5 +1,5 @@
 ---
-title: "330. 시정 조치 확인 추가 감리 결과서"
+title: "시정 조치 확인 추가 감리 결과서"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

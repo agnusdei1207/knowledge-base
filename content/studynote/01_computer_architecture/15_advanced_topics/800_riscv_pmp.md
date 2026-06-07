@@ -1,5 +1,5 @@
 ---
-title: "800. RISC-V PMP (Physical Memory Protection)"
+title: "RISC-V PMP (Physical Memory Protection)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

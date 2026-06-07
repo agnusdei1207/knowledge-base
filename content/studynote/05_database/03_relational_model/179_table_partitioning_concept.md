@@ -1,5 +1,5 @@
 ---
-title: "179. Table Partitioning Concept"
+title: "Table Partitioning Concept"
 date: "2026-05-06"
 tags:
   - "studynote-database"

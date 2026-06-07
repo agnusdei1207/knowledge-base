@@ -1,5 +1,5 @@
 ---
-title: "265. 변경 관리 CAB 위원회 승인"
+title: "변경 관리 CAB 위원회 승인"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

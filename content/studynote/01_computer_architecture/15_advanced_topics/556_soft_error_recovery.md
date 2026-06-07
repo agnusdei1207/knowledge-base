@@ -1,5 +1,5 @@
 ---
-title: "556. Soft Error Recovery"
+title: "Soft Error Recovery"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

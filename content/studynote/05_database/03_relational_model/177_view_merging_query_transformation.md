@@ -1,5 +1,5 @@
 ---
-title: "177. View Merging Query Transformation"
+title: "View Merging Query Transformation"
 date: "2026-05-06"
 tags:
   - "studynote-database"

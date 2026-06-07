@@ -1,5 +1,5 @@
 ---
-title: "215. Window Size Sender Receiver"
+title: "Window Size Sender Receiver"
 date: "2026-05-08"
 tags:
   - "studynote-network"

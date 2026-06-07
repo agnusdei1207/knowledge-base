@@ -1,5 +1,5 @@
 ---
-title: "392. Pesticide Paradox Test Renewal"
+title: "Pesticide Paradox Test Renewal"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

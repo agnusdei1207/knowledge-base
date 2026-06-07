@@ -1,5 +1,5 @@
 ---
-title: "578. 11be (Wi-Fi 7)"
+title: "11be (Wi-Fi 7)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

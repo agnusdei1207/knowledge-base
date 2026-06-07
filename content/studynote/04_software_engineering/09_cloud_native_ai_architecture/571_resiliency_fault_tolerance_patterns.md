@@ -1,5 +1,5 @@
 ---
-title: "571. Resiliency Fault Tolerance Patterns"
+title: "Resiliency Fault Tolerance Patterns"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

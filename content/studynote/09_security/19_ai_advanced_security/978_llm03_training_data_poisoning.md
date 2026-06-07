@@ -1,5 +1,5 @@
 ---
-title: "978. LLM03: Training Data Poisoning (LLM03: Training Data Poisoning)"
+title: "LLM03: Training Data Poisoning (LLM03: Training Data Poisoning)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

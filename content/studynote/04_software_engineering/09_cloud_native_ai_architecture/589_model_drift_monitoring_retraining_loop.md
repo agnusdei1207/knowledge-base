@@ -1,5 +1,5 @@
 ---
-title: "589. Model Drift Monitoring Retraining Loop"
+title: "Model Drift Monitoring Retraining Loop"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

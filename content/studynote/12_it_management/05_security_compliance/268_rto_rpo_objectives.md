@@ -1,5 +1,5 @@
 ---
-title: "268. RTO 복구 시간 RPO 복구 시점"
+title: "RTO 복구 시간 RPO 복구 시점"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

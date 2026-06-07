@@ -1,5 +1,5 @@
 ---
-title: "1046. P4 Programming Protocol Independent Packet Processors"
+title: "P4 Programming Protocol Independent Packet Processors"
 date: "2026-05-08"
 tags:
   - "studynote-network"

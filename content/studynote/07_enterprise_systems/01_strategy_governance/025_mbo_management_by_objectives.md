@@ -1,5 +1,5 @@
 ---
-title: "025. Mbo Management By Objectives"
+title: "Mbo Management By Objectives"
 date: "2026-04-29"
 tags:
   - "studynote-enterprise-systems"

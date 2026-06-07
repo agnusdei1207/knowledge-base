@@ -1,5 +1,5 @@
 ---
-title: "014. Simplicity"
+title: "Simplicity"
 date: "2026-03-25"
 tags:
   - "security"

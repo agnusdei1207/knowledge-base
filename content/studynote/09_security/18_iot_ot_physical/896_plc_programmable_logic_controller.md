@@ -1,5 +1,5 @@
 ---
-title: "896. PLC (Programmable Logic Controller)"
+title: "PLC (Programmable Logic Controller)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

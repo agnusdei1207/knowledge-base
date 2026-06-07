@@ -1,5 +1,5 @@
 ---
-title: "1059. Digital Twin Network Management Simulation"
+title: "Digital Twin Network Management Simulation"
 date: "2026-05-08"
 tags:
   - "studynote-network"

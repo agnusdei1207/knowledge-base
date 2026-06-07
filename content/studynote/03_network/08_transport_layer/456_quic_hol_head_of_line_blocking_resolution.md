@@ -1,5 +1,5 @@
 ---
-title: "456. Quic Hol Head Of Line Blocking Resolution"
+title: "Quic Hol Head Of Line Blocking Resolution"
 date: "2026-05-08"
 tags:
   - "studynote-network"

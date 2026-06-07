@@ -1,5 +1,5 @@
 ---
-title: "015. Ita Information Technology Architecture"
+title: "Ita Information Technology Architecture"
 date: "2024-05-24"
 tags:
   - "enterprise_systems"

@@ -1,5 +1,5 @@
 ---
-title: "485. SFTP (SSH FTP)"
+title: "SFTP (SSH FTP)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "645. Refactoring Code Smell"
+title: "Refactoring Code Smell"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

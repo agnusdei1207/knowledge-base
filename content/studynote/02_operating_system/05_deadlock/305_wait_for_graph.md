@@ -1,5 +1,5 @@
 ---
-title: "305. Wait For Graph"
+title: "Wait For Graph"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

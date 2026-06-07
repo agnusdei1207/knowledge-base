@@ -1,5 +1,5 @@
 ---
-title: "652. 데브옵스 (DevOps) CALMS 문화"
+title: "데브옵스 (DevOps) CALMS 문화"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "800. IT/SW 전략 비즈니스 통합 모델 최종 키워드 모음 완료."
+title: "IT/SW 전략 비즈니스 통합 모델 최종 키워드 모음 완료."
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

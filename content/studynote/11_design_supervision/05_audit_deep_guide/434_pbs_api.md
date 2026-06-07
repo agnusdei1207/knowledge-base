@@ -1,5 +1,5 @@
 ---
-title: "434. 컴포저블 아키텍처 PBS API 조합 유연 모듈"
+title: "컴포저블 아키텍처 PBS API 조합 유연 모듈"
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

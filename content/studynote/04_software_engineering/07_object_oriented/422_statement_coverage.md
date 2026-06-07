@@ -1,5 +1,5 @@
 ---
-title: "422. Statement Coverage"
+title: "Statement Coverage"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

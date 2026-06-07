@@ -1,5 +1,5 @@
 ---
-title: "644. Zero Trust Hardware Rot"
+title: "Zero Trust Hardware Rot"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "075. It Budget Contract Administration Audit"
+title: "It Budget Contract Administration Audit"
 date: "2026-04-10"
 tags:
   - "studynote-design-supervision"

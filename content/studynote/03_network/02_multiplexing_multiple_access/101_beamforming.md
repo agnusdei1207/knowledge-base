@@ -1,5 +1,5 @@
 ---
-title: "101. Beamforming"
+title: "Beamforming"
 date: "2026-03-04"
 tags:
   - "network"

@@ -1,5 +1,5 @@
 ---
-title: "019. Minimax Algorithm"
+title: "Minimax Algorithm"
 date: "2024-05-24"
 tags:
   - "ai"

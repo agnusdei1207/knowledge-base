@@ -1,5 +1,5 @@
 ---
-title: "114. Database Design Phases"
+title: "Database Design Phases"
 date: "2026-04-19"
 tags:
   - "studynote-database"

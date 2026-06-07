@@ -1,5 +1,5 @@
 ---
-title: "637. Iiot Industrial Iot Qos Latency"
+title: "Iiot Industrial Iot Qos Latency"
 date: "2026-05-08"
 tags:
   - "studynote-network"

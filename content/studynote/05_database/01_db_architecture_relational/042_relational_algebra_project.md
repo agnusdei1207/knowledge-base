@@ -1,5 +1,5 @@
 ---
-title: "042. Relational Algebra Project"
+title: "Relational Algebra Project"
 date: "2026-04-05"
 tags:
   - "studynote-database"

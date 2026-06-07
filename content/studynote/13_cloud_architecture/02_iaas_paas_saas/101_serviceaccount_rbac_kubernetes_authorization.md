@@ -1,5 +1,5 @@
 ---
-title: "101. Serviceaccount Rbac Kubernetes Authorization"
+title: "Serviceaccount Rbac Kubernetes Authorization"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"

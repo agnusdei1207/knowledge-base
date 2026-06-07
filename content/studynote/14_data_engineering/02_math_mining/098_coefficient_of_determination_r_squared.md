@@ -1,5 +1,5 @@
 ---
-title: "098. Coefficient Of Determination R Squared"
+title: "Coefficient Of Determination R Squared"
 date: "2026-03-04"
 tags:
   - "studynote-data-engineering"

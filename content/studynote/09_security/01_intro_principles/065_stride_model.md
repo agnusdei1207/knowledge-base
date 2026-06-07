@@ -1,5 +1,5 @@
 ---
-title: "065. Stride Model"
+title: "Stride Model"
 date: "2026-04-05"
 tags:
   - "studynote-security"

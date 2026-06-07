@@ -1,5 +1,5 @@
 ---
-title: "115. Dbscan Clustering"
+title: "Dbscan Clustering"
 date: "2026-04-19"
 tags:
   - "studynote-data-engineering"

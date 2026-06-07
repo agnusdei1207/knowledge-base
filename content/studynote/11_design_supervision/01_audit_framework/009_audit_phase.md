@@ -1,5 +1,5 @@
 ---
-title: "009. Audit Phase"
+title: "Audit Phase"
 date: "2026-04-05"
 tags:
   - "design_supervision"

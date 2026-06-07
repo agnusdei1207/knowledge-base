@@ -1,5 +1,5 @@
 ---
-title: "057. Tsdb Downsampling Retention Policy"
+title: "Tsdb Downsampling Retention Policy"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"

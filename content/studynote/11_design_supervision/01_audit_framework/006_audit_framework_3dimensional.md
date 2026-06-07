@@ -1,5 +1,5 @@
 ---
-title: "006. Audit Framework 3Dimensional"
+title: "Audit Framework 3Dimensional"
 date: "2026-04-05"
 tags:
   - "design_supervision"

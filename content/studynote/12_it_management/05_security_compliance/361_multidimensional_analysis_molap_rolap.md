@@ -1,5 +1,5 @@
 ---
-title: "361. 다차원 분석 큐브 몰랩 롤랩 (MOLAP ROLAP) 구조 진단"
+title: "다차원 분석 큐브 몰랩 롤랩 (MOLAP ROLAP) 구조 진단"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

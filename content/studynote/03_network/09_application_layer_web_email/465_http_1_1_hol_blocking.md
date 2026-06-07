@@ -1,5 +1,5 @@
 ---
-title: "465. Http 1 1 Hol Blocking"
+title: "Http 1 1 Hol Blocking"
 date: "2026-05-08"
 tags:
   - "studynote-network"

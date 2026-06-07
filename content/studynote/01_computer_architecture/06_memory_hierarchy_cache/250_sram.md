@@ -1,5 +1,5 @@
 ---
-title: "250. SRAM (Static RAM)"
+title: "SRAM (Static RAM)"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"

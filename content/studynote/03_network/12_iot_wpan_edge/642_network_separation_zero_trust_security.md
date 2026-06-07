@@ -1,5 +1,5 @@
 ---
-title: "642. Network Separation Zero Trust Security"
+title: "Network Separation Zero Trust Security"
 date: "2026-05-08"
 tags:
   - "studynote-network"

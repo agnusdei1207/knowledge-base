@@ -1,5 +1,5 @@
 ---
-title: "010. Schema Mapping"
+title: "Schema Mapping"
 date: "2024-05-20"
 tags:
   - "database"

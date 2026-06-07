@@ -1,5 +1,5 @@
 ---
-title: "010. Decentralization"
+title: "Decentralization"
 date: "2024-03-24"
 tags:
   - "ict_convergence"

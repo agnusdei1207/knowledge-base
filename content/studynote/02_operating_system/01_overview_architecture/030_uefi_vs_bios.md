@@ -1,5 +1,5 @@
 ---
-title: "030. Uefi Vs Bios"
+title: "Uefi Vs Bios"
 date: "2026-04-29"
 tags:
   - "studynote-operating-system"

@@ -1,5 +1,5 @@
 ---
-title: "088. Vanishing Gradient Relu Skip Connection"
+title: "Vanishing Gradient Relu Skip Connection"
 date: "2026-04-10"
 tags:
   - "studynote-ai"

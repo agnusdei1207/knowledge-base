@@ -1,5 +1,5 @@
 ---
-title: "681. Ssl Tls Secure Socket Layer"
+title: "Ssl Tls Secure Socket Layer"
 date: "2026-05-08"
 tags:
   - "studynote-network"

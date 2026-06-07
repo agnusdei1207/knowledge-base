@@ -1,5 +1,5 @@
 ---
-title: "134. Regularization Dropout Batch Norm"
+title: "Regularization Dropout Batch Norm"
 date: "2026-04-19"
 tags:
   - "studynote-data-engineering"

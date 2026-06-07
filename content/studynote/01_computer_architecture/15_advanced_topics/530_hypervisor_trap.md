@@ -1,5 +1,5 @@
 ---
-title: "530. Hypervisor Trap"
+title: "Hypervisor Trap"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

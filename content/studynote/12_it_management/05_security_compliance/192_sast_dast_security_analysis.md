@@ -1,5 +1,5 @@
 ---
-title: "192. 소프트웨어 개발 보안 자동화 분석 도구 (SAST, DAST) 도입 및 오탐/미탐 비율 관리"
+title: "소프트웨어 개발 보안 자동화 분석 도구 (SAST, DAST) 도입 및 오탐/미탐 비율 관리"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

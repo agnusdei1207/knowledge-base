@@ -1,5 +1,5 @@
 ---
-title: "333. Multidimensional Modeling"
+title: "Multidimensional Modeling"
 date: "2026-05-09"
 tags:
   - "studynote-database"

@@ -1,5 +1,5 @@
 ---
-title: "040. Pure Relational Operators"
+title: "Pure Relational Operators"
 date: "2026-03-19"
 tags:
   - "studynote-database"

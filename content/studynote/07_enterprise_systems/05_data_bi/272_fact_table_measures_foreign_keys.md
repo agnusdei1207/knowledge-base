@@ -1,5 +1,5 @@
 ---
-title: "272. Fact Table Measures Foreign Keys"
+title: "Fact Table Measures Foreign Keys"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"

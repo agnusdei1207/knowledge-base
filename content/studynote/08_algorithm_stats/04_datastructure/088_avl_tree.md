@@ -1,5 +1,5 @@
 ---
-title: "088. Avl Tree"
+title: "Avl Tree"
 date: "2026-04-29"
 tags:
   - "studynote-algorithm-stats"

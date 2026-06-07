@@ -1,5 +1,5 @@
 ---
-title: "228. Cnn 1D 2D 3D Video Medical"
+title: "Cnn 1D 2D 3D Video Medical"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

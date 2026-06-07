@@ -1,5 +1,5 @@
 ---
-title: "876. Yang Yet Another Next Generation Data Modeling"
+title: "Yang Yet Another Next Generation Data Modeling"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "21. 전략 체계도 (Strategy Map) - BSC 각 관점의 KPI 인과관계를 도식화"
+title: "전략 체계도 (Strategy Map) - BSC 각 관점의 KPI 인과관계를 도식화"
 date: "2026-04-02"
 tags:
   - "studynote-it-management"

@@ -1,5 +1,5 @@
 ---
-title: "1106. Microgrid Communication Standards Iec61850"
+title: "Microgrid Communication Standards Iec61850"
 date: "2026-05-08"
 tags:
   - "studynote-network"

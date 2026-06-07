@@ -1,5 +1,5 @@
 ---
-title: "559. Cosine Similarity Text Embedding Normalization"
+title: "Cosine Similarity Text Embedding Normalization"
 date: "2026-05-09"
 tags:
   - "studynote-database"

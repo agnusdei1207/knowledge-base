@@ -1,5 +1,5 @@
 ---
-title: "113. TOGAF (The Open Group)"
+title: "TOGAF (The Open Group)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

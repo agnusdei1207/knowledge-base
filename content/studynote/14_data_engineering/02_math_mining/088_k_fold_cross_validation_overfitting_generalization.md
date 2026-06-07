@@ -1,5 +1,5 @@
 ---
-title: "088. K Fold Cross Validation Overfitting Generalization"
+title: "K Fold Cross Validation Overfitting Generalization"
 date: "2026-03-04"
 tags:
   - "math-mining"

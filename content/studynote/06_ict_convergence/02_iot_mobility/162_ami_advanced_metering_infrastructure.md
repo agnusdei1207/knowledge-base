@@ -1,5 +1,5 @@
 ---
-title: "162. Ami Advanced Metering Infrastructure"
+title: "Ami Advanced Metering Infrastructure"
 date: "2026-05-05"
 tags:
   - "studynote-ict-convergence"

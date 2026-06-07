@@ -1,5 +1,5 @@
 ---
-title: "357. O-RAN 프론트홀 개방 사양 무결 망 진단"
+title: "O-RAN 프론트홀 개방 사양 무결 망 진단"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

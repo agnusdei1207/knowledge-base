@@ -1,5 +1,5 @@
 ---
-title: "252. 롱테일 법칙"
+title: "롱테일 법칙"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

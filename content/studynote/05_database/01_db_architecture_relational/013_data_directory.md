@@ -1,5 +1,5 @@
 ---
-title: "013. Data Directory"
+title: "Data Directory"
 date: "2024-05-18"
 tags:
   - "database"

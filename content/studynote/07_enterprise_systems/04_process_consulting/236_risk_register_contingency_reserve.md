@@ -1,5 +1,5 @@
 ---
-title: "236. Risk Register Contingency Reserve"
+title: "Risk Register Contingency Reserve"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"

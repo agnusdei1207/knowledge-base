@@ -1,5 +1,5 @@
 ---
-title: "270. DLCI (Data Link Connection Identifier)"
+title: "DLCI (Data Link Connection Identifier)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

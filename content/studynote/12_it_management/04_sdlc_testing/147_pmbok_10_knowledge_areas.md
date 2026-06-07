@@ -1,5 +1,5 @@
 ---
-title: "147. Pmbok 10 Knowledge Areas"
+title: "Pmbok 10 Knowledge Areas"
 date: "2026-04-19"
 tags:
   - "studynote-it-management"

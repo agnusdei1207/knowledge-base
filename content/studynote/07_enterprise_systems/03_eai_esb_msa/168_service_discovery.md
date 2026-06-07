@@ -1,5 +1,5 @@
 ---
-title: "168. Service Discovery"
+title: "Service Discovery"
 date: "2026-04-10"
 tags:
   - "studynote-enterprise-systems"

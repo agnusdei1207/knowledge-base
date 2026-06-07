@@ -1,5 +1,5 @@
 ---
-title: "058. Data Literacy"
+title: "Data Literacy"
 date: "2024-03-20"
 tags:
   - "studynote-it-management"

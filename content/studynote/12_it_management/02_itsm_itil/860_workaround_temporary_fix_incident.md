@@ -1,5 +1,5 @@
 ---
-title: "860. Workaround Temporary Fix Incident"
+title: "Workaround Temporary Fix Incident"
 date: "2026-04-10"
 tags:
   - "studynote-it-management"

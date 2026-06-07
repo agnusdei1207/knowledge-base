@@ -1,5 +1,5 @@
 ---
-title: "084. Kanban Board Wip Limit"
+title: "Kanban Board Wip Limit"
 date: "2026-06-07"
 tags:
   - "software_engineering"

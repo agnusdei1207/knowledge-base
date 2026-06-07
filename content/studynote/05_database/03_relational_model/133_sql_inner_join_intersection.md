@@ -1,5 +1,5 @@
 ---
-title: "133. Sql Inner Join Intersection"
+title: "Sql Inner Join Intersection"
 date: "2026-04-19"
 tags:
   - "studynote-database"

@@ -1,5 +1,5 @@
 ---
-title: "362. Hashed Page Table"
+title: "Hashed Page Table"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

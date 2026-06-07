@@ -1,5 +1,5 @@
 ---
-title: "347. Compaction"
+title: "Compaction"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

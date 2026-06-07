@@ -1,5 +1,5 @@
 ---
-title: "621. Art Android Runtime"
+title: "Art Android Runtime"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

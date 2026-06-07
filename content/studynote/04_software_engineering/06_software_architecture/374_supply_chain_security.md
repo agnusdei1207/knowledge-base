@@ -1,5 +1,5 @@
 ---
-title: "374. Supply Chain Security"
+title: "Supply Chain Security"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

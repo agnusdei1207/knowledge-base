@@ -1,5 +1,5 @@
 ---
-title: "117. DAMA (Demand Assignment Multiple Access)"
+title: "DAMA (Demand Assignment Multiple Access)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

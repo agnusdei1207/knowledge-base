@@ -1,5 +1,5 @@
 ---
-title: "116. Blue Green Deployment"
+title: "Blue Green Deployment"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"

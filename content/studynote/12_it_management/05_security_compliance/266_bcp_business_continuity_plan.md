@@ -1,5 +1,5 @@
 ---
-title: "266. BCP 업무 연속성 계획"
+title: "BCP 업무 연속성 계획"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

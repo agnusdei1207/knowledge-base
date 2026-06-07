@@ -1,5 +1,5 @@
 ---
-title: "835. It Outsourcing Strategy"
+title: "It Outsourcing Strategy"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"

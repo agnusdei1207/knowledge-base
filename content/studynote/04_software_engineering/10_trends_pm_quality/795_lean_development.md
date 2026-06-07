@@ -1,5 +1,5 @@
 ---
-title: "795. 린 개발 7원칙 낭비 제거 전체 최적화 배포망"
+title: "린 개발 7원칙 낭비 제거 전체 최적화 배포망"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

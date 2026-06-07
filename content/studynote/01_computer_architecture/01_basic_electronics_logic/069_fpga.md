@@ -1,5 +1,5 @@
 ---
-title: "69. FPGA (Field Programmable Gate Array)"
+title: "FPGA (Field Programmable Gate Array)"
 date: "2026-03-19"
 tags:
   - "studynote-computer-architecture"

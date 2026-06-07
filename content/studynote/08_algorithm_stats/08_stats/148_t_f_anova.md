@@ -1,5 +1,5 @@
 ---
-title: "148. T F Anova"
+title: "T F Anova"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

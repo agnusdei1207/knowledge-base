@@ -1,5 +1,5 @@
 ---
-title: "306. VLSM (Variable Length Subnet Mask)"
+title: "VLSM (Variable Length Subnet Mask)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "998. Openflow Protocol"
+title: "Openflow Protocol"
 date: "2026-05-08"
 tags:
   - "studynote-network"

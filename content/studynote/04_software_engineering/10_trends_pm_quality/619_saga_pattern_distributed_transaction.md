@@ -1,5 +1,5 @@
 ---
-title: "619. Saga Pattern Distributed Transaction"
+title: "Saga Pattern Distributed Transaction"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

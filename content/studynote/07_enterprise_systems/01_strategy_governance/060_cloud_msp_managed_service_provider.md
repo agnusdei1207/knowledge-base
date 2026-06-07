@@ -1,5 +1,5 @@
 ---
-title: "060. Cloud Msp Managed Service Provider"
+title: "Cloud Msp Managed Service Provider"
 date: "2026-04-10"
 tags:
   - "studynote-enterprise-systems"

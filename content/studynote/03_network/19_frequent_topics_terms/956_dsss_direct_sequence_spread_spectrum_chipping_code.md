@@ -1,5 +1,5 @@
 ---
-title: "956. Dsss Direct Sequence Spread Spectrum Chipping Code"
+title: "Dsss Direct Sequence Spread Spectrum Chipping Code"
 date: "2026-05-08"
 tags:
   - "studynote-network"

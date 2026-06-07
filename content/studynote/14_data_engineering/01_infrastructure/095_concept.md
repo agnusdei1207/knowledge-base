@@ -1,5 +1,5 @@
 ---
-title: "095. Concept"
+title: "Concept"
 date: "2026-06-07"
 tags:
   - "14_data_engineering"

@@ -1,5 +1,5 @@
 ---
-title: "299. Fail Soft Design"
+title: "Fail Soft Design"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "152. Evm Earned Value Management"
+title: "Evm Earned Value Management"
 date: "2026-05-03"
 tags:
   - "studynote-it-management"

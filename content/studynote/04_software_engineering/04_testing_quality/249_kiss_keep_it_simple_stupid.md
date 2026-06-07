@@ -1,5 +1,5 @@
 ---
-title: "249. Kiss Keep It Simple Stupid"
+title: "Kiss Keep It Simple Stupid"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

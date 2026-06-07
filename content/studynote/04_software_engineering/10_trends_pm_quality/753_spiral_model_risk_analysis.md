@@ -1,5 +1,5 @@
 ---
-title: "753. Spiral Model Risk Analysis"
+title: "Spiral Model Risk Analysis"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

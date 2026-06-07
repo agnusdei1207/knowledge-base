@@ -1,5 +1,5 @@
 ---
-title: "784. Pwa Service Worker Caching Network"
+title: "Pwa Service Worker Caching Network"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

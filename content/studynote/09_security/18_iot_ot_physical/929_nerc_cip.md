@@ -1,5 +1,5 @@
 ---
-title: "929. NERC CIP (NERC CIP)"
+title: "NERC CIP (NERC CIP)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

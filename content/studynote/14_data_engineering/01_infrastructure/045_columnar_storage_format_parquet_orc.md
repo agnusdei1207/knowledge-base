@@ -1,5 +1,5 @@
 ---
-title: "045. Columnar Storage Format Parquet Orc"
+title: "Columnar Storage Format Parquet Orc"
 date: "2026-04-05"
 tags:
   - "studynote-data-engineering"

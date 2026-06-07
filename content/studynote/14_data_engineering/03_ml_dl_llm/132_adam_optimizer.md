@@ -1,5 +1,5 @@
 ---
-title: "132. Adam Optimizer"
+title: "Adam Optimizer"
 date: "2026-04-19"
 tags:
   - "studynote-data-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "015. Preliminary Survey"
+title: "Preliminary Survey"
 date: "2024-05-20"
 tags:
   - "design_supervision"

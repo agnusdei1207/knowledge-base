@@ -1,5 +1,5 @@
 ---
-title: "525. 공간 컴퓨팅, 마이크로 프론트엔드, WebAssembly (Spatial Computing Micro Frontends WebAssembly)"
+title: "공간 컴퓨팅, 마이크로 프론트엔드, WebAssembly (Spatial Computing Micro Frontends WebAssembly)"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"

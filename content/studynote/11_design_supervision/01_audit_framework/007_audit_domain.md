@@ -1,5 +1,5 @@
 ---
-title: "007. Audit Domain"
+title: "Audit Domain"
 date: "2026-04-05"
 tags:
   - "design_supervision"

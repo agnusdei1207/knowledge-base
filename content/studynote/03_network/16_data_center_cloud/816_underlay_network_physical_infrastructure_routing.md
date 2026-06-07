@@ -1,5 +1,5 @@
 ---
-title: "816. Underlay Network Physical Infrastructure Routing"
+title: "Underlay Network Physical Infrastructure Routing"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "293. 구성 편류 방지 불변 인프라 (Architecture)"
+title: "구성 편류 방지 불변 인프라 (Architecture)"
 date: "2026-06-07"
 tags:
   - "studynote-devops-sre"

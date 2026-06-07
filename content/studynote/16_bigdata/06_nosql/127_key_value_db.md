@@ -1,5 +1,5 @@
 ---
-title: "127. Key Value Db"
+title: "Key Value Db"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

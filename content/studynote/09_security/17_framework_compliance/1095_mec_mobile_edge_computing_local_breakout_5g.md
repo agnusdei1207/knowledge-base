@@ -1,5 +1,5 @@
 ---
-title: "1095. Mec Mobile Edge Computing Local Breakout 5G"
+title: "Mec Mobile Edge Computing Local Breakout 5G"
 date: "2026-05-08"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "938. File Carving"
+title: "File Carving"
 date: "2026-05-08"
 tags:
   - "studynote-network"

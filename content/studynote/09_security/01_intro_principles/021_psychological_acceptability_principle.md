@@ -1,5 +1,5 @@
 ---
-title: "021. Psychological Acceptability Principle"
+title: "Psychological Acceptability Principle"
 date: "2026-04-02"
 tags:
   - "studynote-security"

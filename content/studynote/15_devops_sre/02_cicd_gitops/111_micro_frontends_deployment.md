@@ -1,5 +1,5 @@
 ---
-title: "111. Micro Frontends Deployment"
+title: "Micro Frontends Deployment"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"

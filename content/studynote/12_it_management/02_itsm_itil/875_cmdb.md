@@ -1,5 +1,5 @@
 ---
-title: "875. CMDB (Configuration Management Database)"
+title: "CMDB (Configuration Management Database)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

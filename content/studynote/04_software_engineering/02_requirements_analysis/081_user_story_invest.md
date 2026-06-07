@@ -1,5 +1,5 @@
 ---
-title: "081. User Story Invest"
+title: "User Story Invest"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

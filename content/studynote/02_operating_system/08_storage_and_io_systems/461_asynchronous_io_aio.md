@@ -1,5 +1,5 @@
 ---
-title: "461. Asynchronous Io Aio"
+title: "Asynchronous Io Aio"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

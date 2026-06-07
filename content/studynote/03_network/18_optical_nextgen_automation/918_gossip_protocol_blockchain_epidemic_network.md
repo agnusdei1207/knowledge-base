@@ -1,5 +1,5 @@
 ---
-title: "918. Gossip Protocol Blockchain Epidemic Network"
+title: "Gossip Protocol Blockchain Epidemic Network"
 date: "2026-05-08"
 tags:
   - "studynote-network"

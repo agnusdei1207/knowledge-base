@@ -1,5 +1,5 @@
 ---
-title: "1037. ONS (Object Name Service)"
+title: "ONS (Object Name Service)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "193. CRL Distribution Point (CDP)"
+title: "CRL Distribution Point (CDP)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

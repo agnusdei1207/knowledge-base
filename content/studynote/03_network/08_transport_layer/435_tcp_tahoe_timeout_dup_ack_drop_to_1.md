@@ -1,5 +1,5 @@
 ---
-title: "435. Tcp Tahoe Timeout Dup Ack Drop To 1"
+title: "Tcp Tahoe Timeout Dup Ack Drop To 1"
 date: "2026-05-08"
 tags:
   - "studynote-network"

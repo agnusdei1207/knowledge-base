@@ -1,5 +1,5 @@
 ---
-title: "027. Change Management"
+title: "Change Management"
 date: "2026-04-29"
 tags:
   - "studynote-software-engineering"

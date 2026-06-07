@@ -1,5 +1,5 @@
 ---
-title: "114. TOGAF ADM (Architecture Development Method)"
+title: "TOGAF ADM (Architecture Development Method)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

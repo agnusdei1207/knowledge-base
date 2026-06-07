@@ -1,5 +1,5 @@
 ---
-title: "065. Audit Trail Worm Storage Compliance"
+title: "Audit Trail Worm Storage Compliance"
 date: "2026-04-10"
 tags:
   - "studynote-design-supervision"

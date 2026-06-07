@@ -1,5 +1,5 @@
 ---
-title: "982. SSL/TLS 핸드셰이크 (Ssl TLS Handshake Session Key Exchange Https)"
+title: "SSL/TLS 핸드셰이크 (Ssl TLS Handshake Session Key Exchange Https)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "498. Input Validation"
+title: "Input Validation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

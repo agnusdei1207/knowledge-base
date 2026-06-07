@@ -1,5 +1,5 @@
 ---
-title: "262. Decorator Pattern Dynamic Wrapper"
+title: "Decorator Pattern Dynamic Wrapper"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

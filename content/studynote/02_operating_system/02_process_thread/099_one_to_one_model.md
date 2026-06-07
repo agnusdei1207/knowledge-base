@@ -1,5 +1,5 @@
 ---
-title: "099. One To One Model"
+title: "One To One Model"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"

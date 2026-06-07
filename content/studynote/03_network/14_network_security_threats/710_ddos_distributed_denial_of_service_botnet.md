@@ -1,5 +1,5 @@
 ---
-title: "710. Ddos Distributed Denial Of Service Botnet"
+title: "Ddos Distributed Denial Of Service Botnet"
 date: "2026-05-08"
 tags:
   - "studynote-network"

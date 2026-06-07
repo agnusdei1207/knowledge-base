@@ -1,5 +1,5 @@
 ---
-title: "656. X86 Protection Modes"
+title: "X86 Protection Modes"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

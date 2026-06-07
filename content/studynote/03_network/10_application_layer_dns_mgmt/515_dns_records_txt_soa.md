@@ -1,5 +1,5 @@
 ---
-title: "515. Dns Records Txt Soa"
+title: "Dns Records Txt Soa"
 date: "2026-05-08"
 tags:
   - "studynote-network"

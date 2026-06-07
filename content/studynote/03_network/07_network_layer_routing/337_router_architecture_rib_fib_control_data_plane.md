@@ -1,5 +1,5 @@
 ---
-title: "337. Router Architecture Rib Fib Control Data Plane"
+title: "Router Architecture Rib Fib Control Data Plane"
 date: "2026-05-08"
 tags:
   - "studynote-network"

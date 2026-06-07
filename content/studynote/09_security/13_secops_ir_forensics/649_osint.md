@@ -1,5 +1,5 @@
 ---
-title: "649. OSINT (Open Source Intelligence)"
+title: "OSINT (Open Source Intelligence)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

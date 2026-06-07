@@ -1,5 +1,5 @@
 ---
-title: "161. Rest Level 3 Hateoas"
+title: "Rest Level 3 Hateoas"
 date: "2026-05-05"
 tags:
   - "studynote-enterprise-systems"

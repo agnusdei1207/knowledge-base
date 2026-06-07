@@ -1,5 +1,5 @@
 ---
-title: "260. Vector Database"
+title: "Vector Database"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"

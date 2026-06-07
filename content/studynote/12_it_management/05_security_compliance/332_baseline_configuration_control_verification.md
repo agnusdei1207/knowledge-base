@@ -1,5 +1,5 @@
 ---
-title: "332. 베이스라인 형상 통제 검증"
+title: "베이스라인 형상 통제 검증"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

@@ -1,5 +1,5 @@
 ---
-title: "216. SDS (Software Defined Storage)"
+title: "SDS (Software Defined Storage)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"

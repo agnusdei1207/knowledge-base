@@ -1,5 +1,5 @@
 ---
-title: "69. ITIL 4 의 핵심 개념 변화"
+title: "ITIL 4 의 핵심 개념 변화"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

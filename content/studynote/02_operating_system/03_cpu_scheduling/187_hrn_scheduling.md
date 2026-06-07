@@ -1,5 +1,5 @@
 ---
-title: "187. Hrn Scheduling"
+title: "Hrn Scheduling"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"

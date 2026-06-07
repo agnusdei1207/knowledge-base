@@ -1,5 +1,5 @@
 ---
-title: "199. Data Steward"
+title: "Data Steward"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

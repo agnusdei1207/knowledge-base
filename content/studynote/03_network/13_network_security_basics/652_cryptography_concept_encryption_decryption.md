@@ -1,5 +1,5 @@
 ---
-title: "652. Cryptography Concept Encryption Decryption"
+title: "Cryptography Concept Encryption Decryption"
 date: "2026-05-08"
 tags:
   - "studynote-network"

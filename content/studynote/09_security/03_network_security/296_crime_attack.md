@@ -1,5 +1,5 @@
 ---
-title: "296. CRIME (CRIME)"
+title: "CRIME (CRIME)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

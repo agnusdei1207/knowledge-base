@@ -1,5 +1,5 @@
 ---
-title: "016. Kick Off Meeting"
+title: "Kick Off Meeting"
 date: "2026-03-04"
 tags:
   - "design_supervision"

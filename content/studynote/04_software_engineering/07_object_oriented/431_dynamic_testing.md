@@ -1,5 +1,5 @@
 ---
-title: "431. Dynamic Testing"
+title: "Dynamic Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

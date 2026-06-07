@@ -1,5 +1,5 @@
 ---
-title: "492. MIME (Multipurpose Internet Mail Extensions)"
+title: "MIME (Multipurpose Internet Mail Extensions)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

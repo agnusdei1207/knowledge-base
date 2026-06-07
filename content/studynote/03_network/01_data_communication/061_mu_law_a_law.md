@@ -1,5 +1,5 @@
 ---
-title: "061. Companding: μ-law & A-law"
+title: "Companding: μ-law & A-law"
 date: "2024-05-15"
 tags:
   - "network"

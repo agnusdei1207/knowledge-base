@@ -1,5 +1,5 @@
 ---
-title: "670. Sha 3 Family Keccak Sponge Construction"
+title: "Sha 3 Family Keccak Sponge Construction"
 date: "2026-05-08"
 tags:
   - "studynote-network"

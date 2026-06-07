@@ -1,5 +1,5 @@
 ---
-title: "068. Cryptography"
+title: "Cryptography"
 date: "2026-04-05"
 tags:
   - "studynote-security"

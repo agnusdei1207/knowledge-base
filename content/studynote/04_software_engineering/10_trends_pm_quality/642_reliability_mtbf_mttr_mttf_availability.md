@@ -1,5 +1,5 @@
 ---
-title: "642. Reliability Mtbf Mttr Mttf Availability"
+title: "Reliability Mtbf Mttr Mttf Availability"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

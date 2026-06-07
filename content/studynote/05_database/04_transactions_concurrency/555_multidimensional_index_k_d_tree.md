@@ -1,5 +1,5 @@
 ---
-title: "555. Multidimensional Index K D Tree"
+title: "Multidimensional Index K D Tree"
 date: "2026-05-09"
 tags:
   - "studynote-database"

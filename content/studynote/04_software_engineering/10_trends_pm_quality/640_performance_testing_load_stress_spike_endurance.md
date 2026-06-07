@@ -1,5 +1,5 @@
 ---
-title: "640. Performance Testing Load Stress Spike Endurance"
+title: "Performance Testing Load Stress Spike Endurance"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

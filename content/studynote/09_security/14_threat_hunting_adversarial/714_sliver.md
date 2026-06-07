@@ -1,5 +1,5 @@
 ---
-title: "714. Sliver (Sliver)"
+title: "Sliver (Sliver)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

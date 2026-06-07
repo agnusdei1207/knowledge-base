@@ -1,5 +1,5 @@
 ---
-title: "104. Second Normal Form 2Nf Full Fd"
+title: "Second Normal Form 2Nf Full Fd"
 date: "2026-06-07"
 tags:
   - "database"

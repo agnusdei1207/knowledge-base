@@ -1,5 +1,5 @@
 ---
-title: "908. Fec Error Concealment Video Streaming Quality Compensation"
+title: "Fec Error Concealment Video Streaming Quality Compensation"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "767. Oo Abstraction Data Control"
+title: "Oo Abstraction Data Control"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

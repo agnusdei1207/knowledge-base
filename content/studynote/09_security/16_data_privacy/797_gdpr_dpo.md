@@ -1,5 +1,5 @@
 ---
-title: "797. DPO (Data Protection Officer)"
+title: "DPO (Data Protection Officer)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

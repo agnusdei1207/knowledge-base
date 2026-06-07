@@ -1,5 +1,5 @@
 ---
-title: "480. Write Amplification"
+title: "Write Amplification"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

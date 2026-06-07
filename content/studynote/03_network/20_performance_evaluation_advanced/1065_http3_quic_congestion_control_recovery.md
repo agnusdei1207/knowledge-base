@@ -1,5 +1,5 @@
 ---
-title: "1065. Http3 Quic Congestion Control Recovery"
+title: "Http3 Quic Congestion Control Recovery"
 date: "2026-05-08"
 tags:
   - "studynote-network"

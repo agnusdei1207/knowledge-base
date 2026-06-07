@@ -1,5 +1,5 @@
 ---
-title: "273. Dimension Table Analysis Perspective"
+title: "Dimension Table Analysis Perspective"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"

@@ -1,5 +1,5 @@
 ---
-title: "329. 감리 프레임워크 3단계 (요구, 설계, 종료)"
+title: "감리 프레임워크 3단계 (요구, 설계, 종료)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

@@ -1,5 +1,5 @@
 ---
-title: "830. Sampling Oracle"
+title: "Sampling Oracle"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

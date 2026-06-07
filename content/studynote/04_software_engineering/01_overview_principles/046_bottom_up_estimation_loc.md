@@ -1,5 +1,5 @@
 ---
-title: "046. Bottom Up Estimation Loc"
+title: "Bottom Up Estimation Loc"
 date: "2026-04-05"
 tags:
   - "studynote-software-engineering"

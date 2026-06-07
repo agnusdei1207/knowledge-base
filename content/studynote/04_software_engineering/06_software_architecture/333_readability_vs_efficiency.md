@@ -1,5 +1,5 @@
 ---
-title: "333. Readability Vs Efficiency"
+title: "Readability Vs Efficiency"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "580. WEP (Wired Equivalent Privacy)"
+title: "WEP (Wired Equivalent Privacy)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

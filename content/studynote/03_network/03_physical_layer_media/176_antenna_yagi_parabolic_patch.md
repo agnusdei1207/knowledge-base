@@ -1,5 +1,5 @@
 ---
-title: "176. Antenna Yagi Parabolic Patch"
+title: "Antenna Yagi Parabolic Patch"
 date: "2026-06-07"
 tags:
   - "network"

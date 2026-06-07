@@ -1,5 +1,5 @@
 ---
-title: "221. K8S Clusterip Nodeport Loadbalancer Ingress"
+title: "K8S Clusterip Nodeport Loadbalancer Ingress"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

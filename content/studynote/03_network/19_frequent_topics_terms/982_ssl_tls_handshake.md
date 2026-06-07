@@ -1,5 +1,5 @@
 ---
-title: "982. Ssl Tls Handshake"
+title: "Ssl Tls Handshake"
 date: "2026-05-08"
 tags:
   - "studynote-network"

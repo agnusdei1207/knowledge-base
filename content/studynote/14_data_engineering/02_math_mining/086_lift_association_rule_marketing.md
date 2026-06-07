@@ -1,5 +1,5 @@
 ---
-title: "086. Lift Association Rule Marketing"
+title: "Lift Association Rule Marketing"
 date: "2026-03-04"
 tags:
   - "math-mining"

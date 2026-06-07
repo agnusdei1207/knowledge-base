@@ -1,5 +1,5 @@
 ---
-title: "327. SHAP (SHapley Additive exPlanations)"
+title: "SHAP (SHapley Additive exPlanations)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

@@ -1,5 +1,5 @@
 ---
-title: "153. Crypto Agility"
+title: "Crypto Agility"
 date: "2026-05-03"
 tags:
   - "studynote-security"

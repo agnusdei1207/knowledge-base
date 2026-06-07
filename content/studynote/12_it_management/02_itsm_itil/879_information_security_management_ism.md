@@ -1,5 +1,5 @@
 ---
-title: "879. Information Security Management Ism"
+title: "Information Security Management Ism"
 date: "2026-04-10"
 tags:
   - "studynote-it-management"

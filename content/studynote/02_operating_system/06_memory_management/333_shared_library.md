@@ -1,5 +1,5 @@
 ---
-title: "333. Shared Library"
+title: "Shared Library"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

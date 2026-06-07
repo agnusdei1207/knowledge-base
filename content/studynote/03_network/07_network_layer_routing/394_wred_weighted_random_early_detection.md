@@ -1,5 +1,5 @@
 ---
-title: "394. Wred Weighted Random Early Detection"
+title: "Wred Weighted Random Early Detection"
 date: "2026-05-08"
 tags:
   - "studynote-network"

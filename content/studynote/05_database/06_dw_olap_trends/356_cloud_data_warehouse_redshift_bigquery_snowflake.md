@@ -1,5 +1,5 @@
 ---
-title: "356. Cloud Data Warehouse Redshift Bigquery Snowflake"
+title: "Cloud Data Warehouse Redshift Bigquery Snowflake"
 date: "2026-05-09"
 tags:
   - "studynote-database"

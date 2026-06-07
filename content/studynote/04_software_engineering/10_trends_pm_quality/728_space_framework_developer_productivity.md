@@ -1,5 +1,5 @@
 ---
-title: "728. Space Framework Developer Productivity"
+title: "Space Framework Developer Productivity"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

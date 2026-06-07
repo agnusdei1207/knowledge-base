@@ -1,5 +1,5 @@
 ---
-title: "084. Model Selection"
+title: "Model Selection"
 date: "2026-04-05"
 tags:
   - "it_management"

@@ -1,5 +1,5 @@
 ---
-title: "987. Hash Function"
+title: "Hash Function"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "386. Valid Invalid Bit"
+title: "Valid Invalid Bit"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

@@ -1,5 +1,5 @@
 ---
-title: "968. Tcp Three Way Handshake Syn Ack Established"
+title: "Tcp Three Way Handshake Syn Ack Established"
 date: "2026-05-08"
 tags:
   - "studynote-network"

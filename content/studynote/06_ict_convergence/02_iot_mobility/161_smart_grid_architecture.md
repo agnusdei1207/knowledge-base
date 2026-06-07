@@ -1,5 +1,5 @@
 ---
-title: "161. Smart Grid Architecture"
+title: "Smart Grid Architecture"
 date: "2026-05-05"
 tags:
   - "studynote-ict-convergence"

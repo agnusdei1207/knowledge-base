@@ -1,5 +1,5 @@
 ---
-title: "316. Reference Pattern Nosql"
+title: "Reference Pattern Nosql"
 date: "2026-05-09"
 tags:
   - "studynote-database"

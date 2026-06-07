@@ -1,5 +1,5 @@
 ---
-title: "097. MIMO (Multiple-Input Multiple-Output)"
+title: "MIMO (Multiple-Input Multiple-Output)"
 date: "2026-03-04"
 tags:
   - "network"

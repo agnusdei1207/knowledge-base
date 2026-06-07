@@ -1,5 +1,5 @@
 ---
-title: "160. Microsoft Fabric"
+title: "Microsoft Fabric"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

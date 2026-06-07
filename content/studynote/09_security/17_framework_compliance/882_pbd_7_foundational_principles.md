@@ -1,5 +1,5 @@
 ---
-title: "7 Foundational Principles"
+title: "Foundational Principles"
 date: "2026-05-08"
 tags:
   - "studynote-security"

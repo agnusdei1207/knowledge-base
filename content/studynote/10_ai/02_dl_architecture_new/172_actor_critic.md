@@ -1,5 +1,5 @@
 ---
-title: "172. Actor Critic"
+title: "Actor Critic"
 date: "2026-04-17"
 tags:
   - "studynote-ai"

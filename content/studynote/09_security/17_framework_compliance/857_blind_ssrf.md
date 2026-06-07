@@ -1,5 +1,5 @@
 ---
-title: "857. Blind SSRF (Blind Server-Side Request Forgery)"
+title: "Blind SSRF (Blind Server-Side Request Forgery)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

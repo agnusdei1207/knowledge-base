@@ -1,5 +1,5 @@
 ---
-title: "060. Privacy By Design"
+title: "Privacy By Design"
 date: "2026-04-05"
 tags:
   - "studynote-security"

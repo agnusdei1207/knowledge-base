@@ -1,5 +1,5 @@
 ---
-title: "135. DEM (Data Encapsulation Mechanism)"
+title: "DEM (Data Encapsulation Mechanism)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

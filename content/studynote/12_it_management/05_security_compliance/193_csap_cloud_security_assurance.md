@@ -1,5 +1,5 @@
 ---
-title: "193. 퍼블릭 클라우드 보안 인증 (CSAP)"
+title: "퍼블릭 클라우드 보안 인증 (CSAP)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

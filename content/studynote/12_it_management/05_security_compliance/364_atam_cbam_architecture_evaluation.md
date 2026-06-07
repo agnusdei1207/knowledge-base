@@ -1,5 +1,5 @@
 ---
-title: "364. 아키텍처 평가 ATAM CBAM 상충점 민감도 도출 로직"
+title: "아키텍처 평가 ATAM CBAM 상충점 민감도 도출 로직"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

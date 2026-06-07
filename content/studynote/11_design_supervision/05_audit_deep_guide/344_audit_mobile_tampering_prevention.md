@@ -1,5 +1,5 @@
 ---
-title: "344. 모바일 위변조 방지 감리"
+title: "모바일 위변조 방지 감리"
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

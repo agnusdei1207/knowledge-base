@@ -1,5 +1,5 @@
 ---
-title: "078. Code Coverage"
+title: "Code Coverage"
 date: "2026-04-05"
 tags:
   - "devops_sre"

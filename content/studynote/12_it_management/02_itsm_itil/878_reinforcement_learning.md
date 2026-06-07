@@ -1,5 +1,5 @@
 ---
-title: "878. Reinforcement Learning"
+title: "Reinforcement Learning"
 date: "2026-04-05"
 tags:
   - "it_management"

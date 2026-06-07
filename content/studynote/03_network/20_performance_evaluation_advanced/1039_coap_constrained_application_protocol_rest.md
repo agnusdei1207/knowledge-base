@@ -1,5 +1,5 @@
 ---
-title: "1039. Coap Constrained Application Protocol Rest"
+title: "Coap Constrained Application Protocol Rest"
 date: "2026-05-08"
 tags:
   - "studynote-network"

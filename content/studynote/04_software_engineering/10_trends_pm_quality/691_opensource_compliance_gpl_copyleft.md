@@ -1,5 +1,5 @@
 ---
-title: "691. Opensource Compliance Gpl Copyleft"
+title: "Opensource Compliance Gpl Copyleft"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

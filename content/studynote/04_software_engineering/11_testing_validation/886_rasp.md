@@ -1,5 +1,5 @@
 ---
-title: "886. RASP (Runtime Application Self-Protection)"
+title: "RASP (Runtime Application Self-Protection)"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "753. Epc Evolved Packet Core Sgw Pgw"
+title: "Epc Evolved Packet Core Sgw Pgw"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "025. Namenode Metadata Spof Ha"
+title: "Namenode Metadata Spof Ha"
 date: "2026-03-04"
 tags:
   - "hadoop"

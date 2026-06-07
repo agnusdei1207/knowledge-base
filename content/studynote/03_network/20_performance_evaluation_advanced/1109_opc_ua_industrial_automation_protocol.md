@@ -1,5 +1,5 @@
 ---
-title: "1109. Opc Ua Industrial Automation Protocol"
+title: "Opc Ua Industrial Automation Protocol"
 date: "2026-05-08"
 tags:
   - "studynote-network"

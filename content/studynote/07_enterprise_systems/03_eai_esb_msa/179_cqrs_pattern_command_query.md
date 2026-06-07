@@ -1,5 +1,5 @@
 ---
-title: "179. Cqrs Pattern Command Query"
+title: "Cqrs Pattern Command Query"
 date: "2026-05-06"
 tags:
   - "studynote-enterprise-systems"

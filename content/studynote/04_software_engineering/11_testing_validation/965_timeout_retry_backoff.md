@@ -1,5 +1,5 @@
 ---
-title: "965. Timeout Retry Backoff"
+title: "Timeout Retry Backoff"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

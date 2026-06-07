@@ -1,5 +1,5 @@
 ---
-title: "152. Object Vs Class Adapter"
+title: "Object Vs Class Adapter"
 date: "2026-05-03"
 tags:
   - "studynote-design-supervision"

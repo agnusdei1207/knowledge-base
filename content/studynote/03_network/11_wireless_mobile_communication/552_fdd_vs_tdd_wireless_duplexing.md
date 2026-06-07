@@ -1,5 +1,5 @@
 ---
-title: "552. Fdd Vs Tdd Wireless Duplexing"
+title: "Fdd Vs Tdd Wireless Duplexing"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "464. BASE 속성 NoSQL 결과적 일관성"
+title: "BASE 속성 NoSQL 결과적 일관성"
 date: "2026-06-07"
 tags:
   - "studynote-database"

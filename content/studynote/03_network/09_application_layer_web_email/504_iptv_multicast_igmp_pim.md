@@ -1,5 +1,5 @@
 ---
-title: "504. Iptv Multicast Igmp Pim"
+title: "Iptv Multicast Igmp Pim"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "416. State Transition Testing"
+title: "State Transition Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

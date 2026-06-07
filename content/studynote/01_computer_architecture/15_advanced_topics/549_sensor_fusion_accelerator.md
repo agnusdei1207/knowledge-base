@@ -1,5 +1,5 @@
 ---
-title: "549. Sensor Fusion Accelerator"
+title: "Sensor Fusion Accelerator"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"

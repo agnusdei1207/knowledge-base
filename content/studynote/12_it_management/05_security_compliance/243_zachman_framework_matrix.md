@@ -1,5 +1,5 @@
 ---
-title: "243. 잭맨 프레임워크 (Zachman) 매트릭스"
+title: "잭맨 프레임워크 (Zachman) 매트릭스"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

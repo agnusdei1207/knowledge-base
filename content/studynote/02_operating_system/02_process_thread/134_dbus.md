@@ -1,5 +1,5 @@
 ---
-title: "134. Dbus"
+title: "Dbus"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"

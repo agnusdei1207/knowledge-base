@@ -1,5 +1,5 @@
 ---
-title: "027. Ico Sto Ieo"
+title: "Ico Sto Ieo"
 date: "2026-04-29"
 tags:
   - "studynote-ict-convergence"

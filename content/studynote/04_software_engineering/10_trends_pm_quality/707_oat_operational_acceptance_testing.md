@@ -1,5 +1,5 @@
 ---
-title: "707. Oat Operational Acceptance Testing"
+title: "Oat Operational Acceptance Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

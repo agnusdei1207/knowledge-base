@@ -1,5 +1,5 @@
 ---
-title: "117. Bayes Error"
+title: "Bayes Error"
 date: "2026-04-19"
 tags:
   - "studynote-data-engineering"

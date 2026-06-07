@@ -1,5 +1,5 @@
 ---
-title: "762. Agile Epic Story Theme Task"
+title: "Agile Epic Story Theme Task"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

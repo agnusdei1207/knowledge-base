@@ -1,5 +1,5 @@
 ---
-title: "011. Separation Of Duties"
+title: "Separation Of Duties"
 date: "2026-03-25"
 tags:
   - "security"

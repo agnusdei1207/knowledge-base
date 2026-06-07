@@ -1,5 +1,5 @@
 ---
-title: "160. Ca Certification Authority"
+title: "Ca Certification Authority"
 date: "2026-05-05"
 tags:
   - "studynote-security"

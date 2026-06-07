@@ -1,5 +1,5 @@
 ---
-title: "063. Relation Tuple Cardinality"
+title: "Relation Tuple Cardinality"
 date: "2026-06-07"
 tags:
   - "database"

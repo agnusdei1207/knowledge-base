@@ -1,5 +1,5 @@
 ---
-title: "195. Dataops"
+title: "Dataops"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"

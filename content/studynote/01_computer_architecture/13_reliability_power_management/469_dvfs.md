@@ -1,5 +1,5 @@
 ---
-title: "469. Dvfs"
+title: "Dvfs"
 date: "2026-03-22"
 tags:
   - "studynote-computer-architecture"

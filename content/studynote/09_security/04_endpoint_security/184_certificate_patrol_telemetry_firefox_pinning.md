@@ -1,5 +1,5 @@
 ---
-title: "184. Certificate Patrol Telemetry Firefox Pinning"
+title: "Certificate Patrol Telemetry Firefox Pinning"
 date: "2026-05-06"
 tags:
   - "studynote-security"

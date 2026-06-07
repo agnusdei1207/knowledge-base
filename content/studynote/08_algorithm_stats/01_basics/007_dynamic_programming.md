@@ -1,5 +1,5 @@
 ---
-title: "007. Dynamic Programming"
+title: "Dynamic Programming"
 date: "2026-06-07"
 tags:
   - "algorithm_stats"

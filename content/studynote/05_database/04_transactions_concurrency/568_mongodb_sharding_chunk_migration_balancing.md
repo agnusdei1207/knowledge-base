@@ -1,5 +1,5 @@
 ---
-title: "568. Mongodb Sharding Chunk Migration Balancing"
+title: "Mongodb Sharding Chunk Migration Balancing"
 date: "2026-05-09"
 tags:
   - "studynote-database"

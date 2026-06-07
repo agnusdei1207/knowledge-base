@@ -1,5 +1,5 @@
 ---
-title: "215. ETL (추출-변환-적재) vs ELT (추출-적재-변환 / 클라우드 DW 성능 활용) 파이프라인"
+title: "ETL (추출-변환-적재) vs ELT (추출-적재-변환 / 클라우드 DW 성능 활용) 파이프라인"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

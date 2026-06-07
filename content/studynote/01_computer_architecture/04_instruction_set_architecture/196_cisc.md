@@ -1,5 +1,5 @@
 ---
-title: "196. CISC (Complex Instruction Set Computer)"
+title: "CISC (Complex Instruction Set Computer)"
 date: "2026-03-19"
 tags:
   - "studynote-computer-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "594. Aslr Address Space Layout Randomization"
+title: "Aslr Address Space Layout Randomization"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

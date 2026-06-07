@@ -1,5 +1,5 @@
 ---
-title: "456. Mutation Testing"
+title: "Mutation Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

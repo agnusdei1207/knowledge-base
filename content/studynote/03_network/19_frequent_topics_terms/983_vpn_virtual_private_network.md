@@ -1,5 +1,5 @@
 ---
-title: "983. Vpn Virtual Private Network"
+title: "Vpn Virtual Private Network"
 date: "2026-05-08"
 tags:
   - "studynote-network"

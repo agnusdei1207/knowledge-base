@@ -1,5 +1,5 @@
 ---
-title: "779. Ema Attack"
+title: "Ema Attack"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "047. Hierarchical Clustering"
+title: "Hierarchical Clustering"
 date: "2026-04-05"
 tags:
   - "studynote-ai"

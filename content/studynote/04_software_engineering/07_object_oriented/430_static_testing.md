@@ -1,5 +1,5 @@
 ---
-title: "430. Static Testing"
+title: "Static Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

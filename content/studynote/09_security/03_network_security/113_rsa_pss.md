@@ -1,5 +1,5 @@
 ---
-title: "113. RSA-PSS (RSA-PSS)"
+title: "RSA-PSS (RSA-PSS)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "414. 리틀의 법칙 스레드 풀 성능 진단망"
+title: "리틀의 법칙 스레드 풀 성능 진단망"
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

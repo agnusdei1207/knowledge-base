@@ -1,5 +1,5 @@
 ---
-title: "236. Key Value Store Redis Dynamodb"
+title: "Key Value Store Redis Dynamodb"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"

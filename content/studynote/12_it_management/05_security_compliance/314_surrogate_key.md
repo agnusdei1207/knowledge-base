@@ -1,5 +1,5 @@
 ---
-title: "314. 서로게이트 키 인조 식별자 생성"
+title: "서로게이트 키 인조 식별자 생성"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

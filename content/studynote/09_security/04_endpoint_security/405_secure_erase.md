@@ -1,5 +1,5 @@
 ---
-title: "405. Secure Erase (Secure Erase)"
+title: "Secure Erase (Secure Erase)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

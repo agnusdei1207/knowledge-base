@@ -1,5 +1,5 @@
 ---
-title: "219. Media Bigdata"
+title: "Media Bigdata"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

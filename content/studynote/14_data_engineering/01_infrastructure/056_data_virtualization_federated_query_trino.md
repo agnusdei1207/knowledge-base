@@ -1,5 +1,5 @@
 ---
-title: "056. Data Virtualization Federated Query Trino"
+title: "Data Virtualization Federated Query Trino"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"

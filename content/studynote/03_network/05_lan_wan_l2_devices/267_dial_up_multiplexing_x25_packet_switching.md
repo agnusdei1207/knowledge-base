@@ -1,5 +1,5 @@
 ---
-title: "267. Dial Up Multiplexing X25 Packet Switching"
+title: "Dial Up Multiplexing X25 Packet Switching"
 date: "2026-05-08"
 tags:
   - "studynote-network"

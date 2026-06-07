@@ -1,5 +1,5 @@
 ---
-title: "215. Mece Mutually Exclusive Collectively Exhaustive Issue Tree"
+title: "Mece Mutually Exclusive Collectively Exhaustive Issue Tree"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise-systems"

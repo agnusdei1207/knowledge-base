@@ -1,5 +1,5 @@
 ---
-title: "093. Thread Shared Resources"
+title: "Thread Shared Resources"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"

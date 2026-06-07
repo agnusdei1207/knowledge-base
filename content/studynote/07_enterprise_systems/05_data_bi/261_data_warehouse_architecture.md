@@ -1,5 +1,5 @@
 ---
-title: "261. Data Warehouse Architecture"
+title: "Data Warehouse Architecture"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"

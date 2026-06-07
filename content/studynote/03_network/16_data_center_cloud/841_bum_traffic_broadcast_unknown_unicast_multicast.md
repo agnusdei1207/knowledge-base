@@ -1,5 +1,5 @@
 ---
-title: "841. Bum Traffic Broadcast Unknown Unicast Multicast"
+title: "Bum Traffic Broadcast Unknown Unicast Multicast"
 date: "2026-05-08"
 tags:
   - "studynote-network"

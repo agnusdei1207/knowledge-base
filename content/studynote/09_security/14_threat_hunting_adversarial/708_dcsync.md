@@ -1,5 +1,5 @@
 ---
-title: "708. DCSync (DCSync)"
+title: "DCSync (DCSync)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

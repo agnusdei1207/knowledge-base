@@ -1,5 +1,5 @@
 ---
-title: "560. Data Mesh Decentralized Data Ownership"
+title: "Data Mesh Decentralized Data Ownership"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "881. Privacy by Design (Privacy by Design)"
+title: "Privacy by Design (Privacy by Design)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

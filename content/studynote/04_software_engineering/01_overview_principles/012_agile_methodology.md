@@ -1,5 +1,5 @@
 ---
-title: "012. Agile Methodology"
+title: "Agile Methodology"
 date: "2024-05-01"
 tags:
   - "software_engineering"

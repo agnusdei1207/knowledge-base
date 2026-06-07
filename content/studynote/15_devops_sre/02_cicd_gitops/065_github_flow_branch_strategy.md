@@ -1,5 +1,5 @@
 ---
-title: "065. Github Flow Branch Strategy"
+title: "Github Flow Branch Strategy"
 date: "2026-04-10"
 tags:
   - "studynote-devops-sre"

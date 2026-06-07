@@ -1,5 +1,5 @@
 ---
-title: "638. Project Sponsor Steering Committee Decision"
+title: "Project Sponsor Steering Committee Decision"
 date: "2026-04-10"
 tags:
   - "studynote-design-supervision"

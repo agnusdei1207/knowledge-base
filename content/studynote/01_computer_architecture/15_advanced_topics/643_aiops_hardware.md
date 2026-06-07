@@ -1,5 +1,5 @@
 ---
-title: "643. Aiops Hardware"
+title: "Aiops Hardware"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

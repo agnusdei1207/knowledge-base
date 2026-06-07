@@ -1,5 +1,5 @@
 ---
-title: "093. Update Anomaly"
+title: "Update Anomaly"
 date: "2026-06-07"
 tags:
   - "database"

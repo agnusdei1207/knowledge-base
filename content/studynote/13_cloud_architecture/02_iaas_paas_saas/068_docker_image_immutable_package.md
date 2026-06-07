@@ -1,5 +1,5 @@
 ---
-title: "068. Docker Image Immutable Package"
+title: "Docker Image Immutable Package"
 date: "2026-04-07"
 tags:
   - "studynote-cloud-architecture"

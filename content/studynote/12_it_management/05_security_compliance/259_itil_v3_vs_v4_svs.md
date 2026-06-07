@@ -1,5 +1,5 @@
 ---
-title: "259. ITIL v3 생명주기 vs v4 SVS 가치사슬"
+title: "ITIL v3 생명주기 vs v4 SVS 가치사슬"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

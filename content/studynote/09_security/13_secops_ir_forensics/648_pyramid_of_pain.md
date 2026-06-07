@@ -1,5 +1,5 @@
 ---
-title: "648. Pyramid of Pain (Pyramid of Pain)"
+title: "Pyramid of Pain (Pyramid of Pain)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

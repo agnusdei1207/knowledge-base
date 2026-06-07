@@ -1,5 +1,5 @@
 ---
-title: "276. Chain Of Responsibility Pattern"
+title: "Chain Of Responsibility Pattern"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

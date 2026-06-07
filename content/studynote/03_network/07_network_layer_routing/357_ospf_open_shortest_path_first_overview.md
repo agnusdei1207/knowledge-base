@@ -1,5 +1,5 @@
 ---
-title: "357. OSPF (Open Shortest Path First)"
+title: "OSPF (Open Shortest Path First)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "163. Optimizer Sql Execution Plan Generator"
+title: "Optimizer Sql Execution Plan Generator"
 date: "2026-05-05"
 tags:
   - "studynote-database"

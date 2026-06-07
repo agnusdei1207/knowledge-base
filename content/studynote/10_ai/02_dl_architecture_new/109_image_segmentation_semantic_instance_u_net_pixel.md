@@ -1,5 +1,5 @@
 ---
-title: "109. Image Segmentation Semantic Instance U Net Pixel"
+title: "Image Segmentation Semantic Instance U Net Pixel"
 date: "2026-04-19"
 tags:
   - "studynote-ai"

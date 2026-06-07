@@ -1,5 +1,5 @@
 ---
-title: "229. PEAP (Protected EAP)"
+title: "PEAP (Protected EAP)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

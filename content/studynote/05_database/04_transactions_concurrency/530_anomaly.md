@@ -1,5 +1,5 @@
 ---
-title: "530. Anomaly"
+title: "Anomaly"
 date: "2026-05-09"
 tags:
   - "studynote-database"

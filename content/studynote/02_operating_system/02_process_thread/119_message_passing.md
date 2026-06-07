@@ -1,5 +1,5 @@
 ---
-title: "119. Message Passing"
+title: "Message Passing"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"

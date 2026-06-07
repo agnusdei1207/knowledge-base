@@ -1,5 +1,5 @@
 ---
-title: "110. Idp Internal Developer Platform Backstage"
+title: "Idp Internal Developer Platform Backstage"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"

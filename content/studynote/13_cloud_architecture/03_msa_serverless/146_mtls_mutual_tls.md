@@ -1,5 +1,5 @@
 ---
-title: "146. Mtls Mutual Tls"
+title: "Mtls Mutual Tls"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"

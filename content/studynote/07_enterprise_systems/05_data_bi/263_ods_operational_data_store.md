@@ -1,5 +1,5 @@
 ---
-title: "263. Ods Operational Data Store"
+title: "Ods Operational Data Store"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"

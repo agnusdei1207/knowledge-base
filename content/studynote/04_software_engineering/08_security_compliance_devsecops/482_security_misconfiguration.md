@@ -1,5 +1,5 @@
 ---
-title: "482. Security Misconfiguration"
+title: "Security Misconfiguration"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

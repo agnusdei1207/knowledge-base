@@ -1,5 +1,5 @@
 ---
-title: "952. Membership Inference"
+title: "Membership Inference"
 date: "2026-05-08"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "169. Hoq House Of Quality Matrix"
+title: "Hoq House Of Quality Matrix"
 date: "2026-04-03"
 tags:
   - "studynote-software-engineering"

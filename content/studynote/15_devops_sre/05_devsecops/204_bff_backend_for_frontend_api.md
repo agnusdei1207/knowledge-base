@@ -1,5 +1,5 @@
 ---
-title: "204. BFF (Backend For Frontend)"
+title: "BFF (Backend For Frontend)"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

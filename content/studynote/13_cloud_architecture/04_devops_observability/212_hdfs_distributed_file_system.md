@@ -1,5 +1,5 @@
 ---
-title: "212. HDFS (Hadoop Distributed File System)"
+title: "HDFS (Hadoop Distributed File System)"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"

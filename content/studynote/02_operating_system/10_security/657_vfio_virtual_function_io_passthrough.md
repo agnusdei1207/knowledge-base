@@ -1,5 +1,5 @@
 ---
-title: "657. Vfio Virtual Function Io Passthrough"
+title: "Vfio Virtual Function Io Passthrough"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

@@ -1,5 +1,5 @@
 ---
-title: "112. Robust Statistics Median Trimmed Mean"
+title: "Robust Statistics Median Trimmed Mean"
 date: "2026-04-19"
 tags:
   - "studynote-data-engineering"

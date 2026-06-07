@@ -1,5 +1,5 @@
 ---
-title: "604. Gof Design Patterns 23 Classification"
+title: "Gof Design Patterns 23 Classification"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

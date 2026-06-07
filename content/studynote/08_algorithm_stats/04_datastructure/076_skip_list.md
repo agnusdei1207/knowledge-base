@@ -1,5 +1,5 @@
 ---
-title: "076. Skip List"
+title: "Skip List"
 date: "2026-04-29"
 tags:
   - "studynote-algorithm-stats"

@@ -1,5 +1,5 @@
 ---
-title: "085. Participation Constraint Total Partial"
+title: "Participation Constraint Total Partial"
 date: "2026-06-07"
 tags:
   - "database"

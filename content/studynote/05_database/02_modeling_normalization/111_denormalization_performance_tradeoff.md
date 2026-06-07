@@ -1,5 +1,5 @@
 ---
-title: "111. Denormalization Performance Tradeoff"
+title: "Denormalization Performance Tradeoff"
 date: "2026-04-19"
 tags:
   - "studynote-database"

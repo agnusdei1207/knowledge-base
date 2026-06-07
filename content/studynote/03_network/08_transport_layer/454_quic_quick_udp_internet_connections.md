@@ -1,5 +1,5 @@
 ---
-title: "454. QUIC (Quick UDP Internet Connections)"
+title: "QUIC (Quick UDP Internet Connections)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

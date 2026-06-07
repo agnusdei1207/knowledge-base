@@ -1,5 +1,5 @@
 ---
-title: "186. Graph Db Recommendation Collaborative Filtering Cold Start"
+title: "Graph Db Recommendation Collaborative Filtering Cold Start"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

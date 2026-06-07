@@ -1,5 +1,5 @@
 ---
-title: "324. Address Binding Stages"
+title: "Address Binding Stages"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

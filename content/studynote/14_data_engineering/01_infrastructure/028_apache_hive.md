@@ -1,5 +1,5 @@
 ---
-title: "28. Apache Hive"
+title: "Apache Hive"
 date: "2026-04-29"
 tags:
   - "studynote-data-engineering"

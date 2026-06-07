@@ -1,5 +1,5 @@
 ---
-title: "101. Edge Device Ota Firmware Deployment Pipeline"
+title: "Edge Device Ota Firmware Deployment Pipeline"
 date: "2026-03-04"
 tags:
   - "cicd-gitops"

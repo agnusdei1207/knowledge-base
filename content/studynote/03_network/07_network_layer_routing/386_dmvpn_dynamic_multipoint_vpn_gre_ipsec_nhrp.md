@@ -1,5 +1,5 @@
 ---
-title: "386. DMVPN (Dynamic Multipoint VPN)"
+title: "DMVPN (Dynamic Multipoint VPN)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

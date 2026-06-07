@@ -1,5 +1,5 @@
 ---
-title: "450. Dma Direct Memory Access"
+title: "Dma Direct Memory Access"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

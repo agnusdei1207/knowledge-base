@@ -1,5 +1,5 @@
 ---
-title: "158. Oom Score Adj"
+title: "Oom Score Adj"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"

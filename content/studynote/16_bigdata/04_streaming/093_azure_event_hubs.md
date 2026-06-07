@@ -1,5 +1,5 @@
 ---
-title: "093. Azure Event Hubs"
+title: "Azure Event Hubs"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

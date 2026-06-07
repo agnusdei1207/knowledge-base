@@ -1,5 +1,5 @@
 ---
-title: "088. Pull Based Deployment Gitops Argocd Security Auto Healing"
+title: "Pull Based Deployment Gitops Argocd Security Auto Healing"
 date: "2026-04-10"
 tags:
   - "studynote-devops-sre"

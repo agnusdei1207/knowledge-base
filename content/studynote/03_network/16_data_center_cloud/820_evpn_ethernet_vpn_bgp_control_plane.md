@@ -1,5 +1,5 @@
 ---
-title: "820. EVPN (Ethernet VPN)"
+title: "EVPN (Ethernet VPN)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

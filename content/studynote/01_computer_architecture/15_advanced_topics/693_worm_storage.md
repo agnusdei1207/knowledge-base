@@ -1,5 +1,5 @@
 ---
-title: "693. Worm Storage"
+title: "Worm Storage"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

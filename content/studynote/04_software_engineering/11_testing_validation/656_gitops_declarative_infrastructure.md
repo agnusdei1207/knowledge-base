@@ -1,5 +1,5 @@
 ---
-title: "656. GitOps 인프라 선언적 관리"
+title: "GitOps 인프라 선언적 관리"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

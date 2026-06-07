@@ -1,5 +1,5 @@
 ---
-title: "217. Hdlc Frame Structure Flag Fcs"
+title: "Hdlc Frame Structure Flag Fcs"
 date: "2026-05-08"
 tags:
   - "studynote-network"

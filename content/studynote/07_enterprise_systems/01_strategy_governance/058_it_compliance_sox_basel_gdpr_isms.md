@@ -1,5 +1,5 @@
 ---
-title: "058. It Compliance Sox Basel Gdpr Isms"
+title: "It Compliance Sox Basel Gdpr Isms"
 date: "2026-04-07"
 tags:
   - "studynote-enterprise-systems"

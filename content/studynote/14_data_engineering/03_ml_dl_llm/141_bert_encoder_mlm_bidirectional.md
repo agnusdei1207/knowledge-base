@@ -1,5 +1,5 @@
 ---
-title: "141. Bert Encoder Mlm Bidirectional"
+title: "Bert Encoder Mlm Bidirectional"
 date: "2026-04-19"
 tags:
   - "studynote-data-engineering"

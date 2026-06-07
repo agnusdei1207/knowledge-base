@@ -1,5 +1,5 @@
 ---
-title: "152. Hndl Harvest Now Decrypt Later"
+title: "Hndl Harvest Now Decrypt Later"
 date: "2026-05-03"
 tags:
   - "studynote-security"

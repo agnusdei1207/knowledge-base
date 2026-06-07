@@ -1,5 +1,5 @@
 ---
-title: "228. 블록체인 스마트 컨트랙트 기반 공급망 증빙(Traceability) 플랫폼 연동"
+title: "블록체인 스마트 컨트랙트 기반 공급망 증빙(Traceability) 플랫폼 연동"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

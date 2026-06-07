@@ -1,5 +1,5 @@
 ---
-title: "591. Tcam Packet Classification"
+title: "Tcam Packet Classification"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

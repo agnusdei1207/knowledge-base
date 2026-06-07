@@ -1,5 +1,5 @@
 ---
-title: "151. Aws Lambda Cloud Functions"
+title: "Aws Lambda Cloud Functions"
 date: "2026-05-03"
 tags:
   - "studynote-cloud-architecture"

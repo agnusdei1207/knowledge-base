@@ -1,5 +1,5 @@
 ---
-title: "498. Computational Storage"
+title: "Computational Storage"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

@@ -1,5 +1,5 @@
 ---
-title: "006. Information Strategy Plan"
+title: "Information Strategy Plan"
 date: "2026-04-05"
 tags:
   - "it_management"

@@ -1,5 +1,5 @@
 ---
-title: "186. Stored Procedure Trigger"
+title: "Stored Procedure Trigger"
 date: "2026-05-06"
 tags:
   - "studynote-database"

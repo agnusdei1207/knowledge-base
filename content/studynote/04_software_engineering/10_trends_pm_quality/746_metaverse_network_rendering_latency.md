@@ -1,5 +1,5 @@
 ---
-title: "746. Metaverse Network Rendering Latency"
+title: "Metaverse Network Rendering Latency"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

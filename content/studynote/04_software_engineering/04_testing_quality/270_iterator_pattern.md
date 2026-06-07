@@ -1,5 +1,5 @@
 ---
-title: "270. Iterator Pattern"
+title: "Iterator Pattern"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

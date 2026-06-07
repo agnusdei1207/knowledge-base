@@ -1,5 +1,5 @@
 ---
-title: "142. MDI/MDI-X (Medium Dependent Interface)"
+title: "MDI/MDI-X (Medium Dependent Interface)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

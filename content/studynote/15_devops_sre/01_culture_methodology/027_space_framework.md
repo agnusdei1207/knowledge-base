@@ -1,5 +1,5 @@
 ---
-title: "027. Space Framework"
+title: "Space Framework"
 date: "2026-04-29"
 tags:
   - "studynote-devops-sre"

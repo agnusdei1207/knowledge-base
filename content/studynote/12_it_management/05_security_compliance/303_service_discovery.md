@@ -1,5 +1,5 @@
 ---
-title: "303. 서비스 디스커버리 동적 IP 라우팅"
+title: "서비스 디스커버리 동적 IP 라우팅"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

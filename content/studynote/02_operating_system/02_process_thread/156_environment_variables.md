@@ -1,5 +1,5 @@
 ---
-title: "156. Environment Variables"
+title: "Environment Variables"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"

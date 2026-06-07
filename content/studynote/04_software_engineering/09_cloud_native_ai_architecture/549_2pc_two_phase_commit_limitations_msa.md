@@ -1,5 +1,5 @@
 ---
-title: "549. 2Pc Two Phase Commit Limitations Msa"
+title: "2Pc Two Phase Commit Limitations Msa"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

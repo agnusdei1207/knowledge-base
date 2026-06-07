@@ -1,5 +1,5 @@
 ---
-title: "052. Db Optimizer Rbo Cbo"
+title: "Db Optimizer Rbo Cbo"
 date: "2026-05-01"
 tags:
   - "studynote-database"

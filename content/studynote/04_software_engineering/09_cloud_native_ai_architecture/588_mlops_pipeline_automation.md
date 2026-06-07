@@ -1,5 +1,5 @@
 ---
-title: "588. Mlops Pipeline Automation"
+title: "Mlops Pipeline Automation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "123. Slo Service Level Objective"
+title: "Slo Service Level Objective"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"

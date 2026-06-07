@@ -1,5 +1,5 @@
 ---
-title: "598. UWB (Ultra-Wideband)"
+title: "UWB (Ultra-Wideband)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

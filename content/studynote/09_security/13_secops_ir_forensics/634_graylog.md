@@ -1,5 +1,5 @@
 ---
-title: "634. Graylog (Graylog)"
+title: "Graylog (Graylog)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

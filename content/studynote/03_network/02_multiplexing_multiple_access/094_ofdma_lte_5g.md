@@ -1,5 +1,5 @@
 ---
-title: "94. OFDMA (Orthogonal Frequency Division Multiple Access) - LTE, 5G"
+title: "OFDMA (Orthogonal Frequency Division Multiple Access) - LTE, 5G"
 date: "2026-03-31"
 tags:
   - "network"

@@ -1,5 +1,5 @@
 ---
-title: "167. Fading Large Scale Small Scale"
+title: "Fading Large Scale Small Scale"
 date: "2026-05-05"
 tags:
   - "studynote-network"

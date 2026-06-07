@@ -1,5 +1,5 @@
 ---
-title: "844. Ab Test"
+title: "Ab Test"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

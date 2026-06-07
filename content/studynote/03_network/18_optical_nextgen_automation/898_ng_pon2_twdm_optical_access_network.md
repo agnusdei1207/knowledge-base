@@ -1,5 +1,5 @@
 ---
-title: "898. Ng Pon2 Twdm Optical Access Network"
+title: "Ng Pon2 Twdm Optical Access Network"
 date: "2026-05-08"
 tags:
   - "studynote-network"

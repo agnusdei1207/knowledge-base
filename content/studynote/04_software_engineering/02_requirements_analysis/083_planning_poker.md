@@ -1,5 +1,5 @@
 ---
-title: "083. Planning Poker"
+title: "Planning Poker"
 date: "2026-06-07"
 tags:
   - "software_engineering"

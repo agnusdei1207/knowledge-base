@@ -1,5 +1,5 @@
 ---
-title: "401. Big Bang Integration"
+title: "Big Bang Integration"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "129. Position Wise Feed Forward Ffnn"
+title: "Position Wise Feed Forward Ffnn"
 date: "2026-04-19"
 tags:
   - "studynote-ai"

@@ -1,5 +1,5 @@
 ---
-title: "051. Apache Oozie"
+title: "Apache Oozie"
 date: "2026-04-29"
 tags:
   - "studynote-bigdata"

@@ -1,5 +1,5 @@
 ---
-title: "061. Agile Manifesto"
+title: "Agile Manifesto"
 date: "2026-06-07"
 tags:
   - "software_engineering"

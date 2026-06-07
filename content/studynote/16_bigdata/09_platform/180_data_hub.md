@@ -1,5 +1,5 @@
 ---
-title: "180. Data Hub"
+title: "Data Hub"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

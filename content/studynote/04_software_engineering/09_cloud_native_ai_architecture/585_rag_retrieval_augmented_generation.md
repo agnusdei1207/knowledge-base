@@ -1,5 +1,5 @@
 ---
-title: "585. Rag Retrieval Augmented Generation"
+title: "Rag Retrieval Augmented Generation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

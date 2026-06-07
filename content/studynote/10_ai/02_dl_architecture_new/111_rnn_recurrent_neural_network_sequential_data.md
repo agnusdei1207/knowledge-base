@@ -1,5 +1,5 @@
 ---
-title: "111. Rnn Recurrent Neural Network Sequential Data"
+title: "Rnn Recurrent Neural Network Sequential Data"
 date: "2026-04-19"
 tags:
   - "studynote-ai"

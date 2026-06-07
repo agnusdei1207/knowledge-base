@@ -1,5 +1,5 @@
 ---
-title: "181. Federated Learning Privacy Distributed Training"
+title: "Federated Learning Privacy Distributed Training"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

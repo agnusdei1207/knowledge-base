@@ -1,5 +1,5 @@
 ---
-title: "483. Active Vs Passive Ftp"
+title: "Active Vs Passive Ftp"
 date: "2026-05-08"
 tags:
   - "studynote-network"

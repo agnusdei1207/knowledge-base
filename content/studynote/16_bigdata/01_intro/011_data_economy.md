@@ -1,5 +1,5 @@
 ---
-title: "011. Data Economy"
+title: "Data Economy"
 date: "2024-05-23"
 tags:
   - "bigdata"

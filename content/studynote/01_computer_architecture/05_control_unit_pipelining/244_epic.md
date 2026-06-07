@@ -1,5 +1,5 @@
 ---
-title: "244. EPIC (Explicitly Parallel Instruction Computing)"
+title: "EPIC (Explicitly Parallel Instruction Computing)"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"

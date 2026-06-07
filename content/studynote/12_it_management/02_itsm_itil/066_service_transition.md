@@ -1,5 +1,5 @@
 ---
-title: "66. 서비스 전환 (Service Transition)"
+title: "서비스 전환 (Service Transition)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

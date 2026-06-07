@@ -1,5 +1,5 @@
 ---
-title: "091. Composable Erp Pbc Api"
+title: "Composable Erp Pbc Api"
 date: "2026-06-07"
 tags:
   - "enterprise_systems"

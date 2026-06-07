@@ -1,5 +1,5 @@
 ---
-title: "162. Fbi Function Based Index"
+title: "Fbi Function Based Index"
 date: "2026-05-05"
 tags:
   - "studynote-database"

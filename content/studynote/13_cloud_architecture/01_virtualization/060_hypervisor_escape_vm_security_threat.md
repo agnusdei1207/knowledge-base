@@ -1,5 +1,5 @@
 ---
-title: "060. Hypervisor Escape Vm Security Threat"
+title: "Hypervisor Escape Vm Security Threat"
 date: "2026-04-07"
 tags:
   - "studynote-cloud-architecture"

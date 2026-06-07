@@ -1,5 +1,5 @@
 ---
-title: "164. Tableau"
+title: "Tableau"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

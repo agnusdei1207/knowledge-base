@@ -1,5 +1,5 @@
 ---
-title: "706. Transactional Outbox Event Guarantee"
+title: "Transactional Outbox Event Guarantee"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

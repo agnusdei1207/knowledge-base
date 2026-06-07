@@ -1,5 +1,5 @@
 ---
-title: "787. Aggregate Root Single Entry Point"
+title: "Aggregate Root Single Entry Point"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

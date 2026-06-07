@@ -1,5 +1,5 @@
 ---
-title: "319. Airflow Dag Pipeline"
+title: "Airflow Dag Pipeline"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"

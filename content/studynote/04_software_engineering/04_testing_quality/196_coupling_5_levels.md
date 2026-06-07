@@ -1,5 +1,5 @@
 ---
-title: "196. Coupling 5 Levels"
+title: "Coupling 5 Levels"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

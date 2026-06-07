@@ -1,5 +1,5 @@
 ---
-title: "256. Lock Free Data Structures"
+title: "Lock Free Data Structures"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

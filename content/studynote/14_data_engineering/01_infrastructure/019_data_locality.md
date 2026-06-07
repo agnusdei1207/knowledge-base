@@ -1,5 +1,5 @@
 ---
-title: "019. Data Locality"
+title: "Data Locality"
 date: "2025-01-01"
 tags:
   - "data_engineering"

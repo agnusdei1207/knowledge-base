@@ -1,5 +1,5 @@
 ---
-title: "108. 서픽스 트리와 서픽스 배열 (Suffix Tree & Array)"
+title: "서픽스 트리와 서픽스 배열 (Suffix Tree & Array)"
 date: "2026-04-10"
 tags:
   - "studynote-it-management"

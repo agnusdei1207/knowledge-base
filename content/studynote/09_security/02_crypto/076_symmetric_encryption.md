@@ -1,5 +1,5 @@
 ---
-title: "076. Symmetric Encryption"
+title: "Symmetric Encryption"
 date: "2026-03-26"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "356. PCIe (PCI Express)"
+title: "PCIe (PCI Express)"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"

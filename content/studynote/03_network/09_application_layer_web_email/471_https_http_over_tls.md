@@ -1,5 +1,5 @@
 ---
-title: "471. HTTPS (HTTP over TLS)"
+title: "HTTPS (HTTP over TLS)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

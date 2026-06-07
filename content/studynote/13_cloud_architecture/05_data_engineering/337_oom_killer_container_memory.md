@@ -1,5 +1,5 @@
 ---
-title: "337. OOM 킬러 메모리 보호 리소스 제약 컨테이너 드롭 (OOM)"
+title: "OOM 킬러 메모리 보호 리소스 제약 컨테이너 드롭 (OOM)"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"

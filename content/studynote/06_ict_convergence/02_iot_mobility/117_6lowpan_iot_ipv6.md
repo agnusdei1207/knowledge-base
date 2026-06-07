@@ -1,5 +1,5 @@
 ---
-title: "117. 6Lowpan Iot Ipv6"
+title: "6Lowpan Iot Ipv6"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"

@@ -1,5 +1,5 @@
 ---
-title: "1050. Rdma Roce Remote Direct Memory Access Storage"
+title: "Rdma Roce Remote Direct Memory Access Storage"
 date: "2026-05-08"
 tags:
   - "studynote-network"

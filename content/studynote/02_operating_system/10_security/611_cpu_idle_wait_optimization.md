@@ -1,5 +1,5 @@
 ---
-title: "611. Cpu Idle Wait Optimization"
+title: "Cpu Idle Wait Optimization"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

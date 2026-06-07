@@ -1,5 +1,5 @@
 ---
-title: "346. Batch Size Generalization"
+title: "Batch Size Generalization"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

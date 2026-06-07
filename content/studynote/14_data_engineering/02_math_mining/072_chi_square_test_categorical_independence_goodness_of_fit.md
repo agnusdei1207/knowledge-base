@@ -1,5 +1,5 @@
 ---
-title: "072. Chi Square Test Categorical Independence Goodness Of Fit"
+title: "Chi Square Test Categorical Independence Goodness Of Fit"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"

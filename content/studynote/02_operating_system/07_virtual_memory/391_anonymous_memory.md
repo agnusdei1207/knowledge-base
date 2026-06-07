@@ -1,5 +1,5 @@
 ---
-title: "391. Anonymous Memory"
+title: "Anonymous Memory"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

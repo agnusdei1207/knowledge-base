@@ -1,5 +1,5 @@
 ---
-title: "985. X.509 인증서 (X509 Certificate PKI Digital Signature Format)"
+title: "X.509 인증서 (X509 Certificate PKI Digital Signature Format)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

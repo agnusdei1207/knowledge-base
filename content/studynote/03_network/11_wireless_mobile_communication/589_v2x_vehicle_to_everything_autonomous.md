@@ -1,5 +1,5 @@
 ---
-title: "589. V2X (Vehicle to Everything)"
+title: "V2X (Vehicle to Everything)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "239. Minimax Alpha Beta Pruning"
+title: "Minimax Alpha Beta Pruning"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

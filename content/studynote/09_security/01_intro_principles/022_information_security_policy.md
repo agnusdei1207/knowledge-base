@@ -1,5 +1,5 @@
 ---
-title: "022. Information Security Policy"
+title: "Information Security Policy"
 date: "2026-04-02"
 tags:
   - "studynote-security"

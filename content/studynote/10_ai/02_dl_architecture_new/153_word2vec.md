@@ -1,5 +1,5 @@
 ---
-title: "153. Word2Vec"
+title: "Word2Vec"
 date: "2026-05-03"
 tags:
   - "studynote-ai"

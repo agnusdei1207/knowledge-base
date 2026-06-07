@@ -1,5 +1,5 @@
 ---
-title: "122. Container Orchestration Kubernetes K8S"
+title: "Container Orchestration Kubernetes K8S"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"

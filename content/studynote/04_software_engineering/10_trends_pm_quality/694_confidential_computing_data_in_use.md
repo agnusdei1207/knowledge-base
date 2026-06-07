@@ -1,5 +1,5 @@
 ---
-title: "694. Confidential Computing Data In Use"
+title: "Confidential Computing Data In Use"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

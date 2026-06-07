@@ -1,5 +1,5 @@
 ---
-title: "29. IT 포트폴리오 관리 (IT PPM)"
+title: "IT 포트폴리오 관리 (IT PPM)"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"

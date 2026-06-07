@@ -1,5 +1,5 @@
 ---
-title: "680. HDFS (Hadoop Distributed File System)"
+title: "HDFS (Hadoop Distributed File System)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

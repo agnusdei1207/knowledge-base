@@ -1,5 +1,5 @@
 ---
-title: "881. Micro Segmentation Firewall Sdn Policy Automation"
+title: "Micro Segmentation Firewall Sdn Policy Automation"
 date: "2026-05-08"
 tags:
   - "studynote-network"

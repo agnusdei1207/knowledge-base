@@ -1,5 +1,5 @@
 ---
-title: "1075. Multicast Mld Igmp Snooping"
+title: "Multicast Mld Igmp Snooping"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "1078. Cwpp Cloud Workload Protection Platform"
+title: "Cwpp Cloud Workload Protection Platform"
 date: "2026-05-08"
 tags:
   - "studynote-network"

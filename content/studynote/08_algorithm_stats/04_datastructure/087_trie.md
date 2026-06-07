@@ -1,5 +1,5 @@
 ---
-title: "087. Trie"
+title: "Trie"
 date: "2026-04-29"
 tags:
   - "studynote-algorithm-stats"

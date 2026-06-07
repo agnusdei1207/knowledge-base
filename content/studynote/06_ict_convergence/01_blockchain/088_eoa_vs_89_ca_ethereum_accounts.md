@@ -1,5 +1,5 @@
 ---
-title: "088. Eoa Vs 89 Ca Ethereum Accounts"
+title: "Eoa Vs 89 Ca Ethereum Accounts"
 date: "2026-06-07"
 tags:
   - "ict_convergence"

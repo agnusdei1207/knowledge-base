@@ -1,5 +1,5 @@
 ---
-title: "1069. RPKI (Resource Public Key Infrastructure)"
+title: "RPKI (Resource Public Key Infrastructure)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

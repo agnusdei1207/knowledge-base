@@ -1,5 +1,5 @@
 ---
-title: "140. 섀도잉 - 사용자 업무 환경 직접 관찰 (Shadowing)"
+title: "섀도잉 - 사용자 업무 환경 직접 관찰 (Shadowing)"
 date: "2026-06-07"
 tags:
   - "studynote-software-engineering"

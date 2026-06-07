@@ -1,5 +1,5 @@
 ---
-title: "178. Tele Haptics Communication"
+title: "Tele Haptics Communication"
 date: "2026-05-06"
 tags:
   - "studynote-ict-convergence"

@@ -1,5 +1,5 @@
 ---
-title: "54. DAO (Decentralized Autonomous Organization)"
+title: "DAO (Decentralized Autonomous Organization)"
 date: "2026-05-01"
 tags:
   - "studynote-ict-convergence"

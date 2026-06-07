@@ -1,5 +1,5 @@
 ---
-title: "185. Log Aggregation Fluentd Elasticsearch"
+title: "Log Aggregation Fluentd Elasticsearch"
 date: "2026-05-06"
 tags:
   - "studynote-enterprise-systems"

@@ -1,5 +1,5 @@
 ---
-title: "292. Deadlock Prevention"
+title: "Deadlock Prevention"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

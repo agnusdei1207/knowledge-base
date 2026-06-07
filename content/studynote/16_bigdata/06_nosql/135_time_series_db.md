@@ -1,5 +1,5 @@
 ---
-title: "135. Time Series Db"
+title: "Time Series Db"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

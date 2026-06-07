@@ -1,5 +1,5 @@
 ---
-title: "1086. Wireguard Vpn Routing High Speed"
+title: "Wireguard Vpn Routing High Speed"
 date: "2026-05-08"
 tags:
   - "studynote-network"

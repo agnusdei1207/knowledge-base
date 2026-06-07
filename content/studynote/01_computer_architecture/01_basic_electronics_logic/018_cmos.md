@@ -1,5 +1,5 @@
 ---
-title: "18. CMOS (Complementary MOS)"
+title: "CMOS (Complementary MOS)"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"

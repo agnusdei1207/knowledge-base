@@ -1,5 +1,5 @@
 ---
-title: "059. Persistent Storage Data Log Control File"
+title: "Persistent Storage Data Log Control File"
 date: "2026-04-19"
 tags:
   - "studynote-database"

@@ -1,5 +1,5 @@
 ---
-title: "306. CQRS 명령 조회 모델 물리 분리"
+title: "CQRS 명령 조회 모델 물리 분리"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

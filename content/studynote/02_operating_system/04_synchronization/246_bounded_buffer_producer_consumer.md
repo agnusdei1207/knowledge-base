@@ -1,5 +1,5 @@
 ---
-title: "246. Bounded Buffer Producer Consumer"
+title: "Bounded Buffer Producer Consumer"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

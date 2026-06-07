@@ -1,5 +1,5 @@
 ---
-title: "154. Ev Earned Value"
+title: "Ev Earned Value"
 date: "2026-05-03"
 tags:
   - "studynote-it-management"

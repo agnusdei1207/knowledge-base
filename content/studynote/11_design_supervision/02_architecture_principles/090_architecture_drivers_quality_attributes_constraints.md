@@ -1,5 +1,5 @@
 ---
-title: "090. Architecture Drivers Quality Attributes Constraints"
+title: "Architecture Drivers Quality Attributes Constraints"
 date: "2026-04-10"
 tags:
   - "studynote-design-supervision"

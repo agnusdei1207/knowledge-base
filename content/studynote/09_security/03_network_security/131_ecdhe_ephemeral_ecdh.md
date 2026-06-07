@@ -1,5 +1,5 @@
 ---
-title: "131. ECDHE (Ephemeral Elliptic Curve Diffie-Hellman)"
+title: "ECDHE (Ephemeral Elliptic Curve Diffie-Hellman)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

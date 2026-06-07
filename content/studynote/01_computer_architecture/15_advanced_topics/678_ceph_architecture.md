@@ -1,5 +1,5 @@
 ---
-title: "678. Ceph Architecture"
+title: "Ceph Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "546. Tsn Hardware"
+title: "Tsn Hardware"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

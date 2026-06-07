@@ -1,5 +1,5 @@
 ---
-title: "044. Relational Algebra Division"
+title: "Relational Algebra Division"
 date: "2026-04-05"
 tags:
   - "studynote-database"

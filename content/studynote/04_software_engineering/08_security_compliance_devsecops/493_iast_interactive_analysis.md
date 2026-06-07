@@ -1,5 +1,5 @@
 ---
-title: "493. Iast Interactive Analysis"
+title: "Iast Interactive Analysis"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

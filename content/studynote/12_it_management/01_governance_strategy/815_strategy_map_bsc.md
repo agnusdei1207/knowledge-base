@@ -1,5 +1,5 @@
 ---
-title: "815. Strategy Map Bsc"
+title: "Strategy Map Bsc"
 date: "2026-04-02"
 tags:
   - "studynote-it-management"

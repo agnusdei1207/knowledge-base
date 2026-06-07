@@ -1,5 +1,5 @@
 ---
-title: "669. Bpf Hw Offloading"
+title: "Bpf Hw Offloading"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

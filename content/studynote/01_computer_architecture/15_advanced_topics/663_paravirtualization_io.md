@@ -1,5 +1,5 @@
 ---
-title: "663. Paravirtualization Io"
+title: "Paravirtualization Io"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

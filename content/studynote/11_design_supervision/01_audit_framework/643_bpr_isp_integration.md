@@ -1,5 +1,5 @@
 ---
-title: "643. Bpr Isp Integration"
+title: "Bpr Isp Integration"
 date: "2026-06-07"
 tags:
   - "design_supervision"

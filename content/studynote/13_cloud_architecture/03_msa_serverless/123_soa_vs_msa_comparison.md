@@ -1,5 +1,5 @@
 ---
-title: "123. Soa Vs Msa Comparison"
+title: "Soa Vs Msa Comparison"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"

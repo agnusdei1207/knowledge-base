@@ -1,5 +1,5 @@
 ---
-title: "576. Factless Fact Table Event Tracking Coverage"
+title: "Factless Fact Table Event Tracking Coverage"
 date: "2026-05-09"
 tags:
   - "studynote-database"

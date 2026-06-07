@@ -1,5 +1,5 @@
 ---
-title: "44. BPO (Business Process Outsourcing)"
+title: "BPO (Business Process Outsourcing)"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"

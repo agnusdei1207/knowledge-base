@@ -1,5 +1,5 @@
 ---
-title: "257. Stp 4 States Blocking Listening Learning Forwarding"
+title: "Stp 4 States Blocking Listening Learning Forwarding"
 date: "2026-05-08"
 tags:
   - "studynote-network"

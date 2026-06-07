@@ -1,5 +1,5 @@
 ---
-title: "171. Pkcs12 Pfx"
+title: "Pkcs12 Pfx"
 date: "2026-04-05"
 tags:
   - "studynote-security"

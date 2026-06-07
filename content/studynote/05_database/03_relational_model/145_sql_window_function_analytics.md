@@ -1,5 +1,5 @@
 ---
-title: "145. Sql Window Function Analytics"
+title: "Sql Window Function Analytics"
 date: "2026-04-19"
 tags:
   - "studynote-database"

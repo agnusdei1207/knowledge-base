@@ -1,5 +1,5 @@
 ---
-title: "365. 객체지향 5원칙 SOLID 위배 코드 냄새(Code Smell) 리팩토링 검증"
+title: "객체지향 5원칙 SOLID 위배 코드 냄새(Code Smell) 리팩토링 검증"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

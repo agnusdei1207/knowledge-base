@@ -1,5 +1,5 @@
 ---
-title: "086. Cyclic Prefix (CP) & Guard Interval (GI)"
+title: "Cyclic Prefix (CP) & Guard Interval (GI)"
 date: "2026-03-30"
 tags:
   - "network"

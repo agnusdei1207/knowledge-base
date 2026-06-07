@@ -1,5 +1,5 @@
 ---
-title: "304 Not Modified"
+title: "Not Modified"
 date: "2026-05-08"
 tags:
   - "studynote-network"

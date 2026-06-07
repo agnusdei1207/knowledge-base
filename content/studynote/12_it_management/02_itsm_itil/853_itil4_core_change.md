@@ -1,5 +1,5 @@
 ---
-title: "853. Itil4 Core Change"
+title: "Itil4 Core Change"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

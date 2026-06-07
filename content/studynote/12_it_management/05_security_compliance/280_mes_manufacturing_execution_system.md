@@ -1,5 +1,5 @@
 ---
-title: "280. MES 공장 제조 실행 시스템"
+title: "MES 공장 제조 실행 시스템"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

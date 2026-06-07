@@ -1,5 +1,5 @@
 ---
-title: "1087. Bbr Google Tcp Congestion Control Delay Based"
+title: "Bbr Google Tcp Congestion Control Delay Based"
 date: "2026-05-08"
 tags:
   - "studynote-network"

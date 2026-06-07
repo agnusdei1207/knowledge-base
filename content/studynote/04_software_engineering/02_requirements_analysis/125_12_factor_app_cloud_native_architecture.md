@@ -1,5 +1,5 @@
 ---
-title: "125. 12 Factor App Cloud Native Architecture"
+title: "12 Factor App Cloud Native Architecture"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"

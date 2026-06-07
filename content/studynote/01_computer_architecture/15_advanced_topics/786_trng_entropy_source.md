@@ -1,5 +1,5 @@
 ---
-title: "786. Trng Entropy Source"
+title: "Trng Entropy Source"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

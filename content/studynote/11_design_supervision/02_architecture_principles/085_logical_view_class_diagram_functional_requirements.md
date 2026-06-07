@@ -1,5 +1,5 @@
 ---
-title: "085. Logical View Class Diagram Functional Requirements"
+title: "Logical View Class Diagram Functional Requirements"
 date: "2026-04-10"
 tags:
   - "studynote-design-supervision"

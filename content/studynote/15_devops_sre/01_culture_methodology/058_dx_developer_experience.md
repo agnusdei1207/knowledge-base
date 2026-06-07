@@ -1,5 +1,5 @@
 ---
-title: "058. Dx Developer Experience"
+title: "Dx Developer Experience"
 date: "2026-04-05"
 tags:
   - "studynote-devops-sre"

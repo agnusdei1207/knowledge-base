@@ -1,5 +1,5 @@
 ---
-title: "1018. Mmwave Millimeter Wave Attenuation Path Loss"
+title: "Mmwave Millimeter Wave Attenuation Path Loss"
 date: "2026-05-08"
 tags:
   - "studynote-network"

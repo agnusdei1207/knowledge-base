@@ -1,5 +1,5 @@
 ---
-title: "198. X86 Architecture"
+title: "X86 Architecture"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"

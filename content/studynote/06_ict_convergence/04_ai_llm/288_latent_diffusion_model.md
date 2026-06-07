@@ -1,5 +1,5 @@
 ---
-title: "288. LDM (Latent Diffusion Model)"
+title: "LDM (Latent Diffusion Model)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"

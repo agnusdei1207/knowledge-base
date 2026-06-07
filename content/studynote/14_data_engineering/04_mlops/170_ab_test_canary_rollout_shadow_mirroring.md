@@ -1,5 +1,5 @@
 ---
-title: "170. Ab Test Canary Rollout Shadow Mirroring"
+title: "Ab Test Canary Rollout Shadow Mirroring"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

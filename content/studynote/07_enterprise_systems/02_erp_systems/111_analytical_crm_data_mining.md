@@ -1,5 +1,5 @@
 ---
-title: "111. Analytical Crm Data Mining"
+title: "Analytical Crm Data Mining"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"

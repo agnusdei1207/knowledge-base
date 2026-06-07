@@ -1,5 +1,5 @@
 ---
-title: "242. Supervised Learning"
+title: "Supervised Learning"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

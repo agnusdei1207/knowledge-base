@@ -1,5 +1,5 @@
 ---
-title: "183. Mac Media Access Control"
+title: "Mac Media Access Control"
 date: "2026-05-06"
 tags:
   - "studynote-network"

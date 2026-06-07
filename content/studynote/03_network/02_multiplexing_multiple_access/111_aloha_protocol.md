@@ -1,5 +1,5 @@
 ---
-title: "111. Aloha Protocol"
+title: "Aloha Protocol"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "179. Swot 3C 4C Analysis"
+title: "Swot 3C 4C Analysis"
 date: "2026-06-07"
 tags:
   - "software_engineering"

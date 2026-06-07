@@ -1,5 +1,5 @@
 ---
-title: "129. Spatial Computing Apple Vision Pro"
+title: "Spatial Computing Apple Vision Pro"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"

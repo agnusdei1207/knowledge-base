@@ -1,5 +1,5 @@
 ---
-title: "948. Clean-Label Poisoning (Clean-Label Poisoning)"
+title: "Clean-Label Poisoning (Clean-Label Poisoning)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "75. 인시던트 관리 (Incident Management)"
+title: "인시던트 관리 (Incident Management)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

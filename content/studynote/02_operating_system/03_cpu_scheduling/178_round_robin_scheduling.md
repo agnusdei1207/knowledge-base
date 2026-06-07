@@ -1,5 +1,5 @@
 ---
-title: "178. Round Robin Scheduling"
+title: "Round Robin Scheduling"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"

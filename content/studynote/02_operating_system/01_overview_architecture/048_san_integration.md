@@ -1,5 +1,5 @@
 ---
-title: "048. San Integration"
+title: "San Integration"
 date: "2026-04-05"
 tags:
   - "studynote-operating-system"

@@ -1,5 +1,5 @@
 ---
-title: "079. RPA (Robotic Process Automation)"
+title: "RPA (Robotic Process Automation)"
 date: "2026-05-05"
 tags:
   - "studynote-enterprise-systems"

@@ -1,5 +1,5 @@
 ---
-title: "138. Attention Mechanism Dynamic Weight"
+title: "Attention Mechanism Dynamic Weight"
 date: "2026-04-19"
 tags:
   - "studynote-data-engineering"

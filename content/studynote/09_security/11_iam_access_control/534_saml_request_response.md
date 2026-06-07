@@ -1,5 +1,5 @@
 ---
-title: "534. SAML Request/Response (SAML Request/Response)"
+title: "SAML Request/Response (SAML Request/Response)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

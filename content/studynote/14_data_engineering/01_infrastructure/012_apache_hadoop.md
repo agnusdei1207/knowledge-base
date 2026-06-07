@@ -1,5 +1,5 @@
 ---
-title: "012. Apache Hadoop"
+title: "Apache Hadoop"
 date: "2023-10-24"
 tags:
   - "data_engineering"

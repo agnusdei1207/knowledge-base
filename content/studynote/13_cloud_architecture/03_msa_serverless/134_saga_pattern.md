@@ -1,5 +1,5 @@
 ---
-title: "134. Saga Pattern"
+title: "Saga Pattern"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"

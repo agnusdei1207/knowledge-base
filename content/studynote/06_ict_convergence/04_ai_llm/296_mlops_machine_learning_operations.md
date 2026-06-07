@@ -1,5 +1,5 @@
 ---
-title: "296. MLOps (Machine Learning Operations)"
+title: "MLOps (Machine Learning Operations)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"

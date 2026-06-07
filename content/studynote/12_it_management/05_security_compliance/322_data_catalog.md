@@ -1,5 +1,5 @@
 ---
-title: "322. 데이터 카탈로그 검색 태깅 인프라"
+title: "데이터 카탈로그 검색 태깅 인프라"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

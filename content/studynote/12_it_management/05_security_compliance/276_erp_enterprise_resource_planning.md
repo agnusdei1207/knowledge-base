@@ -1,5 +1,5 @@
 ---
-title: "276. ERP 전사적 자원 관리"
+title: "ERP 전사적 자원 관리"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

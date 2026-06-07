@@ -1,5 +1,5 @@
 ---
-title: "045. Nist Csf 2 0"
+title: "Nist Csf 2 0"
 date: "2026-04-05"
 tags:
   - "studynote-security"

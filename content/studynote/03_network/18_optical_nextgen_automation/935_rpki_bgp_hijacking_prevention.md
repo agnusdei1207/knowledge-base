@@ -1,5 +1,5 @@
 ---
-title: "935. RPKI (Resource Public Key Infrastructure"
+title: "RPKI (Resource Public Key Infrastructure"
 date: "2026-05-08"
 tags:
   - "studynote-network"

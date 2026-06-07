@@ -1,5 +1,5 @@
 ---
-title: "403. Bottom Up Integration"
+title: "Bottom Up Integration"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

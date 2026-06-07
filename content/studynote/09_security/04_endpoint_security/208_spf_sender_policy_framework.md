@@ -1,5 +1,5 @@
 ---
-title: "208. SPF (Sender Policy Framework)"
+title: "SPF (Sender Policy Framework)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

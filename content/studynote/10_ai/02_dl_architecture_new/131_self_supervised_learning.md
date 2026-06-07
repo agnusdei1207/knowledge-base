@@ -1,5 +1,5 @@
 ---
-title: "131. Self Supervised Learning"
+title: "Self Supervised Learning"
 date: "2026-04-19"
 tags:
   - "studynote-ai"

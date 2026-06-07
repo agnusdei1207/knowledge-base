@@ -1,5 +1,5 @@
 ---
-title: "088. Physical Deployment View Infrastructure Mapping"
+title: "Physical Deployment View Infrastructure Mapping"
 date: "2026-04-10"
 tags:
   - "studynote-design-supervision"

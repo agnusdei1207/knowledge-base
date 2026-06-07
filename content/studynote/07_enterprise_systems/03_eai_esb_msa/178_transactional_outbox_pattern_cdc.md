@@ -1,5 +1,5 @@
 ---
-title: "178. Transactional Outbox Pattern Cdc"
+title: "Transactional Outbox Pattern Cdc"
 date: "2026-05-06"
 tags:
   - "studynote-enterprise-systems"

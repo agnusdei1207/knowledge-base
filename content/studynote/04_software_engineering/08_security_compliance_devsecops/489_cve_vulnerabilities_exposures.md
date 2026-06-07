@@ -1,5 +1,5 @@
 ---
-title: "489. Cve Vulnerabilities Exposures"
+title: "Cve Vulnerabilities Exposures"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

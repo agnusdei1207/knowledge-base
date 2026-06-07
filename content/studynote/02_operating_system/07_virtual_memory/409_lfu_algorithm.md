@@ -1,5 +1,5 @@
 ---
-title: "409. Lfu Algorithm"
+title: "Lfu Algorithm"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

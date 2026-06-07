@@ -1,5 +1,5 @@
 ---
-title: "677. Ca Ra Certificate Authority Registration"
+title: "Ca Ra Certificate Authority Registration"
 date: "2026-05-08"
 tags:
   - "studynote-network"

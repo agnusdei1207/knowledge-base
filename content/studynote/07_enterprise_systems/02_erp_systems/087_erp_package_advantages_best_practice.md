@@ -1,5 +1,5 @@
 ---
-title: "087. Erp Package Advantages Best Practice"
+title: "Erp Package Advantages Best Practice"
 date: "2026-06-07"
 tags:
   - "enterprise_systems"

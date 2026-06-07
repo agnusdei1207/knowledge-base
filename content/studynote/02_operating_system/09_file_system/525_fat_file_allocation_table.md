@@ -1,5 +1,5 @@
 ---
-title: "525. Fat File Allocation Table"
+title: "Fat File Allocation Table"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

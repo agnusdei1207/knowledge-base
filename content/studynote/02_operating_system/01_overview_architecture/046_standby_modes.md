@@ -1,5 +1,5 @@
 ---
-title: "046. Standby Modes"
+title: "Standby Modes"
 date: "2026-04-05"
 tags:
   - "studynote-operating-system"

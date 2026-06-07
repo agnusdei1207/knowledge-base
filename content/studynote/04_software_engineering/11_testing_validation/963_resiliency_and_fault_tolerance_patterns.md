@@ -1,5 +1,5 @@
 ---
-title: "963. Resiliency And Fault Tolerance Patterns"
+title: "Resiliency And Fault Tolerance Patterns"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

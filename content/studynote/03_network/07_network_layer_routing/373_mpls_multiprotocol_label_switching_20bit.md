@@ -1,5 +1,5 @@
 ---
-title: "373. MPLS (Multiprotocol Label Switching)"
+title: "MPLS (Multiprotocol Label Switching)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

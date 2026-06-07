@@ -1,5 +1,5 @@
 ---
-title: "571. Spark Micro Batch Vs Flink Native Stream"
+title: "Spark Micro Batch Vs Flink Native Stream"
 date: "2026-05-09"
 tags:
   - "studynote-database"

@@ -1,5 +1,5 @@
 ---
-title: "520. In Memory Structures"
+title: "In Memory Structures"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

@@ -1,5 +1,5 @@
 ---
-title: "124. Decision Tree"
+title: "Decision Tree"
 date: "2026-04-19"
 tags:
   - "studynote-data-engineering"

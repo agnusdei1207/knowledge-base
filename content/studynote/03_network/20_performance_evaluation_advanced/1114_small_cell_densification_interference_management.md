@@ -1,5 +1,5 @@
 ---
-title: "1114. Small Cell Densification Interference Management"
+title: "Small Cell Densification Interference Management"
 date: "2026-05-08"
 tags:
   - "studynote-network"

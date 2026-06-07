@@ -1,5 +1,5 @@
 ---
-title: "068. Super Key Uniqueness"
+title: "Super Key Uniqueness"
 date: "2026-06-07"
 tags:
   - "database"

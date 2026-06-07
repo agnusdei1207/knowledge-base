@@ -1,5 +1,5 @@
 ---
-title: "133. Four Golden Signals"
+title: "Four Golden Signals"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"

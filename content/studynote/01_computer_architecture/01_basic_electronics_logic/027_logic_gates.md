@@ -1,5 +1,5 @@
 ---
-title: "027. Logic Gates"
+title: "Logic Gates"
 date: "2026-04-29"
 tags:
   - "studynote-computer-architecture"

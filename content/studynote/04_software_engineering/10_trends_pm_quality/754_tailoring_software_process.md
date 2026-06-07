@@ -1,5 +1,5 @@
 ---
-title: "754. Tailoring Software Process"
+title: "Tailoring Software Process"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

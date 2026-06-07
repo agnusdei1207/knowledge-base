@@ -1,5 +1,5 @@
 ---
-title: "130. Seci Model Knowledge Creation"
+title: "Seci Model Knowledge Creation"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"

@@ -1,5 +1,5 @@
 ---
-title: "152. Medallion Architecture"
+title: "Medallion Architecture"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

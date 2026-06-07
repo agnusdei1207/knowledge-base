@@ -1,5 +1,5 @@
 ---
-title: "078. Numeral Systems"
+title: "Numeral Systems"
 date: "2026-03-19"
 tags:
   - "studynote-computer-architecture"

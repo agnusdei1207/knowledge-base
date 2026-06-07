@@ -1,5 +1,5 @@
 ---
-title: "723. Cots Commercial Off The Shelf Testing"
+title: "Cots Commercial Off The Shelf Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

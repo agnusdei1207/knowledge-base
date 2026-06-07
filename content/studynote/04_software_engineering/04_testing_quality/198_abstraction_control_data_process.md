@@ -1,5 +1,5 @@
 ---
-title: "198. Abstraction Control Data Process"
+title: "Abstraction Control Data Process"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

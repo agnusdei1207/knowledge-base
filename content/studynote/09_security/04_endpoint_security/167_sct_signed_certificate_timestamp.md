@@ -1,5 +1,5 @@
 ---
-title: "167. Sct Signed Certificate Timestamp"
+title: "Sct Signed Certificate Timestamp"
 date: "2026-04-05"
 tags:
   - "studynote-security"

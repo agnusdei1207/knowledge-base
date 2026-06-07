@@ -1,5 +1,5 @@
 ---
-title: "156. Fallback Mechanism Cache Degraded"
+title: "Fallback Mechanism Cache Degraded"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

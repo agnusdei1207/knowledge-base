@@ -1,5 +1,5 @@
 ---
-title: "144. Cable Wiring Direct Cross"
+title: "Cable Wiring Direct Cross"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "736. Log 6W1H Worm Storage Integrity"
+title: "Log 6W1H Worm Storage Integrity"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

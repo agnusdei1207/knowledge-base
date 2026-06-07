@@ -1,5 +1,5 @@
 ---
-title: "047. Quick Sort"
+title: "Quick Sort"
 date: "2026-06-07"
 tags:
   - "algorithm_stats"

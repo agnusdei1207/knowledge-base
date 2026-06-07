@@ -1,5 +1,5 @@
 ---
-title: "910. Pseudonymization Anonymization"
+title: "Pseudonymization Anonymization"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

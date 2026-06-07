@@ -1,5 +1,5 @@
 ---
-title: "499. Sdi Hardware Dependency"
+title: "Sdi Hardware Dependency"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "1094. Ospf Abr Asbr Area Hierarchy Routing"
+title: "Ospf Abr Asbr Area Hierarchy Routing"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "064. Git Flow Branch Strategy Release"
+title: "Git Flow Branch Strategy Release"
 date: "2026-04-10"
 tags:
   - "studynote-devops-sre"

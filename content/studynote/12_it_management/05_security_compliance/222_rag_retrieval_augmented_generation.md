@@ -1,5 +1,5 @@
 ---
-title: "222. 검색 증강 생성 (RAG, Retrieval-Augmented Generation)"
+title: "검색 증강 생성 (RAG, Retrieval-Augmented Generation)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

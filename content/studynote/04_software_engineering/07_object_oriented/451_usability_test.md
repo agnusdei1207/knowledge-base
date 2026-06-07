@@ -1,5 +1,5 @@
 ---
-title: "451. Usability Test"
+title: "Usability Test"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

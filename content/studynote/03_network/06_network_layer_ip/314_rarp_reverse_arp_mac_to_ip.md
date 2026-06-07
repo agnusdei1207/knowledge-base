@@ -1,5 +1,5 @@
 ---
-title: "314. RARP (Reverse ARP)"
+title: "RARP (Reverse ARP)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

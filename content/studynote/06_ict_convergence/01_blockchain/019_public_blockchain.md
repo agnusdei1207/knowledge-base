@@ -1,5 +1,5 @@
 ---
-title: "019. Public Blockchain"
+title: "Public Blockchain"
 date: "2026-03-04"
 tags:
   - "ict_convergence"

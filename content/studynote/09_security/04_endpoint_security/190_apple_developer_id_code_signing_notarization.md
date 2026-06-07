@@ -1,5 +1,5 @@
 ---
-title: "190. Apple Developer ID (Apple Developer ID)"
+title: "Apple Developer ID (Apple Developer ID)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

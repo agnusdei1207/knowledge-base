@@ -1,5 +1,5 @@
 ---
-title: "956. Helm Chart Package Management"
+title: "Helm Chart Package Management"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

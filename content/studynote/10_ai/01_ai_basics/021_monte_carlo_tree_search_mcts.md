@@ -1,5 +1,5 @@
 ---
-title: "021. Monte Carlo Tree Search Mcts"
+title: "Monte Carlo Tree Search Mcts"
 date: "2026-04-02"
 tags:
   - "studynote-ai"

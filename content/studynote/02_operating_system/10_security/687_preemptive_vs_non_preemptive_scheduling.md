@@ -1,5 +1,5 @@
 ---
-title: "687. 선점 / 비선점 스케줄링 차이"
+title: "선점 / 비선점 스케줄링 차이"
 date: "2026-06-07"
 tags:
   - "studynote-operating-system"

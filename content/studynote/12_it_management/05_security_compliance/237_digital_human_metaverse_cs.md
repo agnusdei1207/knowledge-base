@@ -1,5 +1,5 @@
 ---
-title: "237. 디지털 휴먼 (Digital Human) 및 메타버스 CS(Customer Service) 채널 통합 구조"
+title: "디지털 휴먼 (Digital Human) 및 메타버스 CS(Customer Service) 채널 통합 구조"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

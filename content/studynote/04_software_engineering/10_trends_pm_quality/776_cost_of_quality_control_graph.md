@@ -1,5 +1,5 @@
 ---
-title: "776. Cost Of Quality Control Graph"
+title: "Cost Of Quality Control Graph"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

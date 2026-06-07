@@ -1,5 +1,5 @@
 ---
-title: "144. Correlated Subquery Nested Loop"
+title: "Correlated Subquery Nested Loop"
 date: "2026-04-19"
 tags:
   - "studynote-database"

@@ -1,5 +1,5 @@
 ---
-title: "107. Node Affinity Kubernetes Scheduling Required Preferred"
+title: "Node Affinity Kubernetes Scheduling Required Preferred"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"

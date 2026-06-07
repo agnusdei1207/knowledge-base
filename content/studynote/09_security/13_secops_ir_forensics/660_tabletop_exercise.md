@@ -1,5 +1,5 @@
 ---
-title: "660. tabletop exercise (tabletop exercise)"
+title: "tabletop exercise (tabletop exercise)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

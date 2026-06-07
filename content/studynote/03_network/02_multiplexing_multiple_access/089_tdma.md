@@ -1,5 +1,5 @@
 ---
-title: "089. Time Division Multiple Access (TDMA)"
+title: "Time Division Multiple Access (TDMA)"
 date: "2026-03-30"
 tags:
   - "network"

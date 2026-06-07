@@ -1,5 +1,5 @@
 ---
-title: "703. ZNS (Zoned Namespace) SSD"
+title: "ZNS (Zoned Namespace) SSD"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

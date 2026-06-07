@@ -1,5 +1,5 @@
 ---
-title: "325. Etl Extract Transform Load Process"
+title: "Etl Extract Transform Load Process"
 date: "2026-05-09"
 tags:
   - "studynote-database"

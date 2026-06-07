@@ -1,5 +1,5 @@
 ---
-title: "227. EAP (Extensible Authentication Protocol)"
+title: "EAP (Extensible Authentication Protocol)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

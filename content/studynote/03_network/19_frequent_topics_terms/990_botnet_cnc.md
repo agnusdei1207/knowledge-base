@@ -1,5 +1,5 @@
 ---
-title: "990. Botnet Cnc"
+title: "Botnet Cnc"
 date: "2026-05-08"
 tags:
   - "studynote-network"

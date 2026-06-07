@@ -1,5 +1,5 @@
 ---
-title: "309. 멀티 테넌트 SaaS 스키마 격리"
+title: "멀티 테넌트 SaaS 스키마 격리"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

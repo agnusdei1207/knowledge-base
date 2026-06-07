@@ -1,5 +1,5 @@
 ---
-title: "555. Backup And Restore Strategy"
+title: "Backup And Restore Strategy"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

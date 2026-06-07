@@ -1,5 +1,5 @@
 ---
-title: "162. Rest Statelessness"
+title: "Rest Statelessness"
 date: "2026-05-05"
 tags:
   - "studynote-enterprise-systems"

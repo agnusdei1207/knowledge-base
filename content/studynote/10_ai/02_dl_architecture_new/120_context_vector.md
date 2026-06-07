@@ -1,5 +1,5 @@
 ---
-title: "120. Context Vector"
+title: "Context Vector"
 date: "2026-04-19"
 tags:
   - "studynote-ai"

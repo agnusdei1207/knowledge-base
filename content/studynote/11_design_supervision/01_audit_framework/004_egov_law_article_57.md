@@ -1,5 +1,5 @@
 ---
-title: "004. Egov Law Article 57"
+title: "Egov Law Article 57"
 date: "2026-04-05"
 tags:
   - "design_supervision"

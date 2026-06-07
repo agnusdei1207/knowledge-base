@@ -1,5 +1,5 @@
 ---
-title: "282. FDDI (Fiber Distributed Data Interface)"
+title: "FDDI (Fiber Distributed Data Interface)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "121. Sre Philosophy"
+title: "Sre Philosophy"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"

@@ -1,5 +1,5 @@
 ---
-title: "147. Aggregate Function Group By"
+title: "Aggregate Function Group By"
 date: "2026-04-19"
 tags:
   - "studynote-database"

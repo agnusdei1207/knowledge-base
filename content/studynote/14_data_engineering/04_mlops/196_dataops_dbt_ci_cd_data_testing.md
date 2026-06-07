@@ -1,5 +1,5 @@
 ---
-title: "196. Dataops Dbt Ci Cd Data Testing"
+title: "Dataops Dbt Ci Cd Data Testing"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

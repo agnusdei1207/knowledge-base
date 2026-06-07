@@ -1,5 +1,5 @@
 ---
-title: "329. Ipv6 Link Local Fe80 Site Local"
+title: "Ipv6 Link Local Fe80 Site Local"
 date: "2026-05-08"
 tags:
   - "studynote-network"

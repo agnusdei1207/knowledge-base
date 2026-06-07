@@ -1,5 +1,5 @@
 ---
-title: "129. Document Db"
+title: "Document Db"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

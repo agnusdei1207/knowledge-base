@@ -1,5 +1,5 @@
 ---
-title: "244. LSN (Log Sequence Number)"
+title: "LSN (Log Sequence Number)"
 date: "2026-05-08"
 tags:
   - "studynote-database"

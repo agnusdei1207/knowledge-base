@@ -1,5 +1,5 @@
 ---
-title: "271. TCO 총 소유 비용"
+title: "TCO 총 소유 비용"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

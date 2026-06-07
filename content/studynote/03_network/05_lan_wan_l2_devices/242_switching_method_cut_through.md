@@ -1,5 +1,5 @@
 ---
-title: "242. Switching Method Cut Through"
+title: "Switching Method Cut Through"
 date: "2026-05-08"
 tags:
   - "studynote-network"

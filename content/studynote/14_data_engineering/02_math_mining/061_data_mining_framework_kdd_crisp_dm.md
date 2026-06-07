@@ -1,5 +1,5 @@
 ---
-title: "061. Data Mining Framework Kdd Crisp Dm"
+title: "Data Mining Framework Kdd Crisp Dm"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"

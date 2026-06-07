@@ -1,5 +1,5 @@
 ---
-title: "060. Quantization Noise & Step Size"
+title: "Quantization Noise & Step Size"
 date: "2024-05-15"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "936. Externalized Configuration"
+title: "Externalized Configuration"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

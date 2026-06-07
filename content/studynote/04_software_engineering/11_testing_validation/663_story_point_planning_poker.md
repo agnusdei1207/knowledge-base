@@ -1,5 +1,5 @@
 ---
-title: "663. 스토리 포인트 플래닝 포커 합의"
+title: "스토리 포인트 플래닝 포커 합의"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

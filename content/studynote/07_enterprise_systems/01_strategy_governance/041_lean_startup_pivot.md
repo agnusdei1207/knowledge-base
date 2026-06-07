@@ -1,5 +1,5 @@
 ---
-title: "041. Lean Startup Pivot"
+title: "Lean Startup Pivot"
 date: "2026-03-19"
 tags:
   - "studynote-enterprise-systems"

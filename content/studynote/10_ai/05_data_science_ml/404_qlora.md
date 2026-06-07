@@ -1,5 +1,5 @@
 ---
-title: "404. QLoRA (Quantized LoRA)"
+title: "QLoRA (Quantized LoRA)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

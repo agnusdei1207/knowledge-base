@@ -1,5 +1,5 @@
 ---
-title: "105. 감성 분석 (Sentiment Analysis) — 긍/부정/중립, BERT 기반 심화"
+title: "감성 분석 (Sentiment Analysis) — 긍/부정/중립, BERT 기반 심화"
 date: "2026-04-05"
 tags:
   - "studynote-it-management"

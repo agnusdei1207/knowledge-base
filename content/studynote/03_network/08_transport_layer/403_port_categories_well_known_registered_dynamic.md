@@ -1,5 +1,5 @@
 ---
-title: "403. Port Categories Well Known Registered Dynamic"
+title: "Port Categories Well Known Registered Dynamic"
 date: "2026-05-08"
 tags:
   - "studynote-network"

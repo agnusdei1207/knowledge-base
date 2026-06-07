@@ -1,5 +1,5 @@
 ---
-title: "053. 백로그 정제 (Backlog Grooming/Refinement)"
+title: "백로그 정제 (Backlog Grooming/Refinement)"
 date: "2026-06-07"
 tags:
   - "studynote-devops-sre"

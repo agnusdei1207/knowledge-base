@@ -1,5 +1,5 @@
 ---
-title: "472. Bsimm Maturity Model"
+title: "Bsimm Maturity Model"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

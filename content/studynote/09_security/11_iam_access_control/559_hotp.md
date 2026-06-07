@@ -1,5 +1,5 @@
 ---
-title: "559. HOTP (HMAC-based OTP)"
+title: "HOTP (HMAC-based OTP)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

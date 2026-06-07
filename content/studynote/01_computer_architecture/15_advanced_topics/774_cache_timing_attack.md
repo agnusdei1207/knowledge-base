@@ -1,5 +1,5 @@
 ---
-title: "774. Cache Timing Attack"
+title: "Cache Timing Attack"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

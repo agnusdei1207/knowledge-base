@@ -1,5 +1,5 @@
 ---
-title: "091. Amazon Kinesis"
+title: "Amazon Kinesis"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

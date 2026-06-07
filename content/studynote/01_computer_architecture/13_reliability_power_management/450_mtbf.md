@@ -1,5 +1,5 @@
 ---
-title: "450. Mtbf"
+title: "Mtbf"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"

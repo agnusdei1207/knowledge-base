@@ -1,5 +1,5 @@
 ---
-title: "156. REST (Representational State Transfer)"
+title: "REST (Representational State Transfer)"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise-systems"

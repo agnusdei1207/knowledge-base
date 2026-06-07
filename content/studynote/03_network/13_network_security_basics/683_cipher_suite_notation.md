@@ -1,5 +1,5 @@
 ---
-title: "683. Cipher Suite Notation"
+title: "Cipher Suite Notation"
 date: "2026-05-08"
 tags:
   - "studynote-network"

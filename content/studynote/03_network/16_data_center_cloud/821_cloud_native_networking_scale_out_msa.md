@@ -1,5 +1,5 @@
 ---
-title: "821. Cloud Native Networking Scale Out Msa"
+title: "Cloud Native Networking Scale Out Msa"
 date: "2026-05-08"
 tags:
   - "studynote-network"

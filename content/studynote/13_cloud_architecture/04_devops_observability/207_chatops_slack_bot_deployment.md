@@ -1,5 +1,5 @@
 ---
-title: "207. Chatops Slack Bot Deployment"
+title: "Chatops Slack Bot Deployment"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"

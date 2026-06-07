@@ -1,5 +1,5 @@
 ---
-title: "932. 물리적 보안 3대 요소 (Sniffing Detection Arp Ping Promiscuous Mode)"
+title: "물리적 보안 3대 요소 (Sniffing Detection Arp Ping Promiscuous Mode)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

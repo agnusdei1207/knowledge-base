@@ -1,5 +1,5 @@
 ---
-title: "399. Anycast Routing Bgp Anycast Dns Redundancy"
+title: "Anycast Routing Bgp Anycast Dns Redundancy"
 date: "2026-05-08"
 tags:
   - "studynote-network"

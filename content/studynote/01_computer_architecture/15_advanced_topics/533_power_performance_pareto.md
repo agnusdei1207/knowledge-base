@@ -1,5 +1,5 @@
 ---
-title: "533. Power Performance Pareto"
+title: "Power Performance Pareto"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"

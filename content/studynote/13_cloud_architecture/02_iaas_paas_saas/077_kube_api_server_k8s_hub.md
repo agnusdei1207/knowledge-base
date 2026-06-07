@@ -1,5 +1,5 @@
 ---
-title: "077. Kube Api Server K8S Hub"
+title: "Kube Api Server K8S Hub"
 date: "2026-04-07"
 tags:
   - "studynote-cloud-architecture"

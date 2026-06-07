@@ -1,5 +1,5 @@
 ---
-title: "175. Ambient Backscatter Communication"
+title: "Ambient Backscatter Communication"
 date: "2026-05-06"
 tags:
   - "studynote-ict-convergence"

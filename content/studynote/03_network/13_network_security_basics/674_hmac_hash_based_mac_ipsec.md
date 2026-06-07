@@ -1,5 +1,5 @@
 ---
-title: "674. Hmac Hash Based Mac Ipsec"
+title: "Hmac Hash Based Mac Ipsec"
 date: "2026-05-08"
 tags:
   - "studynote-network"

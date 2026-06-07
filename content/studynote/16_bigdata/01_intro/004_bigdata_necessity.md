@@ -1,5 +1,5 @@
 ---
-title: "004. Bigdata Necessity"
+title: "Bigdata Necessity"
 date: "2024-05-24"
 tags:
   - "bigdata"

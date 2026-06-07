@@ -1,5 +1,5 @@
 ---
-title: "343. IaC 테라폼 코드 인프라 선언 통제망"
+title: "IaC 테라폼 코드 인프라 선언 통제망"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

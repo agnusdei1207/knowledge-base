@@ -1,5 +1,5 @@
 ---
-title: "151. Sql View Virtual Table"
+title: "Sql View Virtual Table"
 date: "2026-05-03"
 tags:
   - "studynote-database"

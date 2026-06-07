@@ -1,5 +1,5 @@
 ---
-title: "182. Aging"
+title: "Aging"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"

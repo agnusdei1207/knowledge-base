@@ -1,5 +1,5 @@
 ---
-title: "1035. Rfid Anti Collision Aloha Tree Algorithm"
+title: "Rfid Anti Collision Aloha Tree Algorithm"
 date: "2026-05-08"
 tags:
   - "studynote-network"

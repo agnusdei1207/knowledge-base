@@ -1,5 +1,5 @@
 ---
-title: "075. Agile Pmo Project Management Office"
+title: "Agile Pmo Project Management Office"
 date: "2026-04-07"
 tags:
   - "studynote-enterprise-systems"

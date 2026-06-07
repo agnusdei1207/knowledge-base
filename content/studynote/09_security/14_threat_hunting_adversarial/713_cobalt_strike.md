@@ -1,5 +1,5 @@
 ---
-title: "713. Cobalt Strike (Cobalt Strike)"
+title: "Cobalt Strike (Cobalt Strike)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

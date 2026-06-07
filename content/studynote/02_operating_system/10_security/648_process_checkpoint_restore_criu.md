@@ -1,5 +1,5 @@
 ---
-title: "648. Process Checkpoint Restore Criu"
+title: "Process Checkpoint Restore Criu"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

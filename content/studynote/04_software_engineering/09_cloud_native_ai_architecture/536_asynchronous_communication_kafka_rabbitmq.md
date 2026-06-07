@@ -1,5 +1,5 @@
 ---
-title: "536. Asynchronous Communication Kafka Rabbitmq"
+title: "Asynchronous Communication Kafka Rabbitmq"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

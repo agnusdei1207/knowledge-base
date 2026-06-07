@@ -1,5 +1,5 @@
 ---
-title: "287. PMO 프로젝트 관리 오피스 역할"
+title: "PMO 프로젝트 관리 오피스 역할"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

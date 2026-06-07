@@ -1,5 +1,5 @@
 ---
-title: "1097. Broadcast Storm Switching Loop Stp"
+title: "Broadcast Storm Switching Loop Stp"
 date: "2026-05-08"
 tags:
   - "studynote-network"

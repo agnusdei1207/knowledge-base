@@ -1,5 +1,5 @@
 ---
-title: "609. Performance Monitoring"
+title: "Performance Monitoring"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

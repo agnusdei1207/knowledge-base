@@ -1,5 +1,5 @@
 ---
-title: "096. Sce Supply Chain Execution Oms"
+title: "Sce Supply Chain Execution Oms"
 date: "2026-06-07"
 tags:
   - "enterprise_systems"

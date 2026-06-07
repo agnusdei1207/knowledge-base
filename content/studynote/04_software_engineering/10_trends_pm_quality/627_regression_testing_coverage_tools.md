@@ -1,5 +1,5 @@
 ---
-title: "627. Regression Testing Coverage Tools"
+title: "Regression Testing Coverage Tools"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

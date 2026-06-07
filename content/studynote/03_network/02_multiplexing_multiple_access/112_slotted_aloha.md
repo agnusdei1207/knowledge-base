@@ -1,5 +1,5 @@
 ---
-title: "112. Slotted ALOHA"
+title: "Slotted ALOHA"
 date: "2026-05-08"
 tags:
   - "studynote-network"

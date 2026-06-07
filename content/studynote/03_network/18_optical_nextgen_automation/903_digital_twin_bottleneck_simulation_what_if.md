@@ -1,5 +1,5 @@
 ---
-title: "903. Digital Twin Bottleneck Simulation What If"
+title: "Digital Twin Bottleneck Simulation What If"
 date: "2026-05-08"
 tags:
   - "studynote-network"

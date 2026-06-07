@@ -1,5 +1,5 @@
 ---
-title: "807. ROI (Return on Investment)"
+title: "ROI (Return on Investment)"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"

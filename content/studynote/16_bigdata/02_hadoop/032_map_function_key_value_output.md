@@ -1,5 +1,5 @@
 ---
-title: "032. Map Function Key Value Output"
+title: "Map Function Key Value Output"
 date: "2026-03-04"
 tags:
   - "studynote-bigdata"

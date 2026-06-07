@@ -1,5 +1,5 @@
 ---
-title: "057. Operator Pattern"
+title: "Operator Pattern"
 date: "2026-06-07"
 tags:
   - "cloud_architecture"

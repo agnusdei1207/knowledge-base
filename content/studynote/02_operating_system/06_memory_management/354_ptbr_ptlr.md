@@ -1,5 +1,5 @@
 ---
-title: "354. PTBR (Page-Table Base Register) / PTLR (Page-Table Length Register)"
+title: "PTBR (Page-Table Base Register) / PTLR (Page-Table Length Register)"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

@@ -1,5 +1,5 @@
 ---
-title: "597. Slc Caching"
+title: "Slc Caching"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

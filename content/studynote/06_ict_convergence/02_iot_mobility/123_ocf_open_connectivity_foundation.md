@@ -1,5 +1,5 @@
 ---
-title: "123. Ocf Open Connectivity Foundation"
+title: "Ocf Open Connectivity Foundation"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"

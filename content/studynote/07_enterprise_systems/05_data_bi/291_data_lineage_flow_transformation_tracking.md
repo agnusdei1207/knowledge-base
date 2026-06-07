@@ -1,5 +1,5 @@
 ---
-title: "291. Data Lineage Flow Transformation Tracking"
+title: "Data Lineage Flow Transformation Tracking"
 date: "2026-04-21"
 tags:
   - "studynote-enterprise-systems"

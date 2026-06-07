@@ -1,5 +1,5 @@
 ---
-title: "007. Information System Master Plan"
+title: "Information System Master Plan"
 date: "2026-04-05"
 tags:
   - "it_management"

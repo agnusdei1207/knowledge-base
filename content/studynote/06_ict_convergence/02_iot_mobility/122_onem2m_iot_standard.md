@@ -1,5 +1,5 @@
 ---
-title: "122. Onem2M Iot Standard"
+title: "Onem2M Iot Standard"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"

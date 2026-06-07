@@ -1,5 +1,5 @@
 ---
-title: "057. Subscription Economy Xaas"
+title: "Subscription Economy Xaas"
 date: "2024-03-20"
 tags:
   - "studynote-it-management"

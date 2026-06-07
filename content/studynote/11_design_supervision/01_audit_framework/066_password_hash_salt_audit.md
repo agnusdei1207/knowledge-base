@@ -1,5 +1,5 @@
 ---
-title: "66. 비밀번호 암호화 저장 방식 진단 (Password Hash and Salt Audit)"
+title: "비밀번호 암호화 저장 방식 진단 (Password Hash and Salt Audit)"
 date: "2026-05-08"
 tags:
   - "studynote-design-supervision"

@@ -1,5 +1,5 @@
 ---
-title: "238. 로우코드/노코드 (LC/NC) 시민 개발자 (Citizen Developer) 플랫폼 도입과 섀도우 IT 거버넌스 타협망"
+title: "로우코드/노코드 (LC/NC) 시민 개발자 (Citizen Developer) 플랫폼 도입과 섀도우 IT 거버넌스 타협망"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

@@ -1,5 +1,5 @@
 ---
-title: "1031. Nbiot Psm Edrx Power Saving"
+title: "Nbiot Psm Edrx Power Saving"
 date: "2026-05-08"
 tags:
   - "studynote-network"

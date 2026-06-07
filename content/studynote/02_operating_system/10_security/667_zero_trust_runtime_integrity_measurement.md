@@ -1,5 +1,5 @@
 ---
-title: "667. Zero Trust Runtime Integrity Measurement"
+title: "Zero Trust Runtime Integrity Measurement"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

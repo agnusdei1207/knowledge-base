@@ -1,5 +1,5 @@
 ---
-title: "423. Large Page Performance"
+title: "Large Page Performance"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

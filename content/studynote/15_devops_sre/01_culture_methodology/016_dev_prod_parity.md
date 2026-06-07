@@ -1,5 +1,5 @@
 ---
-title: "016. Dev Prod Parity"
+title: "Dev Prod Parity"
 date: "2026-03-04"
 tags:
   - "devops_sre"

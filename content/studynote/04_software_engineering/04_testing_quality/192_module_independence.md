@@ -1,5 +1,5 @@
 ---
-title: "192. Module Independence"
+title: "Module Independence"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

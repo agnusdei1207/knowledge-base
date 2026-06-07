@@ -1,5 +1,5 @@
 ---
-title: "615. Ebpf"
+title: "Ebpf"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

@@ -1,5 +1,5 @@
 ---
-title: "592. Shellcode Injection"
+title: "Shellcode Injection"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

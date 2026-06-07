@@ -1,5 +1,5 @@
 ---
-title: "303. Authentication Authorization Patterns"
+title: "Authentication Authorization Patterns"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

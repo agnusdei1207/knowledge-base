@@ -1,5 +1,5 @@
 ---
-title: "36. MVP (Minimum Viable Product, 최소 존립 제품)"
+title: "MVP (Minimum Viable Product, 최소 존립 제품)"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"

@@ -1,5 +1,5 @@
 ---
-title: "259. Raft Paxos"
+title: "Raft Paxos"
 date: "2026-05-09"
 tags:
   - "studynote-database"

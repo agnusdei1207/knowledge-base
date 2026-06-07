@@ -1,5 +1,5 @@
 ---
-title: "483. Cors Preflight"
+title: "Cors Preflight"
 date: "2026-05-08"
 tags:
   - "studynote-security"

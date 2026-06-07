@@ -1,5 +1,5 @@
 ---
-title: "096. Vpa Vertical Pod Autoscaler Kubernetes"
+title: "Vpa Vertical Pod Autoscaler Kubernetes"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"

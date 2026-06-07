@@ -1,5 +1,5 @@
 ---
-title: "366. Ibgp Ebgp Split Horizon Rule"
+title: "Ibgp Ebgp Split Horizon Rule"
 date: "2026-05-08"
 tags:
   - "studynote-network"

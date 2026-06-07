@@ -1,5 +1,5 @@
 ---
-title: "672. Integrity Origin Authentication Code"
+title: "Integrity Origin Authentication Code"
 date: "2026-05-08"
 tags:
   - "studynote-network"

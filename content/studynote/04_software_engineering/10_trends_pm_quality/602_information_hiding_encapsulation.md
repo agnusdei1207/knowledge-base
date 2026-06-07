@@ -1,5 +1,5 @@
 ---
-title: "602. Information Hiding Encapsulation"
+title: "Information Hiding Encapsulation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

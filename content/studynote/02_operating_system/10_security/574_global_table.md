@@ -1,5 +1,5 @@
 ---
-title: "574. Global Table"
+title: "Global Table"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

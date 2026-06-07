@@ -1,5 +1,5 @@
 ---
-title: "219. Nrm Arm Abm Hdlc Modes"
+title: "Nrm Arm Abm Hdlc Modes"
 date: "2026-05-08"
 tags:
   - "studynote-network"

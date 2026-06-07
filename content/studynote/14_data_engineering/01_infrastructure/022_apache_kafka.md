@@ -1,5 +1,5 @@
 ---
-title: "022. Apache Kafka"
+title: "Apache Kafka"
 date: "2026-04-02"
 tags:
   - "studynote-data-engineering"

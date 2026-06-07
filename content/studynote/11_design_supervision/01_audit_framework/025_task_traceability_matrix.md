@@ -1,5 +1,5 @@
 ---
-title: "025. Task Traceability Matrix"
+title: "Task Traceability Matrix"
 date: "2026-04-29"
 tags:
   - "studynote-design-supervision"

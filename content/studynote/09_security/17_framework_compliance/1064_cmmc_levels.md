@@ -1,5 +1,5 @@
 ---
-title: "1064. CMMC 2.0 Levels (Level 1-3)"
+title: "CMMC 2.0 Levels (Level 1-3)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

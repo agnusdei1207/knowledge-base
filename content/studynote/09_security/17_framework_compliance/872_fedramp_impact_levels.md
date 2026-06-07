@@ -1,5 +1,5 @@
 ---
-title: "872. FedRAMP Impact Levels (Low/Moderate/High)"
+title: "FedRAMP Impact Levels (Low/Moderate/High)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

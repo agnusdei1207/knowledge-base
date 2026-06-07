@@ -1,5 +1,5 @@
 ---
-title: "083. Kube Proxy Iptables Ipvs Routing"
+title: "Kube Proxy Iptables Ipvs Routing"
 date: "2026-06-07"
 tags:
   - "cloud_architecture"

@@ -1,5 +1,5 @@
 ---
-title: "105. Build Caching Optimization Docker Layer"
+title: "Build Caching Optimization Docker Layer"
 date: "2026-03-04"
 tags:
   - "studynote-devops-sre"

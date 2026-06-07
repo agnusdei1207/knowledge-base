@@ -1,5 +1,5 @@
 ---
-title: "223. Csi Container Storage Interface Pv"
+title: "Csi Container Storage Interface Pv"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

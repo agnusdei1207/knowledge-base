@@ -1,5 +1,5 @@
 ---
-title: "036. Apache Hive Sql Interface"
+title: "Apache Hive Sql Interface"
 date: "2026-03-04"
 tags:
   - "studynote-bigdata"

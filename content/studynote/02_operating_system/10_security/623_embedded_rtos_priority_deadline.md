@@ -1,5 +1,5 @@
 ---
-title: "623. Embedded Rtos Priority Deadline"
+title: "Embedded Rtos Priority Deadline"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

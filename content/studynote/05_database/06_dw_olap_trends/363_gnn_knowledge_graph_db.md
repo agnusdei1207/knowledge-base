@@ -1,5 +1,5 @@
 ---
-title: "363. Gnn Knowledge Graph Db"
+title: "Gnn Knowledge Graph Db"
 date: "2026-05-09"
 tags:
   - "studynote-database"

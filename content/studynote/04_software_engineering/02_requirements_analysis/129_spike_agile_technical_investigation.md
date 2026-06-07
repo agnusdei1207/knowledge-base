@@ -1,5 +1,5 @@
 ---
-title: "129. Spike Agile Technical Investigation"
+title: "Spike Agile Technical Investigation"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"

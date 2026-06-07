@@ -1,5 +1,5 @@
 ---
-title: "307. Recovery From Deadlock"
+title: "Recovery From Deadlock"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

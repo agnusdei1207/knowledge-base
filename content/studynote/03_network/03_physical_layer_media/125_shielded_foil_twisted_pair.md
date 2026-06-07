@@ -1,5 +1,5 @@
 ---
-title: "125. STP (Shielded Twisted Pair) / FTP (Foil Twisted Pair)"
+title: "STP (Shielded Twisted Pair) / FTP (Foil Twisted Pair)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

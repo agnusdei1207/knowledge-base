@@ -1,5 +1,5 @@
 ---
-title: "177. Srtf Scheduling"
+title: "Srtf Scheduling"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"

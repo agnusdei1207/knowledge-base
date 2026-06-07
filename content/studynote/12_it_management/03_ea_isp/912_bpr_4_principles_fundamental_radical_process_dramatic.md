@@ -1,5 +1,5 @@
 ---
-title: "912. Bpr 4 Principles Fundamental Radical Process Dramatic"
+title: "Bpr 4 Principles Fundamental Radical Process Dramatic"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

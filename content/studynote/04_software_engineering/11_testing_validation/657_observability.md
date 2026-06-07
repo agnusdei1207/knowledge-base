@@ -1,5 +1,5 @@
 ---
-title: "657. 옵저버빌리티 로그, 메트릭, 분산 추적(Tracing)"
+title: "옵저버빌리티 로그, 메트릭, 분산 추적(Tracing)"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "1071. Gslb Global Server Load Balancing Dns"
+title: "Gslb Global Server Load Balancing Dns"
 date: "2026-05-08"
 tags:
   - "studynote-network"

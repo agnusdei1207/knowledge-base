@@ -1,5 +1,5 @@
 ---
-title: "077. Asymmetric Encryption"
+title: "Asymmetric Encryption"
 date: "2026-03-26"
 tags:
   - "studynote-security"

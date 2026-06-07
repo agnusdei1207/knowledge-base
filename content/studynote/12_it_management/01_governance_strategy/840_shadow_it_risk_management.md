@@ -1,5 +1,5 @@
 ---
-title: "840. Shadow It Risk Management"
+title: "Shadow It Risk Management"
 date: "2026-04-05"
 tags:
   - "studynote-it-management"

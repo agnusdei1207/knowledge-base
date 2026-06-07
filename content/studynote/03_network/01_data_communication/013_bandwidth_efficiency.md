@@ -1,5 +1,5 @@
 ---
-title: "013. Bandwidth Efficiency"
+title: "Bandwidth Efficiency"
 date: "2026-03-30"
 tags:
   - "Network"

@@ -1,5 +1,5 @@
 ---
-title: "484. TFTP (Trivial FTP)"
+title: "TFTP (Trivial FTP)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

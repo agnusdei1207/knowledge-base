@@ -1,5 +1,5 @@
 ---
-title: "091. Functional Dependency Fd"
+title: "Functional Dependency Fd"
 date: "2026-06-07"
 tags:
   - "database"

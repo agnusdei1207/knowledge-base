@@ -1,5 +1,5 @@
 ---
-title: "030. Software Reuse Cbd"
+title: "Software Reuse Cbd"
 date: "2026-04-29"
 tags:
   - "studynote-software-engineering"

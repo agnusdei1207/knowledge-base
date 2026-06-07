@@ -1,5 +1,5 @@
 ---
-title: "337. Dependency Injection"
+title: "Dependency Injection"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

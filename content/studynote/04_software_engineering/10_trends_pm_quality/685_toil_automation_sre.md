@@ -1,5 +1,5 @@
 ---
-title: "685. Toil Automation Sre"
+title: "Toil Automation Sre"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "276. Lock Hierarchy"
+title: "Lock Hierarchy"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

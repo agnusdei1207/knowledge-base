@@ -1,5 +1,5 @@
 ---
-title: "137. Sql Self Join Recursive"
+title: "Sql Self Join Recursive"
 date: "2026-04-19"
 tags:
   - "studynote-database"

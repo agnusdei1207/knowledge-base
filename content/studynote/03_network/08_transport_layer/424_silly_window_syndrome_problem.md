@@ -1,5 +1,5 @@
 ---
-title: "424. Silly Window Syndrome Problem"
+title: "Silly Window Syndrome Problem"
 date: "2026-05-08"
 tags:
   - "studynote-network"

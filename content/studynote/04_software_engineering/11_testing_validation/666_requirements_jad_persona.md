@@ -1,5 +1,5 @@
 ---
-title: "666. 요구사항 도출 JAD 페르소나"
+title: "요구사항 도출 JAD 페르소나"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "105. Cmac"
+title: "Cmac"
 date: "2026-04-05"
 tags:
   - "studynote-security"

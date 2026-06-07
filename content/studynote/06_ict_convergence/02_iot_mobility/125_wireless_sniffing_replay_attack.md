@@ -1,5 +1,5 @@
 ---
-title: "125. Wireless Sniffing Replay Attack"
+title: "Wireless Sniffing Replay Attack"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"

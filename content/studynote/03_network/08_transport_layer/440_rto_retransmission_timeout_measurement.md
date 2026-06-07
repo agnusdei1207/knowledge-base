@@ -1,5 +1,5 @@
 ---
-title: "440. Rto Retransmission Timeout Measurement"
+title: "Rto Retransmission Timeout Measurement"
 date: "2026-05-08"
 tags:
   - "studynote-network"

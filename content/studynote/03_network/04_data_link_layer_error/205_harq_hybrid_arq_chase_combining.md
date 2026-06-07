@@ -1,5 +1,5 @@
 ---
-title: "205. HARQ (Hybrid ARQ)"
+title: "HARQ (Hybrid ARQ)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

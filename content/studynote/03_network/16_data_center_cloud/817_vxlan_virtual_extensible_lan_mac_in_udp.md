@@ -1,5 +1,5 @@
 ---
-title: "817. VXLAN (Virtual eXtensible LAN)"
+title: "VXLAN (Virtual eXtensible LAN)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

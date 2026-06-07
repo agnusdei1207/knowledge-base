@@ -1,5 +1,5 @@
 ---
-title: "945. Choreography Saga"
+title: "Choreography Saga"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

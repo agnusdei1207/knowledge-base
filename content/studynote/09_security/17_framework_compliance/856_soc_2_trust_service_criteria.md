@@ -1,5 +1,5 @@
 ---
-title: "856. SOC 2 Trust Service Criteria (Security Operations Center)"
+title: "SOC 2 Trust Service Criteria (Security Operations Center)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

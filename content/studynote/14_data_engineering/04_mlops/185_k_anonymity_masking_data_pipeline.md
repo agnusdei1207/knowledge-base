@@ -1,5 +1,5 @@
 ---
-title: "185. K Anonymity Masking Data Pipeline"
+title: "K Anonymity Masking Data Pipeline"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

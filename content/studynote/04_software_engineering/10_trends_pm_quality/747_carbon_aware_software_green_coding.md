@@ -1,5 +1,5 @@
 ---
-title: "747. Carbon Aware Software Green Coding"
+title: "Carbon Aware Software Green Coding"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

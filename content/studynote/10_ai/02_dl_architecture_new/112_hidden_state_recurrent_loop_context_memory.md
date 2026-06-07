@@ -1,5 +1,5 @@
 ---
-title: "112. Hidden State Recurrent Loop Context Memory"
+title: "Hidden State Recurrent Loop Context Memory"
 date: "2026-04-19"
 tags:
   - "studynote-ai"

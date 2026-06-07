@@ -1,5 +1,5 @@
 ---
-title: "760. HASS (Highly Accelerated Stress Screen)"
+title: "HASS (Highly Accelerated Stress Screen)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

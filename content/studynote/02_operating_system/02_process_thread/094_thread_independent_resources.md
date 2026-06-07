@@ -1,5 +1,5 @@
 ---
-title: "094. Thread Independent Resources"
+title: "Thread Independent Resources"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"

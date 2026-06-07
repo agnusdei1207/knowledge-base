@@ -1,5 +1,5 @@
 ---
-title: "198. Data Governance Components"
+title: "Data Governance Components"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

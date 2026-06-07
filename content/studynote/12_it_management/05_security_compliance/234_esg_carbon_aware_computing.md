@@ -1,5 +1,5 @@
 ---
-title: "234. 지속 가능한 IT / ESG 경영 탄소 인지 (Carbon-aware) 컴퓨팅 클라우드 스케줄링"
+title: "지속 가능한 IT / ESG 경영 탄소 인지 (Carbon-aware) 컴퓨팅 클라우드 스케줄링"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

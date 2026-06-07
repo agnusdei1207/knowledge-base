@@ -1,5 +1,5 @@
 ---
-title: "018. Admissible Heuristic"
+title: "Admissible Heuristic"
 date: "2024-05-24"
 tags:
   - "ai"

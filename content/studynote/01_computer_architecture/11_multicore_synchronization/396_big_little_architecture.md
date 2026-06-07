@@ -1,5 +1,5 @@
 ---
-title: "396. Big Little Architecture"
+title: "Big Little Architecture"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"

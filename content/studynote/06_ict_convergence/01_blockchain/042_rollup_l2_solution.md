@@ -1,5 +1,5 @@
 ---
-title: "042. Rollup L2 Solution"
+title: "Rollup L2 Solution"
 date: "2026-04-05"
 tags:
   - "studynote-ict-convergence"

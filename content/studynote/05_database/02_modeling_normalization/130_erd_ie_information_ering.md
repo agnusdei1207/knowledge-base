@@ -1,5 +1,5 @@
 ---
-title: "130. ERD 표기법 - IE, Barker, IDEF1X (Information 엔진ering, 까마귀발 표기법)"
+title: "ERD 표기법 - IE, Barker, IDEF1X (Information 엔진ering, 까마귀발 표기법)"
 date: "2026-06-07"
 tags:
   - "studynote-database"

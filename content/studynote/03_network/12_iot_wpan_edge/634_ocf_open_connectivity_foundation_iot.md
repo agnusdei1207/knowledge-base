@@ -1,5 +1,5 @@
 ---
-title: "634. Ocf Open Connectivity Foundation Iot"
+title: "Ocf Open Connectivity Foundation Iot"
 date: "2026-05-08"
 tags:
   - "studynote-network"

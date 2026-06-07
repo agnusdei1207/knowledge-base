@@ -1,5 +1,5 @@
 ---
-title: "022. Snapshot Backup Architecture"
+title: "Snapshot Backup Architecture"
 date: "2026-04-02"
 tags:
   - "studynote-cloud-architecture"

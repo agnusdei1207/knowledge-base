@@ -1,5 +1,5 @@
 ---
-title: "1101. Utp Cable Category Cat5 Cat6"
+title: "Utp Cable Category Cat5 Cat6"
 date: "2026-05-08"
 tags:
   - "studynote-network"

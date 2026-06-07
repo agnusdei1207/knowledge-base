@@ -1,5 +1,5 @@
 ---
-title: "165. Acceptance Criteria Definition"
+title: "Acceptance Criteria Definition"
 date: "2026-04-03"
 tags:
   - "studynote-software-engineering"

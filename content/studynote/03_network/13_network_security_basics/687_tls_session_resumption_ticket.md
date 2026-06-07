@@ -1,5 +1,5 @@
 ---
-title: "687. Tls Session Resumption Ticket"
+title: "Tls Session Resumption Ticket"
 date: "2026-05-08"
 tags:
   - "studynote-network"

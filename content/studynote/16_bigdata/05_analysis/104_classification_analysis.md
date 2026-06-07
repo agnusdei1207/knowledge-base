@@ -1,5 +1,5 @@
 ---
-title: "104. Classification Analysis"
+title: "Classification Analysis"
 date: "2024-03-20"
 tags:
   - "studynote-bigdata"

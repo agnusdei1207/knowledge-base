@@ -1,5 +1,5 @@
 ---
-title: "575. Shadow Deployment Traffic Mirroring"
+title: "Shadow Deployment Traffic Mirroring"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

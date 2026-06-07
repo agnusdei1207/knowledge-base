@@ -1,5 +1,5 @@
 ---
-title: "479. Double Submit Cookie"
+title: "Double Submit Cookie"
 date: "2026-05-08"
 tags:
   - "studynote-security"

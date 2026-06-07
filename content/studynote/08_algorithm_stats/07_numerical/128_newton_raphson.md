@@ -1,5 +1,5 @@
 ---
-title: "128. Newton Raphson"
+title: "Newton Raphson"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

@@ -1,5 +1,5 @@
 ---
-title: "236. A* 휴리스틱 미니맥스 MCTS 몬테카를로 탐험"
+title: "A* 휴리스틱 미니맥스 MCTS 몬테카를로 탐험"
 date: "2026-06-07"
 tags:
   - "studynote-data-engineering"

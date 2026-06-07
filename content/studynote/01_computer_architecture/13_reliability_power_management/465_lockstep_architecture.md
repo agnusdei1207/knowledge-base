@@ -1,5 +1,5 @@
 ---
-title: "465. Lockstep Architecture"
+title: "Lockstep Architecture"
 date: "2026-03-22"
 tags:
   - "studynote-computer-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "235. Nosql Database Types Overview"
+title: "Nosql Database Types Overview"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"

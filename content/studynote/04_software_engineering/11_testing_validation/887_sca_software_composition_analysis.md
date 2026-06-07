@@ -1,5 +1,5 @@
 ---
-title: "887. SCA (Software Composition Analysis)"
+title: "SCA (Software Composition Analysis)"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

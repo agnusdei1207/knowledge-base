@@ -1,5 +1,5 @@
 ---
-title: "108. Sentiment Analysis"
+title: "Sentiment Analysis"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

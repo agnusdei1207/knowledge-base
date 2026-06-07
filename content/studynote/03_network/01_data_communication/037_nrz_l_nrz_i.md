@@ -1,5 +1,5 @@
 ---
-title: "037. Nrz L Nrz I"
+title: "Nrz L Nrz I"
 date: "2026-03-03"
 tags:
   - "studynote-network"

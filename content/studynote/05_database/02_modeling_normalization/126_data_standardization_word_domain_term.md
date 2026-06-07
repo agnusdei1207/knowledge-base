@@ -1,5 +1,5 @@
 ---
-title: "126. Data Standardization Word Domain Term"
+title: "Data Standardization Word Domain Term"
 date: "2026-04-19"
 tags:
   - "studynote-database"

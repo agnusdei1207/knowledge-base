@@ -1,5 +1,5 @@
 ---
-title: "410. 프로미스 퓨처 [지연] 연산망 체인"
+title: "프로미스 퓨처 [지연] 연산망 체인"
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

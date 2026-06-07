@@ -1,5 +1,5 @@
 ---
-title: "515. MBR (Master Boot Record) vs GPT (GUID Partition Table)"
+title: "MBR (Master Boot Record) vs GPT (GUID Partition Table)"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

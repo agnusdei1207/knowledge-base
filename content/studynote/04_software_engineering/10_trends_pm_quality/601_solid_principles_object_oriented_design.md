@@ -1,5 +1,5 @@
 ---
-title: "601. Solid Principles Object Oriented Design"
+title: "Solid Principles Object Oriented Design"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

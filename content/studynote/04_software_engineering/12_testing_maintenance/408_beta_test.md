@@ -1,5 +1,5 @@
 ---
-title: "408. Beta Test"
+title: "Beta Test"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

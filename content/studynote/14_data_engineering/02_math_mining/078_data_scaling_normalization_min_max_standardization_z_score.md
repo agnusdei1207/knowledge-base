@@ -1,5 +1,5 @@
 ---
-title: "078. Data Scaling Normalization Min Max Standardization Z Score"
+title: "Data Scaling Normalization Min Max Standardization Z Score"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"

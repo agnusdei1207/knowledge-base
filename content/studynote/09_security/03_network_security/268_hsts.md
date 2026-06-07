@@ -1,5 +1,5 @@
 ---
-title: "268. HSTS (HTTP Strict Transport Security)"
+title: "HSTS (HTTP Strict Transport Security)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

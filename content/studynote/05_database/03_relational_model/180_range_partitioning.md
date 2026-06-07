@@ -1,5 +1,5 @@
 ---
-title: "180. Range Partitioning"
+title: "Range Partitioning"
 date: "2026-05-06"
 tags:
   - "studynote-database"

@@ -1,5 +1,5 @@
 ---
-title: "264. sLLM / SLM (Small Large Language Model)"
+title: "sLLM / SLM (Small Large Language Model)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"

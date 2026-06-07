@@ -1,5 +1,5 @@
 ---
-title: "617. Fhe Modular Multiplier"
+title: "Fhe Modular Multiplier"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

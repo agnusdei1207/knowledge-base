@@ -1,5 +1,5 @@
 ---
-title: "151. Adapter Pattern"
+title: "Adapter Pattern"
 date: "2026-05-03"
 tags:
   - "studynote-design-supervision"

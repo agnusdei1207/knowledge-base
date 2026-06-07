@@ -1,5 +1,5 @@
 ---
-title: "349. Distance Vector Loop Prevention Split Horizon Poison Reverse"
+title: "Distance Vector Loop Prevention Split Horizon Poison Reverse"
 date: "2026-05-08"
 tags:
   - "studynote-network"

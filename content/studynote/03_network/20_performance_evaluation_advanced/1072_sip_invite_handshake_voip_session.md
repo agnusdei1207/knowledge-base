@@ -1,5 +1,5 @@
 ---
-title: "1072. Sip Invite Handshake Voip Session"
+title: "Sip Invite Handshake Voip Session"
 date: "2026-05-08"
 tags:
   - "studynote-network"

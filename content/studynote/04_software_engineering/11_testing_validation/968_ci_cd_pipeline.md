@@ -1,5 +1,5 @@
 ---
-title: "968. Ci Cd Pipeline"
+title: "Ci Cd Pipeline"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "188. Code Signing Software Authentication"
+title: "Code Signing Software Authentication"
 date: "2026-05-08"
 tags:
   - "studynote-security"

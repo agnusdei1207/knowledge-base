@@ -1,5 +1,5 @@
 ---
-title: "035. Pmo Vs Audit Difference"
+title: "Pmo Vs Audit Difference"
 date: "2026-03-03"
 tags:
   - "studynote-design-supervision"

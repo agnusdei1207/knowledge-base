@@ -1,5 +1,5 @@
 ---
-title: "112. Serverless Framework Deployment"
+title: "Serverless Framework Deployment"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"

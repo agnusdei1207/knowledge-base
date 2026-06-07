@@ -1,5 +1,5 @@
 ---
-title: "045. Min Cut"
+title: "Min Cut"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

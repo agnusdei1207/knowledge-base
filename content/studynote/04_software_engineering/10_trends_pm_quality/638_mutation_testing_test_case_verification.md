@@ -1,5 +1,5 @@
 ---
-title: "638. Mutation Testing Test Case Verification"
+title: "Mutation Testing Test Case Verification"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

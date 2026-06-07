@@ -1,5 +1,5 @@
 ---
-title: "527. Hardware Assisted Virtualization"
+title: "Hardware Assisted Virtualization"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

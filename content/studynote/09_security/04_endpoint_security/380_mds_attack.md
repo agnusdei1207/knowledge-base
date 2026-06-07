@@ -1,5 +1,5 @@
 ---
-title: "380. MDS (Microarchitectural Data Sampling)"
+title: "MDS (Microarchitectural Data Sampling)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

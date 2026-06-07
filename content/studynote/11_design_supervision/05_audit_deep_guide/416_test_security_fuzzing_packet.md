@@ -1,5 +1,5 @@
 ---
-title: "416. 보안 테스트 퍼징 이상 패킷 자동 주입"
+title: "보안 테스트 퍼징 이상 패킷 자동 주입"
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

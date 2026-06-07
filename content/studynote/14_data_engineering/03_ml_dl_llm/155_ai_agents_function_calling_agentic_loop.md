@@ -1,5 +1,5 @@
 ---
-title: "155. Ai Agents Function Calling Agentic Loop"
+title: "Ai Agents Function Calling Agentic Loop"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

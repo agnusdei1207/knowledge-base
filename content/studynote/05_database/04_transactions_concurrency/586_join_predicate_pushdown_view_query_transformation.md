@@ -1,5 +1,5 @@
 ---
-title: "586. Join Predicate Pushdown View Query Transformation"
+title: "Join Predicate Pushdown View Query Transformation"
 date: "2026-05-09"
 tags:
   - "studynote-database"

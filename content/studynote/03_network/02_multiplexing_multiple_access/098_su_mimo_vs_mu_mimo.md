@@ -1,5 +1,5 @@
 ---
-title: "98. SU-MIMO (Single User MIMO) vs MU-MIMO (Multi-User MIMO)"
+title: "SU-MIMO (Single User MIMO) vs MU-MIMO (Multi-User MIMO)"
 date: "2026-03-04"
 tags:
   - "network"

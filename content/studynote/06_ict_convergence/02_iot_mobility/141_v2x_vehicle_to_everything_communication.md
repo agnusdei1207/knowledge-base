@@ -1,5 +1,5 @@
 ---
-title: "141. V2X Vehicle To Everything Communication"
+title: "V2X Vehicle To Everything Communication"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"

@@ -1,5 +1,5 @@
 ---
-title: "087. Lean Software Development 7 Principles"
+title: "Lean Software Development 7 Principles"
 date: "2026-06-07"
 tags:
   - "software_engineering"

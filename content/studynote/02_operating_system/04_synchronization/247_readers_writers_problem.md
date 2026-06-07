@@ -1,5 +1,5 @@
 ---
-title: "247. Readers Writers Problem"
+title: "Readers Writers Problem"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

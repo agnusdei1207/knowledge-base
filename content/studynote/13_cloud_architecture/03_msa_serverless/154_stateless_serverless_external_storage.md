@@ -1,5 +1,5 @@
 ---
-title: "154. Stateless Serverless External Storage"
+title: "Stateless Serverless External Storage"
 date: "2026-05-03"
 tags:
   - "studynote-cloud-architecture"

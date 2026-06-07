@@ -1,5 +1,5 @@
 ---
-title: "603. Wsn Wireless Sensor Network Sink Node"
+title: "Wsn Wireless Sensor Network Sink Node"
 date: "2026-05-08"
 tags:
   - "studynote-network"

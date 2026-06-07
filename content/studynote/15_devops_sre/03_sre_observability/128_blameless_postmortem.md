@@ -1,5 +1,5 @@
 ---
-title: "128. Blameless Postmortem"
+title: "Blameless Postmortem"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"

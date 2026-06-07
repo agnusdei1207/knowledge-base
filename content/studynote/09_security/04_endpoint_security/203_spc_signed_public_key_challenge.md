@@ -1,5 +1,5 @@
 ---
-title: "203. SPC (Signed Public Key Challenge)"
+title: "SPC (Signed Public Key Challenge)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

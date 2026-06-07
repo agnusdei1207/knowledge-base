@@ -1,5 +1,5 @@
 ---
-title: "326. Elt Extract Load Transform Process"
+title: "Elt Extract Load Transform Process"
 date: "2026-05-09"
 tags:
   - "studynote-database"

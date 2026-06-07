@@ -1,5 +1,5 @@
 ---
-title: "414. Test And Set"
+title: "Test And Set"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"

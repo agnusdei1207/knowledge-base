@@ -1,5 +1,5 @@
 ---
-title: "761. Walkthrough Informal Technical Review"
+title: "Walkthrough Informal Technical Review"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

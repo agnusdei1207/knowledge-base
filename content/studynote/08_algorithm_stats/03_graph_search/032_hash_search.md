@@ -1,5 +1,5 @@
 ---
-title: "032. Hash Search"
+title: "Hash Search"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

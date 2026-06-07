@@ -1,5 +1,5 @@
 ---
-title: "1079. Vpn Virtual Private Network Tunneling Encryption"
+title: "Vpn Virtual Private Network Tunneling Encryption"
 date: "2026-05-08"
 tags:
   - "studynote-security"

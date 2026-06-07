@@ -1,5 +1,5 @@
 ---
-title: "133. 볼류메트릭 비디오 - 다수의 카메라로 인물/사물을 360도 3D로 캡처하여 홀로그램처럼 재생하는 기술 (Volumetric Video)"
+title: "볼류메트릭 비디오 - 다수의 카메라로 인물/사물을 360도 3D로 캡처하여 홀로그램처럼 재생하는 기술 (Volumetric Video)"
 date: "2026-06-07"
 tags:
   - "studynote-ict-convergence"

@@ -1,5 +1,5 @@
 ---
-title: "415. Decision Table"
+title: "Decision Table"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

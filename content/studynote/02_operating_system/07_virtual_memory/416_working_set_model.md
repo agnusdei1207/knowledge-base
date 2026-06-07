@@ -1,5 +1,5 @@
 ---
-title: "416. Working Set Model"
+title: "Working Set Model"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

@@ -1,5 +1,5 @@
 ---
-title: "361. Dark Data"
+title: "Dark Data"
 date: "2026-05-09"
 tags:
   - "studynote-database"

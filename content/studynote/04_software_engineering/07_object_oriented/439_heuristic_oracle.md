@@ -1,5 +1,5 @@
 ---
-title: "439. Heuristic Oracle"
+title: "Heuristic Oracle"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

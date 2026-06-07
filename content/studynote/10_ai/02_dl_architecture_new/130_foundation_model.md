@@ -1,5 +1,5 @@
 ---
-title: "130. Foundation Model"
+title: "Foundation Model"
 date: "2026-04-19"
 tags:
   - "studynote-ai"

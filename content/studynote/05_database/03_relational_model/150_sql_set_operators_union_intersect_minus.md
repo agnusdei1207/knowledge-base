@@ -1,5 +1,5 @@
 ---
-title: "150. Sql Set Operators Union Intersect Minus"
+title: "Sql Set Operators Union Intersect Minus"
 date: "2026-05-03"
 tags:
   - "studynote-database"

@@ -1,5 +1,5 @@
 ---
-title: "330. Limit Register"
+title: "Limit Register"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

@@ -1,5 +1,5 @@
 ---
-title: "114. Kayenta Canary Analysis"
+title: "Kayenta Canary Analysis"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"

@@ -1,5 +1,5 @@
 ---
-title: "049. Ensemble Learning Bagging Boosting"
+title: "Ensemble Learning Bagging Boosting"
 date: "2026-04-05"
 tags:
   - "studynote-ai"

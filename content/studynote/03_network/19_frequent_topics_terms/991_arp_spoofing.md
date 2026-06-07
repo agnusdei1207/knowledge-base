@@ -1,5 +1,5 @@
 ---
-title: "991. Arp Spoofing"
+title: "Arp Spoofing"
 date: "2026-05-08"
 tags:
   - "studynote-network"

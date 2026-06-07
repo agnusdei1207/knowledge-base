@@ -1,5 +1,5 @@
 ---
-title: "102. Jit Just In Time Kanban"
+title: "Jit Just In Time Kanban"
 date: "2026-06-07"
 tags:
   - "enterprise_systems"

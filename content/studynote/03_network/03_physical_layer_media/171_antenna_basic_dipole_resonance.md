@@ -1,5 +1,5 @@
 ---
-title: "171. Antenna Basic Dipole Resonance"
+title: "Antenna Basic Dipole Resonance"
 date: "2026-05-06"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "562. MIPv4 (Mobile IPv4)"
+title: "MIPv4 (Mobile IPv4)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

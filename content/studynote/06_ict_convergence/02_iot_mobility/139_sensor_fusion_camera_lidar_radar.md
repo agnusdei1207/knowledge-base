@@ -1,5 +1,5 @@
 ---
-title: "139. Sensor Fusion Camera Lidar Radar"
+title: "Sensor Fusion Camera Lidar Radar"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"

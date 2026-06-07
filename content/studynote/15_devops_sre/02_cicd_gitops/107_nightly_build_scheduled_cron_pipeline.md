@@ -1,5 +1,5 @@
 ---
-title: "107. Nightly Build Scheduled Cron Pipeline"
+title: "Nightly Build Scheduled Cron Pipeline"
 date: "2026-03-04"
 tags:
   - "studynote-devops-sre"

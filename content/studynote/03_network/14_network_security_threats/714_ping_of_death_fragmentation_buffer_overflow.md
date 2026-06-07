@@ -1,5 +1,5 @@
 ---
-title: "714. Ping Of Death Fragmentation Buffer Overflow"
+title: "Ping Of Death Fragmentation Buffer Overflow"
 date: "2026-05-08"
 tags:
   - "studynote-network"

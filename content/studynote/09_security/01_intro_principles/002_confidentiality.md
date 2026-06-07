@@ -1,5 +1,5 @@
 ---
-title: "002. Confidentiality"
+title: "Confidentiality"
 date: "2023-10-24"
 tags:
   - "security"

@@ -1,5 +1,5 @@
 ---
-title: "143. Strangler Fig Pattern"
+title: "Strangler Fig Pattern"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"

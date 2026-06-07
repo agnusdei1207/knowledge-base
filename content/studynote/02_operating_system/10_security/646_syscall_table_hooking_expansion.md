@@ -1,5 +1,5 @@
 ---
-title: "646. Syscall Table Hooking Expansion"
+title: "Syscall Table Hooking Expansion"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

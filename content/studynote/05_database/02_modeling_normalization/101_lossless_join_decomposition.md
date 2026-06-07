@@ -1,5 +1,5 @@
 ---
-title: "101. Lossless Join Decomposition"
+title: "Lossless Join Decomposition"
 date: "2026-06-07"
 tags:
   - "database"

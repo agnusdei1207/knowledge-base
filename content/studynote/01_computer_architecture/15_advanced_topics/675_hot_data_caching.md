@@ -1,5 +1,5 @@
 ---
-title: "675. Hot Data Caching"
+title: "Hot Data Caching"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

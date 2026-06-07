@@ -1,5 +1,5 @@
 ---
-title: "001. Audit Definition"
+title: "Audit Definition"
 date: "2026-04-05"
 tags:
   - "design_supervision"

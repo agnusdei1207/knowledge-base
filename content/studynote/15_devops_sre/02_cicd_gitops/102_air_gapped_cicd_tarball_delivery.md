@@ -1,5 +1,5 @@
 ---
-title: "102. Air Gapped Cicd Tarball Delivery"
+title: "Air Gapped Cicd Tarball Delivery"
 date: "2026-03-04"
 tags:
   - "studynote-devops-sre"

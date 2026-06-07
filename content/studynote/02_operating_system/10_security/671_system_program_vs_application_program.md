@@ -1,5 +1,5 @@
 ---
-title: "671. 시스템 프로그램과 응용 프로그램의 차이"
+title: "시스템 프로그램과 응용 프로그램의 차이"
 date: "2026-06-07"
 tags:
   - "studynote-operating-system"

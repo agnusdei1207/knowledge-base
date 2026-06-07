@@ -1,5 +1,5 @@
 ---
-title: "821. TaaS (Tokenization-as-a-Service)"
+title: "TaaS (Tokenization-as-a-Service)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

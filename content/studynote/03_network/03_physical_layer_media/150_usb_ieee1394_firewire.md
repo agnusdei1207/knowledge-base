@@ -1,5 +1,5 @@
 ---
-title: "150. Usb Ieee1394 Firewire"
+title: "Usb Ieee1394 Firewire"
 date: "2026-05-03"
 tags:
   - "studynote-network"

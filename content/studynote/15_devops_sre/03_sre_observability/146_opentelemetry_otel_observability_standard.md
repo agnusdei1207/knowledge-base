@@ -1,5 +1,5 @@
 ---
-title: "146. Opentelemetry Otel Observability Standard"
+title: "Opentelemetry Otel Observability Standard"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"

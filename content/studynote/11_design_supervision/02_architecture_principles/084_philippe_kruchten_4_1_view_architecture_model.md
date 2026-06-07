@@ -1,5 +1,5 @@
 ---
-title: "084. Philippe Kruchten 4 1 View Architecture Model"
+title: "Philippe Kruchten 4 1 View Architecture Model"
 date: "2026-04-10"
 tags:
   - "studynote-design-supervision"

@@ -1,5 +1,5 @@
 ---
-title: "759. HALT (Highly Accelerated Life Test)"
+title: "HALT (Highly Accelerated Life Test)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

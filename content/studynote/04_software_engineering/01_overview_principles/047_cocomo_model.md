@@ -1,5 +1,5 @@
 ---
-title: "047. Cocomo Model"
+title: "Cocomo Model"
 date: "2026-04-05"
 tags:
   - "studynote-software-engineering"

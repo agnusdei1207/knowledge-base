@@ -1,5 +1,5 @@
 ---
-title: "367. Quality Dashboard"
+title: "Quality Dashboard"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "355. XGBoost / LightGBM (Xgboost Lightgbm)"
+title: "XGBoost / LightGBM (Xgboost Lightgbm)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"

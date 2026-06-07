@@ -1,5 +1,5 @@
 ---
-title: "601. Ids Ips Syscall Tracing"
+title: "Ids Ips Syscall Tracing"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

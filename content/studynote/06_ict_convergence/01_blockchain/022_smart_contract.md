@@ -1,5 +1,5 @@
 ---
-title: "022. Smart Contract"
+title: "Smart Contract"
 date: "2024-05-18"
 tags:
   - "ict_convergence"

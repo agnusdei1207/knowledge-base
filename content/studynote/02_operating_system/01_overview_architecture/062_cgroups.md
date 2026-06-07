@@ -1,5 +1,5 @@
 ---
-title: "062. Cgroups"
+title: "Cgroups"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"

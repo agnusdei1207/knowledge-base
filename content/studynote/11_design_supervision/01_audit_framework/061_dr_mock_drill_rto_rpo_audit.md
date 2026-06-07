@@ -1,5 +1,5 @@
 ---
-title: "061. Dr Mock Drill Rto Rpo Audit"
+title: "Dr Mock Drill Rto Rpo Audit"
 date: "2026-04-10"
 tags:
   - "studynote-design-supervision"

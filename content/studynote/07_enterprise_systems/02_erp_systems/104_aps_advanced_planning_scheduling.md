@@ -1,5 +1,5 @@
 ---
-title: "104. Aps Advanced Planning Scheduling"
+title: "Aps Advanced Planning Scheduling"
 date: "2026-06-07"
 tags:
   - "enterprise_systems"

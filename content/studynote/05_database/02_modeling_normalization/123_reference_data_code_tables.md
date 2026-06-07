@@ -1,5 +1,5 @@
 ---
-title: "123. Reference Data Code Tables"
+title: "Reference Data Code Tables"
 date: "2026-04-19"
 tags:
   - "studynote-database"

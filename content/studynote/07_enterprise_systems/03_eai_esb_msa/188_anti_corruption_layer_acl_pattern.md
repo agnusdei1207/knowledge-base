@@ -1,5 +1,5 @@
 ---
-title: "188. Anti Corruption Layer Acl Pattern"
+title: "Anti Corruption Layer Acl Pattern"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise-systems"

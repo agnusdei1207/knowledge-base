@@ -1,5 +1,5 @@
 ---
-title: "045. Shift Left Testing Security"
+title: "Shift Left Testing Security"
 date: "2026-04-05"
 tags:
   - "studynote-devops-sre"

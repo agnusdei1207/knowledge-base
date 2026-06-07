@@ -1,5 +1,5 @@
 ---
-title: "527. Security Audit Trail"
+title: "Security Audit Trail"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

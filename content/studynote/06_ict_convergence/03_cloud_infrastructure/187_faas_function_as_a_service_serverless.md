@@ -1,5 +1,5 @@
 ---
-title: "187. FaaS (Function as a Service / Serverless)"
+title: "FaaS (Function as a Service / Serverless)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"

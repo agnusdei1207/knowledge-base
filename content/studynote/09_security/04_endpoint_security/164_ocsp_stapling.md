@@ -1,5 +1,5 @@
 ---
-title: "164. Ocsp Stapling"
+title: "Ocsp Stapling"
 date: "2026-04-05"
 tags:
   - "studynote-security"

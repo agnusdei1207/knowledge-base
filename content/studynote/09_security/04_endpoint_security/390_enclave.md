@@ -1,5 +1,5 @@
 ---
-title: "390. enclave (enclave)"
+title: "enclave (enclave)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

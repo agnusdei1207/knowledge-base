@@ -1,5 +1,5 @@
 ---
-title: "780. Cspm Cloud Security Posture Management"
+title: "Cspm Cloud Security Posture Management"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

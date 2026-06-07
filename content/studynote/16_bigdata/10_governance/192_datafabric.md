@@ -1,5 +1,5 @@
 ---
-title: "192. Datafabric"
+title: "Datafabric"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"

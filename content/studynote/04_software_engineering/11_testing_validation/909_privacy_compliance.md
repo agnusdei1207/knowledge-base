@@ -1,5 +1,5 @@
 ---
-title: "909. Privacy Compliance"
+title: "Privacy Compliance"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

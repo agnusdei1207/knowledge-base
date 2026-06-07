@@ -1,5 +1,5 @@
 ---
-title: "895. DCS (Distributed Control System)"
+title: "DCS (Distributed Control System)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

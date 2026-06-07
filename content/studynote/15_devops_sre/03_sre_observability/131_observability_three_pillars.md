@@ -1,5 +1,5 @@
 ---
-title: "131. Observability Three Pillars"
+title: "Observability Three Pillars"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"

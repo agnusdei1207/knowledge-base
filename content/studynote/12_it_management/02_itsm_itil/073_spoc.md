@@ -1,5 +1,5 @@
 ---
-title: "73. SPOC (Single Point of Contact)"
+title: "SPOC (Single Point of Contact)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

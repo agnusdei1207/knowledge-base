@@ -1,5 +1,5 @@
 ---
-title: "636. SOAR (Security Orchestration, Automation, Response)"
+title: "SOAR (Security Orchestration, Automation, Response)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

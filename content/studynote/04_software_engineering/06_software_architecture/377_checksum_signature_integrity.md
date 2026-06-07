@@ -1,5 +1,5 @@
 ---
-title: "377. Checksum Signature Integrity"
+title: "Checksum Signature Integrity"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

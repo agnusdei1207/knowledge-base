@@ -1,5 +1,5 @@
 ---
-title: "766. Software Aging Technical Debt"
+title: "Software Aging Technical Debt"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

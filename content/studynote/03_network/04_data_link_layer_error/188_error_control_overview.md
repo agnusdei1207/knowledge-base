@@ -1,5 +1,5 @@
 ---
-title: "188. Error Control Overview"
+title: "Error Control Overview"
 date: "2026-05-08"
 tags:
   - "studynote-network"

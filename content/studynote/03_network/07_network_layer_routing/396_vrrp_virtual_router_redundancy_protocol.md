@@ -1,5 +1,5 @@
 ---
-title: "396. VRRP (Virtual Router Redundancy Protocol)"
+title: "VRRP (Virtual Router Redundancy Protocol)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

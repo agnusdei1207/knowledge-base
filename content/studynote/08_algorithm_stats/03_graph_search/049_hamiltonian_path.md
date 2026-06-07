@@ -1,5 +1,5 @@
 ---
-title: "049. Hamiltonian Path"
+title: "Hamiltonian Path"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

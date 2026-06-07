@@ -1,5 +1,5 @@
 ---
-title: "027. Unikernel"
+title: "Unikernel"
 date: "2026-04-29"
 tags:
   - "studynote-operating-system"

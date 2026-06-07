@@ -1,5 +1,5 @@
 ---
-title: "201. Software Architecture Definition"
+title: "Software Architecture Definition"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

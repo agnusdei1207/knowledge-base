@@ -1,5 +1,5 @@
 ---
-title: "005. It Investment Metrics"
+title: "It Investment Metrics"
 date: "2026-03-04"
 tags:
   - "enterprise_systems"

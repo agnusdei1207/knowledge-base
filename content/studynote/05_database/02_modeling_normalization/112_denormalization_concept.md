@@ -1,5 +1,5 @@
 ---
-title: "112. Denormalization Concept"
+title: "Denormalization Concept"
 date: "2026-04-19"
 tags:
   - "studynote-database"

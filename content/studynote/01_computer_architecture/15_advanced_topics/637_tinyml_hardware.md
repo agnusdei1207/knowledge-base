@@ -1,5 +1,5 @@
 ---
-title: "637. Tinyml Hardware"
+title: "Tinyml Hardware"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

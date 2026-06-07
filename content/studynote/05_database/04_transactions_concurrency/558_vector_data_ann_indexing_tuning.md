@@ -1,5 +1,5 @@
 ---
-title: "558. Vector Data Ann Indexing Tuning"
+title: "Vector Data Ann Indexing Tuning"
 date: "2026-05-09"
 tags:
   - "studynote-database"

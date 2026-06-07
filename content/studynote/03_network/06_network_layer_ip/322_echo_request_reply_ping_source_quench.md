@@ -1,5 +1,5 @@
 ---
-title: "322. Echo Request Reply Ping Source Quench"
+title: "Echo Request Reply Ping Source Quench"
 date: "2026-05-08"
 tags:
   - "studynote-network"

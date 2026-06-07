@@ -1,5 +1,5 @@
 ---
-title: "086. Adam Optimizer Momentum Rmsprop"
+title: "Adam Optimizer Momentum Rmsprop"
 date: "2026-04-10"
 tags:
   - "studynote-ai"

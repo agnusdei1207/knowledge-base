@@ -1,5 +1,5 @@
 ---
-title: "181. Bridge Ca Cross Certification"
+title: "Bridge Ca Cross Certification"
 date: "2026-05-06"
 tags:
   - "studynote-security"

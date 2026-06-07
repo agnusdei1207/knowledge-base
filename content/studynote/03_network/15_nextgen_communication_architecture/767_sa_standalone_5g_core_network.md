@@ -1,5 +1,5 @@
 ---
-title: "767. Sa Standalone 5G Core Network"
+title: "Sa Standalone 5G Core Network"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "933. Client Side Vs Server Side Discovery"
+title: "Client Side Vs Server Side Discovery"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

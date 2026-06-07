@@ -1,5 +1,5 @@
 ---
-title: "654. Arm Cortex R Series"
+title: "Arm Cortex R Series"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

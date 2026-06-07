@@ -1,5 +1,5 @@
 ---
-title: "176. Choreography Saga Pub Sub"
+title: "Choreography Saga Pub Sub"
 date: "2026-05-06"
 tags:
   - "studynote-enterprise-systems"

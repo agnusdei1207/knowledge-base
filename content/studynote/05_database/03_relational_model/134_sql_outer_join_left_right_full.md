@@ -1,5 +1,5 @@
 ---
-title: "134. Sql Outer Join Left Right Full"
+title: "Sql Outer Join Left Right Full"
 date: "2026-04-19"
 tags:
   - "studynote-database"

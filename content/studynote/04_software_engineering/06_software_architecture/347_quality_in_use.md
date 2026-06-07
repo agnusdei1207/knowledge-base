@@ -1,5 +1,5 @@
 ---
-title: "347. Quality In Use"
+title: "Quality In Use"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

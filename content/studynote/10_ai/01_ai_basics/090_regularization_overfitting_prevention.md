@@ -1,5 +1,5 @@
 ---
-title: "090. Regularization Overfitting Prevention"
+title: "Regularization Overfitting Prevention"
 date: "2026-04-10"
 tags:
   - "studynote-ai"

@@ -1,5 +1,5 @@
 ---
-title: "104. Resnet Residual Network Skip Connection Bottleneck"
+title: "Resnet Residual Network Skip Connection Bottleneck"
 date: "2026-04-10"
 tags:
   - "studynote-ai"

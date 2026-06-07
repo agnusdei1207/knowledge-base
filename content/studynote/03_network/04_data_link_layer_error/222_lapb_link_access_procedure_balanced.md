@@ -1,5 +1,5 @@
 ---
-title: "222. LAPB (Link Access Procedure Balanced)"
+title: "LAPB (Link Access Procedure Balanced)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

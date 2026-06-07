@@ -1,5 +1,5 @@
 ---
-title: "436. Kpti Kernel Page Table Isolation"
+title: "Kpti Kernel Page Table Isolation"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

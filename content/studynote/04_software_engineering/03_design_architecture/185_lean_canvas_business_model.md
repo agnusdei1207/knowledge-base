@@ -1,5 +1,5 @@
 ---
-title: "185. Lean Canvas Business Model"
+title: "Lean Canvas Business Model"
 date: "2026-05-06"
 tags:
   - "studynote-software-engineering"

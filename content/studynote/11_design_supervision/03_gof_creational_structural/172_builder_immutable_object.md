@@ -1,5 +1,5 @@
 ---
-title: "172. Builder Immutable Object"
+title: "Builder Immutable Object"
 date: "2026-04-21"
 tags:
   - "studynote-design-supervision"

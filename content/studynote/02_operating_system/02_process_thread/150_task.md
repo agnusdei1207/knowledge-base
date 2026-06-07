@@ -1,5 +1,5 @@
 ---
-title: "150. Task"
+title: "Task"
 date: "2026-05-03"
 tags:
   - "studynote-operating-system"

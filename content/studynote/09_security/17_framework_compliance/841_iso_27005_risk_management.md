@@ -1,5 +1,5 @@
 ---
-title: "841. ISO/IEC 27005 (Risk Management)"
+title: "ISO/IEC 27005 (Risk Management)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

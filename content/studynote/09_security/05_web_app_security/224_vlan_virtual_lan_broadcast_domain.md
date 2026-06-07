@@ -1,5 +1,5 @@
 ---
-title: "224. VLAN (Virtual LAN)"
+title: "VLAN (Virtual LAN)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

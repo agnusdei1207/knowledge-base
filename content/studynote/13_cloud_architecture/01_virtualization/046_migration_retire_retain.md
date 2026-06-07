@@ -1,5 +1,5 @@
 ---
-title: "046. Migration Retire Retain"
+title: "Migration Retire Retain"
 date: "2026-04-05"
 tags:
   - "studynote-cloud-architecture"

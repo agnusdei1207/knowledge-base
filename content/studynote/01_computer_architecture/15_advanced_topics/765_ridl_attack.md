@@ -1,5 +1,5 @@
 ---
-title: "765. Ridl Attack"
+title: "Ridl Attack"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

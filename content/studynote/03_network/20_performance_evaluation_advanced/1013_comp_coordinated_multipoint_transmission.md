@@ -1,5 +1,5 @@
 ---
-title: "1013. Comp Coordinated Multipoint Transmission"
+title: "Comp Coordinated Multipoint Transmission"
 date: "2026-05-08"
 tags:
   - "studynote-network"

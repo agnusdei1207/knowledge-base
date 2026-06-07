@@ -1,5 +1,5 @@
 ---
-title: "543. Hbase"
+title: "Hbase"
 date: "2026-05-09"
 tags:
   - "studynote-database"

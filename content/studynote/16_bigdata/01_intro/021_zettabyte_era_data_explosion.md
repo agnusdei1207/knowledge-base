@@ -1,5 +1,5 @@
 ---
-title: "021. Zettabyte Era Data Explosion"
+title: "Zettabyte Era Data Explosion"
 date: "2026-04-02"
 tags:
   - "studynote-bigdata"

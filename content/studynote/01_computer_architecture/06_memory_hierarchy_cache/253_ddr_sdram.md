@@ -1,5 +1,5 @@
 ---
-title: "253. DDR SDRAM (Double Data Rate)"
+title: "DDR SDRAM (Double Data Rate)"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"

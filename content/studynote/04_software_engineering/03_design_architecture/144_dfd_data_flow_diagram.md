@@ -1,5 +1,5 @@
 ---
-title: "144. Dfd Data Flow Diagram"
+title: "Dfd Data Flow Diagram"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"

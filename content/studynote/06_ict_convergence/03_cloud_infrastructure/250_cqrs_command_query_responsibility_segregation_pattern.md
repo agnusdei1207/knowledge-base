@@ -1,5 +1,5 @@
 ---
-title: "250. CQRS (Command Query Responsibility Segregation)"
+title: "CQRS (Command Query Responsibility Segregation)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"

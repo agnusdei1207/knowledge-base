@@ -1,5 +1,5 @@
 ---
-title: "046. Edge Trigger"
+title: "Edge Trigger"
 date: "2026-04-05"
 tags:
   - "studynote-computer-architecture"

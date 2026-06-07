@@ -1,5 +1,5 @@
 ---
-title: "766. 실시간 스케줄링 마감 시간 (Deadline)"
+title: "실시간 스케줄링 마감 시간 (Deadline)"
 date: "2026-06-07"
 tags:
   - "studynote-operating-system"

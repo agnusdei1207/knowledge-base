@@ -1,5 +1,5 @@
 ---
-title: "292. Cloud Native Dw Snowflake Bigquery Redshift"
+title: "Cloud Native Dw Snowflake Bigquery Redshift"
 date: "2026-04-21"
 tags:
   - "studynote-enterprise-systems"

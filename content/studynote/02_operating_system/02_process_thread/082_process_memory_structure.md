@@ -1,5 +1,5 @@
 ---
-title: "082. Process Memory Structure"
+title: "Process Memory Structure"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"

@@ -1,5 +1,5 @@
 ---
-title: "463. epoll / kqueue (Epoll Kqueue)"
+title: "epoll / kqueue (Epoll Kqueue)"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

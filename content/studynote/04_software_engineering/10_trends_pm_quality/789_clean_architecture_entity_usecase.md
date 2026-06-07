@@ -1,5 +1,5 @@
 ---
-title: "789. Clean Architecture Entity Usecase"
+title: "Clean Architecture Entity Usecase"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

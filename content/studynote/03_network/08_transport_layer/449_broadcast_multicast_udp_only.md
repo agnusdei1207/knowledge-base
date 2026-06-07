@@ -1,5 +1,5 @@
 ---
-title: "449. Broadcast Multicast Udp Only"
+title: "Broadcast Multicast Udp Only"
 date: "2026-05-08"
 tags:
   - "studynote-network"

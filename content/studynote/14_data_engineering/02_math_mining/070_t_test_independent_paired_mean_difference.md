@@ -1,5 +1,5 @@
 ---
-title: "070. T Test Independent Paired Mean Difference"
+title: "T Test Independent Paired Mean Difference"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"

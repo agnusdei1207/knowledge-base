@@ -1,5 +1,5 @@
 ---
-title: "114. Gaussian Mixture Model"
+title: "Gaussian Mixture Model"
 date: "2026-04-19"
 tags:
   - "studynote-data-engineering"

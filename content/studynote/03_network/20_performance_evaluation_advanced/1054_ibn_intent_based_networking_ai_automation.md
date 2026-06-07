@@ -1,5 +1,5 @@
 ---
-title: "1054. Ibn Intent Based Networking Ai Automation"
+title: "Ibn Intent Based Networking Ai Automation"
 date: "2026-05-08"
 tags:
   - "studynote-network"

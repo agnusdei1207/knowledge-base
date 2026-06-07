@@ -1,5 +1,5 @@
 ---
-title: "400. Lisp Locator Id Separation Protocol"
+title: "Lisp Locator Id Separation Protocol"
 date: "2026-05-08"
 tags:
   - "studynote-network"

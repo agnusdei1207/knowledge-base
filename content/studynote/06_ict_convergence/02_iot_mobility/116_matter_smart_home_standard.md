@@ -1,5 +1,5 @@
 ---
-title: "116. Matter Smart Home Standard"
+title: "Matter Smart Home Standard"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"

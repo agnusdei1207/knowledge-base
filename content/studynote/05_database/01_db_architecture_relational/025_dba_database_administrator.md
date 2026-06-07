@@ -1,5 +1,5 @@
 ---
-title: "025. Dba Database Administrator"
+title: "Dba Database Administrator"
 date: "2026-04-29"
 tags:
   - "studynote-database"

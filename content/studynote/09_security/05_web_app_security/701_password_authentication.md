@@ -1,5 +1,5 @@
 ---
-title: "701. 비밀번호 인증 (Password Authentication)"
+title: "비밀번호 인증 (Password Authentication)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "696. Ai Code Generation Copilot Prompt"
+title: "Ai Code Generation Copilot Prompt"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

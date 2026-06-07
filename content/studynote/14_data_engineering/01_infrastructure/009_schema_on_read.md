@@ -1,5 +1,5 @@
 ---
-title: "009. Schema On Read"
+title: "Schema On Read"
 date: "2024-05-15"
 tags:
   - "data_engineering"

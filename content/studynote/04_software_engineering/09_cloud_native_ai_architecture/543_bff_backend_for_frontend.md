@@ -1,5 +1,5 @@
 ---
-title: "543. Bff Backend For Frontend"
+title: "Bff Backend For Frontend"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

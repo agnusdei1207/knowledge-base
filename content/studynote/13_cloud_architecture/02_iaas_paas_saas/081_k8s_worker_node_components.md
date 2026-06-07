@@ -1,5 +1,5 @@
 ---
-title: "081. K8S Worker Node Components"
+title: "K8S Worker Node Components"
 date: "2026-06-07"
 tags:
   - "cloud_architecture"

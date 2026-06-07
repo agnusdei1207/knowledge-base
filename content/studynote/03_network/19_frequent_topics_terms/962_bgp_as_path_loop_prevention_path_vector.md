@@ -1,5 +1,5 @@
 ---
-title: "962. BGP AS-Path"
+title: "BGP AS-Path"
 date: "2026-05-08"
 tags:
   - "studynote-network"

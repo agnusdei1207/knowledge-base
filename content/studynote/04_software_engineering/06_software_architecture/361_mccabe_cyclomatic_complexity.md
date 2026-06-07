@@ -1,5 +1,5 @@
 ---
-title: "361. Mccabe Cyclomatic Complexity"
+title: "Mccabe Cyclomatic Complexity"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

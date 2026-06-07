@@ -1,5 +1,5 @@
 ---
-title: "324. Functional Programming Core"
+title: "Functional Programming Core"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

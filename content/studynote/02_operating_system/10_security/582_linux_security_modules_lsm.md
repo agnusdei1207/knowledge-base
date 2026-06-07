@@ -1,5 +1,5 @@
 ---
-title: "582. Linux Security Modules Lsm"
+title: "Linux Security Modules Lsm"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

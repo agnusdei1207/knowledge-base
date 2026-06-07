@@ -1,5 +1,5 @@
 ---
-title: "047. Error Budget Slo Sre"
+title: "Error Budget Slo Sre"
 date: "2026-04-05"
 tags:
   - "studynote-devops-sre"

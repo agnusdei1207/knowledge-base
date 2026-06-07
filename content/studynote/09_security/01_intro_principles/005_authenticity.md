@@ -1,5 +1,5 @@
 ---
-title: "005. Authenticity"
+title: "Authenticity"
 date: "2023-10-24"
 tags:
   - "security"

@@ -1,5 +1,5 @@
 ---
-title: "892. OT vs IT (Operational Technology)"
+title: "OT vs IT (Operational Technology)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

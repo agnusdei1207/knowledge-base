@@ -1,5 +1,5 @@
 ---
-title: "108. Llmops Large Language Model"
+title: "Llmops Large Language Model"
 date: "2026-04-10"
 tags:
   - "studynote-software-engineering"

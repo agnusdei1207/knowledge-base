@@ -1,5 +1,5 @@
 ---
-title: "048. Software Deliverables Verification"
+title: "Software Deliverables Verification"
 date: "2026-04-05"
 tags:
   - "studynote-design-supervision"

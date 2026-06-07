@@ -1,5 +1,5 @@
 ---
-title: "021. Hardware Assisted Virtualization"
+title: "Hardware Assisted Virtualization"
 date: "2026-04-02"
 tags:
   - "studynote-cloud-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "614. PMO (Project Management Office)"
+title: "PMO (Project Management Office)"
 date: "2026-05-08"
 tags:
   - "studynote-design-supervision"

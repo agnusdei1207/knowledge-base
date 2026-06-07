@@ -1,5 +1,5 @@
 ---
-title: "986. Symmetric Asymmetric Key"
+title: "Symmetric Asymmetric Key"
 date: "2026-05-08"
 tags:
   - "studynote-network"

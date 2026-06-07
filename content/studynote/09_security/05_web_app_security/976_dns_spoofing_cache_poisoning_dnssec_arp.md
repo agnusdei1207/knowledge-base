@@ -1,5 +1,5 @@
 ---
-title: "976. DNS 스푸핑 (DNS Spoofing)"
+title: "DNS 스푸핑 (DNS Spoofing)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

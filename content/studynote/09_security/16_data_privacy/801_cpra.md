@@ -1,5 +1,5 @@
 ---
-title: "801. CPRA (California Privacy Rights Act)"
+title: "CPRA (California Privacy Rights Act)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

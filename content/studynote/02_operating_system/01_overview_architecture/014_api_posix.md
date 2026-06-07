@@ -1,5 +1,5 @@
 ---
-title: "014. Api Posix"
+title: "Api Posix"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"

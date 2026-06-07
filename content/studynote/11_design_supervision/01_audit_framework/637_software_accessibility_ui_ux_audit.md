@@ -1,5 +1,5 @@
 ---
-title: "637. Software Accessibility Ui Ux Audit"
+title: "Software Accessibility Ui Ux Audit"
 date: "2026-04-10"
 tags:
   - "studynote-design-supervision"

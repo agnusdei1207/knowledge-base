@@ -1,5 +1,5 @@
 ---
-title: "1065. Emp Protection Faraday Cage Optical Fiber Shielding"
+title: "Emp Protection Faraday Cage Optical Fiber Shielding"
 date: "2026-05-08"
 tags:
   - "studynote-security"

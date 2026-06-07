@@ -1,5 +1,5 @@
 ---
-title: "142. 요구사항 분석 - 모순 해결, 범위 확정 (Analysis)"
+title: "요구사항 분석 - 모순 해결, 범위 확정 (Analysis)"
 date: "2026-06-07"
 tags:
   - "studynote-software-engineering"

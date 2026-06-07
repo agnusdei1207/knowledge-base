@@ -1,5 +1,5 @@
 ---
-title: "120. Direct Communication"
+title: "Direct Communication"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"

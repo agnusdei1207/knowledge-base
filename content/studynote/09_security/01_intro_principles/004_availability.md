@@ -1,5 +1,5 @@
 ---
-title: "004. Availability"
+title: "Availability"
 date: "2023-10-24"
 tags:
   - "security"

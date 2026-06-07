@@ -1,5 +1,5 @@
 ---
-title: "011. Distributed Computing Scale Out"
+title: "Distributed Computing Scale Out"
 date: "2023-10-24"
 tags:
   - "data_engineering"

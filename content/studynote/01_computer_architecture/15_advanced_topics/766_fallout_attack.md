@@ -1,5 +1,5 @@
 ---
-title: "766. Fallout Attack"
+title: "Fallout Attack"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

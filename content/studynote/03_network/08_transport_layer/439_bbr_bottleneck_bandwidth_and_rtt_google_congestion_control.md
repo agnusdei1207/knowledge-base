@@ -1,5 +1,5 @@
 ---
-title: "439. BBR (Bottleneck Bandwidth and Round-trip propagation time)"
+title: "BBR (Bottleneck Bandwidth and Round-trip propagation time)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

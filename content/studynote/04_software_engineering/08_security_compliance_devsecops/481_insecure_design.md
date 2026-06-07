@@ -1,5 +1,5 @@
 ---
-title: "481. Insecure Design"
+title: "Insecure Design"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "222. Scale Up Out Distributed Training"
+title: "Scale Up Out Distributed Training"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

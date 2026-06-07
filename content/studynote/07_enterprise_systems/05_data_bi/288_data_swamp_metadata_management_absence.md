@@ -1,5 +1,5 @@
 ---
-title: "288. Data Swamp Metadata Management Absence"
+title: "Data Swamp Metadata Management Absence"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"

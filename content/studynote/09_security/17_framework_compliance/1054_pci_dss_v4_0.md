@@ -1,5 +1,5 @@
 ---
-title: "1054. PCI DSS v4.0 (Payment Card Industry)"
+title: "PCI DSS v4.0 (Payment Card Industry)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "260. RSTP (Rapid STP)"
+title: "RSTP (Rapid STP)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

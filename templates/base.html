@@ -58,10 +58,11 @@
                             {% set_global subs = subs | concat(with=sub_obj) %}
                         {% endfor %}
                         {% for sub in subs %}
+                        {% set sub_path_parts = sub.path | split(pat="/") %}
+                        {% set sub_folder = sub_path_parts | slice(start=-2, end=-1) | first %}
+                        {% set sub_num = sub_folder | split(pat="_") | first %}
                         <li>
-                            <a href="{{ sub.permalink }}">
-                                {% if loop.index < 10 %}0{% endif %}{{ loop.index }}. {{ sub.title }}
-                            </a>
+                            <a href="{{ sub.permalink }}">{{ sub_num }}. {{ sub.title }}</a>
                         </li>
                         {% endfor %}
                     </ul>

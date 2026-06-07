@@ -1,5 +1,5 @@
 ---
-title: "128. Tacit Vs Explicit Knowledge"
+title: "Tacit Vs Explicit Knowledge"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"

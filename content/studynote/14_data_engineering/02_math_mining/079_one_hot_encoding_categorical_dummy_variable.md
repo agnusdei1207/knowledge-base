@@ -1,5 +1,5 @@
 ---
-title: "079. One Hot Encoding Categorical Dummy Variable"
+title: "One Hot Encoding Categorical Dummy Variable"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "928. Service To Service Asynchronous Communication"
+title: "Service To Service Asynchronous Communication"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

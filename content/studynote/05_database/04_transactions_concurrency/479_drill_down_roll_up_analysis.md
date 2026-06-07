@@ -1,5 +1,5 @@
 ---
-title: "479. 드릴 다운 / 롤 업 계층 분석"
+title: "드릴 다운 / 롤 업 계층 분석"
 date: "2026-06-07"
 tags:
   - "studynote-database"

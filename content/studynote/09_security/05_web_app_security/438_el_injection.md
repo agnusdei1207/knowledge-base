@@ -1,5 +1,5 @@
 ---
-title: "438. Expression Language Injection (Expression Language Injection)"
+title: "Expression Language Injection (Expression Language Injection)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "855. Fake Test Double"
+title: "Fake Test Double"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

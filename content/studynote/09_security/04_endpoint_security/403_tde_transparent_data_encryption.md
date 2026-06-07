@@ -1,5 +1,5 @@
 ---
-title: "403. TDE (Transparent Data Encryption)"
+title: "TDE (Transparent Data Encryption)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

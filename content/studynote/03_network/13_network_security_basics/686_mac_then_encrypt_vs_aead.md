@@ -1,5 +1,5 @@
 ---
-title: "686. Mac Then Encrypt Vs Aead"
+title: "Mac Then Encrypt Vs Aead"
 date: "2026-05-08"
 tags:
   - "studynote-network"

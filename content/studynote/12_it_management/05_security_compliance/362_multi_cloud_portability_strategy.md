@@ -1,5 +1,5 @@
 ---
-title: "362. 서드파티 락인 (Lock-in) 멀티 클라우드 전환 컨테이너 이식성(Portability) 확보 전략"
+title: "서드파티 락인 (Lock-in) 멀티 클라우드 전환 컨테이너 이식성(Portability) 확보 전략"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

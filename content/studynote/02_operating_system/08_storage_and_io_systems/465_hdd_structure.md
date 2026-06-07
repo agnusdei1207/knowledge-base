@@ -1,5 +1,5 @@
 ---
-title: "465. Hdd Structure"
+title: "Hdd Structure"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

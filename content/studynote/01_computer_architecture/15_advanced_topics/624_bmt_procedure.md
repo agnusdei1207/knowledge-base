@@ -1,5 +1,5 @@
 ---
-title: "624. Bmt Procedure"
+title: "Bmt Procedure"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

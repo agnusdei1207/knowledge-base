@@ -1,5 +1,5 @@
 ---
-title: "145. DSU (Digital Service Unit) / CSU (Channel Service Unit)"
+title: "DSU (Digital Service Unit) / CSU (Channel Service Unit)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "049. Storage Engine Innodb Myisam"
+title: "Storage Engine Innodb Myisam"
 date: "2026-04-05"
 tags:
   - "studynote-database"

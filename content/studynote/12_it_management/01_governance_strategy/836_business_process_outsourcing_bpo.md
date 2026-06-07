@@ -1,5 +1,5 @@
 ---
-title: "836. Business Process Outsourcing Bpo"
+title: "Business Process Outsourcing Bpo"
 date: "2026-04-05"
 tags:
   - "studynote-it-management"

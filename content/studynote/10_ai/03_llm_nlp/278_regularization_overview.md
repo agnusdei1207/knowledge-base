@@ -1,5 +1,5 @@
 ---
-title: "278. Regularization Overview"
+title: "Regularization Overview"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

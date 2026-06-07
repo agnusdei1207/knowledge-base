@@ -1,5 +1,5 @@
 ---
-title: "008. Isp Information Strategy Planning"
+title: "Isp Information Strategy Planning"
 date: "2026-03-04"
 tags:
   - "enterprise_systems"

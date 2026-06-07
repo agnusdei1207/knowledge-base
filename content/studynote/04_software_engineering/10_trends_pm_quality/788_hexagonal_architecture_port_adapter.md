@@ -1,5 +1,5 @@
 ---
-title: "788. Hexagonal Architecture Port Adapter"
+title: "Hexagonal Architecture Port Adapter"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "233. Class Diagram Static Structure Uml"
+title: "Class Diagram Static Structure Uml"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

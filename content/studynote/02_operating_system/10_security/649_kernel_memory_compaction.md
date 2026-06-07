@@ -1,5 +1,5 @@
 ---
-title: "649. Kernel Memory Compaction"
+title: "Kernel Memory Compaction"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

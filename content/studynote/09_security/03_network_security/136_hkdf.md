@@ -1,5 +1,5 @@
 ---
-title: "136. HKDF (HMAC-based Key Derivation Function)"
+title: "HKDF (HMAC-based Key Derivation Function)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

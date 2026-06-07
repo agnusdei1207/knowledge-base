@@ -1,5 +1,5 @@
 ---
-title: "264. 문제 관리 근본 원인 KEDB"
+title: "문제 관리 근본 원인 KEDB"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

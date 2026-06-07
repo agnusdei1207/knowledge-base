@@ -1,5 +1,5 @@
 ---
-title: "334. Clean Code Principles"
+title: "Clean Code Principles"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

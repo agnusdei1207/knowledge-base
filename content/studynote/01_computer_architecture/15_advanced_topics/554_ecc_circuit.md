@@ -1,5 +1,5 @@
 ---
-title: "554. Ecc Circuit"
+title: "Ecc Circuit"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

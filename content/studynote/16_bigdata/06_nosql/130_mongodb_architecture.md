@@ -1,5 +1,5 @@
 ---
-title: "130. Mongodb Architecture"
+title: "Mongodb Architecture"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

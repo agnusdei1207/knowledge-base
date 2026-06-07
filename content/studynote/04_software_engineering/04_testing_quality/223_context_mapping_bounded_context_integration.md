@@ -1,5 +1,5 @@
 ---
-title: "223. Context Mapping Bounded Context Integration"
+title: "Context Mapping Bounded Context Integration"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "733. Port Scanning Nmap Stealth Syn Scan"
+title: "Port Scanning Nmap Stealth Syn Scan"
 date: "2026-05-08"
 tags:
   - "studynote-network"

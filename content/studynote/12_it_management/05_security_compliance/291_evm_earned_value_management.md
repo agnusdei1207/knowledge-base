@@ -1,5 +1,5 @@
 ---
-title: "291. EVM 획득 가치 (PV, EV, AC, SPI, CPI)"
+title: "EVM 획득 가치 (PV, EV, AC, SPI, CPI)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

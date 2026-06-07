@@ -1,5 +1,5 @@
 ---
-title: "038. Ambidextrous Organization"
+title: "Ambidextrous Organization"
 date: "2026-03-03"
 tags:
   - "studynote-enterprise-systems"

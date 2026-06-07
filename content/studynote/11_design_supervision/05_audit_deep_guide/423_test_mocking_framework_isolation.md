@@ -1,5 +1,5 @@
 ---
-title: "423. 모킹 프레임워크 격리 테스트"
+title: "모킹 프레임워크 격리 테스트"
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

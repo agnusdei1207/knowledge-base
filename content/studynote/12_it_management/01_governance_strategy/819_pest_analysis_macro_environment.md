@@ -1,5 +1,5 @@
 ---
-title: "819. Pest Analysis Macro Environment"
+title: "Pest Analysis Macro Environment"
 date: "2026-04-29"
 tags:
   - "studynote-it-management"

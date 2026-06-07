@@ -1,5 +1,5 @@
 ---
-title: "541. Service Discovery Client Vs Server"
+title: "Service Discovery Client Vs Server"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

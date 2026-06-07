@@ -1,5 +1,5 @@
 ---
-title: "457. Fuzz Testing"
+title: "Fuzz Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

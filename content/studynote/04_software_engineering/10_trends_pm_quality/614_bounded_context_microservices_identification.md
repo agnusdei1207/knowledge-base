@@ -1,5 +1,5 @@
 ---
-title: "614. Bounded Context Microservices Identification"
+title: "Bounded Context Microservices Identification"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

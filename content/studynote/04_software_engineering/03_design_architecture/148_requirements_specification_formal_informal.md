@@ -1,5 +1,5 @@
 ---
-title: "148. Requirements Specification Formal Informal"
+title: "Requirements Specification Formal Informal"
 date: "2026-05-03"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "70. 형상 관리 저장소 및 CI 빌드 환경 평가 (Configuration Management and CI Audit)"
+title: "형상 관리 저장소 및 CI 빌드 환경 평가 (Configuration Management and CI Audit)"
 date: "2026-05-08"
 tags:
   - "studynote-design-supervision"

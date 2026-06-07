@@ -1,5 +1,5 @@
 ---
-title: "545. Service Mesh Architecture"
+title: "Service Mesh Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

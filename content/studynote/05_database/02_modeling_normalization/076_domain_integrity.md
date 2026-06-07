@@ -1,5 +1,5 @@
 ---
-title: "076. Domain Integrity"
+title: "Domain Integrity"
 date: "2026-06-07"
 tags:
   - "database"

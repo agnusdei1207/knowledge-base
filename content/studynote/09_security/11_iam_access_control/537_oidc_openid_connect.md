@@ -1,5 +1,5 @@
 ---
-title: "537. OpenID Connect (OIDC)"
+title: "OpenID Connect (OIDC)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

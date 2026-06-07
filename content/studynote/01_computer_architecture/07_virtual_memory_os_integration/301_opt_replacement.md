@@ -1,5 +1,5 @@
 ---
-title: "301. Opt Replacement"
+title: "Opt Replacement"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "800. 소프트웨어 공학 기술사 10개년 기출 핵심 융합 토픽 결론 정리"
+title: "소프트웨어 공학 기술사 10개년 기출 핵심 융합 토픽 결론 정리"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

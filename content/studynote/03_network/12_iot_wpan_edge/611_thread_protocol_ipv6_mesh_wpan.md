@@ -1,5 +1,5 @@
 ---
-title: "611. Thread Protocol Ipv6 Mesh Wpan"
+title: "Thread Protocol Ipv6 Mesh Wpan"
 date: "2026-05-08"
 tags:
   - "studynote-network"

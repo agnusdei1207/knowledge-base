@@ -1,5 +1,5 @@
 ---
-title: "300. 마이크로서비스 MSA 독립 배포"
+title: "마이크로서비스 MSA 독립 배포"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

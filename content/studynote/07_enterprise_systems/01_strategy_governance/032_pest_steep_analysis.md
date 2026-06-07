@@ -1,5 +1,5 @@
 ---
-title: "032. Pest Steep Analysis"
+title: "Pest Steep Analysis"
 date: "2026-03-03"
 tags:
   - "studynote-enterprise-systems"

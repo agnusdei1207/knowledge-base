@@ -1,5 +1,5 @@
 ---
-title: "153. Pv Planned Value"
+title: "Pv Planned Value"
 date: "2026-05-03"
 tags:
   - "studynote-it-management"

@@ -1,5 +1,5 @@
 ---
-title: "880. Overlay Underlay Sdn Controller Plane Duality"
+title: "Overlay Underlay Sdn Controller Plane Duality"
 date: "2026-05-08"
 tags:
   - "studynote-network"

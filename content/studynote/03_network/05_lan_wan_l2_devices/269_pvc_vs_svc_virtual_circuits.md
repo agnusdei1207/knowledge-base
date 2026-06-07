@@ -1,5 +1,5 @@
 ---
-title: "269. PVC (Permanent Virtual Circuit) / SVC (Switched Virtual Circuit)"
+title: "PVC (Permanent Virtual Circuit) / SVC (Switched Virtual Circuit)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

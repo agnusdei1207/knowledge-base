@@ -1,5 +1,5 @@
 ---
-title: "071. Baas Blockchain As A Service"
+title: "Baas Blockchain As A Service"
 date: "2026-06-07"
 tags:
   - "ict_convergence"

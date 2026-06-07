@@ -1,5 +1,5 @@
 ---
-title: "802. Regression Test"
+title: "Regression Test"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "916. Cspm Integration Process"
+title: "Cspm Integration Process"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "321. MLOps (Machine Learning Operations)"
+title: "MLOps (Machine Learning Operations)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

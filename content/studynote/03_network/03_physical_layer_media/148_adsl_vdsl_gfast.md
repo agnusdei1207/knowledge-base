@@ -1,5 +1,5 @@
 ---
-title: "148. VDSL (Very high-bit-rate DSL) / ADSL (Asymmetric DSL) / G.fast"
+title: "VDSL (Very high-bit-rate DSL) / ADSL (Asymmetric DSL) / G.fast"
 date: "2026-05-03"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "1089. Waf Web Application Firewall L7 Sql Injection"
+title: "Waf Web Application Firewall L7 Sql Injection"
 date: "2026-05-08"
 tags:
   - "studynote-security"

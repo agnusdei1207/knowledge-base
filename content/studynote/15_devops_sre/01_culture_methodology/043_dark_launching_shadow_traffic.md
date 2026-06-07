@@ -1,5 +1,5 @@
 ---
-title: "043. Dark Launching Shadow Traffic"
+title: "Dark Launching Shadow Traffic"
 date: "2026-04-05"
 tags:
   - "studynote-devops-sre"

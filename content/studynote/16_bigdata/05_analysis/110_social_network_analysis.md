@@ -1,5 +1,5 @@
 ---
-title: "110. Social Network Analysis"
+title: "Social Network Analysis"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

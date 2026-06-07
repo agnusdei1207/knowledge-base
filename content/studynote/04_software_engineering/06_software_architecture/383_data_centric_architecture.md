@@ -1,5 +1,5 @@
 ---
-title: "383. Data Centric Architecture"
+title: "Data Centric Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

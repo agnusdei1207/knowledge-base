@@ -1,5 +1,5 @@
 ---
-title: "293. 기능 점수 (FP) 내부논리파일 외부연계 외부입력 출력"
+title: "기능 점수 (FP) 내부논리파일 외부연계 외부입력 출력"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

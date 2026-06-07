@@ -1,5 +1,5 @@
 ---
-title: "574. Bulkhead Pattern Thread Pool Isolation"
+title: "Bulkhead Pattern Thread Pool Isolation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

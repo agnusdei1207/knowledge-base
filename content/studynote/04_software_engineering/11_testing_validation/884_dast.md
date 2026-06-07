@@ -1,5 +1,5 @@
 ---
-title: "884. DAST (Dynamic Application Security Testing)"
+title: "DAST (Dynamic Application Security Testing)"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

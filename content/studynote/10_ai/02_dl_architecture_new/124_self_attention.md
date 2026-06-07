@@ -1,5 +1,5 @@
 ---
-title: "124. Self Attention"
+title: "Self Attention"
 date: "2026-04-19"
 tags:
   - "studynote-ai"

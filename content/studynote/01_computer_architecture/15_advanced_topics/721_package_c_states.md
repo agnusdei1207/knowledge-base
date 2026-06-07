@@ -1,5 +1,5 @@
 ---
-title: "721. Package C States"
+title: "Package C States"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

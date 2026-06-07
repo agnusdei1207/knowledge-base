@@ -1,5 +1,5 @@
 ---
-title: "653. 데브섹옵스 (DevSecOps) 시프트 레프트"
+title: "데브섹옵스 (DevSecOps) 시프트 레프트"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

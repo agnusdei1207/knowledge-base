@@ -1,5 +1,5 @@
 ---
-title: "591. Quantum Computing Hybrid Architecture"
+title: "Quantum Computing Hybrid Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

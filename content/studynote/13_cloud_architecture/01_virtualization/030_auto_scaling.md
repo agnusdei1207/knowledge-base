@@ -1,5 +1,5 @@
 ---
-title: "030. Auto Scaling"
+title: "Auto Scaling"
 date: "2026-04-29"
 tags:
   - "studynote-cloud-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "106. Taint Toleration Kubernetes Node Scheduling Repel"
+title: "Taint Toleration Kubernetes Node Scheduling Repel"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"

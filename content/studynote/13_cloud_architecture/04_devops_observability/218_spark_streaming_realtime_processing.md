@@ -1,5 +1,5 @@
 ---
-title: "218. Spark Streaming Realtime Processing"
+title: "Spark Streaming Realtime Processing"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"

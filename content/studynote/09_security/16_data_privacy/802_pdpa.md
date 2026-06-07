@@ -1,5 +1,5 @@
 ---
-title: "802. PDPA (Personal Data Protection Act)"
+title: "PDPA (Personal Data Protection Act)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

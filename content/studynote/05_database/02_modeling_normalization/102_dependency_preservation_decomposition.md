@@ -1,5 +1,5 @@
 ---
-title: "102. Dependency Preservation Decomposition"
+title: "Dependency Preservation Decomposition"
 date: "2026-06-07"
 tags:
   - "database"

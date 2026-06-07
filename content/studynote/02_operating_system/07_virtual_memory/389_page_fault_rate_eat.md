@@ -1,5 +1,5 @@
 ---
-title: "389. Page Fault Rate Eat"
+title: "Page Fault Rate Eat"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

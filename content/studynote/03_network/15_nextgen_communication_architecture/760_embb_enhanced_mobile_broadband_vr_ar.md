@@ -1,5 +1,5 @@
 ---
-title: "760. Embb Enhanced Mobile Broadband Vr Ar"
+title: "Embb Enhanced Mobile Broadband Vr Ar"
 date: "2026-05-08"
 tags:
   - "studynote-network"

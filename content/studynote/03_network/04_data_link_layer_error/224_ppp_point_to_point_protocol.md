@@ -1,5 +1,5 @@
 ---
-title: "224. PPP (Point-to-Point Protocol)"
+title: "PPP (Point-to-Point Protocol)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

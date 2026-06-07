@@ -1,5 +1,5 @@
 ---
-title: "839. Iso 27001 Annex A"
+title: "Iso 27001 Annex A"
 date: "2026-05-08"
 tags:
   - "studynote-security"

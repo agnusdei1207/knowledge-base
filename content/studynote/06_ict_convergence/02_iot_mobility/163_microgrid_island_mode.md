@@ -1,5 +1,5 @@
 ---
-title: "163. Microgrid Island Mode"
+title: "Microgrid Island Mode"
 date: "2026-05-05"
 tags:
   - "studynote-ict-convergence"

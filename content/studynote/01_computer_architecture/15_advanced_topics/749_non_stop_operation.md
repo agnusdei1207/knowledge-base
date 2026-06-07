@@ -1,5 +1,5 @@
 ---
-title: "749. Non Stop Operation"
+title: "Non Stop Operation"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

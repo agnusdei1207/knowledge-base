@@ -1,5 +1,5 @@
 ---
-title: "030. Crosstalk"
+title: "Crosstalk"
 date: "2026-04-29"
 tags:
   - "studynote-network"

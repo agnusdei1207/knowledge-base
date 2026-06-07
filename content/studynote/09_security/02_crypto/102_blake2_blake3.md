@@ -1,5 +1,5 @@
 ---
-title: "102. Blake2 Blake3"
+title: "Blake2 Blake3"
 date: "2026-04-05"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "042. Kruskal"
+title: "Kruskal"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

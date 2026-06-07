@@ -1,5 +1,5 @@
 ---
-title: "370. Pim Rp Rendezvous Point Rpf Loop Prevention"
+title: "Pim Rp Rendezvous Point Rpf Loop Prevention"
 date: "2026-05-08"
 tags:
   - "studynote-network"

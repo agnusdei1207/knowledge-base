@@ -1,5 +1,5 @@
 ---
-title: "069. Sigmoid Function Vanishing Gradient"
+title: "Sigmoid Function Vanishing Gradient"
 date: "2026-06-07"
 tags:
   - "ai"

@@ -1,5 +1,5 @@
 ---
-title: "129. Fallback"
+title: "Fallback"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"

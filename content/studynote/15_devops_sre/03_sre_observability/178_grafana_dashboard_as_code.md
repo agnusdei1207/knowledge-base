@@ -1,5 +1,5 @@
 ---
-title: "178. Grafana Dashboard As Code"
+title: "Grafana Dashboard As Code"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"

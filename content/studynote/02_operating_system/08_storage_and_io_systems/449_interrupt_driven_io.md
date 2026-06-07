@@ -1,5 +1,5 @@
 ---
-title: "449. Interrupt Driven Io"
+title: "Interrupt Driven Io"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

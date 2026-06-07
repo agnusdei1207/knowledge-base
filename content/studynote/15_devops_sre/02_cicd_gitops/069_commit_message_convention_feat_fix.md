@@ -1,5 +1,5 @@
 ---
-title: "069. Commit Message Convention Feat Fix"
+title: "Commit Message Convention Feat Fix"
 date: "2026-04-10"
 tags:
   - "studynote-devops-sre"

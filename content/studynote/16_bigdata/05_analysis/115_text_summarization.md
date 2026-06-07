@@ -1,5 +1,5 @@
 ---
-title: "115. Text Summarization"
+title: "Text Summarization"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

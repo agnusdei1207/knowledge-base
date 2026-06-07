@@ -1,5 +1,5 @@
 ---
-title: "952. Data Mesh"
+title: "Data Mesh"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

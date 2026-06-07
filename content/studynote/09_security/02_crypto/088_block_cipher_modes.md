@@ -1,5 +1,5 @@
 ---
-title: "088. Block Cipher Modes"
+title: "Block Cipher Modes"
 date: "2026-04-05"
 tags:
   - "studynote-security"

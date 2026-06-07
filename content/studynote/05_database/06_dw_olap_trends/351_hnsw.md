@@ -1,5 +1,5 @@
 ---
-title: "351. Hnsw"
+title: "Hnsw"
 date: "2026-05-09"
 tags:
   - "studynote-database"

@@ -1,5 +1,5 @@
 ---
-title: "541. RADIUS (Remote Authentication Dial-In User Service)"
+title: "RADIUS (Remote Authentication Dial-In User Service)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

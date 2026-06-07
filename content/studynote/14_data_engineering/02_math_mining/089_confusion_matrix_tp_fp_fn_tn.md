@@ -1,5 +1,5 @@
 ---
-title: "089. Confusion Matrix Tp Fp Fn Tn"
+title: "Confusion Matrix Tp Fp Fn Tn"
 date: "2026-03-04"
 tags:
   - "studynote-data-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "044. Apache Storm"
+title: "Apache Storm"
 date: "2024-03-24"
 tags:
   - "studynote-bigdata"

@@ -1,5 +1,5 @@
 ---
-title: "483. Vulnerable And Outdated Components"
+title: "Vulnerable And Outdated Components"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

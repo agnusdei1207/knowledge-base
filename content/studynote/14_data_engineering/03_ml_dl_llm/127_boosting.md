@@ -1,5 +1,5 @@
 ---
-title: "127. Boosting"
+title: "Boosting"
 date: "2026-04-19"
 tags:
   - "studynote-data-engineering"

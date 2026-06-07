@@ -1,5 +1,5 @@
 ---
-title: "107. Np Class"
+title: "Np Class"
 date: "2025-05-14"
 tags:
   - "studynote-algorithm-stats"

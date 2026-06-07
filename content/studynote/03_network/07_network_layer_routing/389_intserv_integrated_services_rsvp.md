@@ -1,5 +1,5 @@
 ---
-title: "389. IntServ (Integrated Services)"
+title: "IntServ (Integrated Services)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

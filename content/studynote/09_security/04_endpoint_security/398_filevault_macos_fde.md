@@ -1,5 +1,5 @@
 ---
-title: "398. FileVault (macOS Full Disk Encryption)"
+title: "FileVault (macOS Full Disk Encryption)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

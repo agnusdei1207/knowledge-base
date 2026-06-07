@@ -1,5 +1,5 @@
 ---
-title: "1104. O Ran Open Fronthaul Architecture"
+title: "O Ran Open Fronthaul Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-network"

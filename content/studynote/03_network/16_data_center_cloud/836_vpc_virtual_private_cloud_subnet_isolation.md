@@ -1,5 +1,5 @@
 ---
-title: "836. Vpc Virtual Private Cloud Subnet Isolation"
+title: "Vpc Virtual Private Cloud Subnet Isolation"
 date: "2026-05-08"
 tags:
   - "studynote-network"

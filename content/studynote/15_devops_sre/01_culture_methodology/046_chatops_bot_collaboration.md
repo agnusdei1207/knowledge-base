@@ -1,5 +1,5 @@
 ---
-title: "046. Chatops Bot Collaboration"
+title: "Chatops Bot Collaboration"
 date: "2026-04-05"
 tags:
   - "studynote-devops-sre"

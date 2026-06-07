@@ -1,5 +1,5 @@
 ---
-title: "075. Artifact Management Nexus Docker Registry"
+title: "Artifact Management Nexus Docker Registry"
 date: "2026-04-10"
 tags:
   - "studynote-devops-sre"

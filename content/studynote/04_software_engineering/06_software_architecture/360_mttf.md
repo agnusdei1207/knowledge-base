@@ -1,5 +1,5 @@
 ---
-title: "360. Mttf"
+title: "Mttf"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

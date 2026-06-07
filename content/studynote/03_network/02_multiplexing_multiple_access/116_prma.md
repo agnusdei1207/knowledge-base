@@ -1,5 +1,5 @@
 ---
-title: "116. PRMA (Packet Reservation Multiple Access)"
+title: "PRMA (Packet Reservation Multiple Access)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

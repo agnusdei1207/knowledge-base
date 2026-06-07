@@ -1,5 +1,5 @@
 ---
-title: "036. Migration 6R"
+title: "Migration 6R"
 date: "2026-03-03"
 tags:
   - "studynote-cloud-architecture"

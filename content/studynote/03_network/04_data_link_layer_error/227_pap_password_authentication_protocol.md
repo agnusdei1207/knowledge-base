@@ -1,5 +1,5 @@
 ---
-title: "227. PAP (Password Authentication Protocol)"
+title: "PAP (Password Authentication Protocol)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

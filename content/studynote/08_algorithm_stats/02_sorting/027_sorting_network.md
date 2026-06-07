@@ -1,5 +1,5 @@
 ---
-title: "027. Sorting Network"
+title: "Sorting Network"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

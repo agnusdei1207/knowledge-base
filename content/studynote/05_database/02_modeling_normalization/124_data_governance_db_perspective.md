@@ -1,5 +1,5 @@
 ---
-title: "124. Data Governance Db Perspective"
+title: "Data Governance Db Perspective"
 date: "2026-04-19"
 tags:
   - "studynote-database"

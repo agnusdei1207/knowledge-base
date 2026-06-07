@@ -1,5 +1,5 @@
 ---
-title: "132. Polyglot Persistence"
+title: "Polyglot Persistence"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"

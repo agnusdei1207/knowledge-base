@@ -1,5 +1,5 @@
 ---
-title: "276. Packet Switching Vs Circuit Switching Message Switching"
+title: "Packet Switching Vs Circuit Switching Message Switching"
 date: "2026-05-08"
 tags:
   - "studynote-network"

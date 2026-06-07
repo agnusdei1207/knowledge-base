@@ -1,5 +1,5 @@
 ---
-title: "459. Dummy Test Double"
+title: "Dummy Test Double"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

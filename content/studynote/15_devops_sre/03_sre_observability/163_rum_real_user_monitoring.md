@@ -1,5 +1,5 @@
 ---
-title: "163. RUM (Real User Monitoring)"
+title: "RUM (Real User Monitoring)"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"

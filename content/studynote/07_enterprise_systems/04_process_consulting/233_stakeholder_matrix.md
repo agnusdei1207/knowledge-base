@@ -1,5 +1,5 @@
 ---
-title: "233. Stakeholder Matrix"
+title: "Stakeholder Matrix"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"

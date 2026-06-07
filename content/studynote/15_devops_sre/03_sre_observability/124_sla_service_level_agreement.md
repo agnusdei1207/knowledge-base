@@ -1,5 +1,5 @@
 ---
-title: "124. Sla Service Level Agreement"
+title: "Sla Service Level Agreement"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"

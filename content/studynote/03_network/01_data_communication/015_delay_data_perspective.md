@@ -1,5 +1,5 @@
 ---
-title: "015. Delay: Data Perspective"
+title: "Delay: Data Perspective"
 date: "2026-03-30"
 tags:
   - "Network"

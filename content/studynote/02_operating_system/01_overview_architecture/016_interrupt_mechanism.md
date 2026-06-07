@@ -1,5 +1,5 @@
 ---
-title: "016. Interrupt Mechanism"
+title: "Interrupt Mechanism"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"

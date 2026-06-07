@@ -1,5 +1,5 @@
 ---
-title: "122. Primality Test"
+title: "Primality Test"
 date: "2026-04-05"
 tags:
   - "studynote-algorithm-stats"

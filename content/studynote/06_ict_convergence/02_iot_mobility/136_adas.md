@@ -1,5 +1,5 @@
 ---
-title: "136. 레벨 2 - ADAS 결합"
+title: "레벨 2 - ADAS 결합"
 date: "2026-06-07"
 tags:
   - "studynote-ict-convergence"

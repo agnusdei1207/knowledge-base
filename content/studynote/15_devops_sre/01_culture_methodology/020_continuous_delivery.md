@@ -1,5 +1,5 @@
 ---
-title: "020. Continuous Delivery"
+title: "Continuous Delivery"
 date: "2026-03-04"
 tags:
   - "devops_sre"

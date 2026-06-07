@@ -1,5 +1,5 @@
 ---
-title: "210. 데이터 레이크하우스 (Data Lakehouse)"
+title: "데이터 레이크하우스 (Data Lakehouse)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

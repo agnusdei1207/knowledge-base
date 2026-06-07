@@ -1,5 +1,5 @@
 ---
-title: "839. Hybrid Multi Cloud Interconnect Routing"
+title: "Hybrid Multi Cloud Interconnect Routing"
 date: "2026-05-08"
 tags:
   - "studynote-network"

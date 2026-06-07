@@ -1,5 +1,5 @@
 ---
-title: "265. ELT (Extract, Load, Transform)"
+title: "ELT (Extract, Load, Transform)"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"

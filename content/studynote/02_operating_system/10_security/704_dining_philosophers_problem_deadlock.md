@@ -1,5 +1,5 @@
 ---
-title: "704. 식사하는 철학자 교착 문제"
+title: "식사하는 철학자 교착 문제"
 date: "2026-06-07"
 tags:
   - "studynote-operating-system"

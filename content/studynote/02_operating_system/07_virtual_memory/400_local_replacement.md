@@ -1,5 +1,5 @@
 ---
-title: "400. Local Replacement"
+title: "Local Replacement"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

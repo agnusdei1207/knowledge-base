@@ -1,5 +1,5 @@
 ---
-title: "505. Password Storage Kdf Salt"
+title: "Password Storage Kdf Salt"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

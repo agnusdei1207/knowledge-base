@@ -1,5 +1,5 @@
 ---
-title: "286. Circular Wait"
+title: "Circular Wait"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

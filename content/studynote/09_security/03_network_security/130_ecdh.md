@@ -1,5 +1,5 @@
 ---
-title: "130. ECDH (ECDH)"
+title: "ECDH (ECDH)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

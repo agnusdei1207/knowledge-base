@@ -1,5 +1,5 @@
 ---
-title: "123. Pdm Product Data Management"
+title: "Pdm Product Data Management"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"

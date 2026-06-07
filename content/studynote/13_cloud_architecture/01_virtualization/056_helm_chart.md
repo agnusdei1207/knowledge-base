@@ -1,5 +1,5 @@
 ---
-title: "056. Helm Chart"
+title: "Helm Chart"
 date: "2026-04-05"
 tags:
   - "cloud_architecture"

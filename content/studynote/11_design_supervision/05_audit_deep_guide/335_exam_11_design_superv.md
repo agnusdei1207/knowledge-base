@@ -1,5 +1,5 @@
 ---
-title: "335. 형상 [베이스라인] 변경 심의"
+title: "형상 [베이스라인] 변경 심의"
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

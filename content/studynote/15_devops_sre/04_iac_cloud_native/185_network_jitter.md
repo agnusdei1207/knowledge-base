@@ -1,5 +1,5 @@
 ---
-title: "185. Network Jitter"
+title: "Network Jitter"
 date: "2026-04-28"
 tags:
   - "studynote-devops-sre"

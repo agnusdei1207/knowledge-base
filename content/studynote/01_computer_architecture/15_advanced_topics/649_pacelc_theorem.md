@@ -1,5 +1,5 @@
 ---
-title: "649. Pacelc Theorem"
+title: "Pacelc Theorem"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

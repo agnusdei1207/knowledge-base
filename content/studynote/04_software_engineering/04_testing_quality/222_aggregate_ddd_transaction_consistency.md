@@ -1,5 +1,5 @@
 ---
-title: "222. Aggregate Ddd Transaction Consistency"
+title: "Aggregate Ddd Transaction Consistency"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "381. Virtual Memory"
+title: "Virtual Memory"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

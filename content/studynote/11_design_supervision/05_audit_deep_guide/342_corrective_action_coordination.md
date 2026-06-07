@@ -1,5 +1,5 @@
 ---
-title: "342. 시정 조치 조율 위원회"
+title: "시정 조치 조율 위원회"
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

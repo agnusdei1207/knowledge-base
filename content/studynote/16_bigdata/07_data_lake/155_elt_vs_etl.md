@@ -1,5 +1,5 @@
 ---
-title: "155. Elt Vs Etl"
+title: "Elt Vs Etl"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

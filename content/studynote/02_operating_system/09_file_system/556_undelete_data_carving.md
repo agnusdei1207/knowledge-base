@@ -1,5 +1,5 @@
 ---
-title: "556. Undelete Data Carving"
+title: "Undelete Data Carving"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

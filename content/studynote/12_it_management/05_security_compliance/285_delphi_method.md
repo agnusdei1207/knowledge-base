@@ -1,5 +1,5 @@
 ---
-title: "285. 델파이 기법 블라인드 합의"
+title: "델파이 기법 블라인드 합의"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

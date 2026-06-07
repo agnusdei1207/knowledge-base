@@ -1,5 +1,5 @@
 ---
-title: "173. Stakeholder Identification Impact Matrix"
+title: "Stakeholder Identification Impact Matrix"
 date: "2026-04-03"
 tags:
   - "software_engineering"

@@ -1,5 +1,5 @@
 ---
-title: "284. OpenVPN (OpenVPN)"
+title: "OpenVPN (OpenVPN)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

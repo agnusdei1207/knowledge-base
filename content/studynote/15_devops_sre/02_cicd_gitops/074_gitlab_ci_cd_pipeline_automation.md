@@ -1,5 +1,5 @@
 ---
-title: "074. Gitlab Ci Cd Pipeline Automation"
+title: "Gitlab Ci Cd Pipeline Automation"
 date: "2026-04-10"
 tags:
   - "studynote-devops-sre"

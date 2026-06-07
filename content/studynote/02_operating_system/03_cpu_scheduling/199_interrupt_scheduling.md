@@ -1,5 +1,5 @@
 ---
-title: "199. Interrupt Scheduling"
+title: "Interrupt Scheduling"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"

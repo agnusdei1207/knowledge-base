@@ -1,5 +1,5 @@
 ---
-title: "201. MIPS"
+title: "MIPS"
 date: "2026-03-19"
 tags:
   - "studynote-computer-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "1058. HIPAA (Health Insurance Portability and Accountability Act)"
+title: "HIPAA (Health Insurance Portability and Accountability Act)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "453. Compatibility Test"
+title: "Compatibility Test"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

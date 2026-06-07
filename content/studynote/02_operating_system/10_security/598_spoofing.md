@@ -1,5 +1,5 @@
 ---
-title: "598. Spoofing"
+title: "Spoofing"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

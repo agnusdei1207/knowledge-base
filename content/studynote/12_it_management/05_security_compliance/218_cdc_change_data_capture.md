@@ -1,5 +1,5 @@
 ---
-title: "218. 변경 데이터 캡처 (CDC, Change Data Capture) 데이터베이스 실시간 마이그레이션 연동망"
+title: "변경 데이터 캡처 (CDC, Change Data Capture) 데이터베이스 실시간 마이그레이션 연동망"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

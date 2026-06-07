@@ -1,5 +1,5 @@
 ---
-title: "064. Adaptive DPCM (ADPCM)"
+title: "Adaptive DPCM (ADPCM)"
 date: "2024-05-15"
 tags:
   - "network"

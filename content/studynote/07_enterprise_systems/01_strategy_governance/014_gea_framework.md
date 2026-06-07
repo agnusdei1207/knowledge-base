@@ -1,5 +1,5 @@
 ---
-title: "014. Gea Framework"
+title: "Gea Framework"
 date: "2024-05-24"
 tags:
   - "enterprise_systems"

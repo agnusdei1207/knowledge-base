@@ -1,5 +1,5 @@
 ---
-title: "336. Library Vs Framework"
+title: "Library Vs Framework"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

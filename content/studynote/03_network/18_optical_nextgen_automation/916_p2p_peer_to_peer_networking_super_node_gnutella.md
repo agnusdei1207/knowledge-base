@@ -1,5 +1,5 @@
 ---
-title: "916. P2P (Peer-to-Peer)"
+title: "P2P (Peer-to-Peer)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

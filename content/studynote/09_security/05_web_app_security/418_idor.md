@@ -1,5 +1,5 @@
 ---
-title: "418. IDOR (Insecure Direct Object Reference)"
+title: "IDOR (Insecure Direct Object Reference)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

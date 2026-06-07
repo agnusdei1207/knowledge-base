@@ -1,5 +1,5 @@
 ---
-title: "152. Mutual Information"
+title: "Mutual Information"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

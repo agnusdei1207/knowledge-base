@@ -1,5 +1,5 @@
 ---
-title: "461. Http Stateless Connection Oriented"
+title: "Http Stateless Connection Oriented"
 date: "2026-05-08"
 tags:
   - "studynote-network"

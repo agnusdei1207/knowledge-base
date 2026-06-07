@@ -1,5 +1,5 @@
 ---
-title: "071. Digital Transformation Dx"
+title: "Digital Transformation Dx"
 date: "2026-06-07"
 tags:
   - "enterprise_systems"

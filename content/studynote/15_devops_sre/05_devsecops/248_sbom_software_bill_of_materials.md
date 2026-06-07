@@ -1,5 +1,5 @@
 ---
-title: "248. SBOM (Software Bill of Materials)"
+title: "SBOM (Software Bill of Materials)"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

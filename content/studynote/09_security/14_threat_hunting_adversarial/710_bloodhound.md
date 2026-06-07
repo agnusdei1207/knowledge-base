@@ -1,5 +1,5 @@
 ---
-title: "710. BloodHound (BloodHound)"
+title: "BloodHound (BloodHound)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

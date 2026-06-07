@@ -1,5 +1,5 @@
 ---
-title: "307. 이벤트 소싱 불변 로그 스트림 복원"
+title: "이벤트 소싱 불변 로그 스트림 복원"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

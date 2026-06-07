@@ -1,5 +1,5 @@
 ---
-title: "393. Leaky Bucket / Token Bucket"
+title: "Leaky Bucket / Token Bucket"
 date: "2026-05-08"
 tags:
   - "studynote-network"

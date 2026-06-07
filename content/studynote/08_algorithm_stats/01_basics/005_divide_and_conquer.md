@@ -1,5 +1,5 @@
 ---
-title: "005. Divide And Conquer"
+title: "Divide And Conquer"
 date: "2026-06-07"
 tags:
   - "algorithm_stats"

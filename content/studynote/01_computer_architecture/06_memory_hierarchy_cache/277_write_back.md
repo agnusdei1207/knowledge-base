@@ -1,5 +1,5 @@
 ---
-title: "277. Write Back"
+title: "Write Back"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"

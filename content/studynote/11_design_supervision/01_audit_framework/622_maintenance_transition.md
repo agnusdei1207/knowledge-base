@@ -1,5 +1,5 @@
 ---
-title: "622. Maintenance Transition"
+title: "Maintenance Transition"
 date: "2026-04-05"
 tags:
   - "studynote-design-supervision"

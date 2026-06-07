@@ -1,5 +1,5 @@
 ---
-title: "567. Redis Cache Eviction Policy Lru Lfu"
+title: "Redis Cache Eviction Policy Lru Lfu"
 date: "2026-05-09"
 tags:
   - "studynote-database"

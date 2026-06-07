@@ -1,5 +1,5 @@
 ---
-title: "024. Truth Table"
+title: "Truth Table"
 date: "2026-04-29"
 tags:
   - "studynote-computer-architecture"

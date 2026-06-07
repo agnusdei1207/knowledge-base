@@ -1,5 +1,5 @@
 ---
-title: "239. Stateless Redis"
+title: "Stateless Redis"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

@@ -1,5 +1,5 @@
 ---
-title: "336. NDP (Neighbor Discovery Protocol)"
+title: "NDP (Neighbor Discovery Protocol)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "189. Multi Tenant Database Architecture Saas"
+title: "Multi Tenant Database Architecture Saas"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise-systems"

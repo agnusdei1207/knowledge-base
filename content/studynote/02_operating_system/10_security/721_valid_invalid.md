@@ -1,5 +1,5 @@
 ---
-title: "721. 유효/무효 비트 (Valid/Invalid)"
+title: "유효/무효 비트 (Valid/Invalid)"
 date: "2026-06-07"
 tags:
   - "studynote-operating-system"

@@ -1,5 +1,5 @@
 ---
-title: "865. Microsoft SDL (Security Development Lifecycle)"
+title: "Microsoft SDL (Security Development Lifecycle)"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

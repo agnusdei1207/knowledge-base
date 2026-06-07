@@ -1,5 +1,5 @@
 ---
-title: "1089. Diffserv Dscp Classification Phb Qos"
+title: "Diffserv Dscp Classification Phb Qos"
 date: "2026-05-08"
 tags:
   - "studynote-network"

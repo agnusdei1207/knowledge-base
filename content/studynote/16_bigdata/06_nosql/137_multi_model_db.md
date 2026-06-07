@@ -1,5 +1,5 @@
 ---
-title: "137. Multi Model Db"
+title: "Multi Model Db"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

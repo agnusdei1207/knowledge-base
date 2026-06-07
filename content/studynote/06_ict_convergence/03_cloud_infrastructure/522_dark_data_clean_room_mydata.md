@@ -1,5 +1,5 @@
 ---
-title: "522. 다크 데이터, 클린 룸, 마이데이터 (Dark Data Clean Room MyData)"
+title: "다크 데이터, 클린 룸, 마이데이터 (Dark Data Clean Room MyData)"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"

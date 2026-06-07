@@ -1,5 +1,5 @@
 ---
-title: "758. Kano Model Quality Attributes"
+title: "Kano Model Quality Attributes"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

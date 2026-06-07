@@ -1,5 +1,5 @@
 ---
-title: "336. 고가용성 모의 페일오버 테스트"
+title: "고가용성 모의 페일오버 테스트"
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

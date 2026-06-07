@@ -1,5 +1,5 @@
 ---
-title: "698. Test-and-Set 연산 하드웨어"
+title: "Test-and-Set 연산 하드웨어"
 date: "2026-06-07"
 tags:
   - "studynote-operating-system"

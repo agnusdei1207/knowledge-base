@@ -1,5 +1,5 @@
 ---
-title: "688. Sast Dast Iast Security Testing"
+title: "Sast Dast Iast Security Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

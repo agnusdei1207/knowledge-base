@@ -1,5 +1,5 @@
 ---
-title: "026. Minterm Maxterm"
+title: "Minterm Maxterm"
 date: "2026-04-29"
 tags:
   - "studynote-computer-architecture"

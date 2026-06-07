@@ -1,5 +1,5 @@
 ---
-title: "209. Blackboard Pattern Ai Heuristic"
+title: "Blackboard Pattern Ai Heuristic"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

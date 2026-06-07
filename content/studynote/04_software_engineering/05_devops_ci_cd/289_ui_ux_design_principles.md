@@ -1,5 +1,5 @@
 ---
-title: "289. Ui Ux Design Principles"
+title: "Ui Ux Design Principles"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "103. Helm Kubernetes Package Manager Chart Template"
+title: "Helm Kubernetes Package Manager Chart Template"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "734. Defensive Programming Assertion"
+title: "Defensive Programming Assertion"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

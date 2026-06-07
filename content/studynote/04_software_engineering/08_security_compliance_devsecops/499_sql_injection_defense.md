@@ -1,5 +1,5 @@
 ---
-title: "499. Sql Injection Defense"
+title: "Sql Injection Defense"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

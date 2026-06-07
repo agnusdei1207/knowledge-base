@@ -1,5 +1,5 @@
 ---
-title: "121. Ecdlp"
+title: "Ecdlp"
 date: "2026-05-08"
 tags:
   - "studynote-security"

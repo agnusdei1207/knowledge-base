@@ -1,5 +1,5 @@
 ---
-title: "075. Spark 35 Improvements"
+title: "Spark 35 Improvements"
 date: "2026-04-29"
 tags:
   - "studynote-bigdata"

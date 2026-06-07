@@ -1,5 +1,5 @@
 ---
-title: "206. Priority Inheritance"
+title: "Priority Inheritance"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"

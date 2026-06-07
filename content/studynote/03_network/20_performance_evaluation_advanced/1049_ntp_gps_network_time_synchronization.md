@@ -1,5 +1,5 @@
 ---
-title: "1049. Ntp Gps Network Time Synchronization"
+title: "Ntp Gps Network Time Synchronization"
 date: "2026-05-08"
 tags:
   - "studynote-network"

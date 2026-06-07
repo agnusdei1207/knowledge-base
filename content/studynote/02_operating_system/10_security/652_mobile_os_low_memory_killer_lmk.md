@@ -1,5 +1,5 @@
 ---
-title: "652. Mobile Os Low Memory Killer Lmk"
+title: "Mobile Os Low Memory Killer Lmk"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

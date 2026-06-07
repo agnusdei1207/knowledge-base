@@ -1,5 +1,5 @@
 ---
-title: "625. Sla Hardware Availability"
+title: "Sla Hardware Availability"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

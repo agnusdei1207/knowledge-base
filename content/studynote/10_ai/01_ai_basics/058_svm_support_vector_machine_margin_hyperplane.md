@@ -1,5 +1,5 @@
 ---
-title: "058. Svm Support Vector Machine Margin Hyperplane"
+title: "Svm Support Vector Machine Margin Hyperplane"
 date: "2026-04-07"
 tags:
   - "studynote-ai"

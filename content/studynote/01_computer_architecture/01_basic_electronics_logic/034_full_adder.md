@@ -1,5 +1,5 @@
 ---
-title: "034. Full Adder"
+title: "Full Adder"
 date: "2026-03-04"
 tags:
   - "studynote-computer-architecture"

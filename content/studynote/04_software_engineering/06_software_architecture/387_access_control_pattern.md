@@ -1,5 +1,5 @@
 ---
-title: "387. Access Control Pattern"
+title: "Access Control Pattern"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

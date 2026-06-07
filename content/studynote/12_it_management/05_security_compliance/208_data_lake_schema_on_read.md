@@ -1,5 +1,5 @@
 ---
-title: "208. 데이터 레이크 (Data Lake)"
+title: "데이터 레이크 (Data Lake)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

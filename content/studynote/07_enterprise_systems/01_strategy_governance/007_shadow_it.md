@@ -1,5 +1,5 @@
 ---
-title: "007. Shadow It"
+title: "Shadow It"
 date: "2026-03-04"
 tags:
   - "enterprise_systems"

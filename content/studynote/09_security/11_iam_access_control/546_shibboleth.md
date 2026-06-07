@@ -1,5 +1,5 @@
 ---
-title: "546. Shibboleth (Shibboleth)"
+title: "Shibboleth (Shibboleth)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

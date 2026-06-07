@@ -1,5 +1,5 @@
 ---
-title: "402. Optimal Page Replacement"
+title: "Optimal Page Replacement"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

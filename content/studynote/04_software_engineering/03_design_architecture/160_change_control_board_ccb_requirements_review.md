@@ -1,5 +1,5 @@
 ---
-title: "160. Change Control Board Ccb Requirements Review"
+title: "Change Control Board Ccb Requirements Review"
 date: "2026-05-05"
 tags:
   - "studynote-software-engineering"

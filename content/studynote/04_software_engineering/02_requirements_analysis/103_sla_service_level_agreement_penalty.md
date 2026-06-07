@@ -1,5 +1,5 @@
 ---
-title: "103. SLA (Service Level Agreement)"
+title: "SLA (Service Level Agreement)"
 date: "2026-06-07"
 tags:
   - "software_engineering"

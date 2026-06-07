@@ -1,5 +1,5 @@
 ---
-title: "207. Model Enhancement Process Mining Simulation"
+title: "Model Enhancement Process Mining Simulation"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise-systems"

@@ -1,5 +1,5 @@
 ---
-title: "043. Max Flow"
+title: "Max Flow"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

@@ -1,5 +1,5 @@
 ---
-title: "803. Oversubscription Ratio Data Center Bandwidth"
+title: "Oversubscription Ratio Data Center Bandwidth"
 date: "2026-05-08"
 tags:
   - "studynote-network"

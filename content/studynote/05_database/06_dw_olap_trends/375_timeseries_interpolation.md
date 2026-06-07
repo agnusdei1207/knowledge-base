@@ -1,5 +1,5 @@
 ---
-title: "375. Timeseries Interpolation"
+title: "Timeseries Interpolation"
 date: "2026-05-09"
 tags:
   - "studynote-database"

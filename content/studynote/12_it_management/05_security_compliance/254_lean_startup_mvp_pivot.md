@@ -1,5 +1,5 @@
 ---
-title: "254. 린 스타트업 MVP 피벗"
+title: "린 스타트업 MVP 피벗"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

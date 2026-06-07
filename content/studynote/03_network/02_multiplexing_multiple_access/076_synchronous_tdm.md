@@ -1,5 +1,5 @@
 ---
-title: "076. Synchronous TDM"
+title: "Synchronous TDM"
 date: "2026-03-30"
 tags:
   - "network"

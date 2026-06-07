@@ -1,5 +1,5 @@
 ---
-title: "071. Segment Tree"
+title: "Segment Tree"
 date: "2026-03-28"
 tags:
   - "studynote-algorithm-stats"

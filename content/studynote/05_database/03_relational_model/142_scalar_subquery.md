@@ -1,5 +1,5 @@
 ---
-title: "142. Scalar Subquery"
+title: "Scalar Subquery"
 date: "2026-04-19"
 tags:
   - "studynote-database"

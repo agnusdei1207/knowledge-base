@@ -1,5 +1,5 @@
 ---
-title: "003. Corporate Governance It Governance"
+title: "Corporate Governance It Governance"
 date: "2026-03-04"
 tags:
   - "it_management"

@@ -1,5 +1,5 @@
 ---
-title: "030. Rack Awareness Fault Tolerance Topology"
+title: "Rack Awareness Fault Tolerance Topology"
 date: "2026-03-04"
 tags:
   - "hadoop"

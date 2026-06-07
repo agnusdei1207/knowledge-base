@@ -1,5 +1,5 @@
 ---
-title: "136. Search Engine Db"
+title: "Search Engine Db"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

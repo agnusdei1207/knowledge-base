@@ -1,5 +1,5 @@
 ---
-title: "092. Nodeport Kubernetes Service External Access"
+title: "Nodeport Kubernetes Service External Access"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"

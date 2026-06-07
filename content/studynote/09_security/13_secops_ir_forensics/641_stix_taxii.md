@@ -1,5 +1,5 @@
 ---
-title: "641. STIX/TAXII (STIX/TAXII)"
+title: "STIX/TAXII (STIX/TAXII)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

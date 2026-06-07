@@ -1,5 +1,5 @@
 ---
-title: "133. 2Pc Limitations"
+title: "2Pc Limitations"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"

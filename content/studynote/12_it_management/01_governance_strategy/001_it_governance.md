@@ -1,5 +1,5 @@
 ---
-title: "001. It Governance"
+title: "It Governance"
 date: "2026-03-04"
 tags:
   - "it_management"

@@ -1,5 +1,5 @@
 ---
-title: "285. WireGuard (WireGuard)"
+title: "WireGuard (WireGuard)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

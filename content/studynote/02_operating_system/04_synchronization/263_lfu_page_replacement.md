@@ -1,5 +1,5 @@
 ---
-title: "263. Lfu Page Replacement"
+title: "Lfu Page Replacement"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

@@ -1,5 +1,5 @@
 ---
-title: "514. Secret Management Vault Kms"
+title: "Secret Management Vault Kms"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

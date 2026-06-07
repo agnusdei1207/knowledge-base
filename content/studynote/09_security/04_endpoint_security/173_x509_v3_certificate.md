@@ -1,5 +1,5 @@
 ---
-title: "173. X509 V3 Certificate"
+title: "X509 V3 Certificate"
 date: "2026-04-05"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "324. 데이터옵스 CI/CD 파이프라인 자동화"
+title: "데이터옵스 CI/CD 파이프라인 자동화"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

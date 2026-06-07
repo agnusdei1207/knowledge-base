@@ -1,5 +1,5 @@
 ---
-title: "003. Integrity"
+title: "Integrity"
 date: "2023-10-24"
 tags:
   - "security"

@@ -1,5 +1,5 @@
 ---
-title: "048. Anomaly Detection"
+title: "Anomaly Detection"
 date: "2026-04-05"
 tags:
   - "studynote-ai"

@@ -1,5 +1,5 @@
 ---
-title: "664. Chain Of Custody"
+title: "Chain Of Custody"
 date: "2026-05-08"
 tags:
   - "studynote-security"

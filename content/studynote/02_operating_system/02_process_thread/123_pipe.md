@@ -1,5 +1,5 @@
 ---
-title: "123. Pipe"
+title: "Pipe"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"

@@ -1,5 +1,5 @@
 ---
-title: "092. Gpt Nlp"
+title: "Gpt Nlp"
 date: "2026-04-05"
 tags:
   - "it_management"

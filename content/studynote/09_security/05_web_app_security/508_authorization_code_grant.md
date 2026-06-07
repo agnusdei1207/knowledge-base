@@ -1,5 +1,5 @@
 ---
-title: "508. Authorization Code Grant"
+title: "Authorization Code Grant"
 date: "2026-05-08"
 tags:
   - "studynote-security"

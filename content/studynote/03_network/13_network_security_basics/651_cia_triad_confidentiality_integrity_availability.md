@@ -1,5 +1,5 @@
 ---
-title: "651. Cia Triad Confidentiality Integrity Availability"
+title: "Cia Triad Confidentiality Integrity Availability"
 date: "2026-05-08"
 tags:
   - "studynote-network"

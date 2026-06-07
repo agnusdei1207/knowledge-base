@@ -1,5 +1,5 @@
 ---
-title: "667. 요구사항 검증 추적성 매트릭스 (RTM)"
+title: "요구사항 검증 추적성 매트릭스 (RTM)"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

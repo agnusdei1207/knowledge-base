@@ -1,5 +1,5 @@
 ---
-title: "364. Formal Technical Review"
+title: "Formal Technical Review"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

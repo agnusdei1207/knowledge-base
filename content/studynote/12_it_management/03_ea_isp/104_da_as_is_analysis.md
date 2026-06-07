@@ -1,5 +1,5 @@
 ---
-title: "104. Da As Is Analysis"
+title: "Da As Is Analysis"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

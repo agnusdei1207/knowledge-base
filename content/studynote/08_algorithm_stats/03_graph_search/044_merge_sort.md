@@ -1,5 +1,5 @@
 ---
-title: "044. Merge Sort"
+title: "Merge Sort"
 date: "2026-06-07"
 tags:
   - "algorithm_stats"

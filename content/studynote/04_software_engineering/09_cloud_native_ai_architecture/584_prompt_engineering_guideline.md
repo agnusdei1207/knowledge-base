@@ -1,5 +1,5 @@
 ---
-title: "584. Prompt Engineering Guideline"
+title: "Prompt Engineering Guideline"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

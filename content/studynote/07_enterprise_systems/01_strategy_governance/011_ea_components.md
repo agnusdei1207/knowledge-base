@@ -1,5 +1,5 @@
 ---
-title: "011. Ea Components"
+title: "Ea Components"
 date: "2024-05-24"
 tags:
   - "enterprise_systems"

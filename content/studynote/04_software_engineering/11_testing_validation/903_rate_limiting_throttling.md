@@ -1,5 +1,5 @@
 ---
-title: "903. Rate Limiting Throttling"
+title: "Rate Limiting Throttling"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

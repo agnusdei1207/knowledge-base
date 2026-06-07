@@ -1,5 +1,5 @@
 ---
-title: "138. 10BASE-T, 100BASE-TX (Fast Ethernet)"
+title: "10BASE-T, 100BASE-TX (Fast Ethernet)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

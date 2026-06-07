@@ -1,5 +1,5 @@
 ---
-title: "359. ESG 경영 탄소 인지 (Carbon-Aware) 데이터센터 PUE 에너지 평가"
+title: "ESG 경영 탄소 인지 (Carbon-Aware) 데이터센터 PUE 에너지 평가"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

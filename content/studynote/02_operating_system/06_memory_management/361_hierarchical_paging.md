@@ -1,5 +1,5 @@
 ---
-title: "361. Hierarchical Paging"
+title: "Hierarchical Paging"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

@@ -1,5 +1,5 @@
 ---
-title: "081. Dimensionality Reduction Pca Principal Component Analysis"
+title: "Dimensionality Reduction Pca Principal Component Analysis"
 date: "2026-04-12"
 tags:
   - "studynote-data-engineering"

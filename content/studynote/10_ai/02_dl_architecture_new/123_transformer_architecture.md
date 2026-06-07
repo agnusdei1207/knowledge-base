@@ -1,5 +1,5 @@
 ---
-title: "123. Transformer Architecture"
+title: "Transformer Architecture"
 date: "2026-04-19"
 tags:
   - "studynote-ai"

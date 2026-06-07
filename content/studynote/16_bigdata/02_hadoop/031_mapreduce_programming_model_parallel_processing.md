@@ -1,5 +1,5 @@
 ---
-title: "031. Mapreduce Programming Model Parallel Processing"
+title: "Mapreduce Programming Model Parallel Processing"
 date: "2026-03-04"
 tags:
   - "hadoop"

@@ -1,5 +1,5 @@
 ---
-title: "977. LLM02: Insecure Output (LLM02: Insecure Output)"
+title: "LLM02: Insecure Output (LLM02: Insecure Output)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "353. Rag Retrieval Augmented Generation Vector Db"
+title: "Rag Retrieval Augmented Generation Vector Db"
 date: "2026-05-09"
 tags:
   - "studynote-database"

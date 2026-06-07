@@ -1,5 +1,5 @@
 ---
-title: "310. Multi Tenant Database Architecture"
+title: "Multi Tenant Database Architecture"
 date: "2026-05-09"
 tags:
   - "studynote-database"

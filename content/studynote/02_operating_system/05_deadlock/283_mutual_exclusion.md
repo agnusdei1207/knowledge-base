@@ -1,5 +1,5 @@
 ---
-title: "283. Mutual Exclusion"
+title: "Mutual Exclusion"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

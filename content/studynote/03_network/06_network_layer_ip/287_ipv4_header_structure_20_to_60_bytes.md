@@ -1,5 +1,5 @@
 ---
-title: "287. Ipv4 Header Structure 20 To 60 Bytes"
+title: "Ipv4 Header Structure 20 To 60 Bytes"
 date: "2026-05-08"
 tags:
   - "studynote-network"

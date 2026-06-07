@@ -1,5 +1,5 @@
 ---
-title: "639. Rdma Kernel Bypass"
+title: "Rdma Kernel Bypass"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

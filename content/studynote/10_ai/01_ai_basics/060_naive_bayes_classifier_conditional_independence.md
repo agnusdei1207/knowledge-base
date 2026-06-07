@@ -1,5 +1,5 @@
 ---
-title: "060. Naive Bayes Classifier Conditional Independence"
+title: "Naive Bayes Classifier Conditional Independence"
 date: "2026-04-07"
 tags:
   - "studynote-ai"

@@ -1,5 +1,5 @@
 ---
-title: "086. Multisig Wallet N Of M"
+title: "Multisig Wallet N Of M"
 date: "2026-06-07"
 tags:
   - "ict_convergence"

@@ -1,5 +1,5 @@
 ---
-title: "438. Unified Buffer Cache Page Cache"
+title: "Unified Buffer Cache Page Cache"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

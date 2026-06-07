@@ -1,5 +1,5 @@
 ---
-title: "521. Ai Model Security Adversarial Poisoning"
+title: "Ai Model Security Adversarial Poisoning"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

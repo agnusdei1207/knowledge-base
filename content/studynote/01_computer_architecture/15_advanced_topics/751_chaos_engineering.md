@@ -1,5 +1,5 @@
 ---
-title: "751. Chaos Engineering"
+title: "Chaos Engineering"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

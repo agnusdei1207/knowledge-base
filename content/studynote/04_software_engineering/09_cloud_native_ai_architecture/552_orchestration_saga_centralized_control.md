@@ -1,5 +1,5 @@
 ---
-title: "552. Orchestration Saga Centralized Control"
+title: "Orchestration Saga Centralized Control"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

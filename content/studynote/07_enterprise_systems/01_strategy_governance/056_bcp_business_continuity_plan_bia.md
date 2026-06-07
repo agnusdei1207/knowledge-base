@@ -1,5 +1,5 @@
 ---
-title: "056. Bcp Business Continuity Plan Bia"
+title: "Bcp Business Continuity Plan Bia"
 date: "2026-06-07"
 tags:
   - "enterprise_systems"

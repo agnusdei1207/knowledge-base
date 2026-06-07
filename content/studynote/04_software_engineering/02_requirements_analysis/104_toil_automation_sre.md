@@ -1,5 +1,5 @@
 ---
-title: "104. Toil Automation Sre"
+title: "Toil Automation Sre"
 date: "2026-06-07"
 tags:
   - "software_engineering"

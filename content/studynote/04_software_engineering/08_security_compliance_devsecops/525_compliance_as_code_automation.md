@@ -1,5 +1,5 @@
 ---
-title: "525. Compliance As Code Automation"
+title: "Compliance As Code Automation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

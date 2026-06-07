@@ -1,5 +1,5 @@
 ---
-title: "076. Permissionless Vs Permissioned Blockchain"
+title: "Permissionless Vs Permissioned Blockchain"
 date: "2026-06-07"
 tags:
   - "ict_convergence"

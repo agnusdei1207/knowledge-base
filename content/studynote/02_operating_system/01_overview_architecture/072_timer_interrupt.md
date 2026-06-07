@@ -1,5 +1,5 @@
 ---
-title: "072. Timer Interrupt"
+title: "Timer Interrupt"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"

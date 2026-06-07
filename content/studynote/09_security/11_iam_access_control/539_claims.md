@@ -1,5 +1,5 @@
 ---
-title: "539. Claims"
+title: "Claims"
 date: "2026-05-08"
 tags:
   - "studynote-security"

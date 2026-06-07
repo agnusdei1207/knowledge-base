@@ -1,5 +1,5 @@
 ---
-title: "358. 인터페이스 분리 인터페이스 비대 방지"
+title: "인터페이스 분리 인터페이스 비대 방지"
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

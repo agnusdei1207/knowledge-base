@@ -1,5 +1,5 @@
 ---
-title: "138. Logs"
+title: "Logs"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"

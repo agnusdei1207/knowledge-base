@@ -1,5 +1,5 @@
 ---
-title: "851. Sdn Data Plane Forwarding Pipeline Asic"
+title: "Sdn Data Plane Forwarding Pipeline Asic"
 date: "2026-05-08"
 tags:
   - "studynote-network"

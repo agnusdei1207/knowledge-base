@@ -1,5 +1,5 @@
 ---
-title: "1042. Sase Secure Access Service Edge Cloud"
+title: "Sase Secure Access Service Edge Cloud"
 date: "2026-05-08"
 tags:
   - "studynote-network"

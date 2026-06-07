@@ -1,5 +1,5 @@
 ---
-title: "047. Cloud Service Brokerage Csb"
+title: "Cloud Service Brokerage Csb"
 date: "2026-04-05"
 tags:
   - "studynote-cloud-architecture"

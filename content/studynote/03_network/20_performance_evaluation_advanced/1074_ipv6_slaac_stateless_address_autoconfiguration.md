@@ -1,5 +1,5 @@
 ---
-title: "1074. Ipv6 Slaac Stateless Address Autoconfiguration"
+title: "Ipv6 Slaac Stateless Address Autoconfiguration"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "596. Low Code No Code Architecture Limitations"
+title: "Low Code No Code Architecture Limitations"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

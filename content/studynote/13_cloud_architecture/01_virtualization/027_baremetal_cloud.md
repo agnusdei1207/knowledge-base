@@ -1,5 +1,5 @@
 ---
-title: "027. Baremetal Cloud"
+title: "Baremetal Cloud"
 date: "2026-04-29"
 tags:
   - "studynote-cloud-architecture"

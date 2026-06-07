@@ -1,5 +1,5 @@
 ---
-title: "622. Modular Monolith Msa Alternative"
+title: "Modular Monolith Msa Alternative"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

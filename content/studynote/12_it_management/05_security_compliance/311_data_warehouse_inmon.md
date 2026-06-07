@@ -1,5 +1,5 @@
 ---
-title: "311. 데이터 웨어하우스 Inmon 주젯 통합 비휘발"
+title: "데이터 웨어하우스 Inmon 주젯 통합 비휘발"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

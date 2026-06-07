@@ -1,5 +1,5 @@
 ---
-title: "345. 클라우드 [종속성] 이식성 진단"
+title: "클라우드 [종속성] 이식성 진단"
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

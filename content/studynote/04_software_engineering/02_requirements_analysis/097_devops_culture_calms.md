@@ -1,5 +1,5 @@
 ---
-title: "097. Devops Culture Calms"
+title: "Devops Culture Calms"
 date: "2026-02-15"
 tags:
   - "studynote-software-engineering"

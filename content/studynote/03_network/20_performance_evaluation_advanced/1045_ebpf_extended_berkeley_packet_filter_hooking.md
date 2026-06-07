@@ -1,5 +1,5 @@
 ---
-title: "1045. Ebpf Extended Berkeley Packet Filter Hooking"
+title: "Ebpf Extended Berkeley Packet Filter Hooking"
 date: "2026-05-08"
 tags:
   - "studynote-network"

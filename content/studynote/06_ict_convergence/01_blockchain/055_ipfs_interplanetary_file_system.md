@@ -1,5 +1,5 @@
 ---
-title: "55. IPFS (InterPlanetary File System)"
+title: "IPFS (InterPlanetary File System)"
 date: "2026-05-01"
 tags:
   - "studynote-ict-convergence"

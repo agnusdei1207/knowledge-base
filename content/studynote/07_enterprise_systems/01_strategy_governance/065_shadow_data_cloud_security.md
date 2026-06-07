@@ -1,5 +1,5 @@
 ---
-title: "065. Shadow Data Cloud Security"
+title: "Shadow Data Cloud Security"
 date: "2026-04-07"
 tags:
   - "studynote-enterprise-systems"

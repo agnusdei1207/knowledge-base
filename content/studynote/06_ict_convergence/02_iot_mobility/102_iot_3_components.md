@@ -1,5 +1,5 @@
 ---
-title: "102. Iot 3 Components"
+title: "Iot 3 Components"
 date: "2024-03-21"
 tags:
   - "studynote-ict-convergence"

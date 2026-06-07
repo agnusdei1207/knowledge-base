@@ -1,5 +1,5 @@
 ---
-title: "609. Pipe And Filter Architecture"
+title: "Pipe And Filter Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

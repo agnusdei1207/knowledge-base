@@ -1,5 +1,5 @@
 ---
-title: "568. Just-In-Time (JIT) Access (Just-In-Time (JIT) Access)"
+title: "Just-In-Time (JIT) Access (Just-In-Time (JIT) Access)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

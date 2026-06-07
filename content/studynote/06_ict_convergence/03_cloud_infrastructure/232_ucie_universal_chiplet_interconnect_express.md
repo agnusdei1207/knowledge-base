@@ -1,5 +1,5 @@
 ---
-title: "232. UCIe (Universal Chiplet Interconnect Express)"
+title: "UCIe (Universal Chiplet Interconnect Express)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"

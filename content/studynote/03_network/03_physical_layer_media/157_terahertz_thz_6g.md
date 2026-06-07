@@ -1,5 +1,5 @@
 ---
-title: "157. Terahertz Thz 6G"
+title: "Terahertz Thz 6G"
 date: "2026-04-05"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "319. 데이터 레이크하우스 스토리지 컴퓨팅 분리"
+title: "데이터 레이크하우스 스토리지 컴퓨팅 분리"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

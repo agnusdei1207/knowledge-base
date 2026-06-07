@@ -1,5 +1,5 @@
 ---
-title: "154. Composite Pattern"
+title: "Composite Pattern"
 date: "2026-05-03"
 tags:
   - "studynote-design-supervision"

@@ -1,5 +1,5 @@
 ---
-title: "756. Bathtub Curve"
+title: "Bathtub Curve"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "727. Dora Metrics 4 Indicators"
+title: "Dora Metrics 4 Indicators"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "086. Bpr Vs Erp Customization"
+title: "Bpr Vs Erp Customization"
 date: "2026-06-07"
 tags:
   - "enterprise_systems"

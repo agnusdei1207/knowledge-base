@@ -1,5 +1,5 @@
 ---
-title: "385. Measured Boot (Measured Boot)"
+title: "Measured Boot (Measured Boot)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

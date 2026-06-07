@@ -1,5 +1,5 @@
 ---
-title: "719. Quantum Computing Pqc Migration"
+title: "Quantum Computing Pqc Migration"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

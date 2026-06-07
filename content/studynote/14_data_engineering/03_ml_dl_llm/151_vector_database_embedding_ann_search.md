@@ -1,5 +1,5 @@
 ---
-title: "151. Vector Database Embedding Ann Search"
+title: "Vector Database Embedding Ann Search"
 date: "2026-05-03"
 tags:
   - "studynote-data-engineering"

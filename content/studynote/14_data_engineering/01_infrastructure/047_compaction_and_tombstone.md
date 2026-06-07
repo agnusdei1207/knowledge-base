@@ -1,5 +1,5 @@
 ---
-title: "047. Compaction And Tombstone"
+title: "Compaction And Tombstone"
 date: "2026-04-05"
 tags:
   - "studynote-data-engineering"

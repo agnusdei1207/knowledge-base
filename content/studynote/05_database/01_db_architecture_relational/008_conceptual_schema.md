@@ -1,5 +1,5 @@
 ---
-title: "008. Conceptual Schema"
+title: "Conceptual Schema"
 date: "2024-05-20"
 tags:
   - "database"

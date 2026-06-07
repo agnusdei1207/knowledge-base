@@ -1,5 +1,5 @@
 ---
-title: "228. Sddc Sdn Vxlan"
+title: "Sddc Sdn Vxlan"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

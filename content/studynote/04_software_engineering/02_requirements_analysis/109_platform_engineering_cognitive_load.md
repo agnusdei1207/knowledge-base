@@ -1,5 +1,5 @@
 ---
-title: "109. Platform Engineering Cognitive Load"
+title: "Platform Engineering Cognitive Load"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "922. Qkd Quantum Key Distribution Bb84 Eavesdropping"
+title: "Qkd Quantum Key Distribution Bb84 Eavesdropping"
 date: "2026-05-08"
 tags:
   - "studynote-network"

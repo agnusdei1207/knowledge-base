@@ -1,5 +1,5 @@
 ---
-title: "262. MSTP (Multiple STP)"
+title: "MSTP (Multiple STP)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

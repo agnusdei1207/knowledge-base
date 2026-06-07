@@ -1,5 +1,5 @@
 ---
-title: "014. Data Voucher"
+title: "Data Voucher"
 date: "2024-05-23"
 tags:
   - "bigdata"

@@ -1,5 +1,5 @@
 ---
-title: "214. YARN (Yet Another Resource Negotiator)"
+title: "YARN (Yet Another Resource Negotiator)"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"

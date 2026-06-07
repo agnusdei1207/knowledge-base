@@ -1,5 +1,5 @@
 ---
-title: "731. Buffer Overflow Stack Heap Aslr"
+title: "Buffer Overflow Stack Heap Aslr"
 date: "2026-05-08"
 tags:
   - "studynote-network"

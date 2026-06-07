@@ -1,5 +1,5 @@
 ---
-title: "876. Identification And Authentication Failures"
+title: "Identification And Authentication Failures"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

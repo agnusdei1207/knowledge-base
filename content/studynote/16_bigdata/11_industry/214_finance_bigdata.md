@@ -1,5 +1,5 @@
 ---
-title: "214. Finance Bigdata"
+title: "Finance Bigdata"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

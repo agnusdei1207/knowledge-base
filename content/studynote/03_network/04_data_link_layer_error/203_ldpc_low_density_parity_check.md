@@ -1,5 +1,5 @@
 ---
-title: "203. LDPC (Low Density Parity Check)"
+title: "LDPC (Low Density Parity Check)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

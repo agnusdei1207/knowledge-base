@@ -1,5 +1,5 @@
 ---
-title: "135. Lora Low Rank Adaptation"
+title: "Lora Low Rank Adaptation"
 date: "2026-04-19"
 tags:
   - "studynote-ai"

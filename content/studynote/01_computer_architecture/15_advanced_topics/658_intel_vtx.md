@@ -1,5 +1,5 @@
 ---
-title: "658. Intel VT-x"
+title: "Intel VT-x"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

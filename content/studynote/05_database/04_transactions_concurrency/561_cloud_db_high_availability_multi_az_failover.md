@@ -1,5 +1,5 @@
 ---
-title: "561. Cloud Db High Availability Multi Az Failover"
+title: "Cloud Db High Availability Multi Az Failover"
 date: "2026-05-09"
 tags:
   - "studynote-database"

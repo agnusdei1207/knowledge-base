@@ -1,5 +1,5 @@
 ---
-title: "121. Supervised Learning"
+title: "Supervised Learning"
 date: "2026-04-19"
 tags:
   - "studynote-data-engineering"

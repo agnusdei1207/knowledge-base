@@ -1,5 +1,5 @@
 ---
-title: "407. Tcp Segment Header Structure 20 60 Bytes"
+title: "Tcp Segment Header Structure 20 60 Bytes"
 date: "2026-05-08"
 tags:
   - "studynote-network"

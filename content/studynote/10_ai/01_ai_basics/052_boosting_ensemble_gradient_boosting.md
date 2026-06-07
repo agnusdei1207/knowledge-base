@@ -1,5 +1,5 @@
 ---
-title: "052. Boosting Ensemble Gradient Boosting"
+title: "Boosting Ensemble Gradient Boosting"
 date: "2026-05-01"
 tags:
   - "studynote-ai"

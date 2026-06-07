@@ -1,5 +1,5 @@
 ---
-title: "182. Cloud Service Models Overview"
+title: "Cloud Service Models Overview"
 date: "2026-05-06"
 tags:
   - "studynote-ict-convergence"

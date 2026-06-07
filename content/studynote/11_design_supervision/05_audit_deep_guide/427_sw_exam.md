@@ -1,5 +1,5 @@
 ---
-title: "427. SW 개발 비용 산정 간이법 상세법 [기능점수]"
+title: "SW 개발 비용 산정 간이법 상세법 [기능점수]"
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

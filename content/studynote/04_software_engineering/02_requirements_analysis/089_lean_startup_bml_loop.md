@@ -1,5 +1,5 @@
 ---
-title: "089. Lean Startup Bml Loop"
+title: "Lean Startup Bml Loop"
 date: "2026-06-07"
 tags:
   - "software_engineering"

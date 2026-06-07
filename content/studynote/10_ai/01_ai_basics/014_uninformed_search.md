@@ -1,5 +1,5 @@
 ---
-title: "014. Uninformed Search"
+title: "Uninformed Search"
 date: "2024-05-24"
 tags:
   - "ai"

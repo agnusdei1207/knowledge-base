@@ -1,5 +1,5 @@
 ---
-title: "436. Ldap Injection Web"
+title: "Ldap Injection Web"
 date: "2026-05-08"
 tags:
   - "studynote-security"

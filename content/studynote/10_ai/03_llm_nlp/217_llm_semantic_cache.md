@@ -1,5 +1,5 @@
 ---
-title: "217. Llm Semantic Cache"
+title: "Llm Semantic Cache"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

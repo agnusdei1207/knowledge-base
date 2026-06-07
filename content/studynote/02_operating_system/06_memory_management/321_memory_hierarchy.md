@@ -1,5 +1,5 @@
 ---
-title: "321. Memory Hierarchy"
+title: "Memory Hierarchy"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

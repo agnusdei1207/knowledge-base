@@ -1,5 +1,5 @@
 ---
-title: "518. DNSSEC (DNS Security Extensions)"
+title: "DNSSEC (DNS Security Extensions)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

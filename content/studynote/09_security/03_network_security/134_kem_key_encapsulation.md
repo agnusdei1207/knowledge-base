@@ -1,5 +1,5 @@
 ---
-title: "134. KEM (Key Encapsulation Mechanism)"
+title: "KEM (Key Encapsulation Mechanism)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

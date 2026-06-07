@@ -1,5 +1,5 @@
 ---
-title: "703. OTP와 TOTP (One-Time Password & Time-Based OTP)"
+title: "OTP와 TOTP (One-Time Password & Time-Based OTP)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

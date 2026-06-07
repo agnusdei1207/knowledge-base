@@ -1,5 +1,5 @@
 ---
-title: "015. Cmmi"
+title: "Cmmi"
 date: "2024-05-01"
 tags:
   - "software_engineering"

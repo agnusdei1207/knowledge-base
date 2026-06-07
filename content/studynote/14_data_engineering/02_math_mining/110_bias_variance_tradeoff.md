@@ -1,5 +1,5 @@
 ---
-title: "110. Bias Variance Tradeoff"
+title: "Bias Variance Tradeoff"
 date: "2026-04-19"
 tags:
   - "studynote-data-engineering"

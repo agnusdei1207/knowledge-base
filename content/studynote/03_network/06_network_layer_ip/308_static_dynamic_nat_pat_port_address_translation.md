@@ -1,5 +1,5 @@
 ---
-title: "308. Static NAT (1:1) / Dynamic NAT (M:N) / PAT (Port Address Translation ="
+title: "Static NAT (1:1) / Dynamic NAT (M:N) / PAT (Port Address Translation ="
 date: "2026-05-08"
 tags:
   - "studynote-network"

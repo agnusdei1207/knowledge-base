@@ -1,5 +1,5 @@
 ---
-title: "134. Requirements Engineering Process"
+title: "Requirements Engineering Process"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"

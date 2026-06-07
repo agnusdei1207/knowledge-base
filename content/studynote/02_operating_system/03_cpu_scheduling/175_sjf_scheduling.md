@@ -1,5 +1,5 @@
 ---
-title: "175. Sjf Scheduling"
+title: "Sjf Scheduling"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"

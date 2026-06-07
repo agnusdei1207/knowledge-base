@@ -1,5 +1,5 @@
 ---
-title: "363. RoCE (RDMA over Converged Ethernet)"
+title: "RoCE (RDMA over Converged Ethernet)"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"

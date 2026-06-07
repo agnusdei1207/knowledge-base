@@ -1,5 +1,5 @@
 ---
-title: "627. MEC (Multi-access Edge Computing / Mobile Edge Computing)"
+title: "MEC (Multi-access Edge Computing / Mobile Edge Computing)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

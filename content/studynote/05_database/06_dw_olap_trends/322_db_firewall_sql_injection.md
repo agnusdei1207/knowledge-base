@@ -1,5 +1,5 @@
 ---
-title: "322. Db Firewall Sql Injection"
+title: "Db Firewall Sql Injection"
 date: "2026-05-09"
 tags:
   - "studynote-database"

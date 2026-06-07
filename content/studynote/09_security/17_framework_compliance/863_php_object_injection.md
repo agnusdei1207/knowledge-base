@@ -1,5 +1,5 @@
 ---
-title: "863. PHP Object Injection (PHP Object Injection)"
+title: "PHP Object Injection (PHP Object Injection)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

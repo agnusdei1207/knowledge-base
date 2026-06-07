@@ -1,5 +1,5 @@
 ---
-title: "206. Sidecar Pod"
+title: "Sidecar Pod"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

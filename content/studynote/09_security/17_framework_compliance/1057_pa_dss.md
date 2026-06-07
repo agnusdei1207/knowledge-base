@@ -1,5 +1,5 @@
 ---
-title: "1057. PA-DSS (Payment Application Data Security Standard)"
+title: "PA-DSS (Payment Application Data Security Standard)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "439. Template Injection (SSTI)"
+title: "Template Injection (SSTI)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

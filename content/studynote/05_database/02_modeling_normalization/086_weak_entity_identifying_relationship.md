@@ -1,5 +1,5 @@
 ---
-title: "086. Weak Entity Identifying Relationship"
+title: "Weak Entity Identifying Relationship"
 date: "2026-06-07"
 tags:
   - "database"

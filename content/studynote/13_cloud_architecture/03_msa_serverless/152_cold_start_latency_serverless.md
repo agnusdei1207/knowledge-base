@@ -1,5 +1,5 @@
 ---
-title: "152. Cold Start Latency Serverless"
+title: "Cold Start Latency Serverless"
 date: "2026-05-03"
 tags:
   - "studynote-cloud-architecture"

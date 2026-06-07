@@ -1,5 +1,5 @@
 ---
-title: "073. Softmax Function Multiclass Classification Probability"
+title: "Softmax Function Multiclass Classification Probability"
 date: "2026-06-07"
 tags:
   - "ai"

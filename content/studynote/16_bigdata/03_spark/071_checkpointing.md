@@ -1,5 +1,5 @@
 ---
-title: "071. Checkpointing"
+title: "Checkpointing"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

@@ -1,5 +1,5 @@
 ---
-title: "248. OKR 도전적 목표와 핵심 결과"
+title: "OKR 도전적 목표와 핵심 결과"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

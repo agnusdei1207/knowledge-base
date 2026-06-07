@@ -1,5 +1,5 @@
 ---
-title: "131. Mmap Ipc"
+title: "Mmap Ipc"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"

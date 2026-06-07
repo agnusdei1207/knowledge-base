@@ -1,5 +1,5 @@
 ---
-title: "777. Evict Time"
+title: "Evict Time"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

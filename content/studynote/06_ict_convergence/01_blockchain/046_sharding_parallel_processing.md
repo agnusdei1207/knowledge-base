@@ -1,5 +1,5 @@
 ---
-title: "046. Sharding Parallel Processing"
+title: "Sharding Parallel Processing"
 date: "2026-04-05"
 tags:
   - "studynote-ict-convergence"

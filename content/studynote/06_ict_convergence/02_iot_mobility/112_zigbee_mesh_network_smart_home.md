@@ -1,5 +1,5 @@
 ---
-title: "112. Zigbee Mesh Network Smart Home"
+title: "Zigbee Mesh Network Smart Home"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"

@@ -1,5 +1,5 @@
 ---
-title: "576. Aslr Hardware Defense"
+title: "Aslr Hardware Defense"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

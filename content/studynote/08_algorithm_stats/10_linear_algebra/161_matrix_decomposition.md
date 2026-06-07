@@ -1,5 +1,5 @@
 ---
-title: "161. Matrix Decomposition"
+title: "Matrix Decomposition"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

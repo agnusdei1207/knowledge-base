@@ -1,5 +1,5 @@
 ---
-title: "1061. Bgp Rpki Routing Security"
+title: "Bgp Rpki Routing Security"
 date: "2026-05-08"
 tags:
   - "studynote-network"

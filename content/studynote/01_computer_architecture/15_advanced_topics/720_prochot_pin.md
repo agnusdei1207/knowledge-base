@@ -1,5 +1,5 @@
 ---
-title: "720. Prochot Pin"
+title: "Prochot Pin"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

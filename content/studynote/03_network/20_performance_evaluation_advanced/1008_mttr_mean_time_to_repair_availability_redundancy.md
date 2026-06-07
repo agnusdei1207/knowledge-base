@@ -1,5 +1,5 @@
 ---
-title: "1008. Mttr Mean Time To Repair Availability Redundancy"
+title: "Mttr Mean Time To Repair Availability Redundancy"
 date: "2026-05-08"
 tags:
   - "studynote-network"

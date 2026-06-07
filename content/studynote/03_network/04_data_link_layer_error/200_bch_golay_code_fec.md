@@ -1,5 +1,5 @@
 ---
-title: "200. Bch Golay Code Fec"
+title: "Bch Golay Code Fec"
 date: "2026-05-08"
 tags:
   - "studynote-network"

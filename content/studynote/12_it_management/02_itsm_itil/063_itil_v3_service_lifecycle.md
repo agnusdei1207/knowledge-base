@@ -1,5 +1,5 @@
 ---
-title: "63. ITIL V3 의 서비스 수명주기 (Service Lifecycle) 5단계"
+title: "ITIL V3 의 서비스 수명주기 (Service Lifecycle) 5단계"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

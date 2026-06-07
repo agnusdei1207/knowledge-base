@@ -1,5 +1,5 @@
 ---
-title: "694. Optical Disc Jukebox"
+title: "Optical Disc Jukebox"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

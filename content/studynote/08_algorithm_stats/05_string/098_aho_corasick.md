@@ -1,5 +1,5 @@
 ---
-title: "098. Aho Corasick"
+title: "Aho Corasick"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

@@ -1,5 +1,5 @@
 ---
-title: "759. 5G Performance Embb Urllc Mmtc"
+title: "5G Performance Embb Urllc Mmtc"
 date: "2026-05-08"
 tags:
   - "studynote-network"

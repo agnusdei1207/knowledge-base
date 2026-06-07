@@ -1,5 +1,5 @@
 ---
-title: "483. Raid Overview"
+title: "Raid Overview"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

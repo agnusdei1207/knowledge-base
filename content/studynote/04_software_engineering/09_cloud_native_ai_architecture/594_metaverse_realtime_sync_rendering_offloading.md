@@ -1,5 +1,5 @@
 ---
-title: "594. Metaverse Realtime Sync Rendering Offloading"
+title: "Metaverse Realtime Sync Rendering Offloading"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

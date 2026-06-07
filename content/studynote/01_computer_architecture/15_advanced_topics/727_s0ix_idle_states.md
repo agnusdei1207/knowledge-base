@@ -1,5 +1,5 @@
 ---
-title: "727. S0Ix Idle States"
+title: "S0Ix Idle States"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

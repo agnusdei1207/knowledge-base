@@ -1,5 +1,5 @@
 ---
-title: "336. 망연계 물리적 논리적 분리 통제 구조 점검"
+title: "망연계 물리적 논리적 분리 통제 구조 점검"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

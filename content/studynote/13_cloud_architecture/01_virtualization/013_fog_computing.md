@@ -1,5 +1,5 @@
 ---
-title: "013. Fog Computing"
+title: "Fog Computing"
 date: "2026-03-04"
 tags:
   - "cloud_architecture"

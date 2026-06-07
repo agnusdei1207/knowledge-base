@@ -1,5 +1,5 @@
 ---
-title: "243. Unsupervised Learning"
+title: "Unsupervised Learning"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

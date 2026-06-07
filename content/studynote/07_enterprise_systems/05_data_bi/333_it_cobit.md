@@ -1,5 +1,5 @@
 ---
-title: "333. IT 거버넌스 COBIT 도메인"
+title: "IT 거버넌스 COBIT 도메인"
 date: "2026-06-07"
 tags:
   - "studynote-enterprise-systems"

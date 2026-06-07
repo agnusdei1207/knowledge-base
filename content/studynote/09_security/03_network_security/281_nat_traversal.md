@@ -1,5 +1,5 @@
 ---
-title: "281. NAT-T (NAT Traversal)"
+title: "NAT-T (NAT Traversal)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

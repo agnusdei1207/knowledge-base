@@ -1,5 +1,5 @@
 ---
-title: "207. Pipe Filter Architecture Data Stream"
+title: "Pipe Filter Architecture Data Stream"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

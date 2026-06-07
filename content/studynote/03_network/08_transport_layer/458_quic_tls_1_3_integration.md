@@ -1,5 +1,5 @@
 ---
-title: "458. Quic Tls 1 3 Integration"
+title: "Quic Tls 1 3 Integration"
 date: "2026-05-08"
 tags:
   - "studynote-network"

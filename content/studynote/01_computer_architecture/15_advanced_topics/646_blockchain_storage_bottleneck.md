@@ -1,5 +1,5 @@
 ---
-title: "646. Blockchain Storage Bottleneck"
+title: "Blockchain Storage Bottleneck"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

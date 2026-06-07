@@ -1,5 +1,5 @@
 ---
-title: "572. Dataops Automated Testing Canary Deployment"
+title: "Dataops Automated Testing Canary Deployment"
 date: "2026-05-09"
 tags:
   - "studynote-database"

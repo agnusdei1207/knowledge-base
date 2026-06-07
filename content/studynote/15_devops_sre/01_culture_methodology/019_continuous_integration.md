@@ -1,5 +1,5 @@
 ---
-title: "019. Continuous Integration"
+title: "Continuous Integration"
 date: "2026-03-04"
 tags:
   - "devops_sre"

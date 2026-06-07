@@ -1,5 +1,5 @@
 ---
-title: "532. Microservices Decomposition Patterns"
+title: "Microservices Decomposition Patterns"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

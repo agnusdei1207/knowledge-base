@@ -1,5 +1,5 @@
 ---
-title: "095. Multithreading Benefits"
+title: "Multithreading Benefits"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"

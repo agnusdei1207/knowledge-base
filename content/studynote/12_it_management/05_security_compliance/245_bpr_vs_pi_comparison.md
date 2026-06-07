@@ -1,5 +1,5 @@
 ---
-title: "245. BPR / PI 프로세스 혁신 차이점"
+title: "BPR / PI 프로세스 혁신 차이점"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

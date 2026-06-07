@@ -1,5 +1,5 @@
 ---
-title: "749. Microkernel Architecture Plugin"
+title: "Microkernel Architecture Plugin"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

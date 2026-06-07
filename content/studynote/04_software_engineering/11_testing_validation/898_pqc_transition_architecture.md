@@ -1,5 +1,5 @@
 ---
-title: "898. Pqc Transition Architecture"
+title: "Pqc Transition Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

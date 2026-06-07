@@ -1,5 +1,5 @@
 ---
-title: "1056. PCI DSS Compliance Levels (Merchant/Service Provider)"
+title: "PCI DSS Compliance Levels (Merchant/Service Provider)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "804. Black Box Testing"
+title: "Black Box Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

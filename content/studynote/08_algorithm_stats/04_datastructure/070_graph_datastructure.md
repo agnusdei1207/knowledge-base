@@ -1,5 +1,5 @@
 ---
-title: "070. Graph Datastructure"
+title: "Graph Datastructure"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

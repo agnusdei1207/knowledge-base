@@ -1,5 +1,5 @@
 ---
-title: "168. Dispatcher"
+title: "Dispatcher"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"

@@ -1,5 +1,5 @@
 ---
-title: "137. Grafana"
+title: "Grafana"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"

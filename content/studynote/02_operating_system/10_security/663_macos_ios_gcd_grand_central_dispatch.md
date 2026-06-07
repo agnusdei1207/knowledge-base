@@ -1,5 +1,5 @@
 ---
-title: "663. Macos Ios Gcd Grand Central Dispatch"
+title: "Macos Ios Gcd Grand Central Dispatch"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

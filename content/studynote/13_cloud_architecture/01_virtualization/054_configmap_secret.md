@@ -1,5 +1,5 @@
 ---
-title: "054. Configmap Secret"
+title: "Configmap Secret"
 date: "2026-05-01"
 tags:
   - "studynote-cloud-architecture"

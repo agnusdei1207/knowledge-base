@@ -1,5 +1,5 @@
 ---
-title: "236. Vault Dynamic Secrets Ttl"
+title: "Vault Dynamic Secrets Ttl"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

@@ -1,5 +1,5 @@
 ---
-title: "886. Isp Environmental Analysis Pest 5Forces"
+title: "Isp Environmental Analysis Pest 5Forces"
 date: "2026-04-10"
 tags:
   - "studynote-it-management"

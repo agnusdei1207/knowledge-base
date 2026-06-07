@@ -1,5 +1,5 @@
 ---
-title: "001. Dikw Pyramid"
+title: "Dikw Pyramid"
 date: "2026-03-19"
 tags:
   - "studynote-database"

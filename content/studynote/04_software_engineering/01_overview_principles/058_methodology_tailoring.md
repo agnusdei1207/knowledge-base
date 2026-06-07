@@ -1,5 +1,5 @@
 ---
-title: "058. Methodology Tailoring"
+title: "Methodology Tailoring"
 date: "2026-06-07"
 tags:
   - "software_engineering"

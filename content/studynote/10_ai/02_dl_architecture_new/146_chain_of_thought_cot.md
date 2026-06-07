@@ -1,5 +1,5 @@
 ---
-title: "146. Chain Of Thought Cot"
+title: "Chain Of Thought Cot"
 date: "2026-04-19"
 tags:
   - "studynote-ai"

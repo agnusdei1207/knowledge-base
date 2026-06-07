@@ -1,5 +1,5 @@
 ---
-title: "199. Spatial Computing"
+title: "Spatial Computing"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

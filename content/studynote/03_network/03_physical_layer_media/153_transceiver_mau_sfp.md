@@ -1,5 +1,5 @@
 ---
-title: "153. Transceiver Mau Sfp"
+title: "Transceiver Mau Sfp"
 date: "2026-05-03"
 tags:
   - "studynote-network"

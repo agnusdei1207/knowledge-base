@@ -1,5 +1,5 @@
 ---
-title: "312. ARP (Address Resolution Protocol)"
+title: "ARP (Address Resolution Protocol)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

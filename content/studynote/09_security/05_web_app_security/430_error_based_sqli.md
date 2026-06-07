@@ -1,5 +1,5 @@
 ---
-title: "430. Error-based SQL Injection (Error-based SQL Injection)"
+title: "Error-based SQL Injection (Error-based SQL Injection)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

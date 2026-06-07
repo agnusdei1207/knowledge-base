@@ -1,5 +1,5 @@
 ---
-title: "288. SASE (Secure Access Service Edge)"
+title: "SASE (Secure Access Service Edge)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

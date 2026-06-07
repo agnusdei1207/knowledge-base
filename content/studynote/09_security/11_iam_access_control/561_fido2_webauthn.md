@@ -1,5 +1,5 @@
 ---
-title: "561. FIDO2 / WebAuthn (FIDO2 / WebAuthn)"
+title: "FIDO2 / WebAuthn (FIDO2 / WebAuthn)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

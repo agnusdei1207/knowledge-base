@@ -1,5 +1,5 @@
 ---
-title: "599. Modular Monolith Architecture"
+title: "Modular Monolith Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

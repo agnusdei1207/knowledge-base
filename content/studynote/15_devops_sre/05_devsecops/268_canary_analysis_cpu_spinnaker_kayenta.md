@@ -1,5 +1,5 @@
 ---
-title: "268. Canary Analysis Cpu Spinnaker Kayenta"
+title: "Canary Analysis Cpu Spinnaker Kayenta"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

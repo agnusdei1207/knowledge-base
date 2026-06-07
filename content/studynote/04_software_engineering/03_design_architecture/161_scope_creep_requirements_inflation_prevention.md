@@ -1,5 +1,5 @@
 ---
-title: "161. Scope Creep Requirements Inflation Prevention"
+title: "Scope Creep Requirements Inflation Prevention"
 date: "2026-05-05"
 tags:
   - "studynote-software-engineering"

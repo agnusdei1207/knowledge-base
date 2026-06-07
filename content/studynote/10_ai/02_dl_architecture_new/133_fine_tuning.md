@@ -1,5 +1,5 @@
 ---
-title: "133. Fine Tuning"
+title: "Fine Tuning"
 date: "2026-04-19"
 tags:
   - "studynote-ai"

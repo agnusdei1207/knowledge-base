@@ -1,5 +1,5 @@
 ---
-title: "261. 서비스 데스크 SPOC"
+title: "서비스 데스크 SPOC"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

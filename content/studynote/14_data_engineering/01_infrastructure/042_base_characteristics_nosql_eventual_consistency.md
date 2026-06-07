@@ -1,5 +1,5 @@
 ---
-title: "042. Base Characteristics Nosql Eventual Consistency"
+title: "Base Characteristics Nosql Eventual Consistency"
 date: "2026-04-05"
 tags:
   - "studynote-data-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "761. 디바이스 드라이버 모듈 인터페이스"
+title: "디바이스 드라이버 모듈 인터페이스"
 date: "2026-06-07"
 tags:
   - "studynote-operating-system"

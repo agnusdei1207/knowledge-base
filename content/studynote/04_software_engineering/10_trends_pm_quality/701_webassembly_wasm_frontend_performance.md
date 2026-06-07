@@ -1,5 +1,5 @@
 ---
-title: "701. Webassembly Wasm Frontend Performance"
+title: "Webassembly Wasm Frontend Performance"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

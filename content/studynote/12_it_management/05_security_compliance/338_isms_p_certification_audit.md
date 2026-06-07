@@ -1,5 +1,5 @@
 ---
-title: "338. ISMS-P 인증 위험 통제 보안 심사망 연계"
+title: "ISMS-P 인증 위험 통제 보안 심사망 연계"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

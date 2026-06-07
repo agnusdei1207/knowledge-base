@@ -1,5 +1,5 @@
 ---
-title: "637. Zfs Snapshot Cow Architecture"
+title: "Zfs Snapshot Cow Architecture"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

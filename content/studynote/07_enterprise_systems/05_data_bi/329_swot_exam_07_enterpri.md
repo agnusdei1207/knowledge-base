@@ -1,5 +1,5 @@
 ---
-title: "329. SWOT 교차 분석 [전략] 도출"
+title: "SWOT 교차 분석 [전략] 도출"
 date: "2026-06-07"
 tags:
   - "studynote-enterprise-systems"

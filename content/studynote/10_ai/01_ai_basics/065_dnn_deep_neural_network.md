@@ -1,5 +1,5 @@
 ---
-title: "065. Dnn Deep Neural Network"
+title: "Dnn Deep Neural Network"
 date: "2026-06-07"
 tags:
   - "ai"

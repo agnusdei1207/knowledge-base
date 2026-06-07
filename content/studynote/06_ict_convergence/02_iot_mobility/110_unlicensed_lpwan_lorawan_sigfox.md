@@ -1,5 +1,5 @@
 ---
-title: "110. Unlicensed Lpwan Lorawan Sigfox"
+title: "Unlicensed Lpwan Lorawan Sigfox"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"

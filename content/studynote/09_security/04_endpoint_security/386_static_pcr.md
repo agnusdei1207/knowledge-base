@@ -1,5 +1,5 @@
 ---
-title: "386. Static PCR (Static PCR)"
+title: "Static PCR (Static PCR)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

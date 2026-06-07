@@ -1,5 +1,5 @@
 ---
-title: "304. Data Encryption Patterns"
+title: "Data Encryption Patterns"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

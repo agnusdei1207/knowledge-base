@@ -1,5 +1,5 @@
 ---
-title: "204. 클라우드 네이티브 아키텍처 (Cloud Native Architecture) 구성 요소"
+title: "클라우드 네이티브 아키텍처 (Cloud Native Architecture) 구성 요소"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

@@ -1,5 +1,5 @@
 ---
-title: "146. Quantization Qlora Model Compression"
+title: "Quantization Qlora Model Compression"
 date: "2026-04-19"
 tags:
   - "studynote-data-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "100. Normalization Decomposition"
+title: "Normalization Decomposition"
 date: "2026-06-07"
 tags:
   - "database"

@@ -1,5 +1,5 @@
 ---
-title: "131. Loss Function Optimizer Gradient Descent"
+title: "Loss Function Optimizer Gradient Descent"
 date: "2026-04-19"
 tags:
   - "studynote-data-engineering"

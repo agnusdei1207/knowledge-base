@@ -1,5 +1,5 @@
 ---
-title: "102. Fully Connected Layer Dense Flatten Softmax"
+title: "Fully Connected Layer Dense Flatten Softmax"
 date: "2026-04-10"
 tags:
   - "studynote-ai"

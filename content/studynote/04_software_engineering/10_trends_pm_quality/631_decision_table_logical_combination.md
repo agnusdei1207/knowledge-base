@@ -1,5 +1,5 @@
 ---
-title: "631. Decision Table Logical Combination"
+title: "Decision Table Logical Combination"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

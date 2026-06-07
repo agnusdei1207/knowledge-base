@@ -1,5 +1,5 @@
 ---
-title: "676. Pki Public Key Infrastructure"
+title: "Pki Public Key Infrastructure"
 date: "2026-05-08"
 tags:
   - "studynote-network"

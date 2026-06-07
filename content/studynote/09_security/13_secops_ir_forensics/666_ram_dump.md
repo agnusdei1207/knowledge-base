@@ -1,5 +1,5 @@
 ---
-title: "666. RAM Dump (RAM Dump)"
+title: "RAM Dump (RAM Dump)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "847. Sr Iov Single Root Io Virtualization Pass Through"
+title: "Sr Iov Single Root Io Virtualization Pass Through"
 date: "2026-05-08"
 tags:
   - "studynote-network"

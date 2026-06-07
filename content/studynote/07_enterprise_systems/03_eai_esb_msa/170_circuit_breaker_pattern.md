@@ -1,5 +1,5 @@
 ---
-title: "170. Circuit Breaker Pattern"
+title: "Circuit Breaker Pattern"
 date: "2026-05-06"
 tags:
   - "studynote-enterprise-systems"

@@ -1,5 +1,5 @@
 ---
-title: "570. Hadoop Ecosystem Hive Pig Mapreduce Abstraction"
+title: "Hadoop Ecosystem Hive Pig Mapreduce Abstraction"
 date: "2026-05-09"
 tags:
   - "studynote-database"

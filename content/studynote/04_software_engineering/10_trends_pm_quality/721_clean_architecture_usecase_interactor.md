@@ -1,5 +1,5 @@
 ---
-title: "721. Clean Architecture Usecase Interactor"
+title: "Clean Architecture Usecase Interactor"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

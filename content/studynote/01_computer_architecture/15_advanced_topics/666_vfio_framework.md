@@ -1,5 +1,5 @@
 ---
-title: "666. Vfio Framework"
+title: "Vfio Framework"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

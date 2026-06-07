@@ -1,5 +1,5 @@
 ---
-title: "116. Kubernetes Container Image Security Scanning"
+title: "Kubernetes Container Image Security Scanning"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"

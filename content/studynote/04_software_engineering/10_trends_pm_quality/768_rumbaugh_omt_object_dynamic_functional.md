@@ -1,5 +1,5 @@
 ---
-title: "768. Rumbaugh Omt Object Dynamic Functional"
+title: "Rumbaugh Omt Object Dynamic Functional"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

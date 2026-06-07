@@ -1,5 +1,5 @@
 ---
-title: "302. 서비스 메시 (Istio) 사이드카 프록시"
+title: "서비스 메시 (Istio) 사이드카 프록시"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

@@ -1,5 +1,5 @@
 ---
-title: "239. Snort (Snort)"
+title: "Snort (Snort)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

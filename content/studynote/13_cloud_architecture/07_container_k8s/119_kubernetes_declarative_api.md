@@ -1,5 +1,5 @@
 ---
-title: "119. Kubernetes Declarative Api"
+title: "Kubernetes Declarative Api"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "031. Software Maintenance Types"
+title: "Software Maintenance Types"
 date: "2026-04-29"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "059. Bloom Filter False Positive Disk Io"
+title: "Bloom Filter False Positive Disk Io"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"

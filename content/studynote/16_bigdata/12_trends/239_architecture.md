@@ -1,5 +1,5 @@
 ---
-title: "239. Architecture"
+title: "Architecture"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

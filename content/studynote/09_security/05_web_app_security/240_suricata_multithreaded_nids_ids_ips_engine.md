@@ -1,5 +1,5 @@
 ---
-title: "240. Suricata Multithreaded Nids Ids Ips Engine"
+title: "Suricata Multithreaded Nids Ids Ips Engine"
 date: "2026-05-08"
 tags:
   - "studynote-security"

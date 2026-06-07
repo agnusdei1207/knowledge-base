@@ -1,5 +1,5 @@
 ---
-title: "1053. Spine Leaf Clos Architecture Data Center"
+title: "Spine Leaf Clos Architecture Data Center"
 date: "2026-05-08"
 tags:
   - "studynote-network"

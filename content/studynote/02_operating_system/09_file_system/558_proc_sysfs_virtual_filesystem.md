@@ -1,5 +1,5 @@
 ---
-title: "558. Proc Sysfs Virtual Filesystem"
+title: "Proc Sysfs Virtual Filesystem"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

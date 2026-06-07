@@ -1,5 +1,5 @@
 ---
-title: "464. io_uring (I/O Uring)"
+title: "io_uring (I/O Uring)"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

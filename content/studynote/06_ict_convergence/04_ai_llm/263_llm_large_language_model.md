@@ -1,5 +1,5 @@
 ---
-title: "263. LLM (Large Language Model)"
+title: "LLM (Large Language Model)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"

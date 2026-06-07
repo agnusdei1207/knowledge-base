@@ -1,5 +1,5 @@
 ---
-title: "275. Iam Role For Service Accounts"
+title: "Iam Role For Service Accounts"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

@@ -1,5 +1,5 @@
 ---
-title: "551. ICT 융합 메가트렌드 종합 프레임워크 (ICT Convergence Mega-Trend Synthesis Framework)"
+title: "ICT 융합 메가트렌드 종합 프레임워크 (ICT Convergence Mega-Trend Synthesis Framework)"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"

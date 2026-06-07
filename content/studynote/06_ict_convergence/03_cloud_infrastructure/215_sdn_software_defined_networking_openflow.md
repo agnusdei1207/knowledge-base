@@ -1,5 +1,5 @@
 ---
-title: "215. SDN (Software Defined Networking)"
+title: "SDN (Software Defined Networking)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"

@@ -1,5 +1,5 @@
 ---
-title: "200. 정보보호 및 IT 감사 국제 자격증 체계 (CISA, CISSP)"
+title: "정보보호 및 IT 감사 국제 자격증 체계 (CISA, CISSP)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

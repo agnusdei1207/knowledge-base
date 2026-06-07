@@ -1,5 +1,5 @@
 ---
-title: "655. Arm Cortex M Series"
+title: "Arm Cortex M Series"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

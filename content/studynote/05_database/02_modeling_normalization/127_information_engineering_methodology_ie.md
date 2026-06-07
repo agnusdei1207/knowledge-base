@@ -1,5 +1,5 @@
 ---
-title: "127. Information Engineering Methodology Ie"
+title: "Information Engineering Methodology Ie"
 date: "2026-04-19"
 tags:
   - "studynote-database"

@@ -1,5 +1,5 @@
 ---
-title: "078. Heap Datastructure"
+title: "Heap Datastructure"
 date: "2026-04-29"
 tags:
   - "studynote-algorithm-stats"

@@ -1,5 +1,5 @@
 ---
-title: "595. Canary Stack Smashing Protector"
+title: "Canary Stack Smashing Protector"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

@@ -1,5 +1,5 @@
 ---
-title: "189. Bdd Given When Then"
+title: "Bdd Given When Then"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "297. Snowflake Schema"
+title: "Snowflake Schema"
 date: "2026-05-09"
 tags:
   - "studynote-database"

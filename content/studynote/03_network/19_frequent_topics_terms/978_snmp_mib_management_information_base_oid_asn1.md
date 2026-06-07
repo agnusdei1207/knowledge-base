@@ -1,5 +1,5 @@
 ---
-title: "978. Snmp Mib Management Information Base Oid Asn1"
+title: "Snmp Mib Management Information Base Oid Asn1"
 date: "2026-05-08"
 tags:
   - "studynote-network"

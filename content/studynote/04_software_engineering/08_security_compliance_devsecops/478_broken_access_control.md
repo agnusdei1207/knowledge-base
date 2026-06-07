@@ -1,5 +1,5 @@
 ---
-title: "478. Broken Access Control"
+title: "Broken Access Control"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

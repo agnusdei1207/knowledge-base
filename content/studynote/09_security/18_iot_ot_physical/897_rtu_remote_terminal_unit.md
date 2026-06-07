@@ -1,5 +1,5 @@
 ---
-title: "897. RTU (Remote Terminal Unit)"
+title: "RTU (Remote Terminal Unit)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "729. AMD Cool'n'Quiet"
+title: "AMD Cool'n'Quiet"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

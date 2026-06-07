@@ -1,5 +1,5 @@
 ---
-title: "737. Sbom Standards Spdx Cyclonedx"
+title: "Sbom Standards Spdx Cyclonedx"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

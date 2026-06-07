@@ -1,5 +1,5 @@
 ---
-title: "112. Distributed Tracing Microservices"
+title: "Distributed Tracing Microservices"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"

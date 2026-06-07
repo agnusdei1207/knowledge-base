@@ -1,5 +1,5 @@
 ---
-title: "149. WBS (Work Breakdown Structure)"
+title: "WBS (Work Breakdown Structure)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

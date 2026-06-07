@@ -1,5 +1,5 @@
 ---
-title: "141. Distributed Tracing Msa Request Flow"
+title: "Distributed Tracing Msa Request Flow"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"

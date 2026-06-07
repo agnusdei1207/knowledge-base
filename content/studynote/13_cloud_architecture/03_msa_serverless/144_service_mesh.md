@@ -1,5 +1,5 @@
 ---
-title: "144. Service Mesh"
+title: "Service Mesh"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"

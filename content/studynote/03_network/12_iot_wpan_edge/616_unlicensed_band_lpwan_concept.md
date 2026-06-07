@@ -1,5 +1,5 @@
 ---
-title: "616. Unlicensed Band Lpwan Concept"
+title: "Unlicensed Band Lpwan Concept"
 date: "2026-05-08"
 tags:
   - "studynote-network"

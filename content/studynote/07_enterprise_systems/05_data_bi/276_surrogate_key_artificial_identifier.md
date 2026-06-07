@@ -1,5 +1,5 @@
 ---
-title: "276. Surrogate Key Artificial Identifier"
+title: "Surrogate Key Artificial Identifier"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"

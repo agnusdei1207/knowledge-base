@@ -1,5 +1,5 @@
 ---
-title: "298. Ip Classes A B C D Multicast E Experimental"
+title: "Ip Classes A B C D Multicast E Experimental"
 date: "2026-05-08"
 tags:
   - "studynote-network"

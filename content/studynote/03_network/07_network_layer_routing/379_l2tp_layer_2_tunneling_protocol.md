@@ -1,5 +1,5 @@
 ---
-title: "379. L2TP (Layer 2 Tunneling Protocol)"
+title: "L2TP (Layer 2 Tunneling Protocol)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

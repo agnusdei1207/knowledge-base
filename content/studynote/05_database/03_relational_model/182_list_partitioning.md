@@ -1,5 +1,5 @@
 ---
-title: "182. List Partitioning"
+title: "List Partitioning"
 date: "2026-05-06"
 tags:
   - "studynote-database"

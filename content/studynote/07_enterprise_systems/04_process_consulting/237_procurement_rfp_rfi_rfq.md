@@ -1,5 +1,5 @@
 ---
-title: "237. Procurement Rfp Rfi Rfq"
+title: "Procurement Rfp Rfi Rfq"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"

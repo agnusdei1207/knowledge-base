@@ -1,5 +1,5 @@
 ---
-title: "339. Routing Overview Best Path Selection"
+title: "Routing Overview Best Path Selection"
 date: "2026-05-08"
 tags:
   - "studynote-network"

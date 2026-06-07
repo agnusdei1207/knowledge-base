@@ -1,5 +1,5 @@
 ---
-title: "197. K-익명성, L-다양성, T-근접성 프라이버시 보호 모델"
+title: "K-익명성, L-다양성, T-근접성 프라이버시 보호 모델"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

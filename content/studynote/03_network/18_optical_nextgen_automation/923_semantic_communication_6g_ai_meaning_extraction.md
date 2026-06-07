@@ -1,5 +1,5 @@
 ---
-title: "923. Semantic Communication 6G Ai Meaning Extraction"
+title: "Semantic Communication 6G Ai Meaning Extraction"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "076. Mse Mean Squared Error Regression"
+title: "Mse Mean Squared Error Regression"
 date: "2026-04-10"
 tags:
   - "studynote-ai"

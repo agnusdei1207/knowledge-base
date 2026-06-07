@@ -1,5 +1,5 @@
 ---
-title: "574. XACML (eXtensible Access Control Markup Language)"
+title: "XACML (eXtensible Access Control Markup Language)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

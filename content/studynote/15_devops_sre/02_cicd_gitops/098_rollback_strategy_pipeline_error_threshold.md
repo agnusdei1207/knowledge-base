@@ -1,5 +1,5 @@
 ---
-title: "098. Rollback Strategy Pipeline Error Threshold"
+title: "Rollback Strategy Pipeline Error Threshold"
 date: "2026-03-04"
 tags:
   - "cicd-gitops"

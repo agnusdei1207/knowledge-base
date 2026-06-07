@@ -1,5 +1,5 @@
 ---
-title: "613. 6LoWPAN"
+title: "6LoWPAN"
 date: "2026-05-08"
 tags:
   - "studynote-network"

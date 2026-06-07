@@ -1,5 +1,5 @@
 ---
-title: "327. CDC 변경 데이터 캡처 DB 동기화"
+title: "CDC 변경 데이터 캡처 DB 동기화"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

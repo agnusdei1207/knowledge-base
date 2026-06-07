@@ -1,5 +1,5 @@
 ---
-title: "511. Dns Hierarchical Distributed Architecture"
+title: "Dns Hierarchical Distributed Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-network"

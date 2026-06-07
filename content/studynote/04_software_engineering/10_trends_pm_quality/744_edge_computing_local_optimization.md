@@ -1,5 +1,5 @@
 ---
-title: "744. Edge Computing Local Optimization"
+title: "Edge Computing Local Optimization"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

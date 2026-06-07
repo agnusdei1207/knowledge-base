@@ -1,5 +1,5 @@
 ---
-title: "654. Preempt Rt Linux Spinlock Mutex"
+title: "Preempt Rt Linux Spinlock Mutex"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

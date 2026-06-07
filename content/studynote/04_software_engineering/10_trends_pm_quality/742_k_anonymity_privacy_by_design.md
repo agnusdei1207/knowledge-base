@@ -1,5 +1,5 @@
 ---
-title: "742. K Anonymity Privacy By Design"
+title: "K Anonymity Privacy By Design"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

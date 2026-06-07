@@ -1,5 +1,5 @@
 ---
-title: "435. Checklist Based Testing"
+title: "Checklist Based Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

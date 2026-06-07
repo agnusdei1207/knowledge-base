@@ -1,5 +1,5 @@
 ---
-title: "1025. C V2X Wave Dsrc"
+title: "C V2X Wave Dsrc"
 date: "2026-05-08"
 tags:
   - "studynote-network"

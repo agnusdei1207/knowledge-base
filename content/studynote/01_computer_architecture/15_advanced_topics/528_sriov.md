@@ -1,5 +1,5 @@
 ---
-title: "528. SR-IOV (Single Root I/O Virtualization)"
+title: "SR-IOV (Single Root I/O Virtualization)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

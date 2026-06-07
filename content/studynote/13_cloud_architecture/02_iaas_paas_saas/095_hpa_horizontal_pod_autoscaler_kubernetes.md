@@ -1,5 +1,5 @@
 ---
-title: "095. Hpa Horizontal Pod Autoscaler Kubernetes"
+title: "Hpa Horizontal Pod Autoscaler Kubernetes"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "729. Oo Coupling Types"
+title: "Oo Coupling Types"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

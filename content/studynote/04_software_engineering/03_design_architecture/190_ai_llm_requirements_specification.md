@@ -1,5 +1,5 @@
 ---
-title: "190. Ai Llm Requirements Specification"
+title: "Ai Llm Requirements Specification"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

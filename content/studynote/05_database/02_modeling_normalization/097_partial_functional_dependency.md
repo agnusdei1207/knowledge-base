@@ -1,5 +1,5 @@
 ---
-title: "097. Partial Functional Dependency"
+title: "Partial Functional Dependency"
 date: "2026-06-07"
 tags:
   - "database"

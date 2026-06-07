@@ -1,5 +1,5 @@
 ---
-title: "139. Actor Model"
+title: "Actor Model"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"

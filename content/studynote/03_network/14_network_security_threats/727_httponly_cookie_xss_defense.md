@@ -1,5 +1,5 @@
 ---
-title: "727. Httponly Cookie Xss Defense"
+title: "Httponly Cookie Xss Defense"
 date: "2026-05-08"
 tags:
   - "studynote-network"

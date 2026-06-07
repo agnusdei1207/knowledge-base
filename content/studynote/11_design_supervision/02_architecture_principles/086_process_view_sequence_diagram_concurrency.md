@@ -1,5 +1,5 @@
 ---
-title: "086. Process View Sequence Diagram Concurrency"
+title: "Process View Sequence Diagram Concurrency"
 date: "2026-04-10"
 tags:
   - "studynote-design-supervision"

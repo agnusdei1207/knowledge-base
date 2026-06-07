@@ -1,5 +1,5 @@
 ---
-title: "155. Microwave Characteristics"
+title: "Microwave Characteristics"
 date: "2026-05-03"
 tags:
   - "studynote-network"

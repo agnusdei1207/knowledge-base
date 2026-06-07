@@ -1,5 +1,5 @@
 ---
-title: "502. H.323"
+title: "H.323"
 date: "2026-05-08"
 tags:
   - "studynote-network"

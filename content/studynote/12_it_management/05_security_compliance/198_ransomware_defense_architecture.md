@@ -1,5 +1,5 @@
 ---
-title: "198. 랜섬웨어 방어 아키텍처"
+title: "랜섬웨어 방어 아키텍처"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

@@ -1,5 +1,5 @@
 ---
-title: "284. PON (Passive Optical Network) / AON (Active Optical Network)"
+title: "PON (Passive Optical Network) / AON (Active Optical Network)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

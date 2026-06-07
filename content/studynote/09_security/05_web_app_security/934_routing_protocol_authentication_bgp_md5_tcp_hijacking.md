@@ -1,5 +1,5 @@
 ---
-title: "934. 라우팅 프로토콜 인증 방어망 (Routing Protocol Authentication Bgp MD5 Tcp Hijacking)"
+title: "라우팅 프로토콜 인증 방어망 (Routing Protocol Authentication Bgp MD5 Tcp Hijacking)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

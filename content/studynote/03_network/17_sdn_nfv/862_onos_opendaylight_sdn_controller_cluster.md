@@ -1,5 +1,5 @@
 ---
-title: "862. ONOS / OpenDaylight"
+title: "ONOS / OpenDaylight"
 date: "2026-05-08"
 tags:
   - "studynote-network"

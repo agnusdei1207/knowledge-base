@@ -1,5 +1,5 @@
 ---
-title: "964. Ipv6 Header Compression Slaac 6Lowpan Iot"
+title: "Ipv6 Header Compression Slaac 6Lowpan Iot"
 date: "2026-05-08"
 tags:
   - "studynote-network"

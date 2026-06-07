@@ -1,5 +1,5 @@
 ---
-title: "478. Ftl Flash Translation Layer"
+title: "Ftl Flash Translation Layer"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

@@ -1,5 +1,5 @@
 ---
-title: "927. Service To Service Synchronous Communication"
+title: "Service To Service Synchronous Communication"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

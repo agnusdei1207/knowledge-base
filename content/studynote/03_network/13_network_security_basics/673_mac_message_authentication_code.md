@@ -1,5 +1,5 @@
 ---
-title: "673. Mac Message Authentication Code"
+title: "Mac Message Authentication Code"
 date: "2026-05-08"
 tags:
   - "studynote-network"

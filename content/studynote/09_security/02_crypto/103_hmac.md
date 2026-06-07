@@ -1,5 +1,5 @@
 ---
-title: "103. Hmac"
+title: "Hmac"
 date: "2026-04-05"
 tags:
   - "studynote-security"

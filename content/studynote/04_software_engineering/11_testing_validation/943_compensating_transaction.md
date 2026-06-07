@@ -1,5 +1,5 @@
 ---
-title: "943. Compensating Transaction"
+title: "Compensating Transaction"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

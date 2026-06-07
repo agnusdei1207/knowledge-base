@@ -1,5 +1,5 @@
 ---
-title: "540. RMON (Remote Network Monitoring)"
+title: "RMON (Remote Network Monitoring)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

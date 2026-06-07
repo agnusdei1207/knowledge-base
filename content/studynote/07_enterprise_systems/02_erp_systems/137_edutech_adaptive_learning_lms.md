@@ -1,5 +1,5 @@
 ---
-title: "137. Edutech Adaptive Learning Lms"
+title: "Edutech Adaptive Learning Lms"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"

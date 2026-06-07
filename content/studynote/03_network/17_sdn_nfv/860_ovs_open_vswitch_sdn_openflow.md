@@ -1,5 +1,5 @@
 ---
-title: "860. OVS (Open vSwitch)"
+title: "OVS (Open vSwitch)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

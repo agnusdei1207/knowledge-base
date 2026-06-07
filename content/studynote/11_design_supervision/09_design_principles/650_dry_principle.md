@@ -1,5 +1,5 @@
 ---
-title: "650. Dry Principle"
+title: "Dry Principle"
 date: "2026-03-05"
 tags:
   - "studynote-design-supervision"

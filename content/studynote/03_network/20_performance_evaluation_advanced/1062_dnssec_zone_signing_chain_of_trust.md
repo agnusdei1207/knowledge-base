@@ -1,5 +1,5 @@
 ---
-title: "1062. Dnssec Zone Signing Chain Of Trust"
+title: "Dnssec Zone Signing Chain Of Trust"
 date: "2026-05-08"
 tags:
   - "studynote-network"

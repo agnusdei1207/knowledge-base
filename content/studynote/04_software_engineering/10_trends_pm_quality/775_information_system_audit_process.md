@@ -1,5 +1,5 @@
 ---
-title: "775. Information System Audit Process"
+title: "Information System Audit Process"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

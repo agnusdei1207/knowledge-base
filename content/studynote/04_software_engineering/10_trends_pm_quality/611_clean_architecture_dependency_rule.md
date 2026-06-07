@@ -1,5 +1,5 @@
 ---
-title: "611. Clean Architecture Dependency Rule"
+title: "Clean Architecture Dependency Rule"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

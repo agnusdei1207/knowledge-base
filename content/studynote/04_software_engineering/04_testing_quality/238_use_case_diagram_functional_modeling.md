@@ -1,5 +1,5 @@
 ---
-title: "238. Use Case Diagram Functional Modeling"
+title: "Use Case Diagram Functional Modeling"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

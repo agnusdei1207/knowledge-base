@@ -1,5 +1,5 @@
 ---
-title: "076. Kubernetes Master Node Components"
+title: "Kubernetes Master Node Components"
 date: "2026-04-07"
 tags:
   - "studynote-cloud-architecture"

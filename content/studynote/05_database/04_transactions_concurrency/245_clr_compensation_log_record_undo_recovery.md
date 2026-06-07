@@ -1,5 +1,5 @@
 ---
-title: "245. Compensation Log Record (CLR)"
+title: "Compensation Log Record (CLR)"
 date: "2026-05-08"
 tags:
   - "studynote-database"

@@ -1,5 +1,5 @@
 ---
-title: "592. Open Channel Ssd"
+title: "Open Channel Ssd"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

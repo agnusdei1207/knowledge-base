@@ -1,5 +1,5 @@
 ---
-title: "310. ClusterIP·NodePort·LoadBalancer·Ingress (Kubernetes Service Exposure)"
+title: "ClusterIP·NodePort·LoadBalancer·Ingress (Kubernetes Service Exposure)"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

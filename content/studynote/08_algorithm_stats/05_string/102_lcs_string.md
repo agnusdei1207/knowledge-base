@@ -1,5 +1,5 @@
 ---
-title: "102. Lcs String"
+title: "Lcs String"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

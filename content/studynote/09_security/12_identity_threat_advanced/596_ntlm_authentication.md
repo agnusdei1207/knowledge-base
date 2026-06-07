@@ -1,5 +1,5 @@
 ---
-title: "596. NTLM Authentication (NTLM Authentication)"
+title: "NTLM Authentication (NTLM Authentication)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

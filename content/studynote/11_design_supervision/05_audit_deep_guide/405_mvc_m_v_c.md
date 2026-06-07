@@ -1,5 +1,5 @@
 ---
-title: "405. MVC M V C 관심사 완벽 분할"
+title: "MVC M V C 관심사 완벽 분할"
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

@@ -1,5 +1,5 @@
 ---
-title: "346. EGP (Exterior Gateway Protocol)"
+title: "EGP (Exterior Gateway Protocol)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "459. Blocking Io"
+title: "Blocking Io"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

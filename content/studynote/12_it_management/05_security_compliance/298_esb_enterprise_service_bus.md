@@ -1,5 +1,5 @@
 ---
-title: "298. ESB 엔터프라이즈 서비스 버스 라우팅"
+title: "ESB 엔터프라이즈 서비스 버스 라우팅"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

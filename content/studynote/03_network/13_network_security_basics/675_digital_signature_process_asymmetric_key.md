@@ -1,5 +1,5 @@
 ---
-title: "675. Digital Signature Process Asymmetric Key"
+title: "Digital Signature Process Asymmetric Key"
 date: "2026-05-08"
 tags:
   - "studynote-network"

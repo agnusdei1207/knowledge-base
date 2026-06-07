@@ -1,5 +1,5 @@
 ---
-title: "230. CXL (Compute Express Link)"
+title: "CXL (Compute Express Link)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"

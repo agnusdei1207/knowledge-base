@@ -1,5 +1,5 @@
 ---
-title: "264. Proxy Pattern Surrogate Access Control"
+title: "Proxy Pattern Surrogate Access Control"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "044. Tsne"
+title: "Tsne"
 date: "2026-04-05"
 tags:
   - "studynote-ai"

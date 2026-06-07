@@ -1,5 +1,5 @@
 ---
-title: "735. TjMax (Tunction Max Temperature)"
+title: "TjMax (Tunction Max Temperature)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

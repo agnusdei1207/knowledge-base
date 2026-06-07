@@ -1,5 +1,5 @@
 ---
-title: "151. Namespace Isolation"
+title: "Namespace Isolation"
 date: "2026-05-03"
 tags:
   - "studynote-operating-system"

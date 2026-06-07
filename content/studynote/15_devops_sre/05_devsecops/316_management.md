@@ -1,5 +1,5 @@
 ---
-title: "316. Management"
+title: "Management"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"

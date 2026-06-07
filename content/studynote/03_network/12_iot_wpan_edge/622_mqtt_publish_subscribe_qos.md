@@ -1,5 +1,5 @@
 ---
-title: "622. MQTT (Message Queuing Telemetry Transport)"
+title: "MQTT (Message Queuing Telemetry Transport)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

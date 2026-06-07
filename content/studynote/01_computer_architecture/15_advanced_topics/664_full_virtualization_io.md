@@ -1,5 +1,5 @@
 ---
-title: "664. Full Virtualization Io"
+title: "Full Virtualization Io"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

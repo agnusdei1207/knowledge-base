@@ -1,5 +1,5 @@
 ---
-title: "195. RISC (Reduced Instruction Set Computer)"
+title: "RISC (Reduced Instruction Set Computer)"
 date: "2026-03-19"
 tags:
   - "studynote-computer-architecture"

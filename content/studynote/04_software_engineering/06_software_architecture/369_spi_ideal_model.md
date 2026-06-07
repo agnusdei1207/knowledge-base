@@ -1,5 +1,5 @@
 ---
-title: "369. Spi Ideal Model"
+title: "Spi Ideal Model"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

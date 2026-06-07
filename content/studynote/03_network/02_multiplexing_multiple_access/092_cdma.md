@@ -1,5 +1,5 @@
 ---
-title: "092. Near-Far Problem & CDMA Power Control"
+title: "Near-Far Problem & CDMA Power Control"
 date: "2026-03-31"
 tags:
   - "network"

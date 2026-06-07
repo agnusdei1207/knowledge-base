@@ -1,5 +1,5 @@
 ---
-title: "115. Thread Protocol Ipv6 Smart Home"
+title: "Thread Protocol Ipv6 Smart Home"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"

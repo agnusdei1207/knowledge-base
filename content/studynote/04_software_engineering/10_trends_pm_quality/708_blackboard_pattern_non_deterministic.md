@@ -1,5 +1,5 @@
 ---
-title: "708. Blackboard Pattern Non Deterministic"
+title: "Blackboard Pattern Non Deterministic"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

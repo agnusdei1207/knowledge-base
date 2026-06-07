@@ -1,5 +1,5 @@
 ---
-title: "278. Virtual Circuit Transmission Connection Oriented Packet Switching"
+title: "Virtual Circuit Transmission Connection Oriented Packet Switching"
 date: "2026-05-08"
 tags:
   - "studynote-network"

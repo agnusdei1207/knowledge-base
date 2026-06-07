@@ -1,5 +1,5 @@
 ---
-title: "310. Strangler Fig Pattern"
+title: "Strangler Fig Pattern"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

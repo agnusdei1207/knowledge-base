@@ -1,5 +1,5 @@
 ---
-title: "259. Realtime Olap"
+title: "Realtime Olap"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"

@@ -1,5 +1,5 @@
 ---
-title: "246. Isp Interface Segregation Principle"
+title: "Isp Interface Segregation Principle"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

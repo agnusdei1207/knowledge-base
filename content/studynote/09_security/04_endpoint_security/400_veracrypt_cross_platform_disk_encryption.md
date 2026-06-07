@@ -1,5 +1,5 @@
 ---
-title: "400. VeraCrypt (Cross-Platform Disk Encryption)"
+title: "VeraCrypt (Cross-Platform Disk Encryption)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

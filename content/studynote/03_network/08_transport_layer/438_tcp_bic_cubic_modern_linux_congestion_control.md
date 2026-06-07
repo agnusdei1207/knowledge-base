@@ -1,5 +1,5 @@
 ---
-title: "438. TCP BIC / CUBIC"
+title: "TCP BIC / CUBIC"
 date: "2026-05-08"
 tags:
   - "studynote-network"

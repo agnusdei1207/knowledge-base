@@ -1,5 +1,5 @@
 ---
-title: "322. Oop 4 Characteristics"
+title: "Oop 4 Characteristics"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

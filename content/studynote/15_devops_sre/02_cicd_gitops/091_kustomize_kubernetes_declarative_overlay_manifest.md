@@ -1,5 +1,5 @@
 ---
-title: "091. Kustomize Kubernetes Declarative Overlay Manifest"
+title: "Kustomize Kubernetes Declarative Overlay Manifest"
 date: "2026-04-10"
 tags:
   - "studynote-devops-sre"

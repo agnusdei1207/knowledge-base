@@ -1,5 +1,5 @@
 ---
-title: "318. Pwa Progressive Web App"
+title: "Pwa Progressive Web App"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

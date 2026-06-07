@@ -1,5 +1,5 @@
 ---
-title: "1073. Ip Pbx Multicast Voip Architecture"
+title: "Ip Pbx Multicast Voip Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-network"

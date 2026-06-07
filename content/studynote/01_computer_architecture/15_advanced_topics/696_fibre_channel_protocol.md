@@ -1,5 +1,5 @@
 ---
-title: "696. Fibre Channel Protocol"
+title: "Fibre Channel Protocol"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

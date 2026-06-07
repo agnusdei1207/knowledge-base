@@ -1,5 +1,5 @@
 ---
-title: "495. Sca Software Composition Analysis"
+title: "Sca Software Composition Analysis"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

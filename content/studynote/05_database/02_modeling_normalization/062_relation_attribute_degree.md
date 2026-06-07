@@ -1,5 +1,5 @@
 ---
-title: "062. Relation Attribute Degree"
+title: "Relation Attribute Degree"
 date: "2026-06-07"
 tags:
   - "database"

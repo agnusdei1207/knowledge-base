@@ -1,5 +1,5 @@
 ---
-title: "171. Smart City Platform Architecture"
+title: "Smart City Platform Architecture"
 date: "2026-05-06"
 tags:
   - "studynote-ict-convergence"

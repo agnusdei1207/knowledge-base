@@ -1,5 +1,5 @@
 ---
-title: "880. ITIL (Information Technology Infrastructure Library)"
+title: "ITIL (Information Technology Infrastructure Library)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

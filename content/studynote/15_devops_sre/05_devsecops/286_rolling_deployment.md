@@ -1,5 +1,5 @@
 ---
-title: "286. 롤링 배포 (점진 교체 무중단)"
+title: "롤링 배포 (점진 교체 무중단)"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

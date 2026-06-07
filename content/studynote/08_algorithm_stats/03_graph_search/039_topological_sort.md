@@ -1,5 +1,5 @@
 ---
-title: "039. Topological Sort"
+title: "Topological Sort"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

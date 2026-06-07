@@ -1,5 +1,5 @@
 ---
-title: "576. 11ax (Wi-Fi 6)"
+title: "11ax (Wi-Fi 6)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

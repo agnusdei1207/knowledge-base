@@ -1,5 +1,5 @@
 ---
-title: "548. Active Directory (Active Directory)"
+title: "Active Directory (Active Directory)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

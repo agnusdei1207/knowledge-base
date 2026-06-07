@@ -1,5 +1,5 @@
 ---
-title: "024. Microkernel"
+title: "Microkernel"
 date: "2026-04-29"
 tags:
   - "studynote-operating-system"

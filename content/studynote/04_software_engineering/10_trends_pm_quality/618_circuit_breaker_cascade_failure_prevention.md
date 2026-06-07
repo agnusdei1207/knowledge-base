@@ -1,5 +1,5 @@
 ---
-title: "618. Circuit Breaker Cascade Failure Prevention"
+title: "Circuit Breaker Cascade Failure Prevention"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

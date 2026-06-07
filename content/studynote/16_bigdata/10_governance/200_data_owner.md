@@ -1,5 +1,5 @@
 ---
-title: "200. Data Owner"
+title: "Data Owner"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

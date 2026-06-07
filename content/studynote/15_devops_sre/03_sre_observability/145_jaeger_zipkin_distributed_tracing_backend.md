@@ -1,5 +1,5 @@
 ---
-title: "145. Jaeger Zipkin Distributed Tracing Backend"
+title: "Jaeger Zipkin Distributed Tracing Backend"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"

@@ -1,5 +1,5 @@
 ---
-title: "289. SSE (Security Service Edge)"
+title: "SSE (Security Service Edge)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

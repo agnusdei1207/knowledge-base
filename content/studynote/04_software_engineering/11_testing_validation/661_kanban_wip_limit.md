@@ -1,5 +1,5 @@
 ---
-title: "661. 칸반 WIP (Work In Progress) 제한"
+title: "칸반 WIP (Work In Progress) 제한"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "250. 5 Forces 마이클 포터"
+title: "5 Forces 마이클 포터"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

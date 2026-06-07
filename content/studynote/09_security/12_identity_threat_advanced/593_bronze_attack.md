@@ -1,5 +1,5 @@
 ---
-title: "593. Kerberos Bronze Attack (Kerberos Bronze Attack)"
+title: "Kerberos Bronze Attack (Kerberos Bronze Attack)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "599. NetNTLM (NetNTLM)"
+title: "NetNTLM (NetNTLM)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

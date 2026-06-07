@@ -1,5 +1,5 @@
 ---
-title: "185. 접근 제어 메커니즘 (Access Control: MAC, DAC, RBAC, ABAC)"
+title: "접근 제어 메커니즘 (Access Control: MAC, DAC, RBAC, ABAC)"
 date: "2026-05-06"
 tags:
   - "studynote-it-management"

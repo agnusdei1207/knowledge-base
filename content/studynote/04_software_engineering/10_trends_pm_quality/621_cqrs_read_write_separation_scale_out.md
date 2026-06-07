@@ -1,5 +1,5 @@
 ---
-title: "621. Cqrs Read Write Separation Scale Out"
+title: "Cqrs Read Write Separation Scale Out"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

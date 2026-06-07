@@ -1,5 +1,5 @@
 ---
-title: "201. 클라우드 서비스 모델 (IaaS, PaaS, SaaS, BaaS, FaaS) 엔터프라이즈 도입 전략"
+title: "클라우드 서비스 모델 (IaaS, PaaS, SaaS, BaaS, FaaS) 엔터프라이즈 도입 전략"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

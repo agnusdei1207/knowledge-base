@@ -1,5 +1,5 @@
 ---
-title: "979. Ipsec Tunnel Transport Mode"
+title: "Ipsec Tunnel Transport Mode"
 date: "2026-05-08"
 tags:
   - "studynote-network"

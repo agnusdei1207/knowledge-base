@@ -1,5 +1,5 @@
 ---
-title: "747. I/O 풀링 (Polling) 오버헤드"
+title: "I/O 풀링 (Polling) 오버헤드"
 date: "2026-06-07"
 tags:
   - "studynote-operating-system"

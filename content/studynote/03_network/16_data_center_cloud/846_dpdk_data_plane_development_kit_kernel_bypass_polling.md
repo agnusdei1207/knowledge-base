@@ -1,5 +1,5 @@
 ---
-title: "846. Dpdk Data Plane Development Kit Kernel Bypass Polling"
+title: "Dpdk Data Plane Development Kit Kernel Bypass Polling"
 date: "2026-05-08"
 tags:
   - "studynote-network"

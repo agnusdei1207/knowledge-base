@@ -1,5 +1,5 @@
 ---
-title: "360. Gmm Em Algorithm"
+title: "Gmm Em Algorithm"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

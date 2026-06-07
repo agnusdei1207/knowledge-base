@@ -1,5 +1,5 @@
 ---
-title: "177. Requirements Management Tools Jira Doors"
+title: "Requirements Management Tools Jira Doors"
 date: "2026-04-03"
 tags:
   - "software_engineering"

@@ -1,5 +1,5 @@
 ---
-title: "285. API 게이트웨이 인증 스로틀링 라우팅 단일 진입 (API)"
+title: "API 게이트웨이 인증 스로틀링 라우팅 단일 진입 (API)"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"

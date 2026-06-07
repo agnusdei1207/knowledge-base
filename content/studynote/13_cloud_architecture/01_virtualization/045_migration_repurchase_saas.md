@@ -1,5 +1,5 @@
 ---
-title: "045. Migration Repurchase Saas"
+title: "Migration Repurchase Saas"
 date: "2026-04-05"
 tags:
   - "studynote-cloud-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "103. Logistic Regression Sigmoid"
+title: "Logistic Regression Sigmoid"
 date: "2024-05-22"
 tags:
   - "studynote-data-engineering"

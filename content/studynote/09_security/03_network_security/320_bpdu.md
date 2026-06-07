@@ -1,5 +1,5 @@
 ---
-title: "320. Bridge Protocol Data Unit (BPDU)"
+title: "Bridge Protocol Data Unit (BPDU)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

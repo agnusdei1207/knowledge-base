@@ -1,5 +1,5 @@
 ---
-title: "1040. Thread Matter Smarthome Iot Standard"
+title: "Thread Matter Smarthome Iot Standard"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "122. Plm Product Lifecycle Management"
+title: "Plm Product Lifecycle Management"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"

@@ -1,5 +1,5 @@
 ---
-title: "105. One By One Convolution Bottleneck Dimension Reduction"
+title: "One By One Convolution Bottleneck Dimension Reduction"
 date: "2026-04-10"
 tags:
   - "studynote-ai"

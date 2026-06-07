@@ -1,5 +1,5 @@
 ---
-title: "059. Chaincode Smart Contract"
+title: "Chaincode Smart Contract"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"

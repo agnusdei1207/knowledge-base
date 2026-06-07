@@ -1,5 +1,5 @@
 ---
-title: "550. Azure AD Connect (Azure AD Connect)"
+title: "Azure AD Connect (Azure AD Connect)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

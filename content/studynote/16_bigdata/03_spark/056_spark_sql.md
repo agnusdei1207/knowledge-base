@@ -1,5 +1,5 @@
 ---
-title: "056. Spark Sql"
+title: "Spark Sql"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

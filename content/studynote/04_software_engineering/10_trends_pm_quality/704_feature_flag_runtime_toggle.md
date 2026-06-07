@@ -1,5 +1,5 @@
 ---
-title: "704. Feature Flag Runtime Toggle"
+title: "Feature Flag Runtime Toggle"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

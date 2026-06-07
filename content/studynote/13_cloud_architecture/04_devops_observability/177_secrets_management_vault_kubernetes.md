@@ -1,5 +1,5 @@
 ---
-title: "177. Secrets Management Vault Kubernetes"
+title: "Secrets Management Vault Kubernetes"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"

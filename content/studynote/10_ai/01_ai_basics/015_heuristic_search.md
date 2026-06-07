@@ -1,5 +1,5 @@
 ---
-title: "015. Heuristic Search"
+title: "Heuristic Search"
 date: "2024-05-24"
 tags:
   - "ai"

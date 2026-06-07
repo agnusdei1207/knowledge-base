@@ -1,5 +1,5 @@
 ---
-title: "167. Cps Cyber Physical System"
+title: "Cps Cyber Physical System"
 date: "2026-06-07"
 tags:
   - "studynote-ict-convergence"

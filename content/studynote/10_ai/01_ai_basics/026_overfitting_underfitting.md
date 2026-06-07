@@ -1,5 +1,5 @@
 ---
-title: "026. Overfitting Underfitting"
+title: "Overfitting Underfitting"
 date: "2026-04-29"
 tags:
   - "studynote-ai"

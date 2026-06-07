@@ -1,5 +1,5 @@
 ---
-title: "010. Preventive Resident Audit"
+title: "Preventive Resident Audit"
 date: "2024-05-24"
 tags:
   - "design_supervision"

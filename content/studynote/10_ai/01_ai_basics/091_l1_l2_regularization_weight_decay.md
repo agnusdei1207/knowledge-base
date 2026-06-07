@@ -1,5 +1,5 @@
 ---
-title: "091. L1 L2 Regularization Weight Decay"
+title: "L1 L2 Regularization Weight Decay"
 date: "2026-04-10"
 tags:
   - "studynote-ai"

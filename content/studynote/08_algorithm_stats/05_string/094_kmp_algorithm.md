@@ -1,5 +1,5 @@
 ---
-title: "094. Kmp Algorithm"
+title: "Kmp Algorithm"
 date: "2024-03-21"
 tags:
   - "studynote-algorithm-stats"

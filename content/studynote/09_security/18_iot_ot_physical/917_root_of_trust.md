@@ -1,5 +1,5 @@
 ---
-title: "917. rantai-root-of-trust (rantai-root-of-trust)"
+title: "rantai-root-of-trust (rantai-root-of-trust)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

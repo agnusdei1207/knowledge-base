@@ -1,5 +1,5 @@
 ---
-title: "287. ResNet (Residual Network)"
+title: "ResNet (Residual Network)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

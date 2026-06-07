@@ -1,5 +1,5 @@
 ---
-title: "002. Database Definition"
+title: "Database Definition"
 date: "2024-05-20"
 tags:
   - "database"

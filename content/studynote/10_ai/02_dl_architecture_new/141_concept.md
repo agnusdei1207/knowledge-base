@@ -1,5 +1,5 @@
 ---
-title: "141. Concept"
+title: "Concept"
 date: "2026-04-19"
 tags:
   - "studynote-ai"

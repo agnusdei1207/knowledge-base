@@ -1,5 +1,5 @@
 ---
-title: "420. 블랙박스 페어와이즈 직교 배열 조합 축소"
+title: "블랙박스 페어와이즈 직교 배열 조합 축소"
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

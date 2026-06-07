@@ -1,5 +1,5 @@
 ---
-title: "704. 다요소 인증 (Multi-Factor Authentication, MFA)"
+title: "다요소 인증 (Multi-Factor Authentication, MFA)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

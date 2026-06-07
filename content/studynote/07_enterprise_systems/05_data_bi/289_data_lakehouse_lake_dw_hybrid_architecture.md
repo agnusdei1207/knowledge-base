@@ -1,5 +1,5 @@
 ---
-title: "289. Data Lakehouse Lake Dw Hybrid Architecture"
+title: "Data Lakehouse Lake Dw Hybrid Architecture"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"

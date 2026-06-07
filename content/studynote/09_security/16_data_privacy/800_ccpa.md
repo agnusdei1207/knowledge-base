@@ -1,5 +1,5 @@
 ---
-title: "800. CCPA (California Consumer Privacy Act)"
+title: "CCPA (California Consumer Privacy Act)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

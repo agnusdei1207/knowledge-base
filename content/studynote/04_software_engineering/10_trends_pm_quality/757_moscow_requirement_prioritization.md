@@ -1,5 +1,5 @@
 ---
-title: "757. Moscow Requirement Prioritization"
+title: "Moscow Requirement Prioritization"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

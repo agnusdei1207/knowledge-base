@@ -1,5 +1,5 @@
 ---
-title: "563. F2Fs Flash Friendly Filesystem"
+title: "F2Fs Flash Friendly Filesystem"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

@@ -1,5 +1,5 @@
 ---
-title: "516. Id Token Vs Access Token"
+title: "Id Token Vs Access Token"
 date: "2026-05-08"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "081. Sparse Table"
+title: "Sparse Table"
 date: "2026-04-29"
 tags:
   - "studynote-algorithm-stats"

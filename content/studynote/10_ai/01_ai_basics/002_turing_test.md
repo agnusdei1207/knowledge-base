@@ -1,5 +1,5 @@
 ---
-title: "002. Turing Test"
+title: "Turing Test"
 date: "2026-03-04"
 tags:
   - "ai"

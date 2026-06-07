@@ -1,5 +1,5 @@
 ---
-title: "381. COMA (Cache-Only Memory Access)"
+title: "COMA (Cache-Only Memory Access)"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "125. Api Gateway Functions"
+title: "Api Gateway Functions"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"

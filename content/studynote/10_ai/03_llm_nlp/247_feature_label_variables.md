@@ -1,5 +1,5 @@
 ---
-title: "247. Feature Label Variables"
+title: "Feature Label Variables"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

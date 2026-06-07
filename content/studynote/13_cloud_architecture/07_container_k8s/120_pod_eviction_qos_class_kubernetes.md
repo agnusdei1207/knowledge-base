@@ -1,5 +1,5 @@
 ---
-title: "120. Pod Eviction Qos Class Kubernetes"
+title: "Pod Eviction Qos Class Kubernetes"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"

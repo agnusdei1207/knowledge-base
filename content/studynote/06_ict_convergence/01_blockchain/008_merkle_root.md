@@ -1,5 +1,5 @@
 ---
-title: "008. Merkle Root"
+title: "Merkle Root"
 date: "2026-06-07"
 tags:
   - "ict_convergence"

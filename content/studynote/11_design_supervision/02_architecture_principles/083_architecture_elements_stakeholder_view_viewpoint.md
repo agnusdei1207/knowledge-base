@@ -1,5 +1,5 @@
 ---
-title: "083. Architecture Elements Stakeholder View Viewpoint"
+title: "Architecture Elements Stakeholder View Viewpoint"
 date: "2026-04-10"
 tags:
   - "studynote-design-supervision"

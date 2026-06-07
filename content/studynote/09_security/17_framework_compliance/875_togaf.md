@@ -1,5 +1,5 @@
 ---
-title: "875. TOGAF (The Open Group Architecture Framework)"
+title: "TOGAF (The Open Group Architecture Framework)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

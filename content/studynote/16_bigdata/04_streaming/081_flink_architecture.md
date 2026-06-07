@@ -1,5 +1,5 @@
 ---
-title: "081. Flink Architecture"
+title: "Flink Architecture"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

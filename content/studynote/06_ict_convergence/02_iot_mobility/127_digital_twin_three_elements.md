@@ -1,5 +1,5 @@
 ---
-title: "127. Digital Twin Three Elements"
+title: "Digital Twin Three Elements"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"

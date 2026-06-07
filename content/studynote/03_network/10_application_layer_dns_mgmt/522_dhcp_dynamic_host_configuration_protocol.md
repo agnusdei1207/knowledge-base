@@ -1,5 +1,5 @@
 ---
-title: "522. Dhcp Dynamic Host Configuration Protocol"
+title: "Dhcp Dynamic Host Configuration Protocol"
 date: "2026-05-08"
 tags:
   - "studynote-network"

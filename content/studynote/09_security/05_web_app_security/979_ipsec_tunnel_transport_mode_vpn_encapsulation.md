@@ -1,5 +1,5 @@
 ---
-title: "979. IPSec 터널/수송 모드 (Ipsec Tunnel Transport Mode VPN Encapsulation)"
+title: "IPSec 터널/수송 모드 (Ipsec Tunnel Transport Mode VPN Encapsulation)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

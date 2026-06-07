@@ -1,5 +1,5 @@
 ---
-title: "306. Embedding Model"
+title: "Embedding Model"
 date: "2026-05-09"
 tags:
   - "studynote-database"

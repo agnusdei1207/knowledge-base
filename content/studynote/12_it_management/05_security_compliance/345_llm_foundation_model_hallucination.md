@@ -1,5 +1,5 @@
 ---
-title: "345. LLM 파운데이션 모델 환각 (Hallucination) 방어 검증"
+title: "LLM 파운데이션 모델 환각 (Hallucination) 방어 검증"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

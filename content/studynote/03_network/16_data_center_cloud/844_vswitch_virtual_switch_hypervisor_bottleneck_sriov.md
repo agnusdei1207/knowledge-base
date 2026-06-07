@@ -1,5 +1,5 @@
 ---
-title: "844. Vswitch Virtual Switch Hypervisor Bottleneck Sriov"
+title: "Vswitch Virtual Switch Hypervisor Bottleneck Sriov"
 date: "2026-05-08"
 tags:
   - "studynote-network"

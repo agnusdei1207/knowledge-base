@@ -1,5 +1,5 @@
 ---
-title: "409. CVE (Common Vulnerabilities and Exposures)"
+title: "CVE (Common Vulnerabilities and Exposures)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

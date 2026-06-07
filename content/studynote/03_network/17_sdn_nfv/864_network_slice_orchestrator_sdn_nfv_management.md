@@ -1,5 +1,5 @@
 ---
-title: "864. Network Slice Orchestrator Sdn Nfv Management"
+title: "Network Slice Orchestrator Sdn Nfv Management"
 date: "2026-05-08"
 tags:
   - "studynote-network"

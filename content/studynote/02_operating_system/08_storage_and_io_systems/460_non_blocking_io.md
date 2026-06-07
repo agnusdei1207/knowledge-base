@@ -1,5 +1,5 @@
 ---
-title: "460. Non Blocking Io"
+title: "Non Blocking Io"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

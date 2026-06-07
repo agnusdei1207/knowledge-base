@@ -1,5 +1,5 @@
 ---
-title: "059. Argocd Flux"
+title: "Argocd Flux"
 date: "2026-04-05"
 tags:
   - "studynote-devops-sre"

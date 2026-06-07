@@ -1,5 +1,5 @@
 ---
-title: "004. Data Independence"
+title: "Data Independence"
 date: "2024-05-20"
 tags:
   - "database"

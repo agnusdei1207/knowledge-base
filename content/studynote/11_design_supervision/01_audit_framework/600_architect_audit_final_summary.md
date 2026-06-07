@@ -1,5 +1,5 @@
 ---
-title: "600. 기술사 합격 최종 아키텍처 및 감리 설계 요약 집대성."
+title: "기술사 합격 최종 아키텍처 및 감리 설계 요약 집대성."
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

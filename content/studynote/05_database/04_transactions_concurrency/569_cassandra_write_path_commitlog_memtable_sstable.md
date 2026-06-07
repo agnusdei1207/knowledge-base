@@ -1,5 +1,5 @@
 ---
-title: "569. Cassandra Write Path Commitlog Memtable Sstable"
+title: "Cassandra Write Path Commitlog Memtable Sstable"
 date: "2026-05-09"
 tags:
   - "studynote-database"

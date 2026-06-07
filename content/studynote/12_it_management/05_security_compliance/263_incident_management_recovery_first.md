@@ -1,5 +1,5 @@
 ---
-title: "263. 인시던트 관리 복구 우선"
+title: "인시던트 관리 복구 우선"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

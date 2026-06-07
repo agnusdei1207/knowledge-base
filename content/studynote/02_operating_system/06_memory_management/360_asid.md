@@ -1,5 +1,5 @@
 ---
-title: "360. Asid"
+title: "Asid"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

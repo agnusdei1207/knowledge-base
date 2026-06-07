@@ -1,5 +1,5 @@
 ---
-title: "367. Paged Segmentation"
+title: "Paged Segmentation"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

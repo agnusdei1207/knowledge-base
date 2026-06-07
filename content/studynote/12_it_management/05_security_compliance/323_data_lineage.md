@@ -1,5 +1,5 @@
 ---
-title: "323. 데이터 리니지 흐름 추적 무결성"
+title: "데이터 리니지 흐름 추적 무결성"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

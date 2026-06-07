@@ -1,5 +1,5 @@
 ---
-title: "089. Contract Account Smart Contract"
+title: "Contract Account Smart Contract"
 date: "2026-06-07"
 tags:
   - "ict_convergence"

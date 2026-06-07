@@ -1,5 +1,5 @@
 ---
-title: "510. DASH (Dynamic Adaptive Streaming over HTTP)"
+title: "DASH (Dynamic Adaptive Streaming over HTTP)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "080. Multicollinearity Vif Variance Inflation Factor Regression"
+title: "Multicollinearity Vif Variance Inflation Factor Regression"
 date: "2026-04-11"
 tags:
   - "studynote-data-engineering"

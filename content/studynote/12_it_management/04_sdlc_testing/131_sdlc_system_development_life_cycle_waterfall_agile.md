@@ -1,5 +1,5 @@
 ---
-title: "131. Sdlc System Development Life Cycle Waterfall Agile"
+title: "Sdlc System Development Life Cycle Waterfall Agile"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

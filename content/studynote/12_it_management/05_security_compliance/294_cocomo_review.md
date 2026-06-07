@@ -1,5 +1,5 @@
 ---
-title: "294. COCOMO 비용 산정 (유기적, 준분리, 내장형)"
+title: "COCOMO 비용 산정 (유기적, 준분리, 내장형)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

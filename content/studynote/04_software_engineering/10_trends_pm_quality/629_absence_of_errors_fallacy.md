@@ -1,5 +1,5 @@
 ---
-title: "629. Absence Of Errors Fallacy"
+title: "Absence Of Errors Fallacy"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

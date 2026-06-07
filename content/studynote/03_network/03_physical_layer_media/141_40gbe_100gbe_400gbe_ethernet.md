@@ -1,5 +1,5 @@
 ---
-title: "141. 40Gbe 100Gbe 400Gbe Ethernet"
+title: "40Gbe 100Gbe 400Gbe Ethernet"
 date: "2026-05-08"
 tags:
   - "studynote-network"

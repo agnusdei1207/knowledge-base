@@ -1,5 +1,5 @@
 ---
-title: "109. Zombie Process"
+title: "Zombie Process"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"

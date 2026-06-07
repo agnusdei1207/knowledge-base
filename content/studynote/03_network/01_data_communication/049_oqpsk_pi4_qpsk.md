@@ -1,5 +1,5 @@
 ---
-title: "049. Oqpsk Pi 4 Qpsk"
+title: "Oqpsk Pi 4 Qpsk"
 date: "2026-04-05"
 tags:
   - "studynote-network"

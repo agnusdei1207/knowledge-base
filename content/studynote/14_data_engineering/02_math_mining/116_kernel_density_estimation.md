@@ -1,5 +1,5 @@
 ---
-title: "116. Kernel Density Estimation"
+title: "Kernel Density Estimation"
 date: "2026-04-19"
 tags:
   - "studynote-data-engineering"

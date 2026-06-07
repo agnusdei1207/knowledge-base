@@ -1,5 +1,5 @@
 ---
-title: "620. Event Sourcing State Reproducibility"
+title: "Event Sourcing State Reproducibility"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

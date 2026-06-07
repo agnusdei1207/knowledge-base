@@ -1,5 +1,5 @@
 ---
-title: "125. Ensemble Learning"
+title: "Ensemble Learning"
 date: "2026-04-19"
 tags:
   - "studynote-data-engineering"

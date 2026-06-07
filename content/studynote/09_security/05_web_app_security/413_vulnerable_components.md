@@ -1,5 +1,5 @@
 ---
-title: "413. Vulnerable Components (Vulnerable Components)"
+title: "Vulnerable Components (Vulnerable Components)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

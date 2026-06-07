@@ -1,5 +1,5 @@
 ---
-title: "679. Software Reengineering Reverse"
+title: "Software Reengineering Reverse"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "152. Wsdl Web Services Description Language"
+title: "Wsdl Web Services Description Language"
 date: "2026-05-03"
 tags:
   - "studynote-enterprise-systems"

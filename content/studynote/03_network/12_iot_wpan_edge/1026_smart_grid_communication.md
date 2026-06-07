@@ -1,5 +1,5 @@
 ---
-title: "1026. Smart Grid Communication"
+title: "Smart Grid Communication"
 date: "2026-05-08"
 tags:
   - "studynote-network"

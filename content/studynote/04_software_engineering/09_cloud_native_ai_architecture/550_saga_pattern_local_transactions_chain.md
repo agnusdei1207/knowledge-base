@@ -1,5 +1,5 @@
 ---
-title: "550. Saga Pattern Local Transactions Chain"
+title: "Saga Pattern Local Transactions Chain"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

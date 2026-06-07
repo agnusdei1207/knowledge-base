@@ -1,5 +1,5 @@
 ---
-title: "044. Necessity of Modulation"
+title: "Necessity of Modulation"
 date: "2026-04-05"
 tags:
   - "studynote-network"

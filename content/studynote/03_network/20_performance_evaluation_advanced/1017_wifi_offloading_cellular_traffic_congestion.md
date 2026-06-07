@@ -1,5 +1,5 @@
 ---
-title: "1017. Wifi Offloading Cellular Traffic Congestion"
+title: "Wifi Offloading Cellular Traffic Congestion"
 date: "2026-05-08"
 tags:
   - "studynote-network"

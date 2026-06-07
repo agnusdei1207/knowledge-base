@@ -1,5 +1,5 @@
 ---
-title: "003. It Governance 5 Domains"
+title: "It Governance 5 Domains"
 date: "2026-03-04"
 tags:
   - "enterprise_systems"

@@ -1,5 +1,5 @@
 ---
-title: "022. Cisa Certification Audit"
+title: "Cisa Certification Audit"
 date: "2026-04-02"
 tags:
   - "studynote-design-supervision"

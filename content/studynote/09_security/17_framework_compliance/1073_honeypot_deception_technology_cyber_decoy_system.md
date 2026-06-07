@@ -1,5 +1,5 @@
 ---
-title: "1073. Faraday Cage (Faraday Cage)"
+title: "Faraday Cage (Faraday Cage)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

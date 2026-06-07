@@ -1,5 +1,5 @@
 ---
-title: "008. Audit Perspective"
+title: "Audit Perspective"
 date: "2026-04-05"
 tags:
   - "design_supervision"

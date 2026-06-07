@@ -1,5 +1,5 @@
 ---
-title: "010. Forward Chaining"
+title: "Forward Chaining"
 date: "2024-05-20"
 tags:
   - "ai"

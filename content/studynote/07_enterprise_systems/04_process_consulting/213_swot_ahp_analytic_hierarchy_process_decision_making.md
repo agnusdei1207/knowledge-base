@@ -1,5 +1,5 @@
 ---
-title: "213. Swot Ahp Analytic Hierarchy Process Decision Making"
+title: "Swot Ahp Analytic Hierarchy Process Decision Making"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise-systems"

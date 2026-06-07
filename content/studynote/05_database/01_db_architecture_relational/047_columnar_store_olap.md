@@ -1,5 +1,5 @@
 ---
-title: "047. Columnar Store Olap"
+title: "Columnar Store Olap"
 date: "2026-04-05"
 tags:
   - "studynote-database"

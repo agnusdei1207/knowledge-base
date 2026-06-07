@@ -1,5 +1,5 @@
 ---
-title: "165. V2G Vehicle To Grid"
+title: "V2G Vehicle To Grid"
 date: "2026-05-05"
 tags:
   - "studynote-ict-convergence"

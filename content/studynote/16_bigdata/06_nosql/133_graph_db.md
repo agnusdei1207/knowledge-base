@@ -1,5 +1,5 @@
 ---
-title: "133. Graph Db"
+title: "Graph Db"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

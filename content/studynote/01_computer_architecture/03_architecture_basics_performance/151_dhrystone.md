@@ -1,5 +1,5 @@
 ---
-title: "151. Dhrystone"
+title: "Dhrystone"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"

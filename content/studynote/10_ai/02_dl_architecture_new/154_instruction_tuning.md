@@ -1,5 +1,5 @@
 ---
-title: "154. Instruction Tuning"
+title: "Instruction Tuning"
 date: "2026-05-03"
 tags:
   - "studynote-ai"

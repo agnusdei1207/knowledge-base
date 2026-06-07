@@ -1,5 +1,5 @@
 ---
-title: "096. Kappa Architecture"
+title: "Kappa Architecture"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

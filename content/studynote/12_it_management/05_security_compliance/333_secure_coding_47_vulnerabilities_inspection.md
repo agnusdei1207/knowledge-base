@@ -1,5 +1,5 @@
 ---
-title: "333. 시큐어 코딩 47개 취약점 진단 점검"
+title: "시큐어 코딩 47개 취약점 진단 점검"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

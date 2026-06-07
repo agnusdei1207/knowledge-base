@@ -1,5 +1,5 @@
 ---
-title: "106. Copy On Write"
+title: "Copy On Write"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"

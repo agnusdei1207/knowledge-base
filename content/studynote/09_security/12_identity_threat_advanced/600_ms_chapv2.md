@@ -1,5 +1,5 @@
 ---
-title: "600. MS-CHAPv2 (MS-CHAPv2)"
+title: "MS-CHAPv2 (MS-CHAPv2)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

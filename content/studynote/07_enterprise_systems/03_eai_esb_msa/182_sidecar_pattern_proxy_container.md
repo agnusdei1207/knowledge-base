@@ -1,5 +1,5 @@
 ---
-title: "182. Sidecar Pattern Proxy Container"
+title: "Sidecar Pattern Proxy Container"
 date: "2026-05-06"
 tags:
   - "studynote-enterprise-systems"

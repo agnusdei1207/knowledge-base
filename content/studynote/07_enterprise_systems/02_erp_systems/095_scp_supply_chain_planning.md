@@ -1,5 +1,5 @@
 ---
-title: "095. Scp Supply Chain Planning"
+title: "Scp Supply Chain Planning"
 date: "2026-06-07"
 tags:
   - "enterprise_systems"

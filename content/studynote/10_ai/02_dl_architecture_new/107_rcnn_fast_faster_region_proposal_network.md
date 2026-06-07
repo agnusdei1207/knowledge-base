@@ -1,5 +1,5 @@
 ---
-title: "107. Rcnn Fast Faster Region Proposal Network"
+title: "Rcnn Fast Faster Region Proposal Network"
 date: "2026-04-10"
 tags:
   - "studynote-ai"

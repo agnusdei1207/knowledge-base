@@ -1,5 +1,5 @@
 ---
-title: "096. User Level Thread"
+title: "User Level Thread"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"

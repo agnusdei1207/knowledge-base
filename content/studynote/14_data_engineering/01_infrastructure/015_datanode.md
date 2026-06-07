@@ -1,5 +1,5 @@
 ---
-title: "015. Datanode"
+title: "Datanode"
 date: "2023-10-24"
 tags:
   - "data_engineering"

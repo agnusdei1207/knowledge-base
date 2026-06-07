@@ -1,5 +1,5 @@
 ---
-title: "039. Layer1 Mainnet"
+title: "Layer1 Mainnet"
 date: "2026-03-04"
 tags:
   - "studynote-ict-convergence"

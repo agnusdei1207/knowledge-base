@@ -1,5 +1,5 @@
 ---
-title: "124. Cloud Native Development Architecture"
+title: "Cloud Native Development Architecture"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"

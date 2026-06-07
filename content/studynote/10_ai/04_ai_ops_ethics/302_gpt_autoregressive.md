@@ -1,5 +1,5 @@
 ---
-title: "302. GPT (Generative Pre-trained Transformer)"
+title: "GPT (Generative Pre-trained Transformer)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

@@ -1,5 +1,5 @@
 ---
-title: "169. Model Serving Engine Triton Tensorflow Serving"
+title: "Model Serving Engine Triton Tensorflow Serving"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

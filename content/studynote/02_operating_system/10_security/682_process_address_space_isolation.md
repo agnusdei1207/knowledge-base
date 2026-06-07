@@ -1,5 +1,5 @@
 ---
-title: "682. 프로세스 주소 공간 분리"
+title: "프로세스 주소 공간 분리"
 date: "2026-06-07"
 tags:
   - "studynote-operating-system"

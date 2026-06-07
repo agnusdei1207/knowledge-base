@@ -1,5 +1,5 @@
 ---
-title: "142. 트레이스 - 하나의 사용자 요청 전체 흐름 (Trace)"
+title: "트레이스 - 하나의 사용자 요청 전체 흐름 (Trace)"
 date: "2026-06-07"
 tags:
   - "studynote-devops-sre"

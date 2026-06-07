@@ -1,5 +1,5 @@
 ---
-title: "183. Zero Data Loss Architecture"
+title: "Zero Data Loss Architecture"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"

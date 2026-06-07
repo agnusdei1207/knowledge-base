@@ -1,5 +1,5 @@
 ---
-title: "091. Clusterip Kubernetes Internal Service Dns"
+title: "Clusterip Kubernetes Internal Service Dns"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"

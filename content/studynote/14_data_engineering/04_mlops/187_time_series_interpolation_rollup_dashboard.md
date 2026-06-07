@@ -1,5 +1,5 @@
 ---
-title: "187. Time Series Interpolation Rollup Dashboard"
+title: "Time Series Interpolation Rollup Dashboard"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

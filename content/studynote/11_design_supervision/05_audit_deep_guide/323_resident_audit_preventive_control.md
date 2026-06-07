@@ -1,5 +1,5 @@
 ---
-title: "323. 상주 감리 예방적 통제"
+title: "상주 감리 예방적 통제"
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

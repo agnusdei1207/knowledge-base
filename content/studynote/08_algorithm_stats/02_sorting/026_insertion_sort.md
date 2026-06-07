@@ -1,5 +1,5 @@
 ---
-title: "026. Insertion Sort"
+title: "Insertion Sort"
 date: "2026-06-07"
 tags:
   - "algorithm_stats"

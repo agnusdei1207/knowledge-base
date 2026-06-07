@@ -1,5 +1,5 @@
 ---
-title: "547. Rtos Timer"
+title: "Rtos Timer"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

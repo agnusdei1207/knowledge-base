@@ -1,5 +1,5 @@
 ---
-title: "475. Stride Threat Modeling"
+title: "Stride Threat Modeling"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

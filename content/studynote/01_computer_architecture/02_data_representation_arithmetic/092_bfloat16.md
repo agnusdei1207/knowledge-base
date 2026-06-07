@@ -1,5 +1,5 @@
 ---
-title: "92. bfloat16 (Brain Floating Point)"
+title: "bfloat16 (Brain Floating Point)"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"

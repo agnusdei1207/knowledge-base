@@ -1,5 +1,5 @@
 ---
-title: "412. 블랙박스 테스트 (Black-box Test) - 입력/출력 기반 명세 검증"
+title: "블랙박스 테스트 (Black-box Test) - 입력/출력 기반 명세 검증"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

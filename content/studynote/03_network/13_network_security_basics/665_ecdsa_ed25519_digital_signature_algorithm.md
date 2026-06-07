@@ -1,5 +1,5 @@
 ---
-title: "665. Ecdsa Ed25519 Digital Signature Algorithm"
+title: "Ecdsa Ed25519 Digital Signature Algorithm"
 date: "2026-05-08"
 tags:
   - "studynote-network"

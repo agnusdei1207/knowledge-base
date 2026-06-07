@@ -1,5 +1,5 @@
 ---
-title: "178. As Is To Be Analysis"
+title: "As Is To Be Analysis"
 date: "2026-06-07"
 tags:
   - "software_engineering"

@@ -1,5 +1,5 @@
 ---
-title: "166. Execution Plan Optimizer Navigation Tree"
+title: "Execution Plan Optimizer Navigation Tree"
 date: "2026-04-03"
 tags:
   - "studynote-database"

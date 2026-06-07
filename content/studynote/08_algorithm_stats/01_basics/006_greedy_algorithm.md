@@ -1,5 +1,5 @@
 ---
-title: "006. Greedy Algorithm"
+title: "Greedy Algorithm"
 date: "2026-06-07"
 tags:
   - "algorithm_stats"

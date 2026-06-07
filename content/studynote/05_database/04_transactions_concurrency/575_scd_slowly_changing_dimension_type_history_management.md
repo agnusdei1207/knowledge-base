@@ -1,5 +1,5 @@
 ---
-title: "575. Scd Slowly Changing Dimension Type History Management"
+title: "Scd Slowly Changing Dimension Type History Management"
 date: "2026-05-09"
 tags:
   - "studynote-database"

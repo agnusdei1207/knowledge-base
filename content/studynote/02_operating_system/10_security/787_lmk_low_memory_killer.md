@@ -1,5 +1,5 @@
 ---
-title: "787. 안드로이드 LMK (Low Memory Killer) 작동"
+title: "안드로이드 LMK (Low Memory Killer) 작동"
 date: "2026-06-07"
 tags:
   - "studynote-operating-system"

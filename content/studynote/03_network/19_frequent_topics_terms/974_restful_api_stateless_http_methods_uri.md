@@ -1,5 +1,5 @@
 ---
-title: "974. RESTful API"
+title: "RESTful API"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "826. Kube Proxy Service Load Balancing Iptables Ipvs"
+title: "Kube Proxy Service Load Balancing Iptables Ipvs"
 date: "2026-05-08"
 tags:
   - "studynote-network"

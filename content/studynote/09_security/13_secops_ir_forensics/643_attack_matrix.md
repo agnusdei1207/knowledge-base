@@ -1,5 +1,5 @@
 ---
-title: "643. ATT&CK Matrix (ATT&CK Matrix)"
+title: "ATT&CK Matrix (ATT&CK Matrix)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

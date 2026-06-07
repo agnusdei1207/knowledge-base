@@ -1,5 +1,5 @@
 ---
-title: "155. Peer Review"
+title: "Peer Review"
 date: "2026-05-03"
 tags:
   - "studynote-software-engineering"

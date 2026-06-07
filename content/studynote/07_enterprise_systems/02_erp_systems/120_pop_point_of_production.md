@@ -1,5 +1,5 @@
 ---
-title: "120. Pop Point Of Production"
+title: "Pop Point Of Production"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"

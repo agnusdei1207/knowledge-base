@@ -1,5 +1,5 @@
 ---
-title: "467. Feature Store Data Sharing"
+title: "Feature Store Data Sharing"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"

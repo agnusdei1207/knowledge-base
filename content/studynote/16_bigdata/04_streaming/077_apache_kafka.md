@@ -1,5 +1,5 @@
 ---
-title: "077. Apache Kafka"
+title: "Apache Kafka"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"

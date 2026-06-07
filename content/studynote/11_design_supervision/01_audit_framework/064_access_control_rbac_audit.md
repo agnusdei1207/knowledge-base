@@ -1,5 +1,5 @@
 ---
-title: "64. 접근 통제 및 권한 관리 감리 (Access Control and RBAC Audit)"
+title: "접근 통제 및 권한 관리 감리 (Access Control and RBAC Audit)"
 date: "2026-05-08"
 tags:
   - "studynote-design-supervision"

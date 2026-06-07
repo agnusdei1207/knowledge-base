@@ -1,5 +1,5 @@
 ---
-title: "740. Api Throttling Rate Limit Ddos"
+title: "Api Throttling Rate Limit Ddos"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

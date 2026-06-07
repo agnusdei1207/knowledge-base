@@ -1,5 +1,5 @@
 ---
-title: "225. 파운데이션 모델 (Foundation Model) 전이 학습 및 파라미터 효율적 미세 조정 (PEFT / LoRA 기법) 도입 경제성 검토"
+title: "파운데이션 모델 (Foundation Model) 전이 학습 및 파라미터 효율적 미세 조정 (PEFT / LoRA 기법) 도입 경제성 검토"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

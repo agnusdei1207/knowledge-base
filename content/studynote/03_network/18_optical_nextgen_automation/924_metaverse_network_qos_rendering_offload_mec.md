@@ -1,5 +1,5 @@
 ---
-title: "924. Metaverse Network Qos Rendering Offload Mec"
+title: "Metaverse Network Qos Rendering Offload Mec"
 date: "2026-05-08"
 tags:
   - "studynote-network"

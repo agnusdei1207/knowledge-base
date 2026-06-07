@@ -1,5 +1,5 @@
 ---
-title: "106. Blockchain Scm Traceability Cold Chain"
+title: "Blockchain Scm Traceability Cold Chain"
 date: "2026-06-07"
 tags:
   - "enterprise_systems"

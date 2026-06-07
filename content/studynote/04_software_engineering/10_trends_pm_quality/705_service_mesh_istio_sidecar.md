@@ -1,5 +1,5 @@
 ---
-title: "705. Service Mesh Istio Sidecar"
+title: "Service Mesh Istio Sidecar"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

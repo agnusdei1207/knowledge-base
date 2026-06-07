@@ -1,5 +1,5 @@
 ---
-title: "883. SAST (Static Application Security Testing)"
+title: "SAST (Static Application Security Testing)"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "967. Ai Red Team"
+title: "Ai Red Team"
 date: "2026-05-08"
 tags:
   - "studynote-security"

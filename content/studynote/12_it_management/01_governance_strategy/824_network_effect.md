@@ -1,5 +1,5 @@
 ---
-title: "824. Network Effect"
+title: "Network Effect"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"

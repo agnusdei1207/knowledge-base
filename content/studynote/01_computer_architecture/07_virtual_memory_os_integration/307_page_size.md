@@ -1,5 +1,5 @@
 ---
-title: "307. Page Size"
+title: "Page Size"
 date: "2026-05-06"
 tags:
   - "studynote-computer-architecture"

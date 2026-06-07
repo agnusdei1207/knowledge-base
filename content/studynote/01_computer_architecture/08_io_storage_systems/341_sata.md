@@ -1,5 +1,5 @@
 ---
-title: "341. SATA (Serial ATA)"
+title: "SATA (Serial ATA)"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"

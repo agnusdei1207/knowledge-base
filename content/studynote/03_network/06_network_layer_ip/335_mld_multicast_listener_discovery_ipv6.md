@@ -1,5 +1,5 @@
 ---
-title: "335. MLD (Multicast Listener Discovery)"
+title: "MLD (Multicast Listener Discovery)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

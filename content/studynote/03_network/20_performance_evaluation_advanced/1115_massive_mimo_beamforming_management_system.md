@@ -1,5 +1,5 @@
 ---
-title: "1115. Massive Mimo Beamforming Management System"
+title: "Massive Mimo Beamforming Management System"
 date: "2026-05-08"
 tags:
   - "studynote-network"

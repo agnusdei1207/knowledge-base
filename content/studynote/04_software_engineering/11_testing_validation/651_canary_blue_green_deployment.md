@@ -1,5 +1,5 @@
 ---
-title: "651. 카나리 배포 / 블루-그린 배포 무중단"
+title: "카나리 배포 / 블루-그린 배포 무중단"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

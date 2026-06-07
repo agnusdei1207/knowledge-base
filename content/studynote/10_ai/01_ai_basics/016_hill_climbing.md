@@ -1,5 +1,5 @@
 ---
-title: "016. Hill Climbing"
+title: "Hill Climbing"
 date: "2024-05-24"
 tags:
   - "ai"

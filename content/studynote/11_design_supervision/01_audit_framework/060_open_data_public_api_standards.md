@@ -1,5 +1,5 @@
 ---
-title: "060. Open Data Public Api Standards"
+title: "Open Data Public Api Standards"
 date: "2026-04-10"
 tags:
   - "studynote-design-supervision"

@@ -1,5 +1,5 @@
 ---
-title: "357. 리스코프 치환 부모 자식 호환"
+title: "리스코프 치환 부모 자식 호환"
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

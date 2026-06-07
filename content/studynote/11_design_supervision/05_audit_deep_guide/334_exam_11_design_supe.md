@@ -1,5 +1,5 @@
 ---
-title: "334. 마이그레이션 [무결성] 100%"
+title: "마이그레이션 [무결성] 100%"
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

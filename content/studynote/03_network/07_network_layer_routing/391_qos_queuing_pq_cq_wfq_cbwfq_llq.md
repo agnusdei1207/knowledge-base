@@ -1,5 +1,5 @@
 ---
-title: "391. Qos Queuing Pq Cq Wfq Cbwfq Llq"
+title: "Qos Queuing Pq Cq Wfq Cbwfq Llq"
 date: "2026-05-08"
 tags:
   - "studynote-network"

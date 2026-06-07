@@ -1,5 +1,5 @@
 ---
-title: "024. Selection Sort"
+title: "Selection Sort"
 date: "2026-06-07"
 tags:
   - "algorithm_stats"

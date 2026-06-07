@@ -1,5 +1,5 @@
 ---
-title: "1058. Streaming Telemetry Network Monitoring"
+title: "Streaming Telemetry Network Monitoring"
 date: "2026-06-07"
 tags:
   - "network"

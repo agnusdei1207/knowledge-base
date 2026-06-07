@@ -1,5 +1,5 @@
 ---
-title: "050. Ciso Cdo Independence"
+title: "Ciso Cdo Independence"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

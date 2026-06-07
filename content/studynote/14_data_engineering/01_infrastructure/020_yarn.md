@@ -1,5 +1,5 @@
 ---
-title: "020. Yarn"
+title: "Yarn"
 date: "2025-01-01"
 tags:
   - "data_engineering"

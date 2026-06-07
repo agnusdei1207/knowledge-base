@@ -1,5 +1,5 @@
 ---
-title: "187. 정보시스템 감리 (Information System Audit)"
+title: "정보시스템 감리 (Information System Audit)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

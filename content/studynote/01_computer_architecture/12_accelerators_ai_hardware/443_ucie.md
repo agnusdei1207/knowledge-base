@@ -1,5 +1,5 @@
 ---
-title: "443. UCIe (Universal Chiplet Interconnect Express)"
+title: "UCIe (Universal Chiplet Interconnect Express)"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"

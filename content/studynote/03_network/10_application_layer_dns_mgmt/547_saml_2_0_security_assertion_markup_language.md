@@ -1,5 +1,5 @@
 ---
-title: "547. SAML 2.0 (Security Assertion Markup Language)"
+title: "SAML 2.0 (Security Assertion Markup Language)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

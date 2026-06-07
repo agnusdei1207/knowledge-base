@@ -1,5 +1,5 @@
 ---
-title: "256. Roc Auc"
+title: "Roc Auc"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

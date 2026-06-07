@@ -1,5 +1,5 @@
 ---
-title: "283. DQDB (Distributed Queue Dual Bus)"
+title: "DQDB (Distributed Queue Dual Bus)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

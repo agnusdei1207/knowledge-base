@@ -1,5 +1,5 @@
 ---
-title: "621. Scale Up System Bus"
+title: "Scale Up System Bus"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "190. Event Driven Architecture Eda Pubsub"
+title: "Event Driven Architecture Eda Pubsub"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise-systems"

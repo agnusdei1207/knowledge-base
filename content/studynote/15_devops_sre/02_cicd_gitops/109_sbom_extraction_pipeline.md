@@ -1,5 +1,5 @@
 ---
-title: "109. Sbom Extraction Pipeline"
+title: "Sbom Extraction Pipeline"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"

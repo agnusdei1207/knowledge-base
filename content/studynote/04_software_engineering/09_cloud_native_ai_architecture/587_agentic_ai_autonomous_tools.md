@@ -1,5 +1,5 @@
 ---
-title: "587. Agentic Ai Autonomous Tools"
+title: "Agentic Ai Autonomous Tools"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

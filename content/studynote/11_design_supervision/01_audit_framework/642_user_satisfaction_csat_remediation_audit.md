@@ -1,5 +1,5 @@
 ---
-title: "642. User Satisfaction Csat Remediation Audit"
+title: "User Satisfaction Csat Remediation Audit"
 date: "2026-04-10"
 tags:
   - "studynote-design-supervision"

@@ -1,5 +1,5 @@
 ---
-title: "565. Operator Pattern Kubernetes Automation"
+title: "Operator Pattern Kubernetes Automation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

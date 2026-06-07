@@ -1,5 +1,5 @@
 ---
-title: "337. ASLR (Address Space Layout Randomization)"
+title: "ASLR (Address Space Layout Randomization)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

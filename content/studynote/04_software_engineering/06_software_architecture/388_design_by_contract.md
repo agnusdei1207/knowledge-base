@@ -1,5 +1,5 @@
 ---
-title: "388. Design By Contract"
+title: "Design By Contract"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

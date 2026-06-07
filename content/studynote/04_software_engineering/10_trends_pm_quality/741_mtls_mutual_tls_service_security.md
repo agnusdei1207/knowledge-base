@@ -1,5 +1,5 @@
 ---
-title: "741. Mtls Mutual Tls Service Security"
+title: "Mtls Mutual Tls Service Security"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

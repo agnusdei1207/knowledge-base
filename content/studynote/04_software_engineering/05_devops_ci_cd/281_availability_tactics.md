@@ -1,5 +1,5 @@
 ---
-title: "281. Availability Tactics"
+title: "Availability Tactics"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

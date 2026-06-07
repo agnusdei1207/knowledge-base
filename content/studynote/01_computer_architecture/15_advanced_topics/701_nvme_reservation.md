@@ -1,5 +1,5 @@
 ---
-title: "701. Nvme Reservation"
+title: "Nvme Reservation"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

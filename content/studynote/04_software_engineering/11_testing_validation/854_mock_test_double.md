@@ -1,5 +1,5 @@
 ---
-title: "854. Mock Test Double"
+title: "Mock Test Double"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

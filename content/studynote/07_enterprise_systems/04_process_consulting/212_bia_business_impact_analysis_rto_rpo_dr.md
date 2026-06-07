@@ -1,5 +1,5 @@
 ---
-title: "212. Bia Business Impact Analysis Rto Rpo Dr"
+title: "Bia Business Impact Analysis Rto Rpo Dr"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise-systems"

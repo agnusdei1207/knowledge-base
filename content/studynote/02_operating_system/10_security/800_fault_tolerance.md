@@ -1,5 +1,5 @@
 ---
-title: "800. 시스템 아키텍처 결함 허용 (Fault Tolerance) 듀얼 구성"
+title: "시스템 아키텍처 결함 허용 (Fault Tolerance) 듀얼 구성"
 date: "2026-06-07"
 tags:
   - "studynote-operating-system"

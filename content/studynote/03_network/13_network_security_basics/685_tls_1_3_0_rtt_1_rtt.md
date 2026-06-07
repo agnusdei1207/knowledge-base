@@ -1,5 +1,5 @@
 ---
-title: "685. Tls 1 3 0 Rtt 1 Rtt"
+title: "Tls 1 3 0 Rtt 1 Rtt"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "865. ReDoS (Regular Expression Denial of Service)"
+title: "ReDoS (Regular Expression Denial of Service)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

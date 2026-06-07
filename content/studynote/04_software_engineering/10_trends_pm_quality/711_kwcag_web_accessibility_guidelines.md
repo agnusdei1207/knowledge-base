@@ -1,5 +1,5 @@
 ---
-title: "711. Kwcag Web Accessibility Guidelines"
+title: "Kwcag Web Accessibility Guidelines"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

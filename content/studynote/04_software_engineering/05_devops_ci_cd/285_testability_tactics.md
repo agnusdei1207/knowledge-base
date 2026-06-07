@@ -1,5 +1,5 @@
 ---
-title: "285. Testability Tactics"
+title: "Testability Tactics"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

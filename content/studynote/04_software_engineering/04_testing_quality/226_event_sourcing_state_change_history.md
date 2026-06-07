@@ -1,5 +1,5 @@
 ---
-title: "226. Event Sourcing State Change History"
+title: "Event Sourcing State Change History"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "1107. Industrial Ethernet Profinet Ot Network"
+title: "Industrial Ethernet Profinet Ot Network"
 date: "2026-05-08"
 tags:
   - "studynote-network"

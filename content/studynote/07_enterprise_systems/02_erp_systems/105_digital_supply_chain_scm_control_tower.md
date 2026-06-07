@@ -1,5 +1,5 @@
 ---
-title: "105. Digital Supply Chain Scm Control Tower"
+title: "Digital Supply Chain Scm Control Tower"
 date: "2026-06-07"
 tags:
   - "enterprise_systems"

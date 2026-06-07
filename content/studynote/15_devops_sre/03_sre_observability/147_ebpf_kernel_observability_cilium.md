@@ -1,5 +1,5 @@
 ---
-title: "147. Ebpf Kernel Observability Cilium"
+title: "Ebpf Kernel Observability Cilium"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"

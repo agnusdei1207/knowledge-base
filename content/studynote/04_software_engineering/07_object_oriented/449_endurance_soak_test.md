@@ -1,5 +1,5 @@
 ---
-title: "449. Endurance Soak Test"
+title: "Endurance Soak Test"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

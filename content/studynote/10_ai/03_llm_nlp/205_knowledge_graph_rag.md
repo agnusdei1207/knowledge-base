@@ -1,5 +1,5 @@
 ---
-title: "205. Knowledge Graph Rag"
+title: "Knowledge Graph Rag"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

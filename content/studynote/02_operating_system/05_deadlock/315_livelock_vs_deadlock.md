@@ -1,5 +1,5 @@
 ---
-title: "315. Livelock Vs Deadlock"
+title: "Livelock Vs Deadlock"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

@@ -1,5 +1,5 @@
 ---
-title: "411. Aging Algorithm"
+title: "Aging Algorithm"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

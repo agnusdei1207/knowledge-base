@@ -1,5 +1,5 @@
 ---
-title: "356. Shared Pages"
+title: "Shared Pages"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

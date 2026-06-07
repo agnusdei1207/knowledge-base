@@ -1,5 +1,5 @@
 ---
-title: "068. Step Function Activation"
+title: "Step Function Activation"
 date: "2026-06-07"
 tags:
   - "ai"

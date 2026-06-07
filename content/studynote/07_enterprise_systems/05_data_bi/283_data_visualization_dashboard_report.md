@@ -1,5 +1,5 @@
 ---
-title: "283. Data Visualization Dashboard Report"
+title: "Data Visualization Dashboard Report"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"

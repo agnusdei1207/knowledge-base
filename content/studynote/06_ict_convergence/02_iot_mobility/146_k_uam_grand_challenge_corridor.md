@@ -1,5 +1,5 @@
 ---
-title: "146. K Uam Grand Challenge Corridor"
+title: "K Uam Grand Challenge Corridor"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"

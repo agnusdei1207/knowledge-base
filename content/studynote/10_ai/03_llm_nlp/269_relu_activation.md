@@ -1,5 +1,5 @@
 ---
-title: "269. ReLU (Rectified Linear Unit)"
+title: "ReLU (Rectified Linear Unit)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

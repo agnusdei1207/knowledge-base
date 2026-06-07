@@ -1,5 +1,5 @@
 ---
-title: "135. Cnn Convolutional Neural Network"
+title: "Cnn Convolutional Neural Network"
 date: "2026-04-19"
 tags:
   - "studynote-data-engineering"

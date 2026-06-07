@@ -1,5 +1,5 @@
 ---
-title: "563. MIPv6 (Mobile IPv6)"
+title: "MIPv6 (Mobile IPv6)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

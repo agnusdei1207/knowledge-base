@@ -1,5 +1,5 @@
 ---
-title: "106. Object Detection Bounding Box Yolo Rcnn Iou"
+title: "Object Detection Bounding Box Yolo Rcnn Iou"
 date: "2026-04-10"
 tags:
   - "studynote-ai"

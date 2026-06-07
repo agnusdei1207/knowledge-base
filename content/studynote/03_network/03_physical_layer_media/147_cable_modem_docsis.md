@@ -1,5 +1,5 @@
 ---
-title: "147. Cable Modem Docsis"
+title: "Cable Modem Docsis"
 date: "2026-04-19"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "1081. Ips Signature Regular Expression Regex"
+title: "Ips Signature Regular Expression Regex"
 date: "2026-05-08"
 tags:
   - "studynote-network"

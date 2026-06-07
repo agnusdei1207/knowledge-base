@@ -1,5 +1,5 @@
 ---
-title: "617. Lora Lorawan Css Chirp Spread Spectrum"
+title: "Lora Lorawan Css Chirp Spread Spectrum"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "331. 웹 접근성 KWCAG 장애인"
+title: "웹 접근성 KWCAG 장애인"
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

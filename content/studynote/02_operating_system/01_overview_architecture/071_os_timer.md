@@ -1,5 +1,5 @@
 ---
-title: "071. Os Timer"
+title: "Os Timer"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"

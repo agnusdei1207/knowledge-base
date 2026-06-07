@@ -1,5 +1,5 @@
 ---
-title: "070. Sprint Review Demo"
+title: "Sprint Review Demo"
 date: "2026-06-07"
 tags:
   - "software_engineering"

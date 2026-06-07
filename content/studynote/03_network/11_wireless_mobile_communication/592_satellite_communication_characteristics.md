@@ -1,5 +1,5 @@
 ---
-title: "592. Satellite Communication Characteristics"
+title: "Satellite Communication Characteristics"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "672. SPDK (Storage Performance Development Kit)"
+title: "SPDK (Storage Performance Development Kit)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

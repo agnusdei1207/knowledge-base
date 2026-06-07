@@ -1,5 +1,5 @@
 ---
-title: "448. Spike Test"
+title: "Spike Test"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

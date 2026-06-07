@@ -1,5 +1,5 @@
 ---
-title: "732. Tqm Total Quality Management"
+title: "Tqm Total Quality Management"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

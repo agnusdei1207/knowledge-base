@@ -1,5 +1,5 @@
 ---
-title: "127. Kms Knowledge Management System"
+title: "Kms Knowledge Management System"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"

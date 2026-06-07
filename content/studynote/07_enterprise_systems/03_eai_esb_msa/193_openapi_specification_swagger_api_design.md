@@ -1,5 +1,5 @@
 ---
-title: "193. Openapi Specification Swagger Api Design"
+title: "Openapi Specification Swagger Api Design"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise-systems"

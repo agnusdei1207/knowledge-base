@@ -1,5 +1,5 @@
 ---
-title: "242. 전사 아키텍처 (EA)"
+title: "전사 아키텍처 (EA)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

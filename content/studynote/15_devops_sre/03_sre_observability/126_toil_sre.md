@@ -1,5 +1,5 @@
 ---
-title: "126. Toil Sre"
+title: "Toil Sre"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"

@@ -1,5 +1,5 @@
 ---
-title: "059. Micro Segmentation East West Traffic"
+title: "Micro Segmentation East West Traffic"
 date: "2026-04-07"
 tags:
   - "studynote-cloud-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "164. Concept Drift Target Mapping Change"
+title: "Concept Drift Target Mapping Change"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

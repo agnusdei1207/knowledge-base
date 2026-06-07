@@ -1,5 +1,5 @@
 ---
-title: "088. Identifier In Er Model"
+title: "Identifier In Er Model"
 date: "2026-06-07"
 tags:
   - "database"

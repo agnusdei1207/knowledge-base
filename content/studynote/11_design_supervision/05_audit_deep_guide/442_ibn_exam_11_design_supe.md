@@ -1,5 +1,5 @@
 ---
-title: "442. 인텐트 기반 [IBN] 아키텍처 자동 변환망"
+title: "인텐트 기반 [IBN] 아키텍처 자동 변환망"
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

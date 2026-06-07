@@ -1,5 +1,5 @@
 ---
-title: "099. Feature Map Activation Map Cnn Output"
+title: "Feature Map Activation Map Cnn Output"
 date: "2026-04-10"
 tags:
   - "studynote-ai"

@@ -1,5 +1,5 @@
 ---
-title: "296. 바운디드 컨텍스트 애그리게이트 루트 (Process)"
+title: "바운디드 컨텍스트 애그리게이트 루트 (Process)"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

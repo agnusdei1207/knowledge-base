@@ -1,5 +1,5 @@
 ---
-title: "81. ERP (Enterprise Resource Planning)"
+title: "ERP (Enterprise Resource Planning)"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise-systems"

@@ -1,5 +1,5 @@
 ---
-title: "605. Password Salting Hash"
+title: "Password Salting Hash"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

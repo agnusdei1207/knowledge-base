@@ -1,5 +1,5 @@
 ---
-title: "808. Network Jitter Delay Variation Storage Sync"
+title: "Network Jitter Delay Variation Storage Sync"
 date: "2026-05-08"
 tags:
   - "studynote-network"

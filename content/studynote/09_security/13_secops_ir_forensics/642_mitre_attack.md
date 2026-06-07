@@ -1,5 +1,5 @@
 ---
-title: "642. MITRE ATT&CK (MITRE ATT&CK)"
+title: "MITRE ATT&CK (MITRE ATT&CK)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

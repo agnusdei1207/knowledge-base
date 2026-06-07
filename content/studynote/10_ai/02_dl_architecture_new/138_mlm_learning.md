@@ -1,5 +1,5 @@
 ---
-title: "138. Mlm Learning"
+title: "Mlm Learning"
 date: "2026-04-19"
 tags:
   - "studynote-ai"

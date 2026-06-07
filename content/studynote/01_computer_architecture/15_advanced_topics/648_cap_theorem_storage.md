@@ -1,5 +1,5 @@
 ---
-title: "648. Cap Theorem Storage"
+title: "Cap Theorem Storage"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

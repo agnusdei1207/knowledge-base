@@ -1,5 +1,5 @@
 ---
-title: "752. FMEA (Failure Mode and Effects Analysis)"
+title: "FMEA (Failure Mode and Effects Analysis)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

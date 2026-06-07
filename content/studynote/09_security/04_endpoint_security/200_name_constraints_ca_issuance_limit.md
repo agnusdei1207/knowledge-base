@@ -1,5 +1,5 @@
 ---
-title: "200. nameConstraints (nameConstraints)"
+title: "nameConstraints (nameConstraints)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

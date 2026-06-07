@@ -1,5 +1,5 @@
 ---
-title: "232. Grpc Google Rpc Http 2"
+title: "Grpc Google Rpc Http 2"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

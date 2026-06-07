@@ -1,5 +1,5 @@
 ---
-title: "121. Smart Factory 4 Levels"
+title: "Smart Factory 4 Levels"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"

@@ -1,5 +1,5 @@
 ---
-title: "027. Database Designer"
+title: "Database Designer"
 date: "2026-04-29"
 tags:
   - "studynote-database"

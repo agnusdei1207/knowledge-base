@@ -1,5 +1,5 @@
 ---
-title: "048. Compliance As Code"
+title: "Compliance As Code"
 date: "2026-04-05"
 tags:
   - "studynote-it-management"

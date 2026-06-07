@@ -1,5 +1,5 @@
 ---
-title: "597. Headless Cms Architecture"
+title: "Headless Cms Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

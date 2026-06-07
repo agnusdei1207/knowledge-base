@@ -1,5 +1,5 @@
 ---
-title: "439. Cgroups Memory Limit"
+title: "Cgroups Memory Limit"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

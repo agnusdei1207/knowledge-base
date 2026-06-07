@@ -1,5 +1,5 @@
 ---
-title: "569. RBAC (Role-Based Access Control)"
+title: "RBAC (Role-Based Access Control)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

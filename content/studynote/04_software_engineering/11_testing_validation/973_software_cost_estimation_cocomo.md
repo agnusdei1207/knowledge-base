@@ -1,5 +1,5 @@
 ---
-title: "973. Software Cost Estimation Cocomo"
+title: "Software Cost Estimation Cocomo"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

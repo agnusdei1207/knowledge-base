@@ -1,5 +1,5 @@
 ---
-title: "1014. Bring Your Own Key (BYOK) — 고객 관리 키"
+title: "Bring Your Own Key (BYOK) — 고객 관리 키"
 date: "2026-06-07"
 tags:
   - "studynote-security"

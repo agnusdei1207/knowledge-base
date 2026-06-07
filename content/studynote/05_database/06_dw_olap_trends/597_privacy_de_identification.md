@@ -1,5 +1,5 @@
 ---
-title: "597. Privacy De Identification"
+title: "Privacy De Identification"
 date: "2026-05-09"
 tags:
   - "studynote-database"

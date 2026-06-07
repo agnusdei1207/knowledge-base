@@ -1,5 +1,5 @@
 ---
-title: "88. FDMA (Frequency Division Multiple Access)"
+title: "FDMA (Frequency Division Multiple Access)"
 date: "2026-03-30"
 tags:
   - "network"

@@ -1,5 +1,5 @@
 ---
-title: "441. RTT (Round Trip Time), SRTT (Smoothed RTT)"
+title: "RTT (Round Trip Time), SRTT (Smoothed RTT)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

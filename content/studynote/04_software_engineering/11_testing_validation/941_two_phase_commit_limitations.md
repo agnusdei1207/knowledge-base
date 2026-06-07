@@ -1,5 +1,5 @@
 ---
-title: "941. Two Phase Commit Limitations"
+title: "Two Phase Commit Limitations"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

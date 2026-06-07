@@ -1,5 +1,5 @@
 ---
-title: "345. IGP (Interior Gateway Protocol)"
+title: "IGP (Interior Gateway Protocol)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

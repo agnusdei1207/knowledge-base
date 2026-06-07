@@ -1,5 +1,5 @@
 ---
-title: "328. 5 Forces 산업 구조 경쟁 요인"
+title: "5 Forces 산업 구조 경쟁 요인"
 date: "2026-06-07"
 tags:
   - "studynote-enterprise-systems"

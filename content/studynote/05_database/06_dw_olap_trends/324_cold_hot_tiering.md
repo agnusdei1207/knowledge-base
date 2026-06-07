@@ -1,5 +1,5 @@
 ---
-title: "324. ODS (Operational Data Store)"
+title: "ODS (Operational Data Store)"
 date: "2026-05-09"
 tags:
   - "studynote-database"

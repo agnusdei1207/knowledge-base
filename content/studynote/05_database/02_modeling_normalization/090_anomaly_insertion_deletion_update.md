@@ -1,5 +1,5 @@
 ---
-title: "090. Anomaly Insertion Deletion Update"
+title: "Anomaly Insertion Deletion Update"
 date: "2026-06-07"
 tags:
   - "database"

@@ -1,5 +1,5 @@
 ---
-title: "435. Pruning Hardware"
+title: "Pruning Hardware"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"

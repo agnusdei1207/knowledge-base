@@ -1,5 +1,5 @@
 ---
-title: "019. Software Product Line"
+title: "Software Product Line"
 date: "2026-03-04"
 tags:
   - "software_engineering"

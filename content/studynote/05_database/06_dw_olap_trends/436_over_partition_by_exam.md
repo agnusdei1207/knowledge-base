@@ -1,5 +1,5 @@
 ---
-title: "436. 윈도우 함수 OVER)"
+title: "윈도우 함수 OVER)"
 date: "2026-06-07"
 tags:
   - "studynote-database"

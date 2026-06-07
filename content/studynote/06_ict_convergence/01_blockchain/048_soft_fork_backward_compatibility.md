@@ -1,5 +1,5 @@
 ---
-title: "048. Soft Fork Backward Compatibility"
+title: "Soft Fork Backward Compatibility"
 date: "2026-04-05"
 tags:
   - "studynote-ict-convergence"

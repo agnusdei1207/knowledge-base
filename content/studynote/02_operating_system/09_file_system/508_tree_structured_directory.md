@@ -1,5 +1,5 @@
 ---
-title: "508. Tree Structured Directory"
+title: "Tree Structured Directory"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

@@ -1,5 +1,5 @@
 ---
-title: "009. Hybrid Cloud"
+title: "Hybrid Cloud"
 date: "2024-05-24"
 tags:
   - "cloud_architecture"

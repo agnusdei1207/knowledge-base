@@ -1,5 +1,5 @@
 ---
-title: "528. Provisioning"
+title: "Provisioning"
 date: "2026-05-08"
 tags:
   - "studynote-security"

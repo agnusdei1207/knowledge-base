@@ -1,5 +1,5 @@
 ---
-title: "376. Build Deployment Automation"
+title: "Build Deployment Automation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

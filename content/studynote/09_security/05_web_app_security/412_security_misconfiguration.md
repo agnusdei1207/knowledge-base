@@ -1,5 +1,5 @@
 ---
-title: "412. Security Misconfiguration (Security Misconfiguration)"
+title: "Security Misconfiguration (Security Misconfiguration)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

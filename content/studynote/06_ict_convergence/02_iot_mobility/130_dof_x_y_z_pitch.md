@@ -1,5 +1,5 @@
 ---
-title: "130. 6자유도 트래킹 - X, Y, Z 이동 및 Pitch, Yaw, Roll 회전 추적"
+title: "6자유도 트래킹 - X, Y, Z 이동 및 Pitch, Yaw, Roll 회전 추적"
 date: "2026-06-07"
 tags:
   - "studynote-ict-convergence"

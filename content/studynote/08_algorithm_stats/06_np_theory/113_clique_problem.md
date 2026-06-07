@@ -1,5 +1,5 @@
 ---
-title: "113. Clique Problem"
+title: "Clique Problem"
 date: "2026-04-05"
 tags:
   - "studynote-algorithm-stats"

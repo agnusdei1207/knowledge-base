@@ -1,5 +1,5 @@
 ---
-title: "668. Cgroups Hw Resource Allocation"
+title: "Cgroups Hw Resource Allocation"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

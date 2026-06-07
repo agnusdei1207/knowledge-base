@@ -1,5 +1,5 @@
 ---
-title: "214. 데이터 리니지 (Data Lineage)"
+title: "데이터 리니지 (Data Lineage)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

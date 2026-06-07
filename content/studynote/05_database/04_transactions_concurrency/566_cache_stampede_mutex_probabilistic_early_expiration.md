@@ -1,5 +1,5 @@
 ---
-title: "566. Cache Stampede Mutex Probabilistic Early Expiration"
+title: "Cache Stampede Mutex Probabilistic Early Expiration"
 date: "2026-05-09"
 tags:
   - "studynote-database"

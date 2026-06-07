@@ -1,5 +1,5 @@
 ---
-title: "406. UDP (User Datagram Protocol)"
+title: "UDP (User Datagram Protocol)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

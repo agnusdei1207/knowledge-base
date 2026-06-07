@@ -1,5 +1,5 @@
 ---
-title: "603. Rootkit Syscall Hooking"
+title: "Rootkit Syscall Hooking"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

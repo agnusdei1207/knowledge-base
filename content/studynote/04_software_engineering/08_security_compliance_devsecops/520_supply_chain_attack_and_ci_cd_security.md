@@ -1,5 +1,5 @@
 ---
-title: "520. Supply Chain Attack And Ci Cd Security"
+title: "Supply Chain Attack And Ci Cd Security"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

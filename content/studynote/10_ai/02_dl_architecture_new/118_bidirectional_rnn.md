@@ -1,5 +1,5 @@
 ---
-title: "118. Bidirectional Rnn"
+title: "Bidirectional Rnn"
 date: "2026-04-19"
 tags:
   - "studynote-ai"

@@ -1,5 +1,5 @@
 ---
-title: "172. Business Case Roi Analysis"
+title: "Business Case Roi Analysis"
 date: "2026-04-03"
 tags:
   - "software_engineering"

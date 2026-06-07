@@ -1,5 +1,5 @@
 ---
-title: "062. Colocation Data Center Leasing"
+title: "Colocation Data Center Leasing"
 date: "2026-04-07"
 tags:
   - "studynote-enterprise-systems"

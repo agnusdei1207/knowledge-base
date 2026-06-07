@@ -1,5 +1,5 @@
 ---
-title: "006. Prototype Model"
+title: "Prototype Model"
 date: "2026-03-04"
 tags:
   - "software_engineering"

@@ -1,5 +1,5 @@
 ---
-title: "661. Asymmetric Key Math Factorization Dlp"
+title: "Asymmetric Key Math Factorization Dlp"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "249. ISL (Inter-Switch Link)"
+title: "ISL (Inter-Switch Link)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "611. Distributed Arithmetic"
+title: "Distributed Arithmetic"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

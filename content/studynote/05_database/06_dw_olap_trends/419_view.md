@@ -1,5 +1,5 @@
 ---
-title: "419. 뷰 (VIEW) 생성 가상 테이블"
+title: "뷰 (VIEW) 생성 가상 테이블"
 date: "2026-06-07"
 tags:
   - "studynote-database"

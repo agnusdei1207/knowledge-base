@@ -1,5 +1,5 @@
 ---
-title: "193. Cohesion Levels"
+title: "Cohesion Levels"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

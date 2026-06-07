@@ -1,5 +1,5 @@
 ---
-title: "174. Edge Ai On Device Ai"
+title: "Edge Ai On Device Ai"
 date: "2026-05-06"
 tags:
   - "studynote-ict-convergence"

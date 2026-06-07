@@ -1,5 +1,5 @@
 ---
-title: "007. Data Lake"
+title: "Data Lake"
 date: "2024-05-15"
 tags:
   - "data_engineering"

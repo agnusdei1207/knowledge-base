@@ -1,5 +1,5 @@
 ---
-title: "673. Rdma Iwarp"
+title: "Rdma Iwarp"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

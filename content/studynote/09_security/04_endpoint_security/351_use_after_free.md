@@ -1,5 +1,5 @@
 ---
-title: "351. Use-After-Free (Use-After-Free)"
+title: "Use-After-Free (Use-After-Free)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

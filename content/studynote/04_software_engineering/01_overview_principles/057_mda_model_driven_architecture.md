@@ -1,5 +1,5 @@
 ---
-title: "057. Mda Model Driven Architecture"
+title: "Mda Model Driven Architecture"
 date: "2026-06-07"
 tags:
   - "software_engineering"

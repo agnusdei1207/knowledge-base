@@ -1,5 +1,5 @@
 ---
-title: "765. Cumulative Flow Diagram Bottleneck"
+title: "Cumulative Flow Diagram Bottleneck"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

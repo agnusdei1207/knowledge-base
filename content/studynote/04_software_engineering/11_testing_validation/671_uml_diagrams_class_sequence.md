@@ -1,5 +1,5 @@
 ---
-title: "671. UML 클래스, 시퀀스, 액티비티 다이어그램"
+title: "UML 클래스, 시퀀스, 액티비티 다이어그램"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

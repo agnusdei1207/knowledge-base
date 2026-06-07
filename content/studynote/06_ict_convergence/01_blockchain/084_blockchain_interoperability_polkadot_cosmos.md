@@ -1,5 +1,5 @@
 ---
-title: "084. Blockchain Interoperability Polkadot Cosmos"
+title: "Blockchain Interoperability Polkadot Cosmos"
 date: "2026-06-07"
 tags:
   - "ict_convergence"

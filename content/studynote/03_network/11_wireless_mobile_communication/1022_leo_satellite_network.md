@@ -1,5 +1,5 @@
 ---
-title: "1022. Leo Satellite Network"
+title: "Leo Satellite Network"
 date: "2026-05-08"
 tags:
   - "studynote-network"

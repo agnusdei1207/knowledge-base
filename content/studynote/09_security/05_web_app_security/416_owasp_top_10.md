@@ -1,5 +1,5 @@
 ---
-title: "416. OWASP Top 10 (OWASP Top 10)"
+title: "OWASP Top 10 (OWASP Top 10)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "101. Isp 4 Steps"
+title: "Isp 4 Steps"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

@@ -1,5 +1,5 @@
 ---
-title: "235. Sequence Diagram Dynamic Interaction Uml"
+title: "Sequence Diagram Dynamic Interaction Uml"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

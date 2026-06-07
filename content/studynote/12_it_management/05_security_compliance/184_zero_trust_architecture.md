@@ -1,5 +1,5 @@
 ---
-title: "184. 제로 트러스트 아키텍처 (Zero Trust Architecture)"
+title: "제로 트러스트 아키텍처 (Zero Trust Architecture)"
 date: "2026-05-06"
 tags:
   - "studynote-it-management"

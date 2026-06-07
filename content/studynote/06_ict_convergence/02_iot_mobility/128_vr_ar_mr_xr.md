@@ -1,5 +1,5 @@
 ---
-title: "128. 가상/증강/혼합 현실 (VR / AR / MR / XR)"
+title: "가상/증강/혼합 현실 (VR / AR / MR / XR)"
 date: "2026-06-07"
 tags:
   - "studynote-ict-convergence"

@@ -1,5 +1,5 @@
 ---
-title: "353. Distributed Arbitration"
+title: "Distributed Arbitration"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "104. Kubernetes Namespace Logical Cluster Isolation"
+title: "Kubernetes Namespace Logical Cluster Isolation"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"

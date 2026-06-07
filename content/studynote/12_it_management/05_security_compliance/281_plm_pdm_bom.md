@@ -1,5 +1,5 @@
 ---
-title: "281. PLM / PDM 제품 수명 주기 BOM"
+title: "PLM / PDM 제품 수명 주기 BOM"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

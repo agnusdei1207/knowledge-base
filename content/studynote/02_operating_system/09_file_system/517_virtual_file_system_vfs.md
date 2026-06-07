@@ -1,5 +1,5 @@
 ---
-title: "517. Virtual File System Vfs"
+title: "Virtual File System Vfs"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

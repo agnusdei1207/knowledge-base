@@ -1,5 +1,5 @@
 ---
-title: "009. Internal Schema"
+title: "Internal Schema"
 date: "2024-05-20"
 tags:
   - "database"

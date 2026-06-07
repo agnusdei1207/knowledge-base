@@ -1,5 +1,5 @@
 ---
-title: "084. Support Association Rule Transaction"
+title: "Support Association Rule Transaction"
 date: "2026-03-04"
 tags:
   - "math-mining"

@@ -1,5 +1,5 @@
 ---
-title: "101. Two Level Model"
+title: "Two Level Model"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"

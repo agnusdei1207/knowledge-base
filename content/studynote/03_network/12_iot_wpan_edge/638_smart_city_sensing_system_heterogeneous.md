@@ -1,5 +1,5 @@
 ---
-title: "638. Smart City Sensing System Heterogeneous"
+title: "Smart City Sensing System Heterogeneous"
 date: "2026-05-08"
 tags:
   - "studynote-network"

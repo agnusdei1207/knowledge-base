@@ -1,5 +1,5 @@
 ---
-title: "048. Row Oriented Store Oltp"
+title: "Row Oriented Store Oltp"
 date: "2026-04-05"
 tags:
   - "studynote-database"

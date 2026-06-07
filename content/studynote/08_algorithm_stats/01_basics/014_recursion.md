@@ -1,5 +1,5 @@
 ---
-title: "014. Recursion"
+title: "Recursion"
 date: "2026-06-07"
 tags:
   - "algorithm_stats"

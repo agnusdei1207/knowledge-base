@@ -1,5 +1,5 @@
 ---
-title: "124. Bom Bill Of Materials"
+title: "Bom Bill Of Materials"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"

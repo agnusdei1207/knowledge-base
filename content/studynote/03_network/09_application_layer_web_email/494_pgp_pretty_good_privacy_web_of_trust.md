@@ -1,5 +1,5 @@
 ---
-title: "494. PGP (Pretty Good Privacy)"
+title: "PGP (Pretty Good Privacy)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "444. NVLink / NVSwitch"
+title: "NVLink / NVSwitch"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"

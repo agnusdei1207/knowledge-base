@@ -1,5 +1,5 @@
 ---
-title: "138. Normal Distribution"
+title: "Normal Distribution"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

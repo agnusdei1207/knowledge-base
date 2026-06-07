@@ -1,5 +1,5 @@
 ---
-title: "936. Dns Sinkhole"
+title: "Dns Sinkhole"
 date: "2026-05-08"
 tags:
   - "studynote-network"

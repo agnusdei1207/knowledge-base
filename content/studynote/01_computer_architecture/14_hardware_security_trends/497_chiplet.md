@@ -1,5 +1,5 @@
 ---
-title: "497. Chiplet"
+title: "Chiplet"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"

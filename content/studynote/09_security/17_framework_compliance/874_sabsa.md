@@ -1,5 +1,5 @@
 ---
-title: "874. SABSA (Sherwood Applied Business Security Architecture)"
+title: "SABSA (Sherwood Applied Business Security Architecture)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

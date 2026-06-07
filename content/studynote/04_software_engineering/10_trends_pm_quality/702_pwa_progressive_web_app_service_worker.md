@@ -1,5 +1,5 @@
 ---
-title: "702. Pwa Progressive Web App Service Worker"
+title: "Pwa Progressive Web App Service Worker"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

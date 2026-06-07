@@ -1,5 +1,5 @@
 ---
-title: "243. OWASP Core Rule Set (CRS)"
+title: "OWASP Core Rule Set (CRS)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

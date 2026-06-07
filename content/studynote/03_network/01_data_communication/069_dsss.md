@@ -1,5 +1,5 @@
 ---
-title: "069. Direct Sequence Spread Spectrum (DSSS)"
+title: "Direct Sequence Spread Spectrum (DSSS)"
 date: "2024-05-24"
 tags:
   - "network"

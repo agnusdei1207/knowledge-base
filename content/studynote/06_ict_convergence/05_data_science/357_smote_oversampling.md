@@ -1,5 +1,5 @@
 ---
-title: "357. SMOTE (Synthetic Minority Over-sampling Technique)"
+title: "SMOTE (Synthetic Minority Over-sampling Technique)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"

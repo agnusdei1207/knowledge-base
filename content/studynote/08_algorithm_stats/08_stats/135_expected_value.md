@@ -1,5 +1,5 @@
 ---
-title: "135. Expected Value"
+title: "Expected Value"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

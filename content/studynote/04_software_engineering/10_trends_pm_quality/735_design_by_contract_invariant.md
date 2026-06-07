@@ -1,5 +1,5 @@
 ---
-title: "735. Design By Contract Invariant"
+title: "Design By Contract Invariant"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

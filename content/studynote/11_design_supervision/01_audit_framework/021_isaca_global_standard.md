@@ -1,5 +1,5 @@
 ---
-title: "021. Isaca Global Standard"
+title: "Isaca Global Standard"
 date: "2026-04-02"
 tags:
   - "studynote-design-supervision"

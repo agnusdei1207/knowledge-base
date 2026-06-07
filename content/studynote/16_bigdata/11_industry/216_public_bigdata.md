@@ -1,5 +1,5 @@
 ---
-title: "216. Public Bigdata"
+title: "Public Bigdata"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

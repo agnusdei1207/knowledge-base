@@ -1,5 +1,5 @@
 ---
-title: "712. Dark Pattern Deceptive Ux"
+title: "Dark Pattern Deceptive Ux"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

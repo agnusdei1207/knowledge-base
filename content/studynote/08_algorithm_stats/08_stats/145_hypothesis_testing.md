@@ -1,5 +1,5 @@
 ---
-title: "145. Hypothesis Testing"
+title: "Hypothesis Testing"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

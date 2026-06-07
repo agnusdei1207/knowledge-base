@@ -1,5 +1,5 @@
 ---
-title: "219. Declarative Yaml"
+title: "Declarative Yaml"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

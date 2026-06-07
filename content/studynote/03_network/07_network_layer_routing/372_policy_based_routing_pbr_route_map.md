@@ -1,5 +1,5 @@
 ---
-title: "372. Policy-Based Routing (PBR) / Route Map"
+title: "Policy-Based Routing (PBR) / Route Map"
 date: "2026-05-08"
 tags:
   - "studynote-network"

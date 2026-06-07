@@ -1,5 +1,5 @@
 ---
-title: "347. 프롬프트 인젝션 보안 필터망 설계"
+title: "프롬프트 인젝션 보안 필터망 설계"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

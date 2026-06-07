@@ -1,5 +1,5 @@
 ---
-title: "604. WPAN (Wireless Personal Area Network)"
+title: "WPAN (Wireless Personal Area Network)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

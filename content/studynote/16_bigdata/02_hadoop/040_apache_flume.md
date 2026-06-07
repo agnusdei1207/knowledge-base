@@ -1,5 +1,5 @@
 ---
-title: "040. Apache Flume"
+title: "Apache Flume"
 date: "2026-03-04"
 tags:
   - "hadoop"

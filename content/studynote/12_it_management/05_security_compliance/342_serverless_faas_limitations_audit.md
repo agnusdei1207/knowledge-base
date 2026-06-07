@@ -1,5 +1,5 @@
 ---
-title: "342. 서버리스 FaaS 아키텍처 한계 분석망"
+title: "서버리스 FaaS 아키텍처 한계 분석망"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

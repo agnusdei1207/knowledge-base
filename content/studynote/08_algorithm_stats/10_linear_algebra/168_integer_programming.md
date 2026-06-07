@@ -1,5 +1,5 @@
 ---
-title: "168. Integer Programming"
+title: "Integer Programming"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

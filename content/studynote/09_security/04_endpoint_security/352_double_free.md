@@ -1,5 +1,5 @@
 ---
-title: "352. Double Free (Double Free)"
+title: "Double Free (Double Free)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

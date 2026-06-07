@@ -1,5 +1,5 @@
 ---
-title: "074. Suffix Tree Array"
+title: "Suffix Tree Array"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

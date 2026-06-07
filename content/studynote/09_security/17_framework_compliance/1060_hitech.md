@@ -1,5 +1,5 @@
 ---
-title: "1060. HITECH (Health IT for Economic and Clinical Health Act)"
+title: "HITECH (Health IT for Economic and Clinical Health Act)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

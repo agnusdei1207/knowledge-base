@@ -1,5 +1,5 @@
 ---
-title: "370. BPTT (Backpropagation Through Time)"
+title: "BPTT (Backpropagation Through Time)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

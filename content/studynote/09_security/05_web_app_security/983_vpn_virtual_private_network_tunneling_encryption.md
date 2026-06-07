@@ -1,5 +1,5 @@
 ---
-title: "983. VPN (가상 사설망)"
+title: "VPN (가상 사설망)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

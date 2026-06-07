@@ -1,5 +1,5 @@
 ---
-title: "134. USE 메서드 - 인프라 자원 분석 방법론 (Utilization, Saturation, Errors)"
+title: "USE 메서드 - 인프라 자원 분석 방법론 (Utilization, Saturation, Errors)"
 date: "2026-06-07"
 tags:
   - "studynote-devops-sre"

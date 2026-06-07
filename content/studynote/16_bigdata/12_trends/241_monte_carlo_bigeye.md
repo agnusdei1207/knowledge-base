@@ -1,5 +1,5 @@
 ---
-title: "241. Monte Carlo Bigeye"
+title: "Monte Carlo Bigeye"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

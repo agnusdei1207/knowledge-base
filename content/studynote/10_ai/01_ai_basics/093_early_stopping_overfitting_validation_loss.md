@@ -1,5 +1,5 @@
 ---
-title: "093. Early Stopping Overfitting Validation Loss"
+title: "Early Stopping Overfitting Validation Loss"
 date: "2026-04-10"
 tags:
   - "studynote-ai"

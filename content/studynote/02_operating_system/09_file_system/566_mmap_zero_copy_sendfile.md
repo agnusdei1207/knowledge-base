@@ -1,5 +1,5 @@
 ---
-title: "566. Mmap Zero Copy Sendfile"
+title: "Mmap Zero Copy Sendfile"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

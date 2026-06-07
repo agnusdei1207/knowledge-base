@@ -1,5 +1,5 @@
 ---
-title: "180. MLflow"
+title: "MLflow"
 date: "2026-05-06"
 tags:
   - "studynote-ai"

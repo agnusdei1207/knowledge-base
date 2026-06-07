@@ -1,5 +1,5 @@
 ---
-title: "188. 감리 프레임워크 3대 관점"
+title: "감리 프레임워크 3대 관점"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

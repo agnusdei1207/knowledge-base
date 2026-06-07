@@ -1,5 +1,5 @@
 ---
-title: "920. Smart Contract Oracle Decentralized Offchain Data"
+title: "Smart Contract Oracle Decentralized Offchain Data"
 date: "2026-05-08"
 tags:
   - "studynote-network"

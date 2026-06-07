@@ -1,5 +1,5 @@
 ---
-title: "617. Service Discovery Eureka"
+title: "Service Discovery Eureka"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

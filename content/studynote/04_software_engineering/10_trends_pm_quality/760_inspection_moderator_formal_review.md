@@ -1,5 +1,5 @@
 ---
-title: "760. Inspection Moderator Formal Review"
+title: "Inspection Moderator Formal Review"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

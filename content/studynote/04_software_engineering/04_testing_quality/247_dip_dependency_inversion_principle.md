@@ -1,5 +1,5 @@
 ---
-title: "247. Dip Dependency Inversion Principle"
+title: "Dip Dependency Inversion Principle"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

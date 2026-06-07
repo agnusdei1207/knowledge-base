@@ -1,5 +1,5 @@
 ---
-title: "156. Data Fabric"
+title: "Data Fabric"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

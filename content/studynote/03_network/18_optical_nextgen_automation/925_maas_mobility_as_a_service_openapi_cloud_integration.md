@@ -1,5 +1,5 @@
 ---
-title: "925. Maas Mobility As A Service Openapi Cloud Integration"
+title: "Maas Mobility As A Service Openapi Cloud Integration"
 date: "2026-05-08"
 tags:
   - "studynote-network"

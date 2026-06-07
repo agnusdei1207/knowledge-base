@@ -1,5 +1,5 @@
 ---
-title: "267. Observer Pattern"
+title: "Observer Pattern"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

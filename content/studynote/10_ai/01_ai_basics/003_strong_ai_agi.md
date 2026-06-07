@@ -1,5 +1,5 @@
 ---
-title: "003. Strong Ai Agi"
+title: "Strong Ai Agi"
 date: "2026-03-04"
 tags:
   - "ai"

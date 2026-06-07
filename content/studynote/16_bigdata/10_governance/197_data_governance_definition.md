@@ -1,5 +1,5 @@
 ---
-title: "197. Data Governance Definition"
+title: "Data Governance Definition"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

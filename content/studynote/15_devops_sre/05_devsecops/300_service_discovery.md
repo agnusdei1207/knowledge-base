@@ -1,5 +1,5 @@
 ---
-title: "300. 서비스 디스커버리 동적 IP 라우팅 (Process)"
+title: "서비스 디스커버리 동적 IP 라우팅 (Process)"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

@@ -1,5 +1,5 @@
 ---
-title: "216. Liss Logic"
+title: "Liss Logic"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise-systems"

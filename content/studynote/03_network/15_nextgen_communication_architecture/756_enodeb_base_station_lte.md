@@ -1,5 +1,5 @@
 ---
-title: "756. Enodeb Base Station Lte"
+title: "Enodeb Base Station Lte"
 date: "2026-05-08"
 tags:
   - "studynote-network"

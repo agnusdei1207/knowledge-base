@@ -1,5 +1,5 @@
 ---
-title: "158. Requirements Management Change Control"
+title: "Requirements Management Change Control"
 date: "2026-04-03"
 tags:
   - "studynote-software-engineering"

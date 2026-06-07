@@ -1,5 +1,5 @@
 ---
-title: "837. Cloud Subnet Routing Igw Nat Gateway"
+title: "Cloud Subnet Routing Igw Nat Gateway"
 date: "2026-05-08"
 tags:
   - "studynote-network"

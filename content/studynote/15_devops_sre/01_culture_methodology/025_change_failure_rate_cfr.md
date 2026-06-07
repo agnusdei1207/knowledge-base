@@ -1,5 +1,5 @@
 ---
-title: "025. Change Failure Rate Cfr"
+title: "Change Failure Rate Cfr"
 date: "2026-04-29"
 tags:
   - "studynote-devops-sre"

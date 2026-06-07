@@ -1,5 +1,5 @@
 ---
-title: "1102. Optical Fiber Single Mode Multi Mode"
+title: "Optical Fiber Single Mode Multi Mode"
 date: "2026-05-08"
 tags:
   - "studynote-network"

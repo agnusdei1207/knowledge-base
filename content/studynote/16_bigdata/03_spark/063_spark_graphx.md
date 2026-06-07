@@ -1,5 +1,5 @@
 ---
-title: "063. Spark Graphx"
+title: "Spark Graphx"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"

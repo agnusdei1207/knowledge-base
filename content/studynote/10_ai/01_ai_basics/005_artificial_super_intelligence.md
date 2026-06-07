@@ -1,5 +1,5 @@
 ---
-title: "005. Artificial Super Intelligence"
+title: "Artificial Super Intelligence"
 date: "2026-03-04"
 tags:
   - "ai"

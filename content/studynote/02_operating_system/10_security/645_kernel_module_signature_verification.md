@@ -1,5 +1,5 @@
 ---
-title: "645. Kernel Module Signature Verification"
+title: "Kernel Module Signature Verification"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

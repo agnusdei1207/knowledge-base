@@ -1,5 +1,5 @@
 ---
-title: "434. NoSQL Injection (NoSQL Injection)"
+title: "NoSQL Injection (NoSQL Injection)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

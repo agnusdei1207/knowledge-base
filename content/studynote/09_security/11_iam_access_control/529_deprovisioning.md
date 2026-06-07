@@ -1,5 +1,5 @@
 ---
-title: "529. Deprovisioning"
+title: "Deprovisioning"
 date: "2026-05-08"
 tags:
   - "studynote-security"

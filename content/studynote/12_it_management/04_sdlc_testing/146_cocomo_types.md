@@ -1,5 +1,5 @@
 ---
-title: "146. Cocomo Types"
+title: "Cocomo Types"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

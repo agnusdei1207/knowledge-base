@@ -1,5 +1,5 @@
 ---
-title: "300. Schema On Write Vs Read"
+title: "Schema On Write Vs Read"
 date: "2026-05-09"
 tags:
   - "studynote-database"

@@ -1,5 +1,5 @@
 ---
-title: "871. Cryptographic Failures"
+title: "Cryptographic Failures"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

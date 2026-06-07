@@ -1,5 +1,5 @@
 ---
-title: "090. Fluxcd Gitops Pull Based Kubernetes Deployment"
+title: "Fluxcd Gitops Pull Based Kubernetes Deployment"
 date: "2026-04-10"
 tags:
   - "studynote-devops-sre"

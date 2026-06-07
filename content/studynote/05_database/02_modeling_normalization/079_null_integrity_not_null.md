@@ -1,5 +1,5 @@
 ---
-title: "079. Null Integrity Not Null"
+title: "Null Integrity Not Null"
 date: "2026-05-05"
 tags:
   - "studynote-database"

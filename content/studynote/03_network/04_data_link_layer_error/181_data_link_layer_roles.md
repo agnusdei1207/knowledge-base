@@ -1,5 +1,5 @@
 ---
-title: "181. Data Link Layer Roles"
+title: "Data Link Layer Roles"
 date: "2026-05-06"
 tags:
   - "studynote-network"

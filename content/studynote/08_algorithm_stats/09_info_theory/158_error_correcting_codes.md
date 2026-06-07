@@ -1,5 +1,5 @@
 ---
-title: "158. Error Correcting Codes"
+title: "Error Correcting Codes"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

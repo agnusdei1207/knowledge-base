@@ -1,5 +1,5 @@
 ---
-title: "716. Udp Flood Null Christmas Tree Attack"
+title: "Udp Flood Null Christmas Tree Attack"
 date: "2026-05-08"
 tags:
   - "studynote-network"

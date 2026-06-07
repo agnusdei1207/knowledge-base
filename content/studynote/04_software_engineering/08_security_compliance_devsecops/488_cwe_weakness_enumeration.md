@@ -1,5 +1,5 @@
 ---
-title: "488. Cwe Weakness Enumeration"
+title: "Cwe Weakness Enumeration"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

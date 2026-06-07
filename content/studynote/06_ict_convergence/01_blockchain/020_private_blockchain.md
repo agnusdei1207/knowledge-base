@@ -1,5 +1,5 @@
 ---
-title: "020. Private Blockchain"
+title: "Private Blockchain"
 date: "2026-03-04"
 tags:
   - "ict_convergence"

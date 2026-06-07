@@ -1,5 +1,5 @@
 ---
-title: "468. Disk Scheduling Purpose"
+title: "Disk Scheduling Purpose"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

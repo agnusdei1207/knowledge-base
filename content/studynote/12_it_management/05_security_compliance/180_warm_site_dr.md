@@ -1,5 +1,5 @@
 ---
-title: "180. 웜 사이트 (Warm Site)"
+title: "웜 사이트 (Warm Site)"
 date: "2026-05-06"
 tags:
   - "studynote-it-management"

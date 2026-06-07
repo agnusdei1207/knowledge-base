@@ -1,5 +1,5 @@
 ---
-title: "355. TOCTOU (Time-of-Check to Time-of-Use)"
+title: "TOCTOU (Time-of-Check to Time-of-Use)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "371. MISD"
+title: "MISD"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"

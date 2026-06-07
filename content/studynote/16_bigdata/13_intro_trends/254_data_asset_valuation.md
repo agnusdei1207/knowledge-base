@@ -1,5 +1,5 @@
 ---
-title: "254. Data Asset Valuation"
+title: "Data Asset Valuation"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"

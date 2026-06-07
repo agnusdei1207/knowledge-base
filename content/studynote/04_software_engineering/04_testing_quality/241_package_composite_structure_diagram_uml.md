@@ -1,5 +1,5 @@
 ---
-title: "241. Package Composite Structure Diagram Uml"
+title: "Package Composite Structure Diagram Uml"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

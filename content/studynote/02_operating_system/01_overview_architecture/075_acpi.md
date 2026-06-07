@@ -1,5 +1,5 @@
 ---
-title: "75. ACPI (Advanced Configuration and Power Interface)"
+title: "ACPI (Advanced Configuration and Power Interface)"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"

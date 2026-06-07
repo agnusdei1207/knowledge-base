@@ -1,5 +1,5 @@
 ---
-title: "147. Ddd Domain Driven Design"
+title: "Ddd Domain Driven Design"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "002. Time Complexity"
+title: "Time Complexity"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

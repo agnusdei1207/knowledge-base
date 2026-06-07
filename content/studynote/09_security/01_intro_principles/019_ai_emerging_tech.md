@@ -1,5 +1,5 @@
 ---
-title: "019. Ai Emerging Tech"
+title: "Ai Emerging Tech"
 date: "2025-02-24"
 tags:
   - "security"

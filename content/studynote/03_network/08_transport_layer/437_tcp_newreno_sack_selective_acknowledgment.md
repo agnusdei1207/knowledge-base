@@ -1,5 +1,5 @@
 ---
-title: "437. Tcp Newreno Sack Selective Acknowledgment"
+title: "Tcp Newreno Sack Selective Acknowledgment"
 date: "2026-05-08"
 tags:
   - "studynote-network"

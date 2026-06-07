@@ -1,5 +1,5 @@
 ---
-title: "756. Zachman Framework Matrix"
+title: "Zachman Framework Matrix"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

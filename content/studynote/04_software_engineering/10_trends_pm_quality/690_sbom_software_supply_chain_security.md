@@ -1,5 +1,5 @@
 ---
-title: "690. Sbom Software Supply Chain Security"
+title: "Sbom Software Supply Chain Security"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "151. Quantum Computing Threats"
+title: "Quantum Computing Threats"
 date: "2026-05-03"
 tags:
   - "studynote-security"

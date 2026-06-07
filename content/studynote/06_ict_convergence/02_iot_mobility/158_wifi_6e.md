@@ -1,5 +1,5 @@
 ---
-title: "158. Wifi 6E"
+title: "Wifi 6E"
 date: "2026-05-05"
 tags:
   - "studynote-ict-convergence"

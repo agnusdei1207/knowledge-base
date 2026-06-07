@@ -1,5 +1,5 @@
 ---
-title: "255. 그로스 해킹 AARRR"
+title: "그로스 해킹 AARRR"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

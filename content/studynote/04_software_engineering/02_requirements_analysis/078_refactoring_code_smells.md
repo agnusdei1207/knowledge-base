@@ -1,5 +1,5 @@
 ---
-title: "078. Refactoring Code Smells"
+title: "Refactoring Code Smells"
 date: "2026-06-07"
 tags:
   - "software_engineering"

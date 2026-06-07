@@ -1,5 +1,5 @@
 ---
-title: "288. WBS 100% Rule 작업 패키지"
+title: "WBS 100% Rule 작업 패키지"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

@@ -1,5 +1,5 @@
 ---
-title: "225. Telecom Bigdata"
+title: "Telecom Bigdata"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

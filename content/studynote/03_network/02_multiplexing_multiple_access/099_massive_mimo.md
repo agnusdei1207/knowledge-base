@@ -1,5 +1,5 @@
 ---
-title: "099. Massive MIMO"
+title: "Massive MIMO"
 date: "2026-03-04"
 tags:
   - "network"

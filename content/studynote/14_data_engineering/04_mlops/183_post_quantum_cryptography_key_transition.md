@@ -1,5 +1,5 @@
 ---
-title: "183. Post Quantum Cryptography Key Transition"
+title: "Post Quantum Cryptography Key Transition"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

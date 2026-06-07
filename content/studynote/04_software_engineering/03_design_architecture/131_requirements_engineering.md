@@ -1,5 +1,5 @@
 ---
-title: "131. Requirements Engineering"
+title: "Requirements Engineering"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"

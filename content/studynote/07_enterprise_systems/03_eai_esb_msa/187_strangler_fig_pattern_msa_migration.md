@@ -1,5 +1,5 @@
 ---
-title: "187. Strangler Fig Pattern Msa Migration"
+title: "Strangler Fig Pattern Msa Migration"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise-systems"

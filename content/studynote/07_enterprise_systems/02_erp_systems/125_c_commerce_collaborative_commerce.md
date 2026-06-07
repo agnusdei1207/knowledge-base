@@ -1,5 +1,5 @@
 ---
-title: "125. C Commerce Collaborative Commerce"
+title: "C Commerce Collaborative Commerce"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"

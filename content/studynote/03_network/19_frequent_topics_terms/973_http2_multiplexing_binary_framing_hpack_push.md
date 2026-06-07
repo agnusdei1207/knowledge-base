@@ -1,5 +1,5 @@
 ---
-title: "973. Http2 Multiplexing Binary Framing Hpack Push"
+title: "Http2 Multiplexing Binary Framing Hpack Push"
 date: "2026-05-08"
 tags:
   - "studynote-network"

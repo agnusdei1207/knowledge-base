@@ -1,5 +1,5 @@
 ---
-title: "432. Time-based Blind SQL Injection (Time-based Blind SQL Injection)"
+title: "Time-based Blind SQL Injection (Time-based Blind SQL Injection)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

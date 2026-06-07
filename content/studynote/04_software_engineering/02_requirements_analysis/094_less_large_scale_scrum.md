@@ -1,5 +1,5 @@
 ---
-title: "094. Less Large Scale Scrum"
+title: "Less Large Scale Scrum"
 date: "2026-06-07"
 tags:
   - "software_engineering"

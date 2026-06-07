@@ -1,5 +1,5 @@
 ---
-title: "119. Gitops Single Source Of Truth"
+title: "Gitops Single Source Of Truth"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"

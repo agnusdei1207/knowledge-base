@@ -1,5 +1,5 @@
 ---
-title: "963. Subnet Mask Cidr Classless Inter Domain Routing"
+title: "Subnet Mask Cidr Classless Inter Domain Routing"
 date: "2026-05-08"
 tags:
   - "studynote-network"

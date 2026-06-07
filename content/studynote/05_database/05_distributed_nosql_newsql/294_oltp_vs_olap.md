@@ -1,5 +1,5 @@
 ---
-title: "294. HTAP"
+title: "HTAP"
 date: "2026-05-09"
 tags:
   - "studynote-database"

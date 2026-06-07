@@ -1,5 +1,5 @@
 ---
-title: "111. Licensed Lpwan Nb Iot Lte M"
+title: "Licensed Lpwan Nb Iot Lte M"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"

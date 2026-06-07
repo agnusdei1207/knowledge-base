@@ -1,5 +1,5 @@
 ---
-title: "23. 파이브 포스 모델 (Five Forces Model)"
+title: "파이브 포스 모델 (Five Forces Model)"
 date: "2026-04-29"
 tags:
   - "studynote-it-management"

@@ -1,5 +1,5 @@
 ---
-title: "501. Xss Types"
+title: "Xss Types"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

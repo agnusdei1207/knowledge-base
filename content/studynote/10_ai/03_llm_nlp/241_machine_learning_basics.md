@@ -1,5 +1,5 @@
 ---
-title: "241. Machine Learning Basics"
+title: "Machine Learning Basics"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

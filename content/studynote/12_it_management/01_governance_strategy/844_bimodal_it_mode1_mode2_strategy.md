@@ -1,5 +1,5 @@
 ---
-title: "844. Bimodal It Mode1 Mode2 Strategy"
+title: "Bimodal It Mode1 Mode2 Strategy"
 date: "2025-05-14"
 tags:
   - "studynote-it-management"

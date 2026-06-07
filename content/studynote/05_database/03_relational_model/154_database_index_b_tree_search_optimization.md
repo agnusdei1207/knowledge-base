@@ -1,5 +1,5 @@
 ---
-title: "154. Database Index B Tree Search Optimization"
+title: "Database Index B Tree Search Optimization"
 date: "2026-05-03"
 tags:
   - "studynote-database"

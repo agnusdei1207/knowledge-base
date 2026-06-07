@@ -1,5 +1,5 @@
 ---
-title: "1076. Arp Spoofing Mitm Dynamic Arp Inspection Dai"
+title: "Arp Spoofing Mitm Dynamic Arp Inspection Dai"
 date: "2026-05-08"
 tags:
   - "studynote-network"

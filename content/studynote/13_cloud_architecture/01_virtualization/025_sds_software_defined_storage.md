@@ -1,5 +1,5 @@
 ---
-title: "025. Sds Software Defined Storage"
+title: "Sds Software Defined Storage"
 date: "2026-04-29"
 tags:
   - "studynote-cloud-architecture"

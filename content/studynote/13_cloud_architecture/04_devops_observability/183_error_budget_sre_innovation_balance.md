@@ -1,5 +1,5 @@
 ---
-title: "183. Error Budget Sre Innovation Balance"
+title: "Error Budget Sre Innovation Balance"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"

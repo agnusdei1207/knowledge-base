@@ -1,5 +1,5 @@
 ---
-title: "034. Context Switch"
+title: "Context Switch"
 date: "2026-03-04"
 tags:
   - "studynote-operating-system"

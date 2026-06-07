@@ -1,5 +1,5 @@
 ---
-title: "1007. Mtbf Mean Time Between Failures Mttf Reliability"
+title: "Mtbf Mean Time Between Failures Mttf Reliability"
 date: "2026-05-08"
 tags:
   - "studynote-network"

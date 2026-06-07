@@ -1,5 +1,5 @@
 ---
-title: "069. 고전 암호 — 치환 암호, 전치 암호"
+title: "고전 암호 — 치환 암호, 전치 암호"
 date: "2026-06-07"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "191. 오픈소스 (OSS) 라이선스 컴플라이언스 점검 (GPL 전염성 위배 등 상용 릴리스 위험 방지)"
+title: "오픈소스 (OSS) 라이선스 컴플라이언스 점검 (GPL 전염성 위배 등 상용 릴리스 위험 방지)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

@@ -1,5 +1,5 @@
 ---
-title: "466. Logical Block Address Lba"
+title: "Logical Block Address Lba"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

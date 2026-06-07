@@ -1,5 +1,5 @@
 ---
-title: "089. Exploding Gradient Clipping"
+title: "Exploding Gradient Clipping"
 date: "2026-04-10"
 tags:
   - "studynote-ai"

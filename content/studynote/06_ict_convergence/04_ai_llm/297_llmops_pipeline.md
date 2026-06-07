@@ -1,5 +1,5 @@
 ---
-title: "297. LLMOps (Llmops Pipeline)"
+title: "LLMOps (Llmops Pipeline)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"

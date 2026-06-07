@@ -1,5 +1,5 @@
 ---
-title: "168. Clustering Factor Index Physical Alignment"
+title: "Clustering Factor Index Physical Alignment"
 date: "2026-04-03"
 tags:
   - "database"

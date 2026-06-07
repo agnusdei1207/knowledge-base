@@ -1,5 +1,5 @@
 ---
-title: "624. SIEM (Security Information and Event Management)"
+title: "SIEM (Security Information and Event Management)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

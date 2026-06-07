@@ -1,5 +1,5 @@
 ---
-title: "136. Prompt Tuning"
+title: "Prompt Tuning"
 date: "2026-04-19"
 tags:
   - "studynote-ai"

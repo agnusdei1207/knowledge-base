@@ -1,5 +1,5 @@
 ---
-title: "111. Thread Cancellation"
+title: "Thread Cancellation"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"

@@ -1,5 +1,5 @@
 ---
-title: "610. 메모리 관리 보안 (Memory Management Security)"
+title: "메모리 관리 보안 (Memory Management Security)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

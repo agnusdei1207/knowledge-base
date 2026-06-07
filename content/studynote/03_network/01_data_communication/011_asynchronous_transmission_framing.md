@@ -1,5 +1,5 @@
 ---
-title: "011. Asynchronous Transmission & Framing"
+title: "Asynchronous Transmission & Framing"
 date: "2026-03-30"
 tags:
   - "Network"

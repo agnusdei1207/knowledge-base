@@ -1,5 +1,5 @@
 ---
-title: "340. t-SNE / UMAP (T SNE UMAP Dimensionality Reduction)"
+title: "t-SNE / UMAP (T SNE UMAP Dimensionality Reduction)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"

@@ -1,5 +1,5 @@
 ---
-title: "155. Dark Silicon"
+title: "Dark Silicon"
 date: "2026-05-03"
 tags:
   - "studynote-computer-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "238. Wide Column Cassandra Hbase Lsm"
+title: "Wide Column Cassandra Hbase Lsm"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "169. Opc Ua Industrial Automation"
+title: "Opc Ua Industrial Automation"
 date: "2026-04-16"
 tags:
   - "studynote-ict-convergence"

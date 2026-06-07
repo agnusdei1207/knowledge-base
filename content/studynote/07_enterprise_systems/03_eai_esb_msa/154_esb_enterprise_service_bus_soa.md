@@ -1,5 +1,5 @@
 ---
-title: "154. Esb Enterprise Service Bus Soa"
+title: "Esb Enterprise Service Bus Soa"
 date: "2026-05-03"
 tags:
   - "studynote-enterprise-systems"

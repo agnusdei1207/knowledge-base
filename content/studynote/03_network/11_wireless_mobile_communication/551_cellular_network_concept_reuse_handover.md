@@ -1,5 +1,5 @@
 ---
-title: "551. Cellular Network Concept Reuse Handover"
+title: "Cellular Network Concept Reuse Handover"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "408. 디스럽터 락프리 고속 [동시성] 큐"
+title: "디스럽터 락프리 고속 [동시성] 큐"
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

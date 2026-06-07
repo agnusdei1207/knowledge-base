@@ -1,5 +1,5 @@
 ---
-title: "615. Lpwan Low Power Wide Area Network"
+title: "Lpwan Low Power Wide Area Network"
 date: "2026-05-08"
 tags:
   - "studynote-network"

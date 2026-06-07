@@ -1,5 +1,5 @@
 ---
-title: "217. Kubernetes"
+title: "Kubernetes"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

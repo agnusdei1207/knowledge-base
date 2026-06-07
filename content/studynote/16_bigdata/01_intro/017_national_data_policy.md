@@ -1,5 +1,5 @@
 ---
-title: "017. National Data Policy"
+title: "National Data Policy"
 date: "2024-05-24"
 tags:
   - "bigdata"

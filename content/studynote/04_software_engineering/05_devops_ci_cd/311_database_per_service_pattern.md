@@ -1,5 +1,5 @@
 ---
-title: "311. Database Per Service Pattern"
+title: "Database Per Service Pattern"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

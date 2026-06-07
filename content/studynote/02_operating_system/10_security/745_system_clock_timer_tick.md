@@ -1,5 +1,5 @@
 ---
-title: "745. 시스템 클럭 타이머 틱"
+title: "시스템 클럭 타이머 틱"
 date: "2026-06-07"
 tags:
   - "studynote-operating-system"

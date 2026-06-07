@@ -1,5 +1,5 @@
 ---
-title: "234. Communication Management Plan"
+title: "Communication Management Plan"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"

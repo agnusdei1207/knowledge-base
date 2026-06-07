@@ -1,5 +1,5 @@
 ---
-title: "718. EDAC (Error Detection and Correction)"
+title: "EDAC (Error Detection and Correction)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

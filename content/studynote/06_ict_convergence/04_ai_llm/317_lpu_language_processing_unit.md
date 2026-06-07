@@ -1,5 +1,5 @@
 ---
-title: "317. LPU (Language Processing Unit)"
+title: "LPU (Language Processing Unit)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"

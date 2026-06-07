@@ -1,5 +1,5 @@
 ---
-title: "597. LM Hash (LM Hash)"
+title: "LM Hash (LM Hash)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

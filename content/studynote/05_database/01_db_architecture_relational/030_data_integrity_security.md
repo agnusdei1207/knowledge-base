@@ -1,5 +1,5 @@
 ---
-title: "030. Data Integrity Security"
+title: "Data Integrity Security"
 date: "2026-04-29"
 tags:
   - "studynote-database"

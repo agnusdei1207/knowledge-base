@@ -1,5 +1,5 @@
 ---
-title: "296. Fault Tolerance Architecture"
+title: "Fault Tolerance Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

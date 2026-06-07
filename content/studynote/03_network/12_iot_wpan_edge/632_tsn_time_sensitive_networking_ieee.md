@@ -1,5 +1,5 @@
 ---
-title: "632. TSN (Time-Sensitive Networking)"
+title: "TSN (Time-Sensitive Networking)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

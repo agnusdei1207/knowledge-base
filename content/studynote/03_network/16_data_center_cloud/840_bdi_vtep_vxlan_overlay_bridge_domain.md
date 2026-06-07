@@ -1,5 +1,5 @@
 ---
-title: "840. Bdi Vtep Vxlan Overlay Bridge Domain"
+title: "Bdi Vtep Vxlan Overlay Bridge Domain"
 date: "2026-05-08"
 tags:
   - "studynote-network"

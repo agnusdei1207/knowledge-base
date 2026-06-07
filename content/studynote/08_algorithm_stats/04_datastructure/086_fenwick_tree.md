@@ -1,5 +1,5 @@
 ---
-title: "086. Fenwick Tree"
+title: "Fenwick Tree"
 date: "2026-04-29"
 tags:
   - "studynote-algorithm-stats"

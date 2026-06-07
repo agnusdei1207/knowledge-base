@@ -1,5 +1,5 @@
 ---
-title: "241. 정보화 전략 계획 (ISP) AS-IS / TO-BE"
+title: "정보화 전략 계획 (ISP) AS-IS / TO-BE"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

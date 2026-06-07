@@ -1,5 +1,5 @@
 ---
-title: "227. 설명 가능한 AI (XAI) 도입"
+title: "설명 가능한 AI (XAI) 도입"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

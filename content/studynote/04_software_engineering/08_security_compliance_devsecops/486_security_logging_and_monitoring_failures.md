@@ -1,5 +1,5 @@
 ---
-title: "486. Security Logging And Monitoring Failures"
+title: "Security Logging And Monitoring Failures"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

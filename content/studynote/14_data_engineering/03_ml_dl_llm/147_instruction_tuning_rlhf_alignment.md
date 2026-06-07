@@ -1,5 +1,5 @@
 ---
-title: "147. Instruction Tuning Rlhf Alignment"
+title: "Instruction Tuning Rlhf Alignment"
 date: "2026-04-19"
 tags:
   - "studynote-data-engineering"

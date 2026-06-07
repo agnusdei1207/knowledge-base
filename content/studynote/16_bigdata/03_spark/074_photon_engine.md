@@ -1,5 +1,5 @@
 ---
-title: "074. Photon Engine"
+title: "Photon Engine"
 date: "2026-04-29"
 tags:
   - "studynote-bigdata"

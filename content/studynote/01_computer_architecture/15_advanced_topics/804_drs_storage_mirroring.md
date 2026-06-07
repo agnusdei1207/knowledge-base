@@ -1,5 +1,5 @@
 ---
-title: "804. Drs Storage Mirroring"
+title: "Drs Storage Mirroring"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "442. Test Scenario"
+title: "Test Scenario"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

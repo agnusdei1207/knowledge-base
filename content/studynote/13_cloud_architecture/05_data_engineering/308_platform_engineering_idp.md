@@ -1,5 +1,5 @@
 ---
-title: "308. 플랫폼 엔지니어링 IDP 인지 부하 감소 골든 패스 (IDP)"
+title: "플랫폼 엔지니어링 IDP 인지 부하 감소 골든 패스 (IDP)"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"

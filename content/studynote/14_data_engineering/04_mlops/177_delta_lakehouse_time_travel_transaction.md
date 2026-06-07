@@ -1,5 +1,5 @@
 ---
-title: "177. Delta Lakehouse Time Travel Transaction"
+title: "Delta Lakehouse Time Travel Transaction"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

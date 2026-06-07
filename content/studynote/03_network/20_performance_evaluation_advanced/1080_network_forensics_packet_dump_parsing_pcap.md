@@ -1,5 +1,5 @@
 ---
-title: "1080. Network Forensics Packet Dump Parsing Pcap"
+title: "Network Forensics Packet Dump Parsing Pcap"
 date: "2026-05-08"
 tags:
   - "studynote-network"

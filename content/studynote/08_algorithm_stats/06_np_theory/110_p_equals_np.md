@@ -1,5 +1,5 @@
 ---
-title: "110. P Equals Np"
+title: "P Equals Np"
 date: "2026-04-05"
 tags:
   - "studynote-algorithm-stats"

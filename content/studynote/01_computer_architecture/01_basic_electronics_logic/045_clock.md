@@ -1,5 +1,5 @@
 ---
-title: "045. Clock"
+title: "Clock"
 date: "2026-04-05"
 tags:
   - "studynote-computer-architecture"

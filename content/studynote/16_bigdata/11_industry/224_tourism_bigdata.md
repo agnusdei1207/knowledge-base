@@ -1,5 +1,5 @@
 ---
-title: "224. Tourism Bigdata"
+title: "Tourism Bigdata"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

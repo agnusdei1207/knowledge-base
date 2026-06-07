@@ -1,5 +1,5 @@
 ---
-title: "110. Zero Downtime Db Schema Rollout"
+title: "Zero Downtime Db Schema Rollout"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"

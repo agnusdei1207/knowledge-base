@@ -1,5 +1,5 @@
 ---
-title: "626. V Model Development Testing Mapping"
+title: "V Model Development Testing Mapping"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

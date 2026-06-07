@@ -1,5 +1,5 @@
 ---
-title: "237. Document Store Mongodb Elasticsearch"
+title: "Document Store Mongodb Elasticsearch"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"

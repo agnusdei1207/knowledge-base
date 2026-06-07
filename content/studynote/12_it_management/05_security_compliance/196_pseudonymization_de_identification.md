@@ -1,5 +1,5 @@
 ---
-title: "196. 개인정보 가명 처리 (Pseudonymization) 및 비식별화 (De-identification)"
+title: "개인정보 가명 처리 (Pseudonymization) 및 비식별화 (De-identification)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

@@ -1,5 +1,5 @@
 ---
-title: "136. 브레인스토밍 / JAD (Brainstorming)"
+title: "브레인스토밍 / JAD (Brainstorming)"
 date: "2026-06-07"
 tags:
   - "studynote-software-engineering"

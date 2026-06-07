@@ -1,5 +1,5 @@
 ---
-title: "169.254.x.x"
+title: "254.x.x"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "529. Memory Safety Rust Go"
+title: "Memory Safety Rust Go"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

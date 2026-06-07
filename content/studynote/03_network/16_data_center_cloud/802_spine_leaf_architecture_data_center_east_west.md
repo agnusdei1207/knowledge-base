@@ -1,5 +1,5 @@
 ---
-title: "802. Spine Leaf Architecture Data Center East West"
+title: "Spine Leaf Architecture Data Center East West"
 date: "2026-05-08"
 tags:
   - "studynote-network"

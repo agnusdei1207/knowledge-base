@@ -1,5 +1,5 @@
 ---
-title: "077. Enterprise Portal Eip"
+title: "Enterprise Portal Eip"
 date: "2026-04-07"
 tags:
   - "studynote-enterprise-systems"

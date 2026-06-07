@@ -1,5 +1,5 @@
 ---
-title: "506. CDN (Content Delivery/Distribution Network)"
+title: "CDN (Content Delivery/Distribution Network)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

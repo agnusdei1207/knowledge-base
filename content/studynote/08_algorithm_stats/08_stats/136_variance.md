@@ -1,5 +1,5 @@
 ---
-title: "136. Variance"
+title: "Variance"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

@@ -1,5 +1,5 @@
 ---
-title: "105. Third Normal Form 3Nf Transitive"
+title: "Third Normal Form 3Nf Transitive"
 date: "2026-06-07"
 tags:
   - "database"

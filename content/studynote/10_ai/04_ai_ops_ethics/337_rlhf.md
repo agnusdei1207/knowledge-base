@@ -1,5 +1,5 @@
 ---
-title: "337. RLHF (Reinforcement Learning from Human Feedback)"
+title: "RLHF (Reinforcement Learning from Human Feedback)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

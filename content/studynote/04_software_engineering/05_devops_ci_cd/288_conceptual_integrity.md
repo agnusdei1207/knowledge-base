@@ -1,5 +1,5 @@
 ---
-title: "288. Conceptual Integrity"
+title: "Conceptual Integrity"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

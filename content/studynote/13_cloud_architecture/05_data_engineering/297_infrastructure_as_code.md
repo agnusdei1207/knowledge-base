@@ -1,5 +1,5 @@
 ---
-title: "297. 인프라스트럭처 애즈 코드 테라폼 멱등성 (IaC)"
+title: "인프라스트럭처 애즈 코드 테라폼 멱등성 (IaC)"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"

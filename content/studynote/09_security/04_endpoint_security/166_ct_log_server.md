@@ -1,5 +1,5 @@
 ---
-title: "166. Ct Log Server"
+title: "Ct Log Server"
 date: "2026-04-05"
 tags:
   - "studynote-security"

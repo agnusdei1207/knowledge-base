@@ -1,5 +1,5 @@
 ---
-title: "543. LDAP (Lightweight Directory Access Protocol)"
+title: "LDAP (Lightweight Directory Access Protocol)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

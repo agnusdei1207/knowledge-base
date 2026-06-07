@@ -1,5 +1,5 @@
 ---
-title: "295. BEAST (Browser Exploit Against SSL/TLS)"
+title: "BEAST (Browser Exploit Against SSL/TLS)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

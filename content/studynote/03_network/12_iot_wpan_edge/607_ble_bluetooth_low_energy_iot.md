@@ -1,5 +1,5 @@
 ---
-title: "607. BLE (Bluetooth Low Energy)"
+title: "BLE (Bluetooth Low Energy)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

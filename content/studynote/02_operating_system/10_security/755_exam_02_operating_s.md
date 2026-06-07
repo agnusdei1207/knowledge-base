@@ -1,5 +1,5 @@
 ---
-title: "755. 고아 [좀비 프로세스] init 처리"
+title: "고아 [좀비 프로세스] init 처리"
 date: "2026-06-07"
 tags:
   - "studynote-operating-system"

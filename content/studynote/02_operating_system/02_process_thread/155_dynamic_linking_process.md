@@ -1,5 +1,5 @@
 ---
-title: "155. Dynamic Linking Process"
+title: "Dynamic Linking Process"
 date: "2026-05-03"
 tags:
   - "studynote-operating-system"

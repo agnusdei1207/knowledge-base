@@ -1,5 +1,5 @@
 ---
-title: "616. Amdahl Law Multicore Scaling"
+title: "Amdahl Law Multicore Scaling"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

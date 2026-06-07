@@ -1,5 +1,5 @@
 ---
-title: "113. Denormalization Techniques Merge Split"
+title: "Denormalization Techniques Merge Split"
 date: "2026-04-19"
 tags:
   - "studynote-database"

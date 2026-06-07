@@ -1,5 +1,5 @@
 ---
-title: "139. Window Function Analytics"
+title: "Window Function Analytics"
 date: "2026-04-19"
 tags:
   - "studynote-database"

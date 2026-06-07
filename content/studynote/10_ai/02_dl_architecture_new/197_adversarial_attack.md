@@ -1,5 +1,5 @@
 ---
-title: "197. Adversarial Attack"
+title: "Adversarial Attack"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

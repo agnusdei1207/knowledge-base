@@ -1,5 +1,5 @@
 ---
-title: "1088. Ecn Explicit Congestion Notification Queue"
+title: "Ecn Explicit Congestion Notification Queue"
 date: "2026-05-08"
 tags:
   - "studynote-network"

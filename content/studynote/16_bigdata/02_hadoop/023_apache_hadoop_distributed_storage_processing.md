@@ -1,5 +1,5 @@
 ---
-title: "023. Apache Hadoop Distributed Storage Processing"
+title: "Apache Hadoop Distributed Storage Processing"
 date: "2026-03-04"
 tags:
   - "hadoop"

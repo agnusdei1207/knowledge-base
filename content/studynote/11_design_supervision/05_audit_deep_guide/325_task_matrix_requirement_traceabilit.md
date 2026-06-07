@@ -1,5 +1,5 @@
 ---
-title: "325. 과업 대비표 요건 추적성"
+title: "과업 대비표 요건 추적성"
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

@@ -1,5 +1,5 @@
 ---
-title: "010. Backtracking"
+title: "Backtracking"
 date: "2026-06-07"
 tags:
   - "algorithm_stats"

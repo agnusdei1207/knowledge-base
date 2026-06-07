@@ -1,5 +1,5 @@
 ---
-title: "446. MPTCP (Multipath TCP)"
+title: "MPTCP (Multipath TCP)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

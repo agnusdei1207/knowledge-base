@@ -1,5 +1,5 @@
 ---
-title: "539. Event Bus Stream Processing"
+title: "Event Bus Stream Processing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

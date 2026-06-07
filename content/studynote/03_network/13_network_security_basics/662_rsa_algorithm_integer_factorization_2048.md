@@ -1,5 +1,5 @@
 ---
-title: "662. Rsa Algorithm Integer Factorization 2048"
+title: "Rsa Algorithm Integer Factorization 2048"
 date: "2026-05-08"
 tags:
   - "studynote-network"

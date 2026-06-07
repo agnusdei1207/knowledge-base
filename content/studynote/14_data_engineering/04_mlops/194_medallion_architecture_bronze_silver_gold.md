@@ -1,5 +1,5 @@
 ---
-title: "194. Medallion Architecture Bronze Silver Gold"
+title: "Medallion Architecture Bronze Silver Gold"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

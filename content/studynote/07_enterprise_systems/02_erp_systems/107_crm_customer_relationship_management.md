@@ -1,5 +1,5 @@
 ---
-title: "107. Crm Customer Relationship Management"
+title: "Crm Customer Relationship Management"
 date: "2026-06-07"
 tags:
   - "enterprise_systems"

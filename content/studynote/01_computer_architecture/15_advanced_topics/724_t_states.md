@@ -1,5 +1,5 @@
 ---
-title: "724. T-States (Throttling States)"
+title: "T-States (Throttling States)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

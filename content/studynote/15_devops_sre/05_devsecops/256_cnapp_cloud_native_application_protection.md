@@ -1,5 +1,5 @@
 ---
-title: "256. CNAPP (Cloud-Native Application Protection Platform)"
+title: "CNAPP (Cloud-Native Application Protection Platform)"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

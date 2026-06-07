@@ -1,5 +1,5 @@
 ---
-title: "320. Gnn Vector Db Recommendation"
+title: "Gnn Vector Db Recommendation"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"

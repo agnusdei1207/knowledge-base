@@ -1,5 +1,5 @@
 ---
-title: "363. Inverted Page Table"
+title: "Inverted Page Table"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

@@ -1,5 +1,5 @@
 ---
-title: "002. Software Crisis"
+title: "Software Crisis"
 date: "2024-05-20"
 tags:
   - "software_engineering"

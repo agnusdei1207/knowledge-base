@@ -1,5 +1,5 @@
 ---
-title: "693. Nids Network Intrusion Detection System"
+title: "Nids Network Intrusion Detection System"
 date: "2026-05-08"
 tags:
   - "studynote-network"

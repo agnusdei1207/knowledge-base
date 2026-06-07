@@ -1,5 +1,5 @@
 ---
-title: "150. 5G Sa Standalone Architecture"
+title: "5G Sa Standalone Architecture"
 date: "2026-05-03"
 tags:
   - "studynote-ict-convergence"

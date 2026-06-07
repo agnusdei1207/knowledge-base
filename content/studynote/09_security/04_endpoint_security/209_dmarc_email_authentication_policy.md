@@ -1,5 +1,5 @@
 ---
-title: "209. DMARC (Domain-based Message Authentication, Reporting & Conformance)"
+title: "DMARC (Domain-based Message Authentication, Reporting & Conformance)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

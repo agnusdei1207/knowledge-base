@@ -1,5 +1,5 @@
 ---
-title: "181. 콜드 사이트 (Cold Site)"
+title: "콜드 사이트 (Cold Site)"
 date: "2026-05-06"
 tags:
   - "studynote-it-management"

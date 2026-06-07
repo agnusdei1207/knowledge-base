@@ -1,5 +1,5 @@
 ---
-title: "06. Apache Tez"
+title: "Apache Tez"
 date: "2026-06-07"
 tags:
   - "bigdata"

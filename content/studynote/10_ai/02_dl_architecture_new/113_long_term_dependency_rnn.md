@@ -1,5 +1,5 @@
 ---
-title: "113. Long Term Dependency Rnn"
+title: "Long Term Dependency Rnn"
 date: "2026-04-19"
 tags:
   - "studynote-ai"

@@ -1,5 +1,5 @@
 ---
-title: "247. BSC 균형 성과 기록표 4관점"
+title: "BSC 균형 성과 기록표 4관점"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

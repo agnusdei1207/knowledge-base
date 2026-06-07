@@ -1,5 +1,5 @@
 ---
-title: "094. Batch Normalization Internal Covariate Shift"
+title: "Batch Normalization Internal Covariate Shift"
 date: "2026-04-10"
 tags:
   - "studynote-ai"

@@ -1,5 +1,5 @@
 ---
-title: "282. Performance Tactics"
+title: "Performance Tactics"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

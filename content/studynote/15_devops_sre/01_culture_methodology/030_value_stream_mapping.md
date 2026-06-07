@@ -1,5 +1,5 @@
 ---
-title: "030. Value Stream Mapping"
+title: "Value Stream Mapping"
 date: "2026-04-29"
 tags:
   - "studynote-devops-sre"

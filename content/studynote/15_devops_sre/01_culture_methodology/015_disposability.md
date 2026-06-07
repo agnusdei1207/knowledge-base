@@ -1,5 +1,5 @@
 ---
-title: "015. Disposability"
+title: "Disposability"
 date: "2026-04-05"
 tags:
   - "devops_sre"

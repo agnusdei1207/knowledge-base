@@ -1,5 +1,5 @@
 ---
-title: "82. IEEE 1471 (ISO/IEC 42010)"
+title: "IEEE 1471 (ISO/IEC 42010)"
 date: "2026-05-08"
 tags:
   - "studynote-design-supervision"

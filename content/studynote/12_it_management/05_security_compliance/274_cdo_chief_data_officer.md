@@ -1,5 +1,5 @@
 ---
-title: "274. CDO 데이터 총괄 임원"
+title: "CDO 데이터 총괄 임원"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

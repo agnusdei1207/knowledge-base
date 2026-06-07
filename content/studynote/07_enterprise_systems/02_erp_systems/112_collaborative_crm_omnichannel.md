@@ -1,5 +1,5 @@
 ---
-title: "112. Collaborative Crm Omnichannel"
+title: "Collaborative Crm Omnichannel"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"

@@ -1,5 +1,5 @@
 ---
-title: "608. Function Point Verification"
+title: "Function Point Verification"
 date: "2026-04-29"
 tags:
   - "studynote-design-supervision"

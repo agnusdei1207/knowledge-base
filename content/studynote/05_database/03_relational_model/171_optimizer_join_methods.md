@@ -1,5 +1,5 @@
 ---
-title: "171. Optimizer Join Methods"
+title: "Optimizer Join Methods"
 date: "2026-05-06"
 tags:
   - "studynote-database"

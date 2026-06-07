@@ -1,5 +1,5 @@
 ---
-title: "852. Sdn Control Plane Centralized Logic Global View"
+title: "Sdn Control Plane Centralized Logic Global View"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "303. Stream Processing Db"
+title: "Stream Processing Db"
 date: "2026-05-09"
 tags:
   - "studynote-database"

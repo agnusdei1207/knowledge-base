@@ -1,5 +1,5 @@
 ---
-title: "030. Sle Single Loss Expectancy"
+title: "Sle Single Loss Expectancy"
 date: "2026-04-29"
 tags:
   - "studynote-security"

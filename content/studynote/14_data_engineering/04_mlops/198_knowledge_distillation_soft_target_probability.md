@@ -1,5 +1,5 @@
 ---
-title: "198. Knowledge Distillation Soft Target Probability"
+title: "Knowledge Distillation Soft Target Probability"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

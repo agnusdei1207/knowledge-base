@@ -1,5 +1,5 @@
 ---
-title: "342. Full RELRO (Full RELRO)"
+title: "Full RELRO (Full RELRO)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

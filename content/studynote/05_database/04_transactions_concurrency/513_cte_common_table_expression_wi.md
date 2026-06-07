@@ -1,5 +1,5 @@
 ---
-title: "513. 트리 구조 CTE (Common Table Expression) WITH 절 재귀"
+title: "트리 구조 CTE (Common Table Expression) WITH 절 재귀"
 date: "2026-06-07"
 tags:
   - "studynote-database"

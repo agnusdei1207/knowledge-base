@@ -1,5 +1,5 @@
 ---
-title: "799. ARM CCA (Confidential Compute Architecture)"
+title: "ARM CCA (Confidential Compute Architecture)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

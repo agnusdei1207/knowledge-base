@@ -1,5 +1,5 @@
 ---
-title: "481. SSE (Server-Sent Events)"
+title: "SSE (Server-Sent Events)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

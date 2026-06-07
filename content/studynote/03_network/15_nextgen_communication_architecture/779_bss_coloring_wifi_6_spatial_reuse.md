@@ -1,5 +1,5 @@
 ---
-title: "779. Bss Coloring Wifi 6 Spatial Reuse"
+title: "Bss Coloring Wifi 6 Spatial Reuse"
 date: "2026-05-08"
 tags:
   - "studynote-network"

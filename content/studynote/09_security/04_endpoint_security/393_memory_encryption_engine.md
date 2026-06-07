@@ -1,5 +1,5 @@
 ---
-title: "393. Memory Encryption Engine"
+title: "Memory Encryption Engine"
 date: "2026-05-08"
 tags:
   - "studynote-security"

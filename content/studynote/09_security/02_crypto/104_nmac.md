@@ -1,5 +1,5 @@
 ---
-title: "104. NMAC (Nested MAC)"
+title: "NMAC (Nested MAC)"
 date: "2026-04-05"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "178. Parquet Rle Encoding Columnar Compression"
+title: "Parquet Rle Encoding Columnar Compression"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

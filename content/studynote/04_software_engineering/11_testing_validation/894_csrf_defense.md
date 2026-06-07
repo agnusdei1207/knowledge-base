@@ -1,5 +1,5 @@
 ---
-title: "894. Csrf Defense"
+title: "Csrf Defense"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

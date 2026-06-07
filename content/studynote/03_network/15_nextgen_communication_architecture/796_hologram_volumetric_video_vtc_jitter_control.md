@@ -1,5 +1,5 @@
 ---
-title: "796. Hologram Volumetric Video Vtc Jitter Control"
+title: "Hologram Volumetric Video Vtc Jitter Control"
 date: "2026-05-08"
 tags:
   - "studynote-network"

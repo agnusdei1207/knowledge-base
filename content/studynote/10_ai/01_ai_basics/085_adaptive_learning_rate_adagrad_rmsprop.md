@@ -1,5 +1,5 @@
 ---
-title: "085. Adaptive Learning Rate Adagrad Rmsprop"
+title: "Adaptive Learning Rate Adagrad Rmsprop"
 date: "2026-04-10"
 tags:
   - "studynote-ai"

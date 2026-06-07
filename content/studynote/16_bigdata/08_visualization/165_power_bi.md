@@ -1,5 +1,5 @@
 ---
-title: "165. Power Bi"
+title: "Power Bi"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

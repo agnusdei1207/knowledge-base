@@ -1,5 +1,5 @@
 ---
-title: "1066. Microservices Service Mesh Architecture"
+title: "Microservices Service Mesh Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-network"

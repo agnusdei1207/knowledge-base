@@ -1,5 +1,5 @@
 ---
-title: "380. Ipsec Ip Security Framework"
+title: "Ipsec Ip Security Framework"
 date: "2026-05-08"
 tags:
   - "studynote-network"

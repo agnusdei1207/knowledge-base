@@ -1,5 +1,5 @@
 ---
-title: "452. Log4Shell (CVE-2021-44228)"
+title: "Log4Shell (CVE-2021-44228)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

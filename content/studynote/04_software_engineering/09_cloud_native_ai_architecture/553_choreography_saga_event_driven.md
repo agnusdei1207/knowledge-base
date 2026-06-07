@@ -1,5 +1,5 @@
 ---
-title: "553. Choreography Saga Event Driven"
+title: "Choreography Saga Event Driven"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

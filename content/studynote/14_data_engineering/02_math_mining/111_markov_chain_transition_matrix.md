@@ -1,5 +1,5 @@
 ---
-title: "111. Markov Chain Transition Matrix"
+title: "Markov Chain Transition Matrix"
 date: "2026-04-19"
 tags:
   - "studynote-data-engineering"

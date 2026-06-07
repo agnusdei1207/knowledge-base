@@ -1,5 +1,5 @@
 ---
-title: "075. Hashmap Vs Treemap"
+title: "Hashmap Vs Treemap"
 date: "2026-04-29"
 tags:
   - "studynote-algorithm-stats"

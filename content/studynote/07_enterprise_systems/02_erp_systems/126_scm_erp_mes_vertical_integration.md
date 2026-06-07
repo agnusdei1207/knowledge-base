@@ -1,5 +1,5 @@
 ---
-title: "126. Scm Erp Mes Vertical Integration"
+title: "Scm Erp Mes Vertical Integration"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"

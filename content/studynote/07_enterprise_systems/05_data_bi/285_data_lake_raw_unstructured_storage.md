@@ -1,5 +1,5 @@
 ---
-title: "285. Data Lake Raw Unstructured Storage"
+title: "Data Lake Raw Unstructured Storage"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"

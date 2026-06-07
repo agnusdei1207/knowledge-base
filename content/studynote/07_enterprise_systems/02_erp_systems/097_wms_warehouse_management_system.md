@@ -1,5 +1,5 @@
 ---
-title: "097. Wms Warehouse Management System"
+title: "Wms Warehouse Management System"
 date: "2026-06-07"
 tags:
   - "enterprise_systems"

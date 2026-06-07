@@ -1,5 +1,5 @@
 ---
-title: "089. Daemonset Kubernetes Background Node Agent"
+title: "Daemonset Kubernetes Background Node Agent"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"

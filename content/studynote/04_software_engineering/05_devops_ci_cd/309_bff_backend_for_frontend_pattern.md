@@ -1,5 +1,5 @@
 ---
-title: "309. Bff Backend For Frontend Pattern"
+title: "Bff Backend For Frontend Pattern"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

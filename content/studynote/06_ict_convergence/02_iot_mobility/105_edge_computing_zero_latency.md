@@ -1,5 +1,5 @@
 ---
-title: "105. Edge Computing Zero Latency"
+title: "Edge Computing Zero Latency"
 date: "2026-06-07"
 tags:
   - "ict_convergence"

@@ -1,5 +1,5 @@
 ---
-title: "917. Bittorrent Choke Unchoke P2P Incentive Algorithm"
+title: "Bittorrent Choke Unchoke P2P Incentive Algorithm"
 date: "2026-05-08"
 tags:
   - "studynote-network"

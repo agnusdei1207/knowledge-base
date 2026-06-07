@@ -1,5 +1,5 @@
 ---
-title: "138. Digital Onboarding Automation Ux"
+title: "Digital Onboarding Automation Ux"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"

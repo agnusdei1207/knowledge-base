@@ -1,5 +1,5 @@
 ---
-title: "734. PL1, PL2 (Power Limit 1, 2)"
+title: "PL1, PL2 (Power Limit 1, 2)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

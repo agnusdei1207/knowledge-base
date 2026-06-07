@@ -1,5 +1,5 @@
 ---
-title: "300. FREAK (FREAK)"
+title: "FREAK (FREAK)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

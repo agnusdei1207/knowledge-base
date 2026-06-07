@@ -1,5 +1,5 @@
 ---
-title: "196. Opentableformat"
+title: "Opentableformat"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"

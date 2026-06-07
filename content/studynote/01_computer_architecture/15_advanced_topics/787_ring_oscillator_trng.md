@@ -1,5 +1,5 @@
 ---
-title: "787. Ring Oscillator Trng"
+title: "Ring Oscillator Trng"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

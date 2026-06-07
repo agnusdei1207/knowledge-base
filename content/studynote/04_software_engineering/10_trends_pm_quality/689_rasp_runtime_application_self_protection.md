@@ -1,5 +1,5 @@
 ---
-title: "689. Rasp Runtime Application Self Protection"
+title: "Rasp Runtime Application Self Protection"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

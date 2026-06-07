@@ -1,5 +1,5 @@
 ---
-title: "657. Vmx Root Mode"
+title: "Vmx Root Mode"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

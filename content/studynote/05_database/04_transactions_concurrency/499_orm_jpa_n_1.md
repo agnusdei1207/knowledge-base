@@ -1,5 +1,5 @@
 ---
-title: "499. ORM 객체 매핑 JPA N+1 질의 문제"
+title: "ORM 객체 매핑 JPA N+1 질의 문제"
 date: "2026-06-07"
 tags:
   - "studynote-database"

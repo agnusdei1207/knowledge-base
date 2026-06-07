@@ -1,5 +1,5 @@
 ---
-title: "575. Virtual Address Isolation"
+title: "Virtual Address Isolation"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

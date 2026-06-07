@@ -1,5 +1,5 @@
 ---
-title: "003. Time Sharing System"
+title: "Time Sharing System"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"

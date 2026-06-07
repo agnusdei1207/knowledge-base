@@ -1,5 +1,5 @@
 ---
-title: "119. Fact Table Dimension Table"
+title: "Fact Table Dimension Table"
 date: "2026-04-19"
 tags:
   - "studynote-database"

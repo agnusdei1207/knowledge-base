@@ -1,5 +1,5 @@
 ---
-title: "919. Measured Boot (TPM utilization)"
+title: "Measured Boot (TPM utilization)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

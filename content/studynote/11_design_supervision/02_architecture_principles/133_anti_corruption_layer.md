@@ -1,5 +1,5 @@
 ---
-title: "133. Anti Corruption Layer"
+title: "Anti Corruption Layer"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"

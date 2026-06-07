@@ -1,5 +1,5 @@
 ---
-title: "083. Orthogonality"
+title: "Orthogonality"
 date: "2026-03-30"
 tags:
   - "network"

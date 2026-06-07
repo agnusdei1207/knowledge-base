@@ -1,5 +1,5 @@
 ---
-title: "109. Text Mining"
+title: "Text Mining"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

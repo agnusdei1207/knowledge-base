@@ -1,5 +1,5 @@
 ---
-title: "77. 문제 관리 (Problem Management)"
+title: "문제 관리 (Problem Management)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

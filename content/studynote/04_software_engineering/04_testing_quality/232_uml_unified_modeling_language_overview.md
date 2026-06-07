@@ -1,5 +1,5 @@
 ---
-title: "232. Uml Unified Modeling Language Overview"
+title: "Uml Unified Modeling Language Overview"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

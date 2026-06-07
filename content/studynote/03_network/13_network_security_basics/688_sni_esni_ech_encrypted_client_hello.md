@@ -1,5 +1,5 @@
 ---
-title: "688. Sni Esni Ech Encrypted Client Hello"
+title: "Sni Esni Ech Encrypted Client Hello"
 date: "2026-05-08"
 tags:
   - "studynote-network"

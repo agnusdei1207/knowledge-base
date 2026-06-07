@@ -1,5 +1,5 @@
 ---
-title: "377. LSM-Tree (Log-Structured Merge-Tree)"
+title: "LSM-Tree (Log-Structured Merge-Tree)"
 date: "2026-05-09"
 tags:
   - "studynote-database"

@@ -1,5 +1,5 @@
 ---
-title: "197. Data Catalog Lineage Visualization Security"
+title: "Data Catalog Lineage Visualization Security"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

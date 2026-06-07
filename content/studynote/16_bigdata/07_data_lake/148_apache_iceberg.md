@@ -1,5 +1,5 @@
 ---
-title: "148. Apache Iceberg"
+title: "Apache Iceberg"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

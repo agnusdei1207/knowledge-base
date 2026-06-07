@@ -1,5 +1,5 @@
 ---
-title: "793. Iac Idempotency Template"
+title: "Iac Idempotency Template"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

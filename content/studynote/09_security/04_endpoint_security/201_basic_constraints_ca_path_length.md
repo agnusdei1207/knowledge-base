@@ -1,5 +1,5 @@
 ---
-title: "201. Basic Constraints (Basic Constraints)"
+title: "Basic Constraints (Basic Constraints)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

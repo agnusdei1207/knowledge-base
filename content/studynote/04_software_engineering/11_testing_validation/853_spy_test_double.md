@@ -1,5 +1,5 @@
 ---
-title: "853. Spy Test Double"
+title: "Spy Test Double"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "684. Strangler Pattern Legacy Migration"
+title: "Strangler Pattern Legacy Migration"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

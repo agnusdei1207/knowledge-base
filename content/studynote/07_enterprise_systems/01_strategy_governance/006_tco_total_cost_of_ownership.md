@@ -1,5 +1,5 @@
 ---
-title: "006. Tco Total Cost Of Ownership"
+title: "Tco Total Cost Of Ownership"
 date: "2026-03-04"
 tags:
   - "enterprise_systems"

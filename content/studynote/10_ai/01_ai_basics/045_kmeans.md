@@ -1,5 +1,5 @@
 ---
-title: "045. Kmeans"
+title: "Kmeans"
 date: "2026-04-05"
 tags:
   - "studynote-ai"

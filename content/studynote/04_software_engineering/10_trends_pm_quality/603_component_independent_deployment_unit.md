@@ -1,5 +1,5 @@
 ---
-title: "603. Component Independent Deployment Unit"
+title: "Component Independent Deployment Unit"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

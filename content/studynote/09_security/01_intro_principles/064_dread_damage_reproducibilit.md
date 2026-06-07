@@ -1,5 +1,5 @@
 ---
-title: "064. DREAD 모델 — Damage/Reproducibility/Exploitability/Affected Users discoverability"
+title: "DREAD 모델 — Damage/Reproducibility/Exploitability/Affected Users discoverability"
 date: "2026-06-07"
 tags:
   - "studynote-security"

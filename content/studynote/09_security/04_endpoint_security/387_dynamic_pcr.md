@@ -1,5 +1,5 @@
 ---
-title: "387. Dynamic PCR (Dynamic PCR)"
+title: "Dynamic PCR (Dynamic PCR)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

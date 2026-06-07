@@ -1,5 +1,5 @@
 ---
-title: "057. Disaster Recovery Dr Rto Rpo"
+title: "Disaster Recovery Dr Rto Rpo"
 date: "2026-06-07"
 tags:
   - "enterprise_systems"

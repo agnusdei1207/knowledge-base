@@ -1,5 +1,5 @@
 ---
-title: "168. Multipath Fading Isi"
+title: "Multipath Fading Isi"
 date: "2026-05-05"
 tags:
   - "studynote-network"

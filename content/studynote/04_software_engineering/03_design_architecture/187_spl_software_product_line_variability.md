@@ -1,5 +1,5 @@
 ---
-title: "187. Spl Software Product Line Variability"
+title: "Spl Software Product Line Variability"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

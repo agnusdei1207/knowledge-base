@@ -1,5 +1,5 @@
 ---
-title: "629. UEBA in SIEM (User Entity Behavior Analytics)"
+title: "UEBA in SIEM (User Entity Behavior Analytics)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

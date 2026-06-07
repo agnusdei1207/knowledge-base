@@ -1,5 +1,5 @@
 ---
-title: "195. Coupling Levels"
+title: "Coupling Levels"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

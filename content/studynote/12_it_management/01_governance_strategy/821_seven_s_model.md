@@ -1,5 +1,5 @@
 ---
-title: "821. Seven S Model"
+title: "Seven S Model"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"

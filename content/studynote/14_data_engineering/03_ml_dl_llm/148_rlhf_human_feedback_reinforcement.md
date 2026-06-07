@@ -1,5 +1,5 @@
 ---
-title: "148. Rlhf Human Feedback Reinforcement"
+title: "Rlhf Human Feedback Reinforcement"
 date: "2026-05-03"
 tags:
   - "studynote-data-engineering"

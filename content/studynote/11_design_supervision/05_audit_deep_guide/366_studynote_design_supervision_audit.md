@@ -1,5 +1,5 @@
 ---
-title: "366. 헥사고날 포트 어댑터"
+title: "헥사고날 포트 어댑터"
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

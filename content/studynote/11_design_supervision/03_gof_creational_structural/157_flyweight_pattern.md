@@ -1,5 +1,5 @@
 ---
-title: "157. Flyweight Pattern"
+title: "Flyweight Pattern"
 date: "2025-05-22"
 tags:
   - "studynote-design-supervision"

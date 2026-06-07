@@ -1,5 +1,5 @@
 ---
-title: "097. Z Algorithm"
+title: "Z Algorithm"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

@@ -1,5 +1,5 @@
 ---
-title: "122. Unsupervised Learning"
+title: "Unsupervised Learning"
 date: "2026-04-19"
 tags:
   - "studynote-data-engineering"

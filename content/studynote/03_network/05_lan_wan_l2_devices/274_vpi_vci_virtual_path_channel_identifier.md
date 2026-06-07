@@ -1,5 +1,5 @@
 ---
-title: "274. VPI / VCI (Virtual Path/Channel Identifier)"
+title: "VPI / VCI (Virtual Path/Channel Identifier)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

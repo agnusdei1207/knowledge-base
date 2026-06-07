@@ -1,5 +1,5 @@
 ---
-title: "338. Vllm Paged Attention"
+title: "Vllm Paged Attention"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

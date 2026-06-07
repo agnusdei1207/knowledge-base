@@ -1,5 +1,5 @@
 ---
-title: "687. Secure Coding Xss Sqli"
+title: "Secure Coding Xss Sqli"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

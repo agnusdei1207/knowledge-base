@@ -1,5 +1,5 @@
 ---
-title: "388. Spanner Truetime Clock Skew"
+title: "Spanner Truetime Clock Skew"
 date: "2026-05-09"
 tags:
   - "studynote-database"

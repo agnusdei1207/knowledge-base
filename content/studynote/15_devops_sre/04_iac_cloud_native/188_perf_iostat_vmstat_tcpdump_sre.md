@@ -1,5 +1,5 @@
 ---
-title: "188. Perf Iostat Vmstat Tcpdump Sre"
+title: "Perf Iostat Vmstat Tcpdump Sre"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

@@ -1,5 +1,5 @@
 ---
-title: "149. Apache Hudi"
+title: "Apache Hudi"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

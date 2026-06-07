@@ -1,5 +1,5 @@
 ---
-title: "315. Embedded Document Pattern Nosql"
+title: "Embedded Document Pattern Nosql"
 date: "2026-05-09"
 tags:
   - "studynote-database"

@@ -1,5 +1,5 @@
 ---
-title: "132. V Slam Visual Slam Camera"
+title: "V Slam Visual Slam Camera"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"

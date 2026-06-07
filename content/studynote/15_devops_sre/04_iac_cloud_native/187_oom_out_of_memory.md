@@ -1,5 +1,5 @@
 ---
-title: "187. Oom Out Of Memory"
+title: "Oom Out Of Memory"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

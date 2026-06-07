@@ -1,5 +1,5 @@
 ---
-title: "671. Password Hash Salt Pbkdf2 Bcrypt Argon2"
+title: "Password Hash Salt Pbkdf2 Bcrypt Argon2"
 date: "2026-05-08"
 tags:
   - "studynote-network"

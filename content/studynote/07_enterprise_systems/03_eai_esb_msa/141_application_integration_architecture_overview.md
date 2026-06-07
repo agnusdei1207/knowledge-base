@@ -1,5 +1,5 @@
 ---
-title: "141. 애플리케이션 통합 아키텍처 개요"
+title: "애플리케이션 통합 아키텍처 개요"
 date: "2026-06-07"
 tags:
   - "studynote-enterprise-systems"

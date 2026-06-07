@@ -1,5 +1,5 @@
 ---
-title: "125. Metadata Management System Mms"
+title: "Metadata Management System Mms"
 date: "2026-04-19"
 tags:
   - "studynote-database"

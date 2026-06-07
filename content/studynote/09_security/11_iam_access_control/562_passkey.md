@@ -1,5 +1,5 @@
 ---
-title: "562. Passkey (Passkey)"
+title: "Passkey (Passkey)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

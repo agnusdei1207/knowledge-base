@@ -1,5 +1,5 @@
 ---
-title: "156. Requirements Traceability Vertical Horizontal"
+title: "Requirements Traceability Vertical Horizontal"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "004. Waterfall Model"
+title: "Waterfall Model"
 date: "2024-05-20"
 tags:
   - "software_engineering"

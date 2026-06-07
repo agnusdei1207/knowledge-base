@@ -1,5 +1,5 @@
 ---
-title: "347. Distance Vector Routing Bellman Ford"
+title: "Distance Vector Routing Bellman Ford"
 date: "2026-05-08"
 tags:
   - "studynote-network"

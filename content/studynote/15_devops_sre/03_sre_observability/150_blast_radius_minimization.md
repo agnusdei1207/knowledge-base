@@ -1,5 +1,5 @@
 ---
-title: "150. Blast Radius Minimization"
+title: "Blast Radius Minimization"
 date: "2026-05-03"
 tags:
   - "studynote-devops-sre"

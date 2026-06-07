@@ -1,5 +1,5 @@
 ---
-title: "083. Relationship In Er Model"
+title: "Relationship In Er Model"
 date: "2026-06-07"
 tags:
   - "database"

@@ -1,5 +1,5 @@
 ---
-title: "829. CASB (Cloud Access Security Broker)"
+title: "CASB (Cloud Access Security Broker)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

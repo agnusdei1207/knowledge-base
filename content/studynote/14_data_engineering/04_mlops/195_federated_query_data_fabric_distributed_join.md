@@ -1,5 +1,5 @@
 ---
-title: "195. Federated Query Data Fabric Distributed Join"
+title: "Federated Query Data Fabric Distributed Join"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

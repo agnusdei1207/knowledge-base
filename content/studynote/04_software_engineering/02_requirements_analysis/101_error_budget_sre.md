@@ -1,5 +1,5 @@
 ---
-title: "101. Error Budget Sre"
+title: "Error Budget Sre"
 date: "2026-06-07"
 tags:
   - "software_engineering"

@@ -1,5 +1,5 @@
 ---
-title: "095. Lambda Architecture"
+title: "Lambda Architecture"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

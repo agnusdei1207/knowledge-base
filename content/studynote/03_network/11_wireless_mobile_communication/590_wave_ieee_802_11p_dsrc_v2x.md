@@ -1,5 +1,5 @@
 ---
-title: "590. Wave Ieee 802 11P Dsrc V2X"
+title: "Wave Ieee 802 11P Dsrc V2X"
 date: "2026-05-08"
 tags:
   - "studynote-network"

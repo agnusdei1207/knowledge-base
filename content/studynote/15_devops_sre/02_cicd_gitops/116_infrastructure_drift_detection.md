@@ -1,5 +1,5 @@
 ---
-title: "116. Infrastructure Drift Detection"
+title: "Infrastructure Drift Detection"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"

@@ -1,5 +1,5 @@
 ---
-title: "348. Mccall Quality Model"
+title: "Mccall Quality Model"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

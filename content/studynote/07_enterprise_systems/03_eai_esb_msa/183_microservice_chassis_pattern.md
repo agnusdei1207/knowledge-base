@@ -1,5 +1,5 @@
 ---
-title: "183. Microservice Chassis Pattern"
+title: "Microservice Chassis Pattern"
 date: "2026-05-06"
 tags:
   - "studynote-enterprise-systems"

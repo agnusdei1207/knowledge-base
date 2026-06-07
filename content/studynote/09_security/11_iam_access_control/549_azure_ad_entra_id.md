@@ -1,5 +1,5 @@
 ---
-title: "549. Azure AD / Microsoft Entra ID (Azure AD / Microsoft Entra ID)"
+title: "Azure AD / Microsoft Entra ID (Azure AD / Microsoft Entra ID)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "911. Cyber Resilience"
+title: "Cyber Resilience"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

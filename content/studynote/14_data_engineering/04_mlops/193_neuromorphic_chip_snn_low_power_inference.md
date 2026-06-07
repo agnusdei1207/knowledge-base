@@ -1,5 +1,5 @@
 ---
-title: "193. Neuromorphic Chip Snn Low Power Inference"
+title: "Neuromorphic Chip Snn Low Power Inference"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

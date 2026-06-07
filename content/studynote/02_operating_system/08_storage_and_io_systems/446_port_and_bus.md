@@ -1,5 +1,5 @@
 ---
-title: "446. Port And Bus"
+title: "Port And Bus"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

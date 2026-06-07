@@ -1,5 +1,5 @@
 ---
-title: "079. Monotonic Stack"
+title: "Monotonic Stack"
 date: "2026-04-29"
 tags:
   - "studynote-algorithm-stats"

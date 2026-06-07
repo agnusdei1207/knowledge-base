@@ -1,5 +1,5 @@
 ---
-title: "002. Bigdata 5V"
+title: "Bigdata 5V"
 date: "2024-05-24"
 tags:
   - "bigdata"

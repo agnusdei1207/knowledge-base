@@ -1,5 +1,5 @@
 ---
-title: "407. 백오프 리트라이 재시도 서킷 융합망"
+title: "백오프 리트라이 재시도 서킷 융합망"
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

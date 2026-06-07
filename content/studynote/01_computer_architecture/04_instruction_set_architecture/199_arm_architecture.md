@@ -1,5 +1,5 @@
 ---
-title: "199. Arm Architecture"
+title: "Arm Architecture"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "586. Langchain Ai Pipeline Framework"
+title: "Langchain Ai Pipeline Framework"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

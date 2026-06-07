@@ -1,5 +1,5 @@
 ---
-title: "880. Iso Iec 20000 Itsm Certification"
+title: "Iso Iec 20000 Itsm Certification"
 date: "2026-04-10"
 tags:
   - "studynote-it-management"

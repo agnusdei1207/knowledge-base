@@ -1,5 +1,5 @@
 ---
-title: "302. Broadcast Address Network Limited 255 255 255 255"
+title: "Broadcast Address Network Limited 255 255 255 255"
 date: "2026-05-08"
 tags:
   - "studynote-network"

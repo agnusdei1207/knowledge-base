@@ -1,5 +1,5 @@
 ---
-title: "229. 시계열 ARIMA 정상성 협업 필터링 추천"
+title: "시계열 ARIMA 정상성 협업 필터링 추천"
 date: "2026-06-07"
 tags:
   - "studynote-data-engineering"

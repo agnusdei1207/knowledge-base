@@ -1,5 +1,5 @@
 ---
-title: "199. Bpm Business Process Management Orchestrator"
+title: "Bpm Business Process Management Orchestrator"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise-systems"

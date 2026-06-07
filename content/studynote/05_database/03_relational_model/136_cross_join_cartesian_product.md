@@ -1,5 +1,5 @@
 ---
-title: "136. Cross Join Cartesian Product"
+title: "Cross Join Cartesian Product"
 date: "2026-04-19"
 tags:
   - "studynote-database"

@@ -1,5 +1,5 @@
 ---
-title: "287. Multi Model Db Arangodb"
+title: "Multi Model Db Arangodb"
 date: "2026-05-09"
 tags:
   - "studynote-database"

@@ -1,5 +1,5 @@
 ---
-title: "096. K8S Sealed Secrets Gitops Encryption"
+title: "K8S Sealed Secrets Gitops Encryption"
 date: "2026-03-04"
 tags:
   - "cicd-gitops"

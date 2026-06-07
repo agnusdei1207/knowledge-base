@@ -1,5 +1,5 @@
 ---
-title: "356. 디지털 트윈 동기화 시뮬레이션 지연 오차 감사"
+title: "디지털 트윈 동기화 시뮬레이션 지연 오차 감사"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

@@ -1,5 +1,5 @@
 ---
-title: "030. Xor Xnor"
+title: "Xor Xnor"
 date: "2026-04-29"
 tags:
   - "studynote-computer-architecture"

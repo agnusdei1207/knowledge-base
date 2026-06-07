@@ -1,5 +1,5 @@
 ---
-title: "448. Polling Programmed Io"
+title: "Polling Programmed Io"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

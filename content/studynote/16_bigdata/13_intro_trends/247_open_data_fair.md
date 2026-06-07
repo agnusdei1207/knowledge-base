@@ -1,5 +1,5 @@
 ---
-title: "247. Open Data Fair"
+title: "Open Data Fair"
 date: "2026-03-03"
 tags:
   - "studynote-bigdata"

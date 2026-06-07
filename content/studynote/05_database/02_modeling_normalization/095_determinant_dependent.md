@@ -1,5 +1,5 @@
 ---
-title: "095. Determinant Dependent"
+title: "Determinant Dependent"
 date: "2026-06-07"
 tags:
   - "database"

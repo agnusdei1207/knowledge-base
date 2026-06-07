@@ -1,5 +1,5 @@
 ---
-title: "607. Factory Method Vs Abstract Factory"
+title: "Factory Method Vs Abstract Factory"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

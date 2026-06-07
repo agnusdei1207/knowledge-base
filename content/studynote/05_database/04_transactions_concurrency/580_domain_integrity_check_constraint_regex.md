@@ -1,5 +1,5 @@
 ---
-title: "580. Domain Integrity Check Constraint Regex"
+title: "Domain Integrity Check Constraint Regex"
 date: "2026-05-09"
 tags:
   - "studynote-database"

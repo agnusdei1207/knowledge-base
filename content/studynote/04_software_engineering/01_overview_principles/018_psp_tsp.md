@@ -1,5 +1,5 @@
 ---
-title: "18. PSP (Personal Software Process) / TSP (Team Software Process)"
+title: "PSP (Personal Software Process) / TSP (Team Software Process)"
 date: "2026-03-04"
 tags:
   - "software_engineering"

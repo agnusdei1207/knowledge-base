@@ -1,5 +1,5 @@
 ---
-title: "182. Blockchain Smart Contract Data Integrity"
+title: "Blockchain Smart Contract Data Integrity"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

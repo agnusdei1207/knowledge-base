@@ -1,5 +1,5 @@
 ---
-title: "771. SMF (Session Management Function)"
+title: "SMF (Session Management Function)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

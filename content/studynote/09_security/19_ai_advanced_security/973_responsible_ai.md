@@ -1,5 +1,5 @@
 ---
-title: "973. Responsible AI (Responsible AI)"
+title: "Responsible AI (Responsible AI)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

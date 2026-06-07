@@ -1,5 +1,5 @@
 ---
-title: "224. Helm"
+title: "Helm"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

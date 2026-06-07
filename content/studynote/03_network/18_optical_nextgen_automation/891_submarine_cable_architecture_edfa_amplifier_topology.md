@@ -1,5 +1,5 @@
 ---
-title: "891. Submarine Cable Architecture Edfa Amplifier Topology"
+title: "Submarine Cable Architecture Edfa Amplifier Topology"
 date: "2026-05-08"
 tags:
   - "studynote-network"

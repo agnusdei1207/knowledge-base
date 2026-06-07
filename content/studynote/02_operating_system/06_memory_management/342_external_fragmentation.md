@@ -1,5 +1,5 @@
 ---
-title: "342. External Fragmentation"
+title: "External Fragmentation"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

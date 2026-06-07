@@ -1,5 +1,5 @@
 ---
-title: "131. Bayes Theorem"
+title: "Bayes Theorem"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

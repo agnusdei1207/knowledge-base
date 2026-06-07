@@ -1,5 +1,5 @@
 ---
-title: "106. Finops Cloud Cost Optimization"
+title: "Finops Cloud Cost Optimization"
 date: "2026-06-07"
 tags:
   - "software_engineering"

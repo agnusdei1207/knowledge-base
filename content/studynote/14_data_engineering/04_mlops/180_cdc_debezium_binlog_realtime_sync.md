@@ -1,5 +1,5 @@
 ---
-title: "180. Cdc Debezium Binlog Realtime Sync"
+title: "Cdc Debezium Binlog Realtime Sync"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

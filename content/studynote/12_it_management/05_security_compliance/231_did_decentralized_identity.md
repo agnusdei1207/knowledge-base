@@ -1,5 +1,5 @@
 ---
-title: "231. DID (탈중앙화 신원 증명) W3C 표준 인증 체계 및 마이데이터 인증 대체"
+title: "DID (탈중앙화 신원 증명) W3C 표준 인증 체계 및 마이데이터 인증 대체"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

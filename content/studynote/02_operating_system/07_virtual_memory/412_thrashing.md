@@ -1,5 +1,5 @@
 ---
-title: "412. Thrashing"
+title: "Thrashing"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

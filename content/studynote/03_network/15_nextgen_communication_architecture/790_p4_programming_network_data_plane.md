@@ -1,5 +1,5 @@
 ---
-title: "790. P4 Programming Network Data Plane"
+title: "P4 Programming Network Data Plane"
 date: "2026-05-08"
 tags:
   - "studynote-network"

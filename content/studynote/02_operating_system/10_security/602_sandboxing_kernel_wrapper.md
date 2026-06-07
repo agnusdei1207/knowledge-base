@@ -1,5 +1,5 @@
 ---
-title: "602. Sandboxing Kernel Wrapper"
+title: "Sandboxing Kernel Wrapper"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

@@ -1,5 +1,5 @@
 ---
-title: "906. SL-CF (Security Level Capability)"
+title: "SL-CF (Security Level Capability)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

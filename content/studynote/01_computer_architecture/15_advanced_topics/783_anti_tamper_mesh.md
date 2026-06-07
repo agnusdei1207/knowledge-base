@@ -1,5 +1,5 @@
 ---
-title: "783. Anti Tamper Mesh"
+title: "Anti Tamper Mesh"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

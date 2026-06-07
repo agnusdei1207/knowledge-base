@@ -1,5 +1,5 @@
 ---
-title: "1036. Epcglobal Rfid Network Architecture"
+title: "Epcglobal Rfid Network Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-network"

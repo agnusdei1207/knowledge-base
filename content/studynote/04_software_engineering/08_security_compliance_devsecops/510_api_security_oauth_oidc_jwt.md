@@ -1,5 +1,5 @@
 ---
-title: "510. Api Security Oauth Oidc Jwt"
+title: "Api Security Oauth Oidc Jwt"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

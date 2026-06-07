@@ -1,5 +1,5 @@
 ---
-title: "624. Lwm2M Lightweight M2M Device Management"
+title: "Lwm2M Lightweight M2M Device Management"
 date: "2026-05-08"
 tags:
   - "studynote-network"

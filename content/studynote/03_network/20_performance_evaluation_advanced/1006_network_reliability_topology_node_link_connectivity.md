@@ -1,5 +1,5 @@
 ---
-title: "1006. Network Reliability Topology Node Link Connectivity"
+title: "Network Reliability Topology Node Link Connectivity"
 date: "2026-05-08"
 tags:
   - "studynote-network"

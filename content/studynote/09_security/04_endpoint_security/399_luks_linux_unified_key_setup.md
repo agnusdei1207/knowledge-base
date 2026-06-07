@@ -1,5 +1,5 @@
 ---
-title: "399. LUKS (Linux Unified Key Setup)"
+title: "LUKS (Linux Unified Key Setup)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

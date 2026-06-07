@@ -1,5 +1,5 @@
 ---
-title: "275. Snowflake Schema Normalized Dimension"
+title: "Snowflake Schema Normalized Dimension"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"

@@ -1,5 +1,5 @@
 ---
-title: "642. Lamport Logical Clocks"
+title: "Lamport Logical Clocks"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

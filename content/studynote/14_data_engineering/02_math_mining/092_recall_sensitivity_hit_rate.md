@@ -1,5 +1,5 @@
 ---
-title: "092. Recall Sensitivity Hit Rate"
+title: "Recall Sensitivity Hit Rate"
 date: "2026-03-04"
 tags:
   - "studynote-data-engineering"

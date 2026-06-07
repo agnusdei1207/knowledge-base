@@ -1,5 +1,5 @@
 ---
-title: "352. 동형 암호 클라우드 암호화 연산 보장성"
+title: "동형 암호 클라우드 암호화 연산 보장성"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

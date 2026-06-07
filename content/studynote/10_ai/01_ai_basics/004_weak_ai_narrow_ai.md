@@ -1,5 +1,5 @@
 ---
-title: "004. Weak Ai Narrow Ai"
+title: "Weak Ai Narrow Ai"
 date: "2026-03-04"
 tags:
   - "ai"

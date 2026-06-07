@@ -1,5 +1,5 @@
 ---
-title: "115. Cdp Customer Data Platform Single View"
+title: "Cdp Customer Data Platform Single View"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"

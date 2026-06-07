@@ -1,5 +1,5 @@
 ---
-title: "349. Cost Of Quality"
+title: "Cost Of Quality"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

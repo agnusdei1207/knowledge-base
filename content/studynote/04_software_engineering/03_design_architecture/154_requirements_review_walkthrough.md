@@ -1,5 +1,5 @@
 ---
-title: "154. Requirements Review Walkthrough"
+title: "Requirements Review Walkthrough"
 date: "2026-05-03"
 tags:
   - "software_engineering"

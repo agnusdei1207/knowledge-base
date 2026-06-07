@@ -1,5 +1,5 @@
 ---
-title: "280. Scd Type3 Previous Column Limited History"
+title: "Scd Type3 Previous Column Limited History"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"

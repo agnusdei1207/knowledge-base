@@ -1,5 +1,5 @@
 ---
-title: "121. Sieve Of Eratosthenes"
+title: "Sieve Of Eratosthenes"
 date: "2026-04-05"
 tags:
   - "studynote-algorithm-stats"

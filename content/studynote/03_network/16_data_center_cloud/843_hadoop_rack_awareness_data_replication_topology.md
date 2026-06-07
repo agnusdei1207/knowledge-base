@@ -1,5 +1,5 @@
 ---
-title: "843. Hadoop Rack Awareness Data Replication Topology"
+title: "Hadoop Rack Awareness Data Replication Topology"
 date: "2026-05-08"
 tags:
   - "studynote-network"

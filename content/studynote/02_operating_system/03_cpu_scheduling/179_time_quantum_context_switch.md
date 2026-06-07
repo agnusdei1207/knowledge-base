@@ -1,5 +1,5 @@
 ---
-title: "179. Time Quantum Context Switch"
+title: "Time Quantum Context Switch"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"

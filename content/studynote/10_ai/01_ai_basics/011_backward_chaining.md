@@ -1,5 +1,5 @@
 ---
-title: "011. Backward Chaining"
+title: "Backward Chaining"
 date: "2024-05-24"
 tags:
   - "ai"

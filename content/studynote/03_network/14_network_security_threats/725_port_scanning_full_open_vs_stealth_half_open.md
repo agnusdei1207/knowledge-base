@@ -1,5 +1,5 @@
 ---
-title: "725. Port Scanning Full Open Vs Stealth Half Open"
+title: "Port Scanning Full Open Vs Stealth Half Open"
 date: "2026-05-08"
 tags:
   - "studynote-network"

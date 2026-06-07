@@ -1,5 +1,5 @@
 ---
-title: "011. Cleanroom Software Engineering"
+title: "Cleanroom Software Engineering"
 date: "2024-05-01"
 tags:
   - "software_engineering"

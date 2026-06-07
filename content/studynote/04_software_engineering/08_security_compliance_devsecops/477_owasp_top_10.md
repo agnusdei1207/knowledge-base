@@ -1,5 +1,5 @@
 ---
-title: "477. Owasp Top 10"
+title: "Owasp Top 10"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "286. IPv4 (Internet Protocol Version 4)"
+title: "IPv4 (Internet Protocol Version 4)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "133. POSIX IPC"
+title: "POSIX IPC"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"

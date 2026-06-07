@@ -1,5 +1,5 @@
 ---
-title: "323. Track Sector Cylinder"
+title: "Track Sector Cylinder"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"

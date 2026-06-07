@@ -1,5 +1,5 @@
 ---
-title: "252. Container Escape Vm Gvisor Kata"
+title: "Container Escape Vm Gvisor Kata"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

@@ -1,5 +1,5 @@
 ---
-title: "678. Spice Process Capability"
+title: "Spice Process Capability"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

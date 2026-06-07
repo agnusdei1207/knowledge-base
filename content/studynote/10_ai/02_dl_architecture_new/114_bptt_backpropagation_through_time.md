@@ -1,5 +1,5 @@
 ---
-title: "114. Bptt Backpropagation Through Time"
+title: "Bptt Backpropagation Through Time"
 date: "2026-04-19"
 tags:
   - "studynote-ai"

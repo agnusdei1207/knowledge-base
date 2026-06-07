@@ -1,5 +1,5 @@
 ---
-title: "871. UC (Underpinning Contract)"
+title: "UC (Underpinning Contract)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

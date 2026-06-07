@@ -1,5 +1,5 @@
 ---
-title: "511. Token Leakage"
+title: "Token Leakage"
 date: "2026-05-08"
 tags:
   - "studynote-security"

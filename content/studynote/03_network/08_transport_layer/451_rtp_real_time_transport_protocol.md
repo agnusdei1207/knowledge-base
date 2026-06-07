@@ -1,5 +1,5 @@
 ---
-title: "451. RTP (Real-time Transport Protocol)"
+title: "RTP (Real-time Transport Protocol)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "092. Scm Supply Chain Management"
+title: "Scm Supply Chain Management"
 date: "2026-06-07"
 tags:
   - "enterprise_systems"

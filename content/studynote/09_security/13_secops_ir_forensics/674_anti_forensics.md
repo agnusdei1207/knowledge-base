@@ -1,5 +1,5 @@
 ---
-title: "674. Anti Forensics"
+title: "Anti Forensics"
 date: "2026-05-08"
 tags:
   - "studynote-security"

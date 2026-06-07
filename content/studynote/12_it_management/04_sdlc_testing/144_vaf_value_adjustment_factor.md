@@ -1,5 +1,5 @@
 ---
-title: "144. Vaf Value Adjustment Factor"
+title: "Vaf Value Adjustment Factor"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

@@ -1,5 +1,5 @@
 ---
-title: "117. Rolling Update Deployment"
+title: "Rolling Update Deployment"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"

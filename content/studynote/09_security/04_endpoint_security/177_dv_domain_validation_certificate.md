@@ -1,5 +1,5 @@
 ---
-title: "177. Dv Domain Validation Certificate"
+title: "Dv Domain Validation Certificate"
 date: "2026-05-06"
 tags:
   - "studynote-security"

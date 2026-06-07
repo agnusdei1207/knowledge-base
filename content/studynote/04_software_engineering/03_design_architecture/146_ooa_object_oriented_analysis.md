@@ -1,5 +1,5 @@
 ---
-title: "146. Ooa Object Oriented Analysis"
+title: "Ooa Object Oriented Analysis"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"

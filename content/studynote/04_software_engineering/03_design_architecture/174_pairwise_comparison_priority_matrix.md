@@ -1,5 +1,5 @@
 ---
-title: "174. Pairwise Comparison Priority Matrix"
+title: "Pairwise Comparison Priority Matrix"
 date: "2026-04-03"
 tags:
   - "software_engineering"

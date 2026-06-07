@@ -1,5 +1,5 @@
 ---
-title: "662. Android Binder Ipc Thread Pool"
+title: "Android Binder Ipc Thread Pool"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

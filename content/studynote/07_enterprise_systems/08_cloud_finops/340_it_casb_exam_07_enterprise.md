@@ -1,5 +1,5 @@
 ---
-title: "340. 섀도우 IT [CASB] 솔루션"
+title: "섀도우 IT [CASB] 솔루션"
 date: "2026-06-07"
 tags:
   - "studynote-enterprise-systems"

@@ -1,5 +1,5 @@
 ---
-title: "022. Bubble Sort"
+title: "Bubble Sort"
 date: "2026-06-07"
 tags:
   - "algorithm_stats"

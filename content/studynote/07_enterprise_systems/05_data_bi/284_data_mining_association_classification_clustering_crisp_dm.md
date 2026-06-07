@@ -1,5 +1,5 @@
 ---
-title: "284. Data Mining Association Classification Clustering Crisp Dm"
+title: "Data Mining Association Classification Clustering Crisp Dm"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"

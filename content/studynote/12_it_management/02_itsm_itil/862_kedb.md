@@ -1,5 +1,5 @@
 ---
-title: "862. KEDB (Known Error Database)"
+title: "KEDB (Known Error Database)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

@@ -1,5 +1,5 @@
 ---
-title: "877. Restconf Http Json Yang Api Network Config"
+title: "Restconf Http Json Yang Api Network Config"
 date: "2026-05-08"
 tags:
   - "studynote-network"

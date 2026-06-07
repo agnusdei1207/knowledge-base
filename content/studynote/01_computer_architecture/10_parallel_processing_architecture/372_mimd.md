@@ -1,5 +1,5 @@
 ---
-title: "372. Mimd"
+title: "Mimd"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"

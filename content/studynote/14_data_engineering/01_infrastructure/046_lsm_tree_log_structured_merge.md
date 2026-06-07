@@ -1,5 +1,5 @@
 ---
-title: "046. Lsm Tree Log Structured Merge"
+title: "Lsm Tree Log Structured Merge"
 date: "2026-04-05"
 tags:
   - "studynote-data-engineering"

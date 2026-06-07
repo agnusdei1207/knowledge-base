@@ -1,5 +1,5 @@
 ---
-title: "206. 서버리스 (Serverless) 함수 호출 및 콜드 스타트 극복 방안"
+title: "서버리스 (Serverless) 함수 호출 및 콜드 스타트 극복 방안"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

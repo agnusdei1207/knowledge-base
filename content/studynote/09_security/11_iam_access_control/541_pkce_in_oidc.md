@@ -1,5 +1,5 @@
 ---
-title: "541. PKCE in OIDC (Proof Key for Code Exchange)"
+title: "PKCE in OIDC (Proof Key for Code Exchange)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

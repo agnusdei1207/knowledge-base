@@ -1,5 +1,5 @@
 ---
-title: "210. SR ARQ (Selective Repeat ARQ)"
+title: "SR ARQ (Selective Repeat ARQ)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "509. OCAP (OpenCable Application Platform)"
+title: "OCAP (OpenCable Application Platform)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "394. V Model Testing Mapping"
+title: "V Model Testing Mapping"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

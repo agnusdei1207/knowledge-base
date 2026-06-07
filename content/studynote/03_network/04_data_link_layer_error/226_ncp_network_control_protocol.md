@@ -1,5 +1,5 @@
 ---
-title: "226. NCP (Network Control Protocol)"
+title: "NCP (Network Control Protocol)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

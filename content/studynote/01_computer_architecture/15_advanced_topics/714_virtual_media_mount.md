@@ -1,5 +1,5 @@
 ---
-title: "714. Virtual Media Mount"
+title: "Virtual Media Mount"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

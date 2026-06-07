@@ -1,5 +1,5 @@
 ---
-title: "886. K-ISMS (K-ISMS)"
+title: "K-ISMS (K-ISMS)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

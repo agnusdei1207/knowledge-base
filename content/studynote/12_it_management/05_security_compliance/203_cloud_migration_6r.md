@@ -1,5 +1,5 @@
 ---
-title: "203. 클라우드 마이그레이션 6R 기법"
+title: "클라우드 마이그레이션 6R 기법"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

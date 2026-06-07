@@ -1,5 +1,5 @@
 ---
-title: "911. Sse Security Service Edge Sase Evolution"
+title: "Sse Security Service Edge Sase Evolution"
 date: "2026-05-08"
 tags:
   - "studynote-network"

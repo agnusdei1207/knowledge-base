@@ -1,5 +1,5 @@
 ---
-title: "560. Multi Stream File Fork Ads"
+title: "Multi Stream File Fork Ads"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

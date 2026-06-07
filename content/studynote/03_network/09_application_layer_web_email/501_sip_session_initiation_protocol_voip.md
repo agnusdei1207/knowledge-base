@@ -1,5 +1,5 @@
 ---
-title: "501. SIP (Session Initiation Protocol)"
+title: "SIP (Session Initiation Protocol)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

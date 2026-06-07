@@ -1,5 +1,5 @@
 ---
-title: "072. Erc 20 Fungible Token Standard"
+title: "Erc 20 Fungible Token Standard"
 date: "2026-06-07"
 tags:
   - "ict_convergence"

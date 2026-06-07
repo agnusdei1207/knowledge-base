@@ -1,5 +1,5 @@
 ---
-title: "1 + S/N"
+title: "+ S/N"
 date: "2026-03-30"
 tags:
   - "Network"

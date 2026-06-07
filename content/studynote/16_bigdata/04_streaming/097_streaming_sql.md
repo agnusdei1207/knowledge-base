@@ -1,5 +1,5 @@
 ---
-title: "097. Streaming Sql"
+title: "Streaming Sql"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

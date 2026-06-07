@@ -1,5 +1,5 @@
 ---
-title: "902. Api Security Management"
+title: "Api Security Management"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

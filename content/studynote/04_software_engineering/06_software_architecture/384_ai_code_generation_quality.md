@@ -1,5 +1,5 @@
 ---
-title: "384. Ai Code Generation Quality"
+title: "Ai Code Generation Quality"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

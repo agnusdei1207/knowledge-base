@@ -1,5 +1,5 @@
 ---
-title: "396. Simulated Annealing Heuristic"
+title: "Simulated Annealing Heuristic"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"

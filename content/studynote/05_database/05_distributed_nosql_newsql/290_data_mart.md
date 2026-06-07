@@ -1,5 +1,5 @@
 ---
-title: "290. Data Mart"
+title: "Data Mart"
 date: "2026-05-09"
 tags:
   - "studynote-database"

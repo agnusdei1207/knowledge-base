@@ -1,5 +1,5 @@
 ---
-title: "024. Procedural Vs Non Procedural Dml"
+title: "Procedural Vs Non Procedural Dml"
 date: "2026-04-29"
 tags:
   - "studynote-database"

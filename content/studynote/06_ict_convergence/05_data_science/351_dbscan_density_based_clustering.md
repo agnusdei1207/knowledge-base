@@ -1,5 +1,5 @@
 ---
-title: "351. DBSCAN (Dbscan Density Based Clustering)"
+title: "DBSCAN (Dbscan Density Based Clustering)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"

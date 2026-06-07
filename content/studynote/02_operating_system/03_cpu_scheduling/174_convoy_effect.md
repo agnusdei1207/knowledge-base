@@ -1,5 +1,5 @@
 ---
-title: "174. Convoy Effect"
+title: "Convoy Effect"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"

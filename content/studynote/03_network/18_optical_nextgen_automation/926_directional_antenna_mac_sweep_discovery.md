@@ -1,5 +1,5 @@
 ---
-title: "926. Directional Antenna Mac Sweep Discovery"
+title: "Directional Antenna Mac Sweep Discovery"
 date: "2026-05-08"
 tags:
   - "studynote-network"

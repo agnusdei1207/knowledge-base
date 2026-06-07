@@ -1,5 +1,5 @@
 ---
-title: "667. Container Runtime Hw Isolation"
+title: "Container Runtime Hw Isolation"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

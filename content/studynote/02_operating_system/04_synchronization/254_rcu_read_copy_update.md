@@ -1,5 +1,5 @@
 ---
-title: "254. Rcu Read Copy Update"
+title: "Rcu Read Copy Update"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

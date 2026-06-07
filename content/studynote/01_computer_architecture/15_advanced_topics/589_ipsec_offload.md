@@ -1,5 +1,5 @@
 ---
-title: "589. Ipsec Offload"
+title: "Ipsec Offload"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

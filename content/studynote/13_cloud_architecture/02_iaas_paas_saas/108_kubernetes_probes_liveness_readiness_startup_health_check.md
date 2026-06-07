@@ -1,5 +1,5 @@
 ---
-title: "108. Kubernetes Probes Liveness Readiness Startup Health Check"
+title: "Kubernetes Probes Liveness Readiness Startup Health Check"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"

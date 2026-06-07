@@ -1,5 +1,5 @@
 ---
-title: "395. HSRP (Hot Standby Router Protocol)"
+title: "HSRP (Hot Standby Router Protocol)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

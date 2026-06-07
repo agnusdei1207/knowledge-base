@@ -1,5 +1,5 @@
 ---
-title: "644. Sub-techniques (Sub-techniques)"
+title: "Sub-techniques (Sub-techniques)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

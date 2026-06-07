@@ -1,5 +1,5 @@
 ---
-title: "262. Data Mart Concept Design"
+title: "Data Mart Concept Design"
 date: "2026-05-09"
 tags:
   - "studynote-enterprise-systems"

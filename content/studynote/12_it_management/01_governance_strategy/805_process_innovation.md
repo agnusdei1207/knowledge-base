@@ -1,5 +1,5 @@
 ---
-title: "805. Process Innovation"
+title: "Process Innovation"
 date: "2026-04-05"
 tags:
   - "it_management"

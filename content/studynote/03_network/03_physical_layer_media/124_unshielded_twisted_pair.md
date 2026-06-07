@@ -1,5 +1,5 @@
 ---
-title: "124. UTP (Unshielded Twisted Pair)"
+title: "UTP (Unshielded Twisted Pair)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

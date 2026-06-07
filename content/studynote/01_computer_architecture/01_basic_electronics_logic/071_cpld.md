@@ -1,5 +1,5 @@
 ---
-title: "71. CPLD"
+title: "CPLD"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "582. Dynamic Performance Views V Dollar Dmv Monitoring"
+title: "Dynamic Performance Views V Dollar Dmv Monitoring"
 date: "2026-05-09"
 tags:
   - "studynote-database"

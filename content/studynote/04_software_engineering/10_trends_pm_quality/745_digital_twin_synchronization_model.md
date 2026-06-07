@@ -1,5 +1,5 @@
 ---
-title: "745. Digital Twin Synchronization Model"
+title: "Digital Twin Synchronization Model"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "441. Test Case"
+title: "Test Case"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

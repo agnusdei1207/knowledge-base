@@ -1,5 +1,5 @@
 ---
-title: "049. Function Point Fp Estimation"
+title: "Function Point Fp Estimation"
 date: "2026-04-05"
 tags:
   - "studynote-software-engineering"

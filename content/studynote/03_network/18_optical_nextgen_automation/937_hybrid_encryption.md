@@ -1,5 +1,5 @@
 ---
-title: "937. Hybrid Encryption"
+title: "Hybrid Encryption"
 date: "2026-05-08"
 tags:
   - "studynote-network"

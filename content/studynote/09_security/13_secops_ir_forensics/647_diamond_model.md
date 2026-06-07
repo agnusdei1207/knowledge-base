@@ -1,5 +1,5 @@
 ---
-title: "647. Diamond Model (Diamond Model)"
+title: "Diamond Model (Diamond Model)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

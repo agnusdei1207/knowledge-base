@@ -1,5 +1,5 @@
 ---
-title: "581. Ai4Se Ai Software Engineering Paradigm"
+title: "Ai4Se Ai Software Engineering Paradigm"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

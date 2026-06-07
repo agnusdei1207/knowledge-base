@@ -1,5 +1,5 @@
 ---
-title: "629. Live Migration Pre Copy"
+title: "Live Migration Pre Copy"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

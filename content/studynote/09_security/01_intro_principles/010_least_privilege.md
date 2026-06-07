@@ -1,5 +1,5 @@
 ---
-title: "010. Least Privilege"
+title: "Least Privilege"
 date: "2026-03-25"
 tags:
   - "security"

@@ -1,5 +1,5 @@
 ---
-title: "526. DHCP Snooping"
+title: "DHCP Snooping"
 date: "2026-05-08"
 tags:
   - "studynote-network"

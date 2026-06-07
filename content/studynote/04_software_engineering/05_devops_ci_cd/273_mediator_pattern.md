@@ -1,5 +1,5 @@
 ---
-title: "273. Mediator Pattern"
+title: "Mediator Pattern"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

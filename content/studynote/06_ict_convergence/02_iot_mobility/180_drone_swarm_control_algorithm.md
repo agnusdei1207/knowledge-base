@@ -1,5 +1,5 @@
 ---
-title: "180. Drone Swarm Control Algorithm"
+title: "Drone Swarm Control Algorithm"
 date: "2026-05-06"
 tags:
   - "studynote-ict-convergence"

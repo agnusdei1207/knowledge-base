@@ -1,5 +1,5 @@
 ---
-title: "505. Refresh Token"
+title: "Refresh Token"
 date: "2026-05-08"
 tags:
   - "studynote-security"

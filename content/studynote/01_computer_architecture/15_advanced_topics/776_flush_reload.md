@@ -1,5 +1,5 @@
 ---
-title: "776. Flush Reload"
+title: "Flush Reload"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

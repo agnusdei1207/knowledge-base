@@ -1,5 +1,5 @@
 ---
-title: "619. ID Governance (IGA)"
+title: "ID Governance (IGA)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

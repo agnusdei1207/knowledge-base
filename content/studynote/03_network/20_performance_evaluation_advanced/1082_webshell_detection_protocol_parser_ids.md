@@ -1,5 +1,5 @@
 ---
-title: "1082. Webshell Detection Protocol Parser Ids"
+title: "Webshell Detection Protocol Parser Ids"
 date: "2026-05-08"
 tags:
   - "studynote-network"

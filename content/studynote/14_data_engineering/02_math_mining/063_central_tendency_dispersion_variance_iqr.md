@@ -1,5 +1,5 @@
 ---
-title: "063. Central Tendency Dispersion Variance Iqr"
+title: "Central Tendency Dispersion Variance Iqr"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "656. AES (Advanced Encryption Standard)"
+title: "AES (Advanced Encryption Standard)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

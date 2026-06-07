@@ -1,5 +1,5 @@
 ---
-title: "316. CDC 트랜잭션 로그 기반 데이터 실시간 변경 캡처 (CDC)"
+title: "CDC 트랜잭션 로그 기반 데이터 실시간 변경 캡처 (CDC)"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"

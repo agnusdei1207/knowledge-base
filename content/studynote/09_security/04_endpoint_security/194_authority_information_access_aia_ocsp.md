@@ -1,5 +1,5 @@
 ---
-title: "194. Authority Information Access (AIA)"
+title: "Authority Information Access (AIA)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

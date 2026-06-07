@@ -1,5 +1,5 @@
 ---
-title: "415. Compare And Swap"
+title: "Compare And Swap"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"

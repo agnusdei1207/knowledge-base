@@ -1,5 +1,5 @@
 ---
-title: "216. 빅데이터 분산 처리 인프라"
+title: "빅데이터 분산 처리 인프라"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

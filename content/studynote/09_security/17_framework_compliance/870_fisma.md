@@ -1,5 +1,5 @@
 ---
-title: "870. FISMA (FISMA)"
+title: "FISMA (FISMA)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

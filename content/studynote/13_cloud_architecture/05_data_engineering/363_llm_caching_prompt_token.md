@@ -1,5 +1,5 @@
 ---
-title: "363. LLM 캐싱 프롬프트 토큰 반복 요금 레이턴시 방어 계층 (LLM)"
+title: "LLM 캐싱 프롬프트 토큰 반복 요금 레이턴시 방어 계층 (LLM)"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"

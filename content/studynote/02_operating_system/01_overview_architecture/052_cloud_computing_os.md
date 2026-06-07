@@ -1,5 +1,5 @@
 ---
-title: "052. Cloud Computing Os"
+title: "Cloud Computing Os"
 date: "2026-05-01"
 tags:
   - "studynote-operating-system"

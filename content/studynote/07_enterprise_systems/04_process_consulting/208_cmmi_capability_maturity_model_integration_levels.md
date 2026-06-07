@@ -1,5 +1,5 @@
 ---
-title: "208. Cmmi Capability Maturity Model Integration Levels"
+title: "Cmmi Capability Maturity Model Integration Levels"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise-systems"

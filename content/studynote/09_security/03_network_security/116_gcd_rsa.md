@@ -1,5 +1,5 @@
 ---
-title: "116. Gcd Rsa"
+title: "Gcd Rsa"
 date: "2026-05-08"
 tags:
   - "studynote-security"

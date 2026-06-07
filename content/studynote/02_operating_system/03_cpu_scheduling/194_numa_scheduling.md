@@ -1,5 +1,5 @@
 ---
-title: "194. Numa Scheduling"
+title: "Numa Scheduling"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"

@@ -1,5 +1,5 @@
 ---
-title: "075. Computational Infeasibility"
+title: "Computational Infeasibility"
 date: "2026-03-26"
 tags:
   - "studynote-security"

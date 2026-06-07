@@ -1,5 +1,5 @@
 ---
-title: "126. Digital Twin Concept"
+title: "Digital Twin Concept"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"

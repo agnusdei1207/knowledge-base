@@ -1,5 +1,5 @@
 ---
-title: "005. Schema"
+title: "Schema"
 date: "2024-05-20"
 tags:
   - "database"

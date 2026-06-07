@@ -1,5 +1,5 @@
 ---
-title: "125. Multi Head Attention"
+title: "Multi Head Attention"
 date: "2026-04-19"
 tags:
   - "studynote-ai"

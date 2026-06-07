@@ -1,5 +1,5 @@
 ---
-title: "578. Dac Discretionary Access Control"
+title: "Dac Discretionary Access Control"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

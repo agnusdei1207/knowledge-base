@@ -1,5 +1,5 @@
 ---
-title: "362. Privacy Preserving Db"
+title: "Privacy Preserving Db"
 date: "2026-05-09"
 tags:
   - "studynote-database"

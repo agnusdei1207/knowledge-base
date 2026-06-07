@@ -1,5 +1,5 @@
 ---
-title: "169. Doppler Effect Fast Fading"
+title: "Doppler Effect Fast Fading"
 date: "2026-05-05"
 tags:
   - "studynote-network"

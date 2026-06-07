@@ -1,5 +1,5 @@
 ---
-title: "194. CMMC (Cybersecurity Maturity Model Certification)"
+title: "CMMC (Cybersecurity Maturity Model Certification)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

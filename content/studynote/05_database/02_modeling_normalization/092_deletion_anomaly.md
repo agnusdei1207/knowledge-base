@@ -1,5 +1,5 @@
 ---
-title: "092. Deletion Anomaly"
+title: "Deletion Anomaly"
 date: "2026-06-07"
 tags:
   - "database"

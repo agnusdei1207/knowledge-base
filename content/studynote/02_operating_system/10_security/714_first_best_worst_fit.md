@@ -1,5 +1,5 @@
 ---
-title: "714. 동적 할당 First/Best/Worst Fit"
+title: "동적 할당 First/Best/Worst Fit"
 date: "2026-06-07"
 tags:
   - "studynote-operating-system"

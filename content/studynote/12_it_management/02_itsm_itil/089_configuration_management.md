@@ -1,5 +1,5 @@
 ---
-title: "089. Cnn Convolutional"
+title: "Cnn Convolutional"
 date: "2026-04-05"
 tags:
   - "it_management"

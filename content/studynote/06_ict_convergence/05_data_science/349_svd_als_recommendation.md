@@ -1,5 +1,5 @@
 ---
-title: "349. Svd Als Recommendation"
+title: "Svd Als Recommendation"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"

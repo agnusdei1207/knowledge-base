@@ -1,5 +1,5 @@
 ---
-title: "226. FinOps (Cloud Financial Management)"
+title: "FinOps (Cloud Financial Management)"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise-systems"

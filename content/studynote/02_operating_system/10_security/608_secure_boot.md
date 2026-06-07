@@ -1,5 +1,5 @@
 ---
-title: "608. Secure Boot"
+title: "Secure Boot"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

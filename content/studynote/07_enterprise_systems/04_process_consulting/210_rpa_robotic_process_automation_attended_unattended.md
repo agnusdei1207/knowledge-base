@@ -1,5 +1,5 @@
 ---
-title: "210. Rpa Robotic Process Automation Attended Unattended"
+title: "Rpa Robotic Process Automation Attended Unattended"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise-systems"

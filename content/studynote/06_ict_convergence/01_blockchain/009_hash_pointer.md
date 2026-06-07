@@ -1,5 +1,5 @@
 ---
-title: "009. Hash Pointer"
+title: "Hash Pointer"
 date: "2026-06-07"
 tags:
   - "ict_convergence"

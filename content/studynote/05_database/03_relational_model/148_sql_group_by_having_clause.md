@@ -1,5 +1,5 @@
 ---
-title: "148. Sql Group By Having Clause"
+title: "Sql Group By Having Clause"
 date: "2026-05-03"
 tags:
   - "studynote-database"

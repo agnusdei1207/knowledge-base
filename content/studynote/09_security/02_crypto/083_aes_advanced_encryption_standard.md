@@ -1,5 +1,5 @@
 ---
-title: "083. Aes Advanced Encryption Standard"
+title: "Aes Advanced Encryption Standard"
 date: "2026-04-05"
 tags:
   - "studynote-security"

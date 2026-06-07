@@ -1,5 +1,5 @@
 ---
-title: "009. Data Explosion Factors"
+title: "Data Explosion Factors"
 date: "2024-05-20"
 tags:
   - "bigdata"

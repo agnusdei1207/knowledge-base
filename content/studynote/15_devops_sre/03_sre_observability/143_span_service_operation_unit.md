@@ -1,5 +1,5 @@
 ---
-title: "143. Span Service Operation Unit"
+title: "Span Service Operation Unit"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"

@@ -1,5 +1,5 @@
 ---
-title: "321. Destination Unreachable Port Host Prohibited"
+title: "Destination Unreachable Port Host Prohibited"
 date: "2026-05-08"
 tags:
   - "studynote-network"

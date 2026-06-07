@@ -1,5 +1,5 @@
 ---
-title: "113. Kubeflow Mlops Orchestration"
+title: "Kubeflow Mlops Orchestration"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"

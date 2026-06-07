@@ -1,5 +1,5 @@
 ---
-title: "118. Inbound Vs Outbound Marketing"
+title: "Inbound Vs Outbound Marketing"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"

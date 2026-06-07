@@ -1,5 +1,5 @@
 ---
-title: "301. 서킷 브레이커 장애 연쇄 확산 차단 폴백 (Process)"
+title: "서킷 브레이커 장애 연쇄 확산 차단 폴백 (Process)"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

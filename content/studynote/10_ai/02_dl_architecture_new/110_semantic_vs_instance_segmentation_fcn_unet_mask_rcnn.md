@@ -1,5 +1,5 @@
 ---
-title: "110. Semantic Vs Instance Segmentation Fcn Unet Mask Rcnn"
+title: "Semantic Vs Instance Segmentation Fcn Unet Mask Rcnn"
 date: "2026-04-19"
 tags:
   - "studynote-ai"

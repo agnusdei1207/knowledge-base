@@ -1,5 +1,5 @@
 ---
-title: "288. 카나리 배포 (1% 오픈 에러 검증 확대)"
+title: "카나리 배포 (1% 오픈 에러 검증 확대)"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

@@ -1,5 +1,5 @@
 ---
-title: "083. Mrp 2 Manufacturing Resource Planning"
+title: "Mrp 2 Manufacturing Resource Planning"
 date: "2026-06-07"
 tags:
   - "enterprise_systems"

@@ -1,5 +1,5 @@
 ---
-title: "612. Matrix Decomposition Hw"
+title: "Matrix Decomposition Hw"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

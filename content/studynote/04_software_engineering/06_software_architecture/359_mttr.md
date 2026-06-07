@@ -1,5 +1,5 @@
 ---
-title: "359. Mttr"
+title: "Mttr"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

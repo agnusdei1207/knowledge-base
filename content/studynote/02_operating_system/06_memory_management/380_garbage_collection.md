@@ -1,5 +1,5 @@
 ---
-title: "380. Garbage Collection"
+title: "Garbage Collection"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

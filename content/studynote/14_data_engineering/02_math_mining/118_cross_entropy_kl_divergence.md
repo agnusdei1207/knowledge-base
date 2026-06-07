@@ -1,5 +1,5 @@
 ---
-title: "118. Cross Entropy Kl Divergence"
+title: "Cross Entropy Kl Divergence"
 date: "2026-04-19"
 tags:
   - "studynote-data-engineering"

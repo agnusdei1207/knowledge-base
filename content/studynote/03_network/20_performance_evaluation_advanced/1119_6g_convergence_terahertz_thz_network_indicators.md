@@ -1,5 +1,5 @@
 ---
-title: "1119. 6G Convergence Terahertz Thz Network Indicators"
+title: "6G Convergence Terahertz Thz Network Indicators"
 date: "2026-05-08"
 tags:
   - "studynote-network"

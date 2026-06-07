@@ -1,5 +1,5 @@
 ---
-title: "373. Oss Governance"
+title: "Oss Governance"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "116. First Party Data Cookie Less Strategy"
+title: "First Party Data Cookie Less Strategy"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"

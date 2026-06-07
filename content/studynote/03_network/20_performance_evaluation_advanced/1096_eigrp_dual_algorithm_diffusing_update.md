@@ -1,5 +1,5 @@
 ---
-title: "1096. Eigrp Dual Algorithm Diffusing Update"
+title: "Eigrp Dual Algorithm Diffusing Update"
 date: "2026-05-08"
 tags:
   - "studynote-network"

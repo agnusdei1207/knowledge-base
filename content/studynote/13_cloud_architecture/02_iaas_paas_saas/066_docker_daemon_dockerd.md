@@ -1,5 +1,5 @@
 ---
-title: "066. Docker Daemon Dockerd"
+title: "Docker Daemon Dockerd"
 date: "2026-04-07"
 tags:
   - "studynote-cloud-architecture"

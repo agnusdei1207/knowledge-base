@@ -1,5 +1,5 @@
 ---
-title: "376. Nosql Hinted Handoff Merkle Tree"
+title: "Nosql Hinted Handoff Merkle Tree"
 date: "2026-05-09"
 tags:
   - "studynote-database"

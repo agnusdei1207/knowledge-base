@@ -1,5 +1,5 @@
 ---
-title: "263. Unit Test Mocking Stubbing"
+title: "Unit Test Mocking Stubbing"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

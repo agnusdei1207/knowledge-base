@@ -1,5 +1,5 @@
 ---
-title: "304. Lime Shap Contributions"
+title: "Lime Shap Contributions"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"

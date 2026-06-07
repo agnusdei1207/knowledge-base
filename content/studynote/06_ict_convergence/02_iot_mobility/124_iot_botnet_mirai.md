@@ -1,5 +1,5 @@
 ---
-title: "124. Iot Botnet Mirai"
+title: "Iot Botnet Mirai"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"

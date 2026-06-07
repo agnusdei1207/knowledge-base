@@ -1,5 +1,5 @@
 ---
-title: "033. Graph Representation"
+title: "Graph Representation"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

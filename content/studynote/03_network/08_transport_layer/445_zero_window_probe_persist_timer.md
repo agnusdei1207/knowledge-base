@@ -1,5 +1,5 @@
 ---
-title: "445. Zero Window Probe Persist Timer"
+title: "Zero Window Probe Persist Timer"
 date: "2026-05-08"
 tags:
   - "studynote-network"

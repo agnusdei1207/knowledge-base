@@ -1,5 +1,5 @@
 ---
-title: "153. Bridge Pattern"
+title: "Bridge Pattern"
 date: "2026-05-03"
 tags:
   - "studynote-design-supervision"

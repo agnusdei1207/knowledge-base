@@ -1,5 +1,5 @@
 ---
-title: "567. vault (vault)"
+title: "vault (vault)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

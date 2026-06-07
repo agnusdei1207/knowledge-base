@@ -1,5 +1,5 @@
 ---
-title: "1092. Dmvpn Dynamic Multipoint Vpn Nhrp Ipsec"
+title: "Dmvpn Dynamic Multipoint Vpn Nhrp Ipsec"
 date: "2026-05-08"
 tags:
   - "studynote-network"

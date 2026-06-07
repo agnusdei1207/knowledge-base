@@ -1,5 +1,5 @@
 ---
-title: "414. Authentication Failures (Authentication Failures)"
+title: "Authentication Failures (Authentication Failures)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

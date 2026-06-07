@@ -1,5 +1,5 @@
 ---
-title: "535. Grouping Counting Free Space"
+title: "Grouping Counting Free Space"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

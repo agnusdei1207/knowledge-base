@@ -1,5 +1,5 @@
 ---
-title: "464. Service Virtualization"
+title: "Service Virtualization"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

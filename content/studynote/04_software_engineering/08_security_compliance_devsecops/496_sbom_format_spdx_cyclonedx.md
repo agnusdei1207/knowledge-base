@@ -1,5 +1,5 @@
 ---
-title: "496. Sbom Format Spdx Cyclonedx"
+title: "Sbom Format Spdx Cyclonedx"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

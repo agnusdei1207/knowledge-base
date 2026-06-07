@@ -1,5 +1,5 @@
 ---
-title: "410. CWE (Common Weakness Enumeration)"
+title: "CWE (Common Weakness Enumeration)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

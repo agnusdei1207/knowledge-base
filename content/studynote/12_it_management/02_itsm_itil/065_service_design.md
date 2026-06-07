@@ -1,5 +1,5 @@
 ---
-title: "65. 서비스 설계 (Service Design)"
+title: "서비스 설계 (Service Design)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

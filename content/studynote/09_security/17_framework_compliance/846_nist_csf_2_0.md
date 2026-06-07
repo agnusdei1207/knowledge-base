@@ -1,5 +1,5 @@
 ---
-title: "846. NIST CSF 2.0 (NIST CSF 2.0)"
+title: "NIST CSF 2.0 (NIST CSF 2.0)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

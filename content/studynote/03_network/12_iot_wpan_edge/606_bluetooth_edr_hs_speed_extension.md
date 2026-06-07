@@ -1,5 +1,5 @@
 ---
-title: "606. Bluetooth Edr Hs Speed Extension"
+title: "Bluetooth Edr Hs Speed Extension"
 date: "2026-05-08"
 tags:
   - "studynote-network"

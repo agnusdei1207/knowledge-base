@@ -1,5 +1,5 @@
 ---
-title: "177. RPO (Recovery Point Objective)"
+title: "RPO (Recovery Point Objective)"
 date: "2026-05-06"
 tags:
   - "studynote-it-management"

@@ -1,5 +1,5 @@
 ---
-title: "277. Interpreter Pattern"
+title: "Interpreter Pattern"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

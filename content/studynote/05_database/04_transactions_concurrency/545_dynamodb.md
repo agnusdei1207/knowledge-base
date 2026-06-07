@@ -1,5 +1,5 @@
 ---
-title: "545. Dynamodb"
+title: "Dynamodb"
 date: "2026-05-09"
 tags:
   - "studynote-database"

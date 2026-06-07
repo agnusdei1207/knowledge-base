@@ -1,5 +1,5 @@
 ---
-title: "987. 해시 함수 (Hash Function)"
+title: "해시 함수 (Hash Function)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "189. ZeRO (Zero Redundancy Optimizer)"
+title: "ZeRO (Zero Redundancy Optimizer)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

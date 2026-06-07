@@ -1,5 +1,5 @@
 ---
-title: "085. Erp Implementation Lifecycle"
+title: "Erp Implementation Lifecycle"
 date: "2026-06-07"
 tags:
   - "enterprise_systems"

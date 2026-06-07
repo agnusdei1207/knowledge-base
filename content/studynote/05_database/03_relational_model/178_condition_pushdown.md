@@ -1,5 +1,5 @@
 ---
-title: "178. Condition Pushdown"
+title: "Condition Pushdown"
 date: "2026-05-06"
 tags:
   - "studynote-database"

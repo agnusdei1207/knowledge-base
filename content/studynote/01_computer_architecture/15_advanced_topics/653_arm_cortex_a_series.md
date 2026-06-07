@@ -1,5 +1,5 @@
 ---
-title: "653. Arm Cortex A Series"
+title: "Arm Cortex A Series"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

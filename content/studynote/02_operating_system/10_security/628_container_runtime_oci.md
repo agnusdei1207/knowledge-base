@@ -1,5 +1,5 @@
 ---
-title: "628. Container Runtime Oci"
+title: "Container Runtime Oci"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

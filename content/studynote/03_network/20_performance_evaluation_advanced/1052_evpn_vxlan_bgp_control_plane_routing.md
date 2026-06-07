@@ -1,5 +1,5 @@
 ---
-title: "1052. Evpn Vxlan Bgp Control Plane Routing"
+title: "Evpn Vxlan Bgp Control Plane Routing"
 date: "2026-05-08"
 tags:
   - "studynote-network"

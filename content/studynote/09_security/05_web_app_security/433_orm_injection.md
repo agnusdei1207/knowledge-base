@@ -1,5 +1,5 @@
 ---
-title: "433. ORM Injection (ORM Injection)"
+title: "ORM Injection (ORM Injection)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

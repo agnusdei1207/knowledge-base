@@ -1,5 +1,5 @@
 ---
-title: "719. KAPE (Kroll Artifact Parser and Extractor)"
+title: "KAPE (Kroll Artifact Parser and Extractor)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "141. Multi Master Replication"
+title: "Multi Master Replication"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

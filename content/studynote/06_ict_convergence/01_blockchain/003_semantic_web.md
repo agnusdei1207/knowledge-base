@@ -1,5 +1,5 @@
 ---
-title: "003. Semantic Web"
+title: "Semantic Web"
 date: "2026-06-07"
 tags:
   - "ict_convergence"

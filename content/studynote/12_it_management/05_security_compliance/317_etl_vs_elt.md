@@ -1,5 +1,5 @@
 ---
-title: "317. ETL 적재 전 변환 vs ELT 적재 후 클라우드 변환"
+title: "ETL 적재 전 변환 vs ELT 적재 후 클라우드 변환"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

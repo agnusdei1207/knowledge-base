@@ -1,5 +1,5 @@
 ---
-title: "073. Xp Extreme Programming"
+title: "Xp Extreme Programming"
 date: "2026-06-07"
 tags:
   - "software_engineering"

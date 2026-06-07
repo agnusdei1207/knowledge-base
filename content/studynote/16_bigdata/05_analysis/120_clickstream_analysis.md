@@ -1,5 +1,5 @@
 ---
-title: "120. Clickstream Analysis"
+title: "Clickstream Analysis"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

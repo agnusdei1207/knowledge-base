@@ -1,5 +1,5 @@
 ---
-title: "299. Logjam (Logjam)"
+title: "Logjam (Logjam)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

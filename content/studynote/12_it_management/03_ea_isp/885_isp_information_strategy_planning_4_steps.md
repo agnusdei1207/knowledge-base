@@ -1,5 +1,5 @@
 ---
-title: "885. Isp Information Strategy Planning 4 Steps"
+title: "Isp Information Strategy Planning 4 Steps"
 date: "2026-04-10"
 tags:
   - "studynote-it-management"

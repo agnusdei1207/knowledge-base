@@ -1,5 +1,5 @@
 ---
-title: "130. Monitoring Vs Observability"
+title: "Monitoring Vs Observability"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"

@@ -1,5 +1,5 @@
 ---
-title: "491. Sast Static Analysis"
+title: "Sast Static Analysis"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

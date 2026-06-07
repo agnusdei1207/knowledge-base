@@ -1,5 +1,5 @@
 ---
-title: "197. Rm Rate Monotonic Scheduling"
+title: "Rm Rate Monotonic Scheduling"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"

@@ -1,5 +1,5 @@
 ---
-title: "349. Slab Allocator"
+title: "Slab Allocator"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

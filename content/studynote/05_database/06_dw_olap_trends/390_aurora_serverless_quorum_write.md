@@ -1,5 +1,5 @@
 ---
-title: "390. Aurora Serverless Quorum Write"
+title: "Aurora Serverless Quorum Write"
 date: "2026-05-09"
 tags:
   - "studynote-database"

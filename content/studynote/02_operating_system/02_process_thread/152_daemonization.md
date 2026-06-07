@@ -1,5 +1,5 @@
 ---
-title: "152. Daemonization"
+title: "Daemonization"
 date: "2026-05-03"
 tags:
   - "studynote-operating-system"

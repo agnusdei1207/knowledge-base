@@ -1,5 +1,5 @@
 ---
-title: "874. CI (Configuration Item)"
+title: "CI (Configuration Item)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

@@ -1,5 +1,5 @@
 ---
-title: "019. Processing Delay"
+title: "Processing Delay"
 date: "2026-03-30"
 tags:
   - "Network"

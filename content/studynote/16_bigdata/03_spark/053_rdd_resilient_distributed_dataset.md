@@ -1,5 +1,5 @@
 ---
-title: "02. RDD (Resilient Distributed Dataset) — 불변 분산 데이터셋"
+title: "RDD (Resilient Distributed Dataset) — 불변 분산 데이터셋"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"

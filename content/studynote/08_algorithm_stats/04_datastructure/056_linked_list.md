@@ -1,5 +1,5 @@
 ---
-title: "056. Linked List"
+title: "Linked List"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

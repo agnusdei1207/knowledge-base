@@ -1,5 +1,5 @@
 ---
-title: "538. Ssh Vs Telnet Secure Remote"
+title: "Ssh Vs Telnet Secure Remote"
 date: "2026-05-08"
 tags:
   - "studynote-network"

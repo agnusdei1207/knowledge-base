@@ -1,5 +1,5 @@
 ---
-title: "092. Scaled Agile Frameworks Overview"
+title: "Scaled Agile Frameworks Overview"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "453. XTP (Xpress Transport Protocol)"
+title: "XTP (Xpress Transport Protocol)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

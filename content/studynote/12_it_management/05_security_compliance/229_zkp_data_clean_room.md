@@ -1,5 +1,5 @@
 ---
-title: "229. 영지식 증명 (ZKP) 활용 프라이버시 클린 룸 (Data Clean Room) 기업 간 데이터 연합"
+title: "영지식 증명 (ZKP) 활용 프라이버시 클린 룸 (Data Clean Room) 기업 간 데이터 연합"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

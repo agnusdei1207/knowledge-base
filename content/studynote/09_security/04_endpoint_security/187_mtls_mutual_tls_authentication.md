@@ -1,5 +1,5 @@
 ---
-title: "187. mTLS (Mutual TLS)"
+title: "mTLS (Mutual TLS)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

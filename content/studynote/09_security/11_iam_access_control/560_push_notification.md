@@ -1,5 +1,5 @@
 ---
-title: "560. Push Notification (Push Notification)"
+title: "Push Notification (Push Notification)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

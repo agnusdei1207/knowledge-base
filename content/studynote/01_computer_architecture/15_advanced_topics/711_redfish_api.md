@@ -1,5 +1,5 @@
 ---
-title: "711. Redfish Api"
+title: "Redfish Api"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

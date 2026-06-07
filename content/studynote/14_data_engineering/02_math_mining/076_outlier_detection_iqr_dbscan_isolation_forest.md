@@ -1,5 +1,5 @@
 ---
-title: "076. Outlier Detection Iqr Dbscan Isolation Forest"
+title: "Outlier Detection Iqr Dbscan Isolation Forest"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"

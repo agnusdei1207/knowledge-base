@@ -1,5 +1,5 @@
 ---
-title: "071. Multiplexing"
+title: "Multiplexing"
 date: "2024-05-20"
 tags:
   - "network"

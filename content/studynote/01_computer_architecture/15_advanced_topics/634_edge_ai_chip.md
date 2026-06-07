@@ -1,5 +1,5 @@
 ---
-title: "634. Edge Ai Chip"
+title: "Edge Ai Chip"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

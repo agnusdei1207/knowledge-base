@@ -1,5 +1,5 @@
 ---
-title: "695. Cyber Resilience System Survivability"
+title: "Cyber Resilience System Survivability"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "087. Loss Function"
+title: "Loss Function"
 date: "2026-04-05"
 tags:
   - "it_management"

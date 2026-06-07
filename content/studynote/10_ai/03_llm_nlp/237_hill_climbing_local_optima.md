@@ -1,5 +1,5 @@
 ---
-title: "237. Hill Climbing Local Optima"
+title: "Hill Climbing Local Optima"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

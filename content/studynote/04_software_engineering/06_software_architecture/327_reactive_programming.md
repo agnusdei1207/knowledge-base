@@ -1,5 +1,5 @@
 ---
-title: "327. Reactive Programming"
+title: "Reactive Programming"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "600. Rfid Nfc Near Field Communication"
+title: "Rfid Nfc Near Field Communication"
 date: "2026-05-08"
 tags:
   - "studynote-network"

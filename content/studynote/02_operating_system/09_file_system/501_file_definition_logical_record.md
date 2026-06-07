@@ -1,5 +1,5 @@
 ---
-title: "501. File Definition Logical Record"
+title: "File Definition Logical Record"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

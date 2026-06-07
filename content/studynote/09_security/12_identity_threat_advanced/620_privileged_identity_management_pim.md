@@ -1,5 +1,5 @@
 ---
-title: "620. Privileged Identity Management (PIM)"
+title: "Privileged Identity Management (PIM)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

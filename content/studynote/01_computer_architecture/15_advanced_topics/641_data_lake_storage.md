@@ -1,5 +1,5 @@
 ---
-title: "641. Data Lake Storage"
+title: "Data Lake Storage"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

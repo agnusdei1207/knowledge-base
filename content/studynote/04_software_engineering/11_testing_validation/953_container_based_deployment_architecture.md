@@ -1,5 +1,5 @@
 ---
-title: "953. Container Based Deployment Architecture"
+title: "Container Based Deployment Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

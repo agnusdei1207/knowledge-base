@@ -1,5 +1,5 @@
 ---
-title: "215. 플링크 네이티브 스트림 워터마크 윈도우 시간"
+title: "플링크 네이티브 스트림 워터마크 윈도우 시간"
 date: "2026-06-07"
 tags:
   - "studynote-data-engineering"

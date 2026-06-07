@@ -1,5 +1,5 @@
 ---
-title: "733. Gqm Goal Question Metric"
+title: "Gqm Goal Question Metric"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

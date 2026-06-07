@@ -1,5 +1,5 @@
 ---
-title: "234. Columnar Storage Parquet Orc"
+title: "Columnar Storage Parquet Orc"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"

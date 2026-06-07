@@ -1,5 +1,5 @@
 ---
-title: "37. 피벗 (Pivot)"
+title: "피벗 (Pivot)"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"

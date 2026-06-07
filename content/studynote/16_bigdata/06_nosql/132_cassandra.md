@@ -1,5 +1,5 @@
 ---
-title: "132. Cassandra"
+title: "Cassandra"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

@@ -1,5 +1,5 @@
 ---
-title: "217. 이벤트 스트리밍 브로커"
+title: "이벤트 스트리밍 브로커"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

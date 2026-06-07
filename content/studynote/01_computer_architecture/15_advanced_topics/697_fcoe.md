@@ -1,5 +1,5 @@
 ---
-title: "697. FCoE (Fibre Channel over Ethernet)"
+title: "FCoE (Fibre Channel over Ethernet)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

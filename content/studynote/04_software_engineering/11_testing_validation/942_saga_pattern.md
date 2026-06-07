@@ -1,5 +1,5 @@
 ---
-title: "942. Saga Pattern"
+title: "Saga Pattern"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

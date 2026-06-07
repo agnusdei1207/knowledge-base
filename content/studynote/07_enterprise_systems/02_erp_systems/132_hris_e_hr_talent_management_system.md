@@ -1,5 +1,5 @@
 ---
-title: "132. Hris E Hr Talent Management System"
+title: "Hris E Hr Talent Management System"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"

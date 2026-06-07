@@ -1,5 +1,5 @@
 ---
-title: "716. Fail Safe Vs Fail Soft"
+title: "Fail Safe Vs Fail Soft"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

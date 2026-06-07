@@ -1,5 +1,5 @@
 ---
-title: "216. HDLC (High-Level Data Link Control)"
+title: "HDLC (High-Level Data Link Control)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "013. Pbft Practical Bft"
+title: "Pbft Practical Bft"
 date: "2024-05-18"
 tags:
   - "ict_convergence"

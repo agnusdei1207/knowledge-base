@@ -1,5 +1,5 @@
 ---
-title: "021. Apache Spark In Memory"
+title: "Apache Spark In Memory"
 date: "2026-04-02"
 tags:
   - "studynote-data-engineering"

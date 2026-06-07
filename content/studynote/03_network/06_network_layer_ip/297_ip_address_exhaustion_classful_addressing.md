@@ -1,5 +1,5 @@
 ---
-title: "297. Ip Address Exhaustion Classful Addressing"
+title: "Ip Address Exhaustion Classful Addressing"
 date: "2026-05-08"
 tags:
   - "studynote-network"

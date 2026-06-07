@@ -1,5 +1,5 @@
 ---
-title: "842. ISO 27017 (Cloud Security)"
+title: "ISO 27017 (Cloud Security)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

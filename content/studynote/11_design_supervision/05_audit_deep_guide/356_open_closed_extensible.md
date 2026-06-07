@@ -1,5 +1,5 @@
 ---
-title: "356. 개방 폐쇄 확장에 유연"
+title: "개방 폐쇄 확장에 유연"
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

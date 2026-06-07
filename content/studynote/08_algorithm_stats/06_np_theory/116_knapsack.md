@@ -1,5 +1,5 @@
 ---
-title: "116. Knapsack"
+title: "Knapsack"
 date: "2026-04-05"
 tags:
   - "studynote-algorithm-stats"

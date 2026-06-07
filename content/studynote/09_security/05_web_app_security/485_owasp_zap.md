@@ -1,5 +1,5 @@
 ---
-title: "485. OWASP ZAP (OWASP ZAP)"
+title: "OWASP ZAP (OWASP ZAP)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

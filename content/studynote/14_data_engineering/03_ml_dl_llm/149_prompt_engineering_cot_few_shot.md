@@ -1,5 +1,5 @@
 ---
-title: "149. Prompt Engineering Cot Few Shot"
+title: "Prompt Engineering Cot Few Shot"
 date: "2026-05-03"
 tags:
   - "studynote-data-engineering"

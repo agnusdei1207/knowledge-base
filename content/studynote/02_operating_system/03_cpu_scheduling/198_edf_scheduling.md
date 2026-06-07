@@ -1,5 +1,5 @@
 ---
-title: "198. Edf Scheduling"
+title: "Edf Scheduling"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"

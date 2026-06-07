@@ -1,5 +1,5 @@
 ---
-title: "660. 번다운 차트 작업 진척도"
+title: "번다운 차트 작업 진척도"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

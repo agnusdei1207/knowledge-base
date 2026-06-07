@@ -1,5 +1,5 @@
 ---
-title: "341. RELRO (Relocation Read-Only)"
+title: "RELRO (Relocation Read-Only)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

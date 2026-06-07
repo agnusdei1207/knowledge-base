@@ -1,5 +1,5 @@
 ---
-title: "597. Gps Triangulation Dgps Rtk"
+title: "Gps Triangulation Dgps Rtk"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "877. Software And Data Integrity Failures"
+title: "Software And Data Integrity Failures"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

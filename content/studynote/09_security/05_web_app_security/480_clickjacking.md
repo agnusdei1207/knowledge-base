@@ -1,5 +1,5 @@
 ---
-title: "480. Clickjacking"
+title: "Clickjacking"
 date: "2026-05-08"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "862. Tdd Lifecycle"
+title: "Tdd Lifecycle"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

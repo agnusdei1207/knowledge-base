@@ -1,5 +1,5 @@
 ---
-title: "106. Fog Computing Cisco Architecture"
+title: "Fog Computing Cisco Architecture"
 date: "2026-06-07"
 tags:
   - "ict_convergence"

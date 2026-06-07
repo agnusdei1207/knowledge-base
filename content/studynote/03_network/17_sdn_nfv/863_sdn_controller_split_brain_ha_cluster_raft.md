@@ -1,5 +1,5 @@
 ---
-title: "863. Sdn Controller Split Brain Ha Cluster Raft"
+title: "Sdn Controller Split Brain Ha Cluster Raft"
 date: "2026-05-08"
 tags:
   - "studynote-network"

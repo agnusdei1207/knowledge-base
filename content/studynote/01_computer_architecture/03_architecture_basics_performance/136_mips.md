@@ -1,5 +1,5 @@
 ---
-title: "136. MIPS (Million Instructions Per Second)"
+title: "MIPS (Million Instructions Per Second)"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"

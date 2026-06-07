@@ -1,5 +1,5 @@
 ---
-title: "237. OPA (Open Policy Agent) / Gatekeeper"
+title: "OPA (Open Policy Agent) / Gatekeeper"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

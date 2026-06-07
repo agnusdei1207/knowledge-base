@@ -1,5 +1,5 @@
 ---
-title: "076. Artifact Repository Nexus Jfrog Ecr"
+title: "Artifact Repository Nexus Jfrog Ecr"
 date: "2026-04-10"
 tags:
   - "studynote-devops-sre"

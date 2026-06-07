@@ -1,5 +1,5 @@
 ---
-title: "057. K Means Clustering Unsupervised Learning"
+title: "K Means Clustering Unsupervised Learning"
 date: "2026-04-07"
 tags:
   - "studynote-ai"

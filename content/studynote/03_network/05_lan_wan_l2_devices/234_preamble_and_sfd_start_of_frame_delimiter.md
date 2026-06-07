@@ -1,5 +1,5 @@
 ---
-title: "234. Preamble & SFD (Start of Frame Delimiter)"
+title: "Preamble & SFD (Start of Frame Delimiter)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

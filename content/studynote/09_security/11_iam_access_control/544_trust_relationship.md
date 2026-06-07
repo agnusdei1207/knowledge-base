@@ -1,5 +1,5 @@
 ---
-title: "544. Trust Relationship (Trust Relationship)"
+title: "Trust Relationship (Trust Relationship)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

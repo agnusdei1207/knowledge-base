@@ -1,5 +1,5 @@
 ---
-title: "862. pickle Deserialization (Python Pickle Insecure Deserialization)"
+title: "pickle Deserialization (Python Pickle Insecure Deserialization)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

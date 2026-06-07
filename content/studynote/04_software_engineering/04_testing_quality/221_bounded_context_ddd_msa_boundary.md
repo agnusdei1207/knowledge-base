@@ -1,5 +1,5 @@
 ---
-title: "221. Bounded Context Ddd Msa Boundary"
+title: "Bounded Context Ddd Msa Boundary"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

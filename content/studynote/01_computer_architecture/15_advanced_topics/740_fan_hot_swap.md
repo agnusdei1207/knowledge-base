@@ -1,5 +1,5 @@
 ---
-title: "740. Fan Hot Swap"
+title: "Fan Hot Swap"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

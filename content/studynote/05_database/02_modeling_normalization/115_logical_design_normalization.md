@@ -1,5 +1,5 @@
 ---
-title: "115. Logical Design Normalization"
+title: "Logical Design Normalization"
 date: "2026-04-19"
 tags:
   - "studynote-database"

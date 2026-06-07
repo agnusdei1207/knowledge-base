@@ -1,5 +1,5 @@
 ---
-title: "379. Cache Coloring"
+title: "Cache Coloring"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

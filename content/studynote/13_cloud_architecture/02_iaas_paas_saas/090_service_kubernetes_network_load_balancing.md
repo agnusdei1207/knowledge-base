@@ -1,5 +1,5 @@
 ---
-title: "090. Service Kubernetes Network Load Balancing"
+title: "Service Kubernetes Network Load Balancing"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"

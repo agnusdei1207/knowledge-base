@@ -1,5 +1,5 @@
 ---
-title: "136. Orchestration Saga"
+title: "Orchestration Saga"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"

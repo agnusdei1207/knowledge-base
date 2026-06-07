@@ -1,5 +1,5 @@
 ---
-title: "906. Secret Management"
+title: "Secret Management"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

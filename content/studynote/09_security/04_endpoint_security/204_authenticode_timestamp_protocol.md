@@ -1,5 +1,5 @@
 ---
-title: "204. Authenticode Timestamp Protocol (Authenticode Timestamp Protocol)"
+title: "Authenticode Timestamp Protocol (Authenticode Timestamp Protocol)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

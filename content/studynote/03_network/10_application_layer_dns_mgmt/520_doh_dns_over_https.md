@@ -1,5 +1,5 @@
 ---
-title: "520. DoH (DNS over HTTPS)"
+title: "DoH (DNS over HTTPS)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

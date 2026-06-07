@@ -1,5 +1,5 @@
 ---
-title: "121. Cicd Pipeline Automation"
+title: "Cicd Pipeline Automation"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"

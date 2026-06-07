@@ -1,5 +1,5 @@
 ---
-title: "149. ROLLUP, CUBE, GROUPING SETS (Rollup Cube Grouping Sets)"
+title: "ROLLUP, CUBE, GROUPING SETS (Rollup Cube Grouping Sets)"
 date: "2026-05-08"
 tags:
   - "studynote-database"

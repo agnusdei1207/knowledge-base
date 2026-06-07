@@ -1,5 +1,5 @@
 ---
-title: "301. API 게이트웨이 / BFF 패턴"
+title: "API 게이트웨이 / BFF 패턴"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

@@ -1,5 +1,5 @@
 ---
-title: "265. E2E End To Ui Selenium"
+title: "E2E End To Ui Selenium"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

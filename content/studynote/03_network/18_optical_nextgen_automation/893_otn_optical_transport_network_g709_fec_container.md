@@ -1,5 +1,5 @@
 ---
-title: "893. Otn Optical Transport Network G709 Fec Container"
+title: "Otn Optical Transport Network G709 Fec Container"
 date: "2026-05-08"
 tags:
   - "studynote-network"

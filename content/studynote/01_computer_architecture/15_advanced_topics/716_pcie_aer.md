@@ -1,5 +1,5 @@
 ---
-title: "716. PCIe AER (Advanced Error Reporting)"
+title: "PCIe AER (Advanced Error Reporting)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

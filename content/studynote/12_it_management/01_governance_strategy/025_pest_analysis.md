@@ -1,5 +1,5 @@
 ---
-title: "025. Pest Analysis"
+title: "Pest Analysis"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"

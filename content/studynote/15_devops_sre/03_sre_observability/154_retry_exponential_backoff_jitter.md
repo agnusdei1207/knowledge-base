@@ -1,5 +1,5 @@
 ---
-title: "154. Retry Exponential Backoff Jitter"
+title: "Retry Exponential Backoff Jitter"
 date: "2026-05-03"
 tags:
   - "studynote-devops-sre"

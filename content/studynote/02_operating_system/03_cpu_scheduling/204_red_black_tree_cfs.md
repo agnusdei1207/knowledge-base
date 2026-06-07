@@ -1,5 +1,5 @@
 ---
-title: "204. Red Black Tree Cfs"
+title: "Red Black Tree Cfs"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"

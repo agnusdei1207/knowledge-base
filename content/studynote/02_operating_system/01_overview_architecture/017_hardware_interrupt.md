@@ -1,5 +1,5 @@
 ---
-title: "017. Hardware Interrupt"
+title: "Hardware Interrupt"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"

@@ -1,5 +1,5 @@
 ---
-title: "1083. Blockchain Gossip Protocol P2P Network"
+title: "Blockchain Gossip Protocol P2P Network"
 date: "2026-05-08"
 tags:
   - "studynote-network"

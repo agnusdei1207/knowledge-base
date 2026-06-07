@@ -1,5 +1,5 @@
 ---
-title: "370. DORA 메트릭스 기반 DevOps 조직 성과 민첩성 리포팅 감리"
+title: "DORA 메트릭스 기반 DevOps 조직 성과 민첩성 리포팅 감리"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

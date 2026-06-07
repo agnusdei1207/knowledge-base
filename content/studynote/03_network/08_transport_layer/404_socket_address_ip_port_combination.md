@@ -1,5 +1,5 @@
 ---
-title: "404. Socket Address Ip Port Combination"
+title: "Socket Address Ip Port Combination"
 date: "2026-05-08"
 tags:
   - "studynote-network"

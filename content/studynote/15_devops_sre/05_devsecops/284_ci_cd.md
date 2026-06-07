@@ -1,5 +1,5 @@
 ---
-title: "284. CI/CD (Continuous Integration/Continuous Delivery)"
+title: "CI/CD (Continuous Integration/Continuous Delivery)"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

@@ -1,5 +1,5 @@
 ---
-title: "150. Code Based Pqc Bike Hqc"
+title: "Code Based Pqc Bike Hqc"
 date: "2026-05-03"
 tags:
   - "studynote-security"

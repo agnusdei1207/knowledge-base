@@ -1,5 +1,5 @@
 ---
-title: "703. 생산자 소비자 유한 버퍼"
+title: "생산자 소비자 유한 버퍼"
 date: "2026-06-07"
 tags:
   - "studynote-operating-system"

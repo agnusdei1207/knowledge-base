@@ -1,5 +1,5 @@
 ---
-title: "506. Directory Structure Symbol Table"
+title: "Directory Structure Symbol Table"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

@@ -1,5 +1,5 @@
 ---
-title: "135. Sql Non Equi Join"
+title: "Sql Non Equi Join"
 date: "2026-04-19"
 tags:
   - "studynote-database"

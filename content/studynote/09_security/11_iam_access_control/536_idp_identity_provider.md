@@ -1,5 +1,5 @@
 ---
-title: "536. IdP (Identity Provider)"
+title: "IdP (Identity Provider)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

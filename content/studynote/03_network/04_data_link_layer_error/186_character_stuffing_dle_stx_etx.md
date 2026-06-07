@@ -1,5 +1,5 @@
 ---
-title: "186. Character Stuffing Dle Stx Etx"
+title: "Character Stuffing Dle Stx Etx"
 date: "2026-05-06"
 tags:
   - "studynote-network"

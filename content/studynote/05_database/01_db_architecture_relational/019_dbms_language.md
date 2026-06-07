@@ -1,5 +1,5 @@
 ---
-title: "019. Dbms Language"
+title: "Dbms Language"
 date: "2026-03-04"
 tags:
   - "database"

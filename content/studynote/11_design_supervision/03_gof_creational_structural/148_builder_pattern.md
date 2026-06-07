@@ -1,5 +1,5 @@
 ---
-title: "148. Builder Pattern"
+title: "Builder Pattern"
 date: "2026-05-03"
 tags:
   - "studynote-design-supervision"

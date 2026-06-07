@@ -1,5 +1,5 @@
 ---
-title: "087. Implementation View Component Diagram Packaging"
+title: "Implementation View Component Diagram Packaging"
 date: "2026-04-10"
 tags:
   - "studynote-design-supervision"

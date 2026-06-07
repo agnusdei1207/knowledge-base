@@ -1,5 +1,5 @@
 ---
-title: "360. Ensemble Bias Variance Proof"
+title: "Ensemble Bias Variance Proof"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"

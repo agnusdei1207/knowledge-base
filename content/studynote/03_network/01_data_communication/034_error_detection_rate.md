@@ -1,5 +1,5 @@
 ---
-title: "034. Error Detection Rate"
+title: "Error Detection Rate"
 date: "2026-03-04"
 tags:
   - "studynote-network"

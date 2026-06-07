@@ -1,5 +1,5 @@
 ---
-title: "04. Apache Storm"
+title: "Apache Storm"
 date: "2026-06-07"
 tags:
   - "bigdata"

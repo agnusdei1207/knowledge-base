@@ -1,5 +1,5 @@
 ---
-title: "500. JWT (JSON Web Token)"
+title: "JWT (JSON Web Token)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

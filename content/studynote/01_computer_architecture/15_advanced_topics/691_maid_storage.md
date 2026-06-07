@@ -1,5 +1,5 @@
 ---
-title: "691. MAID (Massive Array of Idle Disks)"
+title: "MAID (Massive Array of Idle Disks)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

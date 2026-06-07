@@ -1,5 +1,5 @@
 ---
-title: "792. Api Gateway Authentication Routing"
+title: "Api Gateway Authentication Routing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

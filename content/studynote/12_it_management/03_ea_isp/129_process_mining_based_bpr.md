@@ -1,5 +1,5 @@
 ---
-title: "129. Process Mining Based Bpr"
+title: "Process Mining Based Bpr"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

@@ -26,9 +26,13 @@
     {% endfor %}
 
     {% for sub in subs %}
+        {# Extract numeric prefix from folder name e.g. "01_computer_architecture" → "01" #}
+        {% set sub_path_parts = sub.path | split(pat="/") %}
+        {% set sub_folder = sub_path_parts | slice(start=-2, end=-1) | first %}
+        {% set sub_num = sub_folder | split(pat="_") | first %}
         <a class="folder-item" href="{{ sub.permalink }}">
             <span class="fi-icon"><img src="https://api.iconify.design/lucide:folder.svg?color=%23A65B32" width="16" height="16" alt=""></span>
-            <span class="fi-name">{% if loop.index < 10 %}0{% endif %}{{ loop.index }}. {{ sub.title }}</span>
+            <span class="fi-name"><span class="fi-num">{{ sub_num }}.</span> {{ sub.title }}</span>
             <span class="fi-meta">directory</span>
         </a>
     {% endfor %}
@@ -37,10 +41,14 @@
     {% set sorted_pages = section.pages | sort(attribute="relative_path") %}
     {% for page in sorted_pages %}
     {% if not page.relative_path is ending_with("keyword_list.md") %}
+    {# Extract numeric prefix from filename e.g. "001_voltage.md" → "001" #}
+    {% set path_parts = page.relative_path | split(pat="/") %}
+    {% set filename = path_parts | last %}
+    {% set file_num = filename | split(pat="_") | first %}
     <div class="folder-item-wrapper">
         <a class="folder-item" href="{{ page.permalink }}" data-page-url="{{ page.permalink }}">
             <span class="fi-icon"><img src="https://api.iconify.design/lucide:file-text.svg?color=%238E8575" width="16" height="16" alt=""></span>
-            <span class="fi-name">{% if page.weight %}{% if page.weight < 10 %}00{% elif page.weight < 100 %}0{% endif %}{{ page.weight }}. {% endif %}{{ page.title }}</span>
+            <span class="fi-name"><span class="fi-num">{{ file_num }}.</span> {{ page.title }}</span>
             <span class="fi-badge" aria-hidden="true">LAST READ</span>
             <span class="fi-meta">{% if page.date %}{{ page.date | date(format="%Y-%m-%d") }}{% endif %}</span>
         </a>
@@ -51,6 +59,7 @@
     </div>
     {% endif %}
     {% endfor %}
+
 
 </div>
 

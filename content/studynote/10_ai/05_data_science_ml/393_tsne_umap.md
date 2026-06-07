@@ -1,5 +1,5 @@
 ---
-title: "393. t-SNE / UMAP (TSNE UMAP)"
+title: "t-SNE / UMAP (TSNE UMAP)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

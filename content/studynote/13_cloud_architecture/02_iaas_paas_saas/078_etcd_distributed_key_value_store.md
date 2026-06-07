@@ -1,5 +1,5 @@
 ---
-title: "078. Etcd Distributed Key Value Store"
+title: "Etcd Distributed Key Value Store"
 date: "2026-04-07"
 tags:
   - "studynote-cloud-architecture"

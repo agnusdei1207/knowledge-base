@@ -1,5 +1,5 @@
 ---
-title: "967. Baseline Change Control"
+title: "Baseline Change Control"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

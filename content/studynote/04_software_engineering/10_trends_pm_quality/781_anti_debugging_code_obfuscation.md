@@ -1,5 +1,5 @@
 ---
-title: "781. Anti Debugging Code Obfuscation"
+title: "Anti Debugging Code Obfuscation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

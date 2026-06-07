@@ -1,5 +1,5 @@
 ---
-title: "061. Relation Schema Instance"
+title: "Relation Schema Instance"
 date: "2026-06-07"
 tags:
   - "database"

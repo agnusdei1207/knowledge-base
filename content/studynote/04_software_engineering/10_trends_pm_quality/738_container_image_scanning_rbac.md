@@ -1,5 +1,5 @@
 ---
-title: "738. Container Image Scanning Rbac"
+title: "Container Image Scanning Rbac"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

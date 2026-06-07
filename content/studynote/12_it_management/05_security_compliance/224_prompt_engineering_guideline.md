@@ -1,5 +1,5 @@
 ---
-title: "224. 팩트 기반 프롬프트 엔지니어링 (Prompt Engineering) 가이드라인 제정"
+title: "팩트 기반 프롬프트 엔지니어링 (Prompt Engineering) 가이드라인 제정"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

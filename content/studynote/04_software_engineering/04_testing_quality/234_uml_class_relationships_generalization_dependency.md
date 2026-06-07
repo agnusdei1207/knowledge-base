@@ -1,5 +1,5 @@
 ---
-title: "234. Uml Class Relationships Generalization Dependency"
+title: "Uml Class Relationships Generalization Dependency"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

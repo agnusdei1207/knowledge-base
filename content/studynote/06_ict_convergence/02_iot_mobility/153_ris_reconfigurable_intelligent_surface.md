@@ -1,5 +1,5 @@
 ---
-title: "153. Ris Reconfigurable Intelligent Surface"
+title: "Ris Reconfigurable Intelligent Surface"
 date: "2026-05-03"
 tags:
   - "studynote-ict-convergence"

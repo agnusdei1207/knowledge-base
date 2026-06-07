@@ -1,5 +1,5 @@
 ---
-title: "560. Data Fabric Knowledge Graph Intelligent Exploration"
+title: "Data Fabric Knowledge Graph Intelligent Exploration"
 date: "2026-05-09"
 tags:
   - "studynote-database"

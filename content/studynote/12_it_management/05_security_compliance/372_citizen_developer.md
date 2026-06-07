@@ -1,5 +1,5 @@
 ---
-title: "372. 시민 개발자 로우코드 거버넌스 및 섀도우 IT 양성화 통제 방안"
+title: "시민 개발자 로우코드 거버넌스 및 섀도우 IT 양성화 통제 방안"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

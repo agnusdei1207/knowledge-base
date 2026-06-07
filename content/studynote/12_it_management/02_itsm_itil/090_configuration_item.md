@@ -1,5 +1,5 @@
 ---
-title: "090. Rnn Lstm"
+title: "Rnn Lstm"
 date: "2026-04-05"
 tags:
   - "it_management"

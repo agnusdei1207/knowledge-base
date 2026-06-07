@@ -1,5 +1,5 @@
 ---
-title: "207. 인프라스트럭처 애즈 코드 (IaC, Terraform)"
+title: "인프라스트럭처 애즈 코드 (IaC, Terraform)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

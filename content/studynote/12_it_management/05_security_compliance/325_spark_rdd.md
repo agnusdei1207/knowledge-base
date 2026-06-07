@@ -1,5 +1,5 @@
 ---
-title: "325. 스파크 RDD 인메모리 병렬 처리"
+title: "스파크 RDD 인메모리 병렬 처리"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

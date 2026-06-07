@@ -1,5 +1,5 @@
 ---
-title: "069. Skew Join"
+title: "Skew Join"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

@@ -1,5 +1,5 @@
 ---
-title: "571. Protection Vs Security"
+title: "Protection Vs Security"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

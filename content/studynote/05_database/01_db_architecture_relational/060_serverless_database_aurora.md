@@ -1,5 +1,5 @@
 ---
-title: "060. Serverless Database Aurora"
+title: "Serverless Database Aurora"
 date: "2026-04-10"
 tags:
   - "studynote-database"

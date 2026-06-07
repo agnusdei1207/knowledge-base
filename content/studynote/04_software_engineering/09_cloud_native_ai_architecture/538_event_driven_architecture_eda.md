@@ -1,5 +1,5 @@
 ---
-title: "538. Event Driven Architecture Eda"
+title: "Event Driven Architecture Eda"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

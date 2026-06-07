@@ -1,5 +1,5 @@
 ---
-title: "839. It Compliance Gdpr Sox Control Framework"
+title: "It Compliance Gdpr Sox Control Framework"
 date: "2026-04-05"
 tags:
   - "studynote-it-management"

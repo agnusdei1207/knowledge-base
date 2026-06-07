@@ -1,5 +1,5 @@
 ---
-title: "005. Genesis Block"
+title: "Genesis Block"
 date: "2026-06-07"
 tags:
   - "ict_convergence"

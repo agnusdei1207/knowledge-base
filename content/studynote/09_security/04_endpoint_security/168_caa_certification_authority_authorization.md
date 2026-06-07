@@ -1,5 +1,5 @@
 ---
-title: "168. Caa Certification Authority Authorization"
+title: "Caa Certification Authority Authorization"
 date: "2026-04-05"
 tags:
   - "studynote-security"

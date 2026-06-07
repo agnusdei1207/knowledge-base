@@ -1,5 +1,5 @@
 ---
-title: "691. Hunting Loop"
+title: "Hunting Loop"
 date: "2026-05-08"
 tags:
   - "studynote-security"

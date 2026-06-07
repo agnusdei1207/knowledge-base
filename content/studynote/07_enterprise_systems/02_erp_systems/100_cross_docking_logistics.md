@@ -1,5 +1,5 @@
 ---
-title: "100. Cross Docking Logistics"
+title: "Cross Docking Logistics"
 date: "2026-06-07"
 tags:
   - "enterprise_systems"

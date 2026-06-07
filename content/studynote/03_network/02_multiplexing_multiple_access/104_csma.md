@@ -1,5 +1,5 @@
 ---
-title: "104. Csma"
+title: "Csma"
 date: "2026-03-04"
 tags:
   - "network"

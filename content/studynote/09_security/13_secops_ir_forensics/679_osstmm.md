@@ -1,5 +1,5 @@
 ---
-title: "679. OSSTMM (OSSTMM)"
+title: "OSSTMM (OSSTMM)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "697. Llm Hallucination Rag Architecture"
+title: "Llm Hallucination Rag Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

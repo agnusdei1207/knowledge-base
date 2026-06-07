@@ -1,5 +1,5 @@
 ---
-title: "091. Gcm Mode"
+title: "Gcm Mode"
 date: "2026-04-05"
 tags:
   - "studynote-security"

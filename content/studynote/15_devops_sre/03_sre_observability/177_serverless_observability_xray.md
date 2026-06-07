@@ -1,5 +1,5 @@
 ---
-title: "177. Serverless Observability Xray"
+title: "Serverless Observability Xray"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"

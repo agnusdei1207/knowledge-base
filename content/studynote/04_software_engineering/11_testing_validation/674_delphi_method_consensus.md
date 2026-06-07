@@ -1,5 +1,5 @@
 ---
-title: "674. 델파이 기법 (Delphi Method) 전문가 합의"
+title: "델파이 기법 (Delphi Method) 전문가 합의"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

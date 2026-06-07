@@ -1,5 +1,5 @@
 ---
-title: "282. 사일로 효과 (부서 장벽 이기주의)"
+title: "사일로 효과 (부서 장벽 이기주의)"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

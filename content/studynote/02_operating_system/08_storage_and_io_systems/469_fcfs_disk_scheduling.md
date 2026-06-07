@@ -1,5 +1,5 @@
 ---
-title: "469. Fcfs Disk Scheduling"
+title: "Fcfs Disk Scheduling"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

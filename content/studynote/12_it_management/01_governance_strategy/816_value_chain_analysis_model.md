@@ -1,5 +1,5 @@
 ---
-title: "816. Value Chain Analysis Model"
+title: "Value Chain Analysis Model"
 date: "2026-04-02"
 tags:
   - "studynote-it-management"

@@ -1,5 +1,5 @@
 ---
-title: "215. Serverless Faas 1 Aws Lambda"
+title: "Serverless Faas 1 Aws Lambda"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

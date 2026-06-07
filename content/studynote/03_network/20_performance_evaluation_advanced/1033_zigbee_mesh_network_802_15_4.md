@@ -1,5 +1,5 @@
 ---
-title: "1033. Zigbee Mesh Network 802 15 4"
+title: "Zigbee Mesh Network 802 15 4"
 date: "2026-05-08"
 tags:
   - "studynote-network"

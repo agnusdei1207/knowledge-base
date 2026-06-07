@@ -1,5 +1,5 @@
 ---
-title: "145. 1 Mini Spec"
+title: "1 Mini Spec"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"

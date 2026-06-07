@@ -1,5 +1,5 @@
 ---
-title: "045. Cluster System"
+title: "Cluster System"
 date: "2026-04-05"
 tags:
   - "studynote-operating-system"

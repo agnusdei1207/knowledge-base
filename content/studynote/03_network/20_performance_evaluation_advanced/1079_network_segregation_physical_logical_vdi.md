@@ -1,5 +1,5 @@
 ---
-title: "1079. Network Segregation Physical Logical Vdi"
+title: "Network Segregation Physical Logical Vdi"
 date: "2026-05-08"
 tags:
   - "studynote-network"

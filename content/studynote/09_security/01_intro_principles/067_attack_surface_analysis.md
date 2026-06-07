@@ -1,5 +1,5 @@
 ---
-title: "067. Attack Surface Analysis"
+title: "Attack Surface Analysis"
 date: "2026-04-05"
 tags:
   - "studynote-security"

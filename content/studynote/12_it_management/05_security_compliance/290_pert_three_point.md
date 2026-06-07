@@ -1,5 +1,5 @@
 ---
-title: "290. PERT 3점 추정"
+title: "PERT 3점 추정"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

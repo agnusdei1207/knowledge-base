@@ -1,5 +1,5 @@
 ---
-title: "189. 예방 감리 / 상주 감리 체제 적용"
+title: "예방 감리 / 상주 감리 체제 적용"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

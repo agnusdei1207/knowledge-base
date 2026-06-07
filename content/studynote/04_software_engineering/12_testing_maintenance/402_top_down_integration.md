@@ -1,5 +1,5 @@
 ---
-title: "402. Top Down Integration"
+title: "Top Down Integration"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

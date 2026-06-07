@@ -1,5 +1,5 @@
 ---
-title: "166. Moscow Prioritization Technique"
+title: "Moscow Prioritization Technique"
 date: "2026-04-03"
 tags:
   - "studynote-software-engineering"

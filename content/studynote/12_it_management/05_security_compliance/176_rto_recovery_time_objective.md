@@ -1,5 +1,5 @@
 ---
-title: "176. RTO (Recovery Time Objective)"
+title: "RTO (Recovery Time Objective)"
 date: "2026-05-06"
 tags:
   - "studynote-it-management"

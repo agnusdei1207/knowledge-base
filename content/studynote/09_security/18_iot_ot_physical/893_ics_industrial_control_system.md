@@ -1,5 +1,5 @@
 ---
-title: "893. ICS (Industrial Control System)"
+title: "ICS (Industrial Control System)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "572. ABAC (Attribute-Based Access Control)"
+title: "ABAC (Attribute-Based Access Control)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

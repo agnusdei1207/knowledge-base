@@ -1,5 +1,5 @@
 ---
-title: "273. 데이터 스튜어드십"
+title: "데이터 스튜어드십"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

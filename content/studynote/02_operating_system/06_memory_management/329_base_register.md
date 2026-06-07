@@ -1,5 +1,5 @@
 ---
-title: "329. Base Register"
+title: "Base Register"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

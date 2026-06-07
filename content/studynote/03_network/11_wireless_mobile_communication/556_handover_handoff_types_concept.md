@@ -1,5 +1,5 @@
 ---
-title: "556. Handover Handoff Types Concept"
+title: "Handover Handoff Types Concept"
 date: "2026-05-08"
 tags:
   - "studynote-network"

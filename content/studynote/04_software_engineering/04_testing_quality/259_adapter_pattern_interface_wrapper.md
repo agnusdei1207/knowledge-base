@@ -1,5 +1,5 @@
 ---
-title: "259. Adapter Pattern Interface Wrapper"
+title: "Adapter Pattern Interface Wrapper"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

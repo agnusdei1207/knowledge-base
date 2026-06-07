@@ -1,5 +1,5 @@
 ---
-title: "419. 화이트박스 MC/DC 조건 결정 독립 분기 커버"
+title: "화이트박스 MC/DC 조건 결정 독립 분기 커버"
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

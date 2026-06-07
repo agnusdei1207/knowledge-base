@@ -1,5 +1,5 @@
 ---
-title: "369. 오픈소스 라이선스 고지 의무 및 GPL 전염성 릴리스 차단 진단"
+title: "오픈소스 라이선스 고지 의무 및 GPL 전염성 릴리스 차단 진단"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

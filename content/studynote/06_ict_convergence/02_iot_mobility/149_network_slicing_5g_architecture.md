@@ -1,5 +1,5 @@
 ---
-title: "149. Network Slicing 5G Architecture"
+title: "Network Slicing 5G Architecture"
 date: "2026-05-03"
 tags:
   - "studynote-ict-convergence"

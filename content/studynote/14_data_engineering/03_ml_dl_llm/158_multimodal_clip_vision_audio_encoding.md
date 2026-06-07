@@ -1,5 +1,5 @@
 ---
-title: "158. Multimodal Clip Vision Audio Encoding"
+title: "Multimodal Clip Vision Audio Encoding"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

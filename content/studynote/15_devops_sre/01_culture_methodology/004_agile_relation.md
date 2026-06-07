@@ -1,5 +1,5 @@
 ---
-title: "004. Agile Relation"
+title: "Agile Relation"
 date: "2026-04-05"
 tags:
   - "devops_sre"

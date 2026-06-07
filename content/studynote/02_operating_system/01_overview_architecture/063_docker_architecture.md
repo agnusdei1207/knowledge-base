@@ -1,5 +1,5 @@
 ---
-title: "063. Docker Architecture"
+title: "Docker Architecture"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"

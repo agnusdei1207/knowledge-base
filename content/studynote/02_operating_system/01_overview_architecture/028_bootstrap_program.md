@@ -1,5 +1,5 @@
 ---
-title: "028. Bootstrap Program"
+title: "Bootstrap Program"
 date: "2026-04-29"
 tags:
   - "studynote-operating-system"

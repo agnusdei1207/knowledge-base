@@ -1,5 +1,5 @@
 ---
-title: "119. Seq2Seq Model"
+title: "Seq2Seq Model"
 date: "2026-04-19"
 tags:
   - "studynote-ai"

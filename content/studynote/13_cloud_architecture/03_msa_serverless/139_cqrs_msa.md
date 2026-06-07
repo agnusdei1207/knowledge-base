@@ -1,5 +1,5 @@
 ---
-title: "139. Cqrs Msa"
+title: "Cqrs Msa"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "750. Network Separation Linkage System Iso27001"
+title: "Network Separation Linkage System Iso27001"
 date: "2026-05-08"
 tags:
   - "studynote-network"

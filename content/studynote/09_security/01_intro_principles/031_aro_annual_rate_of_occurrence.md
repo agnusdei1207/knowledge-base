@@ -1,5 +1,5 @@
 ---
-title: "031. Aro Annual Rate Of Occurrence"
+title: "Aro Annual Rate Of Occurrence"
 date: "2026-04-29"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "237. Hids Hips Host Based Intrusion Detection"
+title: "Hids Hips Host Based Intrusion Detection"
 date: "2026-05-08"
 tags:
   - "studynote-security"

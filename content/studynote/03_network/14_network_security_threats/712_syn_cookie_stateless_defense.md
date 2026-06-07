@@ -1,5 +1,5 @@
 ---
-title: "712. Syn Cookie Stateless Defense"
+title: "Syn Cookie Stateless Defense"
 date: "2026-05-08"
 tags:
   - "studynote-network"

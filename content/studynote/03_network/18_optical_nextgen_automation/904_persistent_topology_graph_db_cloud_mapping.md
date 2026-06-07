@@ -1,5 +1,5 @@
 ---
-title: "904. Persistent Topology Graph Db Cloud Mapping"
+title: "Persistent Topology Graph Db Cloud Mapping"
 date: "2026-05-08"
 tags:
   - "studynote-network"

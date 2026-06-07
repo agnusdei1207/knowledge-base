@@ -1,5 +1,5 @@
 ---
-title: "152. Embedding"
+title: "Embedding"
 date: "2026-05-03"
 tags:
   - "studynote-ai"

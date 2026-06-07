@@ -1,5 +1,5 @@
 ---
-title: "689. Nvram Logging"
+title: "Nvram Logging"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

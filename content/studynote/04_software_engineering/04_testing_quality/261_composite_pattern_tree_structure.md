@@ -1,5 +1,5 @@
 ---
-title: "261. Composite Pattern Tree Structure"
+title: "Composite Pattern Tree Structure"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

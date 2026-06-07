@@ -1,5 +1,5 @@
 ---
-title: "307. Circuit Breaker Pattern"
+title: "Circuit Breaker Pattern"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

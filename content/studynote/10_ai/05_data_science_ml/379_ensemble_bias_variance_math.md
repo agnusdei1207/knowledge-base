@@ -1,5 +1,5 @@
 ---
-title: "379. Ensemble Bias Variance Math"
+title: "Ensemble Bias Variance Math"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

@@ -1,5 +1,5 @@
 ---
-title: "502. Csrf Cross Site Request Forgery"
+title: "Csrf Cross Site Request Forgery"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

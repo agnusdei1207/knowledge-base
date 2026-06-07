@@ -1,5 +1,5 @@
 ---
-title: "323. Redirect Message Better Route Notification"
+title: "Redirect Message Better Route Notification"
 date: "2026-05-08"
 tags:
   - "studynote-network"

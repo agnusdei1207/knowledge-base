@@ -1,5 +1,5 @@
 ---
-title: "507. GSLB (Global Server Load Balancing)"
+title: "GSLB (Global Server Load Balancing)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "068. Cdo Cio Role Separation Governance"
+title: "Cdo Cio Role Separation Governance"
 date: "2026-06-07"
 tags:
   - "enterprise_systems"

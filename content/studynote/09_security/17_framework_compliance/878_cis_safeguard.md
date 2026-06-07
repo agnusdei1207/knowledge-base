@@ -1,5 +1,5 @@
 ---
-title: "878. CIS Safeguard (CIS Safeguard)"
+title: "CIS Safeguard (CIS Safeguard)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

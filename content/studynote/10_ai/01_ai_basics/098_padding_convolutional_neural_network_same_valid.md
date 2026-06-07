@@ -1,5 +1,5 @@
 ---
-title: "098. Padding Convolutional Neural Network Same Valid"
+title: "Padding Convolutional Neural Network Same Valid"
 date: "2026-04-10"
 tags:
   - "studynote-ai"

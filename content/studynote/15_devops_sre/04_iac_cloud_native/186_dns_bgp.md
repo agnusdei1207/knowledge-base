@@ -1,5 +1,5 @@
 ---
-title: "186. Dns Bgp"
+title: "Dns Bgp"
 date: "2026-04-28"
 tags:
   - "studynote-devops-sre"

@@ -1,5 +1,5 @@
 ---
-title: "896. Cryptographic Algorithm Selection"
+title: "Cryptographic Algorithm Selection"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "225. LCP (Link Control Protocol)"
+title: "LCP (Link Control Protocol)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

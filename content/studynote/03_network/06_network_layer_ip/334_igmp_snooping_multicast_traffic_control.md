@@ -1,5 +1,5 @@
 ---
-title: "334. Igmp Snooping Multicast Traffic Control"
+title: "Igmp Snooping Multicast Traffic Control"
 date: "2026-05-08"
 tags:
   - "studynote-network"

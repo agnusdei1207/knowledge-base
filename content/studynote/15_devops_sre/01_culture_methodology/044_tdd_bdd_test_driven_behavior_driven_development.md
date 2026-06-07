@@ -1,5 +1,5 @@
 ---
-title: "044. Tdd Bdd Test Driven Behavior Driven Development"
+title: "Tdd Bdd Test Driven Behavior Driven Development"
 date: "2026-04-05"
 tags:
   - "studynote-devops-sre"

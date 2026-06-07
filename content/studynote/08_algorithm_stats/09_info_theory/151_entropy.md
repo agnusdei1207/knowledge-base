@@ -1,5 +1,5 @@
 ---
-title: "151. Entropy"
+title: "Entropy"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

@@ -1,5 +1,5 @@
 ---
-title: "801. RISC-V ePMP (Enhanced PMP)"
+title: "RISC-V ePMP (Enhanced PMP)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

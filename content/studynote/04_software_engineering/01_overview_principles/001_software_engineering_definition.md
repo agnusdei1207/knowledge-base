@@ -1,5 +1,5 @@
 ---
-title: "001. Software Engineering Definition"
+title: "Software Engineering Definition"
 date: "2024-05-20"
 tags:
   - "software_engineering"

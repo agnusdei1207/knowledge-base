@@ -1,5 +1,5 @@
 ---
-title: "136. Prometheus"
+title: "Prometheus"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"

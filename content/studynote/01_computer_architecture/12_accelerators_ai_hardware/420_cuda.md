@@ -1,5 +1,5 @@
 ---
-title: "420. CUDA (Compute Unified Device Architecture)"
+title: "CUDA (Compute Unified Device Architecture)"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"

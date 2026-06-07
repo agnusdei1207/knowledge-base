@@ -1,5 +1,5 @@
 ---
-title: "888. Graph"
+title: "Graph"
 date: "2026-06-07"
 tags:
   - "it_management"

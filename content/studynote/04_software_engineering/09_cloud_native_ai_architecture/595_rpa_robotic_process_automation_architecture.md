@@ -1,5 +1,5 @@
 ---
-title: "595. Rpa Robotic Process Automation Architecture"
+title: "Rpa Robotic Process Automation Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

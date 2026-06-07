@@ -1,5 +1,5 @@
 ---
-title: "187. Parquet Orc Iceberg Arrow"
+title: "Parquet Orc Iceberg Arrow"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"

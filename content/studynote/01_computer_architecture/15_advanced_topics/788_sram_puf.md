@@ -1,5 +1,5 @@
 ---
-title: "788. SRAM PUF (Physical Unclonable Function)"
+title: "SRAM PUF (Physical Unclonable Function)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

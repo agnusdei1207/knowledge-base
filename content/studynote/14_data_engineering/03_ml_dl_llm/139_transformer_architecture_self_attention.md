@@ -1,5 +1,5 @@
 ---
-title: "139. Transformer Architecture Self Attention"
+title: "Transformer Architecture Self Attention"
 date: "2026-04-19"
 tags:
   - "studynote-data-engineering"

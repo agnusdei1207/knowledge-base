@@ -1,5 +1,5 @@
 ---
-title: "140. Subscription Economy Xaas Business Model"
+title: "Subscription Economy Xaas Business Model"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"

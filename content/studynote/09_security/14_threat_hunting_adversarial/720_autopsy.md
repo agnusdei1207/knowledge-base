@@ -1,5 +1,5 @@
 ---
-title: "720. Autopsy (Autopsy)"
+title: "Autopsy (Autopsy)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

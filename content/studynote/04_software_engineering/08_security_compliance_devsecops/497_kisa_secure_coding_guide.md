@@ -1,5 +1,5 @@
 ---
-title: "497. Kisa Secure Coding Guide"
+title: "Kisa Secure Coding Guide"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

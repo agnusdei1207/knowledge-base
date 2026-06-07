@@ -1,5 +1,5 @@
 ---
-title: "467. Shift Right Testing"
+title: "Shift Right Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

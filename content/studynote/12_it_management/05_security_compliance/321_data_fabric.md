@@ -1,5 +1,5 @@
 ---
-title: "321. 데이터 패브릭 지능형 가상화 통합 연결"
+title: "데이터 패브릭 지능형 가상화 통합 연결"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

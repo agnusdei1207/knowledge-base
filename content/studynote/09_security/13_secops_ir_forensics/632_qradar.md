@@ -1,5 +1,5 @@
 ---
-title: "632. QRadar (QRadar)"
+title: "QRadar (QRadar)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

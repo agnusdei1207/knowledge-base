@@ -1,5 +1,5 @@
 ---
-title: "879. SSRF (Server-Side Request Forgery)"
+title: "SSRF (Server-Side Request Forgery)"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

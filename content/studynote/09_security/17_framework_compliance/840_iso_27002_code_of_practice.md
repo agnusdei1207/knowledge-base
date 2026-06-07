@@ -1,5 +1,5 @@
 ---
-title: "840. ISO/IEC 27002 (Code of Practice)"
+title: "ISO/IEC 27002 (Code of Practice)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

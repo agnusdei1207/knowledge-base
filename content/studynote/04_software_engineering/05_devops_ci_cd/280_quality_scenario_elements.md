@@ -1,5 +1,5 @@
 ---
-title: "280. Quality Scenario Elements"
+title: "Quality Scenario Elements"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

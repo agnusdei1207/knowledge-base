@@ -1,5 +1,5 @@
 ---
-title: "1084. Dark Web Tor Onion Routing Encryption"
+title: "Dark Web Tor Onion Routing Encryption"
 date: "2026-05-08"
 tags:
   - "studynote-network"

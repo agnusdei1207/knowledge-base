@@ -1,5 +1,5 @@
 ---
-title: "771. Bdd Behavior Driven Development"
+title: "Bdd Behavior Driven Development"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

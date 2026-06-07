@@ -1,5 +1,5 @@
 ---
-title: "031. Apache Oozie Airflow"
+title: "Apache Oozie Airflow"
 date: "2026-04-29"
 tags:
   - "studynote-data-engineering"

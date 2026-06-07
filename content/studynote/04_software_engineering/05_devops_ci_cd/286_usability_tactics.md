@@ -1,5 +1,5 @@
 ---
-title: "286. Usability Tactics"
+title: "Usability Tactics"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

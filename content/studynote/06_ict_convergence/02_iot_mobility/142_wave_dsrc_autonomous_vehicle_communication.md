@@ -1,5 +1,5 @@
 ---
-title: "142. Wave Dsrc Autonomous Vehicle Communication"
+title: "Wave Dsrc Autonomous Vehicle Communication"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"

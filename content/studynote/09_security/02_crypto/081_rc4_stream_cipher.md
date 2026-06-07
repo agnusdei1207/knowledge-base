@@ -1,5 +1,5 @@
 ---
-title: "81. RC4 (Rivest Cipher 4)"
+title: "RC4 (Rivest Cipher 4)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

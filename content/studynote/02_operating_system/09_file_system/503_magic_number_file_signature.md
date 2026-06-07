@@ -1,5 +1,5 @@
 ---
-title: "503. Magic Number File Signature"
+title: "Magic Number File Signature"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

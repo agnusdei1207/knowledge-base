@@ -1,5 +1,5 @@
 ---
-title: "072. Leaky Relu Elu Dying Relu Solution"
+title: "Leaky Relu Elu Dying Relu Solution"
 date: "2026-06-07"
 tags:
   - "ai"

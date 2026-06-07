@@ -1,5 +1,5 @@
 ---
-title: "407. Second Chance Algorithm"
+title: "Second Chance Algorithm"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

@@ -1,5 +1,5 @@
 ---
-title: "095. Cnn Convolutional Neural Network Image Recognition"
+title: "Cnn Convolutional Neural Network Image Recognition"
 date: "2026-04-10"
 tags:
   - "studynote-ai"

@@ -1,5 +1,5 @@
 ---
-title: "488. SMTP (Simple Mail Transfer Protocol)"
+title: "SMTP (Simple Mail Transfer Protocol)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

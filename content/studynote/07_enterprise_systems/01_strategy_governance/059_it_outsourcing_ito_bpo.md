@@ -1,5 +1,5 @@
 ---
-title: "059. It Outsourcing Ito Bpo"
+title: "It Outsourcing Ito Bpo"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"

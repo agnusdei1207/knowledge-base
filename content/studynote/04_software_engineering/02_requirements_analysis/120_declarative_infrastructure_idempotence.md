@@ -1,5 +1,5 @@
 ---
-title: "120. Declarative Infrastructure Idempotence"
+title: "Declarative Infrastructure Idempotence"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"

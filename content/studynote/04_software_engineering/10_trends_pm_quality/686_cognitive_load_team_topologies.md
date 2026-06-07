@@ -1,5 +1,5 @@
 ---
-title: "686. Cognitive Load Team Topologies"
+title: "Cognitive Load Team Topologies"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

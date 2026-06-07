@@ -1,5 +1,5 @@
 ---
-title: "514. OIDC (OIDC)"
+title: "OIDC (OIDC)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "321. Programming Paradigms"
+title: "Programming Paradigms"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

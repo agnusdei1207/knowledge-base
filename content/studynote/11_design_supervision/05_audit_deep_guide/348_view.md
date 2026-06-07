@@ -1,5 +1,5 @@
 ---
-title: "348. 4+1 View (논리 프로세스 구현 배포 유스케이스)"
+title: "4+1 View (논리 프로세스 구현 배포 유스케이스)"
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

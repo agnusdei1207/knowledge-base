@@ -1,5 +1,5 @@
 ---
-title: "071. Anova Analysis Of Variance F Value Post Hoc"
+title: "Anova Analysis Of Variance F Value Post Hoc"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"

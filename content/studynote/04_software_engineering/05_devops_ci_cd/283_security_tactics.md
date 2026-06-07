@@ -1,5 +1,5 @@
 ---
-title: "283. Security Tactics"
+title: "Security Tactics"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

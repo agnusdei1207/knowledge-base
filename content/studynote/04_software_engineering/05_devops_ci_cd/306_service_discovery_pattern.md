@@ -1,5 +1,5 @@
 ---
-title: "306. Service Discovery Pattern"
+title: "Service Discovery Pattern"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

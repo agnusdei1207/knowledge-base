@@ -1,5 +1,5 @@
 ---
-title: "159. Rest Level 1 Resources"
+title: "Rest Level 1 Resources"
 date: "2026-05-05"
 tags:
   - "studynote-enterprise-systems"

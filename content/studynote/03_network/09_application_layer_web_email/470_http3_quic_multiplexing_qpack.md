@@ -1,5 +1,5 @@
 ---
-title: "470. Http3 Quic Multiplexing Qpack"
+title: "Http3 Quic Multiplexing Qpack"
 date: "2026-05-08"
 tags:
   - "studynote-network"

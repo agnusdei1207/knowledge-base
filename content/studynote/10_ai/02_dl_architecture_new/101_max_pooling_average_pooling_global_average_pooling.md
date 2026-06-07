@@ -1,5 +1,5 @@
 ---
-title: "101. Max Pooling Average Pooling Global Average Pooling"
+title: "Max Pooling Average Pooling Global Average Pooling"
 date: "2026-04-10"
 tags:
   - "studynote-ai"

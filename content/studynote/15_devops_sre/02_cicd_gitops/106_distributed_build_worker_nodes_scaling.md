@@ -1,5 +1,5 @@
 ---
-title: "106. Distributed Build Worker Nodes Scaling"
+title: "Distributed Build Worker Nodes Scaling"
 date: "2026-03-04"
 tags:
   - "studynote-devops-sre"

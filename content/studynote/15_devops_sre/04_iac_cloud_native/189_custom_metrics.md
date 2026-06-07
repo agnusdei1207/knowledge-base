@@ -1,5 +1,5 @@
 ---
-title: "189. Custom Metrics"
+title: "Custom Metrics"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"

@@ -1,5 +1,5 @@
 ---
-title: "1098. Lacp Etherchannel Link Aggregation Port"
+title: "Lacp Etherchannel Link Aggregation Port"
 date: "2026-05-08"
 tags:
   - "studynote-network"

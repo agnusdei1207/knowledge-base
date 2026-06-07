@@ -1,5 +1,5 @@
 ---
-title: "339. 제로 트러스트 ZTNA 마이크로 세그멘테이션 감리"
+title: "제로 트러스트 ZTNA 마이크로 세그멘테이션 감리"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

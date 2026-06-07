@@ -1,5 +1,5 @@
 ---
-title: "1003. /dev/urandom — Linux 난수 장치"
+title: "/dev/urandom — Linux 난수 장치"
 date: "2026-06-07"
 tags:
   - "studynote-security"

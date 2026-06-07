@@ -1,5 +1,5 @@
 ---
-title: "463. Markov Decision Process Mdp"
+title: "Markov Decision Process Mdp"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"

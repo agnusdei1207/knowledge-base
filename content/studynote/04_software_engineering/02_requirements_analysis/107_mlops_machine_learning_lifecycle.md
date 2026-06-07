@@ -1,5 +1,5 @@
 ---
-title: "107. Mlops Machine Learning Lifecycle"
+title: "Mlops Machine Learning Lifecycle"
 date: "2026-06-07"
 tags:
   - "software_engineering"

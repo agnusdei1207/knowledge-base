@@ -1,5 +1,5 @@
 ---
-title: "017. Relational Data Model"
+title: "Relational Data Model"
 date: "2026-03-04"
 tags:
   - "database"

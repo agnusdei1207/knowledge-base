@@ -1,5 +1,5 @@
 ---
-title: "420. Memory Mapped Io"
+title: "Memory Mapped Io"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

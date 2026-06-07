@@ -1,5 +1,5 @@
 ---
-title: "815. Overlay Network Virtualization L2 Extension"
+title: "Overlay Network Virtualization L2 Extension"
 date: "2026-05-08"
 tags:
   - "studynote-network"

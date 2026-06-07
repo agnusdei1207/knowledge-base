@@ -1,5 +1,5 @@
 ---
-title: "790. Event Bus Kafka Asynchronous"
+title: "Event Bus Kafka Asynchronous"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

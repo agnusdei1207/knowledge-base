@@ -1,5 +1,5 @@
 ---
-title: "153. Linpack"
+title: "Linpack"
 date: "2026-05-03"
 tags:
   - "studynote-computer-architecture"

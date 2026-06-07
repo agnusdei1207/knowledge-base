@@ -1,5 +1,5 @@
 ---
-title: "267. BIA 업무 영향 분석"
+title: "BIA 업무 영향 분석"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

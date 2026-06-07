@@ -1,5 +1,5 @@
 ---
-title: "671. DPDK (Data Plane Development Kit)"
+title: "DPDK (Data Plane Development Kit)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

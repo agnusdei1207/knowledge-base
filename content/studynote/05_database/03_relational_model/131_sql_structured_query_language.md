@@ -1,5 +1,5 @@
 ---
-title: "131. SQL 국제 표준 (Structured Query Language)"
+title: "SQL 국제 표준 (Structured Query Language)"
 date: "2026-06-07"
 tags:
   - "studynote-database"

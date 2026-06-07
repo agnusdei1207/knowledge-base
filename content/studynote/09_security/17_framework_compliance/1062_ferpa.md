@@ -1,5 +1,5 @@
 ---
-title: "1062. FERPA (Education Privacy)"
+title: "FERPA (Education Privacy)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

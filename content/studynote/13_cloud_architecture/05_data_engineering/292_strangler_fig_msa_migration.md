@@ -1,5 +1,5 @@
 ---
-title: "292. 스트랭글러 피그 패턴 레거시 점진적 MSA 이관 (MSA)"
+title: "스트랭글러 피그 패턴 레거시 점진적 MSA 이관 (MSA)"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"

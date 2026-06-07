@@ -1,5 +1,5 @@
 ---
-title: "256. Builder Pattern Step By Step Creation"
+title: "Builder Pattern Step By Step Creation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

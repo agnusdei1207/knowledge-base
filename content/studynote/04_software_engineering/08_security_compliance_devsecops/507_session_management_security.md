@@ -1,5 +1,5 @@
 ---
-title: "507. Session Management Security"
+title: "Session Management Security"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

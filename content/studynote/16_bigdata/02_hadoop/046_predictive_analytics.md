@@ -1,5 +1,5 @@
 ---
-title: "046. Predictive Analytics"
+title: "Predictive Analytics"
 date: "2026-04-29"
 tags:
   - "studynote-bigdata"

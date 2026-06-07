@@ -1,5 +1,5 @@
 ---
-title: "686. CPU 바운드 vs I/O 바운드"
+title: "CPU 바운드 vs I/O 바운드"
 date: "2026-06-07"
 tags:
   - "studynote-operating-system"

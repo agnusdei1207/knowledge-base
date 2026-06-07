@@ -1,5 +1,5 @@
 ---
-title: "010. Ea Enterprise Architecture"
+title: "Ea Enterprise Architecture"
 date: "2026-03-04"
 tags:
   - "enterprise_systems"

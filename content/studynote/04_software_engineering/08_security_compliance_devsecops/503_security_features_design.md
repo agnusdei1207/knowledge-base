@@ -1,5 +1,5 @@
 ---
-title: "503. Security Features Design"
+title: "Security Features Design"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

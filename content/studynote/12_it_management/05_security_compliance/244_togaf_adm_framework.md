@@ -1,5 +1,5 @@
 ---
-title: "244. TOGAF ADM 프레임워크"
+title: "TOGAF ADM 프레임워크"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

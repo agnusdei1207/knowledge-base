@@ -1,5 +1,5 @@
 ---
-title: "146. Esb Enterprise Service Bus Architecture"
+title: "Esb Enterprise Service Bus Architecture"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"

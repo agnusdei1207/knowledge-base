@@ -1,5 +1,5 @@
 ---
-title: "167. Sql Hint Optimizer Override"
+title: "Sql Hint Optimizer Override"
 date: "2026-04-03"
 tags:
   - "studynote-database"

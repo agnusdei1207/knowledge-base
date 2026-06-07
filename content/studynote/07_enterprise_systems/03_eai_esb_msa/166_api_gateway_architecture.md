@@ -1,5 +1,5 @@
 ---
-title: "166. Api Gateway Architecture"
+title: "Api Gateway Architecture"
 date: "2026-06-07"
 tags:
   - "studynote-enterprise-systems"

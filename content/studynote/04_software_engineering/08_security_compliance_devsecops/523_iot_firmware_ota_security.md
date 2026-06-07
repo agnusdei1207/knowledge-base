@@ -1,5 +1,5 @@
 ---
-title: "523. Iot Firmware Ota Security"
+title: "Iot Firmware Ota Security"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

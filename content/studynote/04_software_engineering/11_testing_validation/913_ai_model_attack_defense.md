@@ -1,5 +1,5 @@
 ---
-title: "913. Ai Model Attack Defense"
+title: "Ai Model Attack Defense"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

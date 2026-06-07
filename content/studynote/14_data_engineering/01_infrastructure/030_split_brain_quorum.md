@@ -1,5 +1,5 @@
 ---
-title: "030. Split Brain Quorum"
+title: "Split Brain Quorum"
 date: "2026-04-29"
 tags:
   - "studynote-data-engineering"

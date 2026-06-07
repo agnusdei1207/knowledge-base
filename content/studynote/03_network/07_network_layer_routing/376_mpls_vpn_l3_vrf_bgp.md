@@ -1,5 +1,5 @@
 ---
-title: "376. MPLS VPN"
+title: "MPLS VPN"
 date: "2026-05-08"
 tags:
   - "studynote-network"

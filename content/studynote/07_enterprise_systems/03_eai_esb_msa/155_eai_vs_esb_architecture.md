@@ -1,5 +1,5 @@
 ---
-title: "155. EAI vs ESB (EAI vs ESB Architecture)"
+title: "EAI vs ESB (EAI vs ESB Architecture)"
 date: "2026-05-08"
 tags:
   - "studynote-enterprise-systems"

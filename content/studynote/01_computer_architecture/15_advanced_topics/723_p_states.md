@@ -1,5 +1,5 @@
 ---
-title: "723. P-States (Performance States)"
+title: "P-States (Performance States)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

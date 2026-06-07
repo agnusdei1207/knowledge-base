@@ -1,5 +1,5 @@
 ---
-title: "818. Nvgre Network Virtualization Using Generic Routing Encapsulation"
+title: "Nvgre Network Virtualization Using Generic Routing Encapsulation"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "508. Anycast Based Cdn Architecture"
+title: "Anycast Based Cdn Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-network"

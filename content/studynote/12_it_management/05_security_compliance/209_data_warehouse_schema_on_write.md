@@ -1,5 +1,5 @@
 ---
-title: "209. 데이터 웨어하우스 (DW)"
+title: "데이터 웨어하우스 (DW)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

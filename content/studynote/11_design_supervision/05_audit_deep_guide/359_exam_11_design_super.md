@@ -1,5 +1,5 @@
 ---
-title: "359. 의존 역전 [추상화]"
+title: "의존 역전 [추상화]"
 date: "2026-06-07"
 tags:
   - "studynote-design-supervision"

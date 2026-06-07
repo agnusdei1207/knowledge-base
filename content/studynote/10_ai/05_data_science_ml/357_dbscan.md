@@ -1,5 +1,5 @@
 ---
-title: "357. DBSCAN (Density-Based Spatial Clustering)"
+title: "DBSCAN (Density-Based Spatial Clustering)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"

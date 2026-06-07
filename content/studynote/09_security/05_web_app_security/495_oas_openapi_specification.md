@@ -1,5 +1,5 @@
 ---
-title: "495. OAS (OpenAPI Specification)"
+title: "OAS (OpenAPI Specification)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

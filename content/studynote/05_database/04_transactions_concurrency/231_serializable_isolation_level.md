@@ -1,5 +1,5 @@
 ---
-title: "231. Serializable (Serializable Isolation Level)"
+title: "Serializable (Serializable Isolation Level)"
 date: "2026-05-08"
 tags:
   - "studynote-database"

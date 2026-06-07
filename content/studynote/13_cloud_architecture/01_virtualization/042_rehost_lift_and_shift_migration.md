@@ -1,5 +1,5 @@
 ---
-title: "042. Rehost Lift And Shift Migration"
+title: "Rehost Lift And Shift Migration"
 date: "2026-04-05"
 tags:
   - "studynote-cloud-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "133. Non Functional Requirements"
+title: "Non Functional Requirements"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"

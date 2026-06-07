@@ -1,5 +1,5 @@
 ---
-title: "587. Star Transformation Fact Dimension Bitmap Index"
+title: "Star Transformation Fact Dimension Bitmap Index"
 date: "2026-05-09"
 tags:
   - "studynote-database"

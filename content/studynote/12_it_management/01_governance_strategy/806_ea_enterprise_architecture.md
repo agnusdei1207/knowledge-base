@@ -1,5 +1,5 @@
 ---
-title: "806. EA (Enterprise Architecture)"
+title: "EA (Enterprise Architecture)"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"

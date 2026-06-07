@@ -1,5 +1,5 @@
 ---
-title: "192. Edge Ai Onnx Tensorrt Model Serialization"
+title: "Edge Ai Onnx Tensorrt Model Serialization"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"

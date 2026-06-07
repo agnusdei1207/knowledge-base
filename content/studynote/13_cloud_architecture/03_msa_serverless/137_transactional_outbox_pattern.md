@@ -1,5 +1,5 @@
 ---
-title: "137. Transactional Outbox Pattern"
+title: "Transactional Outbox Pattern"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"

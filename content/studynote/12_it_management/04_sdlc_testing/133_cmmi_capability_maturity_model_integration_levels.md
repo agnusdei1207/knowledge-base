@@ -1,5 +1,5 @@
 ---
-title: "133. Cmmi Capability Maturity Model Integration Levels"
+title: "Cmmi Capability Maturity Model Integration Levels"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

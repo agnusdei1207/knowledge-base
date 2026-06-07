@@ -1,5 +1,5 @@
 ---
-title: "888. Sbom Software Bill Of Materials Formats"
+title: "Sbom Software Bill Of Materials Formats"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

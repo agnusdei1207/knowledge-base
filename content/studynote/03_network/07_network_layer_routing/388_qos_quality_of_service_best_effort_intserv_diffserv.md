@@ -1,5 +1,5 @@
 ---
-title: "388. QoS (Quality of Service)"
+title: "QoS (Quality of Service)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

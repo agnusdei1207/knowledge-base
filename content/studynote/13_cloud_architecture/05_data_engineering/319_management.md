@@ -1,5 +1,5 @@
 ---
-title: "319. 데이터 카탈로그 자산 검색 거버넌스 (Management)"
+title: "데이터 카탈로그 자산 검색 거버넌스 (Management)"
 date: "2026-06-07"
 tags:
   - "studynote-cloud-architecture"

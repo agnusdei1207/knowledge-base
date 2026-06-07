@@ -1,5 +1,5 @@
 ---
-title: "047. Level Trigger"
+title: "Level Trigger"
 date: "2026-04-05"
 tags:
   - "studynote-computer-architecture"

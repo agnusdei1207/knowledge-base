@@ -1,5 +1,5 @@
 ---
-title: "085. Canary Release Progressive Delivery Weight Routing"
+title: "Canary Release Progressive Delivery Weight Routing"
 date: "2026-04-10"
 tags:
   - "studynote-devops-sre"

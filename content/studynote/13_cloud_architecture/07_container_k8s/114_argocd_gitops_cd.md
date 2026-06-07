@@ -1,5 +1,5 @@
 ---
-title: "114. Argocd Gitops Cd"
+title: "Argocd Gitops Cd"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"

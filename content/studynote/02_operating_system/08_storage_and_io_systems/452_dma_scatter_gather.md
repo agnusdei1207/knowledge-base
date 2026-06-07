@@ -1,5 +1,5 @@
 ---
-title: "452. Dma Scatter Gather"
+title: "Dma Scatter Gather"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"

@@ -1,5 +1,5 @@
 ---
-title: "938. Sidecar Proxy Pattern"
+title: "Sidecar Proxy Pattern"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

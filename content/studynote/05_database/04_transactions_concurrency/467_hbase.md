@@ -1,5 +1,5 @@
 ---
-title: "467. 컬럼 패밀리 HBASE 카산드라 와이드 컬럼"
+title: "컬럼 패밀리 HBASE 카산드라 와이드 컬럼"
 date: "2026-06-07"
 tags:
   - "studynote-database"

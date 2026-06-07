@@ -1,5 +1,5 @@
 ---
-title: "409. OAT (Operational Acceptance Testing)"
+title: "OAT (Operational Acceptance Testing)"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

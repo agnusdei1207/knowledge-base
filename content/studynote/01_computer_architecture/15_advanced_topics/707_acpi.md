@@ -1,5 +1,5 @@
 ---
-title: "707. ACPI (Advanced Configuration and Power Interface)"
+title: "ACPI (Advanced Configuration and Power Interface)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

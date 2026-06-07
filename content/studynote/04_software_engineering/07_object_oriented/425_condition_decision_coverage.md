@@ -1,5 +1,5 @@
 ---
-title: "425. Condition Decision Coverage"
+title: "Condition Decision Coverage"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

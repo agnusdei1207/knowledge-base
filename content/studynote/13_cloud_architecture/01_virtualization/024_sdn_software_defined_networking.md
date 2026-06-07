@@ -1,5 +1,5 @@
 ---
-title: "024. Sdn Software Defined Networking"
+title: "Sdn Software Defined Networking"
 date: "2026-04-29"
 tags:
   - "studynote-cloud-architecture"

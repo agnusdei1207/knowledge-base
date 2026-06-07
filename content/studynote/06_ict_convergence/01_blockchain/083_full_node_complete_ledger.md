@@ -1,5 +1,5 @@
 ---
-title: "083. Full Node Complete Ledger"
+title: "Full Node Complete Ledger"
 date: "2026-06-07"
 tags:
   - "ict_convergence"

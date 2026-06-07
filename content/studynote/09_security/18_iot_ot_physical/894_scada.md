@@ -1,5 +1,5 @@
 ---
-title: "894. SCADA (Supervisory Control and Data Acquisition)"
+title: "SCADA (Supervisory Control and Data Acquisition)"
 date: "2026-05-08"
 tags:
   - "studynote-security"

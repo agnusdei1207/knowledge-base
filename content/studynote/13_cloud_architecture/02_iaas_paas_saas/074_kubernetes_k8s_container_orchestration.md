@@ -1,5 +1,5 @@
 ---
-title: "074. Kubernetes K8S Container Orchestration"
+title: "Kubernetes K8S Container Orchestration"
 date: "2026-04-07"
 tags:
   - "studynote-cloud-architecture"

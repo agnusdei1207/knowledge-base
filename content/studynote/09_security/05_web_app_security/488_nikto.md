@@ -1,5 +1,5 @@
 ---
-title: "488. Nikto"
+title: "Nikto"
 date: "2026-05-08"
 tags:
   - "studynote-security"

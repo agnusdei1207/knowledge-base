@@ -1,5 +1,5 @@
 ---
-title: "084. Container Runtime Containerd Runc Cri"
+title: "Container Runtime Containerd Runc Cri"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "835. DSR (Direct Server Return)"
+title: "DSR (Direct Server Return)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

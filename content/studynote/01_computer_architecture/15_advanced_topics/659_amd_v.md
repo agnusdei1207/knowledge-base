@@ -1,5 +1,5 @@
 ---
-title: "659. AMD-V"
+title: "AMD-V"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"

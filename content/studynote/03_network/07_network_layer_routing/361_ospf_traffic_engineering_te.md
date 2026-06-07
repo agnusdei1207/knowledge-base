@@ -1,5 +1,5 @@
 ---
-title: "361. Ospf Traffic Engineering Te"
+title: "Ospf Traffic Engineering Te"
 date: "2026-05-08"
 tags:
   - "studynote-network"

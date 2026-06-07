@@ -1,5 +1,5 @@
 ---
-title: "020. Introsort"
+title: "Introsort"
 date: "2026-04-21"
 tags:
   - "studynote-algorithm-stats"

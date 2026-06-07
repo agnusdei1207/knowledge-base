@@ -1,5 +1,5 @@
 ---
-title: "061. Asynchronous Counter"
+title: "Asynchronous Counter"
 date: "2026-03-19"
 tags:
   - "studynote-computer-architecture"

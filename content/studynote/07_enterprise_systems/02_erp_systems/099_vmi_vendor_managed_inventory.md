@@ -1,5 +1,5 @@
 ---
-title: "099. Vmi Vendor Managed Inventory"
+title: "Vmi Vendor Managed Inventory"
 date: "2026-06-07"
 tags:
   - "enterprise_systems"

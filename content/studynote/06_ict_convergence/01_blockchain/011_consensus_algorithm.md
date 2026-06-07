@@ -1,5 +1,5 @@
 ---
-title: "011. Consensus Algorithm"
+title: "Consensus Algorithm"
 date: "2024-05-18"
 tags:
   - "ict_convergence"

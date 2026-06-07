@@ -1,5 +1,5 @@
 ---
-title: "486. Burp Suite"
+title: "Burp Suite"
 date: "2026-05-08"
 tags:
   - "studynote-security"

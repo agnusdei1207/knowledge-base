@@ -1,5 +1,5 @@
 ---
-title: "076. Value Stream Mapping Lean"
+title: "Value Stream Mapping Lean"
 date: "2026-04-07"
 tags:
   - "studynote-enterprise-systems"

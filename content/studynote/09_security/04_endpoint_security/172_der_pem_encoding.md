@@ -1,5 +1,5 @@
 ---
-title: "172. Der Pem Encoding"
+title: "Der Pem Encoding"
 date: "2026-04-05"
 tags:
   - "studynote-security"

@@ -1,5 +1,5 @@
 ---
-title: "492. Unicode Normalization"
+title: "Unicode Normalization"
 date: "2026-05-08"
 tags:
   - "studynote-security"

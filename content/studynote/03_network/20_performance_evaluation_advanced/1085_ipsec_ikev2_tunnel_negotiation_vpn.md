@@ -1,5 +1,5 @@
 ---
-title: "1085. Ipsec Ikev2 Tunnel Negotiation Vpn"
+title: "Ipsec Ikev2 Tunnel Negotiation Vpn"
 date: "2026-05-08"
 tags:
   - "studynote-network"

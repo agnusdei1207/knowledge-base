@@ -1,5 +1,5 @@
 ---
-title: "069. Type 1 2 Error Statistical Power"
+title: "Type 1 2 Error Statistical Power"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"

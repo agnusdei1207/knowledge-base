@@ -1,5 +1,5 @@
 ---
-title: "948. Micro Frontends"
+title: "Micro Frontends"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

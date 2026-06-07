@@ -1,5 +1,5 @@
 ---
-title: "786. Distributed Tracing Observability Trace Id"
+title: "Distributed Tracing Observability Trace Id"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

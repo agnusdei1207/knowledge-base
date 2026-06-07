@@ -1,5 +1,5 @@
 ---
-title: "284. 프로세스 마이닝 이벤트 로그 병목 진단"
+title: "프로세스 마이닝 이벤트 로그 병목 진단"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

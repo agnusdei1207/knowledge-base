@@ -1,5 +1,5 @@
 ---
-title: "852. Stub Test Double"
+title: "Stub Test Double"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

@@ -1,5 +1,5 @@
 ---
-title: "386. Naive Bayes Laplace Smoothing"
+title: "Naive Bayes Laplace Smoothing"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"

@@ -1,5 +1,5 @@
 ---
-title: "200. IDP / Backstage (Internal Developer Platform)"
+title: "IDP / Backstage (Internal Developer Platform)"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"

@@ -1,5 +1,5 @@
 ---
-title: "122. Sli Service Level Indicator"
+title: "Sli Service Level Indicator"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"

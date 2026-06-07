@@ -1,5 +1,5 @@
 ---
-title: "251. SWOT 교차 분석 기법"
+title: "SWOT 교차 분석 기법"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

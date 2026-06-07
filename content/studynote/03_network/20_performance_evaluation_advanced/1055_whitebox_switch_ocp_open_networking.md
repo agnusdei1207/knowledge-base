@@ -1,5 +1,5 @@
 ---
-title: "1055. Whitebox Switch Ocp Open Networking"
+title: "Whitebox Switch Ocp Open Networking"
 date: "2026-05-08"
 tags:
   - "studynote-network"

@@ -1,5 +1,5 @@
 ---
-title: "205. 컨테이너 오케스트레이션 (Kubernetes) 노드/포드(Pod) 고가용성 설계"
+title: "컨테이너 오케스트레이션 (Kubernetes) 노드/포드(Pod) 고가용성 설계"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

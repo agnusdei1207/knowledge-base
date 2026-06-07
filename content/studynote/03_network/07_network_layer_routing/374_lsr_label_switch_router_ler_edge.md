@@ -1,5 +1,5 @@
 ---
-title: "374. LSR (Label Switch Router), LER (Label Edge Router)"
+title: "LSR (Label Switch Router), LER (Label Edge Router)"
 date: "2026-05-08"
 tags:
   - "studynote-network"

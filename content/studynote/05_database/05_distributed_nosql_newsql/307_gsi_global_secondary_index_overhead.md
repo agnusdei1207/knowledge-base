@@ -1,5 +1,5 @@
 ---
-title: "307. Gsi Global Secondary Index Overhead"
+title: "Gsi Global Secondary Index Overhead"
 date: "2026-05-09"
 tags:
   - "studynote-database"

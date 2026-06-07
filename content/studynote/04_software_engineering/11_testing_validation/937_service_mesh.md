@@ -1,5 +1,5 @@
 ---
-title: "937. Service Mesh"
+title: "Service Mesh"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

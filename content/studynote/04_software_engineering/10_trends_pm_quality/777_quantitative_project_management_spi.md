@@ -1,5 +1,5 @@
 ---
-title: "777. Quantitative Project Management Spi"
+title: "Quantitative Project Management Spi"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

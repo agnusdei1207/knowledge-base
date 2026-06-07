@@ -1,5 +1,5 @@
 ---
-title: "256. IT 거버넌스 5대 영역"
+title: "IT 거버넌스 5대 영역"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"

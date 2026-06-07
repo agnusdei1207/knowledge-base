@@ -1,5 +1,5 @@
 ---
-title: "612. Hexagonal Architecture Ports And Adapters"
+title: "Hexagonal Architecture Ports And Adapters"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

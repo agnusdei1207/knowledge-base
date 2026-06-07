@@ -1,5 +1,5 @@
 ---
-title: "528. Obfuscation Anti Debugging Mobile"
+title: "Obfuscation Anti Debugging Mobile"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"

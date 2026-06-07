@@ -1,5 +1,5 @@
 ---
-title: "049. Data Serialization Avro Protobuf Thrift"
+title: "Data Serialization Avro Protobuf Thrift"
 date: "2026-04-29"
 tags:
   - "studynote-bigdata"
