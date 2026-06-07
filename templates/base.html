@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ko-KR" data-theme="dark">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% if page.title %}{{ page.title }} — {{ config.title }}{% elif section.title %}{{ section.title }} — {{ config.title }}{% else %}{{ config.title }}{% endif %}{% endblock title %}</title>
+    <meta name="description" content="{% block description %}{% if page.description %}{{ page.description }}{% elif section.description %}{{ section.description }}{% else %}{{ config.description }}{% endif %}{% endblock description %}">
+
+    <link rel="stylesheet" href="{{ get_url(path='assets/css/style.css') }}">
+    <link rel="icon" type="image/svg+xml" href="https://api.iconify.design/lucide:book-open.svg?color=%23A65B32">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+
+    <script>
+        (function () {
+            var t = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', t);
+        }());
+    </script>
+</head>
+
+<body>
+    <div class="navigation-progress" id="navigation-progress"></div>
+    {% set root = get_section(path="_index.md") %}
+
+    <div class="page" data-frame="default">
+        <div id="quartz-body">
+            <aside class="left sidebar">
+                <a href="{{ get_url(path='/') }}" class="site-title">
+                    <img src="https://api.iconify.design/lucide:book-open.svg?color=%23A65B32" width="22" height="22" alt="">
+                    <span>Study Hub</span>
+                </a>
+
+                <div class="search" id="header-search-wrap">
+                    {% include "icons/search.html" %}
+                    <input type="text" id="pagefind-search" placeholder="Search (Press /)" autocomplete="off">
+                    <div id="pagefind-dropdown"></div>
+                </div>
+
+                <nav class="explorer" aria-label="Site navigation">
+                    <p class="sidebar-title">Explorer</p>
+                    <ul>
+                        <li><a href="{{ get_url(path='/') }}">🏠 Home</a></li>
+                        {% for sub_path in root.subsections %}
+                        {% set sub = get_section(path=sub_path) %}
+                        <li><a href="{{ sub.permalink }}">{{ sub.title }}</a></li>
+                        {% endfor %}
+                        {% for p in root.pages | sort(attribute="title") %}
+                        <li><a href="{{ p.permalink }}">{{ p.title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </nav>
+
+                <div class="sidebar-actions">
+                    <a href="https://github.com/{{ config.extra.github_username }}" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+                        </svg>
+                    </a>
+                    <button id="theme-btn" title="Toggle theme" aria-label="Toggle theme">
+                        {% include "icons/sun.html" %}
+                        {% include "icons/moon.html" %}
+                    </button>
+                </div>
+            </aside>
+
+            <div class="center">
+                <div class="page-header">
+                    <header>
+                        <h1>{% block header_title %}{% if page.title %}{{ page.title }}{% elif section.title %}{{ section.title }}{% else %}{{ config.title }}{% endif %}{% endblock header_title %}</h1>
+                    </header>
+                </div>
+
+                {% block content %}{% endblock content %}
+
+                <hr>
+                <div class="page-footer">
+                    {% block page_footer %}
+                    <p>Study Hub</p>
+                    {% endblock page_footer %}
+                </div>
+            </div>
+
+            <aside class="right sidebar">
+                {% block right_sidebar %}
+                <div class="toc">
+                    <p class="sidebar-title">On this page</p>
+                    <p class="sidebar-muted">Select a note to see its outline.</p>
+                </div>
+                {% endblock right_sidebar %}
+            </aside>
+
+            <footer>
+                <p>© {{ now() | date(format="%Y") }} Study Hub</p>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        // ── Theme toggle ────────────────────────────────────────────────────
+        var tBtn = document.getElementById('theme-btn');
+        var iS = document.getElementById('i-sun');
+        var iM = document.getElementById('i-moon');
+
+        function applyTheme(t) {
+            document.documentElement.setAttribute('data-theme', t);
+            if (iS) iS.style.display = t === 'dark' ? 'none' : '';
+            if (iM) iM.style.display = t === 'dark' ? '' : 'none';
+        }
+
+        applyTheme(document.documentElement.getAttribute('data-theme') || 'light');
+
+        if (tBtn) {
+            tBtn.onclick = function () {
+                var n = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+                localStorage.setItem('theme', n);
+                applyTheme(n);
+            };
+        }
+
+        // ── Pagefind search ─────────────────────────────────────────────────
+        var sInput = document.getElementById('pagefind-search');
+        var sDrop = document.getElementById('pagefind-dropdown');
+        var sWrap = document.getElementById('header-search-wrap');
+        var pagefind = null;
+        var searchCache = {};
+        var pagefindLoading = false;
+        var activeIdx = -1;
+
+        async function initPagefind() {
+            if (pagefind || pagefindLoading) return;
+            pagefindLoading = true;
+            try {
+                pagefind = await import('{{ get_url(path="/pagefind/pagefind.js") }}');
+            } catch (e) {
+                console.log('Pagefind not available (dev mode)');
+            }
+            pagefindLoading = false;
+        }
+
+        async function search(query) {
+            if (!query) {
+                sDrop.classList.remove('open');
+                sDrop.textContent = '';
+                return;
+            }
+            if (!pagefind) {
+                sDrop.innerHTML = '<div class="pf-empty">Build site to enable search</div>';
+                sDrop.classList.add('open');
+                return;
+            }
+            if (searchCache[query]) {
+                renderResults(searchCache[query], query);
+                return;
+            }
+            var result = await pagefind.search(query);
+            var results = await Promise.all(result.results.slice(0, 8).map(function (r) { return r.data(); }));
+            searchCache[query] = results;
+            renderResults(results, query);
+        }
+
+        function renderResults(results, query) {
+            if (results.length === 0) {
+                sDrop.innerHTML = '<div class="pf-empty">No results</div>';
+            } else {
+                var frag = document.createDocumentFragment();
+                results.forEach(function (r) {
+                    var a = document.createElement('a');
+                    a.className = 'pf-result';
+                    a.href = r.url;
+                    a.innerHTML = highlight(r.meta.title || 'Untitled', query);
+                    frag.appendChild(a);
+                });
+                sDrop.textContent = '';
+                sDrop.appendChild(frag);
+            }
+            sDrop.classList.add('open');
+        }
+
+        function highlight(text, query) {
+            if (!query) return esc(text);
+            var re = new RegExp('(' + query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+            return esc(text).replace(re, '<mark>$1</mark>');
+        }
+
+        function esc(s) {
+            return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
+        function getItems() {
+            return Array.from(sDrop.querySelectorAll('.pf-result'));
+        }
+
+        function setActive(idx) {
+            var items = getItems();
+            items.forEach(function (el) { el.classList.remove('pf-active'); });
+            if (idx >= 0 && idx < items.length) {
+                items[idx].classList.add('pf-active');
+                items[idx].scrollIntoView({ block: 'nearest' });
+            }
+            activeIdx = idx;
+        }
+
+        var debounceTimer;
+        if (sInput) {
+            sInput.addEventListener('focus', function () {
+                initPagefind();
+                if (this.value.trim()) sDrop.classList.add('open');
+            });
+
+            sInput.addEventListener('input', function () {
+                activeIdx = -1;
+                var q = this.value.trim();
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(function () { search(q); }, 200);
+            });
+
+            sInput.addEventListener('keydown', function (e) {
+                var items = getItems();
+                if (!sDrop.classList.contains('open') || items.length === 0) return;
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    setActive(Math.min(activeIdx + 1, items.length - 1));
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    setActive(Math.max(activeIdx - 1, 0));
+                } else if (e.key === 'Enter') {
+                    if (activeIdx >= 0 && items[activeIdx]) {
+                        e.preventDefault();
+                        window.location.href = items[activeIdx].href;
+                    }
+                }
+            });
+        }
+
+        window.onclick = function (e) {
+            if (sWrap && !sWrap.contains(e.target)) sDrop.classList.remove('open');
+        };
+
+        window.onkeydown = function (e) {
+            if (e.key === '/' && document.activeElement !== sInput) {
+                e.preventDefault();
+                if (sInput) sInput.focus();
+            }
+            if (e.key === 'Escape') {
+                if (sDrop) sDrop.classList.remove('open');
+                if (sInput) sInput.blur();
+            }
+        };
+
+        // ── DOMContentLoaded ────────────────────────────────────────────────
+        document.addEventListener('DOMContentLoaded', function () {
+            // Syntax highlighting
+            hljs.highlightAll();
+
+            // Callout post-processing: convert > [!TYPE] blockquotes to callout divs
+            processCallouts();
+
+            // Add copy buttons to code blocks
+            addCodeCopyButtons();
+
+            // Reading progress bar
+            var progress = document.getElementById('navigation-progress');
+            if (progress) {
+                function updateProgress() {
+                    var doc = document.documentElement;
+                    var max = doc.scrollHeight - doc.clientHeight;
+                    progress.style.width = max > 0 ? ((doc.scrollTop / max) * 100) + '%' : '0';
+                }
+                updateProgress();
+                window.addEventListener('scroll', updateProgress, { passive: true });
+            }
+        });
+
+        // ── Callout processor ────────────────────────────────────────────────
+        function processCallouts() {
+            var blockquotes = document.querySelectorAll('blockquote');
+            blockquotes.forEach(function (bq) {
+                var firstP = bq.querySelector('p');
+                if (!firstP) return;
+                var text = firstP.textContent || '';
+                var m = text.match(/^\[!([\w-]+)\](?:\+|-)?\s*(.*)/);
+                if (!m) return;
+
+                var type = m[1].toLowerCase();
+                var titleText = m[2] || type.charAt(0).toUpperCase() + type.slice(1);
+
+                var calloutDiv = document.createElement('div');
+                calloutDiv.className = 'callout';
+                calloutDiv.setAttribute('data-callout', type);
+
+                var titleDiv = document.createElement('div');
+                titleDiv.className = 'callout-title';
+                var iconSpan = document.createElement('span');
+                iconSpan.className = 'callout-icon';
+                var titleInner = document.createElement('strong');
+                titleInner.textContent = titleText;
+                titleDiv.appendChild(iconSpan);
+                titleDiv.appendChild(titleInner);
+
+                var contentDiv = document.createElement('div');
+                contentDiv.className = 'callout-content';
+
+                // Remove the first paragraph (the [!TYPE] line)
+                firstP.remove();
+
+                // Move remaining children
+                while (bq.firstChild) {
+                    contentDiv.appendChild(bq.firstChild);
+                }
+
+                calloutDiv.appendChild(titleDiv);
+                calloutDiv.appendChild(contentDiv);
+                bq.parentNode.replaceChild(calloutDiv, bq);
+            });
+        }
+
+        // ── Code copy buttons ────────────────────────────────────────────────
+        function addCodeCopyButtons() {
+            document.querySelectorAll('pre').forEach(function (pre) {
+                var btn = document.createElement('button');
+                btn.className = 'skill-copy-button';
+                btn.textContent = 'Copy';
+                btn.addEventListener('click', function () {
+                    var code = pre.querySelector('code');
+                    var text = code ? code.innerText : pre.innerText;
+                    navigator.clipboard.writeText(text).then(function () {
+                        btn.textContent = 'Copied!';
+                        setTimeout(function () { btn.textContent = 'Copy'; }, 2000);
+                    });
+                });
+                pre.appendChild(btn);
+            });
+        }
+    </script>
+</body>
+
+</html>

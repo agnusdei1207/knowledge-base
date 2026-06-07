@@ -1,8 +1,7 @@
 ---
 title: "Security"
-tags:
-  - "studynote-security"
 weight: 9
+sort_by: "weight"
 ---
 > 🧸 **어린이를 위한 비유**
 > 나쁜 도둑들이 성에 들어오지 못하게 아주 높고 튼튼한 '성벽'을 쌓고, 누구도 풀 수 없는 '비밀 암호'로 보물 상자를 잠그는 방법을 배우는 곳이에요!

@@ -1,6 +1,5 @@
 ---
 title: "Intro & Trends"
-tags:
-  - "studynote-bigdata"
 weight: 13
+sort_by: "weight"
 ---

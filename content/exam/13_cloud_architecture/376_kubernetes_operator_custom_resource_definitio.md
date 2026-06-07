@@ -3,7 +3,9 @@ title: "Kubernetes Operator Custom Resource Definition"
 date: 2026-05-09
 tags:
   - "studynote-cloud-architecture"
----## 핵심 인사이트 (3줄 요약)
+---
+
+## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CRD(Custom Resource Definition)는 Kubernetes API 서버에 새로운 리소스 타입(`Kind`)을 등록하는 **OpenAPI v3 Schema 기반의 선언적 확장 메커니즘**이며, Operator는 이를 `Spec`(요청 상태)과 `Status`(관찰 상태)의 차이를 **Reconcile Loop**로 수렴시키는 Control-Loop 패턴이다.
 > 2. **가치**: Stateful 워크로드(etcd, PostgreSQL, Kafka 등)의 Day-2 운영(백업, 업그레이드, 페일오버, 스케일링)을 **사람의 개입 없이 코드화(Operator as SRE)**하여 MTTR을 평균 60~80% 단축하고, 도메인 지식을 Operator 코드에 캡슐화하여 팀 간 운영 표준화를 달성한다.

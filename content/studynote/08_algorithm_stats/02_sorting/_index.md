@@ -1,9 +1,7 @@
 ---
 title: "Sorting Algorithms"
-tags:
-  - "algorithm_stats"
-  - "studynote-algorithm-stats"
 weight: 2
+sort_by: "weight"
 ---
 > **핵심 인사이트**
 > 1. **본질**: 정렬은 임의의 순서를 가진 데이터를 특정 순서로 재배치하는 작업이며, 비교 기반 정렬의 이론적 하한은 O(n log n)이다.

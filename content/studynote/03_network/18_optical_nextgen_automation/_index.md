@@ -1,7 +1,5 @@
 ---
 title: "Optical Nextgen Automation"
-tags:
-  - "network"
-  - "studynote-network"
 weight: 18
+sort_by: "weight"
 ---

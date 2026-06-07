@@ -3,7 +3,9 @@ title: "Cloud Architecture Core Topic 615 Exam Summary"
 date: 2026-05-09
 tags:
   - "studynote-cloud-architecture"
----## 핵심 인사이트 (3줄 요약)
+---
+
+## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 아키텍처는 컨테이너(Container), 오케스트레이션(Kubernetes), 서비스 메시(Istio/Linkerd), IaC(Terraform/Pulumi), Serverless(Lambda/Cloud Run) 기반의 **클라우드 네이티브 4대 축(Container·CI/CD·Observability·DevOps)**을 통해 stateless·immutable·API-driven 설계 원칙을 구현하는 패러다임이다.
 > 2. **가치**: CAPEX->OPEX 전환으로 TCO 30~40% 절감, Auto Scaling으로 트래픽 피크 시 자원利用率 70% 이상 향상, Multi-AZ·Multi-Region 구성으로 RTO 분 단위·RPO 0 달성, 배포 주기 1주->1일로 단축(Lead Time 90% 개선, DORA Elite 지표).

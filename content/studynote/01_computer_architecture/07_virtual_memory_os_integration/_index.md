@@ -1,9 +1,7 @@
 ---
 title: "Virtual Memory & OS Integration"
-tags:
-  - "computer_architecture"
-  - "studynote-computer-architecture"
 weight: 7
+sort_by: "weight"
 ---
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="breadcrumb">
+    <a href="{{ get_url(path='/') }}">root</a>
+    {% for ancestor in section.ancestors %}
+    {% set anc = get_section(path=ancestor) %}
+    <span class="breadcrumb-sep">/</span>
+    <a href="{{ anc.permalink }}">{{ anc.title }}</a>
+    {% endfor %}
+    <span class="breadcrumb-sep">/</span>
+    <span class="breadcrumb-current">{{ section.title }}</span>
+</div>
+
+{% if section.description %}
+<p class="sidebar-muted">{{ section.description }}</p>
+{% endif %}
+
+<div class="folder-list">
+
+    {# Subsections (subdirectories) #}
+    {% set subs = [] %}
+    {% for sub_path in section.subsections %}
+        {% set sub_obj = get_section(path=sub_path) %}
+        {% set_global subs = subs | concat(with=sub_obj) %}
+    {% endfor %}
+
+    {% for sub in subs | sort(attribute="title") %}
+        <a class="folder-item" href="{{ sub.permalink }}">
+            <span class="fi-icon"><img src="https://api.iconify.design/lucide:folder.svg?color=%23A65B32" width="16" height="16" alt=""></span>
+            <span class="fi-name">{{ sub.title }}</span>
+            <span class="fi-meta">directory</span>
+        </a>
+    {% endfor %}
+
+    {# Pages in this section — sorted by weight then path #}
+    {% set sorted_pages = section.pages | sort(attribute="relative_path") %}
+    {% for page in sorted_pages %}
+    {% if not page.relative_path is ending_with("keyword_list.md") %}
+    <div class="folder-item-wrapper">
+        <a class="folder-item" href="{{ page.permalink }}" data-page-url="{{ page.permalink }}">
+            <span class="fi-icon"><img src="https://api.iconify.design/lucide:file-text.svg?color=%238E8575" width="16" height="16" alt=""></span>
+            <span class="fi-name">{{ page.title }}</span>
+            <span class="fi-badge" aria-hidden="true">LAST READ</span>
+            <span class="fi-meta">{% if page.date %}{{ page.date | date(format="%Y-%m-%d") }}{% endif %}</span>
+        </a>
+        <button class="card-copy-btn" data-url="{{ page.permalink }}" title="Copy content">
+            {% include "icons/copy.html" %}
+            {% include "icons/check.html" %}
+        </button>
+    </div>
+    {% endif %}
+    {% endfor %}
+
+</div>
+
+{# Section content (the _index.md body) #}
+{% if section.content %}
+<article class="section-content post-content">
+    {{ section.content | safe }}
+</article>
+{% endif %}
+
+<script>
+    function normalizeCardPath(url) {
+        try {
+            var path = new URL(url, window.location.origin).pathname;
+            return path.replace(/\/+$/, '') || '/';
+        } catch (err) {
+            return '';
+        }
+    }
+
+    function highlightLastReadCard() {
+        var currentPath = window.location.pathname.replace(/\/+$/, '');
+
+        var readMap = {};
+        try { readMap = JSON.parse(localStorage.getItem('lastReadMap') || '{}'); } catch(e) {}
+
+        var lastPath = '';
+        if (readMap[currentPath]) {
+            lastPath = normalizeCardPath(readMap[currentPath].path || '');
+        }
+
+        if (!lastPath) {
+            var raw = localStorage.getItem('lastReadPost');
+            if (raw) {
+                try {
+                    var saved = JSON.parse(raw);
+                    lastPath = normalizeCardPath(saved.path || saved.url || '');
+                } catch(e) {}
+            }
+        }
+
+        var cards = document.querySelectorAll('.folder-item[data-page-url]');
+        cards.forEach(function (card) {
+            var badge = card.querySelector('.fi-badge');
+            card.classList.remove('last-read-card');
+            if (badge) {
+                badge.classList.remove('fi-badge-visible');
+                badge.setAttribute('aria-hidden', 'true');
+            }
+        });
+
+        if (!lastPath) return;
+
+        cards.forEach(function (card) {
+            if (normalizeCardPath(card.dataset.pageUrl) !== lastPath) return;
+            var badge = card.querySelector('.fi-badge');
+            card.classList.add('last-read-card');
+            if (badge) {
+                badge.classList.add('fi-badge-visible');
+                badge.setAttribute('aria-hidden', 'false');
+            }
+        });
+    }
+
+    document.querySelectorAll('.card-copy-btn').forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var url = this.dataset.url;
+            var btnEl = this;
+            fetch(url)
+                .then(function (res) { return res.text(); })
+                .then(function (html) {
+                    var parser = new DOMParser();
+                    var doc = parser.parseFromString(html, 'text/html');
+                    var content = doc.querySelector('.post-content');
+                    if (content) {
+                        var text = content.innerText || content.textContent;
+                        navigator.clipboard.writeText(text).then(function () {
+                            btnEl.classList.add('copied');
+                            setTimeout(function () { btnEl.classList.remove('copied'); }, 2000);
+                        });
+                    }
+                });
+        });
+    });
+
+    highlightLastReadCard();
+    window.addEventListener('pageshow', function () { highlightLastReadCard(); });
+</script>
+{% endblock content %}

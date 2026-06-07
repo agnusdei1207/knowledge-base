@@ -1,9 +1,8 @@
 ---
 title: "기술사 시험"
 description: "정보통신기술사·컴퓨터응용시스템기술사 시험 문제 모음 및 요약 답안"
-tags:
-  - "exam"
 weight: 20
+sort_by: "title"
 ---
 
 # 기술사 시험 (PE Exam)

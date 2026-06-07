@@ -3,7 +3,9 @@ title: "Rolling Update Deployment Strategy Rollback"
 date: 2026-05-09
 tags:
   - "studynote-cloud-architecture"
----## 핵심 인사이트 (3줄 요약)
+---
+
+## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 롤링 업데이트(Rolling Update)는 k8s `Deployment.spec.strategy.rollingUpdate`의 `maxSurge`/`maxUnavailable` 파라미터 제어를 통해 구버전 ReplicaSet(Pod)을 점진적으로 Terminate하면서 신버전 ReplicaSet의 Pod을 1개씩 Ready 상태로 투입하는 무중단 배포 전략이며, 롤백(Rollback)은 이를 `kubectl rollout undo`, `RevisionHistoryLimit`에 저장된 이전 ReplicaSet 스냅샷으로 복원하거나 ArgoCD/FluxCD의 Sync Wave와 GitOps 기반 선언적 복원으로 수행하는 SRE 핵심 역량이다.
 > 2. **가치**: Zero-Downtime 배포를 달성하면서 클라우드 비용을 Blue-Green 대비 50% 절감(별도 풀 환경 불필요), 롤백 MTTR을 30초~2분 이내로 단축(RevisionHistoryLimit=10 기본값, Helm revision=10), Progressive Delivery(Istio VirtualService weight 10%->50%->100%)를 결합 시 배포 실패로 인한 사용자 영향률을 0.01% 이하로 억제 가능.

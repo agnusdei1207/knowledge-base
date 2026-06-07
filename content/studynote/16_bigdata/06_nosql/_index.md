@@ -1,9 +1,7 @@
 ---
 title: "NoSQL"
-tags:
-  - "bigdata"
-  - "studynote-bigdata"
 weight: 6
+sort_by: "weight"
 ---
 > **핵심 인사이트**
 > 1. **RDB의 한계 극복**: 고정된 스키마와 수직적 확장(Scale-up)의 한계를 넘어, 대규모 데이터 처리를 위한 수평적 확장(Scale-out)과 유연한 데이터 모델을 지향한다.

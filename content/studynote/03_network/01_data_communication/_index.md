@@ -1,7 +1,5 @@
 ---
 title: "Data Communication"
-tags:
-  - "network"
-  - "studynote-network"
 weight: 1
+sort_by: "weight"
 ---

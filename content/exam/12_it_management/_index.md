@@ -1,10 +1,8 @@
 ---
 title: "12. IT 경영 — 기출 문제 요약"
 description: "IT 거버넌스, ITIL, 보안·컴플라이언스, SLA 등 IT 경영 기출 요약 답안"
-tags:
-  - "exam"
-  - "it-management"
 weight: 12
+sort_by: "title"
 ---
 
 # 12. IT 경영 기출 요약

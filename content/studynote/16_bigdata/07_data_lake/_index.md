@@ -1,9 +1,7 @@
 ---
 title: "Data Lake"
-tags:
-  - "bigdata"
-  - "studynote-bigdata"
 weight: 7
+sort_by: "weight"
 ---
 > **핵심 인사이트**
 > 1. **패러다임의 전환**: 정형 데이터 중심의 데이터 웨어하우스에서 비정형 데이터까지 포용하는 데이터 레이크로, 그리고 두 장점을 결합한 레이크하우스로 진화하고 있다.

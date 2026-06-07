@@ -3,7 +3,9 @@ title: "Cloud VPN Hybrid Connection Direct Connect"
 date: 2026-05-09
 tags:
   - "studynote-cloud-architecture"
----## 핵심 인사이트 (3줄 요약)
+---
+
+## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 VPN과 Direct Connect는 공용 인터넷(Public Internet) 기반의 암호화 터널(SSL/IPsec)과 통신사업자 전용 회선(Private Peering/BGP)을 통해 On-Premise 데이터센터와 CSP(Cloud Service Provider) VPC/VNet을 L2/L3 레이어에서 결정론적으로 연결하는 하이브리드 네트워킹 패러다임으로, AWS DX, Azure ExpressRoute, GCP Dedicated Interconnect가 대표적 구현체이다.
 > 2. **가치**: 일반 인터넷 대비 지연시간(Latency)을 20~40ms에서 5ms 이하로 단축하고, 대역폭을 예측 가능(Deterministic)하게 만들며, Jitter와 Packet Loss를 0.01% 미만 수준으로 안정화하여 실시간 트랜잭션, 대용량 데이터 마이그레이션, SAP/Oracle 워크로드의 SLA를 99.99% 이상으로 보장한다.

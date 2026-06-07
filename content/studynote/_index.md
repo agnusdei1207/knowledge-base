@@ -1,9 +1,8 @@
 ---
 title: "Study Note 16"
 description: "PE 16과목 핵심 정리 — 정보통신기술사·컴퓨터응용시스템기술사"
-tags:
-  - "studynote"
 weight: 10
+sort_by: "weight"
 ---
 
 [ 종합 지식 포털 ] > **Study Note**

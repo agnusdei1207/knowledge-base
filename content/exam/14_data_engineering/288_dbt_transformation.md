@@ -57,7 +57,7 @@ dbt는 dbt Labs(Fishtown Analytics)에서 2016년 출시되었으며, 2024년 �
 
 dbt의 아키텍처는 4계층으로 구성된다: **① 프로젝트 구조(파일시스템) ② 컴파일러(Jinja+SQL) ③ 어댑터(어댑터 플러그인) ④ 오케스트레이션 레이어(dbt Cloud/Airflow/Prefect)**.
 
-핵심 메커니즘은 `ref()` 함수를 통한 **DAG 자동 구성**이다. `{{ ref('stg_orders') }}`는 컴파일 시 CTE(Common Table Expression) 형태의 의존성 그래프 노드로 해석되며, dbt는 이를 topological sort하여 실행 순서를 결정한다. 또한 `source()` 함수는 Raw 데이터에 대한 **계약(Contract)**을 정의하여, 업스트림 변경 시 다운스트림 모델을 보호한다.
+핵심 메커니즘은 `ref()` 함수를 통한 **DAG 자동 구성**이다. `&#123;&#123; ref('stg_orders') }}`는 컴파일 시 CTE(Common Table Expression) 형태의 의존성 그래프 노드로 해석되며, dbt는 이를 topological sort하여 실행 순서를 결정한다. 또한 `source()` 함수는 Raw 데이터에 대한 **계약(Contract)**을 정의하여, 업스트림 변경 시 다운스트림 모델을 보호한다.
 
 ```text
 +----------------------------------------------------------------------+
@@ -115,7 +115,7 @@ dbt의 아키텍처는 4계층으로 구성된다: **① 프로젝트 구조(파
 | 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
 | **dbt Project** | 변환 로직 컨테이너 | `dbt_project.yml`로 모델 경로·Materialization 기본값·변수 정의. `name`, `version`, `profile`, `model-paths`, `seed-paths`, `test-paths`, `macro-paths` 등 |
-| **Models (.sql)** | 변환 단위 SQL 파일 | `{{ config(materialized='incremental', unique_key='order_id', on_schema_change='append_new_columns') }}` 메타데이터. `SELECT`문만 작성 (CREATE TABLE 등은 dbt가 생성) |
+| **Models (.sql)** | 변환 단위 SQL 파일 | `&#123;&#123; config(materialized='incremental', unique_key='order_id', on_schema_change='append_new_columns') }}` 메타데이터. `SELECT`문만 작성 (CREATE TABLE 등은 dbt가 생성) |
 | **Schema YAML (sources/tests/docs)** | 데이터 계약·테스트·문서 | `sources:` (raw 테이블 정의+신선도), `models:` (description, columns, tests, meta), `exposures:` (BI 대시보드 의존성) |
 | **Macros** | Jinja2 기반 재사용 함수 | `{% macro cents_to_dollars(column_name) %} {{ column_name }}/100.0 {% endmacro %}` 패턴. `dbt_utils` 같은 패키지로 생태계 확장 |
 | **Tests** | 데이터 품질 검증 | ① 내장: `unique`, `not_null`, `accepted_values`, `relationships` ② Singular: `tests/assert_positive_revenue.sql` (Boolean 결과 반환) ③ Generic: 패키지 형태의 재사용 가능 테스트 |

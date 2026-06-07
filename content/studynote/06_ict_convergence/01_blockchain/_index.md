@@ -1,9 +1,7 @@
 ---
 title: "Blockchain"
-tags:
-  - "ict_convergence"
-  - "studynote-ict-convergence"
 weight: 1
+sort_by: "weight"
 ---
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 블록체인 (Blockchain)은 중앙 서버 없이 참여자 모두가 동일한 거래 기록 사본을 분산 저장하며, 암호학적 해시 체인과 합의 알고리즘을 통해 데이터 변조가 사실상 불가능한 탈중앙화 (Decentralized) 분산 원장 기술 (DLT, Distributed Ledger Technology)이다.

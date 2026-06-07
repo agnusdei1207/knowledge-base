@@ -1,9 +1,7 @@
 ---
 title: "IoT & Mobility"
-tags:
-  - "ict_convergence"
-  - "studynote-ict-convergence"
 weight: 2
+sort_by: "weight"
 ---
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 사물인터넷 (IoT, Internet of Things)은 센서와 통신 모듈이 내장된 물리적 디바이스들이 인터넷에 연결되어 데이터를 수집, 교환, 분석하는 시스템이며, 모빌리티는 이 연결성의 이동성 확장이다.

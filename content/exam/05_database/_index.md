@@ -1,10 +1,8 @@
 ---
 title: "05. 데이터베이스 — 기출 문제 요약"
 description: "관계형 DB, SQL, 정규화, NoSQL, 트랜잭션 기출 요약 답안"
-tags:
-  - "exam"
-  - "database"
 weight: 5
+sort_by: "title"
 ---
 
 # 05. 데이터베이스 — 기출 문제 요약

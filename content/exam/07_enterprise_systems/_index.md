@@ -1,10 +1,8 @@
 ---
 title: "07. 엔터프라이즈 시스템 — 기출 문제 요약"
 description: "ERP, CRM, SCM, EAI/ESB, MSA 등 엔터프라이즈 시스템 기출 요약 답안"
-tags:
-  - "exam"
-  - "enterprise-systems"
 weight: 7
+sort_by: "title"
 ---
 
 # 07. 엔터프라이즈 시스템 기출 요약

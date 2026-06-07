@@ -1,9 +1,7 @@
 ---
 title: "Control Unit & Pipelining"
-tags:
-  - "computer_architecture"
-  - "studynote-computer-architecture"
 weight: 5
+sort_by: "weight"
 ---
 ## 핵심 인사이트 (3줄 요약)
 

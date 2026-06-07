@@ -1,9 +1,7 @@
 ---
 title: "GoF – Creational & Structural"
-tags:
-  - "design_supervision"
-  - "studynote-design-supervision"
 weight: 3
+sort_by: "weight"
 ---
 ## 핵심 인사이트 (3줄 요약)
 

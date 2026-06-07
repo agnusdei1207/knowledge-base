@@ -3,7 +3,9 @@ title: "OpenTelemetry Distributed Tracing Standard"
 date: 2026-05-09
 tags:
   - "studynote-cloud-architecture"
----## 핵심 인사이트 (3줄 요약)
+---
+
+## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: OpenTelemetry는 CNCF 표준 API/SDK/Collector로 W3C Trace Context(`traceparent`, `tracestate`)와 OTLP(OpenTelemetry Protocol, gRPC/HTTP)를 통해 컨텍스트 전파(Context Propagation)와 Span 데이터 수집·처리·내보내기를 벤더 중립적으로 통합한 분산 추적 표준이다.
 > 2. **가치**: Jaeger/Zipkin/기존 APM 벤더 SDK 종속을 제거하여 ①계측 코드 1회 작성으로 다중 백엔드 전환 가능, ②OTel Collector의 Pipeline(Receiver->Processor->Exporter) 구성으로 트래픽 100k+ span/s 처리 시 약 70% 이상 저장 비용 절감, ③Trace+Metric+Log 3축 신호(Signal) 상관관계로 MTTR 평균 40~60% 단축 효과를 제공한다.

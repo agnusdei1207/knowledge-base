@@ -1,8 +1,7 @@
 ---
 title: "Operating System"
-tags:
-  - "studynote-operating-system"
 weight: 2
+sort_by: "weight"
 ---
 > 🧸 **어린이를 위한 비유**
 > 컴퓨터 성 안에서 수많은 일꾼(프로그램)들이 서로 싸우지 않고 사이좋게 일할 수 있도록 도와주는 '성주'와 같아요. 누가 먼저 밥을 먹을지(CPU), 어떤 일꾼이 어느 방을 쓸지(Memory)를 공정하게 정해주어 성이 잘 돌아가게 한답니다!

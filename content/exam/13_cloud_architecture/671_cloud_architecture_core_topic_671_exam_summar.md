@@ -3,7 +3,9 @@ title: "Cloud Architecture Core Topic 671 Exam Summary"
 date: 2026-05-09
 tags:
   - "studynote-cloud-architecture"
----## 핵심 인사이트 (3줄 요약)
+---
+
+## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 아키텍처는 NIST SP 800-145의 5대 필수 특성(온디맨드 셀프서비스·광범위한 네트워크 접근·자원 풀링·빠른 탄력성·측정 가능 서비스)과 4종 배치 모델(Public/Private/Hybrid/Community), 3계층 서비스 모델(IaaS/PaaS/SaaS)을 결합하여, 가상화·컨테이너·오케스트레이션·서버리스·서비스 메시로 대표되는 클라우드 네이티브 기술 스택을 통해 자원을 추상화·자동화·분산 처리하는 컴퓨팅 패러다임이다.
 > 2. **가치**: CAPEX를 OPEX로 전환하여 3년 TCO 기준 약 30~65% 절감, Auto Scaling·Multi-AZ 배포를 통해 가용성 99.99% SLA와 글로벌 평균 응답 지연 100ms 이하 달성, Well-Architected 5대 기둥(운영 우수성·보안·안정성·성능 효율·비용 최적화) 기반의 지속적 개선 사이클을 통한 MTTR 50% 단축 효과가 검증되어 있다.

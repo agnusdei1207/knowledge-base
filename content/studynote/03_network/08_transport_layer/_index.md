@@ -1,7 +1,5 @@
 ---
 title: "Transport Layer"
-tags:
-  - "network"
-  - "studynote-network"
 weight: 8
+sort_by: "weight"
 ---

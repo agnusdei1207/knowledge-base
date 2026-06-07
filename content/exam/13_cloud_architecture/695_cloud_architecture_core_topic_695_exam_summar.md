@@ -3,7 +3,9 @@ title: "Cloud Architecture Core Topic 695 Exam Summary"
 date: 2026-05-09
 tags:
   - "studynote-cloud-architecture"
----## 핵심 인사이트 (3줄 요약)
+---
+
+## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 아키텍처는 **탄력적 리소스 풀(Elastic Resource Pool)** 위에서 **API 기반 선언적 인프라(IaC)**, **마이크로서비스 분해**, **불변 인프라(Immutable Infrastructure)**, **12-Factor 원칙**을 결합하여, 장애를 전제로 한 셀프힐링·오토스케일링·무중단 배포가 가능한 분산 시스템 토폴로지를 의미한다.
 > 2. **가치**: AWS Well-Architected 5-Pillar(운영 우수성, 보안, 안정성, 성능 효율, 비용 최적화) 적용 시 **가용성 99.99%->99.999% 향상**, TCO는 온프레미스 대비 **CapEx->OpEx 전환으로 30~60% 절감**, 배포 빈도는 월 1회->일 10회 이상으로 **TTM(Time-to-Market) 8배 단축**이 가능하다.

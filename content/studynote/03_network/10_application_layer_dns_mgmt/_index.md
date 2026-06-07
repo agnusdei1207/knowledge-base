@@ -1,7 +1,5 @@
 ---
 title: "Application Layer Dns Mgmt"
-tags:
-  - "network"
-  - "studynote-network"
 weight: 10
+sort_by: "weight"
 ---

@@ -1,6 +1,5 @@
 ---
 title: "LLM & NLP"
-tags:
-  - "studynote-ai"
 weight: 3
+sort_by: "weight"
 ---

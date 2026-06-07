@@ -3,7 +3,9 @@ title: "Cloud Architecture Core Topic 766 Exam Summary"
 date: 2026-05-09
 tags:
   - "studynote-cloud-architecture"
----## 핵심 인사이트 (3줄 요약)
+---
+
+## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 아키텍처는 가상화·컨테이너·오케스트레이션(Kubernetes)·서비스 메시(Istio/Linkerd)·서버리스(Lambda/Cloud Functions)를 기반으로 한탄력적·분산·자가치유 컴퓨팅 자원의 추상화 계층이며, NIST SP 800-145의 5대 특성(온디맨드 셀프서비스, 광역 네트워크 접근, 자원 풀링, 빠른 탄력성, 측정 가능한 서비스)을 SLA·API·IaC(Terraform/CloudFormation)로 구현한 시스템 디자인 패러다임이다.
 > 2. **가치**: AWS Well-Architected Framework 5대 기둥(운영 우수성, 보안, 안정성, 성능 효율, 비용 최적화) 적용 시CAPEX->OPEX 전환으로 인프라 TCO 30~60% 절감, 오토스케일링으로 트래픽 피크 시 응답 지연 P99 50% 개선, 글로벌 멀티 리전 Active-Active 구성으로 RTO < 1분·RPO < 10초의 DR 등급 달성, FinOps 기반 3~18개월 내 클라우드 비용 20~40% 회수 효과를 입증할 수 있다.

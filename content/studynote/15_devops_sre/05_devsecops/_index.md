@@ -1,9 +1,7 @@
 ---
 title: "DevSecOps"
-tags:
-  - "devops_sre"
-  - "studynote-devops-sre"
 weight: 5
+sort_by: "weight"
 ---
 ## 핵심 인사이트 (3줄 요약)
 

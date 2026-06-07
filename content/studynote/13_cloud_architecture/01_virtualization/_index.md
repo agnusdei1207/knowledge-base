@@ -1,8 +1,7 @@
 ---
 title: "Virtualization"
-tags:
-  - "studynote-cloud-architecture"
 weight: 1
+sort_by: "weight"
 ---
 > 🧸 **어린이를 위한 비유**
 > 내 방에 직접 수영장을 만들면 유지보수가마번하지만, 커뮤니티 수영장을 회원으로 이용하면설시와 물만 관리하면 돼요. 클라우드도 마찬가지로 컴퓨터 자원을 직접 사두는 대신 필요할 때씩 빌려 쓰는 거예요.

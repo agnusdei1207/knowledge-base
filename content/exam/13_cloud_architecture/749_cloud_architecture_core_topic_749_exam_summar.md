@@ -3,7 +3,9 @@ title: "Cloud Architecture Core Topic 749 Exam Summary"
 date: 2026-05-09
 tags:
   - "studynote-cloud-architecture"
----## 핵심 인사이트 (3줄 요약)
+---
+
+## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 아키텍처는 IaaS/PaaS/SaaS/FaaS의 4계층 추상화 위에 **AWS Well-Architected 5대 기둥**(운영 우수성, 보안, 안정성, 성능 효율, 비용 최적화)과 **6R 마이그레이션 전략**(Rehost/Replatform/Repurchase/Refactor/Retire/Retain)을 적용하여, Multi-AZ·Multi-Region 기반의 탄력적·분산 시스템으로 CAP·PACELC 일관성 모델을 만족시키는 설계 체계이다.
 > 2. **가치**: Well-Architected 적용 시 **가용성 99.99%(연 52.6분 장애)**, TCO 40~70% 절감, Auto Scaling을 통한 트래픽 100배 변동 흡수, MTTR 4시간->4분 단축, 배포 주기 월 1회->일 10회+ 달성, Carbon Footprint 80% 감소(리전별 재생에너지 사용).

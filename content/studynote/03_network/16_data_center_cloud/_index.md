@@ -1,7 +1,5 @@
 ---
 title: "Data Center Cloud"
-tags:
-  - "network"
-  - "studynote-network"
 weight: 16
+sort_by: "weight"
 ---

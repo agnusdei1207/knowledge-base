@@ -85,7 +85,7 @@ SELECT
   customer_id,
   CAST(order_date AS DATE)   AS order_date,
   amount / 100.0             AS amount_usd  -- 센트->달러 변환
-FROM {{ source('raw', 'orders') }}
+FROM &#123;&#123; source('raw', 'orders') }}
 WHERE status != 'cancelled'
 ```
 

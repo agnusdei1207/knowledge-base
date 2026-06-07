@@ -1,7 +1,5 @@
 ---
 title: "Network Security Threats"
-tags:
-  - "network"
-  - "studynote-network"
 weight: 14
+sort_by: "weight"
 ---

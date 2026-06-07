@@ -1,9 +1,7 @@
 ---
 title: "DB Architecture & Relational"
-tags:
-  - "database"
-  - "studynote-database"
 weight: 1
+sort_by: "weight"
 ---
 ## 핵심 인사이트
 

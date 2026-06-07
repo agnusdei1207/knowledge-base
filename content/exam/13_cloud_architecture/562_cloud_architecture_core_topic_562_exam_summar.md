@@ -3,7 +3,9 @@ title: "Cloud Architecture Core Topic 562 Exam Summary"
 date: 2026-05-09
 tags:
   - "studynote-cloud-architecture"
----## 핵심 인사이트 (3줄 요약)
+---
+
+## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 아키텍처는 IaaS/PaaS/SaaS/FaaS로 추상화된 컴퓨팅·스토리지·네트워크 자원을 API·IaC·정책 기반으로 선언적(Declarative)하게 프로비저닝하고, 컨트롤 플레인과 데이터 플레인을 분리하여 워크로드의 탄력성·가용성·확장성을 보장하는 분산 시스템 설계 원리이다.
 > 2. **가치**: AWS Well-Architected 5대 기둥(운영 우수성, 보안, 안정성, 성능 효율, 비용 최적화 + 지속 가능성) 준거 시 MTTR 60% 단축, Auto Scaling을 통한 CapEx->OpEx 전환으로 TCO 30~70% 절감, 멀티 리전 Active-Active 구성으로 99.99% SLA(연간 52.6분 이내 장애) 달성이 가능하다.

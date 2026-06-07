@@ -1,8 +1,7 @@
 ---
 title: "Linear Algebra"
-tags:
-  - "studynote-algorithm-stats"
 weight: 10
+sort_by: "weight"
 ---
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 선형대수(Linear Algebra)는 벡터·행렬·선형 변환을 다루는 수학으로, <strong>머신러닝에서 데이터는 벡터, 모델은 행렬 연산, 학습은 행렬의 최적화</strong>로 표현된다.

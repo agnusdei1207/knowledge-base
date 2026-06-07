@@ -1,9 +1,7 @@
 ---
 title: "Instruction Set Architecture (ISA)"
-tags:
-  - "computer_architecture"
-  - "studynote-computer-architecture"
 weight: 4
+sort_by: "weight"
 ---
 ## 핵심 인사이트 (3줄 요약)
 

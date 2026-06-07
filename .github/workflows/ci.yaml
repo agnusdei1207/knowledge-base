@@ -1,4 +1,4 @@
-name: CI
+name: CI (Zola Build Check)
 
 on:
   pull_request:
@@ -10,28 +10,30 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-      NODE_OPTIONS: --max-old-space-size=16384
     steps:
-      - uses: actions/checkout@v6
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Setup Node
-        uses: actions/setup-node@v6
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: 24
-          cache: npm
+          node-version: '20'
+          cache: 'npm'
 
-      - name: Install dependencies
+      - name: Install Node dependencies
         run: npm ci
 
-      - name: Install Quartz plugins
-        run: npm run install-plugins
+      - name: Install Zola
+        run: |
+          ZOLA_VERSION="0.19.2"
+          curl -sSL "https://github.com/getzola/zola/releases/download/v${ZOLA_VERSION}/zola-v${ZOLA_VERSION}-x86_64-unknown-linux-gnu.tar.gz" \
+            | tar xzf - -C /usr/local/bin
+          zola --version
 
-      - name: Type and format check
-        run: npm run check
+      - name: Zola Check
+        run: zola check
 
-      - name: Build Quartz
-        run: npm run build
+      - name: Build Zola
+        run: zola build

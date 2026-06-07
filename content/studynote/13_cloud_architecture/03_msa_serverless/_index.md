@@ -1,9 +1,7 @@
 ---
 title: "MSA & Serverless"
-tags:
-  - "cloud_architecture"
-  - "studynote-cloud-architecture"
 weight: 3
+sort_by: "weight"
 ---
 ## 핵심 인사이트 (3줄 요약)
 

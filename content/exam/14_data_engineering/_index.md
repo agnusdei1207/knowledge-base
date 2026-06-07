@@ -1,10 +1,8 @@
 ---
 title: "14. 데이터 엔지니어링 — 기출 문제 요약"
 description: "데이터 레이크, DW, 배치/스트림 파이프라인 기출 요약 답안"
-tags:
-  - "exam"
-  - "data-engineering"
 weight: 14
+sort_by: "title"
 ---
 
 # 14. 데이터 엔지니어링 — 기출 문제 요약

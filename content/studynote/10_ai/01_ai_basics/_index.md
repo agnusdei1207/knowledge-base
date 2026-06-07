@@ -1,6 +1,5 @@
 ---
 title: "AI Basics"
-tags:
-  - "studynote-ai"
 weight: 1
+sort_by: "weight"
 ---

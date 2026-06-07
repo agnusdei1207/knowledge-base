@@ -1,6 +1,5 @@
 ---
 title: "DL Architecture"
-tags:
-  - "studynote-ai"
 weight: 2
+sort_by: "weight"
 ---

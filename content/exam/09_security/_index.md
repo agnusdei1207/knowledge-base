@@ -1,10 +1,8 @@
 ---
 title: "09. 보안 — 기출 문제 요약"
 description: "암호학, 네트워크 보안, 시스템 보안, 보안 취약점 기출 요약 답안"
-tags:
-  - "exam"
-  - "security"
 weight: 9
+sort_by: "title"
 ---
 
 # 09. 보안 — 기출 문제 요약

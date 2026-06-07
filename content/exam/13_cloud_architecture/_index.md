@@ -1,10 +1,8 @@
 ---
 title: "13. 클라우드 아키텍처 — 기출 문제 요약"
 description: "가상화, IaaS/PaaS/SaaS, 쿠버네티스 기출 요약 답안"
-tags:
-  - "exam"
-  - "cloud-architecture"
 weight: 13
+sort_by: "title"
 ---
 
 # 13. 클라우드 아키텍처 — 기출 문제 요약

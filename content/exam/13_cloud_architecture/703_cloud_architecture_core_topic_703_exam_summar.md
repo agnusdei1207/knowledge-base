@@ -3,7 +3,9 @@ title: "Cloud Architecture Core Topic 703 Exam Summary"
 date: 2026-05-09
 tags:
   - "studynote-cloud-architecture"
----## 핵심 인사이트 (3줄 요약)
+---
+
+## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 아키텍처는 NIST의 SPI(SaaS/PaaS/IaaS) 모델을 기반으로, 컨테이너 오케스트레이션(Kubernetes), 서버리스 컴퓨팅(Lambda/Cloud Functions), 서비스 메시(Istio) 및 IaC(Terraform/CloudFormation)를 통해 워크로드의 탄력성·가용성·확장성을 코드와 정책으로 선언적으로 제어하는 분산 시스템 설계 패러다임이다.
 > 2. **가치**: Auto-Scaling으로 평균 30~70% 인프라 비용 절감, Multi-AZ 배포로 99.99% SLA 확보, 무중단 배포(Blue-Green/Canary)로 배포 다운타임 0초 달성, MTTR 60% 단축, 글로벌 엣지 배포로 사용자 레이턴시 200ms->20ms 수준으로 개선.

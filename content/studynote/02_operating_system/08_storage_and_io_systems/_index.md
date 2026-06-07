@@ -1,7 +1,5 @@
 ---
 title: "Storage And I/O Systems"
-tags:
-  - "operating_system"
-  - "studynote-operating-system"
 weight: 8
+sort_by: "weight"
 ---

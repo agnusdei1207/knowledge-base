@@ -1,9 +1,7 @@
 ---
 title: "Enterprise Security & Governance"
-tags:
-  - "enterprise_systems"
-  - "studynote-enterprise-systems"
 weight: 10
+sort_by: "weight"
 ---
 ## 핵심 인사이트 (3줄 요약)
 

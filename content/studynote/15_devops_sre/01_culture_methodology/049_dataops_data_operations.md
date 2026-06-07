@@ -98,7 +98,7 @@ dbt 테스트 예:
   dbt profiles.yml:
   target: dev  # 개인 개발 시
   prod:
-    schema: prod_{{ env_var('DBT_SCHEMA') }}
+    schema: prod_&#123;&#123; env_var('DBT_SCHEMA') }}
 
 Airflow CI/CD:
   GitHub Actions -> DAG 유효성 검사 -> 자동 배포

@@ -1,9 +1,7 @@
 ---
 title: "ERP Systems"
-tags:
-  - "enterprise_systems"
-  - "studynote-enterprise-systems"
 weight: 2
+sort_by: "weight"
 ---
 ## 핵심 인사이트 (3줄 요약)
 

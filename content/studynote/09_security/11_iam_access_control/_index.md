@@ -1,7 +1,5 @@
 ---
 title: "IAM & Access Control"
-tags:
-  - "security"
-  - "studynote-security"
 weight: 11
+sort_by: "weight"
 ---

@@ -1,8 +1,7 @@
 ---
 title: "IT Management"
-tags:
-  - "studynote-it-management"
 weight: 12
+sort_by: "weight"
 ---
 > 🧸 **어린이를 위한 비유**
 > 회사 사장님이 되어 컴퓨터와 인터넷에 얼마의 용돈을 쓸지 결정하고, 직원들이 컴퓨터가 고장 났을 때 가장 빨리 고쳐주는 '최고의 AS 센터' 규칙을 만드는 똑똑한 리더십을 배워요!

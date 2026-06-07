@@ -1,8 +1,7 @@
 ---
 title: "Study Hub"
-page-label: "Study Hub"
-tags:
-  - "studynote"
+description: "PE 16과목 핵심 정리 — 정보통신기술사·컴퓨터응용시스템기술사"
+sort_by: "weight"
 weight: 1
 ---
 

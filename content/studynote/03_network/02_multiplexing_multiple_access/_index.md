@@ -1,7 +1,5 @@
 ---
 title: "Multiplexing Multiple Access"
-tags:
-  - "network"
-  - "studynote-network"
 weight: 2
+sort_by: "weight"
 ---

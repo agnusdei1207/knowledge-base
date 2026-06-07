@@ -1,9 +1,7 @@
 ---
 title: "NP Theory"
-tags:
-  - "algorithm_stats"
-  - "studynote-algorithm-stats"
 weight: 6
+sort_by: "weight"
 ---
 ## 핵심 인사이트 (3줄 요약)
 

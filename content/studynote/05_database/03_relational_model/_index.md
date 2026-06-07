@@ -1,7 +1,5 @@
 ---
 title: "Relational Model"
-tags:
-  - "database"
-  - "studynote-database"
 weight: 3
+sort_by: "weight"
 ---

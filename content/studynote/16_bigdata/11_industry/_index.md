@@ -1,8 +1,7 @@
 ---
 title: "Industry Applications"
-tags:
-  - "studynote-bigdata"
 weight: 11
+sort_by: "weight"
 ---
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 빅데이터의 산업 응용은 수집된 대규모 데이터를 도메인별 비즈니스 목표(매출 증대, 비용 절감, 리스크 감소, 고객 경험 향상)에 직결시켜 실질적 가치를 창출하는 단계이며, 기술보다 <strong>도메인 지식과 데이터의 결합</strong>이 성패를 결정한다.

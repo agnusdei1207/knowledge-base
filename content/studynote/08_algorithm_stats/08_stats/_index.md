@@ -1,8 +1,7 @@
 ---
 title: "Statistics"
-tags:
-  - "studynote-algorithm-stats"
 weight: 8
+sort_by: "weight"
 ---
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 통계학은 수집된 데이터에서 패턴과 의미를 추출하고 불확실성을 정량화하는 수학적 방법론으로, **기술통계(Descriptive Statistics)** 로 데이터를 요약하고 **추론통계(Inferential Statistics)** 로 모집단에 대한 결론을 도출한다.

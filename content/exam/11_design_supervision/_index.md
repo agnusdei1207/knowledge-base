@@ -1,10 +1,8 @@
 ---
 title: "11. IT 설계 및 감리 — 기출 문제 요약"
 description: "공공 정보화 사업 설계, 감리 절차 기출 요약 답안"
-tags:
-  - "exam"
-  - "design-supervision"
 weight: 11
+sort_by: "title"
 ---
 
 # 11. IT 설계 및 감리 — 기출 문제 요약

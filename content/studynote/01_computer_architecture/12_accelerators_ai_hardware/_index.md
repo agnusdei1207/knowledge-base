@@ -1,9 +1,7 @@
 ---
 title: "Accelerators & AI Hardware"
-tags:
-  - "computer_architecture"
-  - "studynote-computer-architecture"
 weight: 12
+sort_by: "weight"
 ---
 ## 핵심 인사이트 (3줄 요약)
 

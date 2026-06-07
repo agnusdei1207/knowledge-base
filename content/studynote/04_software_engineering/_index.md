@@ -1,8 +1,7 @@
 ---
 title: "Software Engineering"
-tags:
-  - "studynote-software-engineering"
 weight: 4
+sort_by: "weight"
 ---
 > 🧸 **어린이를 위한 비유**
 > 건물을 지을 때 설계도를 그리고, 튼튼한지 검사하고, 사람들이 살기 좋게 인테리어를 하는 모든 과정을 말해요. 코딩만 하는 게 아니라, '고장 나지 않는 튼튼한 프로그램'을 체계적으로 만드는 방법을 배우는 곳이랍니다.

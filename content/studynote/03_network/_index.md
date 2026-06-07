@@ -1,8 +1,7 @@
 ---
 title: "Network"
-tags:
-  - "studynote-network"
 weight: 3
+sort_by: "weight"
 ---
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 이기종의 분산된 노드 간에 데이터를 신뢰성 있게 전달하기 위해 규약(Protocol)을 계층화(Layering)하고 물리적/논리적 경로를 제어하는 통신 아키텍처의 총체.

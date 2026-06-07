@@ -1,9 +1,7 @@
 ---
 title: "Cloud-Native & AI Architecture"
-tags:
-  - "software_engineering"
-  - "studynote-software-engineering"
 weight: 9
+sort_by: "weight"
 ---
 ## 핵심 인사이트 (3줄 요약)
 

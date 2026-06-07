@@ -1,9 +1,7 @@
 ---
 title: "Cryptography"
-tags:
-  - "security"
-  - "studynote-security"
 weight: 2
+sort_by: "weight"
 ---
 ## 핵심 인사이트 (3줄 요약)
 

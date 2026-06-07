@@ -1,8 +1,7 @@
 ---
 title: "ICT Convergence"
-tags:
-  - "studynote-ict-convergence"
 weight: 6
+sort_by: "weight"
 ---
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 독립적으로 발전해 온 정보통신 기술(IoT, Cloud, Big Data, Mobile - ICBM)이 AI 및 블록체인과 화학적으로 결합하여, 산업 전반의 디지털 트랜스포메이션(DX)을 강제하는 메타 패러다임.

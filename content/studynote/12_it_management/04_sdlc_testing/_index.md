@@ -1,9 +1,7 @@
 ---
 title: "SDLC & Testing"
-tags:
-  - "it_management"
-  - "studynote-it-management"
 weight: 4
+sort_by: "weight"
 ---
 ## 핵심 인사이트 (3줄 요약)
 

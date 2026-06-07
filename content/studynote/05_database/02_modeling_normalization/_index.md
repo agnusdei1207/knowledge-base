@@ -1,9 +1,7 @@
 ---
 title: "Modeling & Normalization"
-tags:
-  - "database"
-  - "studynote-database"
 weight: 2
+sort_by: "weight"
 ---
 ## 핵심 인사이트
 

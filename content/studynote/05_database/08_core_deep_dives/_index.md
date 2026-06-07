@@ -1,9 +1,7 @@
 ---
 title: "Core Deep Dives"
-tags:
-  - "database"
-  - "studynote-database"
 weight: 8
+sort_by: "weight"
 ---
 ## 핵심 인사이트 (3줄 요약)
 

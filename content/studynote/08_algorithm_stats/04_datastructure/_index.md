@@ -1,9 +1,7 @@
 ---
 title: "Data Structures"
-tags:
-  - "algorithm_stats"
-  - "studynote-algorithm-stats"
 weight: 4
+sort_by: "weight"
 ---
 > **핵심 인사이트**
 > 1. **본질**: 자료구조는 데이터를 효율적으로 저장하고 접근하기 위해 조직화된 구조이며, 각 구조는 특정 작업(삽입, 삭제, 탐색)에서 서로 다른 성능 특성을 갖는다.

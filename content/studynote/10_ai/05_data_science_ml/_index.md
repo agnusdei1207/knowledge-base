@@ -1,6 +1,5 @@
 ---
 title: "Data Science & ML"
-tags:
-  - "studynote-ai"
 weight: 5
+sort_by: "weight"
 ---

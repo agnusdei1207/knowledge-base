@@ -1,8 +1,7 @@
 ---
 title: "Design & Supervision"
-tags:
-  - "studynote-design-supervision"
 weight: 11
+sort_by: "weight"
 ---
 > 🧸 **어린이를 위한 비유**
 > 건축가가 집을 멋지고 튼튼하게 설계하는 '디자인'과, 공사 현장에 가서 설계도대로 철근이 잘 들어갔는지 꼼꼼하게 검사하는 '감리' 선생님의 역할을 배우는 곳이에요!

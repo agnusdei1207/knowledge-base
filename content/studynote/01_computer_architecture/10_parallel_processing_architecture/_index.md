@@ -1,9 +1,7 @@
 ---
 title: "Parallel Processing Architecture"
-tags:
-  - "computer_architecture"
-  - "studynote-computer-architecture"
 weight: 10
+sort_by: "weight"
 ---
 ## 핵심 인사이트 (3줄 요약)
 

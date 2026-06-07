@@ -1,9 +1,7 @@
 ---
 title: "Algorithm Basics"
-tags:
-  - "algorithm_stats"
-  - "studynote-algorithm-stats"
 weight: 1
+sort_by: "weight"
 ---
 > **핵심 인사이트**
 > 1. **본질**: 알고리즘은 명확한 계산보취으로 입력을 출력으로 변환하는 유한한 절차이며, 정확성 증명과 시간 복잡도 분석이 두 축이다.

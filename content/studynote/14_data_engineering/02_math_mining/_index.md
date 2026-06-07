@@ -1,9 +1,7 @@
 ---
 title: "Math & Data Mining"
-tags:
-  - "data_engineering"
-  - "studynote-data-engineering"
 weight: 2
+sort_by: "weight"
 ---
 ## 핵심 인사이트 (3줄 요약)
 

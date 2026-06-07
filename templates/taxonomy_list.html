@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block header_title %}Tags{% endblock header_title %}
+
+{% block content %}
+<div class="folder-list">
+    {% for term in terms %}
+    <a class="folder-item" href="{{ term.permalink }}">
+        <span class="fi-icon"><img src="https://api.iconify.design/lucide:tag.svg?color=%23A65B32" width="16" height="16" alt=""></span>
+        <span class="fi-name">{{ term.name }}</span>
+        <span class="fi-meta">{{ term.pages | length }} pages</span>
+    </a>
+    {% endfor %}
+</div>
+{% endblock content %}

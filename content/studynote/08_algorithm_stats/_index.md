@@ -1,8 +1,7 @@
 ---
 title: "Algorithm & Statistics"
-tags:
-  - "studynote-algorithm-stats"
 weight: 8
+sort_by: "weight"
 ---
 > 🧸 **어린이를 위한 비유**
 > 복잡한 미로 속에서 출구를 찾는 '가장 빠른 지름길'을 수학적으로 계산하는 법을 배워요. 또 수많은 데이터 속에서 보물을 찾아내는 마법의 확률 공식도 함께 공부한답니다!

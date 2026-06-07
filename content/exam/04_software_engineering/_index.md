@@ -1,10 +1,8 @@
 ---
 title: "04. 소프트웨어 공학 — 기출 문제 요약"
 description: "SW 개발 방법론, 설계 패턴, 테스트, 품질 관리 기출 요약 답안"
-tags:
-  - "exam"
-  - "software-engineering"
 weight: 4
+sort_by: "title"
 ---
 
 # 04. 소프트웨어 공학 기출 요약

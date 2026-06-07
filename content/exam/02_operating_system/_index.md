@@ -1,10 +1,8 @@
 ---
 title: "02. 운영체제 — 기출 문제 요약"
 description: "프로세스/스레드, 메모리 관리, 파일 시스템, 가상화 기출 요약 답안"
-tags:
-  - "exam"
-  - "operating-system"
 weight: 2
+sort_by: "title"
 ---
 
 # 02. 운영체제 — 기출 문제 요약

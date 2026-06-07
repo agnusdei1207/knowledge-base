@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block header_title %}{{ term.name }}{% endblock header_title %}
+
+{% block content %}
+<div class="breadcrumb">
+    <a href="{{ get_url(path='/') }}">root</a>
+    <span class="breadcrumb-sep">/</span>
+    <a href="{{ config.base_url }}/tags/">tags</a>
+    <span class="breadcrumb-sep">/</span>
+    <span class="breadcrumb-current">{{ term.name }}</span>
+</div>
+
+<div class="folder-list">
+    {% for page in term.pages %}
+    <a class="folder-item" href="{{ page.permalink }}">
+        <span class="fi-icon"><img src="https://api.iconify.design/lucide:file-text.svg?color=%238E8575" width="16" height="16" alt=""></span>
+        <span class="fi-name">{{ page.title }}</span>
+        <span class="fi-meta">{% if page.date %}{{ page.date | date(format="%Y-%m-%d") }}{% endif %}</span>
+    </a>
+    {% endfor %}
+</div>
+{% endblock content %}

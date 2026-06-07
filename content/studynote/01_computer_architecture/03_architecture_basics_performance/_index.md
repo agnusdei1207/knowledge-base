@@ -1,9 +1,7 @@
 ---
 title: "Architecture Basics & Performance"
-tags:
-  - "computer_architecture"
-  - "studynote-computer-architecture"
 weight: 3
+sort_by: "weight"
 ---
 ## 핵심 인사이트 (3줄 요약)
 

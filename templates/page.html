@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block right_sidebar %}
+<div class="toc">
+    <p class="sidebar-title">Table of contents</p>
+    {% if page.toc %}
+    <ul>
+        {% for h1 in page.toc %}
+        <li class="toc-depth-{{ h1.level }}">
+            <a href="{{ h1.permalink | safe }}">{{ h1.title }}</a>
+            {% if h1.children %}
+            <ul>
+                {% for h2 in h1.children %}
+                <li class="toc-depth-{{ h2.level }}">
+                    <a href="{{ h2.permalink | safe }}">{{ h2.title }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p class="sidebar-muted">No headings</p>
+    {% endif %}
+</div>
+{% endblock right_sidebar %}
+
+{% block content %}
+<div class="post-header">
+    <a href="javascript:history.back()" class="post-back">
+        {% include "icons/chevron-left.html" %}
+        Back
+    </a>
+    <div class="post-meta">
+        {% if page.date %}
+        <span>{{ page.date | date(format="%B %d, %Y") }}</span>
+        {% endif %}
+        {% if page.taxonomies.tags %}
+        <span aria-hidden="true">/</span>
+        <span>{{ page.taxonomies.tags | join(sep=", ") }}</span>
+        {% endif %}
+        <button class="copy-btn" onclick="copyDetail()" title="Copy all content" id="copy-page-btn">
+            {% include "icons/copy.html" %}
+            {% include "icons/check.html" %}
+            <span class="copy-text">Copy</span>
+        </button>
+    </div>
+</div>
+
+<article class="post-content">
+    {{ page.content | safe }}
+</article>
+
+<script>
+    function copyDetail() {
+        var article = document.querySelector('.post-content');
+        var text = article.innerText || article.textContent;
+        navigator.clipboard.writeText(text).then(function () {
+            var btn = document.getElementById('copy-page-btn');
+            if (!btn) return;
+            var textSpan = btn.querySelector('.copy-text');
+            btn.classList.add('copied');
+            if (textSpan) textSpan.textContent = 'Copied';
+            setTimeout(function () {
+                if (textSpan) textSpan.textContent = 'Copy';
+                btn.classList.remove('copied');
+            }, 2000);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var p = window.location.pathname;
+        if (p.indexOf('/studynote/') === -1 && p.indexOf('/exam/') === -1) return;
+
+        var normalizedPath = p.replace(/\/+$/, '') || '/';
+        var parts = normalizedPath.split('/');
+        var sectionKey = '';
+        for (var i = 0; i < parts.length - 1; i++) {
+            sectionKey += parts[i] + '/';
+        }
+        sectionKey = sectionKey.replace(/\/+$/, '');
+
+        var readMap = {};
+        try { readMap = JSON.parse(localStorage.getItem('lastReadMap') || '{}'); } catch(e) {}
+        readMap[sectionKey] = { path: normalizedPath, updatedAt: new Date().toISOString() };
+        localStorage.setItem('lastReadMap', JSON.stringify(readMap));
+        localStorage.setItem('lastReadPost', JSON.stringify({
+            path: normalizedPath,
+            updatedAt: new Date().toISOString()
+        }));
+    });
+</script>
+{% endblock content %}

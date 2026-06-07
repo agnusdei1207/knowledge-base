@@ -3,7 +3,9 @@ title: "Cloud Architecture Core Topic 748 Exam Summary"
 date: 2026-05-09
 tags:
   - "studynote-cloud-architecture"
----## 핵심 인사이트 (3줄 요약)
+---
+
+## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 아키텍처는 IaaS·PaaS·SaaS·FaaS로 추상화된 자원 위에서 컨테이너·Kubernetes·Service Mesh·IaC(Terraform/Ansible)를 통해 선언적·탄력적·가용성 중심의 분산 시스템을 구성하는 것으로, AWS Well-Architected Framework의 5대 기둥(운영 우수성·보안·안정성·성능 효율·비용 최적화)과 12-Factor App 원칙이 설계의 근간을 이룬다.
 > 2. **가치**: Auto Scaling·Multi-AZ·Spot Instance·Reserved/Savings Plan을 통해 CAPEX를 OPEX로 전환하면서 동일 워크로드에서 30~70%의 TCO 절감, RTO 분 단위·RPO 초 단위의 재해복구 능력, 그리고 Time-to-Market을 수 주에서 수 시간으로 단축시키는 비즈니스 민첩성을 제공한다.

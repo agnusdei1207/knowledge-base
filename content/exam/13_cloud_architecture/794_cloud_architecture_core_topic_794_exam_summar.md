@@ -3,7 +3,9 @@ title: "Cloud Architecture Core Topic 794 Exam Summary"
 date: 2026-05-09
 tags:
   - "studynote-cloud-architecture"
----## 핵심 인사이트 (3줄 요약)
+---
+
+## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 아키텍처는 12-Factor App·Well-Architected Framework·CNCF Cloud Native Landscape 기반의 **IaC(코드형 인프라) + 컨테이너 오케스트레이션(K8s) + 서버리스(FaaS) + 옵저버빌리티(3-Pillar: Metrics/Logs/Traces)** 4축을 통합한 선언적·탄력적 분산 시스템 설계 패러다임이다.
 > 2. **가치**: 6R 마이그레이션(Rehost/Replatform/Repurchase/Refactor/Retire/Retain) 전략으로 **TCO 30~60% 절감**, Auto Scaling + Spot Instance로 **컴퓨팅 비용 70%v**, 다중 AZ + Multi-Region DR로 **RTO 1시간·RPO 5분 이내**의 사업연속성을 달성한다.

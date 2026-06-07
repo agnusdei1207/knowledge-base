@@ -3,7 +3,9 @@ title: "Cloud Architecture Core Topic 554 Exam Summary"
 date: 2026-05-09
 tags:
   - "studynote-cloud-architecture"
----## 핵심 인사이트 (3줄 요약)
+---
+
+## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 아키텍처는 가상화·컨테이너·오케스트레이션을 기반으로 **탄력적 자원 풀(Resource Pool)**을 API로 추상화하여, IaaS/PaaS/SaaS/FaaS 계층별로 **셀프서비스 프로비저닝**과 **종량 과금(Usage-based Metering)**을 가능하게 하는 분산 시스템 설계 패러다임이다.
 > 2. **가치**: CapEx -> OpEx 전환으로 초기 투자비를 약 **60~80% 절감**하고, Auto-Scaling을 통해 트래픽 변동 시 **5분 이내 수천 노드 확장**, 글로벌 리전 배포로 단일 장애점(SPOF) 제거 및 SLA **99.99%(52.6분/년 장애)** 달성이 가능하다.

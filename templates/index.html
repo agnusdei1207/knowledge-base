@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block header_title %}Study Hub{% endblock header_title %}
+
+{% block content %}
+<div class="home-header">
+    <p class="home-description">PE 16과목 핵심 정리 — 정보통신기술사·컴퓨터응용시스템기술사</p>
+</div>
+
+<h2 class="home-section-title">📚 스터디노트 — 16과목</h2>
+<div class="subject-grid">
+    <a class="subject-card" href="{{ get_url(path='/studynote/01_computer_architecture/') }}">
+        <span class="subject-num">01</span>
+        <span class="subject-name">컴퓨터 구조</span>
+        <p class="subject-desc">논리회로, ISA, 파이프라이닝, 캐시, AI 가속기</p>
+    </a>
+    <a class="subject-card" href="{{ get_url(path='/studynote/02_operating_system/') }}">
+        <span class="subject-num">02</span>
+        <span class="subject-name">운영 체제</span>
+        <p class="subject-desc">프로세스/스레드, 메모리 관리, 파일 시스템, 가상화</p>
+    </a>
+    <a class="subject-card" href="{{ get_url(path='/studynote/03_network/') }}">
+        <span class="subject-num">03</span>
+        <span class="subject-name">네트워크</span>
+        <p class="subject-desc">OSI 7 Layer, TCP/IP, 무선 통신, 차세대 네트워크</p>
+    </a>
+    <a class="subject-card" href="{{ get_url(path='/studynote/04_software_engineering/') }}">
+        <span class="subject-num">04</span>
+        <span class="subject-name">소프트웨어 공학</span>
+        <p class="subject-desc">개발 방법론, 설계 패턴, 테스트, 품질 관리</p>
+    </a>
+    <a class="subject-card" href="{{ get_url(path='/studynote/05_database/') }}">
+        <span class="subject-num">05</span>
+        <span class="subject-name">데이터베이스</span>
+        <p class="subject-desc">관계형 DB, SQL, 정규화, NoSQL, 트랜잭션</p>
+    </a>
+    <a class="subject-card" href="{{ get_url(path='/studynote/06_ict_convergence/') }}">
+        <span class="subject-num">06</span>
+        <span class="subject-name">ICT 융합 기술</span>
+        <p class="subject-desc">IoT, 스마트 팩토리, 모빌리티, 가상현실</p>
+    </a>
+    <a class="subject-card" href="{{ get_url(path='/studynote/07_enterprise_systems/') }}">
+        <span class="subject-num">07</span>
+        <span class="subject-name">엔터프라이즈 시스템</span>
+        <p class="subject-desc">ERP, CRM, SCM, EAI/ESB, MSA, EA</p>
+    </a>
+    <a class="subject-card" href="{{ get_url(path='/studynote/08_algorithm_stats/') }}">
+        <span class="subject-num">08</span>
+        <span class="subject-name">알고리즘 및 통계</span>
+        <p class="subject-desc">자료구조, 알고리즘 설계, 확률 및 통계</p>
+    </a>
+    <a class="subject-card" href="{{ get_url(path='/studynote/09_security/') }}">
+        <span class="subject-num">09</span>
+        <span class="subject-name">보안 (Security)</span>
+        <p class="subject-desc">암호학, 네트워크 보안, 시스템 보안</p>
+    </a>
+    <a class="subject-card" href="{{ get_url(path='/studynote/10_ai/') }}">
+        <span class="subject-num">10</span>
+        <span class="subject-name">인공지능 (AI)</span>
+        <p class="subject-desc">머신러닝, 딥러닝, NLP, LLM, RAG</p>
+    </a>
+    <a class="subject-card" href="{{ get_url(path='/studynote/11_design_supervision/') }}">
+        <span class="subject-num">11</span>
+        <span class="subject-name">IT 설계 및 감리</span>
+        <p class="subject-desc">공공 정보화 설계, 감리 절차 및 기준법</p>
+    </a>
+    <a class="subject-card" href="{{ get_url(path='/studynote/12_it_management/') }}">
+        <span class="subject-num">12</span>
+        <span class="subject-name">IT 경영</span>
+        <p class="subject-desc">IT 거버넌스, ITIL, SLA, 아웃소싱 전략</p>
+    </a>
+    <a class="subject-card" href="{{ get_url(path='/studynote/13_cloud_architecture/') }}">
+        <span class="subject-num">13</span>
+        <span class="subject-name">클라우드 아키텍처</span>
+        <p class="subject-desc">가상화, IaaS/PaaS/SaaS, 쿠버네티스</p>
+    </a>
+    <a class="subject-card" href="{{ get_url(path='/studynote/14_data_engineering/') }}">
+        <span class="subject-num">14</span>
+        <span class="subject-name">데이터 엔지니어링</span>
+        <p class="subject-desc">데이터 레이크, DW, 배치/스트림 파이프라인</p>
+    </a>
+    <a class="subject-card" href="{{ get_url(path='/studynote/15_devops_sre/') }}">
+        <span class="subject-num">15</span>
+        <span class="subject-name">DevOps &amp; SRE</span>
+        <p class="subject-desc">CI/CD, IaC, 옵저버빌리티, 카오스 엔지니어링</p>
+    </a>
+    <a class="subject-card" href="{{ get_url(path='/studynote/16_bigdata/') }}">
+        <span class="subject-num">16</span>
+        <span class="subject-name">빅데이터 실무</span>
+        <p class="subject-desc">하둡/스파크, 빅데이터 분석 방법론</p>
+    </a>
+</div>
+
+<h2 class="home-section-title">📝 기술사 시험 — 문제 모음</h2>
+<div class="exam-grid">
+    <a class="exam-card" href="{{ get_url(path='/exam/02_operating_system/') }}">02. 운영체제</a>
+    <a class="exam-card" href="{{ get_url(path='/exam/04_software_engineering/') }}">04. 소프트웨어 공학</a>
+    <a class="exam-card" href="{{ get_url(path='/exam/05_database/') }}">05. 데이터베이스</a>
+    <a class="exam-card" href="{{ get_url(path='/exam/07_enterprise_systems/') }}">07. 엔터프라이즈 시스템</a>
+    <a class="exam-card" href="{{ get_url(path='/exam/09_security/') }}">09. 보안</a>
+    <a class="exam-card" href="{{ get_url(path='/exam/11_design_supervision/') }}">11. IT 설계 및 감리</a>
+    <a class="exam-card" href="{{ get_url(path='/exam/12_it_management/') }}">12. IT 경영</a>
+    <a class="exam-card" href="{{ get_url(path='/exam/13_cloud_architecture/') }}">13. 클라우드 아키텍처</a>
+    <a class="exam-card" href="{{ get_url(path='/exam/14_data_engineering/') }}">14. 데이터 엔지니어링</a>
+</div>
+{% endblock content %}
